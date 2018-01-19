@@ -1,0 +1,147 @@
+import {Component, ElementRef, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { HttpService } from '../service/httpClient.service';
+import { IProfileData } from '../model/profile.model';
+import {MatTableModule} from '@angular/material/table';
+import {MatTableDataSource} from '@angular/material';
+import { AlertModule, AlertService } from 'ngx-alerts';
+@Component({
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
+})
+export class ProfileComponent { 
+  form: FormGroup;
+  loading: boolean = false;
+  button_text: string = "save";
+  decodedString: string;
+  profileImag: string;
+  isEdit: boolean;
+  isDataExist: boolean;
+  profileData: IProfileData;
+  ELEMENT_DATA: IProfileData;  
+  // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  
+  @ViewChild('fileInput') fileInput: ElementRef;
+
+  constructor(private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+    this.createForm();
+    localStorage.setItem('client_id',"1232");
+    this.getProfileDetails();
+    
+  }
+
+  createForm = ()=> {
+    this.form = this.formBuilder.group({
+      company_name: ['', Validators.required],
+      website_url: ['', Validators.required],
+      mobile_number: ['', Validators.required],
+     
+      client_id: localStorage.getItem("client_id"),
+      avatar: null
+    });
+  }
+
+  onFileChange = (event)=> {
+    let reader = new FileReader();
+    if(event.target.files && event.target.files.length > 0) {
+      let file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.form.get('avatar').setValue(reader.result.split(',')[1]
+        )
+      };
+    }
+  }
+
+  onSubmit = (body)=> {
+    const formModel = this.form.value;
+    
+    // if(!this.form.value.avatar){
+    //   formModel.avatar = "null"
+    // }
+    formModel.client_id = localStorage.getItem("client_id");
+    this.loading = true;
+    this.httpService.updatePost(formModel,"/flujo_client_profile")
+    .subscribe(
+        data => {
+          this.parsePostResponse(data);
+          // this.alertService.success('request Successfully submitted.');
+          // this.getProfileDetails();
+          //  this.loading = false;
+        },
+        error => {
+          this.loading = false;
+        });
+  }
+
+  clearFile = ()=> {
+    this.form.get('avatar').setValue(null);
+    this.fileInput.nativeElement.value = '';
+  }
+
+  onDelete = (body)=>{
+    const formModel = this.form.value;
+    this.loading = true;
+    console.log(formModel);
+    this.httpService.delete(localStorage.getItem("client_id"),"/flujo_client_profile/")
+    .subscribe(
+        data => {
+          this.alertService.success('profile deleted Successfully.');
+          this.form.reset();
+          this.getProfileDetails();
+           console.log(data);
+           this.loading = false;
+           
+        },
+        error => {
+          this.loading = false;
+        });
+  }
+
+  getProfileDetails = ()=>{
+    this.loading = true;
+    this.httpService.getById(localStorage.getItem("client_id"),"/flujo_client_profile/")
+        .subscribe(
+          data =>{
+            console.log(data);
+            this.BindProfileData(data);
+             // this.setDefaultClientProfileDetails(data);
+            this.isEdit = false;
+            this.loading = false;
+          },
+          error =>{
+            console.log(error);
+            this.loading = false;
+          }
+        )
+  }
+
+  BindProfileData = (profileData)=>{
+    this.profileData = profileData.result;
+  }
+  //this method is used to update profile detals to the form, if detalis exist
+  EditProfileData(){
+      this.isEdit = true;
+      this.button_text = "Update";
+      this.profileImag = this.profileData.avatar;
+      this.form.controls['company_name'].setValue(this.profileData.company_name);
+      this.form.controls['website_url'].setValue(this.profileData.website_url);
+      this.form.controls['mobile_number'].setValue(this.profileData.mobile_number);    
+  }
+
+  parsePostResponse(response){
+    
+    if(response.result){
+        this.loading = false;
+      this.alertService.danger('Required parameters missing.');
+    }else{
+        this.alertService.success('page operation successfull.');
+        this.loading = false;
+        this.form.reset();
+        this.getProfileDetails();
+        this.isEdit = false;
+        this.button_text = "save";
+
+    }
+}
+}

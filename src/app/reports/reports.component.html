@@ -1,0 +1,92 @@
+
+<div class="addview-buttons">
+    <button class="btn btn-warning" (click)="showFeedback()">Feedback Report<i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
+    <button class="btn btn-info" (click)="showChangemaker()">Changemaker Report <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
+    <button class="btn btn-success" (click)="showReportProblem()">Report your problem <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
+</div>
+<div *ngIf= "isFeedbackReport" class="row">
+    <div class="col-md-12">
+      <h3>Feedback Report:</h3>
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Message</th>
+            <th scope="col">Submited At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of feedbackData">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.phone}}</td>
+            <td>{{item.message}}</td>
+            <td>{{item.datenow}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button (click)="exportFeedbackData()" class="btn btn-success" float-right style="float:right">Export</button>
+    </div>
+  </div>
+  <div *ngIf= "isChangeReport" class="row">
+    <div class="col-md-12">
+      <h3>Change Maker Report:</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Client Id</th>
+            <th scope="col">Submited At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let report of changemakerData">
+            <td>{{report.id}}</td>
+            <td>{{report.name}}</td>
+            <td>{{report.email}}</td>
+            <td>{{report.phone}}</td>
+            <td>{{report.client_id}}</td>
+            <td>{{report.date_now}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button (click)="exportChangermakereport()" class="btn btn-success" float-right style="float:right">Export</button>
+      <button (click)="changereportemail()" class="btn btn-primary">Send As Email</button>
+    </div>
+  </div>
+  <div *ngIf= "isReportData" class="row">
+      <div class="col-md-12">
+        <h3>Report your problem data:</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">S.No</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Client Id</th>
+              <th scope="col">Submited At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let report of reportProblemData">
+              <td>{{report.id}}</td>
+              <td>{{report.name}}</td>
+              <td>{{report.email}}</td>
+              <td>{{report.phone}}</td>
+              <td>{{report.client_id}}</td>
+              <td>{{report.date_now}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <button (click)="exportReportProblemData()" class="btn btn-success" float-right style="float:right">Export</button>
+        <button (click)="exportReportProblemEmail()" class="btn btn-primary">Send As Email</button>
+      </div>
+    </div>

@@ -1,0 +1,84 @@
+<div fxLayout="row">
+            
+  <div fxFlex>
+    <ngx-alerts maxMessages="3" timeout="5000">
+      <strong>{{successMessage }}</strong>
+    </ngx-alerts>
+    <form *ngIf="isEdit" [formGroup]="form" (submit)="onSubmit(form.value)">
+      <div class="form-group">
+        <label for="logo_text">Logo Text</label>
+        <input type="text" class="form-control" id="logo_text" placeholder="Logo text" formControlName="logo_text">
+      </div>
+      <div class="form-group">
+        <label for="logo_caption">Logo caption</label>
+        <input type="text" class="form-control" id="logo_caption" placeholder="Logo caption" formControlName="logo_caption">
+      </div>
+      <div class="form-group">
+        <label for="logo_height">Logo height</label>
+        <input type="text" class="form-control" id="logo_height" placeholder="Logo height" formControlName="logo_height">
+      </div>
+      <div class="form-group">
+        <label for="logo_width">Logo width</label>
+        <input type="text" class="form-control" id="logo_width" placeholder="Logo width" formControlName="logo_width">
+      </div>
+
+      <div class="form-group">
+        <div *ngIf="logoItems.logo_url_path">
+          <label for="avatar">Existing Logo</label>
+          <img *ngIf="logoItems.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
+          <br>
+        </div>
+        <label for="avatar">Choose Logo</label>
+
+        <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
+        <button type="button" mat-button class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
+      </div>
+      <button type="submit" [disabled]="form.invalid || loadingSave" class="btn btn-success">{{button_text}}
+        <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loadingSave"></i>
+      </button>
+      <button (click)="onDelete(form.value)" [disabled]="form.invalid || loadingDelete" class="btn btn-success">Delete
+        <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loadingDelete"></i>
+      </button>
+    </form>
+    <div *ngIf="!isEdit">
+      <table *ngIf="logoItems" class="table table-hover">
+        <tbody>
+          <tr>
+            <th>Logo Text </th>
+            <td>{{logoItems.logo_text}}</td>
+          </tr>
+
+          <tr>
+            <th>Logo Caption</th>
+            <td>{{logoItems.logo_caption}}</td>
+          </tr>
+          <tr>
+            <th>Logo Height</th>
+            <td>{{logoItems.logo_height}}</td>
+          </tr>
+          <tr>
+            <th>Logo Width</th>
+            <td> {{logoItems.logo_width}}</td>
+          </tr>
+
+          <tr>
+            <td colspan=2>
+              <button class="mt-5 btn btn-primary" colspan="2" (click)="EditInfo()">Edit</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+  <div *ngIf="!isEdit" fxFlex class="logo-align">
+    <div *ngIf="logoItems" class="table table-hover">
+      <span *ngIf="!logoItems.logo_url_path">no image</span>
+      <img *ngIf="logoItems.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}"> </div>
+    <!-- <button mat-button colspan="2" (click)="editLogo()">Edit Logo</button> -->
+    <button class="mt-5 btn btn-primary" colspan="2" (click)="editLogo()">Edit Logo</button>
+
+  </div>
+
+</div>

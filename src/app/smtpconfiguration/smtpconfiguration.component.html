@@ -1,0 +1,72 @@
+<div *ngIf="isEdit">
+<h2>SMTP Configuration:</h2>
+<form [formGroup]="smtpUpdationForm" method="post">
+  <div>
+    <div class="form-group row">
+      <div class="col">
+        <label>Host Name:</label>
+        <input class="form-control" formControlName="host_name" id="host_name">
+        <!-- <control-messages [control]="smtpupForm.controls.host_name"></control-messages> -->
+
+        <label>From Name:</label>
+        <input class="form-control" formControlName="from_name" id="from_name">
+        <!-- <control-messages [control]="smtpupForm.controls.from_name"></control-messages> -->
+
+        <label>From Email:</label>
+        <input class="form-control" formControlName="from_email" id="from_email">
+        <!-- <control-messages [control]="smtpupForm.controls.from_email"></control-messages> -->
+
+        <label>User Name:</label>
+        <input type="text" class="form-control" formControlName="user_name" id="user_name">
+        <!-- <control-messages [control]="smtpupForm.controls.user_name"></control-messages> -->
+
+        <label>Password:</label>
+        <input class="form-control" type="password" formControlName="password" id="password">
+        <!-- <control-messages [control]="smtpupForm.controls.password"></control-messages> -->
+
+        <button [hidden]="Ishide1" class="btn btn-warning" type="submit" (click)="SmtpPost(smtpUpdationForm.value)" [disabled]="!smtpUpdationForm.valid">{{btn_text}}</button>
+        <button type="submit" class="btn btn-warning" (click)="deleteSMTP(smtpUpdationForm.value)">delete</button>
+
+        <ngx-alerts maxMessages="3" timeout="5000">
+          <strong>{{successMessage }}</strong>
+        </ngx-alerts>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+
+<div *ngIf="!isEdit">
+    <table *ngIf="smtpItems" class="table table-hover">
+      <tbody>
+        <tr>
+          <th>Host name </th>
+          <td>{{smtpItems.host_name}}</td>
+        </tr>
+  
+        <tr>
+          <th>From name</th>
+          <td>{{smtpItems.from_name}}</td>
+        </tr>
+        <tr>
+          <th>From Email</th>
+          <td>{{smtpItems.from_email}}</td>
+        </tr>
+        <tr>
+          <th>User name</th>
+          <td> {{smtpItems.user_name}}</td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td> {{smtpItems.password}}</td>
+          </tr>
+        <tr>
+          <td colspan=2>
+            <button class="mt-5 btn btn-primary" colspan="2" (click)="EditSMTPLinks(smtpItems)">Edit</button>
+          </td>
+        </tr>
+  
+      </tbody>
+    </table>
+  
+  </div>

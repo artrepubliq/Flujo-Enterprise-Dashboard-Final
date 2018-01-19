@@ -1,0 +1,62 @@
+<div *ngIf="isEdit">
+  <h1>Add social liks </h1>
+  <form [formGroup]="socialLinksForm" method="post" enctype="multipart/form-data">
+    <div class="form-group row">
+      <div class="col-6">
+        <label>Facebook Url:</label>
+        <input class="form-control" formControlName="facebook" id="facebook">
+        <control-messages [control]="socialLinksForm.controls.facebook"></control-messages>
+
+        <label>Twitter Url:</label>
+        <input class="form-control" formControlName="twitter" id="twitter">
+        <control-messages [control]="socialLinksForm.controls.twitter"></control-messages>
+
+        <label>Wikipedia Url:</label>
+        <input class="form-control" formControlName="wikipedia" id="wikipedia">
+        <control-messages [control]="socialLinksForm.controls.wikipedia"></control-messages>
+        <label>Youtube Url:</label>
+        <input class="form-control" formControlName="youtube" id="youtube">
+        <control-messages [control]="socialLinksForm.controls.youtube"></control-messages>
+        <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid">{{form_btntext}}</button>
+        <button type="submit" class="btn btn-danger" (click)="socialLinksFormDelete(socialLinksForm.value)">Delete</button>
+        <div class="" ng-show="successMessagebool ">
+          <ngx-alerts maxMessages="3" timeout="5000">
+            <strong>{{successMessage }}</strong>
+            <strong>{{deleteMessage}}</strong>
+          </ngx-alerts>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div *ngIf="!isEdit">
+  <table *ngIf="socialItems" class="table table-hover">
+    <tbody>
+      <tr>
+        <th>Facebook </th>
+        <td>{{socialItems.facebook}}</td>
+      </tr>
+
+      <tr>
+        <th>Twitter</th>
+        <td>{{socialItems.twitter}}</td>
+      </tr>
+      <tr>
+        <th>Wikipedia</th>
+        <td>{{socialItems.wikipedia}}</td>
+      </tr>
+      <tr>
+        <th>Youtube</th>
+        <td> {{socialItems.youtube}}</td>
+      </tr>
+
+      <tr>
+        <td colspan=2>
+          <button class="mt-5 btn btn-primary" colspan="2" (click)="EditSocialLinks(socialItems)">Edit</button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+</div>
