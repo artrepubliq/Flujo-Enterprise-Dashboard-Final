@@ -190,12 +190,15 @@
     border-radius: 0;
     border: none;
     margin: 0;
+    .dropdown-toggle:after {
+        margin-right: 15%;
+    }
     .dropdown-item,
     .subNav-link {
       font-size: 14px;
       color: #7e678f;
       cursor: pointer;
-      padding: 8px 8px 8px 13%;
+      padding: 8px 8px 8px 8%;
     }
     .dropdown-item.active {
       color: #c5b6d1;
@@ -215,8 +218,12 @@
         color: #c5b6d1;
       }
     }
+    // 2nd Level Dropdown
     .dropdown-menu {
-      padding-left: 15%;
+      padding-left: 5%;
+      .dropdown-toggle:after {
+          margin-right: 25%;
+      }
     }
   } // Team Chat 
   .team-items {

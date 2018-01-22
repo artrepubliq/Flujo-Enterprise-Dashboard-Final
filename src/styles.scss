@@ -21,4 +21,33 @@ a {
     margin-right: 12px;
     max-height: 40px;
     max-width: 40px;
+    img {
+        border-radius: 50%;
+    }
+}
+
+.dropdown-menu {
+    width: 100%;
+    border-radius: 0;
+    -webkit-transition: 0.3s ease-in-out;
+    /* Safari */
+    transition: 0.3s ease-in-out;
+    .activity {
+      width: 100%;
+      position: relative;
+      display: inline-block;
+      padding: 8px 15px;
+      position: relative;
+      padding-left: 34%;
+      color: #808080;
+      i {
+          position: absolute;
+          left: 13%;
+          margin-top: 5px;
+      }
+    }
+    .activity:hover {
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.5);
+    }
 }

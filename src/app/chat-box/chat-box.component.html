@@ -1,47 +1,154 @@
 <div class="flujoChat-box">
   <!-- Chat Header -->
   <div class="chat-header" fxLayout="row">
-    <div class="user-name">
-      <div class="dropdown">
-        <a class="dropdown-toggle user-dropdown" data-toggle="dropdown">
+    <div fxFlex class="user-name">
+      <div class="dropdown d-inline-block">
+        <a class="dropdown-toggle user-dropdown d-inline-block" data-toggle="dropdown">
           <span class="user-logo">
-            <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="user logo">
+            <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
           </span>
           Krishna Kanth
         </a>
         <ul class="dropdown-menu">
           <li>
             <a href="#" class="activity">
-              <i class="fa fa-user"></i> Edit Profile</a>
+              Edit Profile</a>
           </li>
           <li>
             <a href="#" class="activity">
-              <i class="fa fa-cog"></i> Change Password</a>
+              Change Password</a>
           </li>
         </ul>
       </div>
     </div>
+    <div fxFlex="40" class="action-icons">
+      <ul fxLayout="row" fxLayoutGap="20px">
+        <li>
+          <a href="#chat" class="fa fa-video-camera"></a>
+        </li>
+        <li>
+          <a href="#chat" class="fa fa-phone"></a>
+        </li>
+        <li>
+          <a href="#chat" class="fa fa-calendar-o"></a>
+        </li>
+        <li>
+          <a href="#chat" class="fa fa-info-circle"></a>
+        </li>
+        <li>
+          <a href="#chat" class="fa fa-times-circle-o"></a>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <!-- Chat Massage Body -->
-  <div class="chat-body">
-    <div class="message-block you">
-      <span class="user-logo">
-        <!-- <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="user logo"> -->
-        <i class="fa fa-user-o"></i>
-      </span>
-      <div class="message-data">
-        It’s hard to say when in our lives each of us become
+  <div class="chat-body ps" fxLayout="column" fxLayoutGap="15px" [perfectScrollbar]="config">
+    <div class="message-block">
+      <div fxLayout="row" fxFlex="50%">
+        <span class="user-logo">
+          <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="user logo">
+          <!-- <i class="fa fa-user-o"></i> -->
+        </span>
+        <div class="message-data">
+          It’s hard to say when in our lives each of us become
+        </div>
       </div>
     </div>
-    <div class="message-block me">
-      <div class="message-data">
-        It’s hard to say when in our lives each of us become
+
+    <div class="message-block" fxLayoutAlign="end none">
+      <div class="my-message" fxLayout="row" fxFlex="50%">
+        <div class="message-content ml-auto">
+          <div class="message-data">
+            It’s hard to say when in our lives each of us become
+          </div>
+          <span class="user-logo" fxFlex="40px">
+            <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
+          </span>
+        </div>
       </div>
-      <span class="user-logo">
-        <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="user logo">
-      </span>
     </div>
+
+    <div class="message-block">
+      <div fxLayout="row" fxFlex="50%">
+        <span fxFlex="40px" class="user-logo">
+          <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="user logo">
+          <!-- <i class="fa fa-user-o"></i> -->
+        </span>
+        <div class="message-data">
+          It’s hard to say when in our lives each of us become It’s hard to say when in our lives each of us become It’s hard to say
+          when in our lives each of us become
+        </div>
+      </div>
+    </div>
+
+    <div class="message-block" fxLayoutAlign="end none">
+      <div class="my-message" fxLayout="row" fxFlex="50%">
+        <div class="message-content ml-auto">
+          <div class="message-data">
+            It’s hard to say when in our lives each of us becomeIt’s hard to say when in our lives each of us becomeIt’s hard to say
+            when in our lives each of us becomeIt’s hard to say when in our lives each of us become
+          </div>
+          <span class="user-logo" fxFlex="40px">
+            <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="message-block" fxLayoutAlign="end none">
+      <div class="my-message" fxLayout="row" fxFlex="50%">
+        <div class="message-content ml-auto">
+          <div class="message-data">
+            It’s hard to say when in our lives each of us becomeIt’s hard to say when in our lives each of us becomeIt’s hard to say
+            when in our lives each of us becomeIt’s hard to say when in our lives each of us become
+          </div>
+          <span class="user-logo" fxFlex="40px">
+            <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="message-block" fxLayoutAlign="end none">
+      <div class="my-message" fxLayout="row" fxFlex="50%">
+        <div class="message-content ml-auto">
+          <div class="message-data">
+            It’s hard to say when in our lives each of us becomeIt’s hard to say when in our lives each of us becomeIt’s hard to say
+            when in our lives each of us becomeIt’s hard to say when in our lives each of us become
+          </div>
+          <span class="user-logo" fxFlex="40px">
+            <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="message-block">
+      <div fxLayout="row" fxFlex="50%">
+        <span fxFlex="40px" class="user-logo">
+          <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="user logo">
+          <!-- <i class="fa fa-user-o"></i> -->
+        </span>
+        <div class="message-data">
+          It’s hard to say when in our lives each of us become It’s hard to say when in our lives each of us become It’s hard to say
+          when in our lives each of us become
+        </div>
+      </div>
+    </div>
+    <div class="message-block">
+      <div fxLayout="row" fxFlex="50%">
+        <span fxFlex="40px" class="user-logo">
+          <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="user logo">
+          <!-- <i class="fa fa-user-o"></i> -->
+        </span>
+        <div class="message-data">
+          It’s hard to say when in our lives each of us become It’s hard to say when in our lives each of us become It’s hard to say
+          when in our lives each of us become
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Chat Input Block -->

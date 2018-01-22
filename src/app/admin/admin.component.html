@@ -19,18 +19,15 @@
     </li>
     <li class="navbarItem dropdown admin-profile">
       <a class="dropdown-toggle nav-link" data-toggle="dropdown">
-		  <!-- <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="user logo"> -->
-		  <span class="default-profile-icon">kk</span>
-		  {{nickName}}</a>
+        <span class="user-logo">
+          <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
+        </span>
+        <!-- <span class="default-profile-icon">kk</span> -->
+        {{nickName}}</a>
       <ul class="dropdown-menu">
         <li>
-<<<<<<< HEAD
           <a href="#" class="activity">
             <i class="fa fa-user"></i> Edit Profile</a>
-=======
-          <a href="#">
-            <i class="fa fa-fw fa-user"></i>Edit Profile</a>
->>>>>>> d7c7b2edb65880c3344208ca39f7fe7677f351c3
         </li>
         <li>
           <a href="#" class="activity">
@@ -55,7 +52,7 @@
   <!-- Side Navigation -->
   <aside id="sidebar-wrapper" class="sidebar-menu ps" [ngClass]="{'sidebar-toggle':sidebarToggledButton}" [perfectScrollbar]="config">
     <ul class="nav flex-column">
-	  <!-- Web App -->
+      <!-- Web App -->
       <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
         <a class="nav-link dropdown-toggle" (click)="dropdownOpen=!dropdownOpen">
           <img src="assets/icons/web-icon-normal@2x.png" alt="web icon">
@@ -64,10 +61,10 @@
         <div class="dropdown-menu">
           <a class="dropdown-item" routerLink="./logo" routerLinkActive="active">Logo</a>
           <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Profile</a>
-          <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a>
-          <li class="nav-item" [ngClass]="{'open':showChange}">
-            <a class="nav-link subNav-link dropdown-toggle" (click)="showChange=!showChange">
-              <span>DVB</span>
+          <!-- <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a> -->
+          <li class="nav-item" [ngClass]="{'open':showDropdownMain1}">
+            <a class="nav-link subNav-link dropdown-toggle" (click)="showDropdownMain1=!showDropdownMain1">
+              <span>Add Pages</span>
             </a>
             <div class="dropdown-menu">
               <li class="nav-item" [ngClass]="{'open':showMyCons}">
@@ -141,9 +138,10 @@
         </a>
       </li>
 
+
       <li class="nav-item-divider">
         <img src="assets/slider.svg" alt="divider" class="img-fluid">
-      </li>
+	  </li>
       <!-- Team Chat -->
       <li class="nav-title">Your teams
         <i class="fa fa-cog"></i>
@@ -151,70 +149,71 @@
       <ul class="team-items">
         <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon">
-              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
+            <i class="team-user-icon user-logo">
+              <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
             <span>Abhi Ram</span>
-		  </a>
+          </a>
         </li>
         <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon">
+            <i class="team-user-icon user-logo">
               <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
             <span>Apoorva</span>
           </a>
         </li>
         <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon">
-              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
+            <i class="team-user-icon user-logo">
+              <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="K"> </i>
             <span>Yogesh</span>
           </a>
         </li>
         <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon">
+            <i class="team-user-icon user-logo">
               <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
             <span>Eshwar</span>
           </a>
         </li>
         <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon">
-              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
+            <i class="team-user-icon user-logo">
+			  <img src="assets/team/kk.jpeg" class="img-fluid" alt="K"> 
+			</i>
             <span>KrishnaKanth</span>
           </a>
         </li>
         <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon">
+            <i class="team-user-icon user-logo">
               <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
             <span>Ajay</span>
           </a>
         </li>
         <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon">
+            <i class="team-user-icon user-logo">
               <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
             <span>Keerthan</span>
           </a>
         </li>
         <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon">
+            <i class="team-user-icon user-logo">
               <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
             <span>Santhosh</span>
           </a>
         </li>
         <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon">
+            <i class="team-user-icon user-logo">
               <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
             <span>KK</span>
           </a>
         </li>
         <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon">
+            <i class="team-user-icon user-logo">
               <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
             <span>Krishna</span>
           </a>
@@ -226,7 +225,7 @@
 
 
   <!-- Content Wrapper -->
-  <div fxFlex id="page-content-wrapper" [perfectScrollbar]="config">
+  <div fxFlex id="page-content-wrapper">
 
     <router-outlet></router-outlet>
 
