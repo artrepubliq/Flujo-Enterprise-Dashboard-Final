@@ -13,6 +13,7 @@ import { PagesComponent } from './pages/pages.component';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
+import { ChatBoxComponent } from './chat-box/chat-box.component';
 const routes: Routes = [
   {
     path: '',
@@ -46,6 +47,7 @@ const routes: Routes = [
           { path: 'smtpconfiguration', component: SMTPConfigurationComponent },
           { path: 'reports', component: ReportsComponent },
           { path: 'email', component: EmailserviceComponent },
+          { path: 'chat', component: ChatBoxComponent }
         ]
       }
     ]

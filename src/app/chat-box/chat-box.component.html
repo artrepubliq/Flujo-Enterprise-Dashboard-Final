@@ -1,0 +1,64 @@
+<div class="flujoChat-box">
+  <!-- Chat Header -->
+  <div class="chat-header" fxLayout="row">
+    <div class="user-name">
+      <div class="dropdown">
+        <a class="dropdown-toggle user-dropdown" data-toggle="dropdown">
+          <span class="user-logo">
+            <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="user logo">
+          </span>
+          Krishna Kanth
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#" class="activity">
+              <i class="fa fa-user"></i> Edit Profile</a>
+          </li>
+          <li>
+            <a href="#" class="activity">
+              <i class="fa fa-cog"></i> Change Password</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Massage Body -->
+  <div class="chat-body">
+    <div class="message-block you">
+      <span class="user-logo">
+        <!-- <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="user logo"> -->
+        <i class="fa fa-user-o"></i>
+      </span>
+      <div class="message-data">
+        It’s hard to say when in our lives each of us become
+      </div>
+    </div>
+    <div class="message-block me">
+      <div class="message-data">
+        It’s hard to say when in our lives each of us become
+      </div>
+      <span class="user-logo">
+        <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="user logo">
+      </span>
+    </div>
+  </div>
+
+  <!-- Chat Input Block -->
+  <div class="chat-input">
+    <form fxLayout="row">
+      <div fxFlex>
+        <input type="text" class="input-message" placeholder="Write Your Message..!">
+      </div>
+      <div fxFlex="20" fxLayout="row" fxLayoutAlign="space-around center">
+        <a href="#smile">
+          <i fxFlex class="fa fa-smile-o"></i>
+        </a>
+        <a href="#file">
+          <i fxFlex class="fa fa-paperclip"></i>
+        </a>
+        <button fxFlex="40" class="send-button" type="submit">Send</button>
+      </div>
+    </form>
+  </div>
+</div>

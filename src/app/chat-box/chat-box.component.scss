@@ -1,0 +1,105 @@
+.flujoChat-box {
+  position: relative;
+  height: 100%;
+  .chat-header {
+    background-color: #fafafa;
+    padding: 18px;
+    height: 80px;
+    border-bottom: 2px solid #f5f5f5;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    color: #666666;
+    .user-name {
+        .user-dropdown {
+            display: inline-block;
+        }
+        .dropdown-menu {
+            width: 100%;
+            border-radius: 0;
+        }
+    }
+  }
+  .chat-input {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 70px;
+    border-top: 2px solid #f5f5f5;
+    .input-message {
+      padding: 20px;
+      border: none;
+      font-size: 14px;
+      text-align: left;
+      color: #c1c1c1;
+      outline: none;
+      width: 100%;
+    }
+    a:hover {
+      text-decoration: none;
+    }
+    i {
+      font-size: 24px;
+      color: #c1c1c1;
+      text-align: center;
+      padding: 15px;
+    }
+    .send-button {
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      color: #4a2565;
+      padding: 10px 32px;
+      border-radius: 20px;
+      border: 1.5px solid #4a2565;
+      outline: none;
+      cursor: pointer;
+      margin-right: 15px; // position: absolute;
+      // right: 15px;
+      // bottom: 12px;
+    }
+  }
+}
+
+.dropdown-toggle:after {
+  float: right;
+  border: none;
+  transition: 0.3s;
+  content: "\f107";
+  font-family: 'FontAwesome';
+  width: auto;
+  height: auto;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+.chat-body {
+    padding: 24px 15px;
+    .message-block {
+        margin-bottom: 15px;
+        .user-logo {
+            max-width: 30px;
+        }
+        .message-data {
+            background-color: #f1f1f1;
+            border-radius: 20px;
+            display: inline-block;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: left;
+            color: #666666;
+        }
+    }
+    .message-block.me {
+        float: right;
+        .user-logo {
+            margin: 0;
+            margin-left: 13px;
+        }
+        .message-data {
+            border: 1.5px solid #f1f1f1;
+            background-color: transparent;
+        }
+    }
+}

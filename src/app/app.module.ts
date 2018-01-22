@@ -31,6 +31,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // Perfect Scroll Bar
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { ChatBoxComponent } from './chat-box/chat-box.component';
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -49,7 +50,8 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ControlMessagesComponent,
     SMTPConfigurationComponent,
     ReportsComponent,
-    EmailserviceComponent
+    EmailserviceComponent,
+    ChatBoxComponent
   ],
   imports: [
     BrowserModule,
