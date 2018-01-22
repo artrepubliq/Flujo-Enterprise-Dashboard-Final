@@ -35,16 +35,16 @@
         color: #808080;
       }
       .default-profile-icon {
-          width: 40px;
-          height: 40px;
-          line-height: 40px;
-          background-color: #f2f2f2;
-          border-radius: 50%;
-          overflow: hidden;
-          padding: 12px;
-          text-transform: uppercase;
-          font-weight: 600;
-          margin-right: 10px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background-color: #f2f2f2;
+        border-radius: 50%;
+        overflow: hidden;
+        padding: 12px;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-right: 10px;
       }
       .dropdown-toggle:after {
         content: "\F107";
@@ -56,26 +56,26 @@
         margin-left: 15px;
       }
       .dropdown-menu {
+        width: 100%;
+        border-radius: 0;
+        .activity {
           width: 100%;
-          border-radius: 0;
-          .activity {
-            width: 100%;
-            position: relative;
-            display: inline-block;
-            padding: 8px 15px;
-            position: relative;
-            padding-left: 34%;
-            color: #808080;
-            i {
-                position: absolute;
-                left: 13%;
-                margin-top: 5px;
-            }
+          position: relative;
+          display: inline-block;
+          padding: 8px 15px;
+          position: relative;
+          padding-left: 34%;
+          color: #808080;
+          i {
+            position: absolute;
+            left: 13%;
+            margin-top: 5px;
           }
-          .activity:hover {
-              text-decoration: none;
-              color: rgba(0, 0, 0, 0.5);
-          }
+        }
+        .activity:hover {
+          text-decoration: none;
+          color: rgba(0, 0, 0, 0.5);
+        }
       }
     }
   }
@@ -190,8 +190,11 @@
     border-radius: 0;
     border: none;
     margin: 0;
+    .nav-item {
+      min-height: auto;
+    }
     .dropdown-toggle:after {
-        margin-right: 15%;
+      margin-right: 15%;
     }
     .dropdown-item,
     .subNav-link {
@@ -217,12 +220,11 @@
       .nav-link {
         color: #c5b6d1;
       }
-    }
-    // 2nd Level Dropdown
+    } // 2nd Level Dropdown
     .dropdown-menu {
       padding-left: 5%;
       .dropdown-toggle:after {
-          margin-right: 25%;
+        margin-right: 25%;
       }
     }
   } // Team Chat 
@@ -262,18 +264,29 @@
 .sidebar-toggle {
   width: 80px;
   overflow: visible !important;
+  .nav-item.open>.dropdown-menu {
+    display: none;
+  }
+  .team-items {
+    display: none;
+  }
   .nav-link {
-    // height: 60px;
     img {
       position: initial;
     }
     span {
       display: none;
       position: absolute;
-      left: 150%;
+    //   left: 150%;
       z-index: 9999;
       top: 18px;
       color: #fff;
+      background: #52306b;
+      min-width: 130px;
+      left: 100%;
+      top: 0;
+      text-align: center;
+      padding: 30px 0;
     }
   }
   .dropdown-toggle:after {
@@ -297,15 +310,35 @@
       top: 0;
       left: 100%;
       background-color: #52306b;
-      padding-top: 50px;
+      padding-top: 80px;
+      .dropdown-item {
+          padding-left: 20%;
+      }
+      .dropdown-menu {
+        padding: 0;
+        width: 126%;
+        .dropdown-item {
+          padding: 8px 15px;
+          padding-left: 20%;
+        }
+      }
+      .nav-link {
+        span {
+          display: block;
+          position: initial;
+          color: #7e678f;
+          text-align: initial;
+          padding: 0;
+          padding-left: 15%;
+        }
+      }
     }
   }
 }
 
 // **=======** Page Wrapper Styles **=======**
 #page-content-wrapper {
-  margin: 15px;
-//   padding: 30px;
+  margin: 15px; //   padding: 30px;
   background-color: #ffffff;
   box-shadow: 0 1.5px 7px 0 rgba(0, 0, 0, 0.1);
 }

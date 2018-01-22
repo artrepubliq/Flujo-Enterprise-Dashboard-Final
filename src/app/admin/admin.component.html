@@ -26,7 +26,7 @@
         {{nickName}}</a>
       <ul class="dropdown-menu">
         <li>
-          <a href="#" class="activity">
+          <a routerLink="./profile" routerLinkActive="active" class="activity">
             <i class="fa fa-user"></i> Edit Profile</a>
         </li>
         <li>
@@ -61,10 +61,11 @@
         <div class="dropdown-menu">
           <a class="dropdown-item" routerLink="./logo" routerLinkActive="active">Logo</a>
           <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Profile</a>
-          <!-- <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a> -->
+		  <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a>
+		  <a class="dropdown-item" routerLink="./reports" routerLinkActive="active">Reports</a>
           <li class="nav-item" [ngClass]="{'open':showDropdownMain1}">
             <a class="nav-link subNav-link dropdown-toggle" (click)="showDropdownMain1=!showDropdownMain1">
-              <span>Add Pages</span>
+              <span>Pages</span>
             </a>
             <div class="dropdown-menu">
               <li class="nav-item" [ngClass]="{'open':showMyCons}">
@@ -126,13 +127,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="./profile" routerLinkActive="active">
+        <a class="nav-link" routerLink="./smtpconfiguration" routerLinkActive="active">
           <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
           <span>Buffer</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="./smtpconfiguration" routerLinkActive="active">
+        <a class="nav-link" routerLink="./email" routerLinkActive="active">
           <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
           <span>MailChimp</span>
         </a>
