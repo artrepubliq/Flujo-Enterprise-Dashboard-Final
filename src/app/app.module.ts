@@ -20,6 +20,7 @@ import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { ReportsComponent } from './reports/reports.component';
+
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
@@ -32,6 +33,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
+import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -51,7 +53,8 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SMTPConfigurationComponent,
     ReportsComponent,
     EmailserviceComponent,
-    ChatBoxComponent
+    ChatBoxComponent,
+    CreateUserComponentComponent
   ],
   imports: [
     BrowserModule,

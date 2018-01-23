@@ -14,6 +14,7 @@ import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
+import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
 const routes: Routes = [
   {
     path: '',
@@ -47,7 +48,8 @@ const routes: Routes = [
           { path: 'smtpconfiguration', component: SMTPConfigurationComponent },
           { path: 'reports', component: ReportsComponent },
           { path: 'email', component: EmailserviceComponent },
-          { path: 'chat', component: ChatBoxComponent }
+          { path: 'chat', component: ChatBoxComponent },
+          { path: 'user', component: CreateUserComponentComponent }
         ]
       }
     ]
