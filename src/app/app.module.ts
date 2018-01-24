@@ -34,6 +34,8 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
+import { ThemeConfigComponent } from './theme-config/theme-config.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -54,7 +56,8 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReportsComponent,
     EmailserviceComponent,
     ChatBoxComponent,
-    CreateUserComponentComponent
+    CreateUserComponentComponent,
+    ThemeConfigComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +70,8 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReactiveFormsModule,
     MatButtonModule,
     FlexLayoutModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    ColorPickerModule
   ],
   providers: [AuthService, HttpService,ValidationService],
   bootstrap: [AppComponent]
