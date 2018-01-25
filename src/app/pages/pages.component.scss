@@ -1,6 +1,15 @@
+button {
+    outline: none;
+}
+input, input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .addview-buttons{
-    // text-align: center;
+    text-align: right;
     padding: 20px 0;
+    float: right;
     button {
         margin-right: 15px;
     }
@@ -9,4 +18,49 @@ img {
     max-width: 100px;
     max-height: 100px;
     vertical-align: middle;
+}
+
+.table {
+    thead {
+        tr {
+            border-bottom: 1px solid #dee2e6;
+        }
+    }
+    td,th,button {
+        border: none;
+        font-size: 14px;
+        font-family: 'Roboto';
+        font-size: 14px;
+        font-weight: 500;
+        // line-height: 1.43;
+        // text-align: left;
+        color: #666666;
+    }
+    button {
+        color: #fff;
+    }
+}
+
+
+input {
+    border-radius: 0;
+    padding: 8px;
+    font-size: 14px;
+    color: #666666;
+}
+
+.add-pages {
+    select {
+        height: 38px;
+        cursor: pointer;
+        outline: none;
+        margin-left: 15px;
+    }
+    .form-group {
+        input {
+            width: auto;
+            display: initial;
+            margin-left: 15px;
+        }
+    }
 }

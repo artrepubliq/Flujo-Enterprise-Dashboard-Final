@@ -1,23 +1,30 @@
-<div *ngIf="isEdit">
-  <h1>Add social liks </h1>
+<!-- ========= Social Links Edit Block ====== -->
+<div *ngIf="isEdit" class="social-edit">
+  <h2>Add social liks </h2>
   <form [formGroup]="socialLinksForm" method="post" enctype="multipart/form-data">
     <div class="form-group row">
-      <div class="col-6">
-        <label>Facebook Url:</label>
-        <input class="form-control" formControlName="facebook" id="facebook">
-        <control-messages [control]="socialLinksForm.controls.facebook"></control-messages>
-
-        <label>Twitter Url:</label>
-        <input class="form-control" formControlName="twitter" id="twitter">
-        <control-messages [control]="socialLinksForm.controls.twitter"></control-messages>
-
-        <label>Wikipedia Url:</label>
-        <input class="form-control" formControlName="wikipedia" id="wikipedia">
-        <control-messages [control]="socialLinksForm.controls.wikipedia"></control-messages>
-        <label>Youtube Url:</label>
-        <input class="form-control" formControlName="youtube" id="youtube">
-        <control-messages [control]="socialLinksForm.controls.youtube"></control-messages>
-        <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid">{{form_btntext}}</button>
+      <div class="col-sm-6">
+        <div class="form-input-block">
+          <label>Facebook Url:</label>
+          <input class="form-control" formControlName="facebook" id="facebook">
+          <control-messages [control]="socialLinksForm.controls.facebook"></control-messages>
+        </div>
+        <div class="form-input-block">
+          <label>Twitter Url:</label>
+          <input class="form-control" formControlName="twitter" id="twitter">
+          <control-messages [control]="socialLinksForm.controls.twitter"></control-messages>
+        </div>
+        <div class="form-input-block">
+          <label>Wikipedia Url:</label>
+          <input class="form-control" formControlName="wikipedia" id="wikipedia">
+          <control-messages [control]="socialLinksForm.controls.wikipedia"></control-messages>
+        </div>
+        <div class="form-input-block">
+          <label>Youtube Url:</label>
+          <input class="form-control" formControlName="youtube" id="youtube">
+          <control-messages [control]="socialLinksForm.controls.youtube"></control-messages>
+        </div>
+        <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid"> Update <!-- {{form_btntext}} --> </button>
         <button type="submit" class="btn btn-danger" (click)="socialLinksFormDelete(socialLinksForm.value)">Delete</button>
         <div class="" ng-show="successMessagebool ">
           <ngx-alerts maxMessages="3" timeout="5000">
@@ -29,8 +36,10 @@
     </div>
   </form>
 </div>
+
+<!-- ========= Social Links View Block ====== -->
 <div *ngIf="!isEdit">
-  <table *ngIf="socialItems" class="table table-hover">
+  <!-- <table *ngIf="socialItems" class="table table-hover">
     <tbody>
       <tr>
         <th>Facebook </th>
@@ -57,6 +66,30 @@
       </tr>
 
     </tbody>
-  </table>
+  </table> -->
+
+  <div *ngIf="socialItems" class="social-links" fxLayout="column" fxLayoutGap="30px">
+    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
+      <h3>Facebook</h3>
+      <p>https://www.facebook.com/krishnakanththati</p>
+      <!-- <p>{{socialItems.facebook}}</p> -->
+    </div>
+    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
+      <h3>Twitter</h3>
+      <p>https://www.facebook.com/krishnakanththati</p>
+      <!-- <p>{{socialItems.twitter}}</p> -->
+    </div>
+    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
+      <h3>WikiPedia</h3>
+      <p>https://www.facebook.com/krishnakanththati</p>
+      <!-- <p>{{socialItems.wikipedia}}</p> -->
+    </div>
+    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
+      <h3>YouTube</h3>
+      <p>https://www.facebook.com/krishnakanththati</p>
+      <!-- <p>{{socialItems.youtube}}</p> -->
+    </div>
+    <button mat-raised-button class="edit-button" (click)="EditSocialLinks(socialItems)">Edit</button>
+  </div>
 
 </div>

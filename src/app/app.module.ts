@@ -24,7 +24,7 @@ import { ReportsComponent } from './reports/reports.component';
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
-import { MatButtonModule } from '@angular/material';
+import { MatButtonModule, MatTableModule } from '@angular/material';
 
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -71,7 +71,8 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatButtonModule,
     FlexLayoutModule,
     PerfectScrollbarModule,
-    ColorPickerModule
+    ColorPickerModule,
+    MatTableModule
   ],
   providers: [AuthService, HttpService,ValidationService],
   bootstrap: [AppComponent]
