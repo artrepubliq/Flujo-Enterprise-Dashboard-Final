@@ -23,15 +23,18 @@ import { ReportsComponent } from './reports/reports.component';
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
-import { MatButtonModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule } from '@angular/material';
 
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { ImageUploadModule } from "angular2-image-upload";
 // Perfect Scroll Bar
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
+import { MediaComponent } from  './media/media.component';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { SmsuiComponent } from './smsui/smsui.component'
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -51,7 +54,9 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SMTPConfigurationComponent,
     ReportsComponent,
     EmailserviceComponent,
-    ChatBoxComponent
+    ChatBoxComponent,
+    MediaComponent,
+    SmsuiComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +69,13 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReactiveFormsModule,
     MatButtonModule,
     FlexLayoutModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    ImageUploadModule.forRoot(),
+    ColorPickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatMenuModule
   ],
   providers: [AuthService, HttpService,ValidationService],
   bootstrap: [AppComponent]

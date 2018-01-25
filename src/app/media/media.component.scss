@@ -1,0 +1,38 @@
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+
+.create{
+    float: right;
+    margin-top: 20px;
+}
+.upload{
+    margin-top: 20px
+}
+.img-box {
+    margin-bottom: 20px;
+}
+
+.highlight {
+    .img-item {
+        position: relative;
+        box-shadow: 7px 10px 17px rgba(0, 0, 0, 0.5);
+        border: 2px solid rgb(59, 234, 15);
+    }
+    .img-item:before {
+        content: "\f00c";
+        font-family: 'FontAwesome';
+        font-size: 30px;
+        position: absolute;
+        right: 15px;
+        top: 0;
+        color: green;
+        z-index: 9999999999;
+    }
+    .bg-layer {
+        background-color: rgba(0, 0, 0, 0.4);
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+}

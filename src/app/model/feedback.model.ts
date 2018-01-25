@@ -13,3 +13,6 @@ export interface IUserChangemaker{
     phone: string;
     datenow: string;
 }
+export interface mediaDetail{
+    image:string|any;
+}

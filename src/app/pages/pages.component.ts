@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpService } from '../service/httpClient.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
+import { ColorPickerModule,ColorPickerDirective } from 'ngx-color-picker';
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
@@ -12,22 +13,25 @@ export class PagesComponent {
     loading: boolean = false;
     button_text: string = "save";
     decodedString: string;
+    dialog: any;
     
     public pageDetails: object;
     public component_description: string = '';
     @ViewChild('fileInput') fileInput: ElementRef;
-
+    
     constructor(private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
         this.createForm();
         localStorage.setItem('client_id', "1232");
         this.getPageDetails();
     }
-
+    
     createForm = () => {
         this.form = this.formBuilder.group({
             component_name: ['', Validators.required],
+            component_menu_name: ['', Validators.required],
             component_parent: null,
             component_description: ['', Validators.required],
+            component_background_color:['',],
             component_order: ['', Validators.required],
             component_id: null,
             component_image: null,
@@ -60,7 +64,7 @@ export class PagesComponent {
             };
         }
     }
-
+   
     onSubmit = (body) => {
         const formModel = this.form.value;
         
@@ -167,4 +171,9 @@ export class PagesComponent {
 
         }
     }
+    ngOnDestroy() {
+        if(this.dialog) {
+          this.dialog = null;
+        }
+      }
 }

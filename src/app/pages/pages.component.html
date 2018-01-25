@@ -13,6 +13,10 @@
             <input type="text" class="form-control" id="component_name" placeholder="page title" formControlName="component_name">
         </div>
         <div class="form-group">
+            <label for="component_menu_name">Page Menu Title</label>
+            <input type="text" class="form-control" id="component_menu_name" placeholder="page menu title" formControlName="component_menu_name">
+        </div>
+        <div class="form-group">
             <label for="component_parent">Page Parent</label>
             <select formControlName="component_parent" id="component_parent">
         <option *ngFor="let parent of pageDetails"
@@ -27,7 +31,10 @@
             <ck-editor name="editor1" formControlName="component_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
             <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
         </div>
-        
+        <div class="form-group">
+            <label for="component_background_color">Select background color of page</label>
+            <input [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)" [(colorPicker)]="color" formControlName="component_background_color" id="component_background_color" [style.background]="color" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"/>
+        </div>
         <div class="form-group">
             <label for="component_order">Page order</label>
             <input type="text" class="form-control" id="component_order" placeholder="Page Order" formControlName="component_order">
