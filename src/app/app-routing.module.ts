@@ -14,8 +14,13 @@ import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
+<<<<<<< HEAD
 import { MediaComponent } from './media/media.component';
 import { SmsuiComponent } from './smsui/smsui.component';
+=======
+import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
+import { ThemeConfigComponent } from './theme-config/theme-config.component';
+>>>>>>> cc9eddf43dbfe1757672acfaca80e02a2b19d76d
 const routes: Routes = [
   {
     path: '',
@@ -49,9 +54,15 @@ const routes: Routes = [
           { path: 'sociallinks', component: SocialLinksComponent },
           { path: 'smtpconfiguration', component: SMTPConfigurationComponent },
           { path: 'reports', component: ReportsComponent },
+          { path: 'themeconfiguration', component: ThemeConfigComponent },
           { path: 'email', component: EmailserviceComponent },
+<<<<<<< HEAD
           { path: 'sms', component: SmsuiComponent},
           { path: 'chat', component: ChatBoxComponent }
+=======
+          { path: 'chat', component: ChatBoxComponent },
+          { path: 'user', component: CreateUserComponentComponent }
+>>>>>>> cc9eddf43dbfe1757672acfaca80e02a2b19d76d
         ]
       }
     ]

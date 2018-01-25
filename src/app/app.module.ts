@@ -20,6 +20,7 @@ import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { ReportsComponent } from './reports/reports.component';
+
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
@@ -32,9 +33,15 @@ import { ImageUploadModule } from "angular2-image-upload";
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
+<<<<<<< HEAD
 import { MediaComponent } from  './media/media.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { SmsuiComponent } from './smsui/smsui.component'
+=======
+import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
+import { ThemeConfigComponent } from './theme-config/theme-config.component';
+import { ColorPickerModule } from 'ngx-color-picker';
+>>>>>>> cc9eddf43dbfe1757672acfaca80e02a2b19d76d
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -55,8 +62,13 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReportsComponent,
     EmailserviceComponent,
     ChatBoxComponent,
+<<<<<<< HEAD
     MediaComponent,
     SmsuiComponent
+=======
+    CreateUserComponentComponent,
+    ThemeConfigComponent
+>>>>>>> cc9eddf43dbfe1757672acfaca80e02a2b19d76d
   ],
   imports: [
     BrowserModule,
@@ -70,12 +82,16 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatButtonModule,
     FlexLayoutModule,
     PerfectScrollbarModule,
+<<<<<<< HEAD
     ImageUploadModule.forRoot(),
     ColorPickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatMenuModule
+=======
+    ColorPickerModule
+>>>>>>> cc9eddf43dbfe1757672acfaca80e02a2b19d76d
   ],
   providers: [AuthService, HttpService,ValidationService],
   bootstrap: [AppComponent]

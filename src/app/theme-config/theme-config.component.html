@@ -1,0 +1,35 @@
+
+<div class="jumbotron">
+  <div class="container" fxLayout="row" fxFlex fxLayoutGap="35px">
+        <form fxLayout="column"  fxLayoutAlign="start" fxLayoutGap="40px" class="form-inline"> 
+            <div fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
+              <label  for="bodyfontfamily">Body Font Family :</label>
+              <input  type="password" class="form-control" id="bodyfontfamily">
+            </div>
+            <div fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
+              <label  for="titlecolor">Title Color :</label>
+              <input  [value]="titlecolor" [(colorPicker)]="titlecolor" [style.background]="titlecolor" class="form-control" id="titlecolor"/>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
+                <label for="titlefont">Title Font :</label>
+                <input type="password" class="form-control" id="titlefont">
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
+                <label for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
+                <input [value]="PrimaryMenuTitleColor" [(colorPicker)]="PrimaryMenuTitleColor" [style.background]="PrimaryMenuTitleColor" class="form-control" id="PrimaryMenuTitleColor"/>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
+                <label for="ChildMenuTitleColor">Child Menu Title Color :</label>
+                <input [value]="ChildMenuTitleColor" [(colorPicker)]="ChildMenuTitleColor" [style.background]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor"/>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
+                <label for="PrimaryMenuOverColor">Primary Menu Over Color :</label>
+                <input [value]="PrimaryMenuOverColor" [(colorPicker)]="PrimaryMenuOverColor" [style.background]="PrimaryMenuOverColor" class="form-control" id="PrimaryMenuOverColor"/>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between " class="form-group">
+                <label for="ChildMenuOverColor">Child Menu Over Color :</label>
+                <input [value]="ChildMenuOverColor" [(colorPicker)]="ChildMenuOverColor" [style.background]="ChildMenuOverColor" class="form-control" id="ChildMenuOverColor"/>
+            </div>
+        </form>
+  </div>
+</div>

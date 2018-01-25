@@ -1,0 +1,45 @@
+<div class="container" fxLayout="column" fxLayoutGap="1rem">
+  <div fxFlex class="form-header">
+    <h2>Create User Form</h2>
+  </div>
+  <!-- <div [hidden]="submitted"> -->
+    <form [formGroup]="CreateUserForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="35px">
+      <div class="form-field" fxFlex class="form-group">
+        <label for="name">Name</label>
+        <input type="text"  class="form-control" id="name" formControlName = "name" required placeholder="Name">
+        <div  [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert alert-danger">
+          Name is required
+        </div>
+      </div>
+      
+      <div fxFlex class="form-group">
+        <label for="email">Email</label>
+        <input type="Email"  formControlName="email" class="form-control" id="email" placeholder="Email" required>
+        <div  [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert alert-danger">
+            Valid Email is required
+          </div>
+      </div>
+  
+      <div fxFlex class="form-group">
+        <label for="role">Role</label>
+        <input type="text" formControlName="role" class="form-control" placeholder="Role" required id="role">
+        <div [hidden]="CreateUserForm.controls.role.valid || CreateUserForm.controls.role.pristine && !submitted" class="alert alert-danger">
+            Role is required
+          </div>
+      </div>
+  
+      <div  fxFlex class="form-group">
+        <label for="phonenumber">Phone</label>
+        <input type="tel" class="form-control" formControlName="phone"  id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Phone Number" required>
+        <div [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted" class="alert alert-danger">
+            Valid Phone number is required
+        </div>
+      </div>
+  
+      
+    </form>
+    <div fxFlex>
+      <button type="submit" class="btn btn-success" [disabled]="!CreateUserForm.valid">Submit</button>
+    </div>
+  <!-- </div> -->
+</div>
