@@ -1,35 +1,55 @@
 
-<div class="jumbotron">
-  <div class="container" fxLayout="row" fxFlex fxLayoutGap="35px">
-        <form fxLayout="column"  fxLayoutAlign="start" fxLayoutGap="40px" class="form-inline"> 
-            <div fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
+<div class="jumbotron" fxLayout="column" fxLayoutGap="1rem">
+    <div class="form-header">
+        <h2 [ngStyle]="titleStyles">Theme Global Configuration</h2>
+      </div>
+  <div  fxLayout="row" fxLayoutAlign="space-between start" fxFlex="50%">
+        <form fxLayout="column"  fxLayoutAlign="start" fxLayoutGap="40px"  class="form-inline"> 
+            <div fxLayout="row"  fxLayoutAlign="space-between center" class="form-group">
               <label  for="bodyfontfamily">Body Font Family :</label>
-              <input  type="password" class="form-control" id="bodyfontfamily">
+              <select fxFlex="50%" fxFlexalign="end" class="form-control" id="bodyfontfamily">
+                  <option>Roboto</option>
+                  <option>Lato</option>
+                  <option>Raleway</option>
+                  <option>Roboto Slab</option>
+                  <option>Montserrat</option>
+                  <option>Merriweather</option>
+                </select>
             </div>
             <div fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
-              <label  for="titlecolor">Title Color :</label>
-              <input  [value]="titlecolor" [(colorPicker)]="titlecolor" [style.background]="titlecolor" class="form-control" id="titlecolor"/>
+              <label fxLayoutAlign="start center" for="titlecolor">Title Color :</label>
+              <input  fxFlexalign="end" [value]="titlecolor" [(colorPicker)]="titlecolor" [style.background]="titlecolor" class="form-control" id="titlecolor"/>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
                 <label for="titlefont">Title Font :</label>
-                <input type="password" class="form-control" id="titlefont">
+                <select fxFlex="50%" fxFlexalign="end" class="form-control" id="titlefont">
+                    <option>Roboto</option>
+                    <option>Lato</option>
+                    <option>Raleway</option>
+                    <option>Roboto Slab</option>
+                    <option>Montserrat</option>
+                    <option>Merriweather</option>
+                  </select>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
                 <label for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
-                <input [value]="PrimaryMenuTitleColor" [(colorPicker)]="PrimaryMenuTitleColor" [style.background]="PrimaryMenuTitleColor" class="form-control" id="PrimaryMenuTitleColor"/>
+                <input fxFlexalign="end" [value]="PrimaryMenuTitleColor" [(colorPicker)]="PrimaryMenuTitleColor" [style.background]="PrimaryMenuTitleColor" class="form-control" id="PrimaryMenuTitleColor"/>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
                 <label for="ChildMenuTitleColor">Child Menu Title Color :</label>
-                <input [value]="ChildMenuTitleColor" [(colorPicker)]="ChildMenuTitleColor" [style.background]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor"/>
+                <input fxFlexalign="end" [value]="ChildMenuTitleColor" [(colorPicker)]="ChildMenuTitleColor" [style.background]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor"/>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
                 <label for="PrimaryMenuOverColor">Primary Menu Over Color :</label>
-                <input [value]="PrimaryMenuOverColor" [(colorPicker)]="PrimaryMenuOverColor" [style.background]="PrimaryMenuOverColor" class="form-control" id="PrimaryMenuOverColor"/>
+                <input fxFlexalign="end" [value]="PrimaryMenuOverColor" [(colorPicker)]="PrimaryMenuOverColor" [style.background]="PrimaryMenuOverColor" class="form-control" id="PrimaryMenuOverColor"/>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between " class="form-group">
                 <label for="ChildMenuOverColor">Child Menu Over Color :</label>
-                <input [value]="ChildMenuOverColor" [(colorPicker)]="ChildMenuOverColor" [style.background]="ChildMenuOverColor" class="form-control" id="ChildMenuOverColor"/>
+                <input fxFlexalign="end" [value]="ChildMenuOverColor" [(colorPicker)]="ChildMenuOverColor" [style.background]="ChildMenuOverColor" class="form-control" id="ChildMenuOverColor"/>
             </div>
+            <div>
+                <button type="submit" class="btn btn-success">Save</button>
+              </div>
         </form>
   </div>
 </div>
