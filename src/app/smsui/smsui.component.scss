@@ -1,0 +1,24 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .example-container > * {
+    width: 100%;
+  }
+
+  .smsContact {
+    // width: 300px;
+    margin: 0 auto;
+    margin-top: 50px;
+    input,textarea {
+      padding: 8px 15px;
+      outline: none;
+      width: 100%;
+    }
+    button {
+      width: 150px;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+  }

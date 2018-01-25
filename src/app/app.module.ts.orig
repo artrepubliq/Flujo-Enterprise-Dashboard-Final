@@ -24,9 +24,11 @@ import { ReportsComponent } from './reports/reports.component';
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
-
-
+<<<<<<< HEAD
+import { MatButtonModule, MatTableModule } from '@angular/material';
+=======
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule } from '@angular/material';
+>>>>>>> 50c971e44ee9aec3e63d23183c8b6702be80e3c6
 
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -35,11 +37,15 @@ import { ImageUploadModule } from "angular2-image-upload";
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
+<<<<<<< HEAD
 import { MediaComponent } from  './media/media.component';
-import { SmsuiComponent } from './smsui/smsui.component';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { SmsuiComponent } from './smsui/smsui.component'
+=======
 import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+>>>>>>> cc9eddf43dbfe1757672acfaca80e02a2b19d76d
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -60,10 +66,13 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReportsComponent,
     EmailserviceComponent,
     ChatBoxComponent,
+<<<<<<< HEAD
     MediaComponent,
-    SmsuiComponent,
+    SmsuiComponent
+=======
     CreateUserComponentComponent,
     ThemeConfigComponent
+>>>>>>> cc9eddf43dbfe1757672acfaca80e02a2b19d76d
   ],
   imports: [
     BrowserModule,
@@ -77,14 +86,21 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatButtonModule,
     FlexLayoutModule,
     PerfectScrollbarModule,
+<<<<<<< HEAD
     ColorPickerModule,
+    MatTableModule
+=======
+<<<<<<< HEAD
     ImageUploadModule.forRoot(),
     ColorPickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatMenuModule,
+    MatMenuModule
+=======
     ColorPickerModule
+>>>>>>> cc9eddf43dbfe1757672acfaca80e02a2b19d76d
+>>>>>>> 50c971e44ee9aec3e63d23183c8b6702be80e3c6
   ],
   providers: [AuthService, HttpService,ValidationService],
   bootstrap: [AppComponent]
