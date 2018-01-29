@@ -14,8 +14,8 @@
 
       <div class="form-input-block" fxLayout="row">
         <label fxFlex="120px">Write your message:</label>
-        <ck-editor formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en" [fullPage]="true"
-          [readonly]="false"></ck-editor>
+        <ck-editor formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en"
+          [fullPage]="true" [readonly]="false"></ck-editor>
         <control-messages [control]="mailSendingForm.controls.message"></control-messages>
       </div>
       <div class="form-input-block">
