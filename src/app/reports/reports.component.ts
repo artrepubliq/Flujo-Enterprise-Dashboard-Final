@@ -7,7 +7,7 @@ import { AlertModule, AlertService } from 'ngx-alerts';
 import CSVExportService from 'json2csvexporter';
 
 import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
-
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Component({
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
@@ -15,15 +15,21 @@ import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
 export class ReportsComponent { 
     isFeedbackReport: boolean = true;
     isChangeReport:boolean=false;
+    loading: boolean = false;
     isReportData:boolean=false;
     public feedbackData: any;
     changemakerData: any;
     public reportProblemData:any;
-  constructor(private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
     this.getChangemakerReportData();
     this.getuserFeedbackData();
     this.getReportYourProblemData();
    }
+   ngOnInit() {
+    setTimeout(function() {
+        this.spinnerService.hide();
+      }.bind(this), 3000);
+  }
    showFeedback(){
     this.isFeedbackReport = true;
     this.isReportData = false;
@@ -40,14 +46,15 @@ export class ReportsComponent {
     this.isFeedbackReport = false;
    }
 
-
+   
    getChangemakerReportData() {
+    this.spinnerService.show()
        this.httpService.getAll("/flujo_client_changereport")
        .subscribe(
         data => {
           console.log(data);
             this.changemakerData = data;
-          
+            this.spinnerService.hide();
         },
         error => {
             console.log(error);
@@ -92,11 +99,12 @@ export class ReportsComponent {
     exporter.downloadCSV(this.changemakerData);
   }
   getuserFeedbackData() {
+    this.spinnerService.show();
     this.httpService.getAll("/flujo_client_feedbackreport")
     .subscribe(
      data => {
          this.feedbackData = data;
-       
+        this.spinnerService.hide();
      },
      error => {
          console.log(error);
@@ -140,12 +148,13 @@ export class ReportsComponent {
   }
 
   getReportYourProblemData() {
+    this.spinnerService.show();
     this.httpService.getAll("/flujo_client_reportproblem/{client_id}")
     .subscribe(
      data => {
        console.log(data);
          this.reportProblemData = data;
-       
+         this.spinnerService.hide();
      },
      error => {
          console.log(error);

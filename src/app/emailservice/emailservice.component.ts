@@ -4,6 +4,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { HttpService } from '../service/httpClient.service';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { NgxSmartLoaderService } from 'ngx-smart-loader';
+
 @Component({
   selector: 'app-emailservice',
   templateUrl: './emailservice.component.html',
@@ -12,8 +15,9 @@ import { AlertModule, AlertService } from 'ngx-alerts';
 export class EmailserviceComponent implements OnInit {
   mailSendingForm: FormGroup;
   socialLinksForm: FormGroup;
+  public loading:false;
   
-  constructor(private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(public loader: NgxSmartLoaderService,private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
     this.mailSendingForm = this.formBuilder.group({
       'email': ['', [Validators.required, ValidationService.emailValidator]],
       'subject': ['', Validators.required],
@@ -36,6 +40,9 @@ export class EmailserviceComponent implements OnInit {
    }
 
   ngOnInit() {
+    setTimeout(function() {
+      this.spinnerService.hide();
+    }.bind(this), 3000);
   }
 
   // socialLinksFormSubmit(body: any) {
@@ -51,6 +58,8 @@ export class EmailserviceComponent implements OnInit {
 
         if (data) {
           this.alertService.success('Social Links  Updated Successfully');
+          
+          this.mailSendingForm.reset()
         }
 
       },

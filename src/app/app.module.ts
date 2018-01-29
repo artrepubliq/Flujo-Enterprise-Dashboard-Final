@@ -20,12 +20,12 @@ import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { ReportsComponent } from './reports/reports.component';
-
+import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
-
-
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule } from '@angular/material';
 
 // Angular Flex Layout
@@ -84,9 +84,12 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatInputModule,
     MatSelectModule,
     MatMenuModule,
-    ColorPickerModule
+    ColorPickerModule,
+    LoadingModule,
+    Ng4LoadingSpinnerModule.forRoot(),
+    NgxSmartLoaderModule.forRoot()
   ],
-  providers: [AuthService, HttpService,ValidationService],
+  providers: [AuthService, HttpService,ValidationService,NgxSmartLoaderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

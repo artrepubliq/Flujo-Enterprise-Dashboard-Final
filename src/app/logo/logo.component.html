@@ -32,6 +32,30 @@
           </div>
           <br>
           <label for="avatar">Choose Logo</label>
+<ng4-loading-spinner></ng4-loading-spinner>
+<div fxLayout="row">
+            
+  <div fxFlex>
+    <ngx-alerts maxMessages="3" timeout="5000">
+      <strong>{{successMessage }}</strong>
+    </ngx-alerts>
+    <form *ngIf="isEdit" [formGroup]="form" (submit)="onSubmit(form.value)">
+      <div class="form-group">
+        <label for="logo_text">Logo Text</label>
+        <input type="text" class="form-control" id="logo_text" placeholder="Logo text" formControlName="logo_text">
+      </div>
+      <div class="form-group">
+        <label for="logo_caption">Logo caption</label>
+        <input type="text" class="form-control" id="logo_caption" placeholder="Logo caption" formControlName="logo_caption">
+      </div>
+      <div class="form-group">
+        <label for="logo_height">Logo height</label>
+        <input type="text" class="form-control" id="logo_height" placeholder="Logo height" formControlName="logo_height">
+      </div>
+      <div class="form-group">
+        <label for="logo_width">Logo width</label>
+        <input type="text" class="form-control" id="logo_width" placeholder="Logo width" formControlName="logo_width">
+      </div>
 
           <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
           <br>
