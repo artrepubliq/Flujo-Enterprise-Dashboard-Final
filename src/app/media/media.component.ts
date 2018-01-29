@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material';
 import { HttpService } from '../service/httpClient.service';
 import { IGalleryObject } from '../model/gallery.model';
 import { IGalleryImages } from '../model/gallery.model';
+import * as _ from 'underscore';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class MediaComponent implements OnInit {
       });
       this.submitAlbumData = this.formBuilder.group({
         title : ['',],
-        id:[null],
+        image_ids:[null],
         client_id:[null]
       });
     this.getMediaGaleeryData();
@@ -53,6 +54,7 @@ export class MediaComponent implements OnInit {
    }
    
   ngOnInit() {   
+    
     this.albumObject  = <IGalleryObject>{}
     this.albumObject.images = [];
   }
@@ -72,6 +74,7 @@ export class MediaComponent implements OnInit {
     console.log(imageDetail);
   }
   }
+  
   mediaManagementFormSubmit(body:any){
     const formModel = this.mediaManagementForm.value;
     this.http.post("http://flujo.in/dashboard/flujo.in_api_client/mediamanagement", formModel).subscribe(
@@ -79,12 +82,8 @@ export class MediaComponent implements OnInit {
         console.log(res);
         this.getMediaGaleeryData();
         this.mediaManagementForm=null;
-        
-        this.successMessage = "Images uploaded successfully";
         this.successMessagebool = true;
         this.alertService.success('Images uploaded successfully');
-        
-
       },
       (err: HttpErrorResponse) => {
         // this.errMsg = err.message;
@@ -95,6 +94,7 @@ export class MediaComponent implements OnInit {
       }
     );
   }
+  //
   getMediaGaleeryData(){
     this.http
       .get<mediaDetail>('http://flujo.in/dashboard/flujo.in_api_client/mediagallery')
@@ -111,30 +111,33 @@ export class MediaComponent implements OnInit {
       );
   }
   getImageId(item_id){
-    
-    
-    for(var i=0; i < this.albumObject.images.length; i++){
-    this.albumImage = {id:item_id.id, description: item_id.id};
-    this.albumObject.images.push(this.albumImage);
-
-     console.log(this.albumObject);
-
-    // this.submitAlbumData.get('id').setValue(this.albumImage = {id:item_id.id})
-    
+    var item_index =_.indexOf(this.albumObject.images, item_id.id);
+    console.log(item_index);
+    if(item_index != -1){
+      this.albumObject.images.splice(item_index, 1);
+      console.log(this.albumObject);
+    }else{
+      this.albumObject.images.push(item_id.id);
+      console.log(this.albumObject);
+    }
   }
-}
+// 
   submitAlbumDataPost(body:any){
-    const formModel = this.submitAlbumData.value;
+    this.submitAlbumData.controls['image_ids'].setValue(this.albumObject);
     this.submitAlbumData.controls['client_id'].setValue(localStorage.getItem("client_id"));
+    const formModel = this.submitAlbumData.value;
+    console.log(formModel);
+    
     this.httpService.create(formModel, "/flujo_client_postgalleryimages")
     .subscribe(
         data => {
           console.log(this.submitAlbumData.value);
           if (data) {
-            this.alertService.success('Social Links deleted Successfully');
+            this.alertService.success('Album created successfully.');
           }
         },
         error => {
+          this.alertService.danger("Something went wrong.please try again.");
           console.log(error);
         })
   }

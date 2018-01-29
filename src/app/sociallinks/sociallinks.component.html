@@ -69,26 +69,25 @@
   </table> -->
 
   <div *ngIf="socialItems" class="social-links" fxLayout="column" fxLayoutGap="30px">
-    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
-      <h3>Facebook</h3>
-      <p>https://www.facebook.com/krishnakanththati</p>
-      <!-- <p>{{socialItems.facebook}}</p> -->
+    <div *ngFor="let socialitem of socialItems" class="link-item" fxLayout="row" fxLayoutGap="30px">
+      <h3>{{socialitem.socialitem_name}}</h3>
+      <p>{{socialitem.socialitem_url}}</p>
     </div>
-    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
+    <!-- <div class="link-item" fxLayout="row" fxLayoutGap="30px">
       <h3>Twitter</h3>
       <p>https://www.facebook.com/krishnakanththati</p>
-      <!-- <p>{{socialItems.twitter}}</p> -->
+      
     </div>
     <div class="link-item" fxLayout="row" fxLayoutGap="30px">
       <h3>WikiPedia</h3>
       <p>https://www.facebook.com/krishnakanththati</p>
-      <!-- <p>{{socialItems.wikipedia}}</p> -->
+      
     </div>
     <div class="link-item" fxLayout="row" fxLayoutGap="30px">
       <h3>YouTube</h3>
       <p>https://www.facebook.com/krishnakanththati</p>
-      <!-- <p>{{socialItems.youtube}}</p> -->
-    </div>
+      
+    </div> -->
     <button mat-raised-button class="edit-button" (click)="EditSocialLinks(socialItems)">Edit</button>
   </div>
 
