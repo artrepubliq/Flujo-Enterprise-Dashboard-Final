@@ -1,44 +1,58 @@
 <ngx-alerts maxMessages="3" timeout="5000">
-                <strong>{{successMessage }}</strong>
-              </ngx-alerts>
-<form *ngIf="isEdit" [formGroup]="form" (submit)="onSubmit(form.value)">
-        <div class="form-group">
-                <label for="company_name">Company name</label>
-                <input type="text" class="form-control" id="company_name" placeholder="company name" formControlName="company_name">
-        </div>
-        <div class="form-group">
-                <label for="website_url">Website URL</label>
-                <input type="text" class="form-control" id="website_url" placeholder="website URL" formControlName="website_url">
-        </div>
-        <div class="form-group">
-                <label for="mobile_number">Mobile Number</label>
-                <input type="text" class="form-control" id="mobile_number" placeholder="Mobile Number" formControlName="mobile_number">
-        </div>
+  <strong>{{successMessage }}</strong>
+</ngx-alerts>
 
-        <div class="form-group">
-                <label for="avatar">Choose profile Picture</label>
-                <!-- <img *ngIf="profileImag" alt="no image" class="figure" src="data:image/png;base64,{{profileImag}}"> -->
-                <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-                <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
-        </div>
-        <button type="submit" [disabled]="form.invalid || loading" class="btn btn-success">{{button_text}}<i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
-        <button (click)="onDelete(form.value)" [disabled]="form.invalid || loading" class="btn btn-success">Delete<i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
+<!-- ==== Profile Edit Block ==== -->
+<form *ngIf="isEdit" class="profile-edit" [formGroup]="form" (submit)="onSubmit(form.value)">
+  <div class="form-group">
+    <label for="company_name">Company name</label>
+    <input type="text" class="form-control" id="company_name" placeholder="company name" formControlName="company_name">
+  </div>
+  <div class="form-group">
+    <label for="website_url">Website URL</label>
+    <input type="text" class="form-control" id="website_url" placeholder="website URL" formControlName="website_url">
+  </div>
+  <div class="form-group">
+    <label for="mobile_number">Mobile Number</label>
+    <input type="text" class="form-control" id="mobile_number" placeholder="Mobile Number" formControlName="mobile_number">
+  </div>
+
+  <div class="form-group">
+    <label for="avatar">Choose profile Picture</label>
+    <!-- <img *ngIf="profileImag" alt="no image" class="figure" src="data:image/png;base64,{{profileImag}}"> -->
+    <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
+    <button type="button" mat-raised-button (click)="clearFile()">clear file</button>
+  </div>
+  <div>
+    <button type="submit" [disabled]="form.invalid || loading" mat-raised-button color="accent">{{button_text}}
+      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+    </button>
+    <button (click)="onDelete(form.value)" [disabled]="form.invalid || loading" mat-raised-button color="warn">Delete
+      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+    </button>
+  </div>
 </form>
 
-<div *ngIf="!isEdit" class="col-md-6">
-        <table *ngIf="profileData" class="table">
-                <tr>
-                  <td>Company Name</td><td>{{profileData.company_name}}</td>
-                </tr>
-                <tr><td>Website URL</td><td>{{profileData.website_url}}</td></tr>
-                <tr> <td>Mobile Number</td><td>{{profileData.mobile_number}}</td></tr>
-                <tr> <td>Avatar</td>
-                <td>   <span *ngIf="!profileData.avatar">no image</span>               
-                        <img *ngIf="profileData.avatar" class="figure" src="data:image/png;base64,{{profileData.avatar}}">
-                </td>
-        </tr>
-        </table>
-
-        <button type="submit" (click)=EditProfileData() class="btn btn-primary">Edit</button>
-        
+<!-- ==== Profile View Block ==== -->
+<div *ngIf="!isEdit" class="col-md-6 profileView-block">
+  <div *ngIf="profileData" fxLayout="column" fxLayoutGap="30px">
+    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
+      <h3>Company Name</h3>
+      <p>{{profileData.company_name}}</p>
+    </div>
+    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
+      <h3>Website URL</h3>
+      <p>{{profileData.website_url}}</p>
+    </div>
+    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
+      <h3>Mobile Number</h3>
+      <p>{{profileData.mobile_number}}</p>
+    </div>
+    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
+      <h3>Avatar</h3>
+      <span *ngIf="!profileData.avatar">no image</span>
+      <img *ngIf="profileData.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
+    </div>
+  </div>
+  <button (click)=EditProfileData() mat-raised-button class="edit-button">Edit</button>
 </div>

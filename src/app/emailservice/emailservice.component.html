@@ -14,7 +14,7 @@
 
       <div class="form-input-block" fxLayout="row">
         <label fxFlex="120px">Write your message:</label>
-        <ck-editor formControlName="message" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en" [fullPage]="true"
+        <ck-editor formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en" [fullPage]="true"
           [readonly]="false"></ck-editor>
         <control-messages [control]="mailSendingForm.controls.message"></control-messages>
       </div>
@@ -26,7 +26,8 @@
       <label>Check the checkbox to select contacts from db</label>
       <br>
       <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
-        <i class="fa fa-send send-icon"></i>
+        <!-- <i class="fa fa-send send-icon"></i> -->
+        Send
       </button>
       <button type="submit" class="btn btn-danger" (click)="mailSendingFormSubmit(mailSendingForm.value)">Delete</button>
       <div class="" ng-show="successMessagebool ">
