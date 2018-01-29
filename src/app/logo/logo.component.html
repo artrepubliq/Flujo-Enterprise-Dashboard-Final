@@ -50,35 +50,6 @@
   </form>
   <!-- ==== Logo View Form ===== -->
   <div *ngIf="!isEdit" fxFlex>
-    <!-- <table *ngIf="logoItems" class="table table-hover">
-        <tbody>
-          <tr>
-            <th>Logo Text </th>
-            <td>{{logoItems.logo_text}}</td>
-          </tr>
-
-          <tr>
-            <th>Logo Caption</th>
-            <td>{{logoItems.logo_caption}}</td>
-          </tr>
-          <tr>
-            <th>Logo Height</th>
-            <td>{{logoItems.logo_height}}</td>
-          </tr>
-          <tr>
-            <th>Logo Width</th>
-            <td> {{logoItems.logo_width}}</td>
-          </tr>
-
-          <tr>
-            <td colspan=2>
-              <button class="mt-5 btn btn-primary" colspan="2" (click)="EditInfo()">Edit</button>
-            </td>
-          </tr>
-
-        </tbody>
-      </table> -->
-
     <div *ngIf="logoItems" class="properties-viewBlock" fxLayout="column" fxLayoutGap="15px">
       <div class="view-block" fxLayout="row" fxLayoutGap="30px">
         <h3>Logo Text</h3>
@@ -107,6 +78,7 @@
       <img *ngIf="logoItems.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}"> </div>
     <!-- <button mat-button colspan="2" (click)="editLogo()">Edit Logo</button> -->
     <!-- <button class="mt-5 btn btn-primary" colspan="2" (click)="editLogo()">Edit Logo</button> -->
-    <button mat-raised-button class="edit-button pull-left" (click)="editLogo()">Edit LOgo</button>
+    <br>
+    <button mat-raised-button class="edit-button pull-left" (click)="editLogo()">Edit Logo</button>
   </div>
 </div>
