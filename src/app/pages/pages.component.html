@@ -15,6 +15,40 @@
       <!-- <strong>{{successMessage }}</strong> -->
     </ngx-alerts>
     <form [formGroup]="form" (submit)="onSubmit(form.value)">
+
+      <div class="form-group" fxLayout="row">
+        <label fxFlex="20" for="component_name">Page Title</label>
+        <input fxFlex type="text" class="form-control" id="component_name" placeholder="Page title" formControlName="component_name">
+      </div>
+      <div class="form-group" fxLayout="row">
+        <label fxFlex="20" for="component_parent">Page Parent</label>
+        <select fxFlex formControlName="component_parent" id="component_parent">
+          <option *ngFor="let parent of pageDetails" [value]="parent.id">
+            {{parent.id}}-{{parent.component_name}}
+
+          </option>
+        </select>
+      </div>
+      <div class="form-group" fxLayout="row">
+        <label fxFlex="20" for="component_description">Page Description</label>
+        <ck-editor fxFlex name="editor1" formControlName="component_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
+      </div>
+
+      <div class="form-group" fxLayout="row">
+        <label fxFlex="20" for="component_order">Page order</label>
+        <input fxFlex type="text" class="form-control" id="component_order" placeholder="Page Order" formControlName="component_order">
+      </div>
+      <div class="form-group" fxLayout="row">
+        <label fxFlex="20" for="component_menu_name">Page Menu Title</label>
+        <input  fxFlex type="text" class="form-control" id="component_menu_name" placeholder="page menu title" formControlName="component_menu_name">
+      </div>
+      <div class="form-group" fxLayout="row">
+        <label fxFlex="20" for="component_background_color">Select background color of page</label>
+        <input fxFlex [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)" [(colorPicker)]="color"
+          formControlName="component_background_color" id="component_background_color" [style.background]="color" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+        />
+      </div>
         <div class="form-group">
             <label for="component_name">Page Title</label>
             <input type="text" class="form-control" id="component_name" placeholder="page title" formControlName="component_name">
@@ -47,18 +81,18 @@
             <input type="text" class="form-control" id="component_order" placeholder="Page Order" formControlName="component_order">
         </div>
 
-      <div class="form-group">
-        <label for="component_image">Choose component image</label>
+      <div class="form-group" fxLayout="row">
+        <label fxFlex="20" for="component_image">Choose component image</label>
         <input type="file" id="component_image" (change)="onComponentImageChange($event)" #fileInput>
         <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
       </div>
-      <div class="form-group">
-        <label for="component_background_image">Choose component background image</label>
+      <div class="form-group" fxLayout="row">
+        <label fxFlex="20" for="component_background_image">Choose component background image</label>
         <input type="file" id="component_background_image" (change)="onComponentBackgroundImageChange($event)" #fileInput>
         <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
       </div>
 
-      <button type="submit" [disabled]="form.invalid || loading" class="btn btn-success">{{button_text}}
+      <button type="submit" [disabled]="form.invalid || loading" mat-raised-button color="primary">{{button_text}}
         <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
       </button>
 

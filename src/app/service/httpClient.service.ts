@@ -4,8 +4,8 @@ import { HttpClient, HttpParams, HttpHeaders,HttpErrorResponse } from '@angular/
 @Injectable()
 export class HttpService {
 
-    // url: string = "http://flujo.in/dashboard/flujo.in_api_client"
-    url: string = "http://localhost:8080"
+    url: string = "http://flujo.in/dashboard/flujo.in_api_client"
+    // url: string = "http://localhost:8080"
     constructor(private http: HttpClient) { }
 
     getAll(req_url) {

@@ -2,24 +2,33 @@
 <form [formGroup]="mailSendingForm" method="post" enctype="multipart/form-data">
   <div class="form-group">
     <div>
-      <label>To address:</label>
-      <input class="form-control" formControlName="email" id="email">
-      <control-messages [control]="mailSendingForm.controls.email"></control-messages>
+      <div class="form-input-block">
+        <label>To address:</label>
+        <input class="form-control" formControlName="email" id="email">
+        <control-messages [control]="mailSendingForm.controls.email"></control-messages>
+      </div>
+      <div class="form-input-block">
+        <label>Subject:</label>
+        <input class="form-control" formControlName="subject" id="subject">
+        <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
+      </div>
 
-      <label>Subject:</label>
-      <input class="form-control" formControlName="subject" id="subject">
-      <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
-
-      <label>Write your message:</label>
-      <ck-editor formControlName="message" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en" [fullPage]="true"
-        [readonly]="false"></ck-editor>
-      <control-messages [control]="mailSendingForm.controls.message"></control-messages>
-      <label>Select contacts from csv file </label>
-      <input class="form-control" type="file" formControlName="file" id="file">
+      <div class="form-input-block" fxLayout="row">
+        <label fxFlex="120px">Write your message:</label>
+        <ck-editor formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en"
+          [fullPage]="true" [readonly]="false"></ck-editor>
+        <control-messages [control]="mailSendingForm.controls.message"></control-messages>
+      </div>
+      <div class="form-input-block">
+        <label>Select contacts from csv file </label>
+        <input class="form-control" type="file" formControlName="file" id="file">
+      </div>
       <input type="checkbox" formControlName="check">
       <label>Check the checkbox to select contacts from db</label>
+      <br>
       <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
-        <i class="fa fa-send send-icon"></i>
+        <!-- <i class="fa fa-send send-icon"></i> -->
+        Send
       </button>
       <button type="submit" class="btn btn-danger" (click)="mailSendingFormSubmit(mailSendingForm.value)">Delete</button>
       <div class="" ng-show="successMessagebool ">
