@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material';
 import { HttpService } from '../service/httpClient.service';
 import { IGalleryObject } from '../model/gallery.model';
 import { IGalleryImages } from '../model/gallery.model';
-
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-media',
@@ -23,6 +23,7 @@ import { IGalleryImages } from '../model/gallery.model';
 export class MediaComponent implements OnInit {
   hightlightStatus: Array<boolean> = [];
   public successMessage;
+  public loading = false;
   public successMessagebool;
   public deleteMessage;
   public deleteMessagebool;
@@ -36,8 +37,8 @@ export class MediaComponent implements OnInit {
   
   isImageExist:boolean;
   // public albumData: {id: any, name: string,desc: string}
-  
-  constructor(private http: HttpClient,private httpService: HttpService, private formBuilder: FormBuilder, private alertService: AlertService) {
+  // template: string =`<img src="http://pa1.narvii.com/5722/2c617cd9674417d272084884b61e4bb7dd5f0b15_hq.gif" />`
+  constructor(private spinnerService: Ng4LoadingSpinnerService, private http: HttpClient,private httpService: HttpService, private formBuilder: FormBuilder, private alertService: AlertService) {
     
     this.mediaManagementForm = this.formBuilder.group({
         image: [null]
@@ -73,20 +74,24 @@ export class MediaComponent implements OnInit {
   }
   }
   mediaManagementFormSubmit(body:any){
+    // this.loading = true;
+    this.spinnerService.show();
     const formModel = this.mediaManagementForm.value;
     this.http.post("http://flujo.in/dashboard/flujo.in_api_client/mediamanagement", formModel).subscribe(
       res => {
         console.log(res);
         this.getMediaGaleeryData();
-        this.mediaManagementForm=null;
-        
         this.successMessage = "Images uploaded successfully";
         this.successMessagebool = true;
         this.alertService.success('Images uploaded successfully');
+        // this.loading = false;
+        this.spinnerService.hide();
+        this.mediaManagementForm=null;
         
-
       },
       (err: HttpErrorResponse) => {
+        // this.loading = false;
+        this.spinnerService.hide();
         // this.errMsg = err.message;
         console.log(err.error);
         console.log(err.name);
@@ -96,17 +101,22 @@ export class MediaComponent implements OnInit {
     );
   }
   getMediaGaleeryData(){
+    // this.loading = true;
+    this.spinnerService.show();
     this.http
       .get<mediaDetail>('http://flujo.in/dashboard/flujo.in_api_client/mediagallery')
       .subscribe(
+        
       // Successful responses call the first callback.
       data => {
         this.mediaData=data;
+        // this.loading = false;
+        this.spinnerService.hide();
         console.log(this.mediaData);
       },
       
       err => {
-        
+        this.spinnerService.hide();
       }
       );
   }

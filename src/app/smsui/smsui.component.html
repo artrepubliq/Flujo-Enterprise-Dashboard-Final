@@ -1,27 +1,30 @@
-<div class="smsContact" fxFlex>
-  <form action="" fxLayout="column" class="d-block" fxLayoutGap="20px">
-    <div fxFlex fxLayout="row">
-      <label fxFlex="20" for="phone">Phone Number</label>
-      <input fxFlex type="text" placeholder="Phone Number">
+<div class="container smsContact">
+  <h3>Sending of sms to clients</h3>
+  <form role="form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
+    <div class="row">
+      <label class="col-md-2" for="phone">Add Mobile Numbers:</label>
+      <div class="col-md-4"><input type="text" formControlName = "phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control" id="phone" placeholder="Phone Number">
+        <control-messages [control]="smsContactForm.controls.phone"></control-messages>
+      </div>
     </div>
-    <div fxFlex fxLayout="row">
-      <label fxFlex="20" for="subject">Subject</label>
-      <input type="text" placeholder="Subject">
+    <div class="row">
+        <label class="col-md-2" for="message">SMS Content:</label>
+      <div class="col-md-4"><textarea class="form-control" formControlName = "message" id="message" placeholder="Message"></textarea>
+        <control-messages [control]="smsContactForm.controls.message"></control-messages>
+      </div>
     </div>
-    <div fxFlex fxLayout="row">
-        <label fxFlex="20" for="message">Message</label>
-      <textarea id="" cols="30" rows="10" placeholder="Message"></textarea>
-    </div>
-    <div fxFlex fxLayout="row">
-        <label fxFlex="20" for="csv">csv</label>
-      <input type="file">
-    </div>
-    <div fxFlex fxLayout="row">
-        <label for="check">Check box</label>
-      <input type="checkbox">
-    </div>
-    <div fxFlex>
-      <button type="submit">Send</button>
+    <div class="row">
+        <label class="col-md-3" for="inputPassword1">Get contacts from csv file</label>
+        <div class="col-md-3"><input type="file" formControlName = "file" class="form-control file-box"></div>
+      </div>
+      <div class="row">
+          <label class="col-md-2" for="checkbox">Get contacts from db</label>
+          <div class="col-md-4"><input type="checkbox" formControlName = "check" class="form-control" id="checkbox"></div>
+        </div>
+    <div class="row">
+      <div class="col-md-5">
+        <button type="submit" class="btn btn-success align-center float-right" (click)="smsContactFormSubmit(smsContactForm.value)">Send</button>
+      </div>
     </div>
   </form>
-</div>
+  </div>

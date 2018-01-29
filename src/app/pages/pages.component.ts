@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpService } from '../service/httpClient.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
+import * as _ from 'underscore';
 import { ColorPickerModule,ColorPickerDirective } from 'ngx-color-picker';
 @Component({
     templateUrl: './pages.component.html',
@@ -14,7 +15,7 @@ export class PagesComponent {
     button_text: string = "save";
     decodedString: string;
     dialog: any;
-    
+    public evens;
     public pageDetails: object;
     public component_description: string = '';
     @ViewChild('fileInput') fileInput: ElementRef;
@@ -110,13 +111,16 @@ export class PagesComponent {
     getPageDetails = () => {
         this.loading = true;
         this.httpService.getById(localStorage.getItem("client_id"), "/flujo_client_component/")
+        
             .subscribe(
             data => {
-                
                 this.pageDetails = data;
-
+                console.log(this.pageDetails);
+                this.evens = _.filter(this.pageDetails, (parentData)=>{
+                    return parentData.parent_id == -1; 
+                });
                 this.setDefaultClientPageDetails(this.pageDetails);
-                console.log(data);
+                console.log(this.evens);
                 this.loading = false;
             },
             error => {
@@ -132,14 +136,13 @@ export class PagesComponent {
             // this.button_text = "Update";
             this.form.controls['component_id'].setValue(pageData.id);
             this.form.controls['component_name'].setValue(pageData.component_name);
+            this.form.controls['component_menu_name'].setValue(pageData.component_menu_name);
             this.form.controls['component_description'].setValue(pageData.component_description);
             this.form.controls['component_image'].setValue(pageData.component_image);
             this.form.controls['component_background_image'].setValue(pageData.component_background_image);
+            this.form.controls['component_background_color'].setValue(pageData.component_background_color);
             this.form.controls['component_order'].setValue(pageData.component_order);
             this.form.controls['component_parent'].setValue(pageData.component_parent);
-
-            // this.form.controls['avatar'].setValue(logoData.result.);
-
         }
 
     }
