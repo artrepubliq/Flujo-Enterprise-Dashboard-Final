@@ -4,6 +4,7 @@ import { HttpService } from '../service/httpClient.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import * as _ from 'underscore';
 import { ColorPickerModule,ColorPickerDirective } from 'ngx-color-picker';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
@@ -20,12 +21,16 @@ export class PagesComponent {
     public component_description: string = '';
     @ViewChild('fileInput') fileInput: ElementRef;
     
-    constructor(private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+    constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
         this.createForm();
         localStorage.setItem('client_id', "1232");
         this.getPageDetails();
     }
-    
+    ngOnInit() {
+        setTimeout(function() {
+            this.spinnerService.hide();
+          }.bind(this), 3000);
+      }
     createForm = () => {
         this.form = this.formBuilder.group({
             component_name: ['', Validators.required],
@@ -76,7 +81,7 @@ export class PagesComponent {
         if(!this.form.value.component_parent){
             this.form.controls['component_parent'].setValue("-1");
         }
-        this.loading = true;
+        
 
         this.httpService.updatePost(this.form.value, "/flujo_client_component")
             .subscribe(
@@ -94,7 +99,7 @@ export class PagesComponent {
     }
     onDelete = (body) => {
         // const formModel = this.form.value;
-        this.loading = true;
+        
         let component_id = body.id;
         this.httpService.delete(component_id, "/flujo_client_component/")
             .subscribe(
@@ -109,7 +114,7 @@ export class PagesComponent {
             });
     }
     getPageDetails = () => {
-        this.loading = true;
+        this.spinnerService.show();
         this.httpService.getById(localStorage.getItem("client_id"), "/flujo_client_component/")
         
             .subscribe(
@@ -121,11 +126,12 @@ export class PagesComponent {
                 });
                 this.setDefaultClientPageDetails(this.pageDetails);
                 console.log(this.evens);
-                this.loading = false;
+                this.spinnerService.hide();
             },
             error => {
                 console.log(error);
                 this.loading = false;
+                this.spinnerService.hide();
             }
             )
     }

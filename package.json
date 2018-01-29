@@ -42,6 +42,7 @@
     "ngx-color-picker": "^5.3.0",
     "ngx-loading": "^1.0.14",
     "ngx-perfect-scrollbar": "^5.3.1",
+    "ngx-smart-loader": "^1.0.0",
     "rxjs": "^5.5.2",
     "underscore": "^1.8.3",
     "zone.js": "^0.8.14"

@@ -1,6 +1,5 @@
 <div class="container">
-        <ng4-loading-spinner> </ng4-loading-spinner>
-
+        <ng4-loading-spinner></ng4-loading-spinner>
     <form [formGroup]="mediaManagementForm" enctype="multipart/form-data">
         <div class="col-md-12 form-group">
             <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->
@@ -21,6 +20,10 @@
                 <div class="img-item">
                     <div class="bg-layer"></div>
                     <img class="img-fluid img-thumbnail" src='data:image/png;base64,{{items.image}}' alt="">
+                    <div class="delete-img" (click)="deleteMediaImage(items.id)">
+                        <!-- <img src="../assets/icons/error.svg" class="img-fluid close-icon" (click)="deleteMediaImage(items.id)"> -->
+                        <i class="fa fa-times"></i>
+                    </div>
                 </div>
             </div>
         </div>

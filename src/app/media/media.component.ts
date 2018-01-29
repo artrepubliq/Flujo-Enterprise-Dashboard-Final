@@ -41,7 +41,8 @@ export class MediaComponent implements OnInit {
   constructor(private spinnerService: Ng4LoadingSpinnerService, private http: HttpClient,private httpService: HttpService, private formBuilder: FormBuilder, private alertService: AlertService) {
     
     this.mediaManagementForm = this.formBuilder.group({
-        image: [null]
+        image: [null],
+        client_id:[null]
       });
       this.submitAlbumData = this.formBuilder.group({
         title : ['',],
@@ -76,6 +77,7 @@ export class MediaComponent implements OnInit {
   mediaManagementFormSubmit(body:any){
     // this.loading = true;
     this.spinnerService.show();
+    this.mediaManagementForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
     const formModel = this.mediaManagementForm.value;
     this.http.post("http://flujo.in/dashboard/flujo.in_api_client/mediamanagement", formModel).subscribe(
       res => {
@@ -119,6 +121,22 @@ export class MediaComponent implements OnInit {
         this.spinnerService.hide();
       }
       );
+  }
+  deleteMediaImage(image_id){
+    // console.log(kn);
+    if (localStorage.getItem("client_id")) {
+      this.httpService.delete(localStorage.getItem("client_id"), "/flujo_client_deletemedia/")
+        .subscribe(
+        data => {
+          if (data) {
+            this.getMediaGaleeryData();
+            this.alertService.success('Social Links deleted Successfully');
+          }
+        },
+        error => {
+          console.log(error);
+        })
+    }
   }
   getImageId(item_id){
     

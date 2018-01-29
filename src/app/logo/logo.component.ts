@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { HttpService } from '../service/httpClient.service';
 import { ILogo } from '../model/logo.model';
 import { AlertModule, AlertService } from 'ngx-alerts';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Component({
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.scss']
@@ -18,12 +19,17 @@ export class LogoComponent {
   resultExist: boolean;
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  constructor(private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
     this.createForm();
     localStorage.setItem('client_id',"1232");
     this.getLogoDetails();
   }
-
+  ngOnInit() {   
+        setTimeout(function() {
+            this.spinnerService.hide();
+          }.bind(this), 3000);
+    
+  }
   createForm = () => {
     this.form = this.formBuilder.group({
       logo_text: ['', Validators.required],
@@ -51,6 +57,7 @@ export class LogoComponent {
   }
 
   onSubmit = (body) => {
+    this.spinnerService.show();
     const formModel = this.form.value;
     this.loadingSave = true;
     this.httpService.updatePost(formModel,"/flujo_client_logo")
@@ -62,6 +69,7 @@ export class LogoComponent {
         },
         error => {
           this.loadingSave = false;
+          this.spinnerService.hide();
         });
   }
 
@@ -125,4 +133,5 @@ export class LogoComponent {
     }
     
   }
+  
 }
