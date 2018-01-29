@@ -3,17 +3,21 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpService } from '../service/httpClient.service';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
+import { ISocialLinks } from "../model/sociallinks.model";
+import { HttpClient } from "@angular/common/http";
+import * as _ from 'underscore'
 
 @Component({
   templateUrl: './sociallinks.component.html',
   styleUrls: ['./sociallinks.component.scss']
 })
 export class SocialLinksComponent {
+  SocialData: ISocialLinks;
   socialItems: any;
   socialLinksForm: FormGroup;
   form_btntext: string = "save";
   public isEdit: boolean = false;
-  constructor(private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(private formBuilder: FormBuilder, private httpClient: HttpClient, private httpService: HttpService, private alertService: AlertService) {
     this.socialLinksForm = this.formBuilder.group({
       'facebook': ['', [Validators.required, ValidationService.domainValidator]],
       'twitter': ['', [Validators.required, ValidationService.domainValidator]],
@@ -37,8 +41,8 @@ export class SocialLinksComponent {
           this.getSocialLinksData();
 
           this.alertService.success('Social Links  Updated Successfully');
-        }else{
-        this.alertService.success('No modifications found');
+        } else {
+          this.alertService.success('No modifications found');
         }
       },
       error => {
@@ -48,22 +52,24 @@ export class SocialLinksComponent {
 
   //get sociallinks data from db
   getSocialLinksData() {
-    if (localStorage.getItem("client_id")) {
-      this.httpService.getById(localStorage.getItem("client_id"), "/flujo_client_sociallinks/")
-        .subscribe(
-        data => {
-          if (data) {
-            this.isEdit = false;
-            this.socialItems = data;
-          }else{
-            this.isEdit = true;
-          }
-          
-        },
-        error => {
-          console.log(error);
-        })
-    }
+    this.httpClient
+      .get<ISocialLinks>('http://flujo.in/dashboard/flujo.in_api_client/flujo_client_sociallinks/1232')
+      .subscribe(
+      // Successful responses call the first callback.
+      data => {
+        if (data) {
+          this.isEdit = false;
+          this.socialItems = data;
+        } else {
+          this.isEdit = true;
+        }
+
+      },
+
+      err => {
+        console.log(err);
+      }
+      );
 
   }
 
@@ -85,10 +91,10 @@ export class SocialLinksComponent {
   }
 
   setDataToForm(formdata) {
-    this.socialLinksForm.controls['facebook'].setValue(formdata.facebook);
-    this.socialLinksForm.controls['twitter'].setValue(formdata.twitter);
-    this.socialLinksForm.controls['wikipedia'].setValue(formdata.wikipedia);
-    this.socialLinksForm.controls['youtube'].setValue(formdata.youtube);
+    _.each(formdata, (item) => {
+      console.log(item);
+      this.socialLinksForm.controls[item.socialitem_name].setValue(item.socialitem_url)
+    });
 
   }
   setSocialFormToDefault() {
@@ -100,7 +106,7 @@ export class SocialLinksComponent {
     this.socialLinksForm.controls['client_id'].setValue("");
 
   }
-  EditSocialLinks(socialData){
+  EditSocialLinks(socialData) {
     this.isEdit = true;
     this.form_btntext = "update";
     this.setDataToForm(socialData);
