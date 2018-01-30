@@ -11,7 +11,12 @@ import { MatButtonModule } from '@angular/material';
 import { HttpService } from '../service/httpClient.service';
 import { IGalleryObject } from '../model/gallery.model';
 import { IGalleryImages } from '../model/gallery.model';
+
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+
+import * as _ from 'underscore';
+
+
 
 @Component({
   selector: 'app-media',
@@ -46,7 +51,7 @@ export class MediaComponent implements OnInit {
       });
       this.submitAlbumData = this.formBuilder.group({
         title : ['',],
-        id:[null],
+        image_ids:[null],
         client_id:[null]
       });
     this.getMediaGaleeryData();
@@ -54,10 +59,15 @@ export class MediaComponent implements OnInit {
     this.isImageExist= false;
    }
    
+
   ngOnInit() {  
     setTimeout(function() {
       this.spinnerService.hide();
     }.bind(this), 3000); 
+
+  ngOnInit() {   
+    
+
     this.albumObject  = <IGalleryObject>{}
     this.albumObject.images = [];
   }
@@ -77,6 +87,7 @@ export class MediaComponent implements OnInit {
     console.log(imageDetail);
   }
   }
+  
   mediaManagementFormSubmit(body:any){
     // this.loading = true;
     this.spinnerService.show();
@@ -86,6 +97,7 @@ export class MediaComponent implements OnInit {
       res => {
         console.log(res);
         this.getMediaGaleeryData();
+
         this.successMessage = "Images uploaded successfully";
         this.successMessagebool = true;
         this.alertService.success('Images uploaded successfully');
@@ -93,6 +105,11 @@ export class MediaComponent implements OnInit {
         this.spinnerService.hide();
         this.mediaManagementForm=null;
         
+
+        this.mediaManagementForm=null;
+        this.successMessagebool = true;
+        this.alertService.success('Images uploaded successfully');
+
       },
       (err: HttpErrorResponse) => {
         // this.loading = false;
@@ -105,6 +122,7 @@ export class MediaComponent implements OnInit {
       }
     );
   }
+  //
   getMediaGaleeryData(){
     // this.loading = true;
     this.spinnerService.show();
@@ -143,30 +161,37 @@ export class MediaComponent implements OnInit {
     }
   }
   getImageId(item_id){
-    
-    
-    for(var i=0; i < this.albumObject.images.length; i++){
-    this.albumImage = {id:item_id.id, description: item_id.id};
-    this.albumObject.images.push(this.albumImage);
-
-     console.log(this.albumObject);
-
-    // this.submitAlbumData.get('id').setValue(this.albumImage = {id:item_id.id})
-    
+    var item_index =_.indexOf(this.albumObject.images, item_id.id);
+    console.log(item_index);
+    if(item_index != -1){
+      this.albumObject.images.splice(item_index, 1);
+      console.log(this.albumObject);
+    }else{
+      this.albumObject.images.push(item_id.id);
+      console.log(this.albumObject);
+    }
   }
-}
+// 
   submitAlbumDataPost(body:any){
-    const formModel = this.submitAlbumData.value;
+    this.submitAlbumData.controls['image_ids'].setValue(this.albumObject);
     this.submitAlbumData.controls['client_id'].setValue(localStorage.getItem("client_id"));
+    const formModel = this.submitAlbumData.value;
+    console.log(formModel);
+    
     this.httpService.create(formModel, "/flujo_client_postgalleryimages")
     .subscribe(
         data => {
           console.log(this.submitAlbumData.value);
           if (data) {
+
             this.alertService.success('Social Links uploaded Successfully');
+
+            this.alertService.success('Album created successfully.');
+
           }
         },
         error => {
+          this.alertService.danger("Something went wrong.please try again.");
           console.log(error);
         })
   }
