@@ -19,28 +19,25 @@ export class SocialLinksComponent {
   public isEdit: boolean = false;
   constructor(private formBuilder: FormBuilder, private httpClient: HttpClient, private httpService: HttpService, private alertService: AlertService) {
     this.socialLinksForm = this.formBuilder.group({
-      'facebook': ['', [Validators.required, ValidationService.domainValidator]],
-      'twitter': ['', [Validators.required, ValidationService.domainValidator]],
-      'wikipedia': ['', [Validators.required, ValidationService.domainValidator]],
-      'youtube': ['', [Validators.required, ValidationService.domainValidator]],
-      'client_id': null
+      'socialitem_name': ['', [Validators.required]],
+      'socilaitem_url': ['', [Validators.required, ValidationService.domainValidator]],
+      'socialitem_id': null
     });
 
     this.getSocialLinksData();
   }
   socialLinksFormSubmit(body: any) {
-
-    console.log(this.socialLinksForm.value);
-    this.socialLinksForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
+    if(this.form_btntext == "Update"){
+      this.socialLinksForm.controls['socialitem_id'].setValue(localStorage.getItem("socilaitem_id"));
+    }
+    
     this.httpService.create(this.socialLinksForm.value, "/flujo_client_sociallinks")
       .subscribe(
       data => {
 
         if (data) {
-          // this.socialLinksForm.reset();
-          this.getSocialLinksData();
-
           this.alertService.success('Social Links  Updated Successfully');
+          this.getSocialLinksData();
         } else {
           this.alertService.success('No modifications found');
         }
@@ -52,14 +49,16 @@ export class SocialLinksComponent {
 
   //get sociallinks data from db
   getSocialLinksData() {
+    this.isEdit = false;
     this.httpClient
       .get<ISocialLinks>('http://flujo.in/dashboard/flujo.in_api_client/flujo_client_sociallinks/1232')
       .subscribe(
       // Successful responses call the first callback.
       data => {
-        if (data) {
+        this.socialItems = data;
+        if (this.socialItems.id) {
           this.isEdit = false;
-          this.socialItems = data;
+          
         } else {
           this.isEdit = true;
         }
@@ -72,43 +71,60 @@ export class SocialLinksComponent {
       );
 
   }
-
+//function to view the social items
+viewSocialLinks(){
+  this.isEdit = false;
+}
   //sociallinks delete from db
-  socialLinksFormDelete(body: any) {
+  deleteSocialLinks(socialItem) {
     if (localStorage.getItem("client_id")) {
-      this.httpService.delete(localStorage.getItem("client_id"), "/flujo_client_sociallinks/")
+      this.httpClient.delete("http://flujo.in/dashboard/flujo.in_api_client/flujo_client_sociallinks/"+socialItem.id)
         .subscribe(
-        data => {
-          if (data) {
-            this.setSocialFormToDefault();
-            this.alertService.success('Social Links deleted Successfully');
+          data => {
+            if (data) {
+              this.alertService.success('Social Links deleted Successfully');
+              this.getSocialLinksData();
+            }
+          },
+          error => {
+            this.alertService.danger("Social item is not deleted.");
           }
-        },
-        error => {
-          console.log(error);
-        })
+        );
+      // this.httpService.delete(localStorage.getItem("client_id"), "/flujo_client_sociallinks/")
+      //   .subscribe(
+      //   data => {
+      //     if (data) {
+      //       this.setSocialFormToDefault();
+      //       this.alertService.success('Social Links deleted Successfully');
+      //     }
+      //   },
+      //   error => {
+      //     console.log(error);
+      //   })
     }
   }
 
   setDataToForm(formdata) {
-    _.each(formdata, (item) => {
-      console.log(item);
-      this.socialLinksForm.controls[item.socialitem_name].setValue(item.socialitem_url)
-    });
+    this.socialLinksForm.controls['socialitem_name'].setValue(formdata.socialitem_name);
+    this.socialLinksForm.controls['socilaitem_url'].setValue(formdata.socialitem_url);
 
   }
   setSocialFormToDefault() {
     this.form_btntext = "save";
-    this.socialLinksForm.controls['facebook'].setValue("");
-    this.socialLinksForm.controls['twitter'].setValue("");
-    this.socialLinksForm.controls['wikipedia'].setValue("");
-    this.socialLinksForm.controls['youtube'].setValue("");
+    this.socialLinksForm.controls['socialitem_name'].setValue("");
+    this.socialLinksForm.controls['socilaitem_url'].setValue("");
+    // this.socialLinksForm.controls['wikipedia'].setValue("");
+    // this.socialLinksForm.controls['youtube'].setValue("");
     this.socialLinksForm.controls['client_id'].setValue("");
 
   }
   EditSocialLinks(socialData) {
     this.isEdit = true;
-    this.form_btntext = "update";
+    localStorage.setItem("socilaitem_id",socialData.id);
+    console.log(localStorage.getItem("socilaitem_id"));
+    this.form_btntext = socialData.id ? "Update" : "Save";
     this.setDataToForm(socialData);
   }
+
+  
 }

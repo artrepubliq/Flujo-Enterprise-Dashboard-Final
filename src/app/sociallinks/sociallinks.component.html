@@ -1,31 +1,23 @@
 <!-- ========= Social Links Edit Block ====== -->
 <div *ngIf="isEdit" class="social-edit">
+    <button (click)="viewSocialLinks()" class="btn btn-success">View Details</button>
   <h2>Add social liks </h2>
   <form [formGroup]="socialLinksForm" method="post" enctype="multipart/form-data">
     <div class="form-group row">
       <div class="col-sm-6">
         <div class="form-input-block">
-          <label>Facebook Url:</label>
-          <input class="form-control" formControlName="facebook" id="facebook">
-          <control-messages [control]="socialLinksForm.controls.facebook"></control-messages>
+          <label>Social Item name:</label>
+          <input class="form-control" formControlName="socialitem_name" id="socialitem_name">
+          <control-messages [control]="socialLinksForm.controls.socialitem_name"></control-messages>
         </div>
         <div class="form-input-block">
-          <label>Twitter Url:</label>
-          <input class="form-control" formControlName="twitter" id="twitter">
-          <control-messages [control]="socialLinksForm.controls.twitter"></control-messages>
+          <label>Social Item URL:</label>
+          <input class="form-control" formControlName="socilaitem_url" id="socilaitem_url">
+          <control-messages [control]="socialLinksForm.controls.socilaitem_url"></control-messages>
         </div>
-        <div class="form-input-block">
-          <label>Wikipedia Url:</label>
-          <input class="form-control" formControlName="wikipedia" id="wikipedia">
-          <control-messages [control]="socialLinksForm.controls.wikipedia"></control-messages>
-        </div>
-        <div class="form-input-block">
-          <label>Youtube Url:</label>
-          <input class="form-control" formControlName="youtube" id="youtube">
-          <control-messages [control]="socialLinksForm.controls.youtube"></control-messages>
-        </div>
-        <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid"> Update <!-- {{form_btntext}} --> </button>
-        <button type="submit" class="btn btn-danger" (click)="socialLinksFormDelete(socialLinksForm.value)">Delete</button>
+       
+        <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid">{{form_btntext}}</button>
+      
         <div class="" ng-show="successMessagebool ">
           <ngx-alerts maxMessages="3" timeout="5000">
             <strong>{{successMessage }}</strong>
@@ -35,60 +27,35 @@
       </div>
     </div>
   </form>
+  
 </div>
 
-<!-- ========= Social Links View Block ====== -->
-<div *ngIf="!isEdit">
-  <!-- <table *ngIf="socialItems" class="table table-hover">
-    <tbody>
-      <tr>
-        <th>Facebook </th>
-        <td>{{socialItems.facebook}}</td>
-      </tr>
+<!-- ========= Social Links View Block ====== --> 
+  <div *ngIf="!isEdit">
+    <div>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Social Item name</th>
+            <th scope="col">Social Item URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let socialitem of socialItems">
+            <td>{{socialitem.socialitem_name}}</td>
+            <td>{{socialitem.socialitem_url}}</td>
 
-      <tr>
-        <th>Twitter</th>
-        <td>{{socialItems.twitter}}</td>
-      </tr>
-      <tr>
-        <th>Wikipedia</th>
-        <td>{{socialItems.wikipedia}}</td>
-      </tr>
-      <tr>
-        <th>Youtube</th>
-        <td> {{socialItems.youtube}}</td>
-      </tr>
+            <td>
+              <button (click)="EditSocialLinks(socialitem)" class="btn btn-success">EDIT</button>
+            </td>
+            <td>
+              <button (click)="deleteSocialLinks(socialitem)" class="btn btn-success">DELETE</button>
+            </td>
+          </tr>
 
-      <tr>
-        <td colspan=2>
-          <button class="mt-5 btn btn-primary" colspan="2" (click)="EditSocialLinks(socialItems)">Edit</button>
-        </td>
-      </tr>
-
-    </tbody>
-  </table> -->
-
-  <div *ngIf="socialItems" class="social-links" fxLayout="column" fxLayoutGap="30px">
-    <div *ngFor="let socialitem of socialItems" class="link-item" fxLayout="row" fxLayoutGap="30px">
-      <h3>{{socialitem.socialitem_name}}</h3>
-      <p>{{socialitem.socialitem_url}}</p>
+        </tbody>
+      </table>
+      <br/>
     </div>
-    <!-- <div class="link-item" fxLayout="row" fxLayoutGap="30px">
-      <h3>Twitter</h3>
-      <p>https://www.facebook.com/krishnakanththati</p>
-      
-    </div>
-    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
-      <h3>WikiPedia</h3>
-      <p>https://www.facebook.com/krishnakanththati</p>
-      
-    </div>
-    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
-      <h3>YouTube</h3>
-      <p>https://www.facebook.com/krishnakanththati</p>
-      
-    </div> -->
-    <button mat-raised-button class="edit-button" (click)="EditSocialLinks(socialItems)">Edit</button>
   </div>
 
-</div>
