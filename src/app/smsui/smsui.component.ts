@@ -41,7 +41,7 @@ export class SmsuiComponent implements OnInit {
   smsContactFormSubmit(){
     console.log(this.smsContactForm.value);
     this.smsContactForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
-    this.httpService.create(this.smsContactForm.value, "/sendsms")
+    this.httpService.create(this.smsContactForm.value, "/flujo_client_sendsms")
       .subscribe(
       data => {
 

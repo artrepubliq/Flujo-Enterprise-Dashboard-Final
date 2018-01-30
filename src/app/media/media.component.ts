@@ -54,7 +54,10 @@ export class MediaComponent implements OnInit {
     this.isImageExist= false;
    }
    
-  ngOnInit() {   
+  ngOnInit() {  
+    setTimeout(function() {
+      this.spinnerService.hide();
+    }.bind(this), 3000); 
     this.albumObject  = <IGalleryObject>{}
     this.albumObject.images = [];
   }
@@ -79,7 +82,7 @@ export class MediaComponent implements OnInit {
     this.spinnerService.show();
     this.mediaManagementForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
     const formModel = this.mediaManagementForm.value;
-    this.http.post("http://flujo.in/dashboard/flujo.in_api_client/mediamanagement", formModel).subscribe(
+    this.http.post("http://flujo.in/dashboard/flujo.in_api_client/flujo_client_mediamanagement", formModel).subscribe(
       res => {
         console.log(res);
         this.getMediaGaleeryData();
@@ -106,7 +109,7 @@ export class MediaComponent implements OnInit {
     // this.loading = true;
     this.spinnerService.show();
     this.http
-      .get<mediaDetail>('http://flujo.in/dashboard/flujo.in_api_client/mediagallery')
+      .get<mediaDetail>('http://flujo.in/dashboard/flujo.in_api_client/flujo_client_mediagallery')
       .subscribe(
         
       // Successful responses call the first callback.
@@ -125,12 +128,13 @@ export class MediaComponent implements OnInit {
   deleteMediaImage(image_id){
     // console.log(kn);
     if (localStorage.getItem("client_id")) {
+      this.mediaManagementForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
       this.httpService.delete(localStorage.getItem("client_id"), "/flujo_client_deletemedia/")
         .subscribe(
         data => {
           if (data) {
-            this.getMediaGaleeryData();
             this.alertService.success('Social Links deleted Successfully');
+            this.getMediaGaleeryData();
           }
         },
         error => {
@@ -159,7 +163,7 @@ export class MediaComponent implements OnInit {
         data => {
           console.log(this.submitAlbumData.value);
           if (data) {
-            this.alertService.success('Social Links deleted Successfully');
+            this.alertService.success('Social Links uploaded Successfully');
           }
         },
         error => {
