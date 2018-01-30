@@ -11,7 +11,8 @@ export class ValidationService {
             'invalidEmailAddress': 'Invalid email address',
             'invalidPassword': 'Invalid password. Password must be at least 6 characters long, and contain a number.',
             'minlength': `Minimum length ${validatorValue.requiredLength}`,
-            'invalidDomain':'Please Provide Valid Url '
+            'invalidDomain':'Please Provide Valid Url ',
+            'invalidPhone':'Enter valid phone number'
         };
 
         return config[validatorName];
@@ -50,6 +51,13 @@ export class ValidationService {
             return null;
         } else {
             return { 'invalidDomain': true };
+        }
+    }
+    static phoneValidator(control) {
+        if (control.value.match(/^([0]|\+91)?[789]\d{9}$/)) {
+            return null;
+        } else {
+            return { 'invalidPhone': true };
         }
     }
 }
