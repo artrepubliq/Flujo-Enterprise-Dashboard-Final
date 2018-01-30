@@ -6,6 +6,10 @@
     margin: 0;
 }
 
+button,button:focus {
+    outline: none;
+    box-shadow: none;
+}
 
 body {
     background-color: #fafafa;

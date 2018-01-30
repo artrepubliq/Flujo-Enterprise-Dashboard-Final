@@ -1,4 +1,63 @@
-.logo-align{
-    top: 5rem;
-    text-align: center;
+.logo-align {
+  top: 5rem;
+  text-align: center;
+}
+
+.properties-viewBlock {
+  .view-block h3 {
+    width: 100px;
+    font-size: 16px;
+  }
+  button {
+    padding: 8px;
+    max-width: 130px;
+    color: #fff;
+    background: #4a2665;
+    outline: none;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.1em;
+    transition: 0.3s ease-in-out;
+  }
+  button:hover {
+    box-shadow: 4px 3px 8px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.logo-image {
+    max-width: 200px;
+}
+
+.logo-edit {
+    .form-group {
+        margin-bottom: 15px;
+        label {
+            min-width: 100px;
+        }
+        .form-control {
+            box-shadow: none;
+            outline: none;
+            width: auto;
+            display: initial;
+            margin-left: 15px;
+        }
+    }
+    control-messages {
+        display: inherit;
+        font-size: 12px;
+        color: red;
+    }
+    // button {
+    //     min-width: 130px;
+    //     padding: 8px;
+    //     border-radius: 0;
+    //     border: none;
+    //     margin-right: 15px;
+    // }
+}
+.logo-actionButtons {
+    button {
+        min-width: 130px;
+        padding: 8px;
+    }
 }

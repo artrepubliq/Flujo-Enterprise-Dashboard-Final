@@ -2,7 +2,9 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpService } from '../service/httpClient.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
+import * as _ from 'underscore';
 import { ColorPickerModule,ColorPickerDirective } from 'ngx-color-picker';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
@@ -14,17 +16,21 @@ export class PagesComponent {
     button_text: string = "save";
     decodedString: string;
     dialog: any;
-    
+    public evens;
     public pageDetails: object;
     public component_description: string = '';
     @ViewChild('fileInput') fileInput: ElementRef;
     
-    constructor(private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+    constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
         this.createForm();
         localStorage.setItem('client_id', "1232");
         this.getPageDetails();
     }
-    
+    ngOnInit() {
+        setTimeout(function() {
+            this.spinnerService.hide();
+          }.bind(this), 3000);
+      }
     createForm = () => {
         this.form = this.formBuilder.group({
             component_name: ['', Validators.required],
@@ -67,7 +73,6 @@ export class PagesComponent {
    
     onSubmit = (body) => {
         const formModel = this.form.value;
-        
         this.form.controls['client_id'].setValue(localStorage.getItem("client_id"));
         if(!body.component_id){
             this.form.controls['component_id'].setValue("null");
@@ -75,15 +80,15 @@ export class PagesComponent {
         if(!this.form.value.component_parent){
             this.form.controls['component_parent'].setValue("-1");
         }
-        this.loading = true;
-
         this.httpService.updatePost(this.form.value, "/flujo_client_component")
             .subscribe(
             data => {
                 this.parsePostResponse(data);
+                this.spinnerService.hide();
             },
             error => {
                 this.loading = false;
+                this.spinnerService.hide();
             });
     }
 
@@ -93,12 +98,13 @@ export class PagesComponent {
     }
     onDelete = (body) => {
         // const formModel = this.form.value;
-        this.loading = true;
+        
         let component_id = body.id;
         this.httpService.delete(component_id, "/flujo_client_component/")
             .subscribe(
             data => {
                 this.getPageDetails();
+                this.spinnerService.hide();
                 this.pageDetails = null;
                 console.log(data);
                 this.loading = false;
@@ -108,20 +114,24 @@ export class PagesComponent {
             });
     }
     getPageDetails = () => {
-        this.loading = true;
+        this.spinnerService.show();
         this.httpService.getById(localStorage.getItem("client_id"), "/flujo_client_component/")
+        
             .subscribe(
             data => {
-                
                 this.pageDetails = data;
-
+                console.log(this.pageDetails);
+                this.evens = _.filter(this.pageDetails, (parentData)=>{
+                    return parentData.parent_id == -1; 
+                });
                 this.setDefaultClientPageDetails(this.pageDetails);
-                console.log(data);
-                this.loading = false;
+                console.log(this.evens);
+                this.spinnerService.hide();
             },
             error => {
                 console.log(error);
                 this.loading = false;
+                this.spinnerService.hide();
             }
             )
     }
@@ -132,14 +142,13 @@ export class PagesComponent {
             // this.button_text = "Update";
             this.form.controls['component_id'].setValue(pageData.id);
             this.form.controls['component_name'].setValue(pageData.component_name);
+            this.form.controls['component_menu_name'].setValue(pageData.component_menu_name);
             this.form.controls['component_description'].setValue(pageData.component_description);
             this.form.controls['component_image'].setValue(pageData.component_image);
             this.form.controls['component_background_image'].setValue(pageData.component_background_image);
+            this.form.controls['component_background_color'].setValue(pageData.component_background_color);
             this.form.controls['component_order'].setValue(pageData.component_order);
             this.form.controls['component_parent'].setValue(pageData.component_parent);
-
-            // this.form.controls['avatar'].setValue(logoData.result.);
-
         }
 
     }
