@@ -30,7 +30,7 @@
     
         <div  fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
           <label for="phonenumber">Phone :</label>
-          <input fxFlex="75%" type="tel" class="form-control" formControlName="phone"  id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Phone Number" required>
+          <input fxFlex="75%" type="tel" class="form-control" maxlength="10" formControlName="phone"  id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Phone Number" required>
           <div [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted" class="alert alert-danger">
               Valid Phone number is required
           </div>

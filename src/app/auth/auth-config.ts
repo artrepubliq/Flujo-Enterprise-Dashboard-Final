@@ -11,7 +11,7 @@ interface AuthConfig {
     CLIENT_DOMAIN: 'flujosass.auth0.com', // e.g., you.auth0.com
     // AUDIENCE: 'http://localhost:3001',
     AUDIENCE: '',
-    // REDIRECT: 'http://localhost:4200/callback',
-    REDIRECT: 'http://flujo.in/callback',
+    REDIRECT: 'http://localhost:4200/callback',
+    // REDIRECT: 'http://flujo.in/callback',
     SCOPE: 'openid profile email'
   };

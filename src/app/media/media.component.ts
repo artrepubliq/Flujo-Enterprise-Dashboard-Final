@@ -54,12 +54,10 @@ export class MediaComponent implements OnInit {
     this.isImageExist= false;
     this.ishide=true;
    }
-   
-
+       
    
   ngOnInit() {   
-    
-    setTimeout(function() {
+      setTimeout(function() {
       this.spinnerService.hide();
     }.bind(this), 3000); 
 
