@@ -35,13 +35,12 @@ export class ProfileComponent {
             this.spinnerService.hide();
           }.bind(this), 3000);
   }
-
+  PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
   createForm = ()=> {
     this.form = this.formBuilder.group({
       company_name: ['', Validators.required],
       website_url: ['', Validators.required],
-      mobile_number: ['', Validators.required],
-     
+      mobile_number: ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       client_id: localStorage.getItem("client_id"),
       avatar: null
     });

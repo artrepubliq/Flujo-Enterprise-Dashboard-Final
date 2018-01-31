@@ -18,17 +18,17 @@
             </div>
             <div class="form-group" fxLayout="row">
               <label for="logo_height">Logo height</label>
-              <input fxFlex type="text" class="form-control" id="logo_height" placeholder="Logo height" formControlName="logo_height">
+              <input fxFlex type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_height" placeholder="Logo height" formControlName="logo_height">
             </div>
             <div class="form-group" fxLayout="row">
               <label for="logo_width">Logo width</label>
-              <input fxFlex type="text" class="form-control" id="logo_width" placeholder="Logo width" formControlName="logo_width">
+              <input fxFlex type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width" placeholder="Logo width" formControlName="logo_width">
             </div>
           </div>
           <div>
-            <div *ngIf="logoItems.logo_url_path" class="logo-image">
+            <div *ngIf="logoItems?.logo_url_path" class="logo-image">
               <label for="avatar">Existing Logo</label>
-              <img *ngIf="logoItems.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
+              <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
               <br>
             </div>
             <br>
@@ -44,7 +44,7 @@
         <button type="submit" mat-raised-button color="accent" [disabled]="form.invalid || loadingSave">{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loadingSave"></i>
         </button>
-        <button mat-raised-button (click)="onDelete(form.value)" color="warn" [disabled]="form.invalid || loadingDelete">Delete
+        <button *ngIf="isHideDeletebtn" mat-raised-button (click)="onDelete(form.value)" color="warn"  [disabled]="form.invalid || loadingDelete">Delete
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loadingDelete"></i>
         </button>
       </div>
@@ -75,8 +75,8 @@
     <!-- ==== Logo View Logo ===== -->
     <div *ngIf="!isEdit" fxFlex class="logo-align">
       <div *ngIf="logoItems" class="logo-image">
-        <span *ngIf="!logoItems.logo_url_path">no image</span>
-        <img *ngIf="logoItems.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}"> </div>
+        <span *ngIf="!logoItems?.logo_url_path">no image</span>
+        <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}"> </div>
       <!-- <button mat-button colspan="2" (click)="editLogo()">Edit Logo</button> -->
       <!-- <button class="mt-5 btn btn-primary" colspan="2" (click)="editLogo()">Edit Logo</button> -->
       <br>
