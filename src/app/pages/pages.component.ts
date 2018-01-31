@@ -73,7 +73,6 @@ export class PagesComponent {
    
     onSubmit = (body) => {
         const formModel = this.form.value;
-        
         this.form.controls['client_id'].setValue(localStorage.getItem("client_id"));
         if(!body.component_id){
             this.form.controls['component_id'].setValue("null");
@@ -81,15 +80,15 @@ export class PagesComponent {
         if(!this.form.value.component_parent){
             this.form.controls['component_parent'].setValue("-1");
         }
-        
-
         this.httpService.updatePost(this.form.value, "/flujo_client_component")
             .subscribe(
             data => {
                 this.parsePostResponse(data);
+                this.spinnerService.hide();
             },
             error => {
                 this.loading = false;
+                this.spinnerService.hide();
             });
     }
 
@@ -105,6 +104,7 @@ export class PagesComponent {
             .subscribe(
             data => {
                 this.getPageDetails();
+                this.spinnerService.hide();
                 this.pageDetails = null;
                 console.log(data);
                 this.loading = false;
