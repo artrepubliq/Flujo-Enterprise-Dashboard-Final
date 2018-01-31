@@ -98,7 +98,6 @@ export class SocialLinksComponent {
     this.setSocialFormToDefault();
   }
   //sociallinks delete from db
-
   deleteSocialLinks(socialItem) {
     this.spinnerService.show();
     

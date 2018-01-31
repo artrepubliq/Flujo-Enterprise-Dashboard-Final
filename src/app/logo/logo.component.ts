@@ -4,6 +4,7 @@ import { HttpService } from '../service/httpClient.service';
 import { ILogo } from '../model/logo.model';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { Tree } from '@angular/router/src/utils/tree';
 @Component({
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.scss']
@@ -15,8 +16,10 @@ export class LogoComponent {
   button_text: string = "save";
   decodedString: string;
   logoItems: ILogo;
-  isEdit: boolean;
+  isEdit: boolean = true;
+  isHideDeletebtn:boolean=false;
   resultExist: boolean;
+
   @ViewChild('fileInput') fileInput: ElementRef;
 
   constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
@@ -63,9 +66,10 @@ export class LogoComponent {
     this.httpService.updatePost(formModel,"/flujo_client_logo")
     .subscribe(
         data => {
-          this.alertService.success('request Successfully submitted.');
+          this.alertService.success('Logo details submotted successfully.');
            this.loadingSave = false;
            this.getLogoDetails();
+           this.spinnerService.hide();
         },
         error => {
           this.loadingSave = false;
@@ -83,9 +87,10 @@ export class LogoComponent {
     this.httpService.delete(localStorage.getItem("client_id"),"/flujo_client_logo/")
     .subscribe(
         data => {
-          this.alertService.success('logo items deleted Successfully');
+          this.alertService.success('logo items deleted Successfully');        
           this.getLogoDetails();
           this.loadingDelete = false;
+          this.form.reset();
         },
         error => {
           this.loadingDelete = false;
@@ -96,12 +101,16 @@ export class LogoComponent {
     this.httpService.getById(localStorage.getItem("client_id"),"/flujo_client_logo/")
         .subscribe(
           data =>{
-            
             console.log(data);
+            data? this.isEdit =false : this.isEdit = true;
+            if(data != null){
             this.setDefaultClientLogoDetails(data);
+            // this.isHide=true;
+            } else{
+              // this.alertService.success('No Data found');        
+            }
             this.loadingSave = false;
-            this.isEdit = false;
-            
+            // this.isEdit = false;
           },
           error =>{
             console.log(error);
@@ -121,6 +130,7 @@ export class LogoComponent {
     this.resultExist = logoData;
 
     if(logoData){
+      this.isHideDeletebtn = true;
       this.button_text = "Update";
       this.decodedString = logoData.logo_url_path;
       this.logoItems = logoData;

@@ -26,17 +26,6 @@ export class EmailserviceComponent implements OnInit {
       'check':[''],
       'client_id': null
     });
-
-    // this.socialLinksForm = this.formBuilder.group({
-    //  'email_text_two': ['', [Validators.required, ValidationService.emailValidator]],      
-    //   'facebook': ['', [Validators.required, ValidationService.domainValidator]],
-    //   'twitter': ['', [Validators.required, ValidationService.domainValidator]],
-    //   'wikipedia': ['', [Validators.required, ValidationService.domainValidator]],
-    //   'youtube': ['', [Validators.required, ValidationService.domainValidator]],
-    //   'client_id': null
-    // });
-
-    // console.log(this.socialLinksForm); 
    }
 
   ngOnInit() {
