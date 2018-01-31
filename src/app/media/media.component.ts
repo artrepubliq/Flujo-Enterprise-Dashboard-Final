@@ -15,7 +15,6 @@ import { IGalleryImages } from '../model/gallery.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 import * as _ from 'underscore';
-
 @Component({
   selector: 'app-media',
   templateUrl: './media.component.html',
@@ -56,12 +55,10 @@ export class MediaComponent implements OnInit {
     this.isImageExist= false;
     this.ishide=true;
    }
-    ngOnInit() {   
-      
+    ngOnInit() { 
       setTimeout(function() {
         this.spinnerService.hide();
-      }.bind(this), 3000); 
-
+      }.bind(this), 3000);
     this.albumObject  = <IGalleryObject>{}
     this.albumObject.images = [];
     
@@ -150,16 +147,20 @@ export class MediaComponent implements OnInit {
       console.log(this.albumObject);
     }
   } 
+
   submitAlbumDataPost(body:any){
     this.submitAlbumData.controls['image_ids'].setValue(this.albumObject);
     this.submitAlbumData.controls['client_id'].setValue(localStorage.getItem("client_id"));
-    const formModel = this.submitAlbumData.value;   
+    const formModel = this.submitAlbumData.value;
+    console.log(formModel);
     this.httpService.create(formModel, "/flujo_client_postgalleryimages")
     .subscribe(
         data => {
           console.log(this.submitAlbumData.value);
           if (data) {
+
             this.alertService.success('Social Links uploaded Successfully');
+            this.alertService.success('Album created successfully.');
             this.alertService.success('Album created successfully.');
           }
         },
