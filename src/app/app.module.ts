@@ -43,7 +43,14 @@ import { ColorPickerModule } from 'ngx-color-picker';
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
-
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { Http, RequestOptions } from '@angular/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './auth/token.interceptor';
+import { AuthInterceptorService } from './auth/auth.interceptorservice';
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig(), http, options);
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,7 +96,22 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     Ng4LoadingSpinnerModule.forRoot(),
     NgxSmartLoaderModule.forRoot()
   ],
-  providers: [AuthService, HttpService,ValidationService,NgxSmartLoaderService],
+  providers: [AuthService,
+              HttpService,
+              ValidationService,
+              NgxSmartLoaderService,
+              // AuthInterceptorService,
+              // {
+              // provide: AuthHttp,
+              // useFactory: authHttpServiceFactory,
+              // deps: [Http, RequestOptions]
+              // },
+              // {
+              //   provide: HTTP_INTERCEPTORS,
+              //   useClass: TokenInterceptor,
+              //   multi: true
+              // }
+            ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
