@@ -58,15 +58,12 @@ export class MediaComponent implements OnInit {
     this.showHide = false;
     this.isImageExist= false;
    }
-   
+       
 
-  ngOnInit() {  
+  ngOnInit() {   
     setTimeout(function() {
       this.spinnerService.hide();
     }.bind(this), 3000); 
-
-  ngOnInit() {   
-    
 
     this.albumObject  = <IGalleryObject>{}
     this.albumObject.images = [];

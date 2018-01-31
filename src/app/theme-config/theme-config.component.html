@@ -17,8 +17,8 @@
                 </select>
             </div>
             <div fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
-              <label fxLayoutAlign="start center" for="titlecolor">Title Color :</label>
-              <input  fxFlexalign="end" [value]="titlecolor" [(colorPicker)]="titlecolor" [style.background]="titlecolor" class="form-control" id="titlecolor"/>
+              <label fxFlex="50%" fxLayoutAlign="start center" for="titlecolor">Title Color :</label>
+              <input  fxFlex="50%" fxFlexalign="end" [value]="titlecolor" [cpPosition]="'right'"   [cpPositionRelativeToArrow]="false" [(colorPicker)]="titlecolor" [style.background]="titlecolor" class="form-control" id="titlecolor"/>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
                 <label for="titlefont">Title Font :</label>
@@ -32,20 +32,20 @@
                   </select>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
-                <label for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
-                <input fxFlexalign="end" [value]="PrimaryMenuTitleColor" [(colorPicker)]="PrimaryMenuTitleColor" [style.background]="PrimaryMenuTitleColor" class="form-control" id="PrimaryMenuTitleColor"/>
+                <label fxFlex="50%" for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
+                <input fxFlex="50%" fxFlexalign="end" [value]="PrimaryMenuTitleColor" [cpPosition]="'right'"   [cpPositionRelativeToArrow]="false" [(colorPicker)]="PrimaryMenuTitleColor" [style.background]="PrimaryMenuTitleColor" class="form-control" id="PrimaryMenuTitleColor"/>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
-                <label for="ChildMenuTitleColor">Child Menu Title Color :</label>
-                <input fxFlexalign="end" [value]="ChildMenuTitleColor" [(colorPicker)]="ChildMenuTitleColor" [style.background]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor"/>
+                <label fxFlex="50%" for="ChildMenuTitleColor">Child Menu Title Color :</label>
+                <input fxFlex="50%" fxFlexalign="end" [value]="ChildMenuTitleColor" [cpPosition]="'right'"  [cpPositionRelativeToArrow]="false" [(colorPicker)]="ChildMenuTitleColor" [style.background]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor"/>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
-                <label for="PrimaryMenuOverColor">Primary Menu Over Color :</label>
-                <input fxFlexalign="end" [value]="PrimaryMenuOverColor" [(colorPicker)]="PrimaryMenuOverColor" [style.background]="PrimaryMenuOverColor" class="form-control" id="PrimaryMenuOverColor"/>
+                <label fxFlex="50%" for="PrimaryMenuOverColor">Primary Menu Over Color :</label>
+                <input fxFlex="50%" fxFlexalign="end" [value]="PrimaryMenuOverColor" [cpPosition]="'right'"  [cpPositionRelativeToArrow]="false" [(colorPicker)]="PrimaryMenuOverColor" [style.background]="PrimaryMenuOverColor" class="form-control" id="PrimaryMenuOverColor"/>
             </div>
-            <div fxLayout="row" fxLayoutAlign="space-between " class="form-group">
-                <label for="ChildMenuOverColor">Child Menu Over Color :</label>
-                <input fxFlexalign="end" [value]="ChildMenuOverColor" [(colorPicker)]="ChildMenuOverColor" [style.background]="ChildMenuOverColor" class="form-control" id="ChildMenuOverColor"/>
+            <div fxLayout="row" fxLayoutAlign="space-between" class="form-group">
+                <label fxFlex="50%" for="ChildMenuOverColor">Child Menu Over Color :</label>
+                <input fxFlex="50%" fxFlexalign="end" [cpPosition]="'right'"  [cpPositionRelativeToArrow]="false" [value]="ChildMenuOverColor" [(colorPicker)]="ChildMenuOverColor" [style.background]="ChildMenuOverColor" class="form-control" id="ChildMenuOverColor"/>
             </div>
             <div>
                 <button type="submit" class="btn btn-success">Save</button>

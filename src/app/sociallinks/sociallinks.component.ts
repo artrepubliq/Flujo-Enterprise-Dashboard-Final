@@ -8,7 +8,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 import { ISocialLinks } from "../model/sociallinks.model";
 import { HttpClient } from "@angular/common/http";
-import * as _ from 'underscore'
+import * as _ from 'underscore';
 
 
 @Component({
@@ -22,9 +22,8 @@ export class SocialLinksComponent {
   form_btntext: string = "save";
   public isEdit: boolean = false;
 
-  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private httpService: HttpService, private alertService: AlertService) {
 
-  constructor(private formBuilder: FormBuilder, private httpClient: HttpClient, private httpService: HttpService, private alertService: AlertService) {
 
     this.socialLinksForm = this.formBuilder.group({
       'socialitem_name': ['', [Validators.required]],
@@ -60,7 +59,7 @@ export class SocialLinksComponent {
           this.getSocialLinksData();
           this.alertService.success('Social Links  Updated Successfully');
           this.spinnerService.hide();
-        }else{
+        }else if(data){ 
         this.alertService.success('No modifications found');
 
           this.alertService.success('Social Links  Updated Successfully');
@@ -130,7 +129,7 @@ viewSocialLinks(){
 
   socialLinksFormDelete(body: any) {
     this.spinnerService.show();
-
+  }
   deleteSocialLinks(socialItem) {
 
     if (localStorage.getItem("client_id")) {
@@ -148,17 +147,6 @@ viewSocialLinks(){
           console.log(error);
           this.spinnerService.hide();
         })
-
-          data => {
-            if (data) {
-              this.alertService.success('Social Links deleted Successfully');
-              this.getSocialLinksData();
-            }
-          },
-          error => {
-            this.alertService.danger("Social item is not deleted.");
-          }
-        );
      
 
     }
