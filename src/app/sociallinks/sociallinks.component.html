@@ -20,17 +20,17 @@
         <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid">{{form_btntext}}</button>
       
         <div class="" ng-show="successMessagebool ">
-          <ngx-alerts maxMessages="3" timeout="5000">
-            <strong>{{successMessage }}</strong>
-            <strong>{{deleteMessage}}</strong>
-          </ngx-alerts>
+         
         </div>
       </div>
     </div>
   </form>
   
 </div>
-
+<ngx-alerts maxMessages="3" timeout="3000">
+    <strong>{{successMessage }}</strong>
+    <strong>{{deleteMessage}}</strong>
+  </ngx-alerts>
 <!-- ========= Social Links View Block ====== --> 
   <div *ngIf="!isEdit">
     <div>
@@ -39,6 +39,9 @@
           <tr>
             <th scope="col">Social Item name</th>
             <th scope="col">Social Item URL</th>
+            <th colspan="2" scope="col">
+                <button (click)="addNewItem()" class="btn btn-success">Add New Item</button>
+            </th>
           </tr>
         </thead>
         <tbody>

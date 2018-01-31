@@ -1,9 +1,9 @@
 export interface IGalleryObject{
     id:number;
     title: string;
-    images: IGalleryImages[];
+    images: IGalleryImageItem[];
   }
-  export interface IGalleryImages{
+  export interface IGalleryImageItem{
     id: string;
     description?:string;
     title?:string;
