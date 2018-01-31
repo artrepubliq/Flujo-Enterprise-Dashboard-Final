@@ -75,6 +75,8 @@ export class AuthService {
     
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
       this._setSession(authResult, profile);
+
+      console.log(authResult);
     });
   }
 
@@ -82,6 +84,7 @@ export class AuthService {
     const expTime = authResult.expiresIn * 1000 + Date.now();
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
+    console.log(localStorage.getItem("token"));
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('profile', JSON.stringify(profile));
     localStorage.setItem('nickname', JSON.stringify(profile.nickname));

@@ -10,6 +10,5 @@ export class AppComponent {
   title = 'flujo dasboard';
 
   constructor(public authService: AuthService) {
-    localStorage.setItem("client_id", "1232");
   }
 }

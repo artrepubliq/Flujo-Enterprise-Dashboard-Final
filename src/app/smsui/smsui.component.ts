@@ -13,7 +13,7 @@ import { IGalleryObject } from '../model/gallery.model';
 import { IGalleryImages } from '../model/gallery.model';
 import { ValidationService } from '../service/validation.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-
+import { AppConstants } from '../app.constants';
 @Component({
   selector: 'app-smsui',
   templateUrl: './smsui.component.html',
@@ -22,7 +22,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 export class SmsuiComponent implements OnInit {
   template: string =`<img src="../assets/icons/loader.gif" />`
   smsContactForm:any;
-  constructor(private spinnerService: Ng4LoadingSpinnerService,private http: HttpClient,private httpService: HttpService, private formBuilder: FormBuilder, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService,private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
     this.smsContactForm = this.formBuilder.group({
       'phone': ['', [Validators.required, ValidationService.phoneValidator]],
       'message': ['', [Validators.required, Validators.minLength(10)]],
@@ -39,13 +39,15 @@ export class SmsuiComponent implements OnInit {
   }
 
   smsContactFormSubmit(){
+    this.spinnerService.show();
     console.log(this.smsContactForm.value);
-    this.smsContactForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
-    this.httpService.create(this.smsContactForm.value, "/flujo_client_sendsms")
+    this.smsContactForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    this.httpClient.post(AppConstants.API_URL+"flujo_client_sendsms",this.smsContactForm.value)
       .subscribe(
       data => {
-
+          this.spinnerService.hide();
         if (data) {
+
           this.alertService.success('Message has been sent successfully');
           this.smsContactForm.reset();
         }else{
@@ -54,6 +56,7 @@ export class SmsuiComponent implements OnInit {
         }
       },
       error => {
+        this.spinnerService.hide();
         console.log(error);
       })
   }
