@@ -11,7 +11,10 @@ import { MatButtonModule } from '@angular/material';
 import { HttpService } from '../service/httpClient.service';
 import { IGalleryObject } from '../model/gallery.model';
 import { IGalleryImages } from '../model/gallery.model';
+
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-media',
@@ -35,9 +38,7 @@ export class MediaComponent implements OnInit {
   albumObject: IGalleryObject;
   albumImages: Array<IGalleryImages>;
   albumImage:IGalleryImages;
-  
   isImageExist:boolean;
-  // public albumData: {id: any, name: string,desc: string}
   // template: string =`<img src="http://pa1.narvii.com/5722/2c617cd9674417d272084884b61e4bb7dd5f0b15_hq.gif" />`
   constructor(private spinnerService: Ng4LoadingSpinnerService, private http: HttpClient,private httpService: HttpService, private formBuilder: FormBuilder, private alertService: AlertService) {
     
@@ -47,7 +48,7 @@ export class MediaComponent implements OnInit {
       });
       this.submitAlbumData = this.formBuilder.group({
         title : ['',],
-        id:[null],
+        image_ids:[null],
         client_id:[null]
       });
     this.getMediaGalleryData();
@@ -55,11 +56,12 @@ export class MediaComponent implements OnInit {
     this.isImageExist= false;
     this.ishide=true;
    }
-   
-  ngOnInit() {  
-    setTimeout(function() {
-      this.spinnerService.hide();
-    }.bind(this), 3000); 
+    ngOnInit() {   
+      
+      setTimeout(function() {
+        this.spinnerService.hide();
+      }.bind(this), 3000); 
+
     this.albumObject  = <IGalleryObject>{}
     this.albumObject.images = [];
     
@@ -94,15 +96,11 @@ export class MediaComponent implements OnInit {
         this.successMessage = "Images uploaded successfully";
         this.successMessagebool = true;
         this.alertService.success('Images uploaded successfully');
-        // this.loading = false;
         this.spinnerService.hide();
         this.mediaManagementForm=null;
-        
       },
       (err: HttpErrorResponse) => {
-        // this.loading = false;
         this.spinnerService.hide();
-        // this.errMsg = err.message;
         console.log(err.error);
         console.log(err.name);
         console.log(err.message);
@@ -115,8 +113,6 @@ export class MediaComponent implements OnInit {
     this.http
       .get<mediaDetail>('http://flujo.in/dashboard/flujo.in_api_client/flujo_client_mediagallery')
       .subscribe(
-        
-      // Successful responses call the first callback.
       data => {
         this.mediaData=data;
         this.spinnerService.hide();
@@ -129,7 +125,6 @@ export class MediaComponent implements OnInit {
       );
   }
   deleteMediaImage(image_id){
-    // console.log(kn);
     if (localStorage.getItem("client_id")) {
       this.httpService.delete(localStorage.getItem("client_id"), "/flujo_client_deletemedia/")
         .subscribe(
@@ -145,30 +140,31 @@ export class MediaComponent implements OnInit {
     }
   }
   getImageId(item_id){
-    
-    
-    for(var i=0; i < this.albumObject.images.length; i++){
-    this.albumImage = {id:item_id.id, description: item_id.id};
-    this.albumObject.images.push(this.albumImage);
-
-     console.log(this.albumObject);
-
-    // this.submitAlbumData.get('id').setValue(this.albumImage = {id:item_id.id})
-    
-  }
-}
+    var item_index =_.indexOf(this.albumObject.images, item_id.id);
+    console.log(item_index);
+    if(item_index != -1){
+      this.albumObject.images.splice(item_index, 1);
+      console.log(this.albumObject);
+    }else{
+      this.albumObject.images.push(item_id.id);
+      console.log(this.albumObject);
+    }
+  } 
   submitAlbumDataPost(body:any){
-    const formModel = this.submitAlbumData.value;
+    this.submitAlbumData.controls['image_ids'].setValue(this.albumObject);
     this.submitAlbumData.controls['client_id'].setValue(localStorage.getItem("client_id"));
+    const formModel = this.submitAlbumData.value;   
     this.httpService.create(formModel, "/flujo_client_postgalleryimages")
     .subscribe(
         data => {
           console.log(this.submitAlbumData.value);
           if (data) {
             this.alertService.success('Social Links uploaded Successfully');
+            this.alertService.success('Album created successfully.');
           }
         },
         error => {
+          this.alertService.danger("Something went wrong.please try again.");
           console.log(error);
         })
   }
