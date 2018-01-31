@@ -23,6 +23,7 @@ export class MediaComponent implements OnInit {
   hightlightStatus: Array<boolean> = [];
   public successMessage;
   public loading = false;
+  public ishide:boolean;
   public successMessagebool;
   public deleteMessage;
   public deleteMessagebool;
@@ -34,8 +35,8 @@ export class MediaComponent implements OnInit {
   albumImages: Array<IGalleryImageItem>;
   albumImage:IGalleryImageItem;
   
+
   isImageExist:boolean;
-  // public albumData: {id: any, name: string,desc: string}
   // template: string =`<img src="http://pa1.narvii.com/5722/2c617cd9674417d272084884b61e4bb7dd5f0b15_hq.gif" />`
   constructor(private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
     
@@ -48,9 +49,10 @@ export class MediaComponent implements OnInit {
         image_ids:[null],
         client_id:[null]
       });
-    this.getMediaGaleeryData();
+    this.getMediaGalleryData();
     this.showHide = false;
     this.isImageExist= false;
+    this.ishide=true;
    }
    
 
@@ -63,10 +65,12 @@ export class MediaComponent implements OnInit {
 
     this.albumObject  = <IGalleryObject>{}
     this.albumObject.images = [];
+    
   }
   selectMedia(event) {
     let imageDetail = [];
     if (event.target.files && event.target.files.length > 0) {
+      this.ishide=false;
       for(var i=0; i < event.target.files.length; i++){
       let reader = new FileReader();
       let file = event.target.files[i];
@@ -76,10 +80,10 @@ export class MediaComponent implements OnInit {
       };
     }this.mediaManagementForm.get('image').setValue(imageDetail);
   }
+  
   }
   
   mediaManagementFormSubmit(body:any){
-    // this.loading = true;
     this.spinnerService.show();
     this.mediaManagementForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.mediaManagementForm.value;
@@ -96,9 +100,7 @@ export class MediaComponent implements OnInit {
 
       },
       (err: HttpErrorResponse) => {
-        // this.loading = false;
         this.spinnerService.hide();
-        // this.errMsg = err.message;
         console.log(err.error);
         console.log(err.name);
         console.log(err.message);
@@ -106,18 +108,13 @@ export class MediaComponent implements OnInit {
       }
     );
   }
-  //
-  getMediaGaleeryData(){
-    // this.loading = true;
+  getMediaGalleryData(){
     this.spinnerService.show();
     this.httpClient
       .get<mediaDetail>(AppConstants.API_URL+'flujo_client_mediagallery')
       .subscribe(
-        
-      // Successful responses call the first callback.
       data => {
         this.mediaData=data;
-        // this.loading = false;
         this.spinnerService.hide();
         console.log(this.mediaData);
       },
@@ -143,6 +140,7 @@ export class MediaComponent implements OnInit {
         this.spinnerService.hide();
         console.log(error);
       });
+
   }
   getImageId(item_id){
     var item_index =_.indexOf(this.albumObject.images, item_id.id);
@@ -158,8 +156,8 @@ export class MediaComponent implements OnInit {
       this.albumObject.images.push(this.albumImage);
       console.log(this.albumObject);
     }
-  }
-// 
+  } 
+
   submitAlbumDataPost(body:any){
     this.spinnerService.show();
     this.submitAlbumData.controls['image_ids'].setValue(this.albumObject);
@@ -174,6 +172,7 @@ export class MediaComponent implements OnInit {
           this.hightlightStatus = [false];
           this.alertService.success('Album created successfully.');
         }else{
+
           this.alertService.danger("Something went wrong.please try again.");
         }
       },
