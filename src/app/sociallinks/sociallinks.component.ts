@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { HttpService } from '../service/httpClient.service';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
 
@@ -9,7 +8,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { ISocialLinks } from "../model/sociallinks.model";
 import { HttpClient } from "@angular/common/http";
 import * as _ from 'underscore'
-
+import { AppConstants } from '../app.constants';
 
 @Component({
   templateUrl: './sociallinks.component.html',
@@ -22,9 +21,7 @@ export class SocialLinksComponent {
   form_btntext: string = "save";
   public isEdit: boolean = false;
 
-  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
-
-  constructor(private formBuilder: FormBuilder, private httpClient: HttpClient, private httpService: HttpService, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
 
     this.socialLinksForm = this.formBuilder.group({
       'socialitem_name': ['', [Validators.required]],
@@ -35,135 +32,92 @@ export class SocialLinksComponent {
     this.getSocialLinksData();
   }
   ngOnInit() {
-    setTimeout(function() {
-        this.spinnerService.hide();
-      }.bind(this), 3000);
+    setTimeout(function () {
+      this.spinnerService.hide();
+    }.bind(this), 3000);
   }
   socialLinksFormSubmit(body: any) {
-
     this.spinnerService.show();
-    console.log(this.socialLinksForm.value);
-    this.socialLinksForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
-
-    if(this.form_btntext == "Update"){
+    if (this.form_btntext == "Update") {
       this.socialLinksForm.controls['socialitem_id'].setValue(localStorage.getItem("socilaitem_id"));
+    } else {
+      this.socialLinksForm.controls['socialitem_id'].setValue("null");
     }
-    
-
-    this.httpService.create(this.socialLinksForm.value, "/flujo_client_sociallinks")
+    this.httpClient.post(AppConstants.API_URL+"/flujo_client_sociallinks", this.socialLinksForm.value)
       .subscribe(
-      data => {
-
-        if (data) {
-
-          // this.socialLinksForm.reset();
-          this.getSocialLinksData();
-          this.alertService.success('Social Links  Updated Successfully');
+        res => {
+          if (res) {
+            this.spinnerService.hide();
+            this.getSocialLinksData();
+            this.alertService.success('Social Links  Updated Successfully');
+          } else {
+            this.spinnerService.hide();
+            this.alertService.danger('No modifications found');
+          }
+        },
+        err => {
           this.spinnerService.hide();
-        }else{
-        this.alertService.success('No modifications found');
-
-          this.alertService.success('Social Links  Updated Successfully');
-          this.getSocialLinksData();
-        } else {
-          this.alertService.success('No modifications found');
-
+          this.alertService.danger('Something went wrong.');
         }
-      },
-      error => {
-        console.log(error);
-        this.spinnerService.hide();
-      })
+      );
   }
 
   //get sociallinks data from db
   getSocialLinksData() {
 
     this.spinnerService.show();
-    if (localStorage.getItem("client_id")) {
-      this.httpService.getById(localStorage.getItem("client_id"), "/flujo_client_sociallinks/")
-        .subscribe(
-        data => {
-          if (data) {
-            this.isEdit = false;
-            this.socialItems = data;
-            this.spinnerService.hide();
-          }else{
-            this.isEdit = true;
-          }
-          
-        },
-        error => {
-          console.log(error);
-          this.spinnerService.hide();
-        })
-    }
-
     this.isEdit = false;
     this.httpClient
-      .get<ISocialLinks>('http://flujo.in/dashboard/flujo.in_api_client/flujo_client_sociallinks/1232')
+      .get<ISocialLinks>(AppConstants.API_URL+'flujo_client_sociallinks/'+AppConstants.CLIENT_ID)
       .subscribe(
-      // Successful responses call the first callback.
       data => {
+        this.spinnerService.hide();
         this.socialItems = data;
-        if (this.socialItems.id) {
+        if (this.socialItems[0].id) {
           this.isEdit = false;
-          
+
         } else {
           this.isEdit = true;
         }
-
-
       },
 
       err => {
+        this.spinnerService.hide();
         console.log(err);
       }
       );
 
   }
-//function to view the social items
-viewSocialLinks(){
-  this.isEdit = false;
-}
+  //function to view the social items
+  viewSocialLinks() {
+    this.isEdit = false;
+  }
+  //add new item
+  addNewItem(){
+    this.isEdit = true;
+    this.setSocialFormToDefault();
+  }
   //sociallinks delete from db
 
-  socialLinksFormDelete(body: any) {
-    this.spinnerService.show();
-
   deleteSocialLinks(socialItem) {
-
-    if (localStorage.getItem("client_id")) {
-      this.httpClient.delete("http://flujo.in/dashboard/flujo.in_api_client/flujo_client_sociallinks/"+socialItem.id)
+    this.spinnerService.show();
+    
+      this.httpClient.delete(AppConstants.API_URL+"flujo_client_sociallinks/" + socialItem.id)
         .subscribe(
-
-        data => {
+          data => {
           if (data) {
-            this.setSocialFormToDefault();
+            this.getSocialLinksData();
             this.alertService.success('Social Links deleted Successfully');
             this.spinnerService.hide();
           }
         },
         error => {
           console.log(error);
+          this.alertService.danger("Social item is not deleted.");
           this.spinnerService.hide();
         })
-
-          data => {
-            if (data) {
-              this.alertService.success('Social Links deleted Successfully');
-              this.getSocialLinksData();
-            }
-          },
-          error => {
-            this.alertService.danger("Social item is not deleted.");
-          }
-        );
-     
-
-    }
+    
   }
-
   setDataToForm(formdata) {
     this.socialLinksForm.controls['socialitem_name'].setValue(formdata.socialitem_name);
     this.socialLinksForm.controls['socilaitem_url'].setValue(formdata.socialitem_url);
@@ -173,18 +127,14 @@ viewSocialLinks(){
     this.form_btntext = "save";
     this.socialLinksForm.controls['socialitem_name'].setValue("");
     this.socialLinksForm.controls['socilaitem_url'].setValue("");
-    // this.socialLinksForm.controls['wikipedia'].setValue("");
-    // this.socialLinksForm.controls['youtube'].setValue("");
-    this.socialLinksForm.controls['client_id'].setValue("");
+    this.socialLinksForm.controls['socialitem_id'].setValue("");
 
   }
   EditSocialLinks(socialData) {
     this.isEdit = true;
-    localStorage.setItem("socilaitem_id",socialData.id);
+    localStorage.setItem("socilaitem_id", socialData.id);
     console.log(localStorage.getItem("socilaitem_id"));
     this.form_btntext = socialData.id ? "Update" : "Save";
     this.setDataToForm(socialData);
   }
-
-  
 }

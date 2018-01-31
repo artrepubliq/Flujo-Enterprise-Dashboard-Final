@@ -16,14 +16,11 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 import * as _ from 'underscore';
 
-
-
 @Component({
   selector: 'app-media',
   templateUrl: './media.component.html',
   styleUrls: ['./media.component.scss']
 })
-
 
 export class MediaComponent implements OnInit {
   hightlightStatus: Array<boolean> = [];
@@ -60,13 +57,12 @@ export class MediaComponent implements OnInit {
    }
    
 
-  ngOnInit() {  
+   
+  ngOnInit() {   
+    
     setTimeout(function() {
       this.spinnerService.hide();
     }.bind(this), 3000); 
-
-  ngOnInit() {   
-    
 
     this.albumObject  = <IGalleryObject>{}
     this.albumObject.images = [];

@@ -4,7 +4,7 @@
       <a class="navbar-brand" routerLink="/"></a>
     </div>
     <ul class="nav navbar-nav">
-      <li>
+      <li>{{authService.authenticated}}
         <a routerLink="/login" *ngIf="!authService.authenticated" routerLinkActive="active">LOGIN PAGE</a>
       </li>
     </ul>
