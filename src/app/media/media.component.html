@@ -4,7 +4,7 @@
         <div class="col-md-12 form-group">
             <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->
             <image-upload id="image" (change)="selectMedia($event)" #fileInput></image-upload>
-            <button class="btn btn-info upload" type="submit" (click)="mediaManagementFormSubmit(mediaManagementForm.value)">Upload</button>
+            <button class="btn btn-info upload" [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit(mediaManagementForm.value)">Upload</button>
         </div>
     </form>
     <form [formGroup]="submitAlbumData" enctype="multipart/form-data">
