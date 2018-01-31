@@ -1,10 +1,11 @@
 
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import { HttpService } from '../service/httpClient.service';
+import { HttpClient } from '@angular/common/http';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
-
+import { AppConstants } from '../app.constants';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Component({
   templateUrl: './smtpconfiguration.component.html',
   styleUrls: ['./smtpconfiguration.component.scss']
@@ -14,7 +15,7 @@ export class SMTPConfigurationComponent {
   btn_text: string = "save";
   smtpItems: any;
   public isEdit: boolean = false;
-  constructor(private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService  , private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
     this.smtpUpdationForm = this.formBuilder.group({
       'host_name': ['', Validators.required],
       'from_name': ['', Validators.required],
@@ -27,53 +28,78 @@ export class SMTPConfigurationComponent {
    }
 //smtp post data to server
   SmtpPost(body:any ) {
-    this.smtpUpdationForm.controls["client_id"].setValue(localStorage.getItem("client_id"));
-    
-    this.httpService.create(this.smtpUpdationForm.value, "/flujo_client_smtpconfiguration")
+    this.smtpUpdationForm.controls["client_id"].setValue(AppConstants.CLIENT_ID);
+    this.httpClient.post(AppConstants.API_URL+"/flujo_client_sociallinks", this.smtpUpdationForm.value)
     .subscribe(
-      data => {
-        if(data){
+      res => {
+        if (res) {
+          this.spinnerService.hide();
           this.getuserSMTPConfigData();
-        this.alertService.success('Social Links  Updated Successfully');
-        }else{
-          this.alertService.success('No updations found');
+          this.alertService.success('SMTP Config Successfully');
+        } else {
+          this.spinnerService.hide();
+          this.alertService.danger('No modifications found');
         }
       },
-      error => {
-          console.log(error);
-      })
+      err => {
+        this.spinnerService.hide();
+        this.alertService.danger('Something went wrong.');
+      }
+    );
+    // this.httpService.create(this.smtpUpdationForm.value, "/flujo_client_smtpconfiguration")
+    // .subscribe(
+    //   data => {
+    //     if(data){
+    //       this.getuserSMTPConfigData();
+    //     this.alertService.success('Social Links  Updated Successfully');
+    //     }else{
+    //       this.alertService.success('No updations found');
+    //     }
+    //   },
+    //   error => {
+    //       console.log(error);
+    //   })
     
   }
 
   getuserSMTPConfigData() {
-    this.httpService.getById(localStorage.getItem("client_id") ,"/flujo_client_smtpconfiguration/")
+    this.spinnerService.show();
+    this.httpClient.get(AppConstants.API_URL+"flujo_client_smtpconfiguration/"+AppConstants.CLIENT_ID)
     .subscribe(
-     data => {
-       if(data){
-
-        this.smtpItems = data;
-       }
-       
-     },
-     error => {
-         console.log(error);
-     })
-    
+      data => {
+        if(data){
+          this.spinnerService.hide();
+         this.smtpItems = data;
+        }else{
+          this.spinnerService.hide();
+          this.alertService.danger("No data found with this client.");
+        }
+        
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger("Something went wrong. please try again.");
+          console.log(error);
+      });
   }
   deleteSMTP(){
-    this.httpService.delete(localStorage.getItem("client_id") ,"/flujo_client_smtpconfiguration/")
+    this.spinnerService.show();
+    this.httpClient.delete(AppConstants.API_URL+"flujo_client_smtpconfiguration/"+AppConstants.CLIENT_ID)
     .subscribe(
-     data => {
-       this.btn_text = "save";
-       if(data){
-        this.smtpUpdationForm.reset();
-        this.alertService.success('Social Links  deleted Successfully');
-       }
-       console.log(data);
-     },
-     error => {
-         console.log(error);
-     })
+      data => {
+        this.btn_text = "save";
+        if(data){
+          this.spinnerService.hide();
+         this.smtpUpdationForm.reset();
+         this.alertService.success('Social Links  deleted Successfully');
+        }
+        console.log(data);
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger("Something went wrong. please try again.");
+          console.log(error);
+      });
   }
   setSMTPDataFormDefault(smtpData){
     
