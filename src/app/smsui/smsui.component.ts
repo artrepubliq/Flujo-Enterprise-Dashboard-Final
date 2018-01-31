@@ -9,8 +9,7 @@ import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-u
 import { FileUploadModule } from "ng2-file-upload";
 import { MatButtonModule } from '@angular/material';
 import { HttpService } from '../service/httpClient.service';
-import { IGalleryObject } from '../model/gallery.model';
-import { IGalleryImages } from '../model/gallery.model';
+
 import { ValidationService } from '../service/validation.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';

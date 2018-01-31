@@ -8,12 +8,9 @@ import { AlertModule, AlertService } from 'ngx-alerts';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { FileUploadModule } from "ng2-file-upload";
 import { MatButtonModule } from '@angular/material';
-import { HttpService } from '../service/httpClient.service';
-import { IGalleryObject } from '../model/gallery.model';
-import { IGalleryImages } from '../model/gallery.model';
-
+import { IGalleryObject, IGalleryImageItem } from '../model/gallery.model';
+import { AppConstants } from '../app.constants';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-
 import * as _ from 'underscore';
 
 @Component({
@@ -34,20 +31,20 @@ export class MediaComponent implements OnInit {
   showHide: boolean;
   submitAlbumData:FormGroup;
   albumObject: IGalleryObject;
-  albumImages: Array<IGalleryImages>;
-  albumImage:IGalleryImages;
+  albumImages: Array<IGalleryImageItem>;
+  albumImage:IGalleryImageItem;
   
   isImageExist:boolean;
   // public albumData: {id: any, name: string,desc: string}
   // template: string =`<img src="http://pa1.narvii.com/5722/2c617cd9674417d272084884b61e4bb7dd5f0b15_hq.gif" />`
-  constructor(private spinnerService: Ng4LoadingSpinnerService, private http: HttpClient,private httpService: HttpService, private formBuilder: FormBuilder, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
     
     this.mediaManagementForm = this.formBuilder.group({
         image: [null],
         client_id:[null]
       });
       this.submitAlbumData = this.formBuilder.group({
-        title : ['',],
+        title : ['',Validators.required],
         image_ids:[null],
         client_id:[null]
       });
@@ -75,33 +72,24 @@ export class MediaComponent implements OnInit {
       let file = event.target.files[i];
       reader.readAsDataURL(file);
       reader.onload = () => {
-      console.log(reader.result.split(',')[1]);
       imageDetail.push(reader.result.split(',')[1]);
-      console.log(imageDetail);
       };
     }this.mediaManagementForm.get('image').setValue(imageDetail);
-    console.log(imageDetail);
   }
   }
   
   mediaManagementFormSubmit(body:any){
     // this.loading = true;
     this.spinnerService.show();
-    this.mediaManagementForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
+    this.mediaManagementForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.mediaManagementForm.value;
-    this.http.post("http://flujo.in/dashboard/flujo.in_api_client/flujo_client_mediamanagement", formModel).subscribe(
+    this.httpClient.post(AppConstants.API_URL+"flujo_client_mediamanagement", formModel).subscribe(
       res => {
         console.log(res);
         this.getMediaGaleeryData();
-
-        this.successMessage = "Images uploaded successfully";
         this.successMessagebool = true;
-        this.alertService.success('Images uploaded successfully');
-        // this.loading = false;
         this.spinnerService.hide();
         this.mediaManagementForm=null;
-        
-
         this.mediaManagementForm=null;
         this.successMessagebool = true;
         this.alertService.success('Images uploaded successfully');
@@ -122,8 +110,8 @@ export class MediaComponent implements OnInit {
   getMediaGaleeryData(){
     // this.loading = true;
     this.spinnerService.show();
-    this.http
-      .get<mediaDetail>('http://flujo.in/dashboard/flujo.in_api_client/flujo_client_mediagallery')
+    this.httpClient
+      .get<mediaDetail>(AppConstants.API_URL+'flujo_client_mediagallery')
       .subscribe(
         
       // Successful responses call the first callback.
@@ -140,56 +128,62 @@ export class MediaComponent implements OnInit {
       );
   }
   deleteMediaImage(image_id){
-    // console.log(kn);
-    if (localStorage.getItem("client_id")) {
-      this.mediaManagementForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
-      this.httpService.delete(localStorage.getItem("client_id"), "/flujo_client_deletemedia/")
-        .subscribe(
-        data => {
-          if (data) {
-            this.alertService.success('Social Links deleted Successfully');
-            this.getMediaGaleeryData();
-          }
-        },
-        error => {
-          console.log(error);
-        })
-    }
+    this.spinnerService.show();
+    this.httpClient.delete(AppConstants.API_URL+"flujo_client_deletemedia/"+image_id)
+    .subscribe(
+      data => {
+        if (data) {
+          this.hightlightStatus = [false];
+          this.spinnerService.hide();
+          this.alertService.success('Social Links deleted Successfully');
+          this.getMediaGaleeryData();
+        }
+      },
+      error => {
+        this.spinnerService.hide();
+        console.log(error);
+      });
   }
   getImageId(item_id){
     var item_index =_.indexOf(this.albumObject.images, item_id.id);
-    console.log(item_index);
+    var t = _.size(this.albumObject.images);
+    this.albumImage = <IGalleryImageItem>{};
+    this.albumImage.id = item_id.id;
+    this.albumImage.title = null;
+    this.albumImage.description = null;
     if(item_index != -1){
       this.albumObject.images.splice(item_index, 1);
-      console.log(this.albumObject);
+      
     }else{
-      this.albumObject.images.push(item_id.id);
+      this.albumObject.images.push(this.albumImage);
       console.log(this.albumObject);
     }
   }
 // 
   submitAlbumDataPost(body:any){
+    this.spinnerService.show();
     this.submitAlbumData.controls['image_ids'].setValue(this.albumObject);
     this.submitAlbumData.controls['client_id'].setValue(localStorage.getItem("client_id"));
     const formModel = this.submitAlbumData.value;
-    console.log(formModel);
-    
-    this.httpService.create(formModel, "/flujo_client_postgalleryimages")
+    this.httpClient.post(AppConstants.API_URL+"flujo_client_postgalleryimages", formModel)
     .subscribe(
-        data => {
-          console.log(this.submitAlbumData.value);
-          if (data) {
-
-            this.alertService.success('Social Links uploaded Successfully');
-
-            this.alertService.success('Album created successfully.');
-
-          }
-        },
-        error => {
+      data => {
+        this.spinnerService.hide();
+        if (data) {
+          this.submitAlbumData.reset();
+          this.hightlightStatus = [false];
+          this.alertService.success('Album created successfully.');
+        }else{
           this.alertService.danger("Something went wrong.please try again.");
-          console.log(error);
-        })
+        }
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger("Something went wrong.please try again.");
+        console.log(error);
+      });
+    
+    
   }
   changeShowStatus(){
     this.showHide = !this.showHide;
