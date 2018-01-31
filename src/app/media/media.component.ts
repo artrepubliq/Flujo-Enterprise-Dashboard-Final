@@ -24,6 +24,7 @@ export class MediaComponent implements OnInit {
   hightlightStatus: Array<boolean> = [];
   public successMessage;
   public loading = false;
+  public ishide:boolean;
   public successMessagebool;
   public deleteMessage;
   public deleteMessagebool;
@@ -49,9 +50,10 @@ export class MediaComponent implements OnInit {
         id:[null],
         client_id:[null]
       });
-    this.getMediaGaleeryData();
+    this.getMediaGalleryData();
     this.showHide = false;
     this.isImageExist= false;
+    this.ishide=true;
    }
    
   ngOnInit() {  
@@ -60,10 +62,12 @@ export class MediaComponent implements OnInit {
     }.bind(this), 3000); 
     this.albumObject  = <IGalleryObject>{}
     this.albumObject.images = [];
+    
   }
   selectMedia(event) {
     let imageDetail = [];
     if (event.target.files && event.target.files.length > 0) {
+      this.ishide=false;
       for(var i=0; i < event.target.files.length; i++){
       let reader = new FileReader();
       let file = event.target.files[i];
@@ -76,16 +80,17 @@ export class MediaComponent implements OnInit {
     }this.mediaManagementForm.get('image').setValue(imageDetail);
     console.log(imageDetail);
   }
+  
   }
+  
   mediaManagementFormSubmit(body:any){
-    // this.loading = true;
     this.spinnerService.show();
     this.mediaManagementForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
     const formModel = this.mediaManagementForm.value;
     this.http.post("http://flujo.in/dashboard/flujo.in_api_client/flujo_client_mediamanagement", formModel).subscribe(
       res => {
         console.log(res);
-        this.getMediaGaleeryData();
+        this.getMediaGalleryData();
         this.successMessage = "Images uploaded successfully";
         this.successMessagebool = true;
         this.alertService.success('Images uploaded successfully');
@@ -105,8 +110,7 @@ export class MediaComponent implements OnInit {
       }
     );
   }
-  getMediaGaleeryData(){
-    // this.loading = true;
+  getMediaGalleryData(){
     this.spinnerService.show();
     this.http
       .get<mediaDetail>('http://flujo.in/dashboard/flujo.in_api_client/flujo_client_mediagallery')
@@ -115,7 +119,6 @@ export class MediaComponent implements OnInit {
       // Successful responses call the first callback.
       data => {
         this.mediaData=data;
-        // this.loading = false;
         this.spinnerService.hide();
         console.log(this.mediaData);
       },
@@ -128,13 +131,12 @@ export class MediaComponent implements OnInit {
   deleteMediaImage(image_id){
     // console.log(kn);
     if (localStorage.getItem("client_id")) {
-      this.mediaManagementForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
       this.httpService.delete(localStorage.getItem("client_id"), "/flujo_client_deletemedia/")
         .subscribe(
         data => {
           if (data) {
-            this.alertService.success('Social Links deleted Successfully');
-            this.getMediaGaleeryData();
+            this.alertService.success('image deleted Successfully');
+            this.getMediaGalleryData();
           }
         },
         error => {
