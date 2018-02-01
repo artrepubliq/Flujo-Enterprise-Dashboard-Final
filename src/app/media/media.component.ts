@@ -88,7 +88,7 @@ export class MediaComponent implements OnInit {
     this.httpClient.post(AppConstants.API_URL+"flujo_client_mediamanagement", formModel).subscribe(
       res => {
         console.log(res);
-        this.getMediaGaleeryData();
+        this.getMediaGalleryData();
         this.successMessagebool = true;
         this.spinnerService.hide();
         this.mediaManagementForm=null;
@@ -131,7 +131,7 @@ export class MediaComponent implements OnInit {
           this.hightlightStatus = [false];
           this.spinnerService.hide();
           this.alertService.success('Social Links deleted Successfully');
-          this.getMediaGaleeryData();
+          this.getMediaGalleryData();
         }
       },
       error => {
