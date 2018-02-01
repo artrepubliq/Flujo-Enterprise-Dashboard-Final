@@ -18,6 +18,7 @@ import { MediaComponent } from './media/media.component';
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
+import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,7 @@ const routes: Routes = [
           { path: 'chat', component: ChatBoxComponent },
           { path: 'chat', component: ChatBoxComponent },
           { path: 'user', component: CreateUserComponentComponent },
+          { path: 'media/gallery', component: ViewGalleryComponent },
         ]
       }
     ]
