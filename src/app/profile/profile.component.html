@@ -31,7 +31,7 @@
     <button type="submit" [disabled]="form.invalid || loading" mat-raised-button color="accent">{{button_text}}
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
-    <button (click)="onDelete(form.value)" [disabled]="form.invalid || loading" mat-raised-button color="warn">Delete
+    <button *ngIf="isHideDeletebtn" (click)="onDelete(form.value)" [disabled]="form.invalid || loading" mat-raised-button color="warn">Delete
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
   </div>
