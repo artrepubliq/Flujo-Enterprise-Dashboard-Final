@@ -53,7 +53,7 @@
       <p>{{profileData.mobile_number}}</p>
     </div>
     <div class="item-block" fxLayout="row" fxLayoutGap="30px">
-      <h3>Avatar</h3>
+      <h3>Profile pic</h3>
       <span *ngIf="!profileData.avatar">no image</span>
       <img *ngIf="profileData.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
     </div>

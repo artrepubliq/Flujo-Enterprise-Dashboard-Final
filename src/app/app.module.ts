@@ -48,6 +48,8 @@ import { Http, RequestOptions } from '@angular/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
+import { EditorComponent } from './editor/editor.component';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -70,7 +72,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MediaComponent,
     SmsuiComponent,
     CreateUserComponentComponent,
-    ThemeConfigComponent
+    ThemeConfigComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +97,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ColorPickerModule,
     LoadingModule,
     Ng4LoadingSpinnerModule.forRoot(),
-    NgxSmartLoaderModule.forRoot()
+    NgxSmartLoaderModule.forRoot(),
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot()
   ],
   providers: [AuthService,
               HttpService,

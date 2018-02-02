@@ -1,11 +1,11 @@
 
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import { HttpService } from '../service/httpClient.service';
+import { HttpClient } from '@angular/common/http'; 
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import CSVExportService from 'json2csvexporter';
-
+import { AppConstants } from '../app.constants';
 import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Component({
@@ -20,7 +20,7 @@ export class ReportsComponent {
     public feedbackData: any;
     changemakerData: any;
     public reportProblemData:any;
-  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
     this.getChangemakerReportData();
     this.getuserFeedbackData();
     this.getReportYourProblemData();
@@ -49,7 +49,7 @@ export class ReportsComponent {
    
    getChangemakerReportData() {
     this.spinnerService.show()
-       this.httpService.getAll("/flujo_client_changereport")
+       this.httpClient.get(AppConstants.API_URL+"flujo_client_changereport")
        .subscribe(
         data => {
           console.log(data);
@@ -59,21 +59,6 @@ export class ReportsComponent {
         error => {
             console.log(error);
         })
-
-  
-    // this.http
-    //   .get<RUser>('http://flujo.in/dashboard/flujo.in_ajay/public/changereport')
-    //   .subscribe(
-    //   // Successful responses call the first callback.
-    //   data => {
-    //     this.changemakerData = data;
-    //     // console.log(this.reportData)
-    //   },
-    //   // Errors will call this callback instead:
-    //   err => {
-    //     // console.log('Something went wrong!');
-    //   }
-    //   );
   }
 
   exportChangermakereport() {
@@ -100,7 +85,7 @@ export class ReportsComponent {
   }
   getuserFeedbackData() {
     this.spinnerService.show();
-    this.httpService.getAll("/flujo_client_feedbackreport")
+    this.httpClient.get(AppConstants.API_URL+"flujo_client_feedbackreport")
     .subscribe(
      data => {
          this.feedbackData = data;
@@ -149,7 +134,7 @@ export class ReportsComponent {
 
   getReportYourProblemData() {
     this.spinnerService.show();
-    this.httpService.getAll("/flujo_client_reportproblem/{client_id}")
+    this.httpClient.get(AppConstants.API_URL+"flujo_client_reportproblem/"+AppConstants.CLIENT_ID)
     .subscribe(
      data => {
        console.log(data);
