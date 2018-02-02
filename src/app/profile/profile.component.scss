@@ -41,3 +41,21 @@
     box-shadow: 4px 3px 8px rgba(0, 0, 0, 0.5);
   }
 }
+.defaultavatar{
+  position: relative;
+  .hoverbuttons{
+    position: absolute;
+    bottom: 0;
+    // display: none;
+    opacity:0;
+  }
+  .figure{
+    cursor: pointer;
+  }
+}
+.defaultavatar:hover .hoverbuttons{
+  // display:block;
+  opacity: 1;
+  transition: all 1s;
+  -webkit-transition: all 1s; 
+}
