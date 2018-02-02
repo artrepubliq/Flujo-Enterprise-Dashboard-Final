@@ -11,16 +11,16 @@ export class ViewGalleryComponent implements OnInit {
   
   constructor(public dialog: MatDialog) {}
 
-  close:string;
+  // close:string;
 
   openDialog(): void {
     let dialogRef = this.dialog.open(EditGalleryItems, {
       // width: '250px',
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.close = result;
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    //   // this.close = result;
+    // });
   }
 
   ngOnInit() {
