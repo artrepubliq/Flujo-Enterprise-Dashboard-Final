@@ -43,6 +43,8 @@
 }
 .defaultavatar{
   position: relative;
+  max-width: 300px;
+  max-height: 300px;
   .hoverbuttons{
     position: absolute;
     bottom: 0;
@@ -51,6 +53,11 @@
   }
   .figure{
     cursor: pointer;
+  }
+  #uploadbutton{
+    position: absolute;
+    top: 60%;
+    left:50%;
   }
 }
 .defaultavatar:hover .hoverbuttons{
