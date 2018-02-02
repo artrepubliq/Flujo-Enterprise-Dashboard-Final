@@ -1,10 +1,11 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import { HttpService } from '../service/httpClient.service';
 import { ILogo } from '../model/logo.model';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Tree } from '@angular/router/src/utils/tree';
+import { AppConstants } from '../app.constants';
+import { HttpClient } from '@angular/common/http';
 @Component({
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.scss']
@@ -22,9 +23,8 @@ export class LogoComponent {
 
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
     this.createForm();
-    localStorage.setItem('client_id',"1232");
     this.getLogoDetails();
   }
   ngOnInit() {   
@@ -40,7 +40,7 @@ export class LogoComponent {
       logo_height: ['', Validators.required],
       logo_width: ['', Validators.required],
       // slogan_text: ['', Validators.required],
-      client_id: localStorage.getItem("client_id"),
+      client_id: null,
       theme_id: "23",
       avatar: null
     });
@@ -61,9 +61,11 @@ export class LogoComponent {
 
   onSubmit = (body) => {
     this.spinnerService.show();
+    this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.form.value;
     this.loadingSave = true;
-    this.httpService.updatePost(formModel,"/flujo_client_logo")
+    
+    this.httpClient.post(AppConstants.API_URL+"flujo_client_logo",formModel)
     .subscribe(
         data => {
           this.alertService.success('Logo details submotted successfully.');
@@ -84,11 +86,12 @@ export class LogoComponent {
   onDelete = (body) => {
     const formModel = this.form.value;
     this.loadingDelete = true;
-    this.httpService.delete(localStorage.getItem("client_id"),"/flujo_client_logo/")
+    this.httpClient.delete(AppConstants.API_URL+"flujo_client_logo/"+AppConstants.CLIENT_ID)
     .subscribe(
         data => {
           this.alertService.success('logo items deleted Successfully');        
           this.getLogoDetails();
+          this.isEdit = true;
           this.loadingDelete = false;
           this.form.reset();
         },
@@ -98,16 +101,18 @@ export class LogoComponent {
   }
   getLogoDetails = () => {
     this.loadingSave = true;
-    this.httpService.getById(localStorage.getItem("client_id"),"/flujo_client_logo/")
+    this.httpClient.get(AppConstants.API_URL+"flujo_client_logo/"+AppConstants.CLIENT_ID)
         .subscribe(
           data =>{
-            console.log(data);
             data? this.isEdit =false : this.isEdit = true;
             if(data != null){
             this.setDefaultClientLogoDetails(data);
             // this.isHide=true;
             } else{
-              // this.alertService.success('No Data found');        
+              this.button_text = "save";
+              this.isHideDeletebtn = false;
+              data? this.isEdit =false : this.isEdit = true;
+              this.alertService.success('No Data found');        
             }
             this.loadingSave = false;
             // this.isEdit = false;
