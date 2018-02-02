@@ -7,21 +7,6 @@
 <form *ngIf="isEdit" class="profile-edit" [formGroup]="form" (submit)="onSubmit(form.value)">
   <div fxLayout="column" fxFlex="40%">
 
-<<<<<<< HEAD
-  <div class="form-group">
-    <label for="avatar">Choose profile Picture</label>
-    <!-- <img *ngIf="profileImag" alt="no image" class="figure" src="data:image/png;base64,{{profileImag}}"> -->
-    <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-    <button type="button" mat-raised-button (click)="clearFile()">clear file</button>
-  </div>
-  <div>
-    <button type="submit" [disabled]="form.invalid || loading" mat-raised-button color="accent">{{button_text}}
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-    <button *ngIf="isHideDeletebtn" (click)="onDelete(form.value)" [disabled]="form.invalid || loading" mat-raised-button color="warn">Delete
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-=======
     <div class="form-group">
       <label for="company_name">Company name:</label>
       <input type="text" class="form-control" id="company_name" placeholder="company name" formControlName="company_name">
@@ -53,7 +38,6 @@
       <!-- <img *ngIf="profileImag" alt="no image" class="figure" src="data:image/png;base64,{{profileImag}}"> -->
       <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>     
     </div>
->>>>>>> ef8a12ec9620132b7948dc3f256c284266048519
   </div>
  
 </form>
@@ -73,6 +57,10 @@
       <h3>Mobile Number:</h3>
       <p>{{profileData.mobile_number}}</p>
     </div>
+    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
+      <h3>Profile pic</h3>
+      <span *ngIf="!profileData.avatar">no image</span>
+      <img *ngIf="profileData.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
     <button (click)=EditProfileData() mat-raised-button class="edit-button">Edit</button>
     </div>
     <div fxLayout="column" fxFlex="50%">

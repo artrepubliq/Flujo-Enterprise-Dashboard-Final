@@ -29,7 +29,7 @@ export class SMTPConfigurationComponent {
 //smtp post data to server
   SmtpPost(body:any ) {
     this.smtpUpdationForm.controls["client_id"].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.post(AppConstants.API_URL+"/flujo_client_sociallinks", this.smtpUpdationForm.value)
+    this.httpClient.post(AppConstants.API_URL+"/flujo_client_smtpconfiguration", this.smtpUpdationForm.value)
     .subscribe(
       res => {
         if (res) {
@@ -67,10 +67,13 @@ export class SMTPConfigurationComponent {
     this.httpClient.get(AppConstants.API_URL+"flujo_client_smtpconfiguration/"+AppConstants.CLIENT_ID)
     .subscribe(
       data => {
+        data? this.isEdit =false : this.isEdit = true;
+
         if(data){
           this.spinnerService.hide();
          this.smtpItems = data;
         }else{
+
           this.spinnerService.hide();
           this.alertService.danger("No data found with this client.");
         }
