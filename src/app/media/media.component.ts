@@ -35,7 +35,7 @@ export class MediaComponent implements OnInit {
   albumImages: Array<IGalleryImageItem>;
   albumImage:IGalleryImageItem;
   showCreateGallery:boolean = true;
-  showGridGallery:boolean = false;
+  isshowAlbumGallery:boolean = false;
 
   isImageExist:boolean;
   // template: string =`<img src="http://pa1.narvii.com/5722/2c617cd9674417d272084884b61e4bb7dd5f0b15_hq.gif" />`
@@ -186,14 +186,14 @@ export class MediaComponent implements OnInit {
   changeShowStatus(){
     this.showHide = !this.showHide;
     this.showCreateGallery = true;
-    this.showGridGallery = false;
+    this.isshowAlbumGallery = false;
   }
   showImageId(){
     this.isImageExist = !this.isImageExist;
   }
-  showGallery() {
+  showAlbumGallery() {
     this.showCreateGallery = false;
-    this.showGridGallery = true;
+    this.isshowAlbumGallery = true;
   }
 
   images = [

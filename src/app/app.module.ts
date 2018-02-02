@@ -21,13 +21,13 @@ import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { ReportsComponent } from './reports/reports.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-//directives
-import { ControlMessagesComponent } from './directives/control-messages.component';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule } from '@angular/material';
-
+//directives
+import { ControlMessagesComponent } from './directives/control-messages.component';
+import { GalleryDirective } from './directives/gallery/gallery.directive';
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ImageUploadModule } from "angular2-image-upload";
@@ -75,7 +75,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CreateUserComponentComponent,
     ThemeConfigComponent,
     ViewGalleryComponent,
-    EditGalleryItems
+    EditGalleryItems,
+
+    //directives
+    GalleryDirective
   ],
   imports: [
     BrowserModule,
