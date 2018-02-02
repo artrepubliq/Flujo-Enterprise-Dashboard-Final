@@ -20,6 +20,7 @@ export class ProfileComponent {
   isDataExist: boolean;
   profileData: IProfileData;
   ELEMENT_DATA: IProfileData;  
+  isHideDeletebtn:boolean=false;
   // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   
   @ViewChild('fileInput') fileInput: ElementRef;
@@ -96,7 +97,8 @@ export class ProfileComponent {
           this.alertService.success('profile deleted Successfully.');
           this.form.reset();
           this.getProfileDetails();
-           console.log(data);
+          this.button_text = "save";
+          this.isHideDeletebtn = false;
            this.spinnerService.hide();
            
         },
@@ -114,7 +116,7 @@ export class ProfileComponent {
             console.log(data);
             this.BindProfileData(data);
              // this.setDefaultClientProfileDetails(data);
-            this.isEdit = false;
+            this.isEdit = true;
             this.loading = false;
           },
           error =>{
@@ -144,6 +146,7 @@ export class ProfileComponent {
         this.spinnerService.hide();
       this.alertService.danger('Required parameters missing.');
     }else{
+      this.isHideDeletebtn = true;
         this.alertService.success('page operation successfull.');
         this.loading = false;
         this.spinnerService.hide();

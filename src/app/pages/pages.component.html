@@ -16,7 +16,7 @@
     </ngx-alerts>
     <form [formGroup]="form" (submit)="onSubmit(form.value)">
 
-      <div class="form-group" fxLayout="row">
+      <!-- <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_name">Page Title</label>
         <input fxFlex type="text" class="form-control" id="component_name" placeholder="Page title" formControlName="component_name">
       </div>
@@ -32,7 +32,7 @@
       <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_description">Page Description</label>
         <ck-editor fxFlex name="editor1" formControlName="component_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
-        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
+       
       </div>
 
       <div class="form-group" fxLayout="row">
@@ -48,20 +48,20 @@
         <input fxFlex [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)" [(colorPicker)]="color"
           formControlName="component_background_color" id="component_background_color" [style.background]="color" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
         />
-      </div>
+      </div> -->
         <div class="form-group">
             <label for="component_name">Page Title</label>
             <input type="text" class="form-control" id="component_name" placeholder="page title" formControlName="component_name">
         </div>
         <div class="form-group">
             <label for="component_menu_name">Page Menu Title</label>
-            <input type="text" class="form-control" id="component_menu_name" placeholder="page menu title" formControlName="component_menu_name">
+            <input type="text" class="form-control" id="component_menuname" placeholder="page menu title" formControlName="component_menuname">
         </div>
         <div class="form-group">
             <label for="component_parent">Page Parent</label>
             <select formControlName="component_parent" id="component_parent">
-        <option *ngFor="let parent of evens"
-          [value]="parent.id" [selected]="option === selectedOption">
+        <option *ngFor="let parent of parentPageDetails"
+          [value]="parent.id" >
           {{parent.id}}-{{parent.component_name}}
              
         </option>
