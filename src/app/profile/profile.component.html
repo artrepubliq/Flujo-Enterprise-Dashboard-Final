@@ -5,58 +5,79 @@
 
 <!-- ==== Profile Edit Block ==== -->
 <form *ngIf="isEdit" class="profile-edit" [formGroup]="form" (submit)="onSubmit(form.value)">
-  <div class="form-group">
-    <label for="company_name">Company name</label>
-    <input type="text" class="form-control" id="company_name" placeholder="company name" formControlName="company_name">
-  </div>
-  <div class="form-group">
-    <label for="website_url">Website URL</label>
-    <input type="text" class="form-control" id="website_url" placeholder="website URL" formControlName="website_url">
-  </div>
-  <div class="form-group">
-    <label for="mobile_number">Mobile Number</label>
-    <input type="text" class="form-control" id="mobile_number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" placeholder="Mobile Number" formControlName="mobile_number">
-    <div [hidden]="form.controls.mobile_number.valid || (form.controls.mobile_number.pristine && !submitted)" class="form-error-msg">
-      enter valid phone number
+  <div fxLayout="column" fxFlex="40%">
+
+    <div class="form-group">
+      <label for="company_name">Company name:</label>
+      <input type="text" class="form-control" id="company_name" placeholder="company name" formControlName="company_name">
+    </div>
+    <div class="form-group">
+      <label for="website_url">Website URL:</label>
+      <input type="text" class="form-control" id="website_url" placeholder="website URL" formControlName="website_url">
+    </div>
+    <div class="form-group">
+      <label for="mobile_number">Mobile Number:</label>
+      <input type="text" class="form-control" id="mobile_number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="10" placeholder="Mobile Number" formControlName="mobile_number">
+      <div [hidden]="form.controls.mobile_number.valid || (form.controls.mobile_number.pristine && !submitted)" class="form-error-msg">
+        enter valid phone number
+      </div>
+    </div>
+    <div>
+        <button type="submit" [disabled]="form.invalid || loading" mat-raised-button color="accent">{{button_text}}
+          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+        </button>
+        <button (click)="onDelete(form.value)" [disabled]="form.invalid || loading" mat-raised-button color="warn">Delete
+          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+        </button>
+        <button type="button" mat-raised-button (click)="clearFile()">clear file</button>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="50%">
+    <div fxLayoutAlign="start" class="form-group">
+      <label for="avatar">Choose profile Picture:</label>
+      <!-- <img *ngIf="profileImag" alt="no image" class="figure" src="data:image/png;base64,{{profileImag}}"> -->
+      <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>     
     </div>
   </div>
-
-  <div class="form-group">
-    <label for="avatar">Choose profile Picture</label>
-    <!-- <img *ngIf="profileImag" alt="no image" class="figure" src="data:image/png;base64,{{profileImag}}"> -->
-    <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-    <button type="button" mat-raised-button (click)="clearFile()">clear file</button>
-  </div>
-  <div>
-    <button type="submit" [disabled]="form.invalid || loading" mat-raised-button color="accent">{{button_text}}
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-    <button (click)="onDelete(form.value)" [disabled]="form.invalid || loading" mat-raised-button color="warn">Delete
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-  </div>
+ 
 </form>
 
 <!-- ==== Profile View Block ==== -->
-<div *ngIf="!isEdit" class="col-md-6 profileView-block">
-  <div *ngIf="profileData" fxLayout="column" fxLayoutGap="30px">
+<div *ngIf="!isEdit" class="profileView-block">
+  <div *ngIf="profileData" fxLayout="column" fxFlex="40%" fxLayoutGap="30px">
     <div class="item-block" fxLayout="row" fxLayoutGap="30px">
-      <h3>Company Name</h3>
+      <h3>Company Name:</h3>
       <p>{{profileData.company_name}}</p>
     </div>
     <div class="item-block" fxLayout="row" fxLayoutGap="30px">
-      <h3>Website URL</h3>
+      <h3>Website URL:</h3>
       <p>{{profileData.website_url}}</p>
     </div>
     <div class="item-block" fxLayout="row" fxLayoutGap="30px">
-      <h3>Mobile Number</h3>
+      <h3>Mobile Number:</h3>
       <p>{{profileData.mobile_number}}</p>
     </div>
-    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
-      <h3>Avatar</h3>
-      <span *ngIf="!profileData.avatar">no image</span>
-      <img *ngIf="profileData.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
+    <button (click)=EditProfileData() mat-raised-button class="edit-button">Edit</button>
+    </div>
+    <div fxLayout="column" fxFlex="50%">
+      <div fxLayout="row" class="item-block">
+        <h3>Avatar:</h3>
+        <span *ngIf="!profileData.avatar">no image</span>
+        <div fxLayout="row" class="defaultavatar">
+          <img fxLayoutAlign="start" *ngIf="profileData.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
+          <button (click)=EditProfileData()  class="hoverbuttons">
+              <i class="fa fa-edit"></i>
+          </button>
+          <div fxLayoutAlign="end">
+            <button  (click)="onDelete(form.value)" [disabled]="form.invalid || loading"  color="warn" class="hoverbuttons">
+                <i class="fa fa-trash"></i>
+            </button>
+          </div>
+            <div fxLayoutAlign="center center" id="uploadbutton">
+            <button class="hoverbuttons" mat-raised-button>Upload</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <button (click)=EditProfileData() mat-raised-button class="edit-button">Edit</button>
-</div>
+  
