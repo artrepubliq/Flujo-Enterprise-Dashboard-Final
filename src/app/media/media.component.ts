@@ -131,6 +131,7 @@ export class MediaComponent implements OnInit {
         if (data) {
           this.hightlightStatus = [false];
           this.spinnerService.hide();
+          this.alertService.success('Image deleted Successfully');
           this.alertService.success('Social Links deleted Successfully');
           this.getMediaGalleryData();
         }

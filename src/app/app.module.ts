@@ -48,6 +48,8 @@ import { Http, RequestOptions } from '@angular/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
+import { EditorComponent } from './editor/editor.component';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent, EditGalleryItems } from './view-gallery/view-gallery.component';
 import {MatDialogModule} from '@angular/material/dialog';
 
@@ -74,6 +76,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmsuiComponent,
     CreateUserComponentComponent,
     ThemeConfigComponent,
+    EditorComponent
     ViewGalleryComponent,
     EditGalleryItems,
 
@@ -103,6 +106,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     LoadingModule,
     Ng4LoadingSpinnerModule.forRoot(),
     NgxSmartLoaderModule.forRoot(),
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot()
     MatDialogModule
   ],
   entryComponents: [EditGalleryItems],
