@@ -48,6 +48,9 @@ import { Http, RequestOptions } from '@angular/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
+import { ViewGalleryComponent, EditGalleryItems } from './view-gallery/view-gallery.component';
+import {MatDialogModule} from '@angular/material/dialog';
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -70,7 +73,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MediaComponent,
     SmsuiComponent,
     CreateUserComponentComponent,
-    ThemeConfigComponent
+    ThemeConfigComponent,
+    ViewGalleryComponent,
+    EditGalleryItems
   ],
   imports: [
     BrowserModule,
@@ -94,8 +99,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ColorPickerModule,
     LoadingModule,
     Ng4LoadingSpinnerModule.forRoot(),
-    NgxSmartLoaderModule.forRoot()
+    NgxSmartLoaderModule.forRoot(),
+    MatDialogModule
   ],
+  entryComponents: [EditGalleryItems],
   providers: [AuthService,
               HttpService,
               ValidationService,

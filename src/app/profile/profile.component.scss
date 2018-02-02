@@ -41,3 +41,28 @@
     box-shadow: 4px 3px 8px rgba(0, 0, 0, 0.5);
   }
 }
+.defaultavatar{
+  position: relative;
+  max-width: 300px;
+  max-height: 300px;
+  .hoverbuttons{
+    position: absolute;
+    bottom: 0;
+    // display: none;
+    opacity:0;
+  }
+  .figure{
+    cursor: pointer;
+  }
+  #uploadbutton{
+    position: absolute;
+    top: 60%;
+    left:50%;
+  }
+}
+.defaultavatar:hover .hoverbuttons{
+  // display:block;
+  opacity: 1;
+  transition: all 1s;
+  -webkit-transition: all 1s; 
+}
