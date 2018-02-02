@@ -21,13 +21,13 @@ import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { ReportsComponent } from './reports/reports.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-//directives
-import { ControlMessagesComponent } from './directives/control-messages.component';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule } from '@angular/material';
-
+//directives
+import { ControlMessagesComponent } from './directives/control-messages.component';
+import { GalleryDirective } from './directives/gallery/gallery.directive';
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ImageUploadModule } from "angular2-image-upload";
@@ -50,6 +50,9 @@ import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
 import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { ViewGalleryComponent, EditGalleryItems } from './view-gallery/view-gallery.component';
+import {MatDialogModule} from '@angular/material/dialog';
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -74,6 +77,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CreateUserComponentComponent,
     ThemeConfigComponent,
     EditorComponent
+    ViewGalleryComponent,
+    EditGalleryItems,
+
+    //directives
+    GalleryDirective
   ],
   imports: [
     BrowserModule,
@@ -100,7 +108,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxSmartLoaderModule.forRoot(),
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot()
+    MatDialogModule
   ],
+  entryComponents: [EditGalleryItems],
   providers: [AuthService,
               HttpService,
               ValidationService,

@@ -34,7 +34,8 @@ export class MediaComponent implements OnInit {
   albumObject: IGalleryObject;
   albumImages: Array<IGalleryImageItem>;
   albumImage:IGalleryImageItem;
-  
+  showCreateGallery:boolean = true;
+  isshowAlbumGallery:boolean = false;
 
   isImageExist:boolean;
   // template: string =`<img src="http://pa1.narvii.com/5722/2c617cd9674417d272084884b61e4bb7dd5f0b15_hq.gif" />`
@@ -131,6 +132,7 @@ export class MediaComponent implements OnInit {
           this.hightlightStatus = [false];
           this.spinnerService.hide();
           this.alertService.success('Image deleted Successfully');
+          this.alertService.success('Social Links deleted Successfully');
           this.getMediaGalleryData();
         }
       },
@@ -184,8 +186,34 @@ export class MediaComponent implements OnInit {
   }
   changeShowStatus(){
     this.showHide = !this.showHide;
+    this.showCreateGallery = true;
+    this.isshowAlbumGallery = false;
   }
   showImageId(){
     this.isImageExist = !this.isImageExist;
   }
+  showAlbumGallery() {
+    this.showCreateGallery = false;
+    this.isshowAlbumGallery = true;
+  }
+
+  images = [
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'},
+    { name: 'Title', imagesUer: 'profile_user.jpg'}
+  ]
+
 }

@@ -21,6 +21,9 @@ export class ReportsComponent {
     changemakerData: any;
     public reportProblemData:any;
   constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
+    showEmailClickFeedback:boolean = false;
+    showEmailClick: boolean = false;
+    showEmailClickReport:boolean = false;
     this.getChangemakerReportData();
     this.getuserFeedbackData();
     this.getReportYourProblemData();
@@ -167,5 +170,14 @@ export class ReportsComponent {
         includeHeaders: true,
       });
       exporter.downloadCSV(this.reportProblemData);
+    }
+    feedbackEmail() {
+      this.showEmailClickFeedback = !this.showEmailClickFeedback;
+    }
+    changereportemail() {
+      this.showEmailClick = !this.showEmailClick;
+    }
+    exportReportProblemEmail() {
+      this.showEmailClickReport = !this.showEmailClickReport;
     }
 }
