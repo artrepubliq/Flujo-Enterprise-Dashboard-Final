@@ -40,20 +40,22 @@ export class EmailserviceComponent implements OnInit {
 
   mailSendingFormSubmit(body: any) {
     console.log(this.mailSendingForm.value);
-    this.mailSendingForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
+    //this.mailSendingForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
     this.httpService.create(this.mailSendingForm.value, "/flujo_client_emailcsvdb")
       .subscribe(
       data => {
 
         if (data) {
-          this.alertService.success('Social Links  Updated Successfully');
+          this.alertService.success('Email has been sent ');
           
-          this.mailSendingForm.reset()
+          this.mailSendingForm.reset();
         }
 
       },
       error => {
         console.log(error);
+        this.alertService.danger('Email could not be sent ');
+        this.mailSendingForm.reset();
       })
   }
 }
