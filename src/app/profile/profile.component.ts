@@ -6,6 +6,10 @@ import {MatTableModule} from '@angular/material/table';
 import {MatTableDataSource} from '@angular/material';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { AppComponent } from '../app.component';
+import { AppConstants } from '../app.constants';
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -26,7 +30,7 @@ export class ProfileComponent {
   
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(private httpClient: HttpClient, private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private alertService: AlertService) {
     this.createForm();
     localStorage.setItem('client_id',"1232");
     this.getProfileDetails();
@@ -68,12 +72,12 @@ export class ProfileComponent {
     // }
     formModel.client_id = localStorage.getItem("client_id");
     this.spinnerService.show();
-    this.httpService.updatePost(formModel,"/flujo_client_profile")
+    this.httpClient.post(AppConstants.API_URL+"flujo_client_profile", formModel)
     .subscribe(
         data => {
-          this.parsePostResponse(data);
+          // this.parsePostResponse(data);
           // this.alertService.success('request Successfully submitted.');
-          // this.getProfileDetails();
+          this.getProfileDetails();
           //  this.loading = false;
           this.spinnerService.hide();
         },
@@ -92,7 +96,7 @@ export class ProfileComponent {
     const formModel = this.form.value;
     this.loading = true;
     console.log(formModel);
-    this.httpService.delete(localStorage.getItem("client_id"),"/flujo_client_profile/")
+    this.httpClient.delete(AppConstants.API_URL+"flujo_client_profile/"+AppConstants.CLIENT_ID)
     .subscribe(
         data => {
           this.alertService.success('profile deleted Successfully.');
@@ -111,13 +115,13 @@ export class ProfileComponent {
 
   getProfileDetails = ()=>{
     this.loading = true;
-    this.httpService.getById(localStorage.getItem("client_id"),"/flujo_client_profile/")
+    this.httpClient.get(AppConstants.API_URL+"flujo_client_profile/"+AppConstants.CLIENT_ID)
         .subscribe(
           data =>{
             console.log(data);
             this.BindProfileData(data);
              // this.setDefaultClientProfileDetails(data);
-            this.isEdit = true;
+            this.isEdit = false;
             this.loading = false;
           },
           error =>{
@@ -142,7 +146,7 @@ export class ProfileComponent {
 
   parsePostResponse(response){
     
-    if(response.result){
+    if(!response){
         this.loading = false;
         this.spinnerService.hide();
       this.alertService.danger('Required parameters missing.');

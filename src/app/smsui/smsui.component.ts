@@ -21,9 +21,10 @@ import { AppConstants } from '../app.constants';
 export class SmsuiComponent implements OnInit {
   template: string =`<img src="../assets/icons/loader.gif" />`
   smsContactForm:any;
+  PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
   constructor(private spinnerService: Ng4LoadingSpinnerService,private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
     this.smsContactForm = this.formBuilder.group({
-      'phone': ['', [Validators.required, ValidationService.phoneValidator]],
+      'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'message': ['', [Validators.required, Validators.minLength(10)]],
       'check': [''],
       'file': [''],

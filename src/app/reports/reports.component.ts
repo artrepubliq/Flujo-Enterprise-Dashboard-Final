@@ -20,10 +20,10 @@ export class ReportsComponent {
     public feedbackData: any;
     changemakerData: any;
     public reportProblemData:any;
-  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
     showEmailClickFeedback:boolean = false;
     showEmailClick: boolean = false;
     showEmailClickReport:boolean = false;
+  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
     this.getChangemakerReportData();
     this.getuserFeedbackData();
     this.getReportYourProblemData();
