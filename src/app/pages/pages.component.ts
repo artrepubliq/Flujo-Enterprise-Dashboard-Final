@@ -76,6 +76,7 @@ export class PagesComponent {
    
     onSubmit = (body) => {
         const formModel = this.form.value;
+        this.spinnerService.show();
         this.form.controls['client_id'].setValue(localStorage.getItem("client_id"));
         if(!body.component_id){
             this.form.controls['component_id'].setValue("null");
@@ -101,7 +102,7 @@ export class PagesComponent {
     }
     onDelete = (body) => {
         // const formModel = this.form.value;
-        
+        this.spinnerService.show();
         let component_id = body.id;
         this.httpClient.delete(AppConstants.API_URL+"flujo_client_component/"+component_id)
             .subscribe(
@@ -114,6 +115,7 @@ export class PagesComponent {
             },
             error => {
                 this.loading = false;
+                this.spinnerService.hide();
             });
     }
     getPageDetails = () => {

@@ -2,6 +2,22 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900');
+
+// Global Styles
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+// ///  Global Styles
+
+
 .form-group.row {
     margin: 0;
 }

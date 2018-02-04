@@ -94,6 +94,7 @@ export class ProfileComponent {
 
   onDelete = (body)=>{
     const formModel = this.form.value;
+    this.spinnerService.show();
     this.loading = true;
     console.log(formModel);
     this.httpClient.delete(AppConstants.API_URL+"flujo_client_profile/"+AppConstants.CLIENT_ID)
@@ -115,6 +116,7 @@ export class ProfileComponent {
 
   getProfileDetails = ()=>{
     this.loading = true;
+    this.spinnerService.show();
     this.httpClient.get(AppConstants.API_URL+"flujo_client_profile/"+AppConstants.CLIENT_ID)
         .subscribe(
           data =>{
@@ -123,10 +125,12 @@ export class ProfileComponent {
              // this.setDefaultClientProfileDetails(data);
             this.isEdit = false;
             this.loading = false;
+            this.spinnerService.hide();
           },
           error =>{
             console.log(error);
             this.loading = false;
+            this.spinnerService.hide();
           }
         )
   }
