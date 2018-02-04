@@ -76,7 +76,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmsuiComponent,
     CreateUserComponentComponent,
     ThemeConfigComponent,
-    EditorComponent
+    EditorComponent,
     ViewGalleryComponent,
     EditGalleryItems,
 
@@ -107,7 +107,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     Ng4LoadingSpinnerModule.forRoot(),
     NgxSmartLoaderModule.forRoot(),
     FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot()
+    FroalaViewModule.forRoot(),
     MatDialogModule
   ],
   entryComponents: [EditGalleryItems],
