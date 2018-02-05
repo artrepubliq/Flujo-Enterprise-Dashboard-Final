@@ -5,6 +5,20 @@
       <!-- Header -->
       <div class="profile_header">
         <h3 class="header_title">Logo Properties</h3>
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
+            <i class="fa fa-ellipsis-v"></i>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item>
+            <span>Redial</span>
+          </button>
+          <button mat-menu-item disabled>
+            <span>Check voicemail</span>
+          </button>
+          <button mat-menu-item>
+            <span>Disable alerts</span>
+          </button>
+        </mat-menu>
       </div>
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="" fxLayout="column" fxLayoutGap="20px">
@@ -42,11 +56,13 @@
           <div fxLayout="row" class="logo-dimensions" fxLayoutGap="15px">
             <div fxLayout="column">
               <label>Width</label>
-              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_height" placeholder="Logo height" formControlName="logo_height">
+              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_height"
+                placeholder="Logo height" formControlName="logo_height">
             </div>
             <div fxLayout="column">
               <label>Height</label>
-              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width" placeholder="Logo width" formControlName="logo_width">
+              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width"
+                placeholder="Logo width" formControlName="logo_width">
             </div>
           </div>
         </div>

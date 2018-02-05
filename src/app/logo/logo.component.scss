@@ -64,7 +64,8 @@
 
 // =========== ~~~ Logo Styles ~~~ ===========
 .profile_block {
-  height: 100%; //   Header
+  height: 100%; 
+//   Header
   .profile_logo {
     min-width: 52vw;
     min-height: 400px;
@@ -74,6 +75,7 @@
     .profile_header {
       padding: 22px;
       border-bottom: 1px solid #f7f7f7;
+      position: relative;
       .header_title {
         font-family: 'Roboto';
         font-size: 15px;
@@ -81,6 +83,11 @@
         text-align: left;
         color: #666666;
         text-transform: uppercase;
+      }
+      .menu-icon {
+          position: absolute;
+          right: 14px;
+          top: 14px;
       }
     } // Body
     .profile_body {
