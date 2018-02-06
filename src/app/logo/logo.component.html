@@ -1,12 +1,61 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <div class="profile_block" fxLayoutAlign="center center">
   <div class="profile_logo">
-    <form [formGroup]="form" (submit)="onSubmit(form.value)">
+    <!-- Logo View Block -->
+    <div *ngIf="!isEdit">
+      <div class="profile_header">
+        <h3 class="header_title">Logo Properties</h3>
+      </div>
+      <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
+        <div class="profile_img">
+          <div *ngIf="logoItems?.logo_url_path" fxLayoutAlign="center center" class="logo-img">
+            <span *ngIf="!logoItems?.logo_url_path">no image</span>
+            <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
+          </div>
+          <div class="upload-logo">
+            <div class="custom-file">
+                <button mat-raised-button (click)="editLogo()">Edit Logo</button>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="column" fxFlex="40" fxLayoutGap="25px">
+          <!-- Logo Text-->
+          <div fxLayout="column">
+            <label>Logo Text</label>
+            <p>{{logoItems.logo_text}}</p>
+          </div>
+          <!-- Logo Alt Text -->
+          <div fxLayout="column">
+            <label>Logo Caption</label>
+            <p>{{logoItems.logo_caption}}</p>
+          </div>
+          <!-- Logo Width & Height -->
+          <div fxLayout="row" class="logo-dimensions" fxLayoutGap="15px">
+            <div fxLayout="column">
+              <label>Width</label>
+              <p>{{logoItems.logo_width}}</p>
+            </div>
+            <div fxLayout="column">
+              <label>Height</label>
+              <p>{{logoItems.logo_height}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="profile_footer" fxLayoutAlign="end center">
+        <!-- <button mat-raised-button class="logoCtrl_button" (click)="editLogo()">Edit Logo</button> -->
+        <button mat-raised-button class="logoCtrl_button" (click)="EditInfo()">Edit</button>
+      </div>
+    </div>
+    <!-- //.. Logo View Block -->
+
+    <!-- Logo Edit Block -->
+    <form *ngIf="isEdit" [formGroup]="form" (submit)="onSubmit(form.value)">
       <!-- Header -->
       <div class="profile_header">
         <h3 class="header_title">Logo Properties</h3>
         <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
-            <i class="fa fa-ellipsis-v"></i>
+          <i class="fa fa-ellipsis-v"></i>
         </button>
         <mat-menu #menu="matMenu" xPosition="before">
           <button mat-menu-item>
@@ -70,8 +119,9 @@
       <!-- Save Button -->
       <div class="profile_footer" fxLayoutAlign="end center">
         <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
-        <button mat-button class="save_button" [disabled]="form.invalid || loadingSave">Save</button>
+        <button mat-button class="logoCtrl_button" [disabled]="form.invalid || loadingSave">Save</button>
       </div>
     </form>
+    <!-- //.. Logo Edit Block -->
   </div>
 </div>
