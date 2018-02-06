@@ -47,23 +47,16 @@ export class SmsuiComponent implements OnInit {
       data => {
           this.spinnerService.hide();
         if (data) {
-
           this.alertService.success('Message has been sent successfully');
           this.smsContactForm.reset();
-          this.smsContactForm.message=null;
         }else{
         this.alertService.danger('Message not sent');
         this.smsContactForm.reset();
-        this.smsContactForm.message=null;
         }
       },
       error => {
         this.spinnerService.hide();
         console.log(error);
       })
-  }
-  socialLinksFormSubmit(body: any) {
-
-    
   }
 }

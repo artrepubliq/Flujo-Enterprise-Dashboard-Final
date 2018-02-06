@@ -12,7 +12,8 @@ import { IGalleryObject, IGalleryImageItem } from '../model/gallery.model';
 import { AppConstants } from '../app.constants';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import * as _ from 'underscore';
-
+import { Router } from '@angular/router'; 
+import { AppRoutingModule } from '../app-routing.module';
 @Component({
   selector: 'app-media',
   templateUrl: './media.component.html',
@@ -89,7 +90,6 @@ export class MediaComponent implements OnInit {
   }
   // template: string =`<img src="http://pa1.narvii.com/5722/2c617cd9674417d272084884b61e4bb7dd5f0b15_hq.gif" />`
   constructor(private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
-
     this.mediaManagementForm = this.formBuilder.group({
       image: [null],
       client_id: [null]
@@ -137,15 +137,11 @@ export class MediaComponent implements OnInit {
     const formModel = this.mediaManagementForm.value;
     this.httpClient.post(AppConstants.API_URL + "flujo_client_mediamanagement", formModel).subscribe(
       res => {
-        console.log(res);
         this.getMediaGalleryData();
-        this.successMessagebool = true;
         this.spinnerService.hide();
-        this.mediaManagementForm = null;
-        this.mediaManagementForm = null;
-        this.successMessagebool = true;
+        this.mediaManagementForm.reset();
         this.alertService.success('Images uploaded successfully');
-
+        this.router.navigate(['admin/sociallinks']);
       },
       (err: HttpErrorResponse) => {
         this.spinnerService.hide();
@@ -156,7 +152,7 @@ export class MediaComponent implements OnInit {
       }
     );
   }
-  getMediaGalleryData() {
+  getMediaGalleryData(){
     this.spinnerService.show();
     this.httpClient
       .get<mediaDetail>(AppConstants.API_URL + 'flujo_client_mediagallery')
@@ -181,7 +177,6 @@ export class MediaComponent implements OnInit {
           this.hightlightStatus = [false];
           this.spinnerService.hide();
           this.alertService.success('Image deleted Successfully');
-          this.alertService.success('Social Links deleted Successfully');
           this.getMediaGalleryData();
         }
       },
