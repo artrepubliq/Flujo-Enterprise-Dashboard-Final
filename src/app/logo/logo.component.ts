@@ -105,6 +105,7 @@ export class LogoComponent {
   }
   getLogoDetails = () => {
     this.loadingSave = true;
+    console.log(this.getLogoDetails());
     this.httpClient.get(AppConstants.API_URL+"flujo_client_logo/"+AppConstants.CLIENT_ID)
         .subscribe(
           data =>{
