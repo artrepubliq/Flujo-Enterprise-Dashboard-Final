@@ -19,7 +19,8 @@ export class PagesComponent {
     dialog: any;
     public parentPageDetails;
     public pageDetails: object;
-    public component_description: string = '';
+    public web_description: string = '';
+    public app_description: string = '';
 
     dummy: string;
     @ViewChild('fileInput') fileInput: ElementRef;
@@ -39,7 +40,8 @@ export class PagesComponent {
             component_name: ['', Validators.required],
             component_menuname: ['',null],
             component_parent: null,
-            component_description: ['', Validators.required],
+            web_description: ['', Validators.required],
+            app_description: ['', Validators.required],
             component_background_color:['',],
             component_order: ['', Validators.required],
             component_id: null,
@@ -148,7 +150,8 @@ export class PagesComponent {
             this.form.controls['component_id'].setValue(pageData.id);
             this.form.controls['component_name'].setValue(pageData.component_name);
             this.form.controls['component_menuname'].setValue(pageData.component_menuname);
-            this.form.controls['component_description'].setValue(pageData.component_description);
+            this.form.controls['web_description'].setValue(pageData.web_description);
+            this.form.controls['app_description'].setValue(pageData.app_description);
             this.form.controls['component_image'].setValue(pageData.component_image);
             this.form.controls['component_background_image'].setValue(pageData.component_background_image);
             this.form.controls['component_background_color'].setValue(pageData.component_background_color);
