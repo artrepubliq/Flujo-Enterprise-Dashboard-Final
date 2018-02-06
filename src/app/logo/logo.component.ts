@@ -54,11 +54,15 @@ export class LogoComponent {
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.logoItems.logo_url_path = reader.result.split(',')[1];
-        this.form.get('avatar').setValue(reader.result.split(',')[1])
+        this.form.get('avatar').setValue(reader.result.split(',')[1]);
+        // this.uploadLogoimageHttpRequest(this.form);
       };
     }
   }
-
+//
+// uploadLogoimageHttpRequest(reqObject){
+// this.httpClient.post();
+// }
   onSubmit = (body) => {
     this.spinnerService.show();
     this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
@@ -68,7 +72,7 @@ export class LogoComponent {
     this.httpClient.post(AppConstants.API_URL+"flujo_client_logo",formModel)
     .subscribe(
         data => {
-          this.alertService.success('Logo details submotted successfully.');
+          this.alertService.success('Logo details submitted successfully.');
            this.loadingSave = false;
            this.getLogoDetails();
            this.spinnerService.hide();
@@ -101,6 +105,7 @@ export class LogoComponent {
   }
   getLogoDetails = () => {
     this.loadingSave = true;
+    console.log(this.getLogoDetails());
     this.httpClient.get(AppConstants.API_URL+"flujo_client_logo/"+AppConstants.CLIENT_ID)
         .subscribe(
           data =>{

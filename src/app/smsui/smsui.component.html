@@ -1,5 +1,7 @@
 <div class="container smsContact">
-    <ng4-loading-spinner></ng4-loading-spinner>
+  <ng4-loading-spinner></ng4-loading-spinner>
+    <ngx-alerts maxMessages="3" timeout="5000">
+    </ngx-alerts>
   <h3>Sending of sms to clients</h3>
   <form role="form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
     <div class="row">
@@ -28,10 +30,6 @@
       <div class="col-md-5">
         <button type="submit" class="btn btn-success align-center float-right" (click)="smsContactFormSubmit(smsContactForm.value)">Send</button>
       </div>
-      <ngx-alerts maxMessages="3" timeout="5000">
-        <strong>{{successMessage }}</strong>
-        <strong>{{deleteMessage}}</strong>
-      </ngx-alerts>
     </div>
   </form>
   </div>

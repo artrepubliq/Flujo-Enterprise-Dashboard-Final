@@ -23,6 +23,7 @@ export class ProfileComponent {
   profileImag: string;
   isEdit: boolean;
   isDataExist: boolean;
+  isHideDeletebtn:boolean;
   profileData: IProfileData;
   ELEMENT_DATA: IProfileData;  
   // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -65,7 +66,7 @@ export class ProfileComponent {
 
   onSubmit = (body)=> {
     const formModel = this.form.value;
-    
+    this.spinnerService.show();
     // if(!this.form.value.avatar){
     //   formModel.avatar = "null"
     // }
@@ -74,6 +75,9 @@ export class ProfileComponent {
     this.httpClient.post(AppConstants.API_URL+"flujo_client_profile", formModel)
     .subscribe(
         data => {
+          this.parsePostResponse(data);
+          this.alertService.success('request Successfully submitted.');
+          // this.getProfileDetails();
           // this.parsePostResponse(data);
           // this.alertService.success('request Successfully submitted.');
           this.getProfileDetails();
@@ -83,6 +87,7 @@ export class ProfileComponent {
         error => {
           this.loading = false;
           this.spinnerService.hide();
+          this.alertService.danger('Something went wrong.');
         });
   }
 
@@ -92,6 +97,7 @@ export class ProfileComponent {
   }
 
   onDelete = (body)=>{
+    this.spinnerService.show();
     const formModel = this.form.value;
     this.spinnerService.show();
     this.loading = true;
@@ -102,6 +108,9 @@ export class ProfileComponent {
           this.alertService.success('profile deleted Successfully.');
           this.form.reset();
           this.getProfileDetails();
+          this.button_text = "save";
+          this.isHideDeletebtn = false;
+          this.spinnerService.hide();
            console.log(data);
            this.spinnerService.hide();
            

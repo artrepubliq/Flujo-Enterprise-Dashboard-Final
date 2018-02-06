@@ -22,7 +22,7 @@ export class EmailserviceComponent implements OnInit {
       'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
       'subject': ['', Validators.required],
       'message': ['', Validators.required],
-      'file':[''],
+      'file':[null],
       'check':[''],
       'client_id': null
     });
@@ -37,8 +37,14 @@ export class EmailserviceComponent implements OnInit {
   // socialLinksFormSubmit(body: any) {
   //   console.log(this.socialLinksForm.value);
   // }
-
+  onFileChange(event) {
+    if(event.target.files.length > 0) {
+      let file = event.target.files[0];
+      this.mailSendingForm.get('file').setValue(file);
+    }
+  }
   mailSendingFormSubmit(body: any) {
+    this.spinnerService.show();
     console.log(this.mailSendingForm.value);
     //this.mailSendingForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
     this.httpService.create(this.mailSendingForm.value, "/flujo_client_emailcsvdb")
@@ -48,6 +54,7 @@ export class EmailserviceComponent implements OnInit {
         if (data) {
           this.alertService.success('Email has been sent ');
           this.mailSendingForm.reset();
+          this.spinnerService.hide();
         }
 
       },
@@ -55,6 +62,7 @@ export class EmailserviceComponent implements OnInit {
         console.log(error);
         this.alertService.danger('Email could not be sent ');
         this.mailSendingForm.reset();
+        this.spinnerService.hide();
       })
   }
 }
