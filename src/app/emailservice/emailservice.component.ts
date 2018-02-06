@@ -19,7 +19,7 @@ export class EmailserviceComponent implements OnInit {
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   constructor(public loader: NgxSmartLoaderService,private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
     this.mailSendingForm = this.formBuilder.group({
-      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
+      'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
       'subject': ['', Validators.required],
       'message': ['', Validators.required],
       'file':[null],

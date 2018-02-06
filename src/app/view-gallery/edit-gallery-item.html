@@ -8,6 +8,6 @@
     <textarea name="" id="" cols="30" rows="5" placeholder="Description"></textarea>
     <input type="text" placeholder="Order">
     <button mat-raised-button class="mr-4">Save</button>
-    <button mat-raised-button [mat-dialog-close]="data.close">Cancel</button>
+    <button mat-raised-button (click)="onNoClick()">Cancel</button>
   </form>
 </div>

@@ -25,6 +25,7 @@ export class ReportsComponent {
     changeMakerCsvMail:any;
     reportCsvMail:any;
     public reportProblemData:any;
+
     EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
     constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
     this.feedbackCsvMail = this.formBuilder.group({

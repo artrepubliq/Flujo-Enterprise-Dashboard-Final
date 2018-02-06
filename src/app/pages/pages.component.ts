@@ -77,6 +77,7 @@ export class PagesComponent {
     onSubmit = (body) => {
         this.spinnerService.show();
         const formModel = this.form.value;
+        this.spinnerService.show();
         this.form.controls['client_id'].setValue(localStorage.getItem("client_id"));
         if(!body.component_id){
             this.form.controls['component_id'].setValue("null");
@@ -115,6 +116,7 @@ export class PagesComponent {
             },
             error => {
                 this.loading = false;
+                this.spinnerService.hide();
             });
     }
     getPageDetails = () => {

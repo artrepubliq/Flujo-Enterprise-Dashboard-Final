@@ -1,5 +1,4 @@
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
-
 /* **=======** Navbar CSS **=======** */
 
 .navbarTop {
@@ -341,8 +340,77 @@
 // **=======** Page Wrapper Styles **=======**
 #page-content-wrapper {
   margin: 15px; //   padding: 30px;
-  background-color: #ffffff;
+  // background-color: #ffffff;
   box-shadow: 0 1.5px 7px 0 rgba(0, 0, 0, 0.1);
   position: relative;
   padding: 30px;
 }
+
+// ========== Side Bar Hover Effect ===========
+/*
+.sidebar-toggle {
+  width: 80px;
+  overflow: visible !important;
+  .nav-item.open>.dropdown-menu {
+    display: none;
+  }
+  .team-items {
+    display: none;
+  }
+  .nav-link {
+    img {
+      position: initial;
+    }
+    span {
+      display: none;
+      position: absolute; //   left: 150%;
+      z-index: 9999;
+      top: 18px;
+      color: #fff;
+      background: #52306b;
+      min-width: 130px;
+      left: 100%;
+      top: 0;
+      text-align: center;
+      padding: 30px 0;
+    }
+  }
+  .dropdown-toggle:after {
+    display: none;
+  }
+  .nav-title,
+  .divider-line,
+  .divider {
+    display: none;
+  }
+}
+
+.sidebar-toggle:hover {
+  width: 240px;
+  .nav-title,
+  .divider-line,
+  .divider,
+  .team-items,
+  .nav-item.open>.dropdown-menu {
+    display: block;
+  }
+  .dropdown-toggle:after {
+    display: inline-block;
+  }
+  .nav-link {
+    img {
+      position: absolute;
+    }
+    span {
+      display: block;
+      position: initial;
+      min-width: auto;
+      padding: initial;
+      background: transparent;
+      left: initial;
+      text-align: initial;
+      color: #3f165d
+    }
+  }
+}
+*/
