@@ -62,7 +62,7 @@ export class ProfileComponent {
 
   onSubmit = (body)=> {
     const formModel = this.form.value;
-    
+    this.spinnerService.show();
     // if(!this.form.value.avatar){
     //   formModel.avatar = "null"
     // }
@@ -72,7 +72,7 @@ export class ProfileComponent {
     .subscribe(
         data => {
           this.parsePostResponse(data);
-          // this.alertService.success('request Successfully submitted.');
+          this.alertService.success('request Successfully submitted.');
           // this.getProfileDetails();
           //  this.loading = false;
           this.spinnerService.hide();
@@ -80,6 +80,7 @@ export class ProfileComponent {
         error => {
           this.loading = false;
           this.spinnerService.hide();
+          this.alertService.danger('Something went wrong.');
         });
   }
 
@@ -89,6 +90,7 @@ export class ProfileComponent {
   }
 
   onDelete = (body)=>{
+    this.spinnerService.show();
     const formModel = this.form.value;
     this.loading = true;
     console.log(formModel);
@@ -100,7 +102,7 @@ export class ProfileComponent {
           this.getProfileDetails();
           this.button_text = "save";
           this.isHideDeletebtn = false;
-           this.spinnerService.hide();
+          this.spinnerService.hide();
            
         },
         error => {
@@ -111,6 +113,7 @@ export class ProfileComponent {
 
   getProfileDetails = ()=>{
     this.loading = true;
+    this.spinnerService.show();
     this.httpService.getById(localStorage.getItem("client_id"),"/flujo_client_profile/")
         .subscribe(
           data =>{
@@ -119,10 +122,12 @@ export class ProfileComponent {
              // this.setDefaultClientProfileDetails(data);
             this.isEdit = true;
             this.loading = false;
+            this.spinnerService.hide();
           },
           error =>{
             console.log(error);
             this.loading = false;
+            this.spinnerService.hide();
           }
         )
   }

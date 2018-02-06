@@ -75,6 +75,7 @@ export class PagesComponent {
     }
    
     onSubmit = (body) => {
+        this.spinnerService.show();
         const formModel = this.form.value;
         this.form.controls['client_id'].setValue(localStorage.getItem("client_id"));
         if(!body.component_id){
@@ -101,7 +102,7 @@ export class PagesComponent {
     }
     onDelete = (body) => {
         // const formModel = this.form.value;
-        
+        this.spinnerService.show();
         let component_id = body.id;
         this.httpClient.delete(AppConstants.API_URL+"flujo_client_component/"+component_id)
             .subscribe(
@@ -141,6 +142,7 @@ export class PagesComponent {
 
     //this method is used to update page detals to the form, if detalis exist
     setDefaultClientPageDetails = (pageData) => {
+        
         if (pageData) {
             // this.button_text = "Update";
             this.form.controls['component_id'].setValue(pageData.id);
@@ -166,6 +168,7 @@ export class PagesComponent {
         this.isEdit = false;
     }
     editCompnent = (componentItem) => {
+        this.alertService.success('page updated successfull.');
         this.isEdit = true;
         this.button_text = "Update";
         this.setDefaultClientPageDetails(componentItem);
