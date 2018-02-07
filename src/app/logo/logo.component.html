@@ -16,6 +16,9 @@
             <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
             <p class="hover-upload" *ngIf="logoItems?.logo_url_path">Update logo</p>
             <div class="bg-layer"></div>
+            <div class="custom-file">
+              <button mat-raised-button (click)="editLogo()">Edit Logo</button>
+            </div>
           </div>
         </div>
         <div fxLayout="column" fxFlex="40" fxLayoutGap="25px">
