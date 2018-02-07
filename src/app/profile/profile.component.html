@@ -8,21 +8,21 @@
     <!-- Logo View Block -->
     <div *ngIf="!isEdit">
       <div class="profile_header">
-        <h3 class="header_title">Logo Properties</h3>
+        <h3 class="header_title">Profile Properties</h3>
       </div>
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="profile_img">
           <div fxLayoutAlign="center center" class="logo-img">
-            <span *ngIf="!profileData.avatar">no image</span>
-            <img fxLayoutAlign="center center" *ngIf="profileData.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
+            <span *ngIf="!profileData?.avatar">no image</span>
+            <img fxLayoutAlign="center center" *ngIf="profileData?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
           </div>
           <div class="upload-logo">
-            <div class="custom-file">
-              <button mat-raised-button (click)="editLogo()">Edit Logo</button>
-            </div>
+            <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
+            <p class="hover-upload">Upload Your Image</p>
+            <div class="bg-layer"></div>
           </div>
         </div>
-        <div fxLayout="column" fxFlex="40" fxLayoutGap="25px">
+        <div *ngIf="profileData" fxLayout="column" fxFlex="40" fxLayoutGap="25px">
           <div fxLayout="column">
             <label>Company Name</label>
             <p>{{profileData.company_name}}</p>
@@ -42,37 +42,13 @@
       </div>
     </div>
     <!-- //.. Logo View Block -->
-<!-- ==== Profile View Block ==== -->
-<div *ngIf="!isEdit" class="profileView-block">
-  <div *ngIf="profileData" fxLayout="column" fxFlex="40%" fxLayoutGap="30px">
-    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
-      <h3>Company Name:</h3>
-      <p>{{profileData.company_name}}</p>
-    </div>
-    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
-      <h3>Website URL:</h3>
-      <p>{{profileData.website_url}}</p>
-    </div>
-    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
-      <h3>Mobile Number:</h3>
-      <p>{{profileData.mobile_number}}</p>
-    </div>
-    <button (click)=EditProfileData() mat-raised-button class="edit-button">Edit</button>
-    </div>
-    <div fxLayout="column" fxFlex="50%">
-      <div fxLayout="row" class="item-block">
-        <h3>Avatar:</h3>
-        <span *ngIf="!profileData?.avatar">no image</span>
-        <div fxLayout="row" class="defaultavatar">
-          <img fxLayoutAlign="center center" *ngIf="profileData?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
-          <!-- <button (click)=EditProfileData()  class="hoverbuttons">
-              <i class="fa fa-edit"></i>
+
     <!-- Logo Edit Block -->
     <form *ngIf="isEdit" [formGroup]="form" (submit)="onSubmit(form.value)">
       <!-- Header -->
       <div class="profile_header">
-        <h3 class="header_title">Logo Properties</h3>
-        <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
+        <h3 class="header_title">Profile Properties</h3>
+        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
           <i class="fa fa-ellipsis-v"></i>
         </button>
         <mat-menu #menu="matMenu" xPosition="before">
@@ -85,7 +61,7 @@
           <button mat-menu-item>
             <span>Disable alerts</span>
           </button>
-        </mat-menu>
+        </mat-menu> -->
       </div>
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="" fxLayout="column" fxLayoutGap="20px">
@@ -95,10 +71,9 @@
               <img *ngIf="profileData.avatar" src="data:image/png;base64,{{profileData.avatar}}" alt="Logo" class="img-fluid">
             </div>
             <div class="upload-logo">
-              <div class="custom-file">
-                <button mat-raised-button class=""> Upload Your File</button>
-                <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-              </div>
+              <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
+              <p class="hover-upload">Upload Your Image</p>
+              <div class="bg-layer"></div>
             </div>
           </div>
           <!-- Logo File Details -->
@@ -127,13 +102,11 @@
       <!-- Save Button -->
       <div class="profile_footer" fxLayoutAlign="end center">
         <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
-        <button mat-button class="logoCtrl_button" (click)="cancelFileEdit()">Cancel</button>
+        <button mat-button class="logoCtrl_button cancel" (click)="cancelFileEdit()">Cancel</button>
         <button mat-button class="logoCtrl_button" [disabled]="form.invalid || loading">Update
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
-        <button mat-button class="logoCtrl_button"  (click)="onDelete(form.value)" [disabled]="form.invalid || loading">Delete
-          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-        </button>
+        <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loading">Delete</button>
       </div>
     </form>
     <!-- //.. Logo Edit Block -->
