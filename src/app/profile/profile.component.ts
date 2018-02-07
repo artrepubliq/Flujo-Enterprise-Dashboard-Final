@@ -109,7 +109,7 @@ export class ProfileComponent {
           this.form.reset();
           this.getProfileDetails();
           this.button_text = "save";
-          this.isHideDeletebtn = false;
+          // this.isHideDeletebtn = false;
           this.spinnerService.hide();
            console.log(data);
            this.spinnerService.hide();
@@ -121,12 +121,12 @@ export class ProfileComponent {
         });
   }
 
-  getProfileDetails = ()=>{
+  getProfileDetails = () =>{
     this.loading = true;
     this.spinnerService.show();
     this.httpClient.get(AppConstants.API_URL+"flujo_client_profile/"+AppConstants.CLIENT_ID)
         .subscribe(
-          data =>{
+          data => {
             console.log(data);
             this.BindProfileData(data);
              // this.setDefaultClientProfileDetails(data);
@@ -134,7 +134,7 @@ export class ProfileComponent {
             this.loading = false;
             this.spinnerService.hide();
           },
-          error =>{
+          error => {
             console.log(error);
             this.loading = false;
             this.spinnerService.hide();
@@ -142,7 +142,7 @@ export class ProfileComponent {
         )
   }
 
-  BindProfileData = (profileData)=>{
+  BindProfileData = (profileData) => {
     this.profileData = profileData.result;
   }
   //this method is used to update profile detals to the form, if detalis exist

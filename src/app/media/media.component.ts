@@ -141,6 +141,7 @@ export class MediaComponent implements OnInit {
         this.spinnerService.hide();
         this.mediaManagementForm.reset();
         this.alertService.success('Images uploaded successfully');
+        // this.router.navigate(['admin/sociallinks']);
       },
       (err: HttpErrorResponse) => {
         this.spinnerService.hide();

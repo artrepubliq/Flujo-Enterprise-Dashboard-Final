@@ -42,7 +42,31 @@
       </div>
     </div>
     <!-- //.. Logo View Block -->
-
+<!-- ==== Profile View Block ==== -->
+<div *ngIf="!isEdit" class="profileView-block">
+  <div *ngIf="profileData" fxLayout="column" fxFlex="40%" fxLayoutGap="30px">
+    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
+      <h3>Company Name:</h3>
+      <p>{{profileData.company_name}}</p>
+    </div>
+    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
+      <h3>Website URL:</h3>
+      <p>{{profileData.website_url}}</p>
+    </div>
+    <div class="item-block" fxLayout="row" fxLayoutGap="30px">
+      <h3>Mobile Number:</h3>
+      <p>{{profileData.mobile_number}}</p>
+    </div>
+    <button (click)=EditProfileData() mat-raised-button class="edit-button">Edit</button>
+    </div>
+    <div fxLayout="column" fxFlex="50%">
+      <div fxLayout="row" class="item-block">
+        <h3>Avatar:</h3>
+        <span *ngIf="!profileData?.avatar">no image</span>
+        <div fxLayout="row" class="defaultavatar">
+          <img fxLayoutAlign="center center" *ngIf="profileData?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
+          <!-- <button (click)=EditProfileData()  class="hoverbuttons">
+              <i class="fa fa-edit"></i>
     <!-- Logo Edit Block -->
     <form *ngIf="isEdit" [formGroup]="form" (submit)="onSubmit(form.value)">
       <!-- Header -->
