@@ -11,10 +11,10 @@
           <div *ngIf="logoItems?.logo_url_path" fxLayoutAlign="center center" class="logo-img">
             <span *ngIf="!logoItems?.logo_url_path">no image</span>
             <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
-          </div>
+          </div> 
           <div class="upload-logo">
             <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-            <p class="hover-upload" *ngIf="logoItems?.logo_url_path">Update logo</p>
+            <p class="hover-upload">Upload Logo</p>
             <div class="bg-layer"></div>
           </div>
         </div>
@@ -54,7 +54,7 @@
       <!-- Header -->
       <div class="profile_header">
         <h3 class="header_title">Logo Properties</h3>
-        <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
+        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
           <i class="fa fa-ellipsis-v"></i>
         </button>
         <mat-menu #menu="matMenu" xPosition="before">
@@ -67,7 +67,7 @@
           <button mat-menu-item>
             <span>Disable alerts</span>
           </button>
-        </mat-menu>
+        </mat-menu> -->
       </div>
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="" fxLayout="column" fxLayoutGap="20px">
@@ -78,7 +78,7 @@
             </div>
             <div class="upload-logo">
               <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-              <p class="hover-upload" *ngIf="logoItems?.logo_url_path">Upload Your Image</p>
+              <p class="hover-upload">Upload Logo</p>
               <div class="bg-layer"></div>
             </div>
           </div>
