@@ -58,14 +58,15 @@ export class LogoComponent {
         this.logoDetail.push(reader.result.split(',')[1]);
         this.form.get('avatar').setValue(reader.result.split(',')[1]);
         this.uploadLogoimageHttpRequest(this.form);
-      };console.log(this.logoDetail[0]);
+      };
     }
   }
-//
+
 uploadLogoimageHttpRequest(reqObject){
+  this.spinnerService.show();
   this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
   const imageModel = this.form.value
-this.httpClient.post(AppConstants.API_URL+"flujo_client_logo",imageModel)
+  this.httpClient.post(AppConstants.API_URL+"flujo_client_logo",imageModel)
 .subscribe(
   data => {
     this.alertService.success('Logo submitted successfully.');
@@ -122,7 +123,7 @@ this.httpClient.post(AppConstants.API_URL+"flujo_client_logo",imageModel)
   }
   getLogoDetails = () => {
     this.loadingSave = true;
-    console.log(this.getLogoDetails());
+    this.spinnerService.show();
     this.httpClient.get(AppConstants.API_URL+"flujo_client_logo/"+AppConstants.CLIENT_ID)
         .subscribe(
           data =>{
@@ -130,14 +131,16 @@ this.httpClient.post(AppConstants.API_URL+"flujo_client_logo",imageModel)
             if(data != null){
             this.setDefaultClientLogoDetails(data);
              this.isHide=true;
+             this.spinnerService.hide();
             } else{
               this.button_text = "save";
               this.isHideDeletebtn = false;
               data? this.isEdit =false : this.isEdit = true;
               this.alertService.success('No Data found');    
-              this.isHide=false;    
+              this.isHide=false;
+              this.spinnerService.hide();   
             }
-            this.loadingSave = false;
+            // this.loadingSave = false;
             // this.isEdit = false;
           },
           error =>{
