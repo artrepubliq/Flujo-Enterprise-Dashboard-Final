@@ -62,9 +62,9 @@
     <div fxLayout="column" fxFlex="50%">
       <div fxLayout="row" class="item-block">
         <h3>Avatar:</h3>
-        <span *ngIf="!profileData.avatar">no image</span>
+        <span *ngIf="!profileData?.avatar">no image</span>
         <div fxLayout="row" class="defaultavatar">
-          <img fxLayoutAlign="center center" *ngIf="profileData.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
+          <img fxLayoutAlign="center center" *ngIf="profileData?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
           <!-- <button (click)=EditProfileData()  class="hoverbuttons">
               <i class="fa fa-edit"></i>
           </button>

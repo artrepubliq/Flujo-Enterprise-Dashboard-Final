@@ -108,7 +108,7 @@ export class ProfileComponent {
           this.form.reset();
           this.getProfileDetails();
           this.button_text = "save";
-          this.isHideDeletebtn = false;
+          // this.isHideDeletebtn = false;
           this.spinnerService.hide();
            console.log(data);
            this.spinnerService.hide();
