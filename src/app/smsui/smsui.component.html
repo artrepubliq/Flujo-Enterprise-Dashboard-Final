@@ -1,5 +1,9 @@
 <div class="container smsContact">
     <ng4-loading-spinner></ng4-loading-spinner>
+    <ngx-alerts maxMessages="3" timeout="5000">
+        <strong>{{successMessage }}</strong>
+        <strong>{{deleteMessage}}</strong>
+      </ngx-alerts>
   <h3>Sending of sms to clients</h3>
   <form role="form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
     <div class="row">
@@ -26,10 +30,27 @@
       <div class="col-md-5">
         <button type="submit" class="btn btn-success align-center float-right" (click)="smsContactFormSubmit(smsContactForm.value)">Send</button>
       </div>
-      <ngx-alerts maxMessages="3" timeout="5000">
-        <strong>{{successMessage }}</strong>
-        <strong>{{deleteMessage}}</strong>
-      </ngx-alerts>
+      
     </div>
   </form>
   </div>
+
+
+
+
+
+
+  <!-- //$api_url ='http://api-alerts.solutionsinfini.com/v3/?method=sms&api_key=Afef8b80a6450bc8c9750205e0d892578&to='.$mobile.'&sender='.$sender_id.'&message='.$sms_text;
+  //Envoking the API url and getting the response 
+  $otp_response = file_get_contents( $api_url);
+        
+  $json = json_decode($otp_response, true);     
+       
+  $otp_satus=$json['status']; 
+    
+  if($otp_satus == 'OK'){
+                        
+            echo json_encode($otp_satus);
+        }else {
+            echo json_encode($otp_satus);
+        } -->
