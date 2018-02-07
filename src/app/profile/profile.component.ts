@@ -23,6 +23,7 @@ export class ProfileComponent {
   profileImag: string;
   isEdit: boolean;
   isDataExist: boolean;
+  isHideDeletebtn:boolean;
   profileData: IProfileData;
   ELEMENT_DATA: IProfileData;  
   // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
