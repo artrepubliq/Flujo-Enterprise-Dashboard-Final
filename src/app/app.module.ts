@@ -24,10 +24,11 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatInputModule,MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule } from '@angular/material';
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
+import { EditGalleryItems } from './directives/edit-gallery-popup/editgallery.popup';
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ImageUploadModule } from "angular2-image-upload";
@@ -35,7 +36,7 @@ import { ImageUploadModule } from "angular2-image-upload";
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { MediaComponent } from  './media/media.component';
+import { MediaComponent, DialogOverviewExampleDialog } from  './media/media.component';
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
@@ -48,8 +49,10 @@ import { Http, RequestOptions } from '@angular/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
-import { ViewGalleryComponent, EditGalleryItems } from './view-gallery/view-gallery.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { EditorComponent } from './editor/editor.component';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
+
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -74,11 +77,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmsuiComponent,
     CreateUserComponentComponent,
     ThemeConfigComponent,
+    EditorComponent,
     ViewGalleryComponent,
-    EditGalleryItems,
+    
 
     //directives
-    GalleryDirective
+    EditGalleryItems,
+    GalleryDirective,
+    DialogOverviewExampleDialog
   ],
   imports: [
     BrowserModule,
@@ -103,9 +109,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     LoadingModule,
     Ng4LoadingSpinnerModule.forRoot(),
     NgxSmartLoaderModule.forRoot(),
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot(),
+<<<<<<< HEAD
+    MatDialogModule,
+    MatTabsModule
+=======
     MatDialogModule
+>>>>>>> adbfc1dc8d8073bc37e8cee22e726bb01b9d0de5
   ],
-  entryComponents: [EditGalleryItems],
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog],
   providers: [AuthService,
               HttpService,
               ValidationService,

@@ -46,8 +46,10 @@
   max-width: 300px;
   max-height: 300px;
   .hoverbuttons{
-    position: absolute;
-    bottom: 0;
+    // position: absolute;
+    // top: 60%;
+    // left:50%;
+    // bottom: 0;
     // display: none;
     opacity:0;
   }
@@ -56,9 +58,23 @@
   }
   #uploadbutton{
     position: absolute;
-    top: 60%;
-    left:50%;
+    top: 40%;
+    left:10px;
+    #btn-ed.mat-raised-button,#btn-tr.mat-raised-button{
+        padding:4px; 
+        max-width:20px !important;  
+    }
+    #btn-ed i,#btn-tr i{
+      padding:0px 2px;   
   }
+  }
+    button{
+      padding: 0;
+    }
+    button.mat-raised-button i{
+      line-height: 40px;
+      vertical-align: middle;
+    }
 }
 .defaultavatar:hover .hoverbuttons{
   // display:block;

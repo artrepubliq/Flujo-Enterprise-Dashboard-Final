@@ -7,6 +7,7 @@ import {MatTableDataSource} from '@angular/material';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Component({
+  selector:'./app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
@@ -20,7 +21,6 @@ export class ProfileComponent {
   isDataExist: boolean;
   profileData: IProfileData;
   ELEMENT_DATA: IProfileData;  
-  isHideDeletebtn:boolean=false;
   // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   
   @ViewChild('fileInput') fileInput: ElementRef;
@@ -97,8 +97,7 @@ export class ProfileComponent {
           this.alertService.success('profile deleted Successfully.');
           this.form.reset();
           this.getProfileDetails();
-          this.button_text = "save";
-          this.isHideDeletebtn = false;
+           console.log(data);
            this.spinnerService.hide();
            
         },
@@ -116,7 +115,7 @@ export class ProfileComponent {
             console.log(data);
             this.BindProfileData(data);
              // this.setDefaultClientProfileDetails(data);
-            this.isEdit = true;
+            this.isEdit = false;
             this.loading = false;
           },
           error =>{
@@ -138,6 +137,9 @@ export class ProfileComponent {
       this.form.controls['website_url'].setValue(this.profileData.website_url);
       this.form.controls['mobile_number'].setValue(this.profileData.mobile_number);    
   }
+  cancelFileEdit(){
+    this.isEdit = false;
+  }
 
   parsePostResponse(response){
     
@@ -146,7 +148,6 @@ export class ProfileComponent {
         this.spinnerService.hide();
       this.alertService.danger('Required parameters missing.');
     }else{
-      this.isHideDeletebtn = true;
         this.alertService.success('page operation successfull.');
         this.loading = false;
         this.spinnerService.hide();
