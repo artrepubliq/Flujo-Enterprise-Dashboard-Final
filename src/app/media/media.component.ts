@@ -344,25 +344,7 @@ export class MediaComponent implements OnInit {
 
 
   }
-  //getting single album gallery details by album id
-  // getAlbumGalleryById(albumId): any {
-  //   this.spinnerService.show();
-  //   this.httpClient.get<IGalleryObject>(AppConstants.API_URL + "flujo_client_getgallery/" + albumId)
-  //     .subscribe(
-  //     data => {
-
-
-  //       // this.albumGalleryItem = data;
-
-  //       this.spinnerService.hide();
-  //       return data;
-  //     },
-
-  //     err => {
-  //       this.spinnerService.hide();
-  //     });
-
-  // }
+ 
   openDialog(albumItem): void {
     this.albumObject = this.originalAlbumData;
     // this.albumItem = albumItem;
