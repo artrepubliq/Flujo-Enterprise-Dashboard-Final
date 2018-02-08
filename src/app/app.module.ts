@@ -111,12 +111,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxSmartLoaderModule.forRoot(),
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
-<<<<<<< HEAD
     MatDialogModule,
     MatTabsModule
-=======
-    MatDialogModule
->>>>>>> adbfc1dc8d8073bc37e8cee22e726bb01b9d0de5
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog],
   providers: [AuthService,
