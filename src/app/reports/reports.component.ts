@@ -12,6 +12,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
+<<<<<<< HEAD
 export class ReportsComponent {
   isFeedbackReport: boolean = true;
   isChangeReport: boolean = false;
@@ -25,6 +26,20 @@ export class ReportsComponent {
   showEmailClickReport: boolean = false;
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
    
+=======
+export class ReportsComponent { 
+    isFeedbackReport: boolean = true;
+    isChangeReport:boolean=false;
+    loading: boolean = false;
+    isReportData:boolean=false;
+    public feedbackData: any;
+    changemakerData: any;
+    public reportProblemData:any;
+    showEmailClickFeedback:boolean = false;
+    showEmailClick: boolean = false;
+    showEmailClickReport:boolean = false;
+  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
+>>>>>>> adbfc1dc8d8073bc37e8cee22e726bb01b9d0de5
     this.getChangemakerReportData();
     this.getuserFeedbackData();
     this.getReportYourProblemData();
