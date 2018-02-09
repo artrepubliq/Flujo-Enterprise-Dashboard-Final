@@ -125,6 +125,42 @@
             .custom-file {
               display: inline-block;
               position: initial;
+          font-size: 12px;
+          font-weight: 500;
+          text-align: center;
+          color: #666666;
+          text-transform: uppercase;
+          width: 100%;
+          height: 50px;
+          box-shadow: none;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          border-top: 1px solid #cdcdcd; //   padding: 7px;
+          position: initial;
+          .custom-file {
+            display: inline-block;
+            position: initial;
+            max-width: 100%;
+            min-width: 100%;
+            height: 100%;
+            button {
+              border-radius: 0;
+              border-bottom-left-radius: 5px;
+              border-bottom-right-radius: 5px;
+              width: 100%;
+              height: 50px;
+              box-shadow: none;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              border-top: 1px solid #cdcdcd;
+            }
+            button:disabled {
+              cursor: not-allowed;
+            }
+            input[type=file] {
               max-width: 100%;
               min-width: 100%;
               height: 100%;
@@ -215,6 +251,52 @@
           .bg-layer {
             display: block;
           }
+        } */
+        .upload-logo {
+          input[type=file] {
+            max-width: 100%;
+            min-width: 100%;
+            left: 0;
+            right: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin: 0;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 9;
+          }
+          .hover-upload {
+            font-family: 'Roboto';
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            color: #fff;
+            text-transform: uppercase;
+            position: absolute;
+            top: 40%;
+            width: 100%;
+            display: none;
+            z-index: 1;
+          }
+          .bg-layer {
+              position: absolute;
+              top: 15px;
+              bottom: 15px;
+              left: 15px;
+              right: 15px;
+              background-color: rgba(0, 0, 0, 0.45);
+              display: none;
+              border-radius: 5px;
+          }
+        }
+        .upload-logo:hover {
+            .hover-upload {
+                display: block;
+            }
+            .bg-layer {
+                display: block;
+            }
         }
       }
       .logo-details {

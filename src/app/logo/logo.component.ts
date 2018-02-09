@@ -20,8 +20,13 @@ export class LogoComponent {
   isEdit: boolean = true;
   isHideDeletebtn: boolean = false;
   resultExist: boolean;
+<<<<<<< HEAD
   isHide: boolean;
   logoDetail: Array<object>;
+=======
+  isHide:boolean;
+  logoDetail:Array<object>;
+>>>>>>> origin/master
   @ViewChild('fileInput') fileInput: ElementRef;
 
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
@@ -62,31 +67,30 @@ export class LogoComponent {
     }
   }
 
-  uploadLogoimageHttpRequest(reqObject) {
-    this.spinnerService.show();
-    this.logoDetail[0];
-    this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    const imageModel = this.form.value
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_logo", imageModel)
-      .subscribe(
-      data => {
-        this.alertService.success('Logo submitted successfully.');
-        this.loadingSave = false;
-        // this.getLogoDetails();
-        this.spinnerService.hide();
-      },
-      error => {
-        this.loadingSave = false;
-        this.spinnerService.hide();
-      });
-  }
+uploadLogoimageHttpRequest(reqObject){
+  this.spinnerService.show();
+  this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+  const imageModel = this.form.value
+  this.httpClient.post(AppConstants.API_URL+"flujo_client_logo",imageModel)
+.subscribe(
+  data => {
+    this.alertService.success('Logo submitted successfully.');
+     this.loadingSave = false;
+     this.getLogoDetails();
+     this.spinnerService.hide();
+  },
+  error => {
+    this.loadingSave = false;
+    this.spinnerService.hide();
+  });
+}
   onSubmit = (body) => {
     this.spinnerService.show();
     this.logoDetail[0];
     this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
 
     this.form.controls['avatar'].setValue(this.logoDetail[0]);
-    const formModel = this.form.value;
+        const formModel = this.form.value;
     this.loadingSave = true;
 
     this.httpClient.post(AppConstants.API_URL + "flujo_client_logo", formModel)
@@ -126,30 +130,30 @@ export class LogoComponent {
   getLogoDetails = () => {
     this.loadingSave = true;
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_logo/" + AppConstants.CLIENT_ID)
-      .subscribe(
-      data => {
-        data ? this.isEdit = false : this.isEdit = true;
-        if (data != null) {
-          this.setDefaultClientLogoDetails(data);
-          this.isHide = true;
-          this.spinnerService.hide();
-        } else {
-          this.button_text = "save";
-          this.isHideDeletebtn = false;
-          data ? this.isEdit = false : this.isEdit = true;
-          this.alertService.success('No Data found');
-          this.isHide = false;
-          this.spinnerService.hide();
-        }
-        this.loadingSave = false;
-        // this.isEdit = false;
-      },
-      error => {
-        console.log(error);
-        this.loadingSave = false;
-      }
-      )
+    this.httpClient.get(AppConstants.API_URL+"flujo_client_logo/"+AppConstants.CLIENT_ID)
+        .subscribe(
+          data =>{
+            data? this.isEdit =false : this.isEdit = true;
+            if(data != null){
+            this.setDefaultClientLogoDetails(data);
+             this.isHide=true;
+             this.spinnerService.hide();
+            } else{
+              this.button_text = "save";
+              this.isHideDeletebtn = false;
+              data? this.isEdit =false : this.isEdit = true;
+              this.alertService.success('No Data found');    
+              this.isHide=false;
+              this.spinnerService.hide();   
+            }
+            // this.loadingSave = false;
+            // this.isEdit = false;
+          },
+          error =>{
+            console.log(error);
+            this.loadingSave = false;
+          }
+        )
   }
   EditInfo = () => {
     this.isEdit = true;

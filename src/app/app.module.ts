@@ -24,10 +24,15 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
+<<<<<<< HEAD
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule, MatTabsModule, MatTooltipModule } from '@angular/material';
+=======
+import { MatButtonModule, MatFormFieldModule, MatInputModule,MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule } from '@angular/material';
+>>>>>>> origin/master
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
+import { EditGalleryItems } from './directives/edit-gallery-popup/editgallery.popup';
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ImageUploadModule } from "angular2-image-upload";
@@ -35,7 +40,7 @@ import { ImageUploadModule } from "angular2-image-upload";
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { MediaComponent } from  './media/media.component';
+import { MediaComponent, DialogOverviewExampleDialog } from  './media/media.component';
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
@@ -53,6 +58,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent, EditGalleryItems } from './view-gallery/view-gallery.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { Router } from '@angular/router';
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -78,10 +84,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ThemeConfigComponent,
     EditorComponent,
     ViewGalleryComponent,
-    EditGalleryItems,
+    
 
     //directives
-    GalleryDirective
+    EditGalleryItems,
+    GalleryDirective,
+    DialogOverviewExampleDialog
   ],
   imports: [
     BrowserModule,
@@ -112,7 +120,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTabsModule,
     MatTooltipModule
   ],
-  entryComponents: [EditGalleryItems],
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog],
   providers: [AuthService,
               HttpService,
               ValidationService,
