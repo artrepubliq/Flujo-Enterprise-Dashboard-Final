@@ -13,8 +13,8 @@
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="profile_img">
           <div fxLayoutAlign="center center" class="logo-img">
-            <span *ngIf="!profileData.avatar">no image</span>
-            <img fxLayoutAlign="center center" *ngIf="profileData.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
+            <span *ngIf="!profileData?.avatar">no image</span>
+            <img fxLayoutAlign="center center" *ngIf="profileData?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
           </div>
           <div class="upload-logo">
             <div class="custom-file">
@@ -43,7 +43,7 @@
     </div>
     <!-- //.. Logo View Block -->
 <!-- ==== Profile View Block ==== -->
-<div *ngIf="!isEdit" class="profileView-block">
+<!-- <div *ngIf="!isEdit" class="profileView-block">
   <div *ngIf="profileData" fxLayout="column" fxFlex="40%" fxLayoutGap="30px">
     <div class="item-block" fxLayout="row" fxLayoutGap="30px">
       <h3>Company Name:</h3>
@@ -64,7 +64,7 @@
         <h3>Avatar:</h3>
         <span *ngIf="!profileData?.avatar">no image</span>
         <div fxLayout="row" class="defaultavatar">
-          <img fxLayoutAlign="center center" *ngIf="profileData?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
+          <img fxLayoutAlign="center center" *ngIf="profileData?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}"> -->
           <!-- <button (click)=EditProfileData()  class="hoverbuttons">
               <i class="fa fa-edit"></i>
     <!-- Logo Edit Block -->

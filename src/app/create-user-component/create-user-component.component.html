@@ -6,7 +6,7 @@
       <form [formGroup]="CreateUserForm" (ngSubmit)="onSubmit()" fxLayout="column" fxFlex=40% fxLayoutAlign="start" fxLayoutGap="40px" class="form-inline">
         <div  fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
           <label for="name">Name :</label>
-          <input fxFlex="75%" type="text"  class="form-control" id="name" formControlName = "name" required placeholder="Name">
+          <input fxFlex="75%" type="text" pattern="[A-Za-z]+" title="letters only"   class="form-control" id="name" formControlName = "name" required placeholder="Name">
           <div  [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert alert-danger">
             Name is required
           </div>

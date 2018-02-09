@@ -50,13 +50,11 @@ export class EmailserviceComponent implements OnInit {
     this.httpService.create(this.mailSendingForm.value, "/flujo_client_emailcsvdb")
       .subscribe(
       data => {
-
         if (data) {
           this.alertService.success('Email has been sent ');
           this.mailSendingForm.reset();
           this.spinnerService.hide();
         }
-
       },
       error => {
         console.log(error);

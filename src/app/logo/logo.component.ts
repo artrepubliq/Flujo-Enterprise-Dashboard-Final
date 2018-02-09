@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./logo.component.scss']
 })
 export class LogoComponent {
+  logoImage: any;
   form: FormGroup;
   loadingSave: boolean = false;
   loadingDelete: boolean;
@@ -21,6 +22,7 @@ export class LogoComponent {
   isHideDeletebtn:boolean=false;
   resultExist: boolean;
   isHide:boolean;
+  logoImageDetails:any;
   logoDetail:Array<object>;
   @ViewChild('fileInput') fileInput: ElementRef;
 
@@ -42,8 +44,7 @@ export class LogoComponent {
       logo_width: ['', Validators.required],
       // slogan_text: ['', Validators.required],
       client_id: null,
-      theme_id: "23",
-      avatar: null
+      theme_id: "23"
     });
   }
 
@@ -56,22 +57,28 @@ export class LogoComponent {
       reader.onload = () => {
         this.logoItems.logo_url_path = reader.result.split(',')[1];
         this.logoDetail.push(reader.result.split(',')[1]);
-        this.form.get('avatar').setValue(reader.result.split(',')[1]);
-        this.uploadLogoimageHttpRequest(this.form);
+        // this.form.get('avatar').setValue(reader.result.split(',')[1]);
+        console.log(reader.result.split(',')[1]);
+        let uploadImage = {logo_id:this.logoImageDetails.id,client_id:this.logoImageDetails.client_id, image:reader.result.split(',')[1]}
+        console.log(uploadImage);
+        this.uploadLogoimageHttpRequest(uploadImage);
+        
       };
     }
   }
 
 uploadLogoimageHttpRequest(reqObject){
+ 
   this.spinnerService.show();
   this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-  const imageModel = this.form.value
-  this.httpClient.post(AppConstants.API_URL+"flujo_client_logo",imageModel)
+  // const imageModel = this.form.value
+  this.httpClient.post(AppConstants.API_URL+"flujo_client_logo_upload",reqObject)
 .subscribe(
   data => {
+    this.logoImage = reqObject.image;
     this.alertService.success('Logo submitted successfully.');
      this.loadingSave = false;
-     this.getLogoDetails();
+    //  this.getLogoDetails();
      this.spinnerService.hide();
   },
   error => {
@@ -80,10 +87,16 @@ uploadLogoimageHttpRequest(reqObject){
   });
 }
   onSubmit = (body) => {
+    // if(!this.logoDetail){
+    //   this.logoDetail= [];
+    //   // this.logoDetail = <Array<ILogo>>{};
+    //   this.logoDetail.push({hasLogo: false});
+    // }
+    
     this.spinnerService.show();
+    this.logoDetail;
     this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-
-    this.form.controls['avatar'].setValue(this.logoDetail[0]);
+    // this.form.controls['avatar'].setValue(this.form.controls['avatar'].get('avatar'));
         const formModel = this.form.value;
     this.loadingSave = true;
     
@@ -102,7 +115,7 @@ uploadLogoimageHttpRequest(reqObject){
   }
 
   clearFile = () => {
-    this.form.get('avatar').setValue(null);
+    
     this.fileInput.nativeElement.value = '';
   }
   onDelete = (body) => {
@@ -127,7 +140,9 @@ uploadLogoimageHttpRequest(reqObject){
     this.httpClient.get(AppConstants.API_URL+"flujo_client_logo/"+AppConstants.CLIENT_ID)
         .subscribe(
           data =>{
+            this.logoImageDetails = data
             data? this.isEdit =false : this.isEdit = true;
+            console.log(data);
             if(data != null){
             this.setDefaultClientLogoDetails(data);
              this.isHide=true;
@@ -140,7 +155,7 @@ uploadLogoimageHttpRequest(reqObject){
               this.isHide=false;
               this.spinnerService.hide();   
             }
-            // this.loadingSave = false;
+             this.loadingSave = false;
             // this.isEdit = false;
           },
           error =>{
@@ -165,14 +180,14 @@ uploadLogoimageHttpRequest(reqObject){
       this.button_text = "Update";
       this.decodedString = logoData.logo_url_path;
       this.logoItems = logoData;
+      this.logoImage = logoData.logo_url_path;
       this.form.controls['logo_text'].setValue(logoData.logo_text);
       this.form.controls['logo_caption'].setValue(logoData.logo_caption);
       this.form.controls['logo_height'].setValue(logoData.logo_height);
       this.form.controls['logo_width'].setValue(logoData.logo_width);
       // this.form.controls['slogan_text'].setValue(logoData.slogan_text);
-      this.form.controls['avatar'].setValue(logoData);      
+      // this.form.controls['avatar'].setValue(logoData);      
     }
-    
   }
   
 }
