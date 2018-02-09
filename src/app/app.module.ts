@@ -24,11 +24,7 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-<<<<<<< HEAD
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule, MatTabsModule, MatTooltipModule } from '@angular/material';
-=======
-import { MatButtonModule, MatFormFieldModule, MatInputModule,MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule } from '@angular/material';
->>>>>>> origin/master
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
@@ -55,7 +51,7 @@ import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
 import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { ViewGalleryComponent, EditGalleryItems } from './view-gallery/view-gallery.component';
+import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 

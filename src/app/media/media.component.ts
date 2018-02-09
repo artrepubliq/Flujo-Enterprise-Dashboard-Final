@@ -14,8 +14,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { EditGalleryItems } from '../directives/edit-gallery-popup/editgallery.popup';
 import * as _ from 'underscore';
-import { Router } from '@angular/router'; 
-import { AppRoutingModule } from '../app-routing.module';
+
 @Component({
   selector: 'app-media',
   templateUrl: './media.component.html',
@@ -31,7 +30,7 @@ export class MediaComponent implements OnInit {
   hightlightStatus: Array<boolean> = [];
   public successMessage;
   public loading = false;
-  public ishide: boolean;
+
   public successMessagebool;
   public deleteMessage;
   public deleteMessagebool;
@@ -41,62 +40,6 @@ export class MediaComponent implements OnInit {
   submitAlbumData: FormGroup;
   albumObject: IGalleryObject;
   albumImages: Array<IGalleryImageItem>;
-  albumImage: IGalleryImageItem;
-  showCreateGallery: boolean = true;
-  isshowAlbumGallery: boolean = false;
-
-  isImageExist: boolean;
-  // File uploader Styles====
-  customStyle = {
-    selectButton: {
-      "border-radius": "20px",
-      "background-color": "#ee286b",
-      "box-shadow": "0 1.5px 18px 0 rgba(0, 0, 0, 0.15)",
-      "font-size": "14px",
-      "font-weight": "500",
-      "text-align": "center",
-      "color": "#ffffff",
-      "text-transform": "initial",
-      "font-family": "Roboto",
-      "width": "130px",
-      "height": "40px",
-      "float": "right"
-    },
-    clearButton: {
-      "border-radius": "20px",
-      "background-color": "#ee286b",
-      "box-shadow": "0 1.5px 18px 0 rgba(0, 0, 0, 0.15)",
-      "font-size": "14px",
-      "font-weight": "500",
-      "text-align": "center",
-      "color": "#ffffff",
-      "text-transform": "initial",
-      "font-family": "Roboto",
-      "width": "130px",
-      "height": "40px",
-      "float": "right"
-    },
-    layout: {
-      "border-radius": "5px",
-      "background-color": "transparent",
-      "border": "dashed 1.5px #91d7ea"
-    },
-    previewPanel: {
-      "background-color": "transparent",
-      "border-radius": "0 0 25px 25px",
-    },
-    dropBoxMessage: {
-      "font-family": "Roboto",
-      "font-size": "15px",
-      "font-weight": "500",
-      "text-align": "center",
-      "color": "red",
-      "display":"none"
-    },
-    
-  }
-  // template: string =`<img src="http://pa1.narvii.com/5722/2c617cd9674417d272084884b61e4bb7dd5f0b15_hq.gif" />`
-  constructor(private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
   albumGallery: IGalleryObject
   albumImage: IGalleryImageItem;
   albumImagesParsedArrayData: IAlbumImageUpdate;
@@ -159,43 +102,41 @@ export class MediaComponent implements OnInit {
 
   }
   constructor(public dialog: MatDialog, private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
+
     this.mediaManagementForm = this.formBuilder.group({
       image: [null],
       client_id: [null]
     });
     this.submitAlbumData = this.formBuilder.group({
       title: ['', Validators.required],
-      image_ids: [null],
+      images: [null],
       client_id: [null]
     });
     this.getMediaGalleryData();
-    this.showHide = false;
-    this.isImageExist = false;
-    this.ishide = true;
-  }
 
 
-  ngOnInit() {
-    setTimeout(function () {
-      this.spinnerService.hide();
-    }.bind(this), 3000);
 
-    this.albumObject = <IGalleryObject>{}
-    this.albumObject.images = [];
-     images: [null],
-     client_id: [null]
-    });
-    this.getMediaGalleryData();
     this.albumItemForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       order: ['', Validators.required]
     });
   }
+
+
+  ngOnInit() {
+
+    this.getAlbumGallery();
+    setTimeout(function () {
+      this.spinnerService.hide();
+    }.bind(this), 3000);
+    this.albumObject = <IGalleryObject>{}
+    this.albumObject.images = [];
+  }
   selectMedia(event) {
     let imageDetail = [];
     if (event.target.files && event.target.files.length > 0) {
-      this.ishide = false;
+
       for (var i = 0; i < event.target.files.length; i++) {
         let reader = new FileReader();
         let file = event.target.files[i];
@@ -214,14 +155,15 @@ export class MediaComponent implements OnInit {
     const formModel = this.mediaManagementForm.value;
     this.httpClient.post(AppConstants.API_URL + "flujo_client_mediamanagement", formModel).subscribe(
       res => {
+
         this.getMediaGalleryData();
+        this.successMessagebool = true;
         this.spinnerService.hide();
-        this.mediaManagementForm.reset();
         this.mediaManagementForm = null;
         this.mediaManagementForm = null;
         this.successMessagebool = true;
         this.alertService.success('Images uploaded successfully');
-        // this.router.navigate(['admin/sociallinks']);
+
       },
       (err: HttpErrorResponse) => {
         this.spinnerService.hide();
@@ -257,6 +199,7 @@ export class MediaComponent implements OnInit {
           this.hightlightStatus = [false];
           this.spinnerService.hide();
           this.alertService.success('Image deleted Successfully');
+          this.alertService.success('Social Links deleted Successfully');
           this.getMediaGalleryData();
         }
       },
@@ -284,12 +227,6 @@ export class MediaComponent implements OnInit {
       console.log(this.albumObject);
     }
   }
-  submitAlbumDataPost(body: any) {
-    this.spinnerService.show();
-    this.submitAlbumData.controls['image_ids'].setValue(this.albumObject);
-    this.submitAlbumData.controls['client_id'].setValue(localStorage.getItem("client_id"));
-    const formModel = this.submitAlbumData.value;
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_postgalleryimages", formModel)
   //to create new album with title form from the html
   CreateNewAlbumForm(body: any) {
 
@@ -327,38 +264,6 @@ export class MediaComponent implements OnInit {
         this.alertService.danger("Something went wrong.please try again.");
         console.log(error);
       });
-  }
-  changeShowStatus() {
-    this.showHide = !this.showHide;
-    this.showCreateGallery = true;
-    this.isshowAlbumGallery = false;
-  }
-  showImageId() {
-    this.isImageExist = !this.isImageExist;
-  }
-  showAlbumGallery() {
-    this.showCreateGallery = false;
-    this.isshowAlbumGallery = true;
-  }
-
-  images = [
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' },
-    { name: 'Title', imagesUer: 'profile_user.jpg' }
-  ]
   }
   // setting submitalbum data form reset to null
   resetsubmitAlbumData() {
