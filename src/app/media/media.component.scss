@@ -24,7 +24,11 @@
 .delete-img:hover {
   background-color: #f2f2f2;
 }
+}
 
+.delete-img:hover {
+  background-color: #f2f2f2;
+}
 .img-box:hover {
   .delete-img {
     display: block;
@@ -96,6 +100,72 @@
       font-weight: 300;
       text-align: left;
       color: #4a2565;
+    }
+    p {
+      font-size: 15px;
+      font-style: italic;
+      text-align: left;
+      color: #c1c1c1;
+    }
+  }
+  .image-upload:before {
+    content: "\f0ee";
+    font-family: 'FontAwesome';
+    font-size: 52px;
+    color: #91d7ea;
+    position: absolute;
+    left: 20px;
+  }
+  .image-upload {
+    position: relative;
+  }
+  .upload-button {
+    margin: 15px 0;
+    height: 48px;
+    width: 130px;
+    border-radius: 25px;
+    background-color: #4a2665;
+    color: #fff;
+  }
+}
+
+.header-media {
+  color: #666666;
+  .title {
+    h3 {
+      font-size: 30px;
+      font-weight: 300;
+      text-align: left;
+      color: #666666;
+    }
+  }
+}
+
+// Media Tabs
+.mat-tab-label {
+  font-family: 'Roboto';
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  color: red;
+}
+
+.mat-tab-label {
+  font-family: 'Roboto';
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  color: red;
+}
+
+.mat-tab-label {
+  color: red;
+}
+
+.mat-tab-header,
+.mat-tab-nav-bar {
+  border-bottom: 1px solid #d8d8d8;
+}
     }
     p {
       font-size: 15px;

@@ -6,6 +6,10 @@ import {MatTableModule} from '@angular/material/table';
 import {MatTableDataSource} from '@angular/material';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { AppComponent } from '../app.component';
+import { AppConstants } from '../app.constants';
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector:'./app-profile',
   templateUrl: './profile.component.html',
@@ -19,13 +23,14 @@ export class ProfileComponent {
   profileImag: string;
   isEdit: boolean;
   isDataExist: boolean;
+  isHideDeletebtn:boolean;
   profileData: IProfileData;
   ELEMENT_DATA: IProfileData;  
   // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(private httpClient: HttpClient, private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private alertService: AlertService) {
     this.createForm();
     localStorage.setItem('client_id',"1232");
     this.getProfileDetails();
@@ -61,24 +66,28 @@ export class ProfileComponent {
 
   onSubmit = (body)=> {
     const formModel = this.form.value;
-    
+    this.spinnerService.show();
     // if(!this.form.value.avatar){
     //   formModel.avatar = "null"
     // }
     formModel.client_id = localStorage.getItem("client_id");
     this.spinnerService.show();
-    this.httpService.updatePost(formModel,"/flujo_client_profile")
+    this.httpClient.post(AppConstants.API_URL+"flujo_client_profile", formModel)
     .subscribe(
         data => {
           this.parsePostResponse(data);
-          // this.alertService.success('request Successfully submitted.');
+          this.alertService.success('request Successfully submitted.');
           // this.getProfileDetails();
+          // this.parsePostResponse(data);
+          // this.alertService.success('request Successfully submitted.');
+          this.getProfileDetails();
           //  this.loading = false;
           this.spinnerService.hide();
         },
         error => {
           this.loading = false;
           this.spinnerService.hide();
+          this.alertService.danger('Something went wrong.');
         });
   }
 
@@ -88,15 +97,20 @@ export class ProfileComponent {
   }
 
   onDelete = (body)=>{
+    this.spinnerService.show();
     const formModel = this.form.value;
+    this.spinnerService.show();
     this.loading = true;
     console.log(formModel);
-    this.httpService.delete(localStorage.getItem("client_id"),"/flujo_client_profile/")
+    this.httpClient.delete(AppConstants.API_URL+"flujo_client_profile/"+AppConstants.CLIENT_ID)
     .subscribe(
         data => {
           this.alertService.success('profile deleted Successfully.');
           this.form.reset();
           this.getProfileDetails();
+          this.button_text = "save";
+          this.isHideDeletebtn = false;
+          this.spinnerService.hide();
            console.log(data);
            this.spinnerService.hide();
            
@@ -109,7 +123,8 @@ export class ProfileComponent {
 
   getProfileDetails = ()=>{
     this.loading = true;
-    this.httpService.getById(localStorage.getItem("client_id"),"/flujo_client_profile/")
+    this.spinnerService.show();
+    this.httpClient.get(AppConstants.API_URL+"flujo_client_profile/"+AppConstants.CLIENT_ID)
         .subscribe(
           data =>{
             console.log(data);
@@ -117,10 +132,12 @@ export class ProfileComponent {
              // this.setDefaultClientProfileDetails(data);
             this.isEdit = false;
             this.loading = false;
+            this.spinnerService.hide();
           },
           error =>{
             console.log(error);
             this.loading = false;
+            this.spinnerService.hide();
           }
         )
   }
@@ -143,7 +160,7 @@ export class ProfileComponent {
 
   parsePostResponse(response){
     
-    if(response.result){
+    if(!response){
         this.loading = false;
         this.spinnerService.hide();
       this.alertService.danger('Required parameters missing.');

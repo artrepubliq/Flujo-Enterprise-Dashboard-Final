@@ -1,3 +1,24 @@
+
+<ngx-alerts maxMessages="3" timeout="3000"></ngx-alerts>
+<ng4-loading-spinner></ng4-loading-spinner>
+
+<div fxLayout="column" fxLayoutGap="50px">
+
+  <!-- File Uploader -->
+  <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
+    <form  [formGroup]="mediaManagementForm" class="file_uploader" enctype="multipart/form-data">
+      <div class="">
+        <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->
+        <image-upload class="image-upload" id="image" [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'" (change)="selectMedia($event)"
+          [style]="customStyle" #fileInput>
+        </image-upload>
+        <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit(mediaManagementForm.value)">Upload</button>
+      </div>
+    </form>
+    <div class="uploader_content" fxLayout="column" fxLayoutAlign=" center">
+      <h3>Feed me dude I’m hungry, will you?</h3>
+      <p>Shit man, What the f***!</p>
+
 <!-- <div class="container">
   <ngx-alerts maxMessages="3" timeout="3000"></ngx-alerts>
   <ng4-loading-spinner></ng4-loading-spinner>
@@ -7,8 +28,40 @@
       <image-upload id="image" (change)="selectMedia($event)" #fileInput></image-upload>
       <button class="btn btn-info upload" [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit(mediaManagementForm.value)">Upload</button>
     </div>
-  </form>
-  <div class="mb-3">
+  </div>
+  <!-- //.. File Uploader -->
+
+  <!-- All Images  -->
+  <div fxLayout="column" fxLayoutGap="30px">
+    <!-- Header Title -->
+    <div fxLayout="row" class="header-media">
+      <div class="title" fxFlex>
+        <h3>All Images</h3>
+      </div>
+      <div class="sort_controls" fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="30px">
+        <i class="fa fa-th-large"></i>
+        <i class="fa fa-th"></i>
+      </div>
+    </div>
+    <!-- //.. Header Title -->
+
+    <!-- Images Tabs Silder -->
+    <!-- <mat-tab-group class="media-tabs">
+      <mat-tab label="All">Content 1</mat-tab>
+      <mat-tab label="Polytics">Content 2</mat-tab>
+      <mat-tab label="Tours & Travel">Content 2</mat-tab>
+      <mat-tab label="Real Estate">Content 2</mat-tab>
+      <mat-tab label="Civil Service">Content 2</mat-tab>
+      <mat-tab label="Personal">Content 2</mat-tab>
+    </mat-tab-group> -->
+    <!-- //.. Images Tabs Silder -->
+  </div>
+
+
+
+
+
+  <div class="">
     <button mat-raised-button class="mr-3" (click)="changeShowStatus()">Select Images to Create Gallery</button>
     <button mat-raised-button (click)="showAlbumGallery()">Gallery</button>
   </div>
@@ -35,7 +88,22 @@
     <button class="btn btn-primary" type="submit" (click)="CreateNewAlbum(submitAlbumData.value)" [disabled]="!submitAlbumData.valid">Create Gallery</button>
    
   </form>
- 
+
+  <!-- //.. Uploaded Images -->
+
+  <!-- Gallery Images -->
+  <div *ngIf="isshowAlbumGallery" class="row grid-gallery">
+    <gallery-directive [images]="images"></gallery-directive>
+
+  </div>
+  <!-- //.. All Images  -->
+</div>
+
+
+<!-- ======= New Media UI As for Zeplin ============== -->
+
+<div>
+  <div>
   <div *ngIf="isshowAlbumGallery" class="row grid-gallery">
       <div class="row grid-gallery">
           <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let albumItem of albumGallery">
