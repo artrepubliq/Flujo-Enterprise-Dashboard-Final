@@ -20,13 +20,8 @@ export class LogoComponent {
   isEdit: boolean = true;
   isHideDeletebtn: boolean = false;
   resultExist: boolean;
-<<<<<<< HEAD
-  isHide: boolean;
-  logoDetail: Array<object>;
-=======
   isHide:boolean;
   logoDetail:Array<object>;
->>>>>>> origin/master
   @ViewChild('fileInput') fileInput: ElementRef;
 
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
