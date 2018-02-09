@@ -24,7 +24,7 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule, MatTabsModule, MatTooltipModule } from '@angular/material';
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
@@ -109,7 +109,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
     MatDialogModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTooltipModule
   ],
   entryComponents: [EditGalleryItems],
   providers: [AuthService,

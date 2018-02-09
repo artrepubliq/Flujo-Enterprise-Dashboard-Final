@@ -19,6 +19,7 @@
           <div class="upload-logo">
             <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
             <p class="hover-upload">Upload Your Image</p>
+            <button class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="deleteLogoImg()"><i class="fa fa-times"></i></button>
             <div class="bg-layer"></div>
           </div>
         </div>
@@ -68,11 +69,13 @@
           <!-- Logo Image Upload -->
           <div class="profile_img">
             <div fxLayoutAlign="center center" class="logo-img">
+              <span *ngIf="!profileData?.avatar">no image</span>
               <img *ngIf="profileData.avatar" src="data:image/png;base64,{{profileData.avatar}}" alt="Logo" class="img-fluid">
             </div>
             <div class="upload-logo">
               <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
               <p class="hover-upload">Upload Your Image</p>
+              <button class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="deleteLogoImg()"><i class="fa fa-times"></i></button>
               <div class="bg-layer"></div>
             </div>
           </div>
