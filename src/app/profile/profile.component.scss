@@ -169,6 +169,18 @@
             display: none;
             border-radius: 5px;
           }
+          button.delete_logo {
+            background: transparent;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #fff;
+            z-index: 99;
+            box-shadow: none;
+            outline: none;
+            border: none;
+            cursor: pointer;
+          }
         }
         .upload-logo:hover {
           .hover-upload {

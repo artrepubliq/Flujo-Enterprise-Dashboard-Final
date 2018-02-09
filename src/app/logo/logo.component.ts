@@ -1,5 +1,5 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ILogo } from '../model/logo.model';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -19,22 +19,22 @@ export class LogoComponent {
   decodedString: string;
   logoItems: ILogo;
   isEdit: boolean = true;
-  isHideDeletebtn:boolean=false;
+  isHideDeletebtn: boolean = false;
   resultExist: boolean;
   isHide:boolean;
   logoImageDetails:any;
   logoDetail:Array<object>;
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
     this.createForm();
     this.getLogoDetails();
   }
-  ngOnInit() {   
-        setTimeout(function() {
-            this.spinnerService.hide();
-          }.bind(this), 3000);
-    
+  ngOnInit() {
+    setTimeout(function () {
+      this.spinnerService.hide();
+    }.bind(this), 3000);
+
   }
   createForm = () => {
     this.form = this.formBuilder.group({
@@ -51,7 +51,7 @@ export class LogoComponent {
   onFileChange = (event) => {
     this.logoDetail = [];
     let reader = new FileReader();
-    if(event.target.files && event.target.files.length > 0) {
+    if (event.target.files && event.target.files.length > 0) {
       let file = event.target.files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -99,19 +99,19 @@ uploadLogoimageHttpRequest(reqObject){
     // this.form.controls['avatar'].setValue(this.form.controls['avatar'].get('avatar'));
         const formModel = this.form.value;
     this.loadingSave = true;
-    
-    this.httpClient.post(AppConstants.API_URL+"flujo_client_logo",formModel)
-    .subscribe(
-        data => {
-          this.alertService.success('Logo details submitted successfully.');
-           this.loadingSave = false;
-           this.getLogoDetails();
-           this.spinnerService.hide();
-        },
-        error => {
-          this.loadingSave = false;
-          this.spinnerService.hide();
-        });
+
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_logo", formModel)
+      .subscribe(
+      data => {
+        this.alertService.success('Logo details submitted successfully.');
+        this.loadingSave = false;
+        this.getLogoDetails();
+        this.spinnerService.hide();
+      },
+      error => {
+        this.loadingSave = false;
+        this.spinnerService.hide();
+      });
   }
 
   clearFile = () => {
@@ -121,18 +121,18 @@ uploadLogoimageHttpRequest(reqObject){
   onDelete = (body) => {
     const formModel = this.form.value;
     this.loadingDelete = true;
-    this.httpClient.delete(AppConstants.API_URL+"flujo_client_logo/"+AppConstants.CLIENT_ID)
-    .subscribe(
-        data => {
-          this.alertService.success('logo items deleted Successfully');        
-          this.getLogoDetails();
-          this.isEdit = true;
-          this.loadingDelete = false;
-          this.form.reset();
-        },
-        error => {
-          this.loadingDelete = false;
-        });
+    this.httpClient.delete(AppConstants.API_URL + "flujo_client_logo/" + AppConstants.CLIENT_ID)
+      .subscribe(
+      data => {
+        this.alertService.success('logo items deleted Successfully');
+        this.getLogoDetails();
+        this.isEdit = true;
+        this.loadingDelete = false;
+        this.form.reset();
+      },
+      error => {
+        this.loadingDelete = false;
+      });
   }
   getLogoDetails = () => {
     this.loadingSave = true;
@@ -164,18 +164,18 @@ uploadLogoimageHttpRequest(reqObject){
           }
         )
   }
-  EditInfo = () =>{
+  EditInfo = () => {
     this.isEdit = true;
   }
-  editLogo = () =>{
+  editLogo = () => {
     this.isEdit = true;
   }
   //this method is used to update logo detals to the form, if detalis exist
   setDefaultClientLogoDetails = (logoData) => {
-  
+
     this.resultExist = logoData;
 
-    if(logoData){
+    if (logoData) {
       this.isHideDeletebtn = true;
       this.button_text = "Update";
       this.decodedString = logoData.logo_url_path;
@@ -186,8 +186,14 @@ uploadLogoimageHttpRequest(reqObject){
       this.form.controls['logo_height'].setValue(logoData.logo_height);
       this.form.controls['logo_width'].setValue(logoData.logo_width);
       // this.form.controls['slogan_text'].setValue(logoData.slogan_text);
-      // this.form.controls['avatar'].setValue(logoData);      
+      this.form.controls['avatar'].setValue(logoData);
+    }
+
+  }
+  // Form Cancel
+  cancelFileEdit() {
+    this.isEdit = false;
     }
   }
-  
+
 }
