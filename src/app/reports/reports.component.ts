@@ -1,6 +1,6 @@
-
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { HttpClient } from '@angular/common/http';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import CSVExportService from 'json2csvexporter';
@@ -14,71 +14,57 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
-export class ReportsComponent { 
-    isFeedbackReport: boolean = true;
-    isChangeReport:boolean=false;
-    loading: boolean = false;
-    isReportData:boolean=false;
-    public feedbackData: any;
-    changemakerData: any;
-    feedbackCsvMail:any;
-    changeMakerCsvMail:any;
-    reportCsvMail:any;
-    public reportProblemData:any;
-
-    EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
-    constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
-    this.feedbackCsvMail = this.formBuilder.group({
-      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
-      // 'client_id':[null]
-    });
-    this.changeMakerCsvMail = this.formBuilder.group({
-      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
-      // 'client_id':[null]
-    });
-    this.reportCsvMail = this.formBuilder.group({
-      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
-      // 'client_id':[null]
-    });
+export class ReportsComponent {
+  isFeedbackReport: boolean = true;
+  isChangeReport: boolean = false;
+  loading: boolean = false;
+  isReportData: boolean = false;
+  public feedbackData: any;
+  changemakerData: any;
+  public reportProblemData: any;
+  showEmailClickFeedback: boolean = false;
+  showEmailClick: boolean = false;
+  showEmailClickReport: boolean = false;
+  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
+ 
     this.getChangemakerReportData();
     this.getuserFeedbackData();
     this.getReportYourProblemData();
-   }
-   ngOnInit() {
-    setTimeout(function() {
-        this.spinnerService.hide();
-      }.bind(this), 3000);
   }
-   showFeedback(){
+  ngOnInit() {
+    setTimeout(function () {
+      this.spinnerService.hide();
+    }.bind(this), 3000);
+  }
+  showFeedback() {
     this.isFeedbackReport = true;
     this.isReportData = false;
     this.isChangeReport = false;
-   }
-   showChangemaker(){
+  }
+  showChangemaker() {
     this.isChangeReport = true;
     this.isFeedbackReport = false;
     this.isReportData = false;
-   }
-   showReportProblem(){
+  }
+  showReportProblem() {
     this.isReportData = true;
     this.isChangeReport = false;
     this.isFeedbackReport = false;
-   }
+  }
 
-   
-   getChangemakerReportData() {
+
+  getChangemakerReportData() {
     this.spinnerService.show()
-       this.httpClient.get(AppConstants.API_URL+"flujo_client_changereport")
-       .subscribe(
-        data => {
-          console.log(data);
-            this.changemakerData = data;
-            this.spinnerService.hide();
-        },
-        error => {
-            console.log(error);
-            this.spinnerService.hide();
-        })
+    this.httpClient.get(AppConstants.API_URL + "flujo_client_changereport")
+      .subscribe(
+      data => {
+        console.log(data);
+        this.changemakerData = data;
+        this.spinnerService.hide();
+      },
+      error => {
+        console.log(error);
+      })
   }
 
   exportChangermakereport() {
@@ -105,10 +91,10 @@ export class ReportsComponent {
   }
   getuserFeedbackData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL+"flujo_client_feedbackreport")
-    .subscribe(
-     data => {
-         this.feedbackData = data;
+    this.httpClient.get(AppConstants.API_URL + "flujo_client_feedbackreport")
+      .subscribe(
+      data => {
+        this.feedbackData = data;
         this.spinnerService.hide();
      },
      error => {
@@ -253,4 +239,47 @@ export class ReportsComponent {
           console.log(error);
         })
     }
+    this.httpClient.get(AppConstants.API_URL + "flujo_client_reportproblem/" + AppConstants.CLIENT_ID)
+      .subscribe(
+      data => {
+        console.log(data);
+        this.reportProblemData = data;
+        this.spinnerService.hide();
+      },
+      error => {
+        console.log(error);
+      })
+  }
+  exportReportProblemData() {
+    const csvColumnsList = ['id', 'name', 'email', 'phone', 'Problem', 'datenow'];
+    const csvColumnsMap = {
+      id: 'S.no',
+      name: 'Name',
+      email: 'Email',
+      phone: 'Phone',
+      Problem: 'Problem',
+      datenow: 'Submited At'
+    };
+    const Data = [
+      {
+        id: this.reportProblemData[0].id, name: this.reportProblemData[0].name, email: this.reportProblemData[0].email, phone: this.reportProblemData[0].phone,
+        Problem: this.reportProblemData[0].Problem, datenow: this.reportProblemData[0].datenow
+      },
+    ];
+    const exporter = CSVExportService.create({
+      columns: csvColumnsList,
+      headers: csvColumnsMap,
+      includeHeaders: true,
+    });
+    exporter.downloadCSV(this.reportProblemData);
+  }
+  feedbackEmail() {
+    this.showEmailClickFeedback = !this.showEmailClickFeedback;
+  }
+  changereportemail() {
+    this.showEmailClick = !this.showEmailClick;
+  }
+  exportReportProblemEmail() {
+    this.showEmailClickReport = !this.showEmailClickReport;
+  }
 }
