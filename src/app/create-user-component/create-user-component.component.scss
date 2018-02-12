@@ -15,3 +15,6 @@ div.alert{
   left:9%;
   color:darken($color: #d60808, $amount: 0);
 }
+#createuserform .form-control{
+  box-shadow: none !important;
+}
