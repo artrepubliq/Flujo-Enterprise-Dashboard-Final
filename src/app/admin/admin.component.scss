@@ -261,7 +261,7 @@
 }
 
 // **=======** Sidebar Toggle Styles **=======**
-.sidebar-toggle {
+/*.sidebar-toggle {
   width: 80px;
   overflow: visible !important;
   .nav-item.open>.dropdown-menu {
@@ -335,7 +335,7 @@
       }
     }
   }
-}
+}*/
 
 // **=======** Page Wrapper Styles **=======**
 #page-content-wrapper {
@@ -347,7 +347,7 @@
 }
 
 // ========== Side Bar Hover Effect ===========
-/*
+
 .sidebar-toggle {
   width: 80px;
   overflow: visible !important;
@@ -363,16 +363,6 @@
     }
     span {
       display: none;
-      position: absolute; //   left: 150%;
-      z-index: 9999;
-      top: 18px;
-      color: #fff;
-      background: #52306b;
-      min-width: 130px;
-      left: 100%;
-      top: 0;
-      text-align: center;
-      padding: 30px 0;
     }
   }
   .dropdown-toggle:after {
@@ -409,8 +399,6 @@
       background: transparent;
       left: initial;
       text-align: initial;
-      color: #3f165d
     }
   }
 }
-*/
