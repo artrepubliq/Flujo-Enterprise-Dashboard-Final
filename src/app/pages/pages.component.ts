@@ -87,7 +87,7 @@ export class PagesComponent {
         if(!this.form.value.component_parent){
             this.form.controls['component_parent'].setValue("-1");
         }
-        this.httpClient.post( AppConstants.API_URL+"flujo_client_component", this.form.value)
+        this.httpClient.post( AppConstants.API_URL+"flujo_client_postcomponent", this.form.value)
             .subscribe(
             data => {
                 this.parsePostResponse(data);
@@ -107,7 +107,7 @@ export class PagesComponent {
         // const formModel = this.form.value;
         this.spinnerService.show();
         let component_id = body.id;
-        this.httpClient.delete(AppConstants.API_URL+"flujo_client_component/"+component_id)
+        this.httpClient.delete(AppConstants.API_URL+"flujo_client_deletecomponent/"+component_id)
             .subscribe(
             data => {
                 this.getPageDetails();
@@ -115,15 +115,17 @@ export class PagesComponent {
                 this.pageDetails = null;
                 console.log(data);
                 this.loading = false;
+                this.alertService.success("Page delete successfully");
             },
             error => {
                 this.loading = false;
                 this.spinnerService.hide();
+                this.alertService.success("Something went wrong")
             });
     }
     getPageDetails = () => {
         this.spinnerService.show();
-        this.httpClient.get( AppConstants.API_URL+"flujo_client_component/"+AppConstants.CLIENT_ID)
+        this.httpClient.get( AppConstants.API_URL+"flujo_client_getcomponent/"+AppConstants.CLIENT_ID)
         
             .subscribe(
             data => {
