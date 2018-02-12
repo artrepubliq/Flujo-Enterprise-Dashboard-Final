@@ -2,15 +2,20 @@
 <div fxLayout="column">
   <!-- === Buttons ==== -->
   <div class="addview-buttons">
-    <button mat-raised-button color="primary" (click)="addPages()">ADD PAGES</button>
-    <button mat-raised-button color="primary" (click)="viewPages()">VIEW PAGES
+    <button mat-raised-button color="primary" (click)="viewPagesGrid()">
+      <i class="fa fa-th"></i>
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
+    <button mat-raised-button color="primary" (click)="viewPages()">
+        <i class="fa fa-th-list"></i>
+      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+    </button>
+    <button class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Page +</button>
   </div>
   <!-- <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i> -->
 
   <!-- ===== Add Pages ======= -->
-  <div *ngIf="isEdit" class="add-pages">
+  <div *ngIf="isAddPage" class="add-pages">
     <ngx-alerts maxMessages="3" timeout="5000">
       <!-- <strong>{{successMessage }}</strong> -->
     </ngx-alerts>
@@ -74,10 +79,10 @@
       </div>
 
       <div class="form-group" fxLayout="row">
-          <label fxFlex="20" for="component_description">App Description</label>
-          <ck-editor fxFlex name="editor1" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
-          <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
-        </div>
+        <label fxFlex="20" for="component_description">App Description</label>
+        <ck-editor fxFlex name="editor1" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
+      </div>
 
       <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_background_color">Select background color of page</label>
@@ -107,9 +112,9 @@
 
     </form>
   </div>
-
+  <!-- // ===== Add Pages End ======= -->
   <!-- ====== Pages Table ======= -->
-  <div *ngIf="!isEdit">
+  <div *ngIf="isTableView">
     <div>
       <table class="table table-bordered table-hover">
         <thead>
@@ -155,5 +160,43 @@
       <br/>
     </div>
   </div>
+  <!-- // ====== Pages Table End ======= -->
+
+
+  <!-- =========grid view====== -->
+
+  <div *ngIf="isGridView" >
+    <div class="row">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let page_item of pageDetails">
+        <mat-card  class="example-card">
+            <div id="pageview">
+                <!-- <img src=""  alt="pagescreen"/> -->
+                <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
+              </div>
+            <mat-card-content>
+              <div id="pageheader">
+                <div class="edit-title">
+                  <h6 fxFlex="50%" id="page-title">{{page_item.component_name}}</h6>
+                  <i fxFlex="50%" fxLayoutAlign="end center" class="fa fa-pencil pull-right"></i>
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <div class="button-row">
+                  <div clsss="button-stack">
+                    <button mat-mini-fab color="primary"></button>
+                    <button mat-mini-fab color="accent"></button>
+                    <button mat-mini-fab color="warn"></button>
+                    <a color="blue">+2 more</a>
+                    <a class="pull-right"><i class="fa fa-clock-o"></i></a>
+                  </div>
+                </div>
+            </mat-card-actions>
+          </mat-card><br><br>
+      </div>
+    </div>
+    </div>
+  <!-- // =========grid view End====== -->
+
 
 </div>
