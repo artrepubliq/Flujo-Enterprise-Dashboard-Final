@@ -119,25 +119,28 @@ uploadLogoimageHttpRequest(reqObject){
     this.fileInput.nativeElement.value = '';
   }
   onDelete = (body) => {
-    const formModel = this.form.value;
+    this.spinnerService.show();
+    const formModel = this.logoImageDetails.logo_url_path;
     this.loadingDelete = true;
-    this.httpClient.delete(AppConstants.API_URL + "flujo_client_logo/" + AppConstants.CLIENT_ID)
+    this.httpClient.delete(AppConstants.API_URL + "flujo_client_deletelogo/" + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
-        this.alertService.success('logo items deleted Successfully');
+        this.alertService.success('Logo deleted Successfully');
         this.getLogoDetails();
         this.isEdit = true;
         this.loadingDelete = false;
         this.form.reset();
+        this.spinnerService.hide();
       },
       error => {
         this.loadingDelete = false;
+        this.spinnerService.hide();
       });
   }
   getLogoDetails = () => {
     this.loadingSave = true;
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL+"flujo_client_logo/"+AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL+"flujo_client_getlogo/"+AppConstants.CLIENT_ID)
         .subscribe(
           data =>{
             this.logoImageDetails = data
@@ -186,7 +189,7 @@ uploadLogoimageHttpRequest(reqObject){
       this.form.controls['logo_height'].setValue(logoData.logo_height);
       this.form.controls['logo_width'].setValue(logoData.logo_width);
       // this.form.controls['slogan_text'].setValue(logoData.slogan_text);
-      this.form.controls['avatar'].setValue(logoData);
+      // this.form.controls['avatar'].setValue(logoData);
     }
 
   }
@@ -195,5 +198,3 @@ uploadLogoimageHttpRequest(reqObject){
     this.isEdit = false;
     }
   }
-
-}
