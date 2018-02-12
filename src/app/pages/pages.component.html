@@ -73,17 +73,16 @@
       </div>
 
       <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_description">Web Description</label>
-        <ck-editor fxFlex name="editor1" formControlName="component_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <label fxFlex="20" for="web_description">Web Description</label>
+        <ck-editor fxFlex name="editor1" formControlName="web_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
         <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
       </div>
 
       <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_description">App Description</label>
-        <ck-editor fxFlex name="editor1" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
-        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
-      </div>
-
+          <label fxFlex="20" for="app_description">App Description</label>
+          <ck-editor fxFlex name="editor1" formControlName="app_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+          <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
+        </div>
       <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_background_color">Select background color of page</label>
         <input fxFlex="30" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)" [(colorPicker)]="color"
