@@ -1,6 +1,6 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000">
-  <strong>{{successMessage }}</strong>
+  <strong>{{successMessage}}</strong>
 </ngx-alerts>
 
 <div class="profile_block" fxLayoutAlign="center center">
@@ -13,33 +13,34 @@
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="profile_img">
           <div fxLayoutAlign="center center" class="logo-img">
-            <span *ngIf="!profileData?.avatar">no image</span>
-            <img fxLayoutAlign="center center" *ngIf="profileData?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileData.avatar}}">
+            <span *ngIf="!profileItems?.avatar"><img src="../assets/default_logo.png" class="img-fluid"></span>
+            <img fxLayoutAlign="center center" *ngIf="profileItems?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileItems.avatar}}">
           </div>
           <div class="upload-logo">
             <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-            <p class="hover-upload">Upload Your Image</p>
-            <button class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="deleteLogoImg()"><i class="fa fa-times"></i></button>
+            <p *ngIf="!profileItems?.avatar" class="hover-upload">Upload Your Image</p>
+            <p *ngIf="profileItems?.avatar" class="hover-upload">Update Your Image</p>
+            <button class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
             <div class="bg-layer"></div>
           </div>
         </div>
-        <div *ngIf="profileData" fxLayout="column" fxFlex="40" fxLayoutGap="25px">
+        <div *ngIf="profileItems" fxLayout="column" fxFlex="40" fxLayoutGap="25px">
           <div fxLayout="column">
             <label>Company Name</label>
-            <p>{{profileData.company_name}}</p>
+            <p>{{profileItems.company_name}}</p>
           </div>
           <div fxLayout="column">
             <label>Website URL</label>
-            <p>{{profileData.website_url}}</p>
+            <p>{{profileItems.website_url}}</p>
           </div>
           <div fxLayout="column">
             <label>Mobile Number</label>
-            <p>{{profileData.mobile_number}}</p>
+            <p>{{profileItems.mobile_number}}</p>
           </div>
         </div>
       </div>
       <div class="profile_footer" fxLayoutAlign="end center">
-        <button mat-raised-button class="logoCtrl_button" (click)=EditProfileData()>Edit</button>
+        <button mat-raised-button class="logoCtrl_button" (click)=EditInfo()>Edit</button>
       </div>
     </div>
     <!-- //.. Logo View Block -->
@@ -68,13 +69,14 @@
           <!-- Logo Image Upload -->
           <div class="profile_img">
             <div fxLayoutAlign="center center" class="logo-img">
-              <span *ngIf="!profileData?.avatar">no image</span>
-              <img *ngIf="profileData.avatar" src="data:image/png;base64,{{profileData.avatar}}" alt="Logo" class="img-fluid">
+              <span *ngIf="!profileItems?.avatar"><img src="../assets/default_logo.png" class="img-fluid"></span>
+              <img *ngIf="profileItems.avatar" src="data:image/png;base64,{{profileItems.avatar}}" alt="Logo" class="img-fluid">
             </div>
             <div class="upload-logo">
               <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-              <p class="hover-upload">Upload Your Image</p>
-              <button class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="deleteLogoImg()"><i class="fa fa-times"></i></button>
+              <p *ngIf="!profileItems?.avatar" class="hover-upload">Upload Your Image</p>
+              <p *ngIf="profileItems?.avatar" class="hover-upload">Update Your Image</p>
+              <button class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
               <div class="bg-layer"></div>
             </div>
           </div>
@@ -108,7 +110,7 @@
         <button mat-button class="logoCtrl_button" [disabled]="form.invalid || loading">Update
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
-        <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loading">Delete</button>
+        <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loading">Delete</button> -->
       </div>
     </form>
     <!-- //.. Logo Edit Block -->
