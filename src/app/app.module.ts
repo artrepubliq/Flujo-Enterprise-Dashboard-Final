@@ -24,7 +24,7 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-import { MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatTooltipModule,MatInputModule, MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule } from '@angular/material';
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
@@ -52,7 +52,6 @@ import { AuthInterceptorService } from './auth/auth.interceptorservice';
 import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
-import {MatDialogModule} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -114,7 +113,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FroalaViewModule.forRoot(),
     MatDialogModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
     MatCardModule
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog],
