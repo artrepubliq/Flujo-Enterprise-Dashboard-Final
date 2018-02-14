@@ -73,17 +73,16 @@
       </div>
 
       <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_description">Web Description</label>
-        <ck-editor fxFlex name="editor1" formControlName="component_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <label fxFlex="20" for="web_description">Web Description</label>
+        <ck-editor fxFlex name="editor1" formControlName="web_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
         <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
       </div>
 
       <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_description">App Description</label>
-        <ck-editor fxFlex name="editor1" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
-        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
-      </div>
-
+          <label fxFlex="20" for="app_description">App Description</label>
+          <ck-editor fxFlex name="editor1" formControlName="app_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+          <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
+        </div>
       <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_background_color">Select background color of page</label>
         <input fxFlex="30" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)" [(colorPicker)]="color"
@@ -165,14 +164,14 @@
 
   <!-- =========grid view====== -->
 
-  <div *ngIf="isGridView" >
+  <div *ngIf="isGridView">
     <div class="row">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let page_item of pageDetails">
         <mat-card  class="example-card">
             <div id="pageview">
                 <!-- <img src=""  alt="pagescreen"/> -->
-                <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
-              </div>
+                <img class="img-responsive img-fluid page-screenshot"  src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu">
+            </div>
             <mat-card-content>
               <div id="pageheader">
                 <div class="edit-title">
@@ -182,7 +181,7 @@
               </div>
             </mat-card-content>
             <mat-card-actions>
-                <div class="button-row">
+                <!-- <div class="button-row">
                   <div clsss="button-stack">
                     <button mat-mini-fab color="primary"></button>
                     <button mat-mini-fab color="accent"></button>
@@ -190,11 +189,11 @@
                     <a color="blue">+2 more</a>
                     <a class="pull-right"><i class="fa fa-clock-o"></i></a>
                   </div>
-                </div>
+                </div> -->
             </mat-card-actions>
           </mat-card><br><br>
+        </div>
       </div>
-    </div>
     </div>
   <!-- // =========grid view End====== -->
 

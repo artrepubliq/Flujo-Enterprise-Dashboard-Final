@@ -1,4 +1,6 @@
 <ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000">
+  </ngx-alerts>
 <div class="profile_block" fxLayoutAlign="center center">
   <div class="profile_logo">
     <!-- Logo View Block -->
@@ -8,13 +10,15 @@
       </div>
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="profile_img">
-          <div *ngIf="logoItems?.logo_url_path" fxLayoutAlign="center center" class="logo-img">
-            <span *ngIf="!logoItems?.logo_url_path">no image</span>
+          <div fxLayoutAlign="center center" class="logo-img">
+            <span *ngIf="!logoItems?.logo_url_path"><img src="../assets/default_logo.png" class="img-fluid"></span>
             <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
           </div> 
           <div class="upload-logo">
-            <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-            <p class="hover-upload">Upload Logo</p>
+            <input mat-raised-button type="file" (change)="onFileChange($event)" #fileInput>
+            <p *ngIf="!logoItems?.logo_url_path" class="hover-upload">Upload Logo Image</p>
+            <p *ngIf="logoItems?.logo_url_path" class="hover-upload">Update Logo Image</p>
+            <button class="delete_logo" matTooltip="Delete Image" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
             <div class="bg-layer"></div>
           </div>
         </div>
@@ -50,42 +54,46 @@
     <!-- //.. Logo View Block -->
 
     <!-- Logo Edit Block -->
+    <!-- <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
+      <i class="fa fa-ellipsis-v"></i>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item>
+        <span>Redial</span>
+      </button>
+      <button mat-menu-item disabled>
+        <span>Check voicemail</span>
+      </button>
+      <button mat-menu-item>
+        <span>Disable alerts</span>
+      </button>
+    </mat-menu> -->
     <form *ngIf="isEdit" [formGroup]="form" (submit)="onSubmit(form.value)">
       <!-- Header -->
       <div class="profile_header">
         <h3 class="header_title">Logo Properties</h3>
-        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
-          <i class="fa fa-ellipsis-v"></i>
-        </button>
-        <mat-menu #menu="matMenu" xPosition="before">
-          <button mat-menu-item>
-            <span>Redial</span>
-          </button>
-          <button mat-menu-item disabled>
-            <span>Check voicemail</span>
-          </button>
-          <button mat-menu-item>
-            <span>Disable alerts</span>
-          </button>
-        </mat-menu> -->
       </div>
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="" fxLayout="column" fxLayoutGap="20px">
           <!-- Logo Image Upload -->
           <div class="profile_img">
-            <div *ngIf="logoItems?.logo_url_path" fxLayoutAlign="center center" class="logo-img">
-              <img *ngIf="logoItems?.logo_url_path" src="data:image/png;base64,{{logoItems.logo_url_path}}" alt="Logo" class="img-fluid">
-            </div>
+            <div fxLayoutAlign="center center" class="logo-img">
+              <span *ngIf="!logoItems?.logo_url_path"><img src="../assets/default_logo.png" class="img-fluid"></span>
+              <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
+            </div> 
             <div class="upload-logo">
-              <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-              <p class="hover-upload">Upload Logo</p>
+              <input mat-raised-button type="file"  (change)="onFileChange($event)" #fileInput>
+              <p *ngIf="!logoItems?.logo_url_path" class="hover-upload">Upload Logo Image</p>
+              <p *ngIf="logoItems?.logo_url_path" class="hover-upload">Update Logo Image</p>
+              <input mat-raised-button type="file" (change)="onFileChange($event)" #fileInput>
+              <button class="delete_logo" matTooltip="Delete Image" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
               <div class="bg-layer"></div>
             </div>
           </div>
           <!-- Logo File Details -->
           <div class="logo-details">
             <p class="file_Name">flujo_logo.svg</p>
-            <p class="file_Prop">Original : 48 px x 48 px</p>
+            <p class="file_Prop">Original : {{logoItems?.logo_width}} px x {{logoItems?.logo_height}} px</p>
             <p class="file_Prop">3 kb</p>
           </div>
         </div>
@@ -104,13 +112,13 @@
           <div fxLayout="row" class="logo-dimensions" fxLayoutGap="15px">
             <div fxLayout="column">
               <label>Width</label>
-              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_height"
-                placeholder="Logo height" formControlName="logo_height">
+              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width"
+                placeholder="Logo width" formControlName="logo_width">
             </div>
             <div fxLayout="column">
               <label>Height</label>
-              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width"
-                placeholder="Logo width" formControlName="logo_width">
+              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_height"
+                placeholder="Logo height" formControlName="logo_height">
             </div>
           </div>
         </div>
@@ -118,7 +126,9 @@
       <!-- Save Button -->
       <div class="profile_footer" fxLayoutAlign="end center">
         <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
+        <button mat-button class="logoCtrl_button cancel" (click)="cancelFileEdit()">Cancel</button>
         <button mat-button class="logoCtrl_button" [disabled]="form.invalid || loadingSave">Save</button>
+        <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loadingSave">Delete</button> -->
       </div>
     </form>
     <!-- //.. Logo Edit Block -->
