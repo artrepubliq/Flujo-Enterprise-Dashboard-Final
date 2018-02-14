@@ -101,7 +101,7 @@ export class ReportsComponent {
   }
   getuserFeedbackData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_getallfeedback")
+    this.httpClient.get(AppConstants.API_URL + "flujo_client_feedbackreport")
       .subscribe(
       data => {
         this.feedbackData = data;

@@ -162,14 +162,14 @@
 
   <!-- =========grid view====== -->
 
-  <div *ngIf="isGridView" >
+  <div *ngIf="isGridView">
     <div class="row">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of parentPageDetails">
         <mat-card  class="example-card" (click)="getChild(detail)">
             <div id="pageview">
                 <!-- <img src=""  alt="pagescreen"/> -->
-                <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
-             </div>
+                <img class="img-responsive img-fluid page-screenshot"  src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu">
+            </div>
             <mat-card-content>
               <div id="pageheader">
                 <div class="edit-title">
@@ -190,8 +190,8 @@
                 </div> -->
             </mat-card-actions>
           </mat-card><br><br>
+        </div>
       </div>
-    </div>
     </div>
   <!-- // =========grid view End====== -->
   <div *ngIf="isGridView" >

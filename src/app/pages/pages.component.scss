@@ -74,6 +74,7 @@ input {
     max-width: 400px;
     padding: 0;
     border-radius: 5px;
+    position: relative;
   }
 .grid-tile{
     border-radius: 5px;
@@ -84,7 +85,17 @@ input {
     height: 150px;
     background-color: brown;
     background-image: linear-gradient(49deg, #425be0, #e677f8);
+    background-position: center center;
+    background-size: contain;
     border-radius: 5px 5px 0 0;
+    position: relative;
+    .page-screenshot{
+        position: absolute;
+        border-radius: 5px 5px 0 0;
+        max-width: 100%;
+        max-height: 100%;
+        width:100%;
+    }
 }
 #pageheader{
     padding: 20px 10px 0;
@@ -125,11 +136,6 @@ input {
     border:1px solid #666666 !important;
     border-radius:30px !important;
     color: rgba(0,0,0,0.6);
-}
-
-.mat-card-actions {
-    margin-left: 0;
-    margin-right: 0;
 }
 
   
