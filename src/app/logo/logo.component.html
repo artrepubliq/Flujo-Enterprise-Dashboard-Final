@@ -10,14 +10,15 @@
       </div>
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="profile_img">
-          <div *ngIf="logoItems?.logo_url_path" fxLayoutAlign="center center" class="logo-img">
-            <span *ngIf="!logoItems?.logo_url_path">no image</span>
+          <div fxLayoutAlign="center center" class="logo-img">
+            <span *ngIf="!logoItems?.logo_url_path"><img src="../assets/default_logo.png" class="img-fluid"></span>
             <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
           </div> 
           <div class="upload-logo">
-            <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-            <p class="hover-upload">Upload Logo</p>
-            <button class="delete_logo" matTooltip="Delete Image" matTooltipPosition="right" (click)="deleteLogoImg()"><i class="fa fa-times"></i></button>
+            <input mat-raised-button type="file" (change)="onFileChange($event)" #fileInput>
+            <p *ngIf="!logoItems?.logo_url_path" class="hover-upload">Upload Logo Image</p>
+            <p *ngIf="logoItems?.logo_url_path" class="hover-upload">Update Logo Image</p>
+            <button class="delete_logo" matTooltip="Delete Image" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
             <div class="bg-layer"></div>
           </div>
         </div>
@@ -76,15 +77,16 @@
         <div class="" fxLayout="column" fxLayoutGap="20px">
           <!-- Logo Image Upload -->
           <div class="profile_img">
-            <div *ngIf="logoItems?.logo_url_path" fxLayoutAlign="center center" class="logo-img">
-              <img *ngIf="logoItems?.logo_url_path" src="data:image/png;base64,{{logoItems.logo_url_path}}" alt="Logo" class="img-fluid">
-            </div>
+            <div fxLayoutAlign="center center" class="logo-img">
+              <span *ngIf="!logoItems?.logo_url_path"><img src="../assets/default_logo.png" class="img-fluid"></span>
+              <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
+            </div> 
             <div class="upload-logo">
               <input mat-raised-button type="file"  (change)="onFileChange($event)" #fileInput>
-              <p class="hover-upload" *ngIf="logoItems?.logo_url_path">Upload Your Image</p>
-              <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-              <p class="hover-upload">Upload Logo</p>
-              <button class="delete_logo" matTooltip="Delete Image" matTooltipPosition="right" (click)="deleteLogoImg()"><i class="fa fa-times"></i></button>
+              <p *ngIf="!logoItems?.logo_url_path" class="hover-upload">Upload Logo Image</p>
+              <p *ngIf="logoItems?.logo_url_path" class="hover-upload">Update Logo Image</p>
+              <input mat-raised-button type="file" (change)="onFileChange($event)" #fileInput>
+              <button class="delete_logo" matTooltip="Delete Image" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
               <div class="bg-layer"></div>
             </div>
           </div>
@@ -92,7 +94,6 @@
           <div class="logo-details">
             <p class="file_Name">flujo_logo.svg</p>
             <p class="file_Prop">Original : {{logoItems?.logo_width}} px x {{logoItems?.logo_height}} px</p>
-            <p class="file_Prop">Original : {{logoItems?.logo_width}}px x {{logoItems?.logo_height}} px</p>
             <p class="file_Prop">3 kb</p>
           </div>
         </div>
@@ -113,13 +114,11 @@
               <label>Width</label>
               <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width"
                 placeholder="Logo width" formControlName="logo_width">
-                placeholder="Logo height" formControlName="logo_width">
             </div>
             <div fxLayout="column">
               <label>Height</label>
               <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_height"
                 placeholder="Logo height" formControlName="logo_height">
-                placeholder="Logo width" formControlName="logo_height">
             </div>
           </div>
         </div>
@@ -129,7 +128,7 @@
         <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
         <button mat-button class="logoCtrl_button cancel" (click)="cancelFileEdit()">Cancel</button>
         <button mat-button class="logoCtrl_button" [disabled]="form.invalid || loadingSave">Save</button>
-        <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loadingSave">Delete</button>
+        <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loadingSave">Delete</button> -->
       </div>
     </form>
     <!-- //.. Logo Edit Block -->

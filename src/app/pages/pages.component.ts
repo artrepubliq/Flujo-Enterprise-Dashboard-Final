@@ -123,7 +123,7 @@ export class PagesComponent {
     }
     getPageDetails = () => {
         this.spinnerService.show();
-        this.httpClient.get( AppConstants.API_URL+"flujo_client_component/"+AppConstants.CLIENT_ID)
+        this.httpClient.get( AppConstants.API_URL+"flujo_client_getcomponent/"+AppConstants.CLIENT_ID)
         
             .subscribe(
             data => {
