@@ -52,7 +52,6 @@ import { AuthInterceptorService } from './auth/auth.interceptorservice';
 import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
-import {MatDialogModule} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -114,7 +113,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FroalaViewModule.forRoot(),
     MatDialogModule,
     MatTabsModule,
-    MatTooltipModule
     MatCardModule
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog],
