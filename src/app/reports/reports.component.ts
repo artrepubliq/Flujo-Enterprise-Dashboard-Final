@@ -65,7 +65,7 @@ export class ReportsComponent {
 
   getChangemakerReportData() {
     this.spinnerService.show()
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_changereport")
+    this.httpClient.get(AppConstants.API_URL + "flujo_client_getallchangemaker")
       .subscribe(
       data => {
         console.log(data);
@@ -150,7 +150,7 @@ export class ReportsComponent {
 
   getReportYourProblemData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_reportproblem/" + AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + "/flujo_client_getreportproblem/" + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         console.log(data);
