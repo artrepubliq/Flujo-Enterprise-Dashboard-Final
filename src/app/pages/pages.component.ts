@@ -6,13 +6,17 @@ import * as _ from 'underscore';
 import { ColorPickerModule,ColorPickerDirective } from 'ngx-color-picker';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';
+
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent {
     form: FormGroup;
-    isEdit: boolean = false;
+    isEdit:boolean = true;
+    isAddPage: boolean = false;
+    isTableView: boolean = false;
+    isGridView: boolean = true;
     loading: boolean = false;
     button_text: string = "save";
     decodedString: string;
@@ -87,7 +91,7 @@ export class PagesComponent {
         if(!this.form.value.component_parent){
             this.form.controls['component_parent'].setValue("-1");
         }
-        this.httpClient.post( AppConstants.API_URL+"flujo_client_component", this.form.value)
+        this.httpClient.post( AppConstants.API_URL+"flujo_client_postcomponent", this.form.value)
             .subscribe(
             data => {
                 this.parsePostResponse(data);
@@ -107,7 +111,7 @@ export class PagesComponent {
         // const formModel = this.form.value;
         this.spinnerService.show();
         let component_id = body.id;
-        this.httpClient.delete(AppConstants.API_URL+"flujo_client_component/"+component_id)
+        this.httpClient.delete(AppConstants.API_URL+"flujo_client_deletecomponent/"+component_id)
             .subscribe(
             data => {
                 this.getPageDetails();
@@ -115,10 +119,12 @@ export class PagesComponent {
                 this.pageDetails = null;
                 console.log(data);
                 this.loading = false;
+                this.alertService.success("Page delete successfully");
             },
             error => {
                 this.loading = false;
                 this.spinnerService.hide();
+                this.alertService.success("Something went wrong")
             });
     }
     getPageDetails = () => {
@@ -167,10 +173,22 @@ export class PagesComponent {
     addPages = () => {
         this.form.reset();
         this.isEdit = true;
+        this.isAddPage = true;
+        this.isTableView = false;
+        this.isGridView = false;
     }
     viewPages = () => {
         this.getPageDetails();
         this.isEdit = false;
+        this.isAddPage = false;
+        this.isTableView = true;
+        this.isGridView = false;
+    }
+    viewPagesGrid =() => {
+        this.isEdit = false;
+        this.isAddPage = false;
+        this.isTableView = false;
+        this.isGridView = true;
     }
     editCompnent = (componentItem) => {
         this.alertService.success('page updated successfull.');

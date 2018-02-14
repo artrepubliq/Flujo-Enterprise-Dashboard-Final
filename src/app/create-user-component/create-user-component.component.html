@@ -2,9 +2,8 @@
   <div  class="form-header">
     <h2>Create User</h2>
   </div>
-      <form [formGroup]="CreateUserForm" (ngSubmit)="onSubmit()">
+      <form id="createuserform" [formGroup]="CreateUserForm" (ngSubmit)="onSubmit()">
         <div fxLayout="column" fxLayoutGap="3rem">
-
           <div  fxLayout="row" fxLayoutGap="10px" class="form-group">
             <label fxLayoutAlign="start" fxFlex="10" for="name">Name :</label>
             <input fxFlex="50" type="text"  class="form-control" id="name" formControlName = "name" required placeholder="Name">
