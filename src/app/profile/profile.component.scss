@@ -174,12 +174,14 @@
             position: absolute;
             top: 0;
             right: 0;
-            background-color: #fff;
             z-index: 99;
             box-shadow: none;
             outline: none;
             border: none;
             cursor: pointer;
+          }
+          button.delete_logo:hover {
+            background-color: #ffffff;
           }
         }
         .upload-logo:hover {
