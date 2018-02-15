@@ -84,6 +84,7 @@ uploadLogoimageHttpRequest(reqObject){
   error => {
     this.loadingSave = false;
     this.spinnerService.hide();
+    this.alertService.danger("Logo not uploaded")
   });
 }
   onSubmit = (body) => {
@@ -196,5 +197,6 @@ uploadLogoimageHttpRequest(reqObject){
   // Form Cancel
   cancelFileEdit() {
     this.isEdit = false;
+    
     }
   }
