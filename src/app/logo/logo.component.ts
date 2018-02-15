@@ -100,7 +100,7 @@ export class LogoComponent {
     const formModel = this.form.value;
     this.loadingSave = true;
 
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_logo", formModel)
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_postlogo", formModel)
       .subscribe(
       data => {
         this.alertService.success('Logo details submitted successfully.');
