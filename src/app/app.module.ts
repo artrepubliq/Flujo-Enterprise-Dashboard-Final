@@ -24,7 +24,7 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-import { MatButtonModule, MatFormFieldModule, MatTooltipModule,MatInputModule, MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
 //directives
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';

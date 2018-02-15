@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from '@angular/common/http';
@@ -60,9 +59,8 @@ export class ReportsComponent {
     this.isReportData = true;
     this.isChangeReport = false;
     this.isFeedbackReport = false;
+    // this.getReportYourProblemData();
   }
-
-
   getChangemakerReportData() {
     this.spinnerService.show()
     this.httpClient.get(AppConstants.API_URL + "flujo_client_getallchangemaker")
