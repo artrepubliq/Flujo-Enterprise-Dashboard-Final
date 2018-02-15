@@ -99,7 +99,7 @@ export class ReportsComponent {
   }
   getuserFeedbackData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_feedbackreport")
+    this.httpClient.get(AppConstants.API_URL + "flujo_client_getallfeedback")
       .subscribe(
       data => {
         this.feedbackData = data;
@@ -190,5 +190,53 @@ export class ReportsComponent {
   }
   exportReportProblemEmail() {
     this.showEmailClickReport = !this.showEmailClickReport;
+  }
+  feedbackCsvMailSubmit = (body) => {
+    this.spinnerService.show();
+    const formModel = this.feedbackCsvMail.value;
+
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_feedbackreportmailattachment", formModel)
+      .subscribe(
+      data => {
+        this.feedbackCsvMail.reset();
+        this.alertService.info('Attachement sent succesfully');
+        this.spinnerService.hide();
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger('Email could not sent');
+      });
+  }
+  changeMakerCsvMailSubmit = (body) => {
+    this.spinnerService.show();
+    const formModel = this.changeMakerCsvMail.value;
+
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_feedbackreportmailattachment", formModel)
+      .subscribe(
+      data => {
+        this.changeMakerCsvMail.reset()
+        this.alertService.info('Attachement sent succesfully');
+        this.spinnerService.hide();
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger('Email could not sent');
+      });
+  }
+  reportCsvMailSubmit = (body) => {
+    this.spinnerService.show();
+    const formModel = this.reportCsvMail.value;
+
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_feedbackreportmailattachment", formModel)
+      .subscribe(
+      data => {
+        this.changeMakerCsvMail.reset();
+        this.alertService.info('Attachement sent succesfully');
+        this.spinnerService.hide();
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger('Email could not sent');
+      });
   }
 }
