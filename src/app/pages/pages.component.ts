@@ -6,6 +6,7 @@ import * as _ from 'underscore';
 import { ColorPickerModule,ColorPickerDirective } from 'ngx-color-picker';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';
+import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
     templateUrl: './pages.component.html',
@@ -206,6 +207,11 @@ getChild(childData){
         this.button_text = "Update";
         this.setDefaultClientPageDetails(componentItem);
     }
+    cancelFileEdit() {
+        this.isEdit = false;
+        this.isAddPage = false;
+        this.isGridView = true;
+    }
     parsePostResponse(response){
         
         if(response.result){
@@ -226,4 +232,5 @@ getChild(childData){
           this.dialog = null;
         }
       }
+    
 }

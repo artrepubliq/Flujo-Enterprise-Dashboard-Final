@@ -108,6 +108,8 @@
         <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
       </button>
 
+      <button type="button" mat-button (click)="cancelFileEdit()" color="deafault" >Cancel</button>
+
     </form>
   </div>
   <!-- // ===== Add Pages End ======= -->
@@ -160,15 +162,18 @@
   <!-- // ====== Pages Table End ======= -->
 
 
-  <!-- =========grid view====== -->
+  <!-- =========grid view parent====== -->
 
   <div *ngIf="isGridView">
+    <div class="main-category">
+      <h6>Main Category</h6>
+    </div>
     <div class="row">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of parentPageDetails">
         <mat-card  class="example-card" (click)="getChild(detail)">
             <div id="pageview">
                 <!-- <img src=""  alt="pagescreen"/> -->
-                <img class="img-responsive img-fluid page-screenshot"  src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu">
+                <img class="img-responsive img-fluid page-screenshot"  src="data:image/png;base64,{{detail.component_image}}" alt="Photo of a Shiba Inu">
             </div>
             <mat-card-content>
               <div id="pageheader">
@@ -193,10 +198,15 @@
         </div>
       </div>
     </div>
-  <!-- // =========grid view End====== -->
+  <!-- // =========grid view parents End====== -->
+<div class="divider"></div>
+  <!-- // =========grid view childs====== -->
   <div *ngIf="isGridView" >
-  <div class="row">
-      <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12" *ngFor="let detail of childDetails">
+      <div class="main-category">
+          <h6>Sub Category</h6>
+        </div>
+  <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
+      <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
         <mat-card  class="example-card">
             <div id="pageview">
                 <!-- <img src=""  alt="pagescreen"/> -->
@@ -225,4 +235,6 @@
       </div>
     </div>
   </div>
+<!-- // =========grid view childs End====== -->
+
 </div>

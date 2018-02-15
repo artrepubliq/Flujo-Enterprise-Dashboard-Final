@@ -137,5 +137,26 @@ input {
     border-radius:30px !important;
     color: rgba(0,0,0,0.6);
 }
+.divider {
+	width: auto;
+	height: 1.5px;
+    background-color: #d8d8d8;
+    margin:15px 0;
+}
 
+.main-category {
+	font-family: Roboto;
+	font-size: 15px;
+	font-weight: 500;
+	color: #666666;
+}
+.child-pages{
+    height: 35vh; 
+    position: relative;
+
+    .child-page{
+        white-space: nowrap;
+        display: inline;
+    }
+}
   
