@@ -19,6 +19,7 @@ export interface IGalleryObject{
     title: string;
     description: string;
     image: string;
+    order: string;
   }
 
   //base 64 images interface

@@ -138,14 +138,11 @@
         </div>
       </mat-tab>
 
-      <mat-tab *ngFor="let albumItem of albumGallery" label={{albumItem.title}}>
+      <mat-tab *ngFor="let album of albumGallery" label={{album.title}}>
       
         <div class="row grid-gallery">
           <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let albumItem of albumGalleryItem">
-
             <div class="grid-item">
-
-              <p>{{albumItem.title}} </p>
               <div class="img-block">
                 <img src='data:image/png;base64,{{albumItem.image}}' class="img-fluid" alt="Gallary Img">
                 <div class="bg-layer"></div>
