@@ -72,7 +72,7 @@ export class LogoComponent {
     this.spinnerService.show();
     this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     // const imageModel = this.form.value
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_logo_upload", reqObject)
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_postlogoupload", reqObject)
       .subscribe(
       data => {
         this.logoImage = reqObject.image;
@@ -196,5 +196,6 @@ export class LogoComponent {
   // Form Cancel
   cancelFileEdit() {
     this.isEdit = false;
+    this.getLogoDetails;
     }
   }
