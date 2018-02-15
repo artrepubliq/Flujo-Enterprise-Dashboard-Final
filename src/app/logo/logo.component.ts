@@ -67,25 +67,26 @@ export class LogoComponent {
     }
   }
 
-  uploadLogoimageHttpRequest(reqObject) {
-
-    this.spinnerService.show();
-    this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    // const imageModel = this.form.value
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_postlogoupload", reqObject)
-      .subscribe(
-      data => {
-        this.logoImage = reqObject.image;
-        this.alertService.success('Logo submitted successfully.');
-        this.loadingSave = false;
-        //  this.getLogoDetails();
-        this.spinnerService.hide();
-      },
-      error => {
-        this.loadingSave = false;
-        this.spinnerService.hide();
-      });
-  }
+uploadLogoimageHttpRequest(reqObject){
+ 
+  this.spinnerService.show();
+  this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+  // const imageModel = this.form.value
+  this.httpClient.post(AppConstants.API_URL+"flujo_client_logo_upload",reqObject)
+.subscribe(
+  data => {
+    this.logoImage = reqObject.image;
+    this.alertService.success('Logo submitted successfully.');
+     this.loadingSave = false;
+    //  this.getLogoDetails();
+     this.spinnerService.hide();
+  },
+  error => {
+    this.loadingSave = false;
+    this.spinnerService.hide();
+    this.alertService.danger("Logo not uploaded")
+  });
+}
   onSubmit = (body) => {
     // if(!this.logoDetail){
     //   this.logoDetail= [];
@@ -196,6 +197,5 @@ export class LogoComponent {
   // Form Cancel
   cancelFileEdit() {
     this.isEdit = false;
-    this.getLogoDetails;
     }
   }

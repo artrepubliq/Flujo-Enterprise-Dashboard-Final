@@ -177,6 +177,7 @@ export class MediaComponent implements OnInit {
   getMediaGalleryData() {
     this.spinnerService.show();
     this.httpClient
+
       .get<mediaDetail>(AppConstants.API_URL + 'flujo_client_getgallery/'+AppConstants.CLIENT_ID)
       .subscribe(
       data => {
@@ -199,7 +200,6 @@ export class MediaComponent implements OnInit {
           this.hightlightStatus = [false];
           this.spinnerService.hide();
           this.alertService.success('Image deleted Successfully');
-          this.alertService.success('Social Links deleted Successfully');
           this.getMediaGalleryData();
         }
       },
@@ -209,23 +209,37 @@ export class MediaComponent implements OnInit {
       });
 
   }
-  getImageId(item_id) {
+  getImageId(item_id: IGalleryObject) {
     // this.albumObject = <IGalleryObject>{}
     // this.albumObject.images = [];
-    var item_index = _.indexOf(this.albumObject.images, item_id.id);
-    var t = _.size(this.albumObject.images);
-    this.albumImage = <IGalleryImageItem>{};
+    console.log(item_id);
+    var item_index =  _.findWhere(this.albumObject.images, {
+      id: item_id.id
+    });
 
-    this.albumImage.id = item_id.id;
-    this.albumImage.title = null;
-    this.albumImage.description = null;
-    if (item_index != -1) {
-      this.albumObject.images.splice(item_index, 1);
-
-    } else {
-      this.albumObject.images.push(this.albumImage);
-      console.log(this.albumObject);
+    if(item_index){
+       this.albumObject.images = _.without(this.albumObject.images, item_index);
     }
+    else{
+      this.albumImage = <IGalleryImageItem>{};    
+      this.albumImage.id = item_id.id;
+      this.albumImage.title = null;
+      this.albumImage.description = null;
+      this.albumObject.images.push(this.albumImage);
+    }
+    // var item_index = _.without(this.albumObject.images, {id:item_id.id});
+    // console.log(item_index);
+   
+    var t = _.size(this.albumObject.images);
+
+
+    // if (item_index != -1) {
+    //   this.albumObject.images.splice(item_index, 1);
+
+    // } else {
+    //   this.albumObject.images.push(this.albumImage);
+    //   console.log(this.albumObject);
+    // }
   }
   //to create new album with title form from the html
   CreateNewAlbumForm(body: any) {
@@ -234,7 +248,7 @@ export class MediaComponent implements OnInit {
     this.albumObject.client_id = AppConstants.CLIENT_ID;
     this.albumObject.title = this.albumTitle;
     // this.albumObject.images = this.albumObject.images;
-    this.spinnerService.show();
+    
     // this.submitAlbumData.controls['images'].setValue(this.albumObject);
     // this.submitAlbumData.controls['client_id'].setValue(localStorage.getItem("client_id"));
     // let formModel = this.submitAlbumData.value;
@@ -242,10 +256,12 @@ export class MediaComponent implements OnInit {
   }
   //http call for create a new gallery or update the exsiting gallery
   CreateNewAlbumHttpRequest(reqData) {
+    this.spinnerService.show();
+
     this.httpClient.post(AppConstants.API_URL + "flujo_client_postalbum", reqData)
       .subscribe(
       data => {
-
+        
         this.submitAlbumData.reset();
         this.resetsubmitAlbumData();
         this.spinnerService.hide();
@@ -361,6 +377,7 @@ export class MediaComponent implements OnInit {
         // width:"600px"
       });
       dialogRef.afterClosed().subscribe(result => {
+        
         //prepare POST request object for updating the particular album details
         if (result) {
           var filteredimagesArray = _.filter(this.parseAlbumGalleryData, (num) => {
@@ -394,7 +411,7 @@ export class MediaComponent implements OnInit {
     _.each(albumdetals, (ablmbetail, item_index) => {
 
       if (albumdetals[item_index].id == base64images.id) {
-        this.albumBase64imagesObject = { id: albumdetals[item_index].id, title: albumdetals[item_index].title, description: albumdetals[item_index].description, image: base64images.image };
+        this.albumBase64imagesObject = { id: albumdetals[item_index].id, title: albumdetals[item_index].title, description: albumdetals[item_index].description, order: albumdetals[item_index].order , image: base64images.image };
         this.albumBase64imagesArray.push(this.albumBase64imagesObject);
       }
 
