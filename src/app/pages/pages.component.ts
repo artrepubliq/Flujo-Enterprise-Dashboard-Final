@@ -12,6 +12,8 @@ import { AppConstants } from '../app.constants';
     styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent {
+    childDetails: any;
+    ttt: any;
     form: FormGroup;
     isEdit:boolean = true;
     isAddPage: boolean = false;
@@ -149,7 +151,12 @@ export class PagesComponent {
             }
             )
     }
-
+getChild(childData){
+     this.childDetails = _.filter(this.pageDetails, (parentData)=>{
+        return parentData.parent_id == childData.id; 
+    });
+    console.log(this.childDetails);
+}
     //this method is used to update page detals to the form, if detalis exist
     setDefaultClientPageDetails = (pageData) => {
         
@@ -193,6 +200,9 @@ export class PagesComponent {
     editCompnent = (componentItem) => {
         this.alertService.success('page updated successfull.');
         this.isEdit = true;
+        this.isAddPage = true;
+        this.isTableView = false;
+        this.isGridView = false;
         this.button_text = "Update";
         this.setDefaultClientPageDetails(componentItem);
     }
