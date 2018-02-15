@@ -43,7 +43,7 @@ export class SocialLinksComponent {
     } else {
       this.socialLinksForm.controls['socialitem_id'].setValue("null");
     }
-    this.httpClient.post(AppConstants.API_URL+"/flujo_client_sociallinks", this.socialLinksForm.value)
+    this.httpClient.post(AppConstants.API_URL+"/flujo_client_postsociallinks", this.socialLinksForm.value)
       .subscribe(
         res => {
           if (res) {
