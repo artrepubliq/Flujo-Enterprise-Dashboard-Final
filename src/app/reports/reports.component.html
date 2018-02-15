@@ -10,7 +10,7 @@
     <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
   </button>
 </div>
-
+<br>
 <ngx-alerts maxMessages="3" timeout="5000">
   </ngx-alerts>
 <!-- Feedback Report -->
@@ -42,7 +42,7 @@
     <button (click)="exportFeedbackData()" class="btn btn-success" float-right style="float:right">Export</button>
     <div class="sendMail-data">
         <div class="sendMail-data form-group">
-            <form action="" [formGroup]="feedbackCsvMail">
+            <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
                 <input class="form-control" formControlName="email" id="email">
                 <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
                   enter valid email
@@ -85,7 +85,7 @@
     <button (click)="exportChangermakereport()" class="btn btn-success" float-right style="float:right">Export</button>
     <div class="sendMail-data">
         <div class="sendMail-data">
-            <form action="" [formGroup]="changeMakerCsvMail">
+            <form action="" [formGroup]="changeMakerCsvMail" fxLayout="row" fxLayoutGap="15px">
                 <input class="form-control" formControlName="email" id="email">
                 <div [hidden]="changeMakerCsvMail.controls.email.valid || (changeMakerCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
                   enter valid email
@@ -126,7 +126,7 @@
     </table>
     <button (click)="exportReportProblemData()" class="btn btn-success" float-right style="float:right">Export</button>
     <div class="sendMail-data">
-      <form action="" [formGroup]="reportCsvMail">
+      <form action="" [formGroup]="reportCsvMail" fxLayout="row" fxLayoutGap="15px">
           <input class="form-control" formControlName="email" id="email">
           <div [hidden]="reportCsvMail.controls.email.valid || (reportCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
             enter valid email

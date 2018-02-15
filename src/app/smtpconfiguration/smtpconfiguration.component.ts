@@ -56,7 +56,7 @@ export class SMTPConfigurationComponent {
 
   getuserSMTPConfigData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL+"flujo_client_smtpconfiguration/"+AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL+"flujo_client_getsmtpconfiguration/"+AppConstants.CLIENT_ID)
     .subscribe(
       data => {
         data? this.isEdit =false : this.isEdit = true;
