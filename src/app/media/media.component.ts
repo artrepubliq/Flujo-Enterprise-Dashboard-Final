@@ -153,7 +153,7 @@ export class MediaComponent implements OnInit {
     this.spinnerService.show();
     this.mediaManagementForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.mediaManagementForm.value;
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_mediamanagement", formModel).subscribe(
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_postgallery", formModel).subscribe(
       res => {
 
         this.getMediaGalleryData();
@@ -177,7 +177,8 @@ export class MediaComponent implements OnInit {
   getMediaGalleryData() {
     this.spinnerService.show();
     this.httpClient
-      .get<mediaDetail>(AppConstants.API_URL + 'flujo_client_getbaseimage/'+AppConstants.CLIENT_ID)
+
+      .get<mediaDetail>(AppConstants.API_URL + 'flujo_client_getgallery/'+AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         this.mediaData = data;
@@ -192,7 +193,7 @@ export class MediaComponent implements OnInit {
   }
   deleteMediaImage(image_id) {
     this.spinnerService.show();
-    this.httpClient.delete(AppConstants.API_URL + "flujo_client_deletebaseimage/" + image_id)
+    this.httpClient.delete(AppConstants.API_URL + "flujo_client_deletegallery/" + image_id)
       .subscribe(
       data => {
         if (data) {
@@ -256,7 +257,8 @@ export class MediaComponent implements OnInit {
   //http call for create a new gallery or update the exsiting gallery
   CreateNewAlbumHttpRequest(reqData) {
     this.spinnerService.show();
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_gallery", reqData)
+
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_postalbum", reqData)
       .subscribe(
       data => {
         
@@ -294,7 +296,7 @@ export class MediaComponent implements OnInit {
   getAlbumGallery() {
     this.spinnerService.show();
     this.httpClient
-      .get<IGalleryObject>(AppConstants.API_URL + 'flujo_client_gallery/' + AppConstants.CLIENT_ID)
+      .get<IGalleryObject>(AppConstants.API_URL + 'flujo_client_getalbum/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         this.albumGallery = data;
@@ -329,7 +331,7 @@ export class MediaComponent implements OnInit {
     
     if (albumImageIds.length > 0) {
       this.spinnerService.show();
-      this.httpClient.post<IBase64Images>("http://www.flujo.in/dashboard/flujo.in_keerthan/flujo-client-api/flujo_client_image", albumImageIds)
+      this.httpClient.post<IBase64Images>(AppConstants.API_URL + "flujo_client_getgalleryintoalbum", albumImageIds)
         .subscribe(
         data => {
           //this.prepareAlbumBase64ImagesObject(this.albumImagesParsedArrayData, data);

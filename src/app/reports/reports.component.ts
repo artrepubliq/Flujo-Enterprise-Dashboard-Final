@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from '@angular/common/http';
@@ -13,6 +12,9 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
   styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent {
+  reportCsvMail: FormGroup;
+  changeMakerCsvMail: FormGroup;
+  feedbackCsvMail: FormGroup;
   isFeedbackReport: boolean = true;
   isChangeReport: boolean = false;
   loading: boolean = false;
@@ -23,8 +25,17 @@ export class ReportsComponent {
   showEmailClickFeedback: boolean = false;
   showEmailClick: boolean = false;
   showEmailClickReport: boolean = false;
+  EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
-   
+   this.feedbackCsvMail = this.formBuilder.group({
+    'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+   });
+   this.changeMakerCsvMail = this.formBuilder.group({
+    'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+   });
+   this.reportCsvMail = this.formBuilder.group({
+    'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+   });
     this.getChangemakerReportData();
     this.getuserFeedbackData();
     this.getReportYourProblemData();
@@ -48,12 +59,13 @@ export class ReportsComponent {
     this.isReportData = true;
     this.isChangeReport = false;
     this.isFeedbackReport = false;
+    // this.getReportYourProblemData();
   }
 
 
   getChangemakerReportData() {
     this.spinnerService.show()
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_changereport")
+    this.httpClient.get(AppConstants.API_URL + "flujo_client_getallchangemaker")
       .subscribe(
       data => {
         console.log(data);
@@ -89,7 +101,7 @@ export class ReportsComponent {
   }
   getuserFeedbackData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_feedbackreport")
+    this.httpClient.get(AppConstants.API_URL + "flujo_client_getallfeedback")
       .subscribe(
       data => {
         this.feedbackData = data;
@@ -138,7 +150,7 @@ export class ReportsComponent {
 
   getReportYourProblemData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_reportproblem/" + AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + "flujo_client_getreportproblem/" + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         console.log(data);

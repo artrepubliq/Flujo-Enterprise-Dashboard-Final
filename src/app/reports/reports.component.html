@@ -10,8 +10,9 @@
     <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
   </button>
 </div>
-
-
+<br>
+<ngx-alerts maxMessages="3" timeout="5000">
+  </ngx-alerts>
 <!-- Feedback Report -->
 <div *ngIf="isFeedbackReport" class="row">
   <div class="col-md-12">
@@ -40,15 +41,15 @@
     </table>
     <button (click)="exportFeedbackData()" class="btn btn-success" float-right style="float:right">Export</button>
     <div class="sendMail-data">
-      <button (click)="feedbackEmail()" class="btn btn-primary">Send As Email</button>
-      <div class="content-box" *ngIf="showEmailClickFeedback">
-        <form action="">
-          <input type="text" placeholder="Please Enter Email">
-          <input type="text" placeholder="Subject">
-          <textarea name="" id="" cols="30" rows="3" placeholder="Message.."></textarea>
-          <button type="submit" mat-raised-button>Send</button>
-        </form>
-      </div>
+        <div class="sendMail-data form-group">
+            <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
+                <input class="form-control" formControlName="email" id="email">
+                <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+                  enter valid email
+                </div>
+              <button (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" class="btn btn-primary mt-2">Send As Email</button>
+            </form>
+          </div>
     </div>
   </div>
 </div>
@@ -59,7 +60,7 @@
 <div *ngIf="isChangeReport" class="row">
   <div class="col-md-12">
     <h3>Change Maker Report:</h3>
-    <table class="table table-hover">
+    <table class="table table-hover table-bordered">
       <thead>
         <tr>
           <th scope="col">S.No</th>
@@ -83,15 +84,15 @@
     </table>
     <button (click)="exportChangermakereport()" class="btn btn-success" float-right style="float:right">Export</button>
     <div class="sendMail-data">
-      <button (click)="changereportemail()" class="btn btn-primary">Send As Email</button>
-      <div class="content-box" *ngIf="showEmailClick">
-        <form action="">
-          <input type="text" placeholder="Please Enter Email">
-          <input type="text" placeholder="Subject">
-          <textarea name="" id="" cols="30" rows="3" placeholder="Message.."></textarea>
-          <button type="submit" mat-raised-button>Send</button>
-        </form>
-      </div>
+        <div class="sendMail-data">
+            <form action="" [formGroup]="changeMakerCsvMail" fxLayout="row" fxLayoutGap="15px">
+                <input class="form-control" formControlName="email" id="email">
+                <div [hidden]="changeMakerCsvMail.controls.email.valid || (changeMakerCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+                  enter valid email
+                </div>
+              <button (click)="changeMakerCsvMailSubmit(changeMakerCsvMail.value)" class="btn btn-primary">Send As Email</button>
+            </form>
+          </div>
     </div>
   </div>
 </div>
@@ -101,15 +102,15 @@
 <div *ngIf="isReportData" class="row">
   <div class="col-md-12">
     <h3>Report your problem data:</h3>
-    <table class="table table-hover">
+    <table class="table table-hover table-bordered">
       <thead>
         <tr>
           <th scope="col">S.No</th>
           <th scope="col">Name</th>
           <th scope="col">Email</th>
           <th scope="col">Phone</th>
-          <th scope="col">Client Id</th>
-          <th scope="col">Submited At</th>
+          <th scope="col">Problem</th>
+          <th scope="col">Problem Type</th>
         </tr>
       </thead>
       <tbody>
@@ -118,22 +119,20 @@
           <td>{{report.name}}</td>
           <td>{{report.email}}</td>
           <td>{{report.phone}}</td>
-          <td>{{report.client_id}}</td>
-          <td>{{report.date_now}}</td>
+          <td>{{report.problem}}</td>
+          <td>{{report.problem_type}}</td>
         </tr>
       </tbody>
     </table>
     <button (click)="exportReportProblemData()" class="btn btn-success" float-right style="float:right">Export</button>
     <div class="sendMail-data">
-      <button (click)="exportReportProblemEmail()" class="btn btn-primary">Send As Email</button>
-      <div class="content-box" *ngIf="showEmailClickReport">
-        <form action="">
-          <input type="text" placeholder="Please Enter Email">
-          <input type="text" placeholder="Subject">
-          <textarea name="" id="" cols="30" rows="3" placeholder="Message.."></textarea>
-          <button type="submit" mat-raised-button>Send</button>
-        </form>
-      </div>
+      <form action="" [formGroup]="reportCsvMail" fxLayout="row" fxLayoutGap="15px">
+          <input class="form-control" formControlName="email" id="email">
+          <div [hidden]="reportCsvMail.controls.email.valid || (reportCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+            enter valid email
+          </div>
+        <button (click)="reportCsvMailSubmit(reportCsvMail.value)" class="btn btn-primary">Send As Email</button>
+      </form>
     </div>
   </div>
 </div>

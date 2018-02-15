@@ -5,7 +5,9 @@
       <div class="form-input-block">
         <label>To address:</label>
         <input class="form-control" formControlName="email" id="email">
-        <control-messages [control]="mailSendingForm.controls.email"></control-messages>
+        <div [hidden]="mailSendingForm.controls.email.valid || (mailSendingForm.controls.email.pristine && !submitted)" class="form-error-msg">
+            enter valid email
+          </div>
       </div>
       <div class="form-input-block">
         <label>Subject:</label>
@@ -21,7 +23,7 @@
       </div>
       <div class="form-input-block">
         <label>Select contacts from csv file </label>
-        <input class="form-control" type="file" formControlName="file" id="file">
+        <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
       </div>
       <input type="checkbox" formControlName="check">
       <label>Select contacts from db</label>

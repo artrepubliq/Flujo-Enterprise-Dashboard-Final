@@ -1,105 +1,168 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900');
-.form-group.row {
-    margin: 0;
+// Global Styles
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-button,button:focus {
-    outline: none;
-    box-shadow: none;
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+// ///  Global Styles
+.form-group.row {
+  margin: 0;
+}
+
+button,
+button:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 body {
-    background-color: #fafafa;
-    font-family: 'Roboto', sans-serif;
+  background-color: #fafafa;
+  font-family: 'Roboto', sans-serif;
 }
+
 a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .user-logo {
-    display: inline-block;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 12px;
+  max-height: 40px;
+  max-width: 40px;
+  img {
     border-radius: 50%;
-    margin-right: 12px;
-    max-height: 40px;
-    max-width: 40px;
-    img {
-        border-radius: 50%;
-    }
+  }
 }
 
 .dropdown-menu {
+  width: 100%;
+  border-radius: 0;
+  -webkit-transition: 0.3s ease-in-out;
+  /* Safari */
+  transition: 0.3s ease-in-out;
+  .activity {
     width: 100%;
-    border-radius: 0;
-    -webkit-transition: 0.3s ease-in-out;
-    /* Safari */
-    transition: 0.3s ease-in-out;
-    .activity {
-      width: 100%;
-      position: relative;
-      display: inline-block;
-      padding: 8px 15px;
-      position: relative;
-      padding-left: 34%;
-      color: #808080;
-      i {
-          position: absolute;
-          left: 13%;
-          margin-top: 5px;
-      }
+    position: relative;
+    display: inline-block;
+    padding: 8px 15px;
+    position: relative;
+    padding-left: 34%;
+    color: #808080;
+    i {
+      position: absolute;
+      left: 13%;
+      margin-top: 5px;
     }
-    .activity:hover {
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.5);
-    }
+  }
+  .activity:hover {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.5);
+  }
 }
-
 
 /* ============ Media Tabs =========== */
 
 .media-tabs {
-    .mat-tab-header {
-      border-bottom: 1.5px solid #d8d8d8;
-    }
-    .mat-tab-label {
-      font-family: 'Roboto';
-      font-size: 15px;
-      font-weight: 500;
-      text-align: left;
-      color: #c1c1c1;
-      opacity: 1;
-      min-width: auto;
-      padding: 0;
-      margin-right: 35px;
-    }
-    .mat-tab-label-active {
-      color: #666666;
-    }
-    .mat-ink-bar {
-      background-color: #ee286b !important;
-      border-radius: 2px;
-    }
-    .mat-tab-label:focus,
-      {
-      background-color: transparent !important;
-    }
+  .mat-tab-header {
+    border-bottom: 1.5px solid #d8d8d8;
   }
-  
-  .img-ul-drag-box-msg {
+  .mat-tab-label {
     font-family: 'Roboto';
     font-size: 15px;
-    font-weight: 500 !important;
-    text-align: center;
-    color: #919191;
-    float: right;
-    padding-top: 0 !important;
+    font-weight: 500;
+    text-align: left;
+    color: #c1c1c1;
+    opacity: 1;
+    min-width: auto;
+    padding: 0;
+    margin-right: 35px;
   }
-  .img-ul-file-upload {
-      display: flex;
-      flex-direction: column;
-      margin-left: 40%;
+  .mat-tab-label-active {
+    color: #666666;
   }
-  
-  /* // ============ Media Tabs =========== */
+  .mat-ink-bar {
+    background-color: #ee286b !important;
+    border-radius: 2px;
+  }
+  .mat-tab-label:focus,
+    {
+    background-color: transparent !important;
+  }
+}
+
+.img-ul-drag-box-msg {
+  font-family: 'Roboto';
+  font-size: 15px;
+  font-weight: 500 !important;
+  text-align: center;
+  color: #919191;
+  float: right;
+  padding-top: 0 !important;
+}
+.img-ul-file-upload {
+  display: flex;
+  flex-direction: column;
+  margin-left: 40%;
+}
+
+/* ============ Media Tabs =========== */
+
+.media-tabs {
+  .mat-tab-header {
+    border-bottom: 1.5px solid #d8d8d8;
+  }
+  .mat-tab-label {
+    font-family: 'Roboto';
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left;
+    color: #c1c1c1;
+    opacity: 1;
+    min-width: auto;
+    padding: 0;
+    margin-right: 35px;
+  }
+  .mat-tab-label-active {
+    color: #666666;
+  }
+  .mat-ink-bar {
+    background-color: #ee286b !important;
+    border-radius: 2px;
+  }
+  .mat-tab-label:focus,
+    {
+    background-color: transparent !important;
+  }
+  .mat-tab-body {
+    padding: 25px 0;
+  }
+}
+
+.img-ul-drag-box-msg {
+  font-family: 'Roboto';
+  font-size: 15px;
+  font-weight: 500 !important;
+  text-align: center;
+  color: #919191;
+  float: right;
+  padding-top: 0 !important;
+}
+
+.img-ul-file-upload {
+  display: flex;
+  flex-direction: column;
+  margin-left: 40%;
+}
+
+/* // ============ Media Tabs =========== */

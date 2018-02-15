@@ -6,20 +6,25 @@ import * as _ from 'underscore';
 import { ColorPickerModule,ColorPickerDirective } from 'ngx-color-picker';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';
+
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent {
     form: FormGroup;
-    isEdit: boolean = false;
+    isEdit:boolean = true;
+    isAddPage: boolean = false;
+    isTableView: boolean = false;
+    isGridView: boolean = true;
     loading: boolean = false;
     button_text: string = "save";
     decodedString: string;
     dialog: any;
     public parentPageDetails;
     public pageDetails: object;
-    public component_description: string = '';
+    public web_description: string = '';
+    public app_description: string = '';
 
     dummy: string;
     @ViewChild('fileInput') fileInput: ElementRef;
@@ -39,7 +44,8 @@ export class PagesComponent {
             component_name: ['', Validators.required],
             component_menuname: ['',null],
             component_parent: null,
-            component_description: ['', Validators.required],
+            web_description: ['', Validators.required],
+            app_description: ['', Validators.required],
             component_background_color:['',],
             component_order: ['', Validators.required],
             component_id: null,
@@ -75,7 +81,9 @@ export class PagesComponent {
     }
    
     onSubmit = (body) => {
+        this.spinnerService.show();
         const formModel = this.form.value;
+        this.spinnerService.show();
         this.form.controls['client_id'].setValue(localStorage.getItem("client_id"));
         if(!body.component_id){
             this.form.controls['component_id'].setValue("null");
@@ -83,7 +91,7 @@ export class PagesComponent {
         if(!this.form.value.component_parent){
             this.form.controls['component_parent'].setValue("-1");
         }
-        this.httpClient.post( AppConstants.API_URL+"flujo_client_component", this.form.value)
+        this.httpClient.post( AppConstants.API_URL+"flujo_client_postcomponent", this.form.value)
             .subscribe(
             data => {
                 this.parsePostResponse(data);
@@ -101,9 +109,9 @@ export class PagesComponent {
     }
     onDelete = (body) => {
         // const formModel = this.form.value;
-        
+        this.spinnerService.show();
         let component_id = body.id;
-        this.httpClient.delete(AppConstants.API_URL+"flujo_client_component/"+component_id)
+        this.httpClient.delete(AppConstants.API_URL+"flujo_client_deletecomponent/"+component_id)
             .subscribe(
             data => {
                 this.getPageDetails();
@@ -111,14 +119,17 @@ export class PagesComponent {
                 this.pageDetails = null;
                 console.log(data);
                 this.loading = false;
+                this.alertService.success("Page delete successfully");
             },
             error => {
                 this.loading = false;
+                this.spinnerService.hide();
+                this.alertService.success("Something went wrong")
             });
     }
     getPageDetails = () => {
         this.spinnerService.show();
-        this.httpClient.get( AppConstants.API_URL+"flujo_client_component/"+AppConstants.CLIENT_ID)
+        this.httpClient.get( AppConstants.API_URL+"flujo_client_getcomponent/"+AppConstants.CLIENT_ID)
         
             .subscribe(
             data => {
@@ -141,12 +152,14 @@ export class PagesComponent {
 
     //this method is used to update page detals to the form, if detalis exist
     setDefaultClientPageDetails = (pageData) => {
+        
         if (pageData) {
             // this.button_text = "Update";
             this.form.controls['component_id'].setValue(pageData.id);
             this.form.controls['component_name'].setValue(pageData.component_name);
             this.form.controls['component_menuname'].setValue(pageData.component_menuname);
-            this.form.controls['component_description'].setValue(pageData.component_description);
+            this.form.controls['web_description'].setValue(pageData.web_description);
+            this.form.controls['app_description'].setValue(pageData.app_description);
             this.form.controls['component_image'].setValue(pageData.component_image);
             this.form.controls['component_background_image'].setValue(pageData.component_background_image);
             this.form.controls['component_background_color'].setValue(pageData.component_background_color);
@@ -160,12 +173,25 @@ export class PagesComponent {
     addPages = () => {
         this.form.reset();
         this.isEdit = true;
+        this.isAddPage = true;
+        this.isTableView = false;
+        this.isGridView = false;
     }
     viewPages = () => {
         this.getPageDetails();
         this.isEdit = false;
+        this.isAddPage = false;
+        this.isTableView = true;
+        this.isGridView = false;
+    }
+    viewPagesGrid =() => {
+        this.isEdit = false;
+        this.isAddPage = false;
+        this.isTableView = false;
+        this.isGridView = true;
     }
     editCompnent = (componentItem) => {
+        this.alertService.success('page updated successfull.');
         this.isEdit = true;
         this.button_text = "Update";
         this.setDefaultClientPageDetails(componentItem);

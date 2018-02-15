@@ -1,85 +1,136 @@
 <ng4-loading-spinner></ng4-loading-spinner>
-<div>
-    <ngx-alerts maxMessages="3" timeout="5000">
-      <strong>{{successMessage }}</strong>
-    </ngx-alerts>
-    <!-- ==== Logo Edit Block ===== -->
-    <form *ngIf="isEdit" fxFlex fxLayout="column" fxLayoutGap="30px" class="logo-edit" [formGroup]="form" (submit)="onSubmit(form.value)">
-      <div fxFlex>
-        <div fxLayout="row" fxLayoutGap="30px">
-          <div fxFlex>
-            <div class="form-group" fxLayout="row">
-              <label for="logo_text">Logo Text</label>
-              <input fxFlex type="text" class="form-control" id="logo_text" placeholder="Logo text" formControlName="logo_text">
-            </div>
-            <div class="form-group" fxLayout="row">
-              <label for="logo_caption">Logo caption</label>
-              <input fxFlex type="text" class="form-control" id="logo_caption" placeholder="Logo caption" formControlName="logo_caption">
-            </div>
-            <div class="form-group" fxLayout="row">
-              <label for="logo_height">Logo height</label>
-              <input fxFlex type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_height" placeholder="Logo height" formControlName="logo_height">
-            </div>
-            <div class="form-group" fxLayout="row">
-              <label for="logo_width">Logo width</label>
-              <input fxFlex type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width" placeholder="Logo width" formControlName="logo_width">
-            </div>
+<ngx-alerts maxMessages="3" timeout="5000">
+  </ngx-alerts>
+<div class="profile_block" fxLayoutAlign="center center">
+  <div class="profile_logo">
+    <!-- Logo View Block -->
+    <div *ngIf="!isEdit">
+      <div class="profile_header">
+        <h3 class="header_title">Logo Properties</h3>
+      </div>
+      <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
+        <div class="profile_img">
+          <div fxLayoutAlign="center center" class="logo-img">
+            <span *ngIf="!logoItems?.logo_url_path"><img src="../assets/default_logo.png" class="img-fluid"></span>
+            <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
+          </div> 
+          <div class="upload-logo">
+            <input mat-raised-button type="file" (change)="onFileChange($event)" #fileInput>
+            <p *ngIf="!logoItems?.logo_url_path" class="hover-upload">Upload Logo Image</p>
+            <p *ngIf="logoItems?.logo_url_path" class="hover-upload">Update Logo Image</p>
+            <button class="delete_logo" matTooltip="Delete Image" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
+            <div class="bg-layer"></div>
           </div>
-          <div>
-            <div *ngIf="logoItems?.logo_url_path" class="logo-image">
-              <label for="avatar">Existing Logo</label>
-              <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
-              <br>
+        </div>
+        <div fxLayout="column" fxFlex="40" fxLayoutGap="25px">
+          <!-- Logo Text-->
+          <div fxLayout="column">
+            <label>Logo Text</label>
+            <p>{{logoItems.logo_text}}</p>
+          </div>
+          <!-- Logo Alt Text -->
+          <div fxLayout="column">
+            <label>Logo Caption</label>
+            <p>{{logoItems.logo_caption}}</p>
+          </div>
+          <!-- Logo Width & Height -->
+          <div fxLayout="row" class="logo-dimensions" fxLayoutGap="15px">
+            <div fxLayout="column">
+              <label>Width</label>
+              <p>{{logoItems.logo_width}}</p>
             </div>
-            <br>
-            <label for="avatar">Choose Logo</label>
-  
-            <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-            <br>
-            <button type="button" mat-raised-button class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
+            <div fxLayout="column">
+              <label>Height</label>
+              <p>{{logoItems.logo_height}}</p>
+            </div>
           </div>
         </div>
       </div>
-      <div fxFlex class="text-center logo-actionButtons">
-        <button type="submit" mat-raised-button color="accent" [disabled]="form.invalid || loadingSave">{{button_text}}
-          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loadingSave"></i>
-        </button>
-        <button *ngIf="isHideDeletebtn" mat-raised-button (click)="onDelete(form.value)" color="warn"  [disabled]="form.invalid || loadingDelete">Delete
-          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loadingDelete"></i>
-        </button>
+      <div class="profile_footer" fxLayoutAlign="end center">
+        <!-- <button mat-raised-button class="logoCtrl_button" (click)="editLogo()">Edit Logo</button> -->
+        <button mat-raised-button class="logoCtrl_button" (click)="EditInfo()">Edit</button>
+      </div>
+    </div>
+    <!-- //.. Logo View Block -->
+
+    <!-- Logo Edit Block -->
+    <!-- <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
+      <i class="fa fa-ellipsis-v"></i>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item>
+        <span>Redial</span>
+      </button>
+      <button mat-menu-item disabled>
+        <span>Check voicemail</span>
+      </button>
+      <button mat-menu-item>
+        <span>Disable alerts</span>
+      </button>
+    </mat-menu> -->
+    <form *ngIf="isEdit" [formGroup]="form" (submit)="onSubmit(form.value)">
+      <!-- Header -->
+      <div class="profile_header">
+        <h3 class="header_title">Logo Properties</h3>
+      </div>
+      <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
+        <div class="" fxLayout="column" fxLayoutGap="20px">
+          <!-- Logo Image Upload -->
+          <div class="profile_img">
+            <div fxLayoutAlign="center center" class="logo-img">
+              <span *ngIf="!logoItems?.logo_url_path"><img src="../assets/default_logo.png" class="img-fluid"></span>
+              <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}">
+            </div> 
+            <div class="upload-logo">
+              <input mat-raised-button type="file"  (change)="onFileChange($event)" #fileInput>
+              <p *ngIf="!logoItems?.logo_url_path" class="hover-upload">Upload Logo Image</p>
+              <p *ngIf="logoItems?.logo_url_path" class="hover-upload">Update Logo Image</p>
+              <input mat-raised-button type="file" (change)="onFileChange($event)" #fileInput>
+              <button class="delete_logo" matTooltip="Delete Image" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
+              <div class="bg-layer"></div>
+            </div>
+          </div>
+          <!-- Logo File Details -->
+          <div class="logo-details">
+            <p class="file_Name">flujo_logo.svg</p>
+            <p class="file_Prop">Original : {{logoItems?.logo_width}} px x {{logoItems?.logo_height}} px</p>
+            <p class="file_Prop">3 kb</p>
+          </div>
+        </div>
+        <div fxLayout="column" fxFlex="40" fxLayoutGap="25px">
+          <!-- Logo Text-->
+          <div fxLayout="column">
+            <label>Logo Text</label>
+            <input type="text" formControlName="logo_text" id="logo_text" placeholder="Enter Logo Text">
+          </div>
+          <!-- Logo Alt Text -->
+          <div fxLayout="column">
+            <label>Logo Caption</label>
+            <input type="text" placeholder="Enter Alt Text" id="logo_caption" formControlName="logo_caption">
+          </div>
+          <!-- Logo Width & Height -->
+          <div fxLayout="row" class="logo-dimensions" fxLayoutGap="15px">
+            <div fxLayout="column">
+              <label>Width</label>
+              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width"
+                placeholder="Logo width" formControlName="logo_width">
+            </div>
+            <div fxLayout="column">
+              <label>Height</label>
+              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_height"
+                placeholder="Logo height" formControlName="logo_height">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Save Button -->
+      <div class="profile_footer" fxLayoutAlign="end center">
+        <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
+        <button mat-button class="logoCtrl_button cancel" (click)="cancelFileEdit()">Cancel</button>
+        <button mat-button class="logoCtrl_button" [disabled]="form.invalid || loadingSave">Save</button>
+        <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loadingSave">Delete</button> -->
       </div>
     </form>
-    <!-- ==== Logo View Form ===== -->
-    <div *ngIf="!isEdit" fxFlex>
-      <div *ngIf="logoItems" class="properties-viewBlock" fxLayout="column" fxLayoutGap="15px">
-        <div class="view-block" fxLayout="row" fxLayoutGap="30px">
-          <h3>Logo Text</h3>
-          <p>{{logoItems.logo_text}}</p>
-        </div>
-        <div class="view-block" fxLayout="row" fxLayoutGap="30px">
-          <h3>Logo Caption</h3>
-          <p>{{logoItems.logo_caption}}</p>
-        </div>
-        <div class="view-block" fxLayout="row" fxLayoutGap="30px">
-          <h3>Logo Height</h3>
-          <p>{{logoItems.logo_height}}</p>
-        </div>
-        <div class="view-block" fxLayout="row" fxLayoutGap="30px">
-          <h3>Logo Width</h3>
-          <p>{{logoItems.logo_width}}</p>
-        </div>
-        <button mat-raised-button class="edit-button" (click)="EditInfo()">Edit</button>
-      </div>
-  
-    </div>
-    <!-- ==== Logo View Logo ===== -->
-    <div *ngIf="!isEdit" fxFlex class="logo-align">
-      <div *ngIf="logoItems" class="logo-image">
-        <span *ngIf="!logoItems?.logo_url_path">no image</span>
-        <img *ngIf="logoItems?.logo_url_path" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoItems.logo_url_path}}"> </div>
-      <!-- <button mat-button colspan="2" (click)="editLogo()">Edit Logo</button> -->
-      <!-- <button class="mt-5 btn btn-primary" colspan="2" (click)="editLogo()">Edit Logo</button> -->
-      <br>
-      <button mat-raised-button class="edit-button pull-left" (click)="editLogo()">Edit Logo</button>
-    </div>
+    <!-- //.. Logo Edit Block -->
   </div>
+</div>

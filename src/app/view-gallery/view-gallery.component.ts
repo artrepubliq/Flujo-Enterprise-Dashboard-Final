@@ -19,7 +19,7 @@ export class ViewGalleryComponent implements OnInit {
     });
   }
 
-  close:string;
+  // close:string;
 
   openDialog(albumItem): void {
     
@@ -29,6 +29,10 @@ export class ViewGalleryComponent implements OnInit {
       // height: "400px",
       // width:"600px"
     });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    //   // this.close = result;
+    // });
      dialogRef.afterClosed().subscribe(result => {
       console.log("eshwar"+result);      
     });

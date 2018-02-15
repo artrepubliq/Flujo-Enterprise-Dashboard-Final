@@ -26,8 +26,14 @@ export class SMTPConfigurationComponent {
     }); 
     this.getuserSMTPConfigData();
    }
+   ngOnInit() {
+    setTimeout(function() {
+      this.spinnerService.hide();
+    }.bind(this), 3000);
+  }
 //smtp post data to server
   SmtpPost(body:any ) {
+    this.spinnerService.show();
     this.smtpUpdationForm.controls["client_id"].setValue(AppConstants.CLIENT_ID);
     this.httpClient.post(AppConstants.API_URL+"/flujo_client_smtpconfiguration", this.smtpUpdationForm.value)
     .subscribe(
@@ -46,25 +52,11 @@ export class SMTPConfigurationComponent {
         this.alertService.danger('Something went wrong.');
       }
     );
-    // this.httpService.create(this.smtpUpdationForm.value, "/flujo_client_smtpconfiguration")
-    // .subscribe(
-    //   data => {
-    //     if(data){
-    //       this.getuserSMTPConfigData();
-    //     this.alertService.success('Social Links  Updated Successfully');
-    //     }else{
-    //       this.alertService.success('No updations found');
-    //     }
-    //   },
-    //   error => {
-    //       console.log(error);
-    //   })
-    
   }
 
   getuserSMTPConfigData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL+"flujo_client_smtpconfiguration/"+AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL+"flujo_client_getsmtpconfiguration/"+AppConstants.CLIENT_ID)
     .subscribe(
       data => {
         data? this.isEdit =false : this.isEdit = true;
