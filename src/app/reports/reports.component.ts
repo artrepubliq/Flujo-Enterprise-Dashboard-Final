@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from '@angular/common/http';
@@ -60,9 +59,8 @@ export class ReportsComponent {
     this.isReportData = true;
     this.isChangeReport = false;
     this.isFeedbackReport = false;
+    // this.getReportYourProblemData();
   }
-
-
   getChangemakerReportData() {
     this.spinnerService.show()
     this.httpClient.get(AppConstants.API_URL + "flujo_client_getallchangemaker")
@@ -192,5 +190,53 @@ export class ReportsComponent {
   }
   exportReportProblemEmail() {
     this.showEmailClickReport = !this.showEmailClickReport;
+  }
+  feedbackCsvMailSubmit = (body) => {
+    this.spinnerService.show();
+    const formModel = this.feedbackCsvMail.value;
+
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_feedbackreportmailattachment", formModel)
+      .subscribe(
+      data => {
+        this.feedbackCsvMail.reset();
+        this.alertService.info('Attachement sent succesfully');
+        this.spinnerService.hide();
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger('Email could not sent');
+      });
+  }
+  changeMakerCsvMailSubmit = (body) => {
+    this.spinnerService.show();
+    const formModel = this.changeMakerCsvMail.value;
+
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_feedbackreportmailattachment", formModel)
+      .subscribe(
+      data => {
+        this.changeMakerCsvMail.reset()
+        this.alertService.info('Attachement sent succesfully');
+        this.spinnerService.hide();
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger('Email could not sent');
+      });
+  }
+  reportCsvMailSubmit = (body) => {
+    this.spinnerService.show();
+    const formModel = this.reportCsvMail.value;
+
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_feedbackreportmailattachment", formModel)
+      .subscribe(
+      data => {
+        this.changeMakerCsvMail.reset();
+        this.alertService.info('Attachement sent succesfully');
+        this.spinnerService.hide();
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger('Email could not sent');
+      });
   }
 }

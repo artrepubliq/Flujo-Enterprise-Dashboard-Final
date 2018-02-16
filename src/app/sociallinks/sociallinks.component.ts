@@ -43,7 +43,7 @@ export class SocialLinksComponent {
     } else {
       this.socialLinksForm.controls['socialitem_id'].setValue("null");
     }
-    this.httpClient.post(AppConstants.API_URL+"/flujo_client_sociallinks", this.socialLinksForm.value)
+    this.httpClient.post(AppConstants.API_URL+"/flujo_client_postsociallinks", this.socialLinksForm.value)
       .subscribe(
         res => {
           if (res) {
@@ -68,7 +68,7 @@ export class SocialLinksComponent {
     this.spinnerService.show();
     this.isEdit = false;
     this.httpClient
-      .get<ISocialLinks>(AppConstants.API_URL+'flujo_client_sociallinks/'+AppConstants.CLIENT_ID)
+      .get<ISocialLinks>(AppConstants.API_URL+'flujo_client_getsociallinks/'+AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         this.spinnerService.hide();
@@ -101,7 +101,7 @@ export class SocialLinksComponent {
   deleteSocialLinks(socialItem) {
     this.spinnerService.show();
     
-      this.httpClient.delete(AppConstants.API_URL+"flujo_client_sociallinks/" + socialItem.id)
+      this.httpClient.delete(AppConstants.API_URL+"flujo_client_deletesociallinks/" + socialItem.id)
         .subscribe(
           data => {
           if (data) {

@@ -22,6 +22,8 @@ import * as _ from 'underscore';
 })
 
 export class MediaComponent implements OnInit {
+  isAlbumObjectsPresentAlert: boolean = true;
+  albumImagesArraySize: any;
 
   tabindex: any;
   selectedTab: number;
@@ -153,7 +155,7 @@ export class MediaComponent implements OnInit {
     this.spinnerService.show();
     this.mediaManagementForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.mediaManagementForm.value;
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_mediamanagement", formModel).subscribe(
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_postgallery", formModel).subscribe(
       res => {
 
         this.getMediaGalleryData();
@@ -177,7 +179,8 @@ export class MediaComponent implements OnInit {
   getMediaGalleryData() {
     this.spinnerService.show();
     this.httpClient
-      .get<mediaDetail>(AppConstants.API_URL + 'flujo_client_mediagallery')
+
+      .get<mediaDetail>(AppConstants.API_URL + 'flujo_client_getgallery/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         this.mediaData = data;
@@ -192,14 +195,13 @@ export class MediaComponent implements OnInit {
   }
   deleteMediaImage(image_id) {
     this.spinnerService.show();
-    this.httpClient.delete(AppConstants.API_URL + "flujo_client_deletemedia/" + image_id)
+    this.httpClient.delete(AppConstants.API_URL + "flujo_client_deletegallery/" + image_id)
       .subscribe(
       data => {
         if (data) {
           this.hightlightStatus = [false];
           this.spinnerService.hide();
           this.alertService.success('Image deleted Successfully');
-          this.alertService.success('Social Links deleted Successfully');
           this.getMediaGalleryData();
         }
       },
@@ -209,23 +211,37 @@ export class MediaComponent implements OnInit {
       });
 
   }
-  getImageId(item_id) {
+  getImageId(item_id: IGalleryObject) {
     // this.albumObject = <IGalleryObject>{}
     // this.albumObject.images = [];
-    var item_index = _.indexOf(this.albumObject.images, item_id.id);
-    var t = _.size(this.albumObject.images);
-    this.albumImage = <IGalleryImageItem>{};
+    console.log(item_id);
+    var item_index = _.findWhere(this.albumObject.images, {
+      id: item_id.id
+    });
 
-    this.albumImage.id = item_id.id;
-    this.albumImage.title = null;
-    this.albumImage.description = null;
-    if (item_index != -1) {
-      this.albumObject.images.splice(item_index, 1);
-
-    } else {
-      this.albumObject.images.push(this.albumImage);
-      console.log(this.albumObject);
+    if (item_index) {
+      this.albumObject.images = _.without(this.albumObject.images, item_index);
     }
+    else {
+      this.albumImage = <IGalleryImageItem>{};
+      this.albumImage.id = item_id.id;
+      this.albumImage.title = null;
+      this.albumImage.description = null;
+      this.albumObject.images.push(this.albumImage);
+    }
+    // var item_index = _.without(this.albumObject.images, {id:item_id.id});
+    // console.log(item_index);
+
+    this.albumImagesArraySize = _.size(this.albumObject.images);
+
+
+    // if (item_index != -1) {
+    //   this.albumObject.images.splice(item_index, 1);
+
+    // } else {
+    //   this.albumObject.images.push(this.albumImage);
+    //   console.log(this.albumObject);
+    // }
   }
   //to create new album with title form from the html
   CreateNewAlbumForm(body: any) {
@@ -234,30 +250,45 @@ export class MediaComponent implements OnInit {
     this.albumObject.client_id = AppConstants.CLIENT_ID;
     this.albumObject.title = this.albumTitle;
     // this.albumObject.images = this.albumObject.images;
-    this.spinnerService.show();
+
     // this.submitAlbumData.controls['images'].setValue(this.albumObject);
     // this.submitAlbumData.controls['client_id'].setValue(localStorage.getItem("client_id"));
     // let formModel = this.submitAlbumData.value;
-    this.CreateNewAlbumHttpRequest(this.albumObject);
+    if(this.albumObject.title != null && this.albumImagesArraySize >= 2){
+      this.isAlbumObjectsPresentAlert = true;
+      this.CreateNewAlbumHttpRequest(this.albumObject);
+    }else{
+      this.isAlbumObjectsPresentAlert = false;
+    }
+    
   }
   //http call for create a new gallery or update the exsiting gallery
   CreateNewAlbumHttpRequest(reqData) {
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_gallery", reqData)
+    this.spinnerService.show();
+
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_postalbum", reqData)
       .subscribe(
       data => {
 
-        this.submitAlbumData.reset();
-        this.resetsubmitAlbumData();
-        this.spinnerService.hide();
-        if (this.tabindex) {
-          this.reloadAlbumByIds();
-        }
         if (data) {
+          this.submitAlbumData.reset();
+          this.resetsubmitAlbumData();
+          this.spinnerService.hide();
+          this.albumTitle = null;
+          this.getAlbumGallery();
+          //this.parseUpdatedAlbumData(data);
           this.hightlightStatus = [false];
           this.alertService.success('Album created successfully.');
         } else {
+          this.spinnerService.hide();
           this.alertService.danger("Something went wrong.please try again.");
         }
+        
+
+        // if (this.tabindex) {
+        //   this.reloadAlbumByIds();
+        // }
+
       },
       error => {
         this.spinnerService.hide();
@@ -280,7 +311,7 @@ export class MediaComponent implements OnInit {
   getAlbumGallery() {
     this.spinnerService.show();
     this.httpClient
-      .get<IGalleryObject>(AppConstants.API_URL + 'flujo_client_gallery/' + AppConstants.CLIENT_ID)
+      .get<IGalleryObject>(AppConstants.API_URL + 'flujo_client_getalbum/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         this.albumGallery = data;
@@ -312,10 +343,10 @@ export class MediaComponent implements OnInit {
   }
   //getting album gallery images by album id
   getAlbumGalleryImagesByIds(albumImageIds, albumid) {
-    
+
     if (albumImageIds.length > 0) {
       this.spinnerService.show();
-      this.httpClient.post<IBase64Images>("http://www.flujo.in/dashboard/flujo.in_keerthan/flujo-client-api/flujo_client_image", albumImageIds)
+      this.httpClient.post<IBase64Images>(AppConstants.API_URL + "flujo_client_getgalleryintoalbum", albumImageIds)
         .subscribe(
         data => {
           //this.prepareAlbumBase64ImagesObject(this.albumImagesParsedArrayData, data);
@@ -338,13 +369,13 @@ export class MediaComponent implements OnInit {
       //this.albumGallery[0].images = this.originalAlbumData.images; 
       console.log(this.albumGallery[0].images);
       this.albumGalleryItem = null;
-      
+
       this.alertService.danger("no album found. please add images.");
     }
 
 
   }
- 
+
   openDialog(albumItem): void {
     this.albumObject = this.originalAlbumData;
     // this.albumItem = albumItem;
@@ -361,6 +392,7 @@ export class MediaComponent implements OnInit {
         // width:"600px"
       });
       dialogRef.afterClosed().subscribe(result => {
+
         //prepare POST request object for updating the particular album details
         if (result) {
           var filteredimagesArray = _.filter(this.parseAlbumGalleryData, (num) => {
@@ -394,7 +426,7 @@ export class MediaComponent implements OnInit {
     _.each(albumdetals, (ablmbetail, item_index) => {
 
       if (albumdetals[item_index].id == base64images.id) {
-        this.albumBase64imagesObject = { id: albumdetals[item_index].id, title: albumdetals[item_index].title, description: albumdetals[item_index].description, image: base64images.image };
+        this.albumBase64imagesObject = { id: albumdetals[item_index].id, title: albumdetals[item_index].title, description: albumdetals[item_index].description, order: albumdetals[item_index].order, image: base64images.image };
         this.albumBase64imagesArray.push(this.albumBase64imagesObject);
       }
 
@@ -445,6 +477,21 @@ export class MediaComponent implements OnInit {
     });
   }
 
+  //parse the updated data in perticular album
+  parseUpdatedAlbumData(data) {
+    if (data.client_id) {
+      this.originalAlbumData = data;
+      if (this.tabindex != 0) {
+        let firstAlbumData = this.prepareAlbumGalleryIdsObject(this.originalAlbumData.images);
+
+        this.getAlbumGalleryImagesByIds(firstAlbumData, this.originalAlbumData.id);
+
+
+      } else {
+        this.getMediaGalleryData();
+      }
+    }
+  }
   reloadAlbumByIds() {
     // var ttttt = this.getAlbumGalleryById(this.originalAlbumData.id);
     this.spinnerService.show();
