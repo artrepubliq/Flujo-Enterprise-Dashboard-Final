@@ -22,6 +22,8 @@ import * as _ from 'underscore';
 })
 
 export class MediaComponent implements OnInit {
+  isAlbumObjectsPresentAlert: boolean = true;
+  albumImagesArraySize: any;
 
   tabindex: any;
   selectedTab: number;
@@ -178,7 +180,7 @@ export class MediaComponent implements OnInit {
     this.spinnerService.show();
     this.httpClient
 
-      .get<mediaDetail>(AppConstants.API_URL + 'flujo_client_getgallery/'+AppConstants.CLIENT_ID)
+      .get<mediaDetail>(AppConstants.API_URL + 'flujo_client_getgallery/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         this.mediaData = data;
@@ -213,15 +215,15 @@ export class MediaComponent implements OnInit {
     // this.albumObject = <IGalleryObject>{}
     // this.albumObject.images = [];
     console.log(item_id);
-    var item_index =  _.findWhere(this.albumObject.images, {
+    var item_index = _.findWhere(this.albumObject.images, {
       id: item_id.id
     });
 
-    if(item_index){
-       this.albumObject.images = _.without(this.albumObject.images, item_index);
+    if (item_index) {
+      this.albumObject.images = _.without(this.albumObject.images, item_index);
     }
-    else{
-      this.albumImage = <IGalleryImageItem>{};    
+    else {
+      this.albumImage = <IGalleryImageItem>{};
       this.albumImage.id = item_id.id;
       this.albumImage.title = null;
       this.albumImage.description = null;
@@ -229,8 +231,8 @@ export class MediaComponent implements OnInit {
     }
     // var item_index = _.without(this.albumObject.images, {id:item_id.id});
     // console.log(item_index);
-   
-    var t = _.size(this.albumObject.images);
+
+    this.albumImagesArraySize = _.size(this.albumObject.images);
 
 
     // if (item_index != -1) {
@@ -248,11 +250,17 @@ export class MediaComponent implements OnInit {
     this.albumObject.client_id = AppConstants.CLIENT_ID;
     this.albumObject.title = this.albumTitle;
     // this.albumObject.images = this.albumObject.images;
-    
+
     // this.submitAlbumData.controls['images'].setValue(this.albumObject);
     // this.submitAlbumData.controls['client_id'].setValue(localStorage.getItem("client_id"));
     // let formModel = this.submitAlbumData.value;
-    this.CreateNewAlbumHttpRequest(this.albumObject);
+    if(this.albumObject.title != null && this.albumImagesArraySize >= 2){
+      this.isAlbumObjectsPresentAlert = true;
+      this.CreateNewAlbumHttpRequest(this.albumObject);
+    }else{
+      this.isAlbumObjectsPresentAlert = false;
+    }
+    
   }
   //http call for create a new gallery or update the exsiting gallery
   CreateNewAlbumHttpRequest(reqData) {
@@ -261,19 +269,27 @@ export class MediaComponent implements OnInit {
     this.httpClient.post(AppConstants.API_URL + "flujo_client_postalbum", reqData)
       .subscribe(
       data => {
-        
-        this.submitAlbumData.reset();
-        this.resetsubmitAlbumData();
-        this.spinnerService.hide();
-        if (this.tabindex) {
-          this.reloadAlbumByIds();
-        }
+
         if (data) {
+          this.submitAlbumData.reset();
+          this.resetsubmitAlbumData();
+          this.spinnerService.hide();
+          this.albumTitle = null;
+          this.getAlbumGallery();
+          this.parseReloadAlbumGalleryObject(data);
+          //this.parseUpdatedAlbumData(data);
           this.hightlightStatus = [false];
           this.alertService.success('Album created successfully.');
         } else {
+          this.spinnerService.hide();
           this.alertService.danger("Something went wrong.please try again.");
         }
+        
+
+        // if (this.tabindex) {
+        //   this.reloadAlbumByIds();
+        // }
+
       },
       error => {
         this.spinnerService.hide();
@@ -328,7 +344,7 @@ export class MediaComponent implements OnInit {
   }
   //getting album gallery images by album id
   getAlbumGalleryImagesByIds(albumImageIds, albumid) {
-    
+
     if (albumImageIds.length > 0) {
       this.spinnerService.show();
       this.httpClient.post<IBase64Images>(AppConstants.API_URL + "flujo_client_getgalleryintoalbum", albumImageIds)
@@ -354,13 +370,13 @@ export class MediaComponent implements OnInit {
       //this.albumGallery[0].images = this.originalAlbumData.images; 
       console.log(this.albumGallery[0].images);
       this.albumGalleryItem = null;
-      
+
       this.alertService.danger("no album found. please add images.");
     }
 
 
   }
- 
+
   openDialog(albumItem): void {
     this.albumObject = this.originalAlbumData;
     // this.albumItem = albumItem;
@@ -377,7 +393,7 @@ export class MediaComponent implements OnInit {
         // width:"600px"
       });
       dialogRef.afterClosed().subscribe(result => {
-        
+
         //prepare POST request object for updating the particular album details
         if (result) {
           var filteredimagesArray = _.filter(this.parseAlbumGalleryData, (num) => {
@@ -411,7 +427,7 @@ export class MediaComponent implements OnInit {
     _.each(albumdetals, (ablmbetail, item_index) => {
 
       if (albumdetals[item_index].id == base64images.id) {
-        this.albumBase64imagesObject = { id: albumdetals[item_index].id, title: albumdetals[item_index].title, description: albumdetals[item_index].description, order: albumdetals[item_index].order , image: base64images.image };
+        this.albumBase64imagesObject = { id: albumdetals[item_index].id, title: albumdetals[item_index].title, description: albumdetals[item_index].description, order: albumdetals[item_index].order, image: base64images.image };
         this.albumBase64imagesArray.push(this.albumBase64imagesObject);
       }
 
@@ -462,30 +478,48 @@ export class MediaComponent implements OnInit {
     });
   }
 
+  //parse the updated data in perticular album
+  parseUpdatedAlbumData(data) {
+    if (data.client_id) {
+      this.originalAlbumData = data;
+      if (this.tabindex != 0) {
+        let firstAlbumData = this.prepareAlbumGalleryIdsObject(this.originalAlbumData.images);
+
+        this.getAlbumGalleryImagesByIds(firstAlbumData, this.originalAlbumData.id);
+
+
+      } else {
+        this.getMediaGalleryData();
+      }
+    }
+  }
   reloadAlbumByIds() {
     // var ttttt = this.getAlbumGalleryById(this.originalAlbumData.id);
     this.spinnerService.show();
     this.httpClient.get<IGalleryObject>(AppConstants.API_URL + "flujo_client_getgallery/" + this.originalAlbumData.id)
       .subscribe(
       data => {
-
-        this.originalAlbumData = data[0];
-        if (this.tabindex != 0) {
-          let firstAlbumData = this.prepareAlbumGalleryIdsObject(this.originalAlbumData.images);
-
-          this.getAlbumGalleryImagesByIds(firstAlbumData, this.originalAlbumData.id);
-
-
-        } else {
-          this.getMediaGalleryData();
-        }
+      this.parseReloadAlbumGalleryObject(data[0]);
         this.spinnerService.hide();
-
       },
 
       err => {
         this.spinnerService.hide();
       });
+  }
+  parseReloadAlbumGalleryObject(data){
+    this.originalAlbumData = data;
+    if (this.tabindex != 0) {
+      let firstAlbumData = this.prepareAlbumGalleryIdsObject(this.originalAlbumData.images);
+
+      this.getAlbumGalleryImagesByIds(firstAlbumData, this.originalAlbumData.id);
+
+
+    } else {
+      this.getMediaGalleryData();
+    }
+    
+
   }
 }
 

@@ -6,6 +6,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Tree } from '@angular/router/src/utils/tree';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
+import { IHttpResponse } from "../model/httpresponse.model";
 @Component({
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.scss']
@@ -22,7 +23,7 @@ export class LogoComponent {
   isHideDeletebtn: boolean = false;
   resultExist: boolean;
   isHide: boolean;
-  logoImageDetails: any;
+  logoImageDetails?: any;
   logoDetail: Array<object>;
   @ViewChild('fileInput') fileInput: ElementRef;
 
@@ -49,6 +50,7 @@ export class LogoComponent {
   }
 
   onFileChange = (event) => {
+    this.logoItems = <ILogo>{};
     this.logoDetail = [];
     let reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
@@ -59,10 +61,16 @@ export class LogoComponent {
         this.logoDetail.push(reader.result.split(',')[1]);
         // this.form.get('avatar').setValue(reader.result.split(',')[1]);
         console.log(reader.result.split(',')[1]);
-        let uploadImage = { logo_id: this.logoImageDetails.id, client_id: this.logoImageDetails.client_id, image: reader.result.split(',')[1] }
+        let uploadImage
+        if(this.logoImageDetails){
+          uploadImage = { logo_id: this.logoImageDetails.id, client_id: this.logoImageDetails.client_id, image: reader.result.split(',')[1] }
+        }else{
+           uploadImage = { logo_id: null, client_id: AppConstants.CLIENT_ID, image: reader.result.split(',')[1] }
+        }
+       
         console.log(uploadImage);
         this.uploadLogoimageHttpRequest(uploadImage);
-
+        
       };
     }
   }
@@ -78,7 +86,7 @@ export class LogoComponent {
         this.logoImage = reqObject.image;
         this.alertService.success('Logo submitted successfully.');
         this.loadingSave = false;
-        //  this.getLogoDetails();
+        this.getLogoDetails();
         this.spinnerService.hide();
       },
       error => {
@@ -86,6 +94,7 @@ export class LogoComponent {
         this.spinnerService.hide();
       });
   }
+
   onSubmit = (body) => {
     // if(!this.logoDetail){
     //   this.logoDetail= [];
@@ -100,13 +109,20 @@ export class LogoComponent {
     const formModel = this.form.value;
     this.loadingSave = true;
 
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_logo", formModel)
+    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + "flujo_client_postlogo", formModel)
       .subscribe(
       data => {
-        this.alertService.success('Logo details submitted successfully.');
-        this.loadingSave = false;
-        this.getLogoDetails();
-        this.spinnerService.hide();
+        if(data.error){
+          this.alertService.warning(data.result);
+          this.loadingSave = false;
+          this.spinnerService.hide();
+        }else{
+          this.alertService.success('Logo details submitted successfully.');
+          this.loadingSave = false;
+          this.getLogoDetails();
+          this.spinnerService.hide();
+        }
+        
       },
       error => {
         this.loadingSave = false;
@@ -195,7 +211,8 @@ export class LogoComponent {
   }
   // Form Cancel
   cancelFileEdit() {
+    
+    this.setDefaultClientLogoDetails(this.logoImageDetails);
     this.isEdit = false;
-    this.getLogoDetails;
     }
   }

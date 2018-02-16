@@ -1,47 +1,87 @@
-<div  fxLayout="column" fxLayoutGap="1rem">
-  <div  class="form-header">
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<div fxLayout="column" fxLayoutGap="1rem">
+  <div class="addview-buttons">
+    <button class="text-uppercase btn-addpage float-right" mat-raised-button color="primary" (click)="addUsers()">Create User </button>
+  </div>
+  <div class="row" *ngIf="!isEdit">
+    <div class="col-md-12">
+      <h3>Create User List:</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of userDetails">
+            <!-- <th scope="row">{{page_item.id}}</th> -->
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.phone}}</td>
+            <td *ngIf="user.role==1">Social Manager</td>
+            <td *ngIf="user.role==2">Content Manager</td>
+            <td>
+              <button (click)="editCompnent(user)" class="btn btn-success">EDIT</button>
+            </td>
+            <td>
+              <button (click)="onDelete(user)" class="btn btn-success">DELETE</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="form-header" *ngIf="isEdit">
     <h2>Create User</h2>
   </div>
-      <form id="createuserform" [formGroup]="CreateUserForm" (ngSubmit)="onSubmit()">
-        <div fxLayout="column" fxLayoutGap="3rem">
-          <div  fxLayout="row" fxLayoutGap="10px" class="form-group">
-            <label fxLayoutAlign="start" fxFlex="10" for="name">Name :</label>
-            <input fxFlex="50" type="text"  class="form-control" id="name" formControlName = "name" required placeholder="Name">
-            <div [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert">
-              Name is required
-            </div>
-          </div>
-          
-          <div fxLayout="row"  fxLayoutGap="10px" class="form-group">
-            <label fxLayoutAlign="start" fxFlex="10" for="email">Email :</label>
-            <input fxFlex="50" type="Email"  formControlName="email" class="form-control" id="email" placeholder="Email" required>
-            <div [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert">
-                Valid Email is required
-            </div>
-          </div>
-      
-          <div fxLayout="row"  fxLayoutGap="10px" class="form-group">
-            <label fxLayoutAlign="start" fxFlex="10" for="role">Role :</label>
-            <select fxFlex="50"  formControlName="role" class="form-control" id="bodyfontfamily" required id="role">
-              <option value="">Select Role</option>
-              <option value="1">1 - Social Manager</option>
-              <option value="2">2 - Content Manager</option>
-            </select>
-            <div [hidden]="CreateUserForm.controls.role.valid || CreateUserForm.controls.role.pristine && !submitted" class="alert">
-                Role is required
-            </div>
-          </div>
-      
-          <div  fxLayout="row"  fxLayoutGap="10px" class="form-group">
-            <label fxLayoutAlign="start" fxFlex="10" for="phonenumber">Phone :</label>
-            <input fxFlex="50" type="tel" class="form-control" maxlength="10" formControlName="phone"  id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Phone Number" required>
-            <div [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted" class="alert">
-                Valid Phone number is required
-            </div>
-          </div>   
+  <form id="createuserform" *ngIf="isEdit" [formGroup]="CreateUserForm" (submit)="onSubmit(CreateUserForm.value)">
+    <div fxLayout="column" fxLayoutGap="3rem">
+      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+        <label fxLayoutAlign="start" fxFlex="10" for="name">Name :</label>
+        <input fxFlex="50" type="text" class="form-control" id="name" formControlName="name" oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');"
+          required placeholder="Name">
+        <div [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert">
+          Name is required
         </div>
-      </form>
-        <div>
-          <button type="submit" class="btn btn-success" [disabled]="!CreateUserForm.valid">Submit</button>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+        <label fxLayoutAlign="start" fxFlex="10" for="email">Email :</label>
+        <input fxFlex="50" type="Email" formControlName="email" class="form-control" id="email" placeholder="Email" required>
+        <div [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert">
+          Valid Email is required
         </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+        <label fxLayoutAlign="start" fxFlex="10" for="role">Role :</label>
+        <select fxFlex="50" formControlName="role" class="form-control" id="bodyfontfamily" required id="role">
+          <option value="">Select Role</option>
+          <option value="1">Social Manager</option>
+          <option value="2">Content Manager</option>
+        </select>
+        <div [hidden]="CreateUserForm.controls.role.valid || CreateUserForm.controls.role.pristine && !submitted" class="alert">
+          Role is required
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+        <label fxLayoutAlign="start" fxFlex="10" for="phonenumber">Phone :</label>
+        <input fxFlex="50" type="tel" class="form-control" maxlength="10" formControlName="phone" id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+          placeholder="Phone Number" required>
+        <div [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted" class="alert">
+          Valid Phone number is required
+        </div>
+      </div>
+    </div>
+    <button type="submit" [disabled]="CreateUserForm.invalid || loading" mat-raised-button color="primary">{{button_text}}
+      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+    </button>
+    <button mat-raised-button (click)="cancelUser()" >Cancel</button>
+  </form>
 </div>

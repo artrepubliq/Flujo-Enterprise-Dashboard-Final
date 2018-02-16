@@ -9,6 +9,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppComponent } from '../app.component';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
+import { IHttpResponse } from "../model/httpresponse.model";
 
 @Component({
   selector:'./app-profile',
@@ -99,17 +100,23 @@ export class ProfileComponent {
     // }
     formModel.client_id = localStorage.getItem("client_id");
     this.spinnerService.show();
-    this.httpClient.post(AppConstants.API_URL+"flujo_client_postprofile", formModel)
+    this.httpClient.post<IHttpResponse>(AppConstants.API_URL+"flujo_client_postprofile", formModel)
     .subscribe(
         data => {
-          this.parsePostResponse(data);
-          this.alertService.success('Profile details submitted successfully.');
-          // this.getProfileDetails();
-          // this.parsePostResponse(data);
-          // this.alertService.success('request Successfully submitted.');
-          this.getProfileDetails();
-          //  this.loading = false;
-          this.spinnerService.hide();
+          if(data.error){
+            this.alertService.warning(data.result);
+            this.spinnerService.hide();
+          }else{
+            this.parsePostResponse(data);
+            this.alertService.success('Profile details submitted successfully.');
+            // this.getProfileDetails();
+            // this.parsePostResponse(data);
+            // this.alertService.success('request Successfully submitted.');
+            this.getProfileDetails();
+            //  this.loading = false;
+            this.spinnerService.hide();
+          }
+         
         },
         error => {
           this.loading = false;
@@ -213,6 +220,7 @@ export class ProfileComponent {
   }
   cancelFileEdit(){
     this.isEdit = false;
+    this.setDefaultClientProfileDetails(this.profileImageDetails);
   }
 
   parsePostResponse(response){
