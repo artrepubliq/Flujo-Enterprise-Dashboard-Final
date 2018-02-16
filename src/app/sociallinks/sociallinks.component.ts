@@ -9,6 +9,7 @@ import { ISocialLinks } from "../model/sociallinks.model";
 import { HttpClient } from "@angular/common/http";
 import * as _ from 'underscore'
 import { AppConstants } from '../app.constants';
+import { IHttpResponse } from "../model/httpresponse.model";
 
 @Component({
   templateUrl: './sociallinks.component.html',
@@ -25,8 +26,9 @@ export class SocialLinksComponent {
 
     this.socialLinksForm = this.formBuilder.group({
       'socialitem_name': ['', [Validators.required]],
-      'socilaitem_url': ['', [Validators.required, ValidationService.domainValidator]],
-      'socialitem_id': null
+      'socialitem_url': ['', [Validators.required, ValidationService.domainValidator]],
+      'socialitem_id': null,
+      client_id: AppConstants.CLIENT_ID
     });
 
     this.getSocialLinksData();
@@ -43,16 +45,17 @@ export class SocialLinksComponent {
     } else {
       this.socialLinksForm.controls['socialitem_id'].setValue("null");
     }
-    this.httpClient.post(AppConstants.API_URL+"/flujo_client_postsociallinks", this.socialLinksForm.value)
+    this.httpClient.post<IHttpResponse>(AppConstants.API_URL+"/flujo_client_postsociallinks", this.socialLinksForm.value)
       .subscribe(
         res => {
-          if (res) {
+          if (res.error) {
             this.spinnerService.hide();
-            this.getSocialLinksData();
-            this.alertService.success('Social Links  Updated Successfully');
+            this.alertService.warning(res.result);
           } else {
             this.spinnerService.hide();
-            this.alertService.danger('No modifications found');
+            this.getSocialLinksData();
+            this.alertService.success('Social Links  request completed Successfully');
+            
           }
         },
         err => {
@@ -119,20 +122,20 @@ export class SocialLinksComponent {
   }
   setDataToForm(formdata) {
     this.socialLinksForm.controls['socialitem_name'].setValue(formdata.socialitem_name);
-    this.socialLinksForm.controls['socilaitem_url'].setValue(formdata.socialitem_url);
+    this.socialLinksForm.controls['socialitem_url'].setValue(formdata.socialitem_url);
 
   }
   setSocialFormToDefault() {
     this.form_btntext = "save";
     this.socialLinksForm.controls['socialitem_name'].setValue("");
-    this.socialLinksForm.controls['socilaitem_url'].setValue("");
+    this.socialLinksForm.controls['socialitem_url'].setValue("");
     this.socialLinksForm.controls['socialitem_id'].setValue("");
 
   }
   EditSocialLinks(socialData) {
     this.isEdit = true;
-    localStorage.setItem("socilaitem_id", socialData.id);
-    console.log(localStorage.getItem("socilaitem_id"));
+    localStorage.setItem("socialitem_id", socialData.id);
+    console.log(localStorage.getItem("socialitem_id"));
     this.form_btntext = socialData.id ? "Update" : "Save";
     this.setDataToForm(socialData);
   }

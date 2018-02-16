@@ -14,6 +14,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { EditGalleryItems } from '../directives/edit-gallery-popup/editgallery.popup';
 import * as _ from 'underscore';
+import { FileHolder } from 'angular2-image-upload';
 
 @Component({
   selector: 'app-media',
@@ -32,7 +33,7 @@ export class MediaComponent implements OnInit {
   hightlightStatus: Array<boolean> = [];
   public successMessage;
   public loading = false;
-
+  ishide:boolean;
   public successMessagebool;
   public deleteMessage;
   public deleteMessagebool;
@@ -127,7 +128,7 @@ export class MediaComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.ishide=true;
     this.getAlbumGallery();
     setTimeout(function () {
       this.spinnerService.hide();
@@ -137,6 +138,7 @@ export class MediaComponent implements OnInit {
   }
   selectMedia(event) {
     let imageDetail = [];
+    this.ishide=false;
     if (event.target.files && event.target.files.length > 0) {
 
       for (var i = 0; i < event.target.files.length; i++) {
@@ -146,11 +148,22 @@ export class MediaComponent implements OnInit {
         reader.onload = () => {
           imageDetail.push(reader.result.split(',')[1]);
         };
-      } this.mediaManagementForm.get('image').setValue(imageDetail);
+      }
+      try{
+       this.mediaManagementForm.get('image').setValue(imageDetail);
+      }catch(e){
+
+      }
     }
 
   }
-
+  onRemoved(file: FileHolder) {
+    this.ishide = true;
+    // do some stuff with the removed file.
+  }
+  onUploadStateChanged(state: boolean) {
+    console.log(JSON.stringify(state));
+  }
   mediaManagementFormSubmit(body: any) {
     this.spinnerService.show();
     this.mediaManagementForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);

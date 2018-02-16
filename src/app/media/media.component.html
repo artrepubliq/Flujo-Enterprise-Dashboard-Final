@@ -76,13 +76,13 @@
 
   <!-- File Uploader -->
   <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
-    <form [formGroup]="mediaManagementForm" class="file_uploader" enctype="multipart/form-data">
+    <form class="file_uploader" enctype="multipart/form-data">
       <div class="">
         <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->
-        <image-upload class="image-upload" id="image" [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'"
+        <image-upload (removed)="onRemoved($event)" (uploadStateChanged)="onUploadStateChanged($event)" class="image-upload" id="image" [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'"
           (change)="selectMedia($event)" [style]="customStyle" #fileInput>
         </image-upload>
-        <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit(mediaManagementForm.value)">Upload</button>
+        <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit()">Upload</button>
       </div>
     </form>
 
@@ -120,7 +120,7 @@
               
               <button class="btn btn-primary" type="submit" (click)="CreateNewAlbumForm()">Create Gallery</button>
             </div>
-            <span *ngIf="!isAlbumObjectsPresentAlert">please enter album title and select two or more images</span>
+            <span *ngIf="!isAlbumObjectsPresentAlert" class="error-msg">please enter album title and select two or more images</span>
           </div>
           <br>
           <div class="row m-0 text-center text-lg-left">

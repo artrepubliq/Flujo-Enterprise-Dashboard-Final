@@ -103,7 +103,7 @@ export class PagesComponent {
                     // this.parsePostResponse(data);
                     this.spinnerService.hide();
                 }else{
-                    
+                    this.getPageDetails();
                     this.parsePostResponse(data);
                     this.spinnerService.hide();
                 }
@@ -217,11 +217,6 @@ getChild(childData){
         this.isGridView = false;
         this.button_text = "Update";
         this.setDefaultClientPageDetails(componentItem);
-    }
-    cancelFileEdit() {
-        this.isEdit = false;
-        this.isAddPage = false;
-        this.isGridView = true;
     }
     parsePostResponse(response){
         this.alertService.success("request completed successfully.");
