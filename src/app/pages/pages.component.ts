@@ -218,11 +218,6 @@ getChild(childData){
         this.button_text = "Update";
         this.setDefaultClientPageDetails(componentItem);
     }
-    cancelFileEdit() {
-        this.isEdit = false;
-        this.isAddPage = false;
-        this.isGridView = true;
-    }
     parsePostResponse(response){
         this.alertService.success("request completed successfully.");
             this.loading = false;
