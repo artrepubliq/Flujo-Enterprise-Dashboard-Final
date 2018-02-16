@@ -276,6 +276,7 @@ export class MediaComponent implements OnInit {
           this.spinnerService.hide();
           this.albumTitle = null;
           this.getAlbumGallery();
+          this.parseReloadAlbumGalleryObject(data);
           //this.parseUpdatedAlbumData(data);
           this.hightlightStatus = [false];
           this.alertService.success('Album created successfully.');
@@ -498,24 +499,27 @@ export class MediaComponent implements OnInit {
     this.httpClient.get<IGalleryObject>(AppConstants.API_URL + "flujo_client_getgallery/" + this.originalAlbumData.id)
       .subscribe(
       data => {
-
-        this.originalAlbumData = data[0];
-        if (this.tabindex != 0) {
-          let firstAlbumData = this.prepareAlbumGalleryIdsObject(this.originalAlbumData.images);
-
-          this.getAlbumGalleryImagesByIds(firstAlbumData, this.originalAlbumData.id);
-
-
-        } else {
-          this.getMediaGalleryData();
-        }
+      this.parseReloadAlbumGalleryObject(data[0]);
         this.spinnerService.hide();
-
       },
 
       err => {
         this.spinnerService.hide();
       });
+  }
+  parseReloadAlbumGalleryObject(data){
+    this.originalAlbumData = data;
+    if (this.tabindex != 0) {
+      let firstAlbumData = this.prepareAlbumGalleryIdsObject(this.originalAlbumData.images);
+
+      this.getAlbumGalleryImagesByIds(firstAlbumData, this.originalAlbumData.id);
+
+
+    } else {
+      this.getMediaGalleryData();
+    }
+    
+
   }
 }
 
