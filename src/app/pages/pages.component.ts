@@ -102,7 +102,7 @@ export class PagesComponent {
                     // this.parsePostResponse(data);
                     this.spinnerService.hide();
                 }else{
-                    
+                    this.getPageDetails();
                     this.parsePostResponse(data);
                     this.spinnerService.hide();
                 }
