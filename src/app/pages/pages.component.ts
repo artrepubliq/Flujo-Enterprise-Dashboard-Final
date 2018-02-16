@@ -31,8 +31,8 @@ export class PagesComponent {
     public app_description: string = '';
 
     dummy: string;
-    @ViewChild('fileInput') fileInput: ElementRef;
-    
+    @ViewChild('fileInput1') fileInput1: ElementRef;
+    @ViewChild('fileInput2') fileInput2: ElementRef;
     constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
         this.createForm();
         
@@ -115,9 +115,15 @@ export class PagesComponent {
             });
     }
 
-    clearFile = () =>{
-        this.form.get('avatar').setValue(null);
-        this.fileInput.nativeElement.value = '';
+    clearFile = (id) =>{
+        if(id == 1){
+            this.form.get('component_image').setValue(null);
+            this.fileInput1.nativeElement.value = '';
+        }
+        else{
+        this.form.get('component_background_image').setValue(null);
+        this.fileInput2.nativeElement.value = '';
+        }
     }
     onDelete = (body) => {
         // const formModel = this.form.value;
