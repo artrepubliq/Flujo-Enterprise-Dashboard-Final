@@ -105,9 +105,7 @@
       <button type="submit" [disabled]="form.invalid || loading" mat-raised-button color="primary">{{button_text}}
         <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
       </button>
-
       <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
-
     </form>
   </div>
   <!-- // ===== Add Pages End ======= -->
@@ -195,7 +193,6 @@
         </mat-card><br><br>
       </div>
     </div>
-
     <!-- // =========grid view parents End====== -->
     <div class="divider"></div>
     <!-- // =========grid view childs====== -->
@@ -206,6 +203,20 @@
       <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
         <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
           <mat-card class="example-card">
+  <!-- // =========grid view End====== -->
+  <div *ngIf="isGridView" >
+  <div class="row">
+      <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12" *ngFor="let detail of childDetails">
+  <!-- // =========grid view parents End====== -->
+<div class="divider"></div>
+  <!-- // =========grid view childs====== -->
+  <div *ngIf="isGridView" >
+      <div class="main-category">
+          <h6>Sub Category</h6>
+        </div>
+  <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
+      <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
+        <mat-card  class="example-card">
             <div id="pageview">
               <!-- <img src=""  alt="pagescreen"/> -->
               <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
@@ -235,4 +246,5 @@
     </div>
     <!-- // =========grid view childs End====== -->
   </div>
+<!-- // =========grid view childs End====== -->
 </div>

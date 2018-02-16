@@ -74,7 +74,6 @@ export class LogoComponent {
       };
     }
   }
-
   uploadLogoimageHttpRequest(reqObject) {
 
     this.spinnerService.show();
@@ -213,6 +212,5 @@ export class LogoComponent {
     
     this.setDefaultClientLogoDetails(this.logoImageDetails);
     this.isEdit = false;
-    this.getLogoDetails;
     }
   }
