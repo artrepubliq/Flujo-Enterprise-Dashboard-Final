@@ -93,7 +93,8 @@
   </div>
   <!-- //.. File Uploader -->
 
-  <!-- All Images  -->
+  <!-- ========= Gallery Block ==========  -->
+
   <div fxLayout="column" fxLayoutGap="30px">
     <!-- Header Title -->
     <div fxLayout="row" class="header-media">
@@ -110,22 +111,24 @@
     <!-- Images Tabs Silder -->
     <mat-tab-group class="media-tabs" [selectedIndex]="selectedTab" (selectedTabChange)="tabChanged($event)">
       <mat-tab label="All">
-        <div class="">
-          <button mat-raised-button class="mr-3">Select Images to Create Gallery</button>
-
-        </div>
-        <div *ngIf="!isshowAlbumGallery"  enctype="multipart/form-data">
-          <div>
-            <label for="title">Title :</label>
-            <input placeholder="Enter Album title here" type="text"  [(ngModel)]="albumTitle">
+        <div *ngIf="!isshowAlbumGallery" enctype="multipart/form-data">
+          <div fxLayout="row">
+            <button mat-raised-button class="mr-3">Select Images to Create Gallery</button>
+            <div>
+              <label for="title">Title :</label>
+              <input placeholder="Enter Album title here" type="text" [(ngModel)]="albumTitle">
+              
+              <button class="btn btn-primary" type="submit" (click)="CreateNewAlbumForm()">Create Gallery</button>
+            </div>
+            <span *ngIf="!isAlbumObjectsPresentAlert">please enter album title and select two or more images</span>
           </div>
-          <button class="btn btn-primary" type="submit" (click)="CreateNewAlbumForm()">Create Gallery</button>
-          <div class="row text-center text-lg-left">
-            <div class="col-lg-3 col-md-4 col-xs-6 img-box" *ngFor="let items of mediaData,let i = index" (click)="hightlightStatus[i]=!hightlightStatus[i]; getImageId(items)"
+          <br>
+          <div class="row m-0 text-center text-lg-left">
+            <div class="col-lg-4 col-md-4 col-xs-6 img-box" *ngFor="let items of mediaData,let i = index" (click)="hightlightStatus[i]=!hightlightStatus[i]; getImageId(items)"
               [class.highlight]="hightlightStatus[i]">
               <div class="img-item">
                 <div class="bg-layer"></div>
-                <img class="img-fluid img-thumbnail" src='data:image/png;base64,{{items.image}}' alt="">
+                <img class="img-fluid" src='data:image/png;base64,{{items.image}}' alt="">
                 <div class="delete-img" (click)="deleteMediaImage(items.id)">
 
                   <i class="fa fa-times"></i>
@@ -133,19 +136,14 @@
               </div>
             </div>
           </div>
-          
-
         </div>
       </mat-tab>
 
       <mat-tab *ngFor="let albumItem of albumGallery" label={{albumItem.title}}>
-      
+
         <div class="row grid-gallery">
           <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let albumItem of albumGalleryItem">
-
             <div class="grid-item">
-
-              <p>{{albumItem.title}} </p>
               <div class="img-block">
                 <img src='data:image/png;base64,{{albumItem.image}}' class="img-fluid" alt="Gallary Img">
                 <div class="bg-layer"></div>

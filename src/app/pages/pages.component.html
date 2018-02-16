@@ -1,4 +1,7 @@
 <ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000">
+  <!-- <strong>{{successMessage }}</strong> -->
+</ngx-alerts>
 <div fxLayout="column">
   <!-- === Buttons ==== -->
   <div class="addview-buttons">
@@ -15,10 +18,7 @@
   <!-- <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i> -->
 
   <!-- ===== Add Pages ======= -->
-  <div *ngIf="isAddPage" class="add-pages">
-    <ngx-alerts maxMessages="3" timeout="5000">
-      <!-- <strong>{{successMessage }}</strong> -->
-    </ngx-alerts>
+  <div *ngIf="isEdit" class="add-pages">
     <form [formGroup]="form" (submit)="onSubmit(form.value)">
 
       <!-- <div class="form-group" fxLayout="row">
@@ -30,7 +30,6 @@
         <select fxFlex formControlName="component_parent" id="component_parent">
           <option *ngFor="let parent of pageDetails" [value]="parent.id">
             {{parent.id}}-{{parent.component_name}}
-
           </option>
         </select>
       </div>
@@ -39,7 +38,6 @@
         <ck-editor fxFlex name="editor1" formControlName="component_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
        
       </div>
-
       <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_order">Page order</label>
         <input fxFlex type="text" class="form-control" id="component_order" placeholder="Page Order" formControlName="component_order">
@@ -63,8 +61,8 @@
         <input fxFlex type="text" class="form-control" id="component_menuname" placeholder="page menu title" formControlName="component_menuname">
       </div>
       <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_parent">Page Parent</label>
-        <select fxFlex formControlName="component_parent" id="component_parent">
+        <label fxFlex="20" for="parent_id">Page Parent</label>
+        <select fxFlex formControlName="parent_id" id="parent_id">
           <option *ngFor="let parent of parentPageDetails" [value]="parent.id">
             {{parent.id}}-{{parent.component_name}}
           </option>
@@ -78,10 +76,10 @@
       </div>
 
       <div class="form-group" fxLayout="row">
-          <label fxFlex="20" for="app_description">App Description</label>
-          <ck-editor fxFlex name="editor1" formControlName="app_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
-          <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
-        </div>
+        <label fxFlex="20" for="app_description">App Description</label>
+        <ck-editor fxFlex name="editor1" formControlName="app_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
+      </div>
       <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_background_color">Select background color of page</label>
         <input fxFlex="30" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)" [(colorPicker)]="color"
@@ -107,9 +105,7 @@
       <button type="submit" [disabled]="form.invalid || loading" mat-raised-button color="primary">{{button_text}}
         <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
       </button>
-
-      <button type="button" mat-button (click)="cancelFileEdit()" color="deafault" >Cancel</button>
-
+      <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
     </form>
   </div>
   <!-- // ===== Add Pages End ======= -->
@@ -170,21 +166,21 @@
     </div>
     <div class="row">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of parentPageDetails">
-        <mat-card  class="example-card" (click)="getChild(detail)">
-            <div id="pageview">
-                <!-- <img src=""  alt="pagescreen"/> -->
-                <img class="img-responsive img-fluid page-screenshot"  src="data:image/png;base64,{{detail.component_image}}" alt="Photo of a Shiba Inu">
-            </div>
-            <mat-card-content>
-              <div id="pageheader">
-                <div class="edit-title">
-                  <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
-                  <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
-                </div>
+        <mat-card class="example-card" (click)="getChild(detail)">
+          <div id="pageview">
+            <!-- <img src=""  alt="pagescreen"/> -->
+            <img *ngIf="detail.component_image" class="img-responsive img-fluid page-screenshot" src="data:image/png;base64,{{detail.component_image}}" alt="Photo of a Shiba Inu">
+          </div>
+          <mat-card-content>
+            <div id="pageheader">
+              <div class="edit-title">
+                <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
+                <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
               </div>
-            </mat-card-content>
-            <mat-card-actions>
-                <!-- <div class="button-row">
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <!-- <div class="button-row">
                   <div clsss="button-stack">
                     <button mat-mini-fab color="primary"></button>
                     <button mat-mini-fab color="accent"></button>
@@ -193,11 +189,24 @@
                     <a class="pull-right"><i class="fa fa-clock-o"></i></a>
                   </div>
                 </div> -->
-            </mat-card-actions>
-          </mat-card><br><br>
-        </div>
+          </mat-card-actions>
+        </mat-card><br><br>
       </div>
     </div>
+    <!-- // =========grid view parents End====== -->
+    <div class="divider"></div>
+    <!-- // =========grid view childs====== -->
+    <div>
+      <div class="main-category">
+        <h6>Sub Category</h6>
+      </div>
+      <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
+        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
+          <mat-card class="example-card">
+  <!-- // =========grid view End====== -->
+  <div *ngIf="isGridView" >
+  <div class="row">
+      <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12" *ngFor="let detail of childDetails">
   <!-- // =========grid view parents End====== -->
 <div class="divider"></div>
   <!-- // =========grid view childs====== -->
@@ -209,9 +218,9 @@
       <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
         <mat-card  class="example-card">
             <div id="pageview">
-                <!-- <img src=""  alt="pagescreen"/> -->
-                <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
-             </div>
+              <!-- <img src=""  alt="pagescreen"/> -->
+              <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
+            </div>
             <mat-card-content>
               <div id="pageheader">
                 <div class="edit-title">
@@ -221,7 +230,7 @@
               </div>
             </mat-card-content>
             <mat-card-actions>
-                <!-- <div class="button-row">
+              <!-- <div class="button-row">
                   <div clsss="button-stack">
                     <button mat-mini-fab color="primary"></button>
                     <button mat-mini-fab color="accent"></button>
@@ -232,9 +241,10 @@
                 </div> -->
             </mat-card-actions>
           </mat-card><br><br>
+        </div>
       </div>
     </div>
+    <!-- // =========grid view childs End====== -->
   </div>
 <!-- // =========grid view childs End====== -->
-
 </div>
