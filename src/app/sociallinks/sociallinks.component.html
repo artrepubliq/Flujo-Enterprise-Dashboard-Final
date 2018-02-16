@@ -1,65 +1,67 @@
 <!-- ========= Social Links Edit Block ====== -->
 <ng4-loading-spinner></ng4-loading-spinner>
 <div *ngIf="isEdit" class="social-edit">
-    <button (click)="viewSocialLinks()" class="btn btn-success">View Details</button>
-  <h2>Add social liks </h2>
+  <button (click)="viewSocialLinks()" class="btn btn-success pull-right">View Details</button>
+  <h2 class="header">Add social liks </h2>
+  <br>
   <form [formGroup]="socialLinksForm" method="post" enctype="multipart/form-data">
-    <div class="form-group row">
-      <div class="col-sm-6">
-        <div class="form-input-block">
-          <label>Social Item name:</label>
+    <div class="form-group">
+      <div>
+        <div class="form-input-block" fxLayout="row">
+          <label fxFlex="20">Social Item name:</label>
           <input class="form-control" formControlName="socialitem_name" id="socialitem_name">
           <control-messages [control]="socialLinksForm.controls.socialitem_name"></control-messages>
         </div>
-        <div class="form-input-block">
-          <label>Social Item URL:</label>
+
+        <div class="form-input-block" fxLayout="row">
+          <label fxFlex="20">Social Item URL:</label>
+
           <input class="form-control" formControlName="socialitem_url" id="socilaitem_url">
           <control-messages [control]="socialLinksForm.controls.socialitem_url"></control-messages>
         </div>
-       
+
         <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid">{{form_btntext}}</button>
-      
+
         <div class="" ng-show="successMessagebool ">
-         
+
         </div>
       </div>
     </div>
   </form>
-  
+
 </div>
 <ngx-alerts maxMessages="3" timeout="3000">
-    <strong>{{successMessage }}</strong>
-    <strong>{{deleteMessage}}</strong>
-  </ngx-alerts>
-<!-- ========= Social Links View Block ====== --> 
-  <div *ngIf="!isEdit">
-    <div>
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Social Item name</th>
-            <th scope="col">Social Item URL</th>
-            <th colspan="2" scope="col">
-                <button (click)="addNewItem()" class="btn btn-success">Add New Item</button>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let socialitem of socialItems">
-            <td>{{socialitem.socialitem_name}}</td>
-            <td>{{socialitem.socialitem_url}}</td>
+  <strong>{{successMessage }}</strong>
+  <strong>{{deleteMessage}}</strong>
+</ngx-alerts>
+<!-- ========= Social Links View Block ====== -->
+<div *ngIf="!isEdit">
+  <div>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Social Item name</th>
+          <th scope="col">Social Item URL</th>
+          <th colspan="2" scope="col">
+            <button (click)="addNewItem()" class="btn btn-success">Add New Item</button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let socialitem of socialItems">
+          <td>{{socialitem?.socialitem_name}}</td>
+          <td>{{socialitem?.socialitem_url}}</td>
 
-            <td>
-              <button (click)="EditSocialLinks(socialitem)" class="btn btn-success">EDIT</button>
-            </td>
-            <td>
-              <button (click)="deleteSocialLinks(socialitem)" class="btn btn-success">DELETE</button>
-            </td>
-          </tr>
+          <td>
+            <button (click)="EditSocialLinks(socialitem)" class="btn btn-success">EDIT</button>
+          </td>
+          <td>
+            <button (click)="deleteSocialLinks(socialitem)" class="btn btn-success">DELETE</button>
+          </td>
+        </tr>
 
-        </tbody>
-      </table>
-      <br/>
-    </div>
+      </tbody>
+    </table>
+    <br/>
   </div>
-
+</div>

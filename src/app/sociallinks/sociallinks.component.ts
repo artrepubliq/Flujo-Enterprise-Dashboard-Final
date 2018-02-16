@@ -46,7 +46,9 @@ export class SocialLinksComponent {
       this.socialLinksForm.controls['socialitem_id'].setValue("null");
     }
 
+
     this.httpClient.post<IHttpResponse>(AppConstants.API_URL+"/flujo_client_postsociallinks", this.socialLinksForm.value)
+
 
       .subscribe(
         res => {
