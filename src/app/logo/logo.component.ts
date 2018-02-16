@@ -94,6 +94,7 @@ export class LogoComponent {
         this.spinnerService.hide();
       });
   }
+
   onSubmit = (body) => {
     // if(!this.logoDetail){
     //   this.logoDetail= [];
@@ -213,6 +214,5 @@ export class LogoComponent {
     
     this.setDefaultClientLogoDetails(this.logoImageDetails);
     this.isEdit = false;
-    this.getLogoDetails;
     }
   }

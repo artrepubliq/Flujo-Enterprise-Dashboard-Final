@@ -7,6 +7,7 @@ import { ColorPickerModule,ColorPickerDirective } from 'ngx-color-picker';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';
 import { IHttpResponse } from "../model/httpresponse.model";
+import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
     templateUrl: './pages.component.html',
@@ -30,8 +31,8 @@ export class PagesComponent {
     public app_description: string = '';
 
     dummy: string;
-    @ViewChild('fileInput') fileInput: ElementRef;
-    
+    @ViewChild('fileInput1') fileInput1: ElementRef;
+    @ViewChild('fileInput2') fileInput2: ElementRef;
     constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
         this.createForm();
         
@@ -114,9 +115,15 @@ export class PagesComponent {
             });
     }
 
-    clearFile = () =>{
-        this.form.get('avatar').setValue(null);
-        this.fileInput.nativeElement.value = '';
+    clearFile = (id) =>{
+        if(id == 1){
+            this.form.get('component_image').setValue(null);
+            this.fileInput1.nativeElement.value = '';
+        }
+        else{
+        this.form.get('component_background_image').setValue(null);
+        this.fileInput2.nativeElement.value = '';
+        }
     }
     onDelete = (body) => {
         // const formModel = this.form.value;
@@ -235,4 +242,5 @@ getChild(childData){
           this.dialog = null;
         }
       }
+    
 }
