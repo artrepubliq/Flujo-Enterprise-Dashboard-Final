@@ -74,6 +74,7 @@ export class LogoComponent {
       };
     }
   }
+
   uploadLogoimageHttpRequest(reqObject) {
 
     this.spinnerService.show();
@@ -93,6 +94,7 @@ export class LogoComponent {
         this.spinnerService.hide();
       });
   }
+
   onSubmit = (body) => {
     // if(!this.logoDetail){
     //   this.logoDetail= [];
