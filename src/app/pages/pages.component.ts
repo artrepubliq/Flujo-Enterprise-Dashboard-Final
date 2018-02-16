@@ -6,6 +6,7 @@ import * as _ from 'underscore';
 import { ColorPickerModule,ColorPickerDirective } from 'ngx-color-picker';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';
+import { IHttpResponse } from "../model/httpresponse.model";
 
 @Component({
     templateUrl: './pages.component.html',
@@ -15,7 +16,7 @@ export class PagesComponent {
     childDetails: any;
     ttt: any;
     form: FormGroup;
-    isEdit:boolean = true;
+    isEdit:boolean = false;
     isAddPage: boolean = false;
     isTableView: boolean = false;
     isGridView: boolean = true;
@@ -45,7 +46,7 @@ export class PagesComponent {
         this.form = this.formBuilder.group({
             component_name: ['', Validators.required],
             component_menuname: ['',null],
-            component_parent: null,
+            parent_id: null,
             web_description: ['', Validators.required],
             app_description: ['', Validators.required],
             component_background_color:['',],
@@ -90,14 +91,22 @@ export class PagesComponent {
         if(!body.component_id){
             this.form.controls['component_id'].setValue("null");
         }
-        if(!this.form.value.component_parent){
-            this.form.controls['component_parent'].setValue("-1");
+        if(!this.form.value.parent_id){
+            this.form.controls['parent_id'].setValue("-1");
         }
-        this.httpClient.post( AppConstants.API_URL+"flujo_client_postcomponent", this.form.value)
+        this.httpClient.post<IHttpResponse>( AppConstants.API_URL+"flujo_client_postcomponent", this.form.value)
             .subscribe(
             data => {
-                this.parsePostResponse(data);
-                this.spinnerService.hide();
+                if(data.error){
+                    this.alertService.warning(data.result);
+                    // this.parsePostResponse(data);
+                    this.spinnerService.hide();
+                }else{
+                    
+                    this.parsePostResponse(data);
+                    this.spinnerService.hide();
+                }
+               
             },
             error => {
                 this.loading = false;
@@ -135,6 +144,9 @@ export class PagesComponent {
         
             .subscribe(
             data => {
+                this.parentPageDetails = null;
+                this.pageDetails = null;
+                this.isEdit = false;
                 this.pageDetails = data;
                 console.log(this.pageDetails);
                 this.parentPageDetails = _.filter(this.pageDetails, (parentData)=>{
@@ -171,7 +183,7 @@ getChild(childData){
             this.form.controls['component_background_image'].setValue(pageData.component_background_image);
             this.form.controls['component_background_color'].setValue(pageData.component_background_color);
             this.form.controls['component_order'].setValue(pageData.component_order);
-            this.form.controls['component_parent'].setValue(pageData.parent_id);
+            this.form.controls['parent_id'].setValue(pageData.parent_id);
             this.dummy = pageData.parent_id
             console.log(this.form.value);
         }
@@ -185,41 +197,38 @@ getChild(childData){
         this.isGridView = false;
     }
     viewPages = () => {
-        this.getPageDetails();
+        // this.getPageDetails();
         this.isEdit = false;
-        this.isAddPage = false;
-        this.isTableView = true;
         this.isGridView = false;
+        this.isTableView = true;
+        
     }
     viewPagesGrid =() => {
         this.isEdit = false;
-        this.isAddPage = false;
+        
         this.isTableView = false;
         this.isGridView = true;
     }
     editCompnent = (componentItem) => {
-        this.alertService.success('page updated successfull.');
+       // this.alertService.success('page updated successfull.');
         this.isEdit = true;
-        this.isAddPage = true;
         this.isTableView = false;
         this.isGridView = false;
         this.button_text = "Update";
         this.setDefaultClientPageDetails(componentItem);
     }
     parsePostResponse(response){
-        
-        if(response.result){
-            this.loading = false;
-          this.alertService.danger('Required parameters missing.');
-        }else{
-            this.alertService.success('page operation successfull.');
+        this.alertService.success("request completed successfully.");
             this.loading = false;
             this.form.reset();
-            this.getPageDetails();
             this.isEdit = false;
+            this.isGridView = true;
             this.button_text = "save";
-
-        }
+            this.getPageDetails();
+    }
+    cancelFileEdit() {
+        this.isEdit = false;
+        this.isGridView = true;
     }
     ngOnDestroy() {
         if(this.dialog) {
