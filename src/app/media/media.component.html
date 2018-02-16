@@ -117,8 +117,10 @@
             <div>
               <label for="title">Title :</label>
               <input placeholder="Enter Album title here" type="text" [(ngModel)]="albumTitle">
+              
               <button class="btn btn-primary" type="submit" (click)="CreateNewAlbumForm()">Create Gallery</button>
             </div>
+            <span *ngIf="!isAlbumObjectsPresentAlert">please enter album title and select two or more images</span>
           </div>
           <br>
           <div class="row m-0 text-center text-lg-left">

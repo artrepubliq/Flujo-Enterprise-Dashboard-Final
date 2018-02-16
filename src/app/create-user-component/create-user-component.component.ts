@@ -24,17 +24,17 @@ export class CreateUserComponentComponent implements OnInit {
   PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
 
-  constructor(private alertService: AlertService,private formBuilder: FormBuilder,private spinnerService: Ng4LoadingSpinnerService,private httpClient: HttpClient) { 
+  constructor(private alertService: AlertService, private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient) {
     this.CreateUserForm = this.formBuilder.group({
       // 'name': ['', Validators.required],
       'name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
-      'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'role': ['', Validators.required],
-      'admin_id':[null],
-      'user_id':[null]
-      });
-      this.getUsersList();
+      'admin_id': [null],
+      'user_id': [null]
+    });
+    this.getUsersList();
   }
 
   ngOnInit() {
@@ -62,74 +62,79 @@ export class CreateUserComponentComponent implements OnInit {
     this.spinnerService.show();
     let user_id = body.id;
     // this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.delete(AppConstants.API_URL+"flujo_client_deletecreateuser/"+user_id)
-        .subscribe(
-        data => {
-            this.getUsersList();
-            this.spinnerService.hide();
-            console.log(data);
-            this.loading = false;
-            this.alertService.warning("User delete successfully");
-        },
-        error => {
-            this.loading = false;
-            this.spinnerService.hide();
-            this.alertService.danger("Something went wrong")
-        });
-}
-  getUsersList(){
+    this.httpClient.delete(AppConstants.API_URL + "flujo_client_deletecreateuser/" + user_id)
+      .subscribe(
+      data => {
+        this.getUsersList();
+        this.spinnerService.hide();
+        console.log(data);
+        this.loading = false;
+        this.alertService.warning("User delete successfully");
+      },
+      error => {
+        this.loading = false;
+        this.spinnerService.hide();
+        this.alertService.danger("Something went wrong")
+      });
+  }
+  getUsersList() {
     this.spinnerService.show();
-        this.httpClient.get<ICreateUserDetails>( AppConstants.API_URL + "/flujo_client_getcreateuser/" + AppConstants.CLIENT_ID)
-            .subscribe(
-            data => {
-              data? this.isEdit =false : this.isEdit = true;
-              console.log(data);
-                this.userDetails = data;
-                console.log(this.userDetails);
-                this.spinnerService.hide();
-            },
-            error => {
-                console.log(error);
-                this.spinnerService.hide();
-            }
-            )
+    this.httpClient.get<ICreateUserDetails>(AppConstants.API_URL + "/flujo_client_getcreateuser/" + AppConstants.CLIENT_ID)
+      .subscribe(
+      data => {
+        data ? this.isEdit = false : this.isEdit = true;
+        console.log(data);
+        this.userDetails = data;
+        console.log(this.userDetails);
+        this.spinnerService.hide();
+      },
+      error => {
+        console.log(error);
+        this.spinnerService.hide();
+      }
+      )
   }
   setDefaultClientUserDetails = (userData) => {
-        
+
     if (userData) {
-        // this.button_text = "Update";
-        this.CreateUserForm.controls['name'].setValue(userData.name);
-        this.CreateUserForm.controls['email'].setValue(userData.email);
-        this.CreateUserForm.controls['phone'].setValue(userData.phone);
-        this.CreateUserForm.controls['role'].setValue(userData.role);
-        this.CreateUserForm.controls['user_id'].setValue(userData.id);
-        console.log(this.CreateUserForm.value);
+      // this.button_text = "Update";
+      this.CreateUserForm.controls['name'].setValue(userData.name);
+      this.CreateUserForm.controls['email'].setValue(userData.email);
+      this.CreateUserForm.controls['phone'].setValue(userData.phone);
+      this.CreateUserForm.controls['role'].setValue(userData.role);
+      this.CreateUserForm.controls['user_id'].setValue(userData.id);
+      console.log(this.CreateUserForm.value);
     }
 
-}
-addUsers = () => {
-  this.CreateUserForm.reset();
-  this.isEdit = true;
-  this.isAddUser = true;
-}
+  }
+  addUsers = () => {
+    this.CreateUserForm.reset();
+    this.isEdit = true;
+    this.isAddUser = true;
+  }
   editCompnent = (userItem) => {
     // this.alertService.success('User updated successfull.');
     this.isEdit = true;
     this.isAddUser = true;
     this.button_text = "Update";
     this.setDefaultClientUserDetails(userItem);
-}
-parsePostResponse(response){
-        
-  if(response.result){
-    this.alertService.danger('Required parameters missing.');
-  }else{
+  }
+  parsePostResponse(response) {
+
+    if (response.result) {
+      this.alertService.danger('Required parameters missing.');
+    } else {
       this.alertService.info('User data submitted successfully.');
       this.CreateUserForm.reset();
       this.getUsersList();
       this.isEdit = false;
       this.button_text = "save";
 
+    }
   }
-}
+
+  cancelUser() {
+    this.isEdit = false;
+  }
+
 }

@@ -35,7 +35,7 @@ export class SMTPConfigurationComponent {
   SmtpPost(body:any ) {
     this.spinnerService.show();
     this.smtpUpdationForm.controls["client_id"].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.post(AppConstants.API_URL+"/flujo_client_smtpconfiguration", this.smtpUpdationForm.value)
+    this.httpClient.post(AppConstants.API_URL+"/flujo_client_postsmtpconfiguration", this.smtpUpdationForm.value)
     .subscribe(
       res => {
         if (res) {
@@ -79,7 +79,7 @@ export class SMTPConfigurationComponent {
   }
   deleteSMTP(){
     this.spinnerService.show();
-    this.httpClient.delete(AppConstants.API_URL+"flujo_client_smtpconfiguration/"+AppConstants.CLIENT_ID)
+    this.httpClient.delete(AppConstants.API_URL+"flujo_client_deletesmtpconfiguration/"+AppConstants.CLIENT_ID)
     .subscribe(
       data => {
         this.btn_text = "save";
