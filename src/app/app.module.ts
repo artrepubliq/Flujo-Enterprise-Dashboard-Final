@@ -115,10 +115,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatDialogModule,
     MatTabsModule,
     MatTooltipModule,
-    MatCardModule,
-    Directive, 
-    ElementRef, 
-    HostListener
+    MatCardModule
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog],
   providers: [AuthService,

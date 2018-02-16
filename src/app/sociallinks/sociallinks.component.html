@@ -13,8 +13,8 @@
         </div>
         <div class="form-input-block">
           <label>Social Item URL:</label>
-          <input class="form-control" formControlName="socilaitem_url" id="socilaitem_url">
-          <control-messages [control]="socialLinksForm.controls.socilaitem_url"></control-messages>
+          <input class="form-control" formControlName="socialitem_url" id="socilaitem_url">
+          <control-messages [control]="socialLinksForm.controls.socialitem_url"></control-messages>
         </div>
        
         <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid">{{form_btntext}}</button>
