@@ -26,7 +26,7 @@ export class SocialLinksComponent {
 
     this.socialLinksForm = this.formBuilder.group({
       'socialitem_name': ['', [Validators.required]],
-      'socialitem_url': ['', [Validators.required, ValidationService.domainValidator]],
+      'socialitem_url': ['', [Validators.required]],
       'socialitem_id': null,
       client_id: AppConstants.CLIENT_ID
     });
