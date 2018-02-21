@@ -10,7 +10,7 @@
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
     <button mat-raised-button color="primary" (click)="viewPages()">
-        <i class="fa fa-th-list"></i>
+      <i class="fa fa-th-list"></i>
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
     <button class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Page +</button>
@@ -82,9 +82,11 @@
       </div>
       <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_background_color">Select background color of page</label>
-        <input fxFlex="30" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)" [(colorPicker)]="color"
-          formControlName="component_background_color" id="component_background_color" [style.background]="color" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
-        />
+        <div fxFlex style="position:relative">
+          <input class="colorPickerInput" fxFlex="30" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)"
+            [(colorPicker)]="color" formControlName="component_background_color" id="component_background_color" [style.background]="color"
+            [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']" />
+        </div>
       </div>
       <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_order">Page order</label>
@@ -93,19 +95,21 @@
 
       <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_image">Choose component image</label>
-        <input type="file" id="component_image" (change)="onComponentImageChange($event)" #fileInput>
-        <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
+        <input type="file" id="component_image" (change)="onComponentImageChange($event)" #fileInput1>
+        <button type="button" class="btn btn-sm btn-default" (click)="clearFile(1)">clear file</button>
       </div>
       <div class="form-group" fxLayout="row">
         <label fxFlex="20" for="component_background_image">Choose component background image</label>
-        <input type="file" id="component_background_image" (change)="onComponentBackgroundImageChange($event)" #fileInput>
-        <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
+        <input type="file" id="component_background_image" (change)="onComponentBackgroundImageChange($event)" #fileInput2>
+        <button type="button" class="btn btn-sm btn-default" (click)="clearFile(2)">clear file</button>
       </div>
 
       <button type="submit" [disabled]="form.invalid || loading" mat-raised-button color="primary">{{button_text}}
         <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
       </button>
+
       <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
+
     </form>
   </div>
   <!-- // ===== Add Pages End ======= -->
@@ -169,7 +173,8 @@
         <mat-card class="example-card" (click)="getChild(detail)">
           <div id="pageview">
             <!-- <img src=""  alt="pagescreen"/> -->
-            <img *ngIf="detail.component_image" class="img-responsive img-fluid page-screenshot" src="data:image/png;base64,{{detail.component_image}}" alt="Photo of a Shiba Inu">
+            <img *ngIf="detail.component_image" class="img-responsive img-fluid page-screenshot" src="data:image/png;base64,{{detail.component_image}}"
+              alt="Photo of a Shiba Inu">
           </div>
           <mat-card-content>
             <div id="pageheader">
@@ -190,9 +195,12 @@
                   </div>
                 </div> -->
           </mat-card-actions>
-        </mat-card><br><br>
+        </mat-card>
+        <br>
+        <br>
       </div>
     </div>
+
     <!-- // =========grid view parents End====== -->
     <div class="divider"></div>
     <!-- // =========grid view childs====== -->
@@ -203,20 +211,6 @@
       <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
         <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
           <mat-card class="example-card">
-  <!-- // =========grid view End====== -->
-  <div *ngIf="isGridView" >
-  <div class="row">
-      <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12" *ngFor="let detail of childDetails">
-  <!-- // =========grid view parents End====== -->
-<div class="divider"></div>
-  <!-- // =========grid view childs====== -->
-  <div *ngIf="isGridView" >
-      <div class="main-category">
-          <h6>Sub Category</h6>
-        </div>
-  <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
-      <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
-        <mat-card  class="example-card">
             <div id="pageview">
               <!-- <img src=""  alt="pagescreen"/> -->
               <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
@@ -240,11 +234,14 @@
                   </div>
                 </div> -->
             </mat-card-actions>
-          </mat-card><br><br>
+          </mat-card>
+          <br>
+          <br>
         </div>
       </div>
     </div>
     <!-- // =========grid view childs End====== -->
   </div>
-<!-- // =========grid view childs End====== -->
+
 </div>
+
