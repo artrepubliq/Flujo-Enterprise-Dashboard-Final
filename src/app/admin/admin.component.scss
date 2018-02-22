@@ -9,6 +9,20 @@
   border-radius: 0;
   padding: 0;
   padding-right: 15px;
+  .admin-website {
+    margin-left: 25px;
+    .title {
+      font-size: 14px;
+      text-align: left;
+      color: #c1c1c1;
+      margin: 0;
+      letter-spacing: 0.5px;
+      .page-title {
+        color: #666666;
+        font-weight: 500;
+      }
+    }
+  }
   .top-nav {
     li.navbarItem {
       a.nav-link {
@@ -202,7 +216,7 @@
       font-size: 14px;
       color: #7e678f;
       cursor: pointer;
-      padding: 8px 8px 8px 8%;
+      padding: 8px 8px 8px 22%;
     }
     .dropdown-item.active {
       color: #c5b6d1;
@@ -349,7 +363,6 @@
 }
 
 // ========== Side Bar Hover Effect ===========
-
 .sidebar-toggle {
   width: 80px;
   overflow: visible !important;

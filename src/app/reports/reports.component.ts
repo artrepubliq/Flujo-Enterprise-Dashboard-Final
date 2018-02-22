@@ -211,7 +211,7 @@ export class ReportsComponent {
     this.spinnerService.show();
     const formModel = this.changeMakerCsvMail.value;
 
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_feedbackreportmailattachment", formModel)
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_changemakerreportmailattachment", formModel)
       .subscribe(
       data => {
         this.changeMakerCsvMail.reset()
@@ -227,10 +227,10 @@ export class ReportsComponent {
     this.spinnerService.show();
     const formModel = this.reportCsvMail.value;
 
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_feedbackreportmailattachment", formModel)
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_reportproblemreportmailattachment", formModel)
       .subscribe(
       data => {
-        this.changeMakerCsvMail.reset();
+        this.reportCsvMail.reset();
         this.alertService.info('Attachement sent succesfully');
         this.spinnerService.hide();
       },
