@@ -1,45 +1,56 @@
 <div class="container smsContact">
   <ng4-loading-spinner></ng4-loading-spinner>
-    <ngx-alerts maxMessages="3" timeout="5000">
-    </ngx-alerts>
-  <h3>Sending of sms to clients</h3>
-  <form role="form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
-    <div class="row">
-      <label class="col-md-2" for="phone">Add Mobile Numbers:</label>
-      <div class="col-md-4"><input type="text" formControlName = "phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control" id="phone" placeholder="Phone Number">
+  <ngx-alerts maxMessages="3" timeout="5000">
+  </ngx-alerts>
+
+  <div>
+    <div class="page-header">
+      SMS
+    </div>
+  </div>
+
+  <form role="form" class="admin-form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
+    <div fxLayout="column" fxLayoutGap="13px" class="input_box col-6 p-0">
+      <label for="phone">Mobile Number</label>
+      <div>
+        <input type="text" formControlName="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+          id="phone" placeholder="Phone Number">
         <div [hidden]="smsContactForm.controls.phone.valid || (smsContactForm.controls.phone.pristine && !submitted)" class="form-error-msg">
-            enter valid phone number
-          </div>
+          enter valid phone number
+        </div>
       </div>
     </div>
-    <div class="row">
-        <label class="col-md-2" for="message">SMS Content:</label>
-      <div class="col-md-4"><textarea class="form-control" formControlName = "message" id="message" placeholder="Message"></textarea>
+    <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+      <label for="message">SMS Content</label>
+      <div>
+        <textarea formControlName="message" id="message" placeholder="Message"></textarea>
         <control-messages [control]="smsContactForm.controls.message"></control-messages>
       </div>
     </div>
-    <div class="row">
-        <label class="col-md-3" for="inputPassword1">Get contacts from csv file</label>
-        <div class="col-md-3"><input type="file" formControlName = "file" class="form-control file-box"></div>
-      </div>
-      <div class="row">
-          <label class="col-md-2" for="checkbox">Get contacts from db</label>
-          <div class="col-md-4"><input type="checkbox" formControlName = "check" class="form-control" id="checkbox"></div>
-        </div>
-    <div class="row">
-      <div class="col-md-5">
-        <button type="submit" class="btn btn-success align-center float-right" (click)="smsContactFormSubmit(smsContactForm.value)">Send</button>
+    <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+      <label class="col-md-3" for="inputPassword1">Get contacts from csv file</label>
+      <div class="col-md-3">
+        <input type="file" formControlName="file" class="form-control file-box">
       </div>
     </div>
+    <div class="row">
+      <label for="checkbox">Get contacts from db</label>
+      <div>
+        <input type="checkbox" formControlName="check" class="form-control" id="checkbox">
+      </div>
+    </div>
+    <div fxLayoutAlign="end center">
+      <button type="submit" class="button_submit" (click)="smsContactFormSubmit(smsContactForm.value)">Send</button>
+    </div>
   </form>
-  </div>
+</div>
 
 
 
 
 
 
-  <!-- //$api_url ='http://api-alerts.solutionsinfini.com/v3/?method=sms&api_key=Afef8b80a6450bc8c9750205e0d892578&to='.$mobile.'&sender='.$sender_id.'&message='.$sms_text;
+<!-- //$api_url ='http://api-alerts.solutionsinfini.com/v3/?method=sms&api_key=Afef8b80a6450bc8c9750205e0d892578&to='.$mobile.'&sender='.$sender_id.'&message='.$sms_text;
   //Envoking the API url and getting the response 
   $otp_response = file_get_contents( $api_url);
         
