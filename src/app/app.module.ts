@@ -10,7 +10,7 @@ import { CallbackComponent } from './callback.component';
 import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesComponent } from './pages/pages.component';
-import { HttpService } from './service/httpClient.service'
+import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LogoComponent } from './logo/logo.component';
@@ -24,6 +24,7 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
+// tslint:disable-next-line:max-line-length
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
 
 import { ControlMessagesComponent } from './directives/control-messages.component';
@@ -31,12 +32,12 @@ import { GalleryDirective } from './directives/gallery/gallery.directive';
 import { EditGalleryItems } from './directives/edit-gallery-popup/editgallery.popup';
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ImageUploadModule } from "angular2-image-upload";
+import { ImageUploadModule } from 'angular2-image-upload';
 // Perfect Scroll Bar
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { MediaComponent, DialogOverviewExampleDialog } from  './media/media.component';
+import { MediaComponent, DialogOverviewExampleDialog } from './media/media.component';
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
@@ -79,9 +80,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ThemeConfigComponent,
     EditorComponent,
     ViewGalleryComponent,
-    
 
-    //directives
+
+     // directives
     EditGalleryItems,
     GalleryDirective,
     DialogOverviewExampleDialog
@@ -135,4 +136,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
             ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}
