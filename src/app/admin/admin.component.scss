@@ -277,7 +277,7 @@
 }
 
 // **=======** Sidebar Toggle Styles **=======**
-/*.sidebar-toggle {
+.sidebar-toggle {
   width: 80px;
   overflow: visible !important;
   .nav-item.open>.dropdown-menu {
@@ -351,7 +351,7 @@
       }
     }
   }
-}*/
+}
 
 // **=======** Page Wrapper Styles **=======**
 #page-content-wrapper {
@@ -364,7 +364,7 @@
 }
 
 // ========== Side Bar Hover Effect ===========
-.sidebar-toggle {
+/* .sidebar-toggle {
   width: 80px;
   overflow: visible !important;
   .nav-item.open>.dropdown-menu {
@@ -418,3 +418,5 @@
     }
   }
 }
+
+*/

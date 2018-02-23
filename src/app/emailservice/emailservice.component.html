@@ -8,19 +8,39 @@
 
 <form [formGroup]="mailSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
   <div class="form-group">
-    <div fxLayout="column">
-      <div class="col-6 p-0">
-        <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+    <div fxLayout="column" fxLayoutGap="25px">
+      <div fxLayout="row" fxLayoutGap="48px">
+        <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
           <label>To Address</label>
-          <input formControlName="email" id="email" placeholder="Type E-mail address">
-          <div [hidden]="mailSendingForm.controls.email.valid || (mailSendingForm.controls.email.pristine && !submitted)" class="form-error-msg">
-            enter valid email
+          <div>
+            <input formControlName="email" id="email" placeholder="Type E-mail address">
+            <div [hidden]="mailSendingForm.controls.email.valid || (mailSendingForm.controls.email.pristine && !submitted)" class="form-error-msg">
+              enter valid email
+            </div>
           </div>
         </div>
-        <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+        <div fxLayoutAlign="center center" class="atRate">
+          @
+        </div>
+        <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <label>Select contacts from csv file </label>
+          <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="48px">
+        <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
           <label>Subject</label>
-          <input formControlName="subject" id="subject" placeholder="Enter your subject">
-          <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
+          <div>
+            <input formControlName="subject" id="subject" placeholder="Enter your subject">
+            <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
+          </div>
+        </div>
+        <div fxLayoutAlign="center center" class="atRate">
+          @
+        </div>
+        <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <label>Select contacts from db</label>
+          <input type="checkbox" formControlName="check">
         </div>
       </div>
       <!-- CKEditor -->
@@ -31,14 +51,8 @@
         <control-messages [control]="mailSendingForm.controls.message"></control-messages>
       </div>
 
-      <div class="form-input-block">
-        <label>Select contacts from csv file </label>
-        <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
-      </div>
-      <div>
-        <input type="checkbox" formControlName="check">
-        <label>Select contacts from db</label>
-      </div>
+
+
       <div fxLayoutAlign="end center">
         <button type="submit" [hidden]="Ishide3" class="button_submit" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
           Send

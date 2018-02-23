@@ -10,16 +10,35 @@
   </div>
 
   <form role="form" class="admin-form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
-    <div fxLayout="column" fxLayoutGap="13px" class="input_box col-6 p-0">
-      <label for="phone">Mobile Number</label>
-      <div>
-        <input type="text" formControlName="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-          id="phone" placeholder="Phone Number">
-        <div [hidden]="smsContactForm.controls.phone.valid || (smsContactForm.controls.phone.pristine && !submitted)" class="form-error-msg">
-          enter valid phone number
+    <div fxLayout="row" fxLayoutGap="48px">
+      <div fxFlex fxLayout="column" fxLayoutGap="13px" class="input_box">
+        <label for="phone">Mobile Number</label>
+        <div>
+          <input type="text" formControlName="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+            id="phone" placeholder="Phone Number">
+          <div [hidden]="smsContactForm.controls.phone.valid || (smsContactForm.controls.phone.pristine && !submitted)" class="form-error-msg">
+            enter valid phone number
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="center center" class="atRate">
+        @
+      </div>
+      <div fxFlex fxLayout="column" fxLayoutGap="13px" class="input_box">
+        <label for="checkbox">Get contacts from db</label>
+        <div>
+          <input type="checkbox" formControlName="check" class="form-control" id="checkbox">
         </div>
       </div>
     </div>
+
+    <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+      <label for="inputPassword1">Get contacts from csv file</label>
+      <div>
+        <input type="file" formControlName="file" class="form-control file-box">
+      </div>
+    </div>
+
     <div fxLayout="column" fxLayoutGap="13px" class="input_box">
       <label for="message">SMS Content</label>
       <div>
@@ -27,18 +46,13 @@
         <control-messages [control]="smsContactForm.controls.message"></control-messages>
       </div>
     </div>
-    <div fxLayout="column" fxLayoutGap="13px" class="input_box">
-      <label class="col-md-3" for="inputPassword1">Get contacts from csv file</label>
-      <div class="col-md-3">
-        <input type="file" formControlName="file" class="form-control file-box">
-      </div>
-    </div>
-    <div class="row">
+
+    <!-- <div class="row">
       <label for="checkbox">Get contacts from db</label>
       <div>
         <input type="checkbox" formControlName="check" class="form-control" id="checkbox">
       </div>
-    </div>
+    </div> -->
     <div fxLayoutAlign="end center">
       <button type="submit" class="button_submit" (click)="smsContactFormSubmit(smsContactForm.value)">Send</button>
     </div>
