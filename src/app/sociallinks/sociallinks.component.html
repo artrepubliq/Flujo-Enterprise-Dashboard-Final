@@ -1,6 +1,6 @@
 <!-- ========= Social Links Edit Block ====== -->
 <ng4-loading-spinner></ng4-loading-spinner>
-<div *ngIf="isEdit" class="social-edit">
+<!-- <div *ngIf="isEdit" class="social-edit">
   <button (click)="viewSocialLinks()" class="btn btn-success pull-right">View Details</button>
   <h2 class="header">Add social liks </h2>
   <br>
@@ -28,14 +28,13 @@
       </div>
     </div>
   </form>
-
-</div>
+</div> -->
 <ngx-alerts maxMessages="3" timeout="3000">
   <strong>{{successMessage }}</strong>
   <strong>{{deleteMessage}}</strong>
 </ngx-alerts>
 <!-- ========= Social Links View Block ====== -->
-<div *ngIf="!isEdit">
+<!-- <div *ngIf="!isEdit">
   <div>
     <table class="table table-bordered table-hover">
       <thead>
@@ -64,4 +63,58 @@
     </table>
     <br/>
   </div>
+</div> -->
+
+<!-- edit -->
+<div *ngIf="isEdit" class="social-edit" fxLayout="column" fxLayoutGap="15px">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex>
+            <h6 class="social">Add a Social Link</h6>
+          </div>
+      <div  fxFlex >
+        <button (click)="viewSocialLinks()" class="pull-right btn btn-outline-secondary btn-social"><span><i class="fa fa-angle-left fa-2x"></i> View Social Links</span></button>
+      </div>
+    </div>
+    <form [formGroup]="socialLinksForm" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <div  class="link-row" fxLayout="row" fxLayoutGap="35px" fxLayoutAlign="center center">
+          <div fxFlex fxLayoutAlign="end center">
+              <input type="text" class="form-control" formControlName="socialitem_name" id="socialitem_name" placeholder="Social Platform Name">
+              <control-messages [control]="socialLinksForm.controls.socialitem_name"></control-messages>
+          </div>
+          <div fxFlex fxLayoutAlign="end end">
+              <input type="text" class="form-control" formControlName="socialitem_url" id="socilaitem_url" placeholder="Add User Id Here">
+              <control-messages [control]="socialLinksForm.controls.socialitem_url"></control-messages>
+          </div>
+          <div class="btn-stack" fxFlex fxLayoutAlign="end center" fxLayoutGap="15px">
+              <!-- <button type="button" class="btn"><i class="fa fa-save"></i></button> -->
+              <button type="submit" [hidden]="Ishide3" class="btn" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid">{{form_btntext}} <i class="fa fa-save"></i></button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="" ng-show="successMessagebool "></div>
+</div>
+<!-- view -->
+<div *ngIf="!isEdit" fxLayout="column" fxLayoutGap="15px">
+    <div fxLayout="row"  fxLayout.sm="column"  fxLayout.xs="column" fxLayoutAlign="center center">
+      <div fxFlex>
+        <h6 class="social">Social</h6>
+      </div>
+      <div  fxFlex>
+        <button (click)="addNewItem()" class="pull-right btn btn-outline-secondary btn-social">Add New Link +</button>
+      </div>
+    </div>
+    <div *ngFor="let socialitem of socialItems" class="link-row"  fxLayout.xs="column"  fxLayout="row" fxLayoutAlign="center center">
+      <div fxFlex>
+          <p class="link">{{socialitem?.socialitem_name}}</p>
+      </div>
+      <div fxFlex>
+          <p class="link">{{socialitem?.socialitem_url}}</p>
+      </div>
+      <div class="btn-stack" fxFlex fxLayoutAlign="end center" fxLayoutGap="15px">
+          <button (click)="EditSocialLinks(socialitem)" type="button" class="btn"><i class="fa fa-pencil"></i></button>
+          <button (click)="deleteSocialLinks(socialitem)" type="button" class="btn"><i class="fa fa-times"></i></button>
+      </div>
+    </div>
 </div>
