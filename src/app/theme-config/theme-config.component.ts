@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   
 })
 export class ThemeConfigComponent implements OnInit {
-  titlecolor= '#548eee';
+  titleColor= '#548eee';
   PrimaryMenuTitleColor='#534eae';
   ChildMenuTitleColor='#aed342';
   PrimaryMenuOverColor='#dea566';
@@ -23,6 +23,9 @@ export class ThemeConfigComponent implements OnInit {
   ];
 
   selectedFont: any;
+  fontSize:number = 12;
+  min: number = 8;
+  max: number = 30;
   log = '';
   onOptionSelected(event){
     console.log(event); //option value will be sent as event
