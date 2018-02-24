@@ -23,9 +23,29 @@ button i{
     vertical-align: middle;
     padding: 10px;
     position: relative;
+    input{
+        border-radius: 20px;
+    }
+    input.form-control{
+        box-shadow: none;
+    }
     .link{
         vertical-align: middle;
+        text-align: left !important;
         margin-top: 15px;
+        color: #666666;  
+    }
+    .link-border p{
+        border: 1.5px solid #d8d8d8;
+        padding: 8px 29px;
+        border-radius: 20px;
+        width: 500px;
+    }
+    .linkplatform{
+        vertical-align: middle;
+        text-align: left !important;
+        margin-top: 15px;
+        color: #666666;    
     }
 }
 .btn-stack{
@@ -39,6 +59,7 @@ button i{
     }
     button i{
         font-family:FontAwesome !important;
+        opacity: 0.4;
     }
 }
 
