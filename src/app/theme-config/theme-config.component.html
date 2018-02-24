@@ -69,6 +69,7 @@
 </div> -->
 
 <div class="theme-global" fxLayout="column" fxLayoutGap="1rem">
+    <!-- <form id="themegform" [formGroup]="themeConfigForm" (submit)="submitTheme()"> -->
   <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="3rem">
     <!-- =====theme block ====== -->
     <div fxFlex="50%" fxLayout="column" fxLayoutGap="1.2rem">
@@ -76,21 +77,37 @@
         <h6 class="theme-header">Fonts</h6>
       </div>
       <div fxLayout="row" fxLayoutGap="3rem" fxLayoutWrap fxLayoutAlign="start">
-          <div fxFlex fxLayout="row" fxLayoutGap="3rem">
+          <div fxFlex fxLayout="column" fxLayoutGap="3rem">
+            <div fxLayout="row" fxLayoutGap="3rem"> 
               <div fxFlex="50%">
                   <label class="" for="rolename">Title Font Family</label>
-                  <select required [(ngModel)]="selectedTitleFont" id="rolename" class="form-control btn-new select-option" data-style="btn-new" (ngModelChange)='onOptionSelected($event)'>
+                  <select required [(ngModel)]="selectedTitleFont" id="rolename" 
+                  class="form-control btn-new select-option" data-style="btn-new"
+                  (ngModelChange)='onOptionSelected($event)' >
                     <option selected="selected" value="">Select Font-Family</option>
                     <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
                   </select>
               </div>
               <div fxFlex="50%">
                   <label class="" for="rolename">Body Font Family</label>
-                  <select required [(ngModel)]="selectedBodyFont" id="rolename" class="form-control btn-new select-option" data-style="btn-new" (ngModelChange)='onOptionSelected($event)'>
+                  <select required [(ngModel)]="selectedBodyFont" id="rolename" class="form-control btn-new select-option" data-style="btn-new" 
+                  (ngModelChange)='onOptionSelected($event)' >
                       <option selected="selected" value="">Select Font-Family</option>
                       <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
                     </select>
               </div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="3rem">
+              <div fxFlex="100%">
+                  <label for="fontSize">Font Size</label>
+                  <div class="form-group form-inline">
+                    <input fxFlex id="fontSize" type="number" class="form-control" [(ngModel)]="fontSize" min="8" max="30"> 
+                    <button class="adjustfontsize" (click)="fontSize = fontSize + 1">+</button>
+                    <button class="adjustfontsize"(click)="fontSize = fontSize - 1">-</button>
+                  </div>
+              </div>
+             
+            </div>
           </div>
       </div>
       <div class="border-hor-one"></div>
@@ -98,7 +115,7 @@
           <h6 class="theme-header">Colours</h6>
       </div>
       <div fxLayout="column" fxLayoutGap="2rem" fxLayoutWrap fxLayoutAlign="center">
-        <div fxLayout="row" fxLayoutGap="3rem">
+        <div fxLayout="row" fxLayoutGap="2rem">
             <div class="colorPickerBox">
                 <label fxLayoutAlign="start" for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
                 <input  [cpPosition]="'right'" 
@@ -106,7 +123,8 @@
                         [(colorPicker)]="PrimaryMenuTitleColor"
                         [cpOKButton]="true"
                         [cpSaveClickOutside]="false"
-                        [style.background]="PrimaryMenuTitleColor" [style.color]="PrimaryMenuTitleColor" class="form-control" id="PrimaryMenuTitleColor" />
+                        [style.background]="PrimaryMenuTitleColor" [style.color]="PrimaryMenuTitleColor" class="form-control" id="PrimaryMenuTitleColor" 
+                        />
                   <p class="hash-code">{{PrimaryMenuTitleColor}}</p>                                      
               </div>
               <div class="colorPickerBox">
@@ -116,29 +134,47 @@
                           [(colorPicker)]="ChildMenuTitleColor"
                           [cpOKButton]="true"
                           [cpSaveClickOutside]="false"
-                          [style.background]="ChildMenuTitleColor" [style.color]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor" />
+                          [style.background]="ChildMenuTitleColor" [style.color]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor" 
+                          
+                          />
                   <p class="hash-code">{{ChildMenuTitleColor}}</p>                    
+                </div>
+                <div class="colorPickerBox">
+                    <label for="titleColor" fxLayoutAlign="start" >Title Color</label>
+                    <input 
+                          [cpPosition]="'right'" 
+                          [cpPositionRelativeToArrow]="false" [value]="titleColor" 
+                          [(colorPicker)]="titleColor"
+                          [cpOKButton]="true"
+                          [cpSaveClickOutside]="false"
+                          [style.background]="titleColor" [style.color]="titleColor" class="form-control" id="titleColor" 
+                    />
+                    <p class="hash-code">{{titleColor}}</p>
                 </div>
         </div>
           <div fxLayout="row" fxLayoutGap="3rem">
             <div class="colorPickerBox">
-                <label fxLayoutAlign="start" for="PrimaryMenuOverColor">Primary Menu Over Color :</label>
+                <label fxLayoutAlign="start" for="PrimaryMenuOverColor">Primary Menu Hover Color :</label>
                 <input  [cpPosition]="'right'" 
                         [cpPositionRelativeToArrow]="false" [value]="PrimaryMenuOverColor" 
                         [(colorPicker)]="PrimaryMenuOverColor"
                         [cpOKButton]="true"
                         [cpSaveClickOutside]="false"
-                        [style.background]="PrimaryMenuOverColor" [style.color]="PrimaryMenuOverColor" class="form-control" id="PrimaryMenuOverColor" />
+                        [style.background]="PrimaryMenuOverColor" [style.color]="PrimaryMenuOverColor" class="form-control" id="PrimaryMenuOverColor"
+                        
+                        />
                   <p class="hash-code">{{PrimaryMenuOverColor}}</p>
               </div>
               <div class="colorPickerBox">
-                  <label fxLayoutAlign="start" for="ChildMenuOverColor">Child Menu Over Color :</label>
+                  <label fxLayoutAlign="start" for="ChildMenuOverColor">Child Menu Hover Color :</label>
                    <input [cpPosition]="'right'" 
                           [cpPositionRelativeToArrow]="false" [value]="ChildMenuOverColor" 
                           [(colorPicker)]="ChildMenuOverColor"
                           [cpOKButton]="true"
                           [cpSaveClickOutside]="false"
-                          [style.background]="ChildMenuOverColor" [style.color]="ChildMenuOverColor" class="form-control" id="ChildMenuOverColor" />
+                          [style.background]="ChildMenuOverColor" [style.color]="ChildMenuOverColor" class="form-control" id="ChildMenuOverColor" 
+                          
+                          />
                     <p class="hash-code">{{ChildMenuOverColor}}</p>
                 </div>
           </div>
@@ -149,8 +185,8 @@
     <div fxFlex="50%" fxLayout="column" fxLayoutGap="1.5rem">
        <div class="pad-20"></div>
         <div fxLayout="row" fxLayoutGap="1rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
-            <h6  [style.fontFamily]=selectedTitleFont fxFlex="100%"  class="preview-theme-header">The quick brown fox jumps over the lazy dog</h6>
-            <p [style.fontFamily]=selectedBodyFont>The quick brown fox jumps over the lazy dog</p>
+            <h6  [style.fontSize]="selectedTitleFont" [style.color]="titleColor"  fxFlex="100%"  class="preview-theme-header">The quick brown fox jumps over the lazy dog</h6>
+            <p   [ngStyle]="{'fontFamily': selectedBodyFont, 'fontSize': fontSize + 'px'}" >The quick brown fox jumps over the lazy dog</p>
         </div>
         <div class="border-hor-one"></div>
         <div class="pad-20"></div>
@@ -169,4 +205,5 @@
     <button class="pull-right btn btn-outline-secondary btn-new">Cancel</button>
     <button class="pull-right btn btn-outline-secondary btn-new">Save</button>
   </div>
+  <!-- </form> -->
 </div>

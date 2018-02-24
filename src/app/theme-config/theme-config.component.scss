@@ -47,7 +47,7 @@ select.from-cntrol{
     border-radius: 35px;
     padding:5px 18px;
 }
-#ChildMenuOverColor,#PrimaryMenuTitleColor, #ChildMenuTitleColor,#PrimaryMenuOverColor{
+#ChildMenuOverColor,#PrimaryMenuTitleColor, #ChildMenuTitleColor,#PrimaryMenuOverColor,#titleColor{
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -67,4 +67,10 @@ select.from-cntrol{
 }
 input{
     cursor: pointer;
+}
+button.adjustfontsize{
+    background: white;
+    padding: 7px;
+    width: 33px;
+    border-radius: 3px;
 }
