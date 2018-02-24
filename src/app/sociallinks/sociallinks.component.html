@@ -78,15 +78,15 @@
     <form [formGroup]="socialLinksForm" method="post" enctype="multipart/form-data">
       <div class="form-group">
         <div  class="link-row" fxLayout="row" fxLayoutGap="35px" fxLayoutAlign="center center">
-          <div fxFlex fxLayoutAlign="end center">
+          <div fxFlex="20%" fxLayoutAlign="end center">
               <input type="text" class="form-control" formControlName="socialitem_name" id="socialitem_name" placeholder="Social Platform Name">
               <control-messages [control]="socialLinksForm.controls.socialitem_name"></control-messages>
           </div>
-          <div fxFlex fxLayoutAlign="end end">
+          <div fxFlex="50%" fxLayoutAlign="end end">
               <input type="text" class="form-control" formControlName="socialitem_url" id="socilaitem_url" placeholder="Add User Id Here">
               <control-messages [control]="socialLinksForm.controls.socialitem_url"></control-messages>
           </div>
-          <div class="btn-stack" fxFlex fxLayoutAlign="end center" fxLayoutGap="15px">
+          <div class="btn-stack" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
               <!-- <button type="button" class="btn"><i class="fa fa-save"></i></button> -->
               <button type="submit" [hidden]="Ishide3" class="btn" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid">{{form_btntext}} <i class="fa fa-save"></i></button>
           </div>
@@ -105,14 +105,14 @@
         <button (click)="addNewItem()" class="pull-right btn btn-outline-secondary btn-social">Add New Link +</button>
       </div>
     </div>
-    <div *ngFor="let socialitem of socialItems" class="link-row"  fxLayout.xs="column"  fxLayout="row" fxLayoutAlign="center center">
-      <div fxFlex>
-          <p class="link">{{socialitem?.socialitem_name}}</p>
+    <div *ngFor="let socialitem of socialItems" class="link-row"  fxLayout.xs="column"  fxLayout="row">
+      <div fxFlex="20%" fxLayoutAlign="start center">
+          <p class="linkplatform">{{socialitem?.socialitem_name}}</p>
       </div>
-      <div fxFlex>
+      <div fxFlex="50%" class="link-border" fxLayoutAlign="start">
           <p class="link">{{socialitem?.socialitem_url}}</p>
       </div>
-      <div class="btn-stack" fxFlex fxLayoutAlign="end center" fxLayoutGap="15px">
+      <div class="btn-stack" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
           <button (click)="EditSocialLinks(socialitem)" type="button" class="btn"><i class="fa fa-pencil"></i></button>
           <button (click)="deleteSocialLinks(socialitem)" type="button" class="btn"><i class="fa fa-times"></i></button>
       </div>

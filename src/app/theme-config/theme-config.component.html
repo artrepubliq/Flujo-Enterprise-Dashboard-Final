@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutGap="1rem">
+<!-- <div fxLayout="column" fxLayoutGap="1rem">
   <div class="form-header">
     <h2 [ngStyle]="titleStyles">Theme Global Configuration</h2>
   </div>
@@ -66,4 +66,107 @@
       </div>
     </div>
   </form>
+</div> -->
+
+<div class="theme-global" fxLayout="column" fxLayoutGap="1rem">
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="3rem">
+    <!-- =====theme block ====== -->
+    <div fxFlex="50%" fxLayout="column" fxLayoutGap="1.2rem">
+      <div>
+        <h6 class="theme-header">Fonts</h6>
+      </div>
+      <div fxLayout="row" fxLayoutGap="3rem" fxLayoutWrap fxLayoutAlign="start">
+          <div fxFlex fxLayout="row" fxLayoutGap="3rem">
+              <div fxFlex="50%">
+                  <label class="" for="rolename">Title Font Family</label>
+                  <select required [(ngModel)]="selectedTitleFont" id="rolename" class="form-control btn-new select-option" data-style="btn-new" (ngModelChange)='onOptionSelected($event)'>
+                    <option selected="selected" value="">Select Font-Family</option>
+                    <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
+                  </select>
+              </div>
+              <div fxFlex="50%">
+                  <label class="" for="rolename">Body Font Family</label>
+                  <select required [(ngModel)]="selectedBodyFont" id="rolename" class="form-control btn-new select-option" data-style="btn-new" (ngModelChange)='onOptionSelected($event)'>
+                      <option selected="selected" value="">Select Font-Family</option>
+                      <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
+                    </select>
+              </div>
+          </div>
+      </div>
+      <div class="border-hor-one"></div>
+      <div>
+          <h6 class="theme-header">Colours</h6>
+      </div>
+      <div fxLayout="column" fxLayoutGap="2rem" fxLayoutWrap fxLayoutAlign="center">
+        <div fxLayout="row" fxLayoutGap="3rem">
+            <div class="colorPickerBox">
+                <label fxLayoutAlign="start" for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
+                <input  [cpPosition]="'right'" 
+                        [cpPositionRelativeToArrow]="false" [value]="PrimaryMenuTitleColor" 
+                        [(colorPicker)]="PrimaryMenuTitleColor"
+                        [cpOKButton]="true"
+                        [cpSaveClickOutside]="false"
+                        [style.background]="PrimaryMenuTitleColor" [style.color]="PrimaryMenuTitleColor" class="form-control" id="PrimaryMenuTitleColor" />
+                  <p class="hash-code">{{PrimaryMenuTitleColor}}</p>                                      
+              </div>
+              <div class="colorPickerBox">
+                  <label fxLayoutAlign="start" for="ChildMenuTitleColor">Child Menu Title Color :</label>
+                  <input  [cpPosition]="'right'" 
+                          [cpPositionRelativeToArrow]="false" [value]="ChildMenuTitleColor" 
+                          [(colorPicker)]="ChildMenuTitleColor"
+                          [cpOKButton]="true"
+                          [cpSaveClickOutside]="false"
+                          [style.background]="ChildMenuTitleColor" [style.color]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor" />
+                  <p class="hash-code">{{ChildMenuTitleColor}}</p>                    
+                </div>
+        </div>
+          <div fxLayout="row" fxLayoutGap="3rem">
+            <div class="colorPickerBox">
+                <label fxLayoutAlign="start" for="PrimaryMenuOverColor">Primary Menu Over Color :</label>
+                <input  [cpPosition]="'right'" 
+                        [cpPositionRelativeToArrow]="false" [value]="PrimaryMenuOverColor" 
+                        [(colorPicker)]="PrimaryMenuOverColor"
+                        [cpOKButton]="true"
+                        [cpSaveClickOutside]="false"
+                        [style.background]="PrimaryMenuOverColor" [style.color]="PrimaryMenuOverColor" class="form-control" id="PrimaryMenuOverColor" />
+                  <p class="hash-code">{{PrimaryMenuOverColor}}</p>
+              </div>
+              <div class="colorPickerBox">
+                  <label fxLayoutAlign="start" for="ChildMenuOverColor">Child Menu Over Color :</label>
+                   <input [cpPosition]="'right'" 
+                          [cpPositionRelativeToArrow]="false" [value]="ChildMenuOverColor" 
+                          [(colorPicker)]="ChildMenuOverColor"
+                          [cpOKButton]="true"
+                          [cpSaveClickOutside]="false"
+                          [style.background]="ChildMenuOverColor" [style.color]="ChildMenuOverColor" class="form-control" id="ChildMenuOverColor" />
+                    <p class="hash-code">{{ChildMenuOverColor}}</p>
+                </div>
+          </div>
+      </div>
+    </div>
+  <div fxHide.xs fxLayout="column"  class="rounded-rectangle-2360" fxLayoutAlign="center center"></div>
+    <!-- =====preview block ====== -->
+    <div fxFlex="50%" fxLayout="column" fxLayoutGap="1.5rem">
+       <div class="pad-20"></div>
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
+            <h6  [style.fontFamily]=selectedTitleFont fxFlex="100%"  class="preview-theme-header">The quick brown fox jumps over the lazy dog</h6>
+            <p [style.fontFamily]=selectedBodyFont>The quick brown fox jumps over the lazy dog</p>
+        </div>
+        <div class="border-hor-one"></div>
+        <div class="pad-20"></div>
+        <div fxLayout="row" fxLayoutGap="3rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
+            <h6 [style.color]="PrimaryMenuTitleColor" fxFlex="100%" class="preview-theme-header">Primary menu title color</h6>
+            <p [style.color]="ChildMenuTitleColor" >Child menu title color</p>
+        </div>
+        <div fxLayout="row" fxLayoutGap="3rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
+            <h6 [style.color]="PrimaryMenuOverColor" fxFlex="100%" class="preview-theme-header">Primary menu hover color</h6>
+            <p [style.color]="ChildMenuOverColor">Child menu hover color</p>
+        </div>
+      </div>
+  </div>
+  <div  fxLayout="row" class="rounded-rectangle-2358"></div>
+  <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">
+    <button class="pull-right btn btn-outline-secondary btn-new">Cancel</button>
+    <button class="pull-right btn btn-outline-secondary btn-new">Save</button>
+  </div>
 </div>
