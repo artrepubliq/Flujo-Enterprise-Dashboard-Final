@@ -18,7 +18,9 @@ button:focus {
 body {
   background-color: #fafafa;
   font-family: 'Roboto', sans-serif;
-  height: 100vh;
+  padding-top: 70px;
+  // height: 100vh;
+  // overflow-y: hidden;
 }
 
 a {
