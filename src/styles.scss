@@ -175,6 +175,7 @@ input {
   outline: none;
   box-shadow: none;
 }
+
 input[type="file"] {
   cursor: pointer;
   border: none !important;
@@ -295,11 +296,10 @@ button:disabled {
   padding: 25px 50px 25px 40px;
   background-color: #ffffff;
   border-radius: 5px;
-  box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.02);
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.02);
 }
 
 // Page Header
-
 .page-header {
   font-size: 30px;
   font-weight: 300;
@@ -313,7 +313,7 @@ button:disabled {
 }
 
 .cke_chrome {
-  border-color:#d8d8d8 !important;
+  border-color: #d8d8d8 !important;
   padding: 5px;
   border-radius: 5px !important;
   .cke_top {
@@ -324,4 +324,50 @@ button:disabled {
 .atRate {
   font-size: 14px;
   color: #c1c1c1;
+}
+
+// Error Feild Box
+.input_error_feild {
+  position: relative;
+}
+
+control-messages,
+.form-error-msg {
+  position: absolute;
+  font-size: 14px;
+  top: 100%;
+  margin: 0;
+  color: #ee2f6b;
+}
+
+// Color-Picker
+.color-picker {
+  border: none !important;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0px 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+  padding: 15px 13px 13px 15px;
+  .preset-area {
+    display: none;
+  }
+  .cp-ok-button-class {
+    width: 70px;
+    height: 40px;
+    border-radius: 20px;
+    border: solid 1.5px #4a2565;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #4a2565;
+  }
+  .button-area {
+    padding: 0 !important;
+  }
+  .type-policy {
+    top: 233px !important;
+  }
 }

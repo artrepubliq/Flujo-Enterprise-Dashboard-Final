@@ -12,7 +12,7 @@
       <div fxLayout="row" fxLayoutGap="48px">
         <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
           <label>To Address</label>
-          <div>
+          <div class="input_error_feild">
             <input formControlName="email" id="email" placeholder="Type E-mail address">
             <div [hidden]="mailSendingForm.controls.email.valid || (mailSendingForm.controls.email.pristine && !submitted)" class="form-error-msg">
               enter valid email
@@ -30,7 +30,7 @@
       <div fxLayout="row" fxLayoutGap="48px">
         <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
           <label>Subject</label>
-          <div>
+          <div class="input_error_feild">
             <input formControlName="subject" id="subject" placeholder="Enter your subject">
             <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
           </div>
