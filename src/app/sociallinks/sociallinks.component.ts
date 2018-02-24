@@ -16,6 +16,7 @@ import { IHttpResponse } from "../model/httpresponse.model";
   styleUrls: ['./sociallinks.component.scss']
 })
 export class SocialLinksComponent {
+  socialItemId: any;
   SocialData: ISocialLinks;
   socialItems: any;
   socialLinksForm: FormGroup;
@@ -41,7 +42,7 @@ export class SocialLinksComponent {
   socialLinksFormSubmit(body: any) {
     this.spinnerService.show();
     if (this.form_btntext == "Update") {
-      this.socialLinksForm.controls['socialitem_id'].setValue(localStorage.getItem("socilaitem_id"));
+      this.socialLinksForm.controls['socialitem_id'].setValue(this.socialItemId);
     } else {
       this.socialLinksForm.controls['socialitem_id'].setValue("null");
     }
@@ -138,6 +139,7 @@ export class SocialLinksComponent {
   }
   EditSocialLinks(socialData) {
     this.isEdit = true;
+    this.socialItemId = socialData.id;
     localStorage.setItem("socialitem_id", socialData.id);
     console.log(localStorage.getItem("socialitem_id"));
     this.form_btntext = socialData.id ? "Update" : "Save";

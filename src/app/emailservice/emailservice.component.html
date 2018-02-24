@@ -1,44 +1,71 @@
 <ng4-loading-spinner></ng4-loading-spinner>
-<form [formGroup]="mailSendingForm" method="post" enctype="multipart/form-data">
-  <div class="form-group">
-    <div>
-      <div class="form-input-block">
-        <label>To address:</label>
-        <input class="form-control" formControlName="email" id="email">
-        <div [hidden]="mailSendingForm.controls.email.valid || (mailSendingForm.controls.email.pristine && !submitted)" class="form-error-msg">
-            enter valid email
-          </div>
-      </div>
-      <div class="form-input-block">
-        <label>Subject:</label>
-        <input class="form-control" formControlName="subject" id="subject">
-        <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
-      </div>
 
-      <div class="form-input-block" fxLayout="row">
-        <label fxFlex="120px">Write your message:</label>
+<div>
+  <div class="page-header">
+    Mailchimp
+  </div>
+</div>
+
+<form [formGroup]="mailSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
+  <div class="form-group">
+    <div fxLayout="column" fxLayoutGap="25px">
+      <div fxLayout="row" fxLayoutGap="48px">
+        <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <label>To Address</label>
+          <div class="input_error_feild">
+            <input formControlName="email" id="email" placeholder="Type E-mail address">
+            <div [hidden]="mailSendingForm.controls.email.valid || (mailSendingForm.controls.email.pristine && !submitted)" class="form-error-msg">
+              enter valid email
+            </div>
+          </div>
+        </div>
+        <div fxLayoutAlign="center center" class="atRate">
+          @
+        </div>
+        <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <label>Select contacts from csv file </label>
+          <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="48px">
+        <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <label>Subject</label>
+          <div class="input_error_feild">
+            <input formControlName="subject" id="subject" placeholder="Enter your subject">
+            <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
+          </div>
+        </div>
+        <div fxLayoutAlign="center center" class="atRate">
+          @
+        </div>
+        <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <label>Select contacts from db</label>
+          <input type="checkbox" formControlName="check">
+        </div>
+      </div>
+      <!-- CKEditor -->
+      <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+        <label>Message</label>
         <ck-editor formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en"
           [fullPage]="true" [readonly]="false"></ck-editor>
         <control-messages [control]="mailSendingForm.controls.message"></control-messages>
       </div>
-      <div class="form-input-block">
-        <label>Select contacts from csv file </label>
-        <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
+
+
+
+      <div fxLayoutAlign="end center">
+        <button type="submit" [hidden]="Ishide3" class="button_submit" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
+          Send
+        </button>
       </div>
-      <input type="checkbox" formControlName="check">
-      <label>Select contacts from db</label>
-      <br>
-      <button type="submit" [hidden]="Ishide3" class="btn btn-success" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
-        <!-- <i class="fa fa-send send-icon"></i> -->
-        Send
-      </button>
       <!-- <button type="submit" class="btn btn-danger" (click)="mailSendingFormSubmit(mailSendingForm.value)">Delete</button> -->
-      <div class="" ng-show="successMessagebool ">
-        <ngx-alerts maxMessages="3" timeout="5000">
-          <strong>{{successMessage }}</strong>
-          <strong>{{deleteMessage}}</strong>
-        </ngx-alerts>
-      </div>
     </div>
   </div>
 </form>
+
+<div class="" ng-show="successMessagebool ">
+  <ngx-alerts maxMessages="3" timeout="5000">
+    <strong>{{successMessage }}</strong>
+    <strong>{{deleteMessage}}</strong>
+  </ngx-alerts>
+</div>
