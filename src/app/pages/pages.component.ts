@@ -22,7 +22,7 @@ export class PagesComponent {
     isTableView: boolean = false;
     isGridView: boolean = true;
     loading: boolean = false;
-    button_text: string = "save";
+    button_text: string = "Save";
     decodedString: string;
     dialog: any;
     public parentPageDetails;
@@ -230,7 +230,7 @@ getChild(childData){
             this.form.reset();
             this.isEdit = false;
             this.isGridView = true;
-            this.button_text = "save";
+            this.button_text = "Save";
             this.getPageDetails();
     }
     cancelFileEdit() {

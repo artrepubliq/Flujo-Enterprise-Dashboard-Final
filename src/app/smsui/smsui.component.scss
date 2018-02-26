@@ -3,32 +3,31 @@
   flex-direction: column;
 }
 
-.example-container > * {
+.example-container>* {
   width: 100%;
 }
 
 .smsContact {
   // width: 300px;
-  margin: 0 auto;
-  // margin-top: 50px;
-  input,textarea {
+  margin: 0 auto; // margin-top: 50px;
+  input,
+  textarea {
     padding: 8px 15px;
     outline: none;
     width: 100%;
     margin-bottom: 20px;
     box-shadow: none;
   }
-  button {
-    width: 150px;
-    padding: 8px 15px;
-    cursor: pointer;
-  }
-  .file-box{
+  .file-box {
     box-shadow: none;
     border: none;
   }
-  control-messages,.form-error-msg {
-    color: #E82C0C;
-    margin: 6px 0;
-  }
+  // control-messages,
+  // .form-error-msg {
+  //   color: #E82C0C;
+  //   margin: 6px 0;
+  // }
+}
+.button_submit {
+  width: 100px;
 }
