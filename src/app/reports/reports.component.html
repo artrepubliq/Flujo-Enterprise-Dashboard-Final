@@ -1,12 +1,12 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <div class="addview-buttons">
-  <button class="btn btn-warning" (click)="showFeedback()">Feedback Report
+  <button class="btn btn-outline-secondary btn-sm btn-report" (click)="showFeedback()">Feedback Report
     <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
   </button>
-  <button class="btn btn-info" (click)="showChangemaker()">Changemaker Report
+  <button class="btn btn-outline-secondary btn-sm btn-report" (click)="showChangemaker()">Changemaker Report
     <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
   </button>
-  <button class="btn btn-success" (click)="showReportProblem()">Report your problem
+  <button class="btn btn-outline-secondary btn-sm btn-report" (click)="showReportProblem()">Report your problem
     <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
   </button>
 </div>
@@ -99,7 +99,7 @@
 <!-- // Change Maker Report -->
 
 <!-- Report Your Problem -->
-<div *ngIf="isReportData" class="row">
+<!-- <div *ngIf="isReportData" class="row">
   <div class="col-md-12">
     <h3>Report your problem data:</h3>
     <table class="table table-hover">
@@ -110,7 +110,7 @@
           <th scope="col">Email</th>
           <th scope="col">Phone</th>
           <th scope="col">Client Id</th>
-          <!-- <th scope="col">Submited At</th> -->
+           <th scope="col">Submited At</th> 
         </tr>
       </thead>
       <tbody>
@@ -120,7 +120,7 @@
           <td>{{report.email}}</td>
           <td>{{report.phone}}</td>
           <td>{{report.client_id}}</td>
-          <!-- <td>{{report.date_now}}</td> -->
+          <td>{{report.date_now}}</td> 
         </tr>
       </tbody>
     </table>
@@ -135,5 +135,29 @@
       </form>
     </div>
   </div>
+</div> -->
+
+
+<div *ngIf="isReportData" fxLayout="column" fxLayoutGap="15px">
+    <div fxLayout="row"  fxLayout.sm="column"  fxLayout.xs="column" fxLayoutAlign="start center">
+      <div fxFlex="20">
+        <h6 class="social">Issues</h6>
+      </div>
+      <div  fxFlex="30" class="text-center">
+        <button (click)="addNewItem()" class="pull-right btn btn-outline-secondary btn-social">Add New Link +</button>
+      </div>
+    </div>
+    <div *ngFor="let socialitem of socialItems" class="link-row"  fxLayout.xs="column"  fxLayout="row">
+      <div fxFlex="20%" fxLayoutAlign="start center">
+          <p class="linkplatform">{{socialitem?.socialitem_name}}</p>
+      </div>
+      <div fxFlex="50%" class="link-border" fxLayoutAlign="start">
+          <p class="link">{{socialitem?.socialitem_url}}</p>
+      </div>
+      <div class="btn-stack" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
+          <button (click)="EditSocialLinks(socialitem)" type="button" class="btn"><i class="fa fa-pencil"></i></button>
+          <button (click)="deleteSocialLinks(socialitem)" type="button" class="btn"><i class="fa fa-times"></i></button>
+      </div>
+    </div>
 </div>
 <!-- // Report Your Problem -->

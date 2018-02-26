@@ -65,12 +65,30 @@ select.from-cntrol{
     left:4rem;
     top :2.5rem;
 }
-input{
+input, button{
     cursor: pointer;
+    border: solid 1.5px #d8d8d8;
 }
 button.adjustfontsize{
     background: white;
     padding: 7px;
     width: 33px;
     border-radius: 3px;
+}
+select.select-option {
+    border: none;
+    max-width: 90%;
+    max-height: 31px ;
+    position: absolute;
+    left: 10px;
+    top: 4px;
+}
+.rounded-rectangle-2736 {
+    width: 225px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    border: solid 1.5px #d8d8d8;
+    text-align: center;
+    position: relative;
 }
