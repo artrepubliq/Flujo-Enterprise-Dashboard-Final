@@ -81,20 +81,24 @@
             <div fxLayout="row" fxLayoutGap="3rem"> 
               <div fxFlex="50%">
                   <label class="" for="rolename">Title Font Family</label>
-                  <select required [(ngModel)]="selectedTitleFont" id="rolename" 
-                  class="form-control btn-new select-option" data-style="btn-new"
-                  (ngModelChange)='onOptionSelected($event)' >
-                    <option selected="selected" value="">Select Font-Family</option>
-                    <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
-                  </select>
-              </div>
-              <div fxFlex="50%">
-                  <label class="" for="rolename">Body Font Family</label>
-                  <select required [(ngModel)]="selectedBodyFont" id="rolename" class="form-control btn-new select-option" data-style="btn-new" 
-                  (ngModelChange)='onOptionSelected($event)' >
+                  <div class="rounded-rectangle-2736">
+                    <select required [(ngModel)]="selectedTitleFont" id="titlefont" 
+                    class="form-control btn-new select-option" data-style="btn-new"
+                    (ngModelChange)='onOptionSelected($event)' >
                       <option selected="selected" value="">Select Font-Family</option>
                       <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
                     </select>
+                  </div>
+              </div>
+              <div fxFlex="50%">
+                  <label class="" for="rolename">Body Font Family</label>
+                  <div class="rounded-rectangle-2736">
+                    <select required [(ngModel)]="selectedBodyFont" id="bodyfont" class="form-control btn-new select-option" data-style="btn-new" 
+                    (ngModelChange)='onOptionSelected($event)' >
+                        <option selected="selected" value="">Select Font-Family</option>
+                        <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
+                    </select>
+                  </div>
               </div>
             </div>
             <div fxLayout="row" fxLayoutGap="3rem">
