@@ -7,27 +7,39 @@
     </a>
   </div>
   <div class="admin-website mr-auto">
-    <p class="title"><span>DVB Website : </span><span class="page-title">CurrentPageName</span> </p>
+    <p class="title">
+      <span>DVB Website : </span>
+      <span class="page-title">CurrentPageName</span>
+    </p>
   </div>
   <ul class="nav top-nav">
     <li class="navbarItem">
       <a href="#notifications" class="nav-link">
-        <i class="fa fa-cog"></i>
+        <i class="fa fa-comment-o"></i>
       </a>
     </li>
     <li class="navbarItem">
       <a href="#notifications" class="nav-link">
-        <i class="fa fa-bell-o"></i>
+        <i class="fa fa-question-circle"></i>
+      </a>
+    </li>
+    <li class="navbarItem">
+      <a href="#notifications" class="nav-link">
+        <i class="fa fa-info-circle"></i>
       </a>
     </li>
     <li class="navbarItem dropdown admin-profile">
-      <a class="dropdown-toggle nav-link" data-toggle="dropdown">
-        <span class="user-logo">
+      <a class="nav-link" data-toggle="dropdown">
+        <!-- <span class="user-logo">
           <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
         </span>
-        <!-- <span class="default-profile-icon">kk</span> -->
-        {{nickName}}</a>
+        {{nickName}} -->
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
       <ul class="dropdown-menu">
+        <li>
+          <a class="activity">{{nickName}}</a>
+        </li>
         <li>
           <a routerLink="./profile" routerLinkActive="active" class="activity">
             <i class="fa fa-user"></i> Edit Profile</a>
