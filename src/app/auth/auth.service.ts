@@ -28,15 +28,15 @@ export class AuthService {
   constructor(private router: Router, private http: HttpClient) {
     // If authenticated, set local profile property and update login status subject
     // If token is expired, log out to clear any data from localStorage
-    if (this.authenticated) {
-      // this.userProfile = JSON.parse(localStorage.getItem('profile'));
-      this.userProfile = JSON.parse(localStorage.getItem('client_details'));
-      this.setLoggedIn(true);
-      this.saveClientProfileInDB(this.userProfile);
-      // console.log(this.userProfile);
-    } else {
-      this.logout();
-    }
+    // if (this.authenticated) {
+    //   // this.userProfile = JSON.parse(localStorage.getItem('profile'));
+    //   this.userProfile = JSON.parse(localStorage.getItem('client_details'));
+    //   this.setLoggedIn(true);
+    //   this.saveClientProfileInDB(this.userProfile);
+    //   // console.log(this.userProfile);
+    // } else {
+    //   this.logout();
+    // }
      
     
   }
@@ -117,11 +117,11 @@ export class AuthService {
     
   }
 
-  get authenticated(): boolean {
-    // Check if current date is greater than expiration
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return Date.now() < expiresAt;
-  }
+  // get authenticated(): boolean {
+  //   // Check if current date is greater than expiration
+  //   const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+  //   return Date.now() < expiresAt;
+  // }
 
   saveClientProfileInDB(clientProfile){
       this.clientProfileObject = {"access_token": clientProfile.accessToken, "email":clientProfile.idTokenPayload.email

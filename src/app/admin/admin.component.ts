@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
+import { LoginAuthService } from '../auth/login.auth.service';
 
 @Component({
   templateUrl: './admin.component.html',
@@ -9,9 +10,12 @@ import { AuthService } from '../auth/auth.service';
 export class AdminComponent implements OnInit {
   public nickName: string;
 
-  constructor(public authService: AuthService) { }
+  constructor(public loginAuthService: LoginAuthService) {
+    this.loginAuthService.modelShow=true;
+   }
   ngOnInit(): void {
     this.nickName = localStorage.getItem("nickname");
+    this.loginAuthService.modelShow=false;
   }
   viewPages() {
     localStorage.setItem("page_item", "viewpages");

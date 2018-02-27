@@ -25,7 +25,8 @@ import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
-
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'; // this includes the core NgIdleModule but includes keepalive providers for easy wireup
+import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
 import { EditGalleryItems } from './directives/edit-gallery-popup/editgallery.popup';
@@ -49,6 +50,7 @@ import { Http, RequestOptions } from '@angular/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
+import { LoginAuthService } from './auth/login.auth.service';
 import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
@@ -115,12 +117,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTabsModule,
     MatTooltipModule,
     MatCardModule,
+    MomentModule,
+    NgIdleKeepaliveModule.forRoot()
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog],
   providers: [AuthService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,
+              LoginAuthService
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
