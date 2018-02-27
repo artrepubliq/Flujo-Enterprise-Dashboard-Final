@@ -56,7 +56,7 @@
     padding-top: 16px;
 }
 .divide-line{
-    margin-top: 15px;
+    margin-top: 5px;
     height: 1.5px;
 	background-color: #f5f5f5;
 }
@@ -76,4 +76,65 @@
       width: 20rem;
       overflow: hidden;
       text-overflow: ellipsis;
+}
+p.name-feedback{
+    display: inline-block;
+    white-space: nowrap;
+    width: 1.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.table-bordered{
+    background-color: rgb(255, 255, 255);
+}
+.table-bordered thead th, tbody td{
+    vertical-align: middle !important;
+}
+.table-bordered thead tr, tbody tr{
+    height: 70px;
+}
+.table-bordered th{
+    color: #666666;
+}
+.table-bordered td{
+    color: #333333;
+}
+.table-bordered th, .table-bordered td{
+    border-left:none;
+    border-right:none;
+    
+}
+.fb-first-field input, p{
+    margin:0 5px
+}
+
+.table-bordered input[type=checkbox]:checked{
+    background: #4a2565 !important;
+    transition: all 5s ease-in-out !important;
+}
+.btn-dropdown{
+    background: none !important;
+    border: none !important;
+}
+.popup-base{
+    position: relative;
+}
+.popup-bas.dropdown-menu{
+    position: absolute !important;
+    top: -6px !important;
+    left: -35px !important;
+}
+.popup-base.dropdown{
+    padding-top: 0 !important;
+}
+.popup-base.dropdown ul li{
+    color:#999999;
+    line-height: 3rem;
+    margin-left: 1.5rem;
+}
+.popup-base.dropdown ul li:hover{
+    color:#4a2565;
+}
+input{
+    border-radius: 30px;
 }
