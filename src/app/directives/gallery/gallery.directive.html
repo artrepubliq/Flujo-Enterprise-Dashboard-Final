@@ -1,0 +1,27 @@
+<!-- <div class="row grid-gallery">
+    <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let img of images">
+        <div class="grid-item" routerLink="gallery">
+            <p>{{img.name}} </p>
+            <div class="img-block">
+                <img src="assets/{{img.imagesUer}}" class="img-fluid" alt="Gallary Img">
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="row grid-gallery">
+    <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let albumItem of albumBase64imagesArray">
+
+        <div class="grid-item">
+            
+            <p>{{albumItem.title}} </p>
+            <div class="img-block">
+                <img src='data:image/png;base64,{{albumItem.image}}' class="img-fluid" alt="Gallary Img">
+                <div class="bg-layer"></div>
+                <div class="item-controls">
+                    <i class="fa fa-times" (click)="deleteGalleryItem()"></i>
+                    <i class="fa fa-pencil" (click)="openDialog(albumItem)"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
