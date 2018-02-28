@@ -2,7 +2,7 @@
 <ngx-alerts maxMessages="3" timeout="5000">
   <!-- <strong>{{successMessage }}</strong> -->
 </ngx-alerts>
-<div fxLayout="column">
+<div fxLayout="column" class="page_padding">
   <!-- === Buttons ==== -->
   <div class="addview-buttons">
     <div class="page-header">
@@ -35,11 +35,14 @@
         </div>
         <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="parent_id">Page Parent</label>
-          <select fxFlex formControlName="parent_id" class="selectpicker" id="parent_id">
-            <option *ngFor="let parent of parentPageDetails" [value]="parent.id">
-              {{parent.id}}-{{parent.component_name}}
-            </option>
-          </select>
+
+          <div class="select_box">
+            <select fxFlex formControlName="parent_id" class="selectpicker" id="parent_id">
+              <option *ngFor="let parent of parentPageDetails" [value]="parent.id">
+                {{parent.id}}-{{parent.component_name}}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -49,9 +52,10 @@
           <label for="component_background_color" class="input_title">Background Color</label>
           <div fxFlex style="position:relative">
             <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)"
-              [(colorPicker)]="color" formControlName="component_background_color" id="component_background_color" [style.background]="color"
-              [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']" />
-              <font style="font-size: 14px; margin-left: 12px" color="{{color}}">{{color}}</font>
+              [(colorPicker)]="bgColor" formControlName="component_background_color" id="component_background_color" [style.background]="bgColor"
+              [style.color]="bgColor" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+            />
+            <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
           </div>
         </div>
         <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
@@ -64,6 +68,7 @@
               <label> No file selected</label>
             </div>
           </div>
+
         </div>
         <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_background_image" class="input_title">Component Background Image</label>
@@ -79,7 +84,7 @@
         </div>
         <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_order">Page order</label>
-          <input type="text" class="form-control" id="component_order" placeholder="Page Order" formControlName="component_order">
+          <input type="text" id="component_order" placeholder="Page Order" formControlName="component_order">
         </div>
       </div>
 
@@ -105,11 +110,7 @@
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
       </div>
-
-
-
-
-    </form>
+</form>
   </div>
   <!-- // ===== Add Pages End ======= -->
 
@@ -166,16 +167,56 @@
   <!-- =========grid view parent====== -->
 
   <div *ngIf="isGridView">
+
+    <div class="main-category">
+      <h6>Main Category</h6>
+    </div>
+    <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of parentPageDetails">
+        <mat-card class="example-card" (click)="getChild(detail)">
+          <div id="pageview">
+            <!-- <img src=""  alt="pagescreen"/> -->
+            <img *ngIf="detail.component_image" class="img-responsive img-fluid page-screenshot" src="data:image/png;base64,{{detail.component_image}}"
+              alt="Photo of a Shiba Inu">
+          </div>
+          <mat-card-content>
+            <div id="pageheader">
+              <div class="edit-title">
+                <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
+                <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <!-- <div class="button-row">
+                    <div clsss="button-stack">
+                      <button mat-mini-fab color="primary"></button>
+                      <button mat-mini-fab color="accent"></button>
+                      <button mat-mini-fab color="warn"></button>
+                      <a color="blue">+2 more</a>
+                      <a class="pull-right"><i class="fa fa-clock-o"></i></a>
+                    </div>
+                  </div> -->
+          </mat-card-actions>
+        </mat-card>
+        <br>
+        <br>
+      </div>
+    </div>
+
+    <!-- // =========grid view parents End====== -->
+    <div class="divider"></div>
+    <!-- // =========grid view childs====== -->
+    <div>
       <div class="main-category">
-        <h6>Main Category</h6>
+        <h6>Sub Category</h6>
       </div>
       <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of parentPageDetails">
-          <mat-card class="example-card" (click)="getChild(detail)">
+        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
+          <mat-card class="example-card">
             <div id="pageview">
               <!-- <img src=""  alt="pagescreen"/> -->
-              <img *ngIf="detail.component_image" class="img-responsive img-fluid page-screenshot" src="data:image/png;base64,{{detail.component_image}}"
-                alt="Photo of a Shiba Inu">
+              <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
             </div>
             <mat-card-content>
               <div id="pageheader">
@@ -201,46 +242,8 @@
           <br>
         </div>
       </div>
-  
-      <!-- // =========grid view parents End====== -->
-      <div class="divider"></div>
-      <!-- // =========grid view childs====== -->
-      <div>
-        <div class="main-category">
-          <h6>Sub Category</h6>
-        </div>
-        <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
-          <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
-            <mat-card class="example-card">
-              <div id="pageview">
-                <!-- <img src=""  alt="pagescreen"/> -->
-                <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
-              </div>
-              <mat-card-content>
-                <div id="pageheader">
-                  <div class="edit-title">
-                    <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
-                    <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
-                  </div>
-                </div>
-              </mat-card-content>
-              <mat-card-actions>
-                <!-- <div class="button-row">
-                    <div clsss="button-stack">
-                      <button mat-mini-fab color="primary"></button>
-                      <button mat-mini-fab color="accent"></button>
-                      <button mat-mini-fab color="warn"></button>
-                      <a color="blue">+2 more</a>
-                      <a class="pull-right"><i class="fa fa-clock-o"></i></a>
-                    </div>
-                  </div> -->
-              </mat-card-actions>
-            </mat-card>
-            <br>
-            <br>
-          </div>
-        </div>
-      </div>
-      <!-- // =========grid view childs End====== -->
+
     </div>
+    <!-- // =========grid view childs End====== -->
+  </div>
 </div>

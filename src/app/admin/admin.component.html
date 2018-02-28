@@ -15,17 +15,22 @@
   <ul class="nav top-nav">
     <li class="navbarItem">
       <a href="#notifications" class="nav-link">
-        <i class="fa fa-comment-o"></i>
+
+        <!-- <i class="fa fa-comment-o"></i> -->
+        <img src="assets/icons/chat-icon-normal@2x.png" class="img-fluid" alt="chat">
       </a>
     </li>
     <li class="navbarItem">
       <a href="#notifications" class="nav-link">
-        <i class="fa fa-question-circle"></i>
+
+        <!-- <i class="fa fa-question-circle"></i> -->
+        <img src="assets/icons/help-icon-normal@2x.png" class="img-fluid" alt="chat">
       </a>
     </li>
     <li class="navbarItem">
       <a href="#notifications" class="nav-link">
-        <i class="fa fa-info-circle"></i>
+        <!-- <i class="fa fa-info-circle"></i> -->
+        <img src="assets/icons/info-icon-normal@2x.png" class="img-fluid" alt="chat">
       </a>
     </li>
     <li class="navbarItem dropdown admin-profile">
@@ -34,7 +39,9 @@
           <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
         </span>
         {{nickName}} -->
-        <i class="fa fa-ellipsis-v"></i>
+
+        <!-- <i class="fa fa-ellipsis-v"></i> -->
+        <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat">
       </a>
       <ul class="dropdown-menu">
         <li>
@@ -46,7 +53,7 @@
         </li>
         <li>
           <a href="#" class="activity">
-            <i class="fa fa-cog"></i> Change Password</a>
+            <i class="fa fa-cog"></i> Settings</a>
         </li>
         <li>
           <a class="activity" (click)="authService.logout()" *ngIf="authService.authenticated">
@@ -213,6 +220,14 @@
           <span>Database</span>
         </a>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./neweditor" routerLinkActive="active">
+          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <span>New editor</span>
+        </a>
+      </li>
+
       <li class="nav-item-divider">
         <img src="assets/slider.svg" alt="divider" class="img-fluid">
       </li>

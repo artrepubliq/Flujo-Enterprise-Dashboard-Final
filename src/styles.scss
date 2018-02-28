@@ -240,6 +240,8 @@ input[type="file"] {
 button {
   font-size: 14px;
   color: #666666;
+ 
+  cursor: pointer;
 }
 
 button.button_submit {
@@ -373,4 +375,11 @@ control-messages,
   .type-policy {
     top: 233px !important;
   }
+}
+
+
+// Custom Global Page-padding
+
+.page_padding {
+  padding: 3vh 6vw 15px 4vw;
 }

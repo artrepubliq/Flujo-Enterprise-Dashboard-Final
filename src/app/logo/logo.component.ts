@@ -55,6 +55,7 @@ export class LogoComponent {
     let reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       let file = event.target.files[0];
+      if(file.size <= 600000){
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.logoItems.logo_url_path = reader.result.split(',')[1];
@@ -68,11 +69,35 @@ export class LogoComponent {
            uploadImage = { logo_id: null, client_id: AppConstants.CLIENT_ID, image: reader.result.split(',')[1] }
         }
        
-        console.log(uploadImage);
+
         this.uploadLogoimageHttpRequest(uploadImage);
         
       };
+    }else {
+      this.alertService.danger('File is too large');
+      this.getLogoDetails();
     }
+    }
+  }
+
+  uploadLogoimageHttpRequest(reqObject) {
+
+    this.spinnerService.show();
+    this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    // const imageModel = this.form.value
+    this.httpClient.post(AppConstants.API_URL + "flujo_client_postlogoupload", reqObject)
+      .subscribe(
+      data => {
+        this.logoImage = reqObject.image;
+        this.alertService.success('Logo submitted successfully.');
+        this.loadingSave = false;
+        this.getLogoDetails();
+        this.spinnerService.hide();
+      },
+      error => {
+        this.loadingSave = false;
+        this.spinnerService.hide();
+      });
   }
 
   uploadLogoimageHttpRequest(reqObject) {
@@ -115,6 +140,7 @@ export class LogoComponent {
         if(data.error){
           this.alertService.warning(data.result);
           this.loadingSave = false;
+          this.getLogoDetails();
           this.spinnerService.hide();
         }else{
           this.alertService.success('Logo details submitted successfully.');

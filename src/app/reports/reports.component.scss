@@ -35,58 +35,12 @@
     border-radius:30px !important; 
 }
 .btn-actissue {
-    border-radius: 25px 0  0 25px;
-    color: #999999;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: center;
-	border: solid 1.5px #f0f0f0;
 
+    border-radius: 0 25px 25px 0;
 }
 .btn-pastissue {
-    border-radius:  0 25px 25px 0 ;
-    border-left:none !important;
-    color: #999999;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: center;
-    border: solid 1.5px #f0f0f0;
-}    
-.btn-view-grid {
-    border-radius:  0 25px 25px 0;
-    color: #999999;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: center;
-	border: solid 1.5px #f0f0f0;
-
-}
-.btn-view-list {
-    border-radius:   25px 0 0 25px;
+    border-radius: 25px 0 0 25px;
     border-right:none !important;
-    color: #999999;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: center;
-	border: solid 1.5px #f0f0f0;
-
-}
-.btn-outline-secondary:hover {
-    background-color: #e2e2e2;
-}
-.btn-outline-secondary:active{
-    box-shadow: none !important;
-    color: #999999;
-    background-color: #f0f0f0;
-    border: solid 1.5px #f0f0f0;
-}
-.btn-outline-secondary:not([disabled]):not(.disabled).active, 
-.btn-outline-secondary:not([disabled]):not(.disabled):active,
-.show>.btn-outline-secondary.dropdown-toggle{
-    box-shadow: none !important;
-    color: #999999;
-    background-color: #f0f0f0;
-    border: solid 1.5px #f0f0f0;
 }
 .issues{
     font-size: 30px;
@@ -97,10 +51,7 @@
     border-radius:35px !important;
     vertical-align: middle;
     padding-top: 4px;
-    font-size: 12px;
-	font-weight: 500;
-    color: #999999;
-    border: solid 1.5px #f0f0f0;
+
 }
 .dropdown{
     padding-top: 16px;
@@ -164,6 +115,10 @@ p.name-feedback{
     font-size: 14px;
 	font-weight: 500;
 	color: #333333;
+    color: #666666;
+}
+.table-bordered td{
+    color: #333333;
 }
 .table-bordered th, .table-bordered td{
     border-left:none;

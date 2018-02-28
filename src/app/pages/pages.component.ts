@@ -30,6 +30,8 @@ export class PagesComponent {
     public web_description: string = '';
     public app_description: string = '';
 
+    bgColor='#3c3c3c';
+
     dummy: string;
     @ViewChild('fileInput1') fileInput1: ElementRef;
     @ViewChild('fileInput2') fileInput2: ElementRef;

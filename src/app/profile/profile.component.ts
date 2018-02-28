@@ -62,6 +62,7 @@ export class ProfileComponent {
     let reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       let file = event.target.files[0];
+      if(file.size <= 600000){
       reader.readAsDataURL(file);
       reader.onload = () => {
         // this.profileData.avatar = reader.result.split(',')[1];
@@ -71,6 +72,9 @@ export class ProfileComponent {
         let uploadImage = {profile_id:this.profileImageDetails.id,client_id:this.profileImageDetails.client_id, avatar:reader.result.split(',')[1]}
         this.uploadProfileImage(uploadImage);
       };
+    }else {
+      this.alertService.danger('File is too large');
+    }
     }
   }
   uploadProfileImage = (reqObject)=>{
