@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
@@ -11,30 +11,31 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
-export class ReportsComponent {
+export class ReportsComponent implements OnInit {
   reportCsvMail: FormGroup;
   changeMakerCsvMail: FormGroup;
   feedbackCsvMail: FormGroup;
-  isFeedbackReport: boolean = true;
-  isChangeReport: boolean = false;
-  loading: boolean = false;
-  isReportData: boolean = false;
+  isFeedbackReport = true;
+  isChangeReport = false;
+  loading = false;
+  isReportData = false;
   public feedbackData: any;
   changemakerData: any;
   public reportProblemData: any;
-  showEmailClickFeedback: boolean = false;
-  showEmailClick: boolean = false;
-  showEmailClickReport: boolean = false;
+  showEmailClickFeedback = false;
+  showEmailClick = false;
+  showEmailClickReport = false;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
-  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
+    private httpClient: HttpClient, private alertService: AlertService) {
    this.feedbackCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
    });
    this.changeMakerCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
    });
    this.reportCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
    });
     this.getChangemakerReportData();
     this.getuserFeedbackData();
@@ -62,8 +63,8 @@ export class ReportsComponent {
     // this.getReportYourProblemData();
   }
   getChangemakerReportData() {
-    this.spinnerService.show()
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_getallchangemaker")
+    this.spinnerService.show();
+    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getallchangemaker')
       .subscribe(
       data => {
         console.log(data);
@@ -72,7 +73,7 @@ export class ReportsComponent {
       },
       error => {
         console.log(error);
-      })
+      });
   }
 
   exportChangermakereport() {
@@ -87,7 +88,8 @@ export class ReportsComponent {
     };
     const Data = [
       {
-        id: this.changemakerData.id, name: this.changemakerData.name, email: this.changemakerData.email, phone: this.changemakerData.phone, date_now: this.changemakerData.datenow
+        id: this.changemakerData.id, name: this.changemakerData.name, email: this.changemakerData.email,
+         phone: this.changemakerData.phone, date_now: this.changemakerData.datenow
       },
     ];
     const exporter = CSVExportService.create({
@@ -99,7 +101,7 @@ export class ReportsComponent {
   }
   getuserFeedbackData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_getfeedback/"+AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getfeedback/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         this.feedbackData = data;
@@ -107,7 +109,7 @@ export class ReportsComponent {
       },
       error => {
         console.log(error);
-      })
+      });
     // this.http
     //   .get<IUser>('http://flujo.in/dashboard/flujo.in_ajay/public/feedback-report')
     //   .subscribe(
@@ -148,7 +150,7 @@ export class ReportsComponent {
 
   getReportYourProblemData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + "/flujo_client_getreportproblem/" + AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + '/flujo_client_getreportproblem/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         console.log(data);
@@ -157,7 +159,7 @@ export class ReportsComponent {
       },
       error => {
         console.log(error);
-      })
+      });
   }
   exportReportProblemData() {
     const csvColumnsList = ['id', 'name', 'email', 'phone', 'Problem', 'datenow'];
@@ -171,7 +173,8 @@ export class ReportsComponent {
     };
     const Data = [
       {
-        id: this.reportProblemData[0].id, name: this.reportProblemData[0].name, email: this.reportProblemData[0].email, phone: this.reportProblemData[0].phone,
+        id: this.reportProblemData[0].id, name: this.reportProblemData[0].name, email: this.reportProblemData[0].email,
+        phone: this.reportProblemData[0].phone,
         Problem: this.reportProblemData[0].Problem, datenow: this.reportProblemData[0].datenow
       },
     ];
@@ -195,7 +198,7 @@ export class ReportsComponent {
     this.spinnerService.show();
     const formModel = this.feedbackCsvMail.value;
 
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_feedbackreportmailattachment", formModel)
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_feedbackreportmailattachment', formModel)
       .subscribe(
       data => {
         this.feedbackCsvMail.reset();
@@ -211,10 +214,10 @@ export class ReportsComponent {
     this.spinnerService.show();
     const formModel = this.changeMakerCsvMail.value;
 
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_changemakerreportmailattachment", formModel)
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_changemakerreportmailattachment', formModel)
       .subscribe(
       data => {
-        this.changeMakerCsvMail.reset()
+        this.changeMakerCsvMail.reset();
         this.alertService.info('Attachement sent succesfully');
         this.spinnerService.hide();
       },
@@ -227,7 +230,7 @@ export class ReportsComponent {
     this.spinnerService.show();
     const formModel = this.reportCsvMail.value;
 
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_reportproblemreportmailattachment", formModel)
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_reportproblemreportmailattachment', formModel)
       .subscribe(
       data => {
         this.reportCsvMail.reset();

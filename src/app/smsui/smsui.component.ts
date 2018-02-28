@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { mediaDetail } from '../model/feedback.model';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
-import { FileUploadModule } from "ng2-file-upload";
+import { FileUploadModule } from 'ng2-file-upload';
 import { MatButtonModule } from '@angular/material';
 import { HttpService } from '../service/httpClient.service';
 
@@ -19,30 +19,30 @@ import { AppConstants } from '../app.constants';
   styleUrls: ['./smsui.component.scss']
 })
 export class SmsuiComponent implements OnInit {
-  template: string =`<img src="../assets/icons/loader.gif" />`
-  smsContactForm:any;
+  template = `<img src="../assets/icons/loader.gif" />`;
+  smsContactForm: any;
   PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
-  constructor(private spinnerService: Ng4LoadingSpinnerService,private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient,
+     private formBuilder: FormBuilder, private alertService: AlertService) {
     this.smsContactForm = this.formBuilder.group({
       'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'message': ['', [Validators.required, Validators.minLength(10)]],
       'check': [''],
       'file': [''],
-      'client_id':[]   
-    })
+      'client_id': []
+    });
    }
-  
   ngOnInit() {
     setTimeout(function() {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
 
-  smsContactFormSubmit(){
+  smsContactFormSubmit() {
     this.spinnerService.show();
     console.log(this.smsContactForm.value);
     this.smsContactForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.post(AppConstants.API_URL+"flujo_client_sendsms",this.smsContactForm.value)
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_sendsms', this.smsContactForm.value)
       .subscribe(
       data => {
           this.spinnerService.hide();
@@ -57,6 +57,6 @@ export class SmsuiComponent implements OnInit {
       error => {
         this.spinnerService.hide();
         console.log(error);
-      })
+      });
   }
 }

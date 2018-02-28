@@ -1,33 +1,34 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ILogo } from '../model/logo.model';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Tree } from '@angular/router/src/utils/tree';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
-import { IHttpResponse } from "../model/httpresponse.model";
+import { IHttpResponse } from '../model/httpresponse.model';
 @Component({
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.scss']
 })
-export class LogoComponent {
+export class LogoComponent implements OnInit {
   logoImage: any;
   form: FormGroup;
-  loadingSave: boolean = false;
+  loadingSave = false;
   loadingDelete: boolean;
-  button_text: string = "save";
+  button_text = 'save';
   decodedString: string;
   logoItems: ILogo;
-  isEdit: boolean = true;
-  isHideDeletebtn: boolean = false;
+  isEdit = true;
+  isHideDeletebtn = false;
   resultExist: boolean;
   isHide: boolean;
   logoImageDetails?: any;
   logoDetail: Array<object>;
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
+    private httpClient: HttpClient, private alertService: AlertService) {
     this.createForm();
     this.getLogoDetails();
   }
@@ -35,7 +36,6 @@ export class LogoComponent {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
-
   }
   createForm = () => {
     this.form = this.formBuilder.group({
@@ -45,16 +45,16 @@ export class LogoComponent {
       logo_width: ['', Validators.required],
       // slogan_text: ['', Validators.required],
       client_id: null,
-      theme_id: "23"
+      theme_id: '23'
     });
   }
 
   onFileChange = (event) => {
     this.logoItems = <ILogo>{};
     this.logoDetail = [];
-    let reader = new FileReader();
+    const reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
-      let file = event.target.files[0];
+      const file = event.target.files[0];
       if(file.size <= 600000){
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -62,16 +62,15 @@ export class LogoComponent {
         this.logoDetail.push(reader.result.split(',')[1]);
         // this.form.get('avatar').setValue(reader.result.split(',')[1]);
         console.log(reader.result.split(',')[1]);
-        let uploadImage
-        if(this.logoImageDetails){
-          uploadImage = { logo_id: this.logoImageDetails.id, client_id: this.logoImageDetails.client_id, image: reader.result.split(',')[1] }
-        }else{
-           uploadImage = { logo_id: null, client_id: AppConstants.CLIENT_ID, image: reader.result.split(',')[1] }
+        let uploadImage;
+        if (this.logoImageDetails) {
+          uploadImage = { logo_id: this.logoImageDetails.id, client_id: this.logoImageDetails.client_id,
+            image: reader.result.split(',')[1] };
+        } else {
+           uploadImage = { logo_id: null, client_id: AppConstants.CLIENT_ID, image: reader.result.split(',')[1] };
         }
-       
-
         this.uploadLogoimageHttpRequest(uploadImage);
-        
+
       };
     }else {
       this.alertService.danger('File is too large');
@@ -86,7 +85,7 @@ export class LogoComponent {
     this.spinnerService.show();
     this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     // const imageModel = this.form.value
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_postlogoupload", reqObject)
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postlogoupload', reqObject)
       .subscribe(
       data => {
         this.logoImage = reqObject.image;
@@ -109,27 +108,26 @@ export class LogoComponent {
     // }
 
     this.spinnerService.show();
-    this.logoDetail;
+    // this.logoDetail;
     this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     // this.form.controls['avatar'].setValue(this.form.controls['avatar'].get('avatar'));
     const formModel = this.form.value;
     this.loadingSave = true;
 
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + "flujo_client_postlogo", formModel)
+    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postlogo', formModel)
       .subscribe(
       data => {
-        if(data.error){
+        if (data.error) {
           this.alertService.warning(data.result);
           this.loadingSave = false;
           this.getLogoDetails();
           this.spinnerService.hide();
-        }else{
+        }else {
           this.alertService.success('Logo details submitted successfully.');
           this.loadingSave = false;
           this.getLogoDetails();
           this.spinnerService.hide();
         }
-        
       },
       error => {
         this.loadingSave = false;
@@ -145,7 +143,7 @@ export class LogoComponent {
     this.spinnerService.show();
     const formModel = this.logoImageDetails.logo_url_path;
     this.loadingDelete = true;
-    this.httpClient.delete(AppConstants.API_URL + "flujo_client_deletelogo/" + AppConstants.CLIENT_ID)
+    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletelogo/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         this.alertService.success('Logo deleted Successfully');
@@ -163,32 +161,32 @@ export class LogoComponent {
   getLogoDetails = () => {
     this.loadingSave = true;
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL+"flujo_client_getlogo/"+AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getlogo/' + AppConstants.CLIENT_ID)
         .subscribe(
-          data =>{
-            this.logoImageDetails = data
-            data? this.isEdit =false : this.isEdit = true;
+          data => {
+            this.logoImageDetails = data;
+            data ? this.isEdit = false : this.isEdit = true;
             console.log(data);
-            if(data != null){
+            if (data != null) {
             this.setDefaultClientLogoDetails(data);
-             this.isHide=true;
+             this.isHide = true;
              this.spinnerService.hide();
-            } else{
-              this.button_text = "save";
+            } else {
+              this.button_text = 'save';
               this.isHideDeletebtn = false;
-              data? this.isEdit =false : this.isEdit = true;
-              this.alertService.success('No Data found');    
-              this.isHide=false;
-              this.spinnerService.hide();   
+              data ? this.isEdit = false : this.isEdit = true;
+              this.alertService.success('No Data found');
+              this.isHide = false;
+              this.spinnerService.hide();
             }
              this.loadingSave = false;
             // this.isEdit = false;
           },
-          error =>{
+          error => {
             console.log(error);
             this.loadingSave = false;
           }
-        )
+        );
   }
   EditInfo = () => {
     this.isEdit = true;
@@ -196,14 +194,13 @@ export class LogoComponent {
   editLogo = () => {
     this.isEdit = true;
   }
-  //this method is used to update logo detals to the form, if detalis exist
   setDefaultClientLogoDetails = (logoData) => {
 
     this.resultExist = logoData;
 
     if (logoData) {
       this.isHideDeletebtn = true;
-      this.button_text = "Update";
+      this.button_text = 'Update';
       this.decodedString = logoData.logo_url_path;
       this.logoItems = logoData;
       this.logoImage = logoData.logo_url_path;
@@ -218,7 +215,6 @@ export class LogoComponent {
   }
   // Form Cancel
   cancelFileEdit() {
-    
     this.setDefaultClientLogoDetails(this.logoImageDetails);
     this.isEdit = false;
     }
