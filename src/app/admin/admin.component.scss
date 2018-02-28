@@ -1,5 +1,4 @@
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
-
 /* **=======** Navbar CSS **=======** */
 
 .navbarTop {
@@ -9,7 +8,25 @@
   margin: 0;
   border-radius: 0;
   padding: 0;
-  padding-right: 15px;
+  padding-right: 30px;
+  z-index: 999;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  .admin-website {
+    margin-left: 25px;
+    .title {
+      font-size: 14px;
+      text-align: left;
+      color: #c1c1c1;
+      margin: 0;
+      letter-spacing: 0.5px;
+      .page-title {
+        color: #666666;
+        font-weight: 500;
+      }
+    }
+  }
   .top-nav {
     li.navbarItem {
       a.nav-link {
@@ -20,6 +37,9 @@
         i {
           font-size: 24px;
           color: #c1c1c1;
+        }
+        img {
+          max-height: 20px;
         }
       }
       a.nav-link:hover {
@@ -33,7 +53,7 @@
         font-weight: 500;
         text-align: left;
         color: #808080;
-        min-width: 220px;
+        // min-width: 220px;
       }
       .default-profile-icon {
         width: 40px;
@@ -59,6 +79,9 @@
       .dropdown-menu {
         width: 100%;
         border-radius: 0;
+        min-width: 220px;
+        left: auto;
+        right: 0;
         .activity {
           width: 100%;
           position: relative;
@@ -107,6 +130,7 @@
 
 .contentBody {
   height: calc(100vh - 70px);
+  position: relative;
 }
 
 // **=======** Side-Bar Styles **=======**
@@ -202,7 +226,7 @@
       font-size: 14px;
       color: #7e678f;
       cursor: pointer;
-      padding: 8px 8px 8px 8%;
+      padding: 8px 8px 8px 22%;
     }
     .dropdown-item.active {
       color: #c5b6d1;
@@ -262,7 +286,7 @@
 }
 
 // **=======** Sidebar Toggle Styles **=======**
-.sidebar-toggle {
+/* .sidebar-toggle {
   width: 80px;
   overflow: visible !important;
   .nav-item.open>.dropdown-menu {
@@ -337,12 +361,70 @@
     }
   }
 }
+*/
 
 // **=======** Page Wrapper Styles **=======**
 #page-content-wrapper {
-  margin: 15px; //   padding: 30px;
-  background-color: #ffffff;
-  box-shadow: 0 1.5px 7px 0 rgba(0, 0, 0, 0.1);
-  position: relative;
-  padding: 30px;
+  // margin: 15px; //   padding: 30px;
+  // // background-color: #ffffff;
+  // box-shadow: 0 1.5px 7px 0 rgba(0, 0, 0, 0.1);
+  // position: relative;
+  padding: 15px 40px 20px 15px;
+  // padding-right: 9vw;
+}
+
+// ========== Side Bar Hover Effect ===========
+.sidebar-toggle {
+  width: 80px;
+  overflow: visible !important;
+  .nav-item.open>.dropdown-menu {
+    display: none;
+  }
+  .team-items {
+    display: none;
+  }
+  .nav-link {
+    img {
+      position: initial;
+    }
+    span {
+      display: none;
+    }
+  }
+  .dropdown-toggle:after {
+    display: none;
+  }
+  .nav-title,
+  .divider-line,
+  .divider {
+    display: none;
+  }
+}
+
+.sidebar-toggle:hover {
+  width: 240px;
+  .nav-title,
+  .divider-line,
+  .divider,
+  .team-items,
+  .nav-item.open>.dropdown-menu {
+    display: block;
+  }
+  .dropdown-toggle:after {
+    display: inline-block;
+  }
+  .nav-link {
+    img {
+      position: absolute;
+    }
+    span {
+      display: block;
+      position: initial;
+      min-width: auto;
+      padding: initial;
+      background: transparent;
+      left: initial;
+      text-align: initial;
+    }
+  }
 }
