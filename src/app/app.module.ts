@@ -55,6 +55,9 @@ import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
 
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+import { ReportanissueComponent } from './reportanissue/reportanissue.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { ChangemakerComponent } from './changemaker/changemaker.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -86,7 +89,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     //directives
     EditGalleryItems,
     GalleryDirective,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    ReportanissueComponent,
+    FeedbackComponent,
+    ChangemakerComponent
   ],
   imports: [
     BrowserModule,
