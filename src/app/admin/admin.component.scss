@@ -10,6 +10,9 @@
   padding: 0;
   padding-right: 15px;
   z-index: 999;
+  position: fixed;
+  width: 100%;
+  top: 0;
   .admin-website {
     margin-left: 25px;
     .title {
@@ -47,7 +50,7 @@
         font-weight: 500;
         text-align: left;
         color: #808080;
-        min-width: 220px;
+        // min-width: 220px;
       }
       .default-profile-icon {
         width: 40px;
@@ -73,6 +76,9 @@
       .dropdown-menu {
         width: 100%;
         border-radius: 0;
+        min-width: 220px;
+        left: auto;
+        right: 0;
         .activity {
           width: 100%;
           position: relative;
@@ -277,7 +283,7 @@
 }
 
 // **=======** Sidebar Toggle Styles **=======**
-.sidebar-toggle {
+/* .sidebar-toggle {
   width: 80px;
   overflow: visible !important;
   .nav-item.open>.dropdown-menu {
@@ -352,6 +358,7 @@
     }
   }
 }
+*/
 
 // **=======** Page Wrapper Styles **=======**
 #page-content-wrapper {
@@ -364,7 +371,7 @@
 }
 
 // ========== Side Bar Hover Effect ===========
-/* .sidebar-toggle {
+.sidebar-toggle {
   width: 80px;
   overflow: visible !important;
   .nav-item.open>.dropdown-menu {
@@ -418,5 +425,3 @@
     }
   }
 }
-
-*/

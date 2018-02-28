@@ -18,7 +18,9 @@ button:focus {
 body {
   background-color: #fafafa;
   font-family: 'Roboto', sans-serif;
+  padding-top: 70px;
   height: 100vh;
+  overflow-y: hidden;
 }
 
 a {
@@ -216,6 +218,7 @@ input[type="file"] {
   select {
     background-color: #ffffff;
     font-size: 14px;
+    border: 1.5px solid #d8d8d8;
   }
   textarea {
     background-color: #ffffff;
