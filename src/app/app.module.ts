@@ -4,13 +4,13 @@ import { AlertModule } from 'ngx-alerts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { AppComponent, LogoutPopUpDialog } from './app.component';
+import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesComponent } from './pages/pages.component';
-import { HttpService } from './service/httpClient.service'
+import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LogoComponent } from './logo/logo.component';
@@ -24,20 +24,22 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-import { MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
-import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'; // this includes the core NgIdleModule but includes keepalive providers for easy wireup
+import { MatButtonModule, MatFormFieldModule, MatInputModule,
+  MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+// this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
 import { EditGalleryItems } from './directives/edit-gallery-popup/editgallery.popup';
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ImageUploadModule } from "angular2-image-upload";
+import { ImageUploadModule } from 'angular2-image-upload';
 // Perfect Scroll Bar
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { MediaComponent, DialogOverviewExampleDialog } from  './media/media.component';
+import { MediaComponent, DialogOverviewExampleDialog } from './media/media.component';
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
@@ -55,7 +57,6 @@ import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
-
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -81,12 +82,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ThemeConfigComponent,
     EditorComponent,
     ViewGalleryComponent,
-    
-
-    //directives
+    // directives
     EditGalleryItems,
     GalleryDirective,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    LogoutPopUpDialog
   ],
   imports: [
     BrowserModule,
@@ -118,9 +118,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTooltipModule,
     MatCardModule,
     MomentModule,
-    NgIdleKeepaliveModule.forRoot()
+    NgIdleKeepaliveModule.forRoot(),
   ],
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog],
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog],
   providers: [AuthService,
               HttpService,
               ValidationService,
