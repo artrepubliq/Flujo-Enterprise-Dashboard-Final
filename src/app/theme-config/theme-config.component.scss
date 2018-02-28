@@ -46,6 +46,11 @@ select.from-cntrol{
 .btn-new{
     border-radius: 35px;
     padding:5px 18px;
+    border: solid 1.5px #4a2565;
+    font-family: Roboto;
+	font-size: 14px;
+	font-weight: 500;
+	color: #4a2565;
 }
 #ChildMenuOverColor,#PrimaryMenuTitleColor, #ChildMenuTitleColor,#PrimaryMenuOverColor,#titleColor{
     width: 40px;
@@ -82,6 +87,8 @@ select.select-option {
     position: absolute;
     left: 10px;
     top: 4px;
+    font-size: 14px;
+	color: #666666;
 }
 .rounded-rectangle-2736 {
     width: 200px;

@@ -1,7 +1,9 @@
+
 <div class="container smsContact page_padding">
   <ng4-loading-spinner></ng4-loading-spinner>
   <ngx-alerts maxMessages="3" timeout="5000">
   </ngx-alerts>
+
 
   <div fxLayout="row" class="p-rel">
     <div class="page-header">
@@ -15,6 +17,7 @@
       <div fxFlex fxLayout="column" fxLayoutGap="13px" class="input_box">
         <label for="phone">Mobile Number</label>
         <div>
+
           <input type="text" formControlName="phone" oninput="this.value = this.value.replace(/[^0-9.,]/g, '').replace(/(\..*)\./g, '$1');"
             id="phone" placeholder="Add Number(s)">
           <div [hidden]="smsContactForm.controls.phone.valid || (smsContactForm.controls.phone.pristine && !submitted)" class="form-error-msg">
