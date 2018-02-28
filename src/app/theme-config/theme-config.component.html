@@ -82,20 +82,22 @@
               <div fxFlex="50%">
                   <label class="" for="rolename">Title Font Family</label>
                   <div class="rounded-rectangle-2736">
-                    <select required [(ngModel)]="selectedTitleFont" id="titlefont" 
+                    <select placeholder="Select Font-Family" required [(ngModel)]="selectedTitleFont" id="titlefont" 
                     class="form-control btn-new select-option" data-style="btn-new"
                     (ngModelChange)='onOptionSelected($event)' >
-                      <option selected="selected" value="">Select Font-Family</option>
-                      <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
+                      <!-- <option selected="selected" value="">Select Font-Family</option> -->
+                      <option [ngValue]="undefined" disabled>Select Font-Family</option>
+                      <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}"  [selected]="item.name== 'Roboto'">{{item.name}}</option>
                     </select>
                   </div>
               </div>
               <div fxFlex="50%">
                   <label class="" for="rolename">Body Font Family</label>
                   <div class="rounded-rectangle-2736">
-                    <select required [(ngModel)]="selectedBodyFont" id="bodyfont" class="form-control btn-new select-option" data-style="btn-new" 
+                    <select placeholder="Select Font-Family" required [(ngModel)]="selectedBodyFont" id="bodyfont" class="form-control btn-new select-option" data-style="btn-new" 
                     (ngModelChange)='onOptionSelected($event)' >
-                        <option selected="selected" value="">Select Font-Family</option>
+                        <!-- <option selected="selected" value="">Select Font-Family</option> -->
+                        <option [ngValue]="undefined" disabled>Select Font-Family</option>                        
                         <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
                     </select>
                   </div>
