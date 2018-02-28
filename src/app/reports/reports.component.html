@@ -16,23 +16,23 @@
 <!-- Feedback Report -->
 <div *ngIf="isFeedbackReport" fxLayout="column" fxLayoutGap="15px">
 <div fxLayout="row"  fxLayout.sm="column"  fxLayout.xs="column" fxLayoutAlign="start center">
-    <div fxFlex="20">
+    <div fxFlex="30">
       <h6 class="issues">Feedback</h6>
     </div>
-    <div  fxFlex="30" class="text-center button-group btn-group-toggle" data-toggle="buttons">
-     <label class="pull-right btn btn-outline-secondary  btn-actissue" >
+    <div  fxFlex="40" fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
+     <label class=" btn btn-outline-secondary  btn-actissue" >
         <input type="radio"  name="options" id="option1" autocomplete="off" checked> Active Issues
      </label>
-     <label class="pull-right btn btn-outline-secondary btn-pastissue">
+     <label class="btn btn-outline-secondary btn-pastissue">
        <input type="radio"  name="options" id="option2" autocomplete="off"> Past Issues
      </label>
     </div>
-    <div fxFlex="50" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
-      <div  class=" text-center button-group btn-group-toggle" data-toggle="buttons">
-       <label class="pull-right btn btn-outline-secondary  btn-actissue" >
+    <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+      <div  class="text-center button-group btn-group-toggle" data-toggle="buttons">
+       <label class="pull-right btn btn-outline-secondary  btn-view-grid" >
           <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
        </label>
-       <label class="pull-right btn btn-outline-secondary  btn-pastissue">
+       <label class="pull-right btn btn-outline-secondary  btn-view-list">
          <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
        </label>
       </div>
@@ -278,23 +278,23 @@
 
 <div *ngIf="isChangeReport" fxLayout="column" fxLayoutGap="15px">
     <div fxLayout="row"  fxLayout.sm="column"  fxLayout.xs="column" fxLayoutAlign="start center">
-      <div fxFlex="20">
+      <div fxFlex="30">
         <h6 class="issues">Change Maker</h6>
       </div>
-      <div  fxFlex="30" class="text-center button-group btn-group-toggle" data-toggle="buttons">
-       <label class="pull-right btn btn-outline-secondary  btn-actissue" >
+      <div  fxFlex="40" fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
+       <label class="btn btn-outline-secondary  btn-actissue" >
           <input type="radio"  name="options" id="option1" autocomplete="off" checked> Active Issues
        </label>
-       <label class="pull-right btn btn-outline-secondary btn-pastissue">
+       <label class="btn btn-outline-secondary btn-pastissue">
          <input type="radio"  name="options" id="option2" autocomplete="off"> Past Issues
        </label>
       </div>
-      <div fxFlex="50" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+      <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
         <div  class=" text-center button-group btn-group-toggle" data-toggle="buttons">
-         <label class="pull-right btn btn-outline-secondary  btn-actissue" >
+         <label class="pull-right btn btn-outline-secondary   btn-view-grid" >
             <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
          </label>
-         <label class="pull-right btn btn-outline-secondary  btn-pastissue">
+         <label class="pull-right btn btn-outline-secondary   btn-view-list">
            <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
          </label>
         </div>
@@ -425,23 +425,23 @@
 
 <div *ngIf="isReportData" fxLayout="column" fxLayoutGap="15px">
     <div fxLayout="row"  fxLayout.sm="column"  fxLayout.xs="column" fxLayoutAlign="start center">
-      <div fxFlex="20">
+      <div fxFlex="30">
         <h6 class="issues">Issues</h6>
       </div>
-      <div  fxFlex="30" class="text-center button-group btn-group-toggle" data-toggle="buttons">
-       <label class="pull-right btn btn-outline-secondary  btn-actissue" >
+      <div  fxFlex="40"fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
+       <label class="btn btn-outline-secondary  btn-actissue" >
           <input type="radio"  name="options" id="option1" autocomplete="off" checked> Active Issues
        </label>
-       <label class="pull-right btn btn-outline-secondary btn-pastissue">
+       <label class="btn btn-outline-secondary btn-pastissue">
          <input type="radio"  name="options" id="option2" autocomplete="off"> Past Issues
        </label>
       </div>
-      <div fxFlex="50" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+      <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
         <div  class=" text-center button-group btn-group-toggle" data-toggle="buttons">
-         <label class="pull-right btn btn-outline-secondary  btn-actissue" >
+         <label class="pull-right btn btn-outline-secondary  btn-view-grid" >
             <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
          </label>
-         <label class="pull-right btn btn-outline-secondary  btn-pastissue">
+         <label class="pull-right btn btn-outline-secondary  btn-view-list">
            <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
          </label>
         </div>
