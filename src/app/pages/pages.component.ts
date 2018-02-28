@@ -29,6 +29,7 @@ export class PagesComponent {
     public pageDetails: object;
     public web_description: string = '';
     public app_description: string = '';
+
     bgColor='#3c3c3c';
 
     dummy: string;

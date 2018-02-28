@@ -35,6 +35,7 @@
         </div>
         <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="parent_id">Page Parent</label>
+
           <div class="select_box">
             <select fxFlex formControlName="parent_id" class="selectpicker" id="parent_id">
               <option *ngFor="let parent of parentPageDetails" [value]="parent.id">
@@ -67,6 +68,7 @@
               <label> No file selected</label>
             </div>
           </div>
+
         </div>
         <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_background_image" class="input_title">Component Background Image</label>
@@ -108,11 +110,7 @@
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
       </div>
-
-
-
-
-    </form>
+</form>
   </div>
   <!-- // ===== Add Pages End ======= -->
 
@@ -169,6 +167,7 @@
   <!-- =========grid view parent====== -->
 
   <div *ngIf="isGridView">
+
     <div class="main-category">
       <h6>Main Category</h6>
     </div>
@@ -243,6 +242,7 @@
           <br>
         </div>
       </div>
+
     </div>
     <!-- // =========grid view childs End====== -->
   </div>
