@@ -143,7 +143,9 @@
     border-bottom: 1px solid #52306b;
   }
   .nav-item {
-    min-height: 60px;
+    min-height: 30px;
+    line-height: 15px !important;
+    margin-bottom: 0 !important;
   }
   .nav-item-divider {
     height: 30px;
@@ -162,7 +164,7 @@
     font-size: 14px;
     text-align: left;
     color: #7e678f;
-    padding: 30px 15px;
+    padding: 15px 15px;
     position: relative;
     padding-left: 34%;
     cursor: pointer;

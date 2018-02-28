@@ -121,7 +121,7 @@
           <h6 class="theme-header">Colours</h6>
       </div>
       <div fxLayout="column" fxLayoutGap="2rem" fxLayoutWrap fxLayoutAlign="center">
-        <div fxLayout="row" fxLayoutGap="2rem">
+        <div fxLayout="row" fxLayoutGap="3rem">
             <div class="colorPickerBox">
                 <label fxLayoutAlign="start" for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
                 <input  [cpPosition]="'right'" 
@@ -140,8 +140,7 @@
                           [(colorPicker)]="ChildMenuTitleColor"
                           [cpOKButton]="true"
                           [cpSaveClickOutside]="false"
-                          [style.background]="ChildMenuTitleColor" [style.color]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor" 
-                          
+                          [style.background]="ChildMenuTitleColor" [style.color]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor"                          
                           />
                   <p class="hash-code">{{ChildMenuTitleColor}}</p>                    
                 </div>
