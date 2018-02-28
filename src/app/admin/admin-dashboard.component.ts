@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   template:  `
-    <p>Dashboard</p>
+    
+    <app-profile></app-profile>
   `
 })
 export class AdminDashboardComponent { }

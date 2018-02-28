@@ -9,8 +9,7 @@ import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-u
 import { FileUploadModule } from "ng2-file-upload";
 import { MatButtonModule } from '@angular/material';
 import { HttpService } from '../service/httpClient.service';
-import { IGalleryObject } from '../model/gallery.model';
-import { IGalleryImages } from '../model/gallery.model';
+
 import { ValidationService } from '../service/validation.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';
@@ -22,9 +21,10 @@ import { AppConstants } from '../app.constants';
 export class SmsuiComponent implements OnInit {
   template: string =`<img src="../assets/icons/loader.gif" />`
   smsContactForm:any;
+  PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
   constructor(private spinnerService: Ng4LoadingSpinnerService,private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
     this.smsContactForm = this.formBuilder.group({
-      'phone': ['', [Validators.required, ValidationService.phoneValidator]],
+      'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'message': ['', [Validators.required, Validators.minLength(10)]],
       'check': [''],
       'file': [''],
@@ -47,7 +47,6 @@ export class SmsuiComponent implements OnInit {
       data => {
           this.spinnerService.hide();
         if (data) {
-
           this.alertService.success('Message has been sent successfully');
           this.smsContactForm.reset();
         }else{
@@ -59,9 +58,5 @@ export class SmsuiComponent implements OnInit {
         this.spinnerService.hide();
         console.log(error);
       })
-  }
-  socialLinksFormSubmit(body: any) {
-
-    
   }
 }

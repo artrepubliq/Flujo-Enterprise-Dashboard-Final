@@ -1,33 +1,161 @@
-<div class="container">
-        <ng4-loading-spinner></ng4-loading-spinner>
-    <form [formGroup]="mediaManagementForm" enctype="multipart/form-data">
-        <div class="col-md-12 form-group">
-            <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->
-            <image-upload id="image" (change)="selectMedia($event)" #fileInput></image-upload>
-            <button class="btn btn-info upload" [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit(mediaManagementForm.value)">Upload</button>
+<!-- <div class="container">
+  <ngx-alerts maxMessages="3" timeout="3000"></ngx-alerts>
+  <ng4-loading-spinner></ng4-loading-spinner>
+  <form [formGroup]="mediaManagementForm" enctype="multipart/form-data">
+    <div class="col-md-12 form-group">
+      
+      <image-upload id="image" (change)="selectMedia($event)" #fileInput></image-upload>
+      <button class="btn btn-info upload" [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit(mediaManagementForm.value)">Upload</button>
+    </div>
+  </form>
+  <div class="mb-3">
+    <button mat-raised-button class="mr-3" (click)="changeShowStatus()">Select Images to Create Gallery</button>
+    <button mat-raised-button (click)="showAlbumGallery()">Gallery</button>
+  </div>
+
+  
+  <form *ngIf="!isshowAlbumGallery" [formGroup]="submitAlbumData" enctype="multipart/form-data">
+    <div>
+      <label for="title">Title :</label>
+      <input placeholder="Enter Album title here" type="text" formControlName="title">
+    </div>
+    <div class="row text-center text-lg-left">
+      <div class="col-lg-3 col-md-4 col-xs-6 img-box" *ngFor="let items of mediaData,let i = index" (click)="hightlightStatus[i]=!hightlightStatus[i]; getImageId(items)"
+        [class.highlight]="hightlightStatus[i]">
+        <div class="img-item">
+          <div class="bg-layer"></div>
+          <img class="img-fluid img-thumbnail" src='data:image/png;base64,{{items.image}}' alt="">
+          <div class="delete-img" (click)="deleteMediaImage(items.id)">
+           
+            <i class="fa fa-times"></i>
+          </div>
         </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit" (click)="CreateNewAlbum(submitAlbumData.value)" [disabled]="!submitAlbumData.valid">Create Gallery</button>
+   
+  </form>
+ 
+  <div *ngIf="isshowAlbumGallery" class="row grid-gallery">
+      <div class="row grid-gallery">
+          <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let albumItem of albumGallery">
+               <div class="grid-item" (click)="onAlbumGalleryChange(albumItem)" >  
+                  <p>{{albumItem.title}} </p>
+                  <div class="img-block">
+                      
+                  </div>
+              </div>
+          </div>
+      </div> 
+  </div>
+
+
+   <div class="row grid-gallery">
+      <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let albumItem of albumBase64imagesArray">
+  
+          <div class="grid-item">
+              
+              <p>{{albumItem.title}} </p>
+              <div class="img-block">
+                  <img src='data:image/png;base64,{{albumItem.image}}' class="img-fluid" alt="Gallary Img">
+                  <div class="bg-layer"></div>
+                  <div class="item-controls">
+                      <i class="fa fa-times" (click)="deleteGalleryItem()"></i>
+                      <i class="fa fa-pencil" (click)="openDialog(albumItem)"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div> -->
+
+<ngx-alerts maxMessages="3" timeout="3000"></ngx-alerts>
+<ng4-loading-spinner></ng4-loading-spinner>
+
+<div fxLayout="column" fxLayoutGap="50px">
+
+  <!-- File Uploader -->
+  <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
+    <form class="file_uploader" enctype="multipart/form-data">
+      <div class="">
+        <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->
+        <image-upload (removed)="onRemoved($event)" (uploadStateChanged)="onUploadStateChanged($event)" class="image-upload" id="image" [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'"
+          (change)="selectMedia($event)" [style]="customStyle" #fileInput>
+        </image-upload>
+        <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit()">Upload</button>
+      </div>
     </form>
-    <form [formGroup]="submitAlbumData" enctype="multipart/form-data">
-        <button class="btn btn-info create" type="submit" (click)="changeShowStatus()">Create Gallery</button>
-        <div *ngIf="showHide">
-            <label for="title">Title :</label>
-            <input type="text" formControlName="title">
-        </div>
-        <h1 class="my-4 text-center text-lg-left">Thumbnail Gallery</h1>
-        <div class="row text-center text-lg-left">
-            <div class="col-lg-3 col-md-4 col-xs-6 img-box" *ngFor="let items of mediaData,let i = index" (click)="hightlightStatus[i]=!hightlightStatus[i]; getImageId(items)"
-                [class.highlight]="hightlightStatus[i]">
-                <div class="img-item">
-                    <div class="bg-layer"></div>
-                    <img class="img-fluid img-thumbnail" src='data:image/png;base64,{{items.image}}' alt="">
-                    <div class="delete-img" (click)="deleteMediaImage(items.id)">
-                        <!-- <img src="../assets/icons/error.svg" class="img-fluid close-icon" (click)="deleteMediaImage(items.id)"> -->
-                        <i class="fa fa-times"></i>
-                    </div>
-                </div>
+
+    <div class="uploader_content" fxLayout="column" fxLayoutAlign=" center">
+      <h3>Feed me dude I’m hungry, will you?</h3>
+      <p>Shit man, What the f***!</p>
+    </div>
+  </div>
+  <!-- //.. File Uploader -->
+
+  <!-- ========= Gallery Block ==========  -->
+
+  <div fxLayout="column" fxLayoutGap="30px">
+    <!-- Header Title -->
+    <div fxLayout="row" class="header-media">
+      <div class="title" fxFlex>
+        <h3>All Images</h3>
+      </div>
+      <div class="sort_controls" fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="30px">
+        <i class="fa fa-th-large"></i>
+        <i class="fa fa-th"></i>
+      </div>
+    </div>
+    <!-- //.. Header Title -->
+
+    <!-- Images Tabs Silder -->
+    <mat-tab-group class="media-tabs" [selectedIndex]="selectedTab" (selectedTabChange)="tabChanged($event)">
+      <mat-tab label="All">
+        <div *ngIf="!isshowAlbumGallery" enctype="multipart/form-data">
+          <div fxLayout="row">
+            <button mat-raised-button class="mr-3">Select Images to Create Gallery</button>
+            <div>
+              <label for="title">Title :</label>
+              <input placeholder="Enter Album title here" type="text" [(ngModel)]="albumTitle">
+              
+              <button class="btn btn-primary" type="submit" (click)="CreateNewAlbumForm()">Create Gallery</button>
             </div>
+            <span *ngIf="!isAlbumObjectsPresentAlert" class="error-msg">please enter album title and select two or more images</span>
+          </div>
+          <br>
+          <div class="row m-0 text-center text-lg-left">
+            <div class="col-lg-4 col-md-4 col-xs-6 img-box" *ngFor="let items of mediaData,let i = index" (click)="hightlightStatus[i]=!hightlightStatus[i]; getImageId(items)"
+              [class.highlight]="hightlightStatus[i]">
+              <div class="img-item">
+                <div class="bg-layer"></div>
+                <img class="img-fluid" src='data:image/png;base64,{{items.image}}' alt="">
+                <div class="delete-img" (click)="deleteMediaImage(items.id)">
+
+                  <i class="fa fa-times"></i>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <button class="btn btn-primary" type="submit" (click)="submitAlbumDataPost(submitAlbumData.value)">Ok</button>
-        <!-- <button class="btn btn-primary" (click)="submitAlbumDataPost(submitAlbumData.value)">Cancel</button> -->
-    </form>
+      </mat-tab>
+
+      <mat-tab *ngFor="let albumItem of albumGallery" label={{albumItem.title}}>
+
+        <div class="row grid-gallery">
+          <div class="col-lg-4 col-md-4 col-xs-6 img-box" *ngFor="let albumItem of albumGalleryItem">
+            <div class="grid-item img-item">
+              <div class="img-block">
+                <img src='data:image/png;base64,{{albumItem.image}}' class="img-fluid" alt="Gallary Img">
+                <div class="bg-layer"></div>
+                <div class="item-controls">
+                  <i class="fa fa-times" (click)="deleteGalleryItem(albumItem)"></i>
+                  <i class="fa fa-pencil" (click)="openDialog(albumItem)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>

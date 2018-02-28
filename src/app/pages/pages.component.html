@@ -1,106 +1,124 @@
 <ng4-loading-spinner></ng4-loading-spinner>
-<div fxLayout="column">
+<ngx-alerts maxMessages="3" timeout="5000">
+  <!-- <strong>{{successMessage }}</strong> -->
+</ngx-alerts>
+<div fxLayout="column" class="page_padding">
   <!-- === Buttons ==== -->
   <div class="addview-buttons">
-    <button mat-raised-button color="primary" (click)="addPages()">ADD PAGES</button>
-    <button mat-raised-button color="primary" (click)="viewPages()">VIEW PAGES
+    <div class="page-header">
+      <span *ngIf="isEdit">New page creation </span>
+    </div>
+    <button mat-raised-button color="primary" (click)="viewPagesGrid()">
+      <i class="fa fa-th"></i>
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
+    <button mat-raised-button color="primary" (click)="viewPages()">
+      <i class="fa fa-th-list"></i>
+      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+    </button>
+    <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Page +</button>
   </div>
   <!-- <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i> -->
 
   <!-- ===== Add Pages ======= -->
   <div *ngIf="isEdit" class="add-pages">
-    <ngx-alerts maxMessages="3" timeout="5000">
-      <!-- <strong>{{successMessage }}</strong> -->
-    </ngx-alerts>
-    <form [formGroup]="form" (submit)="onSubmit(form.value)">
-
-      <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_name">Page Title</label>
-        <input fxFlex type="text" class="form-control" id="component_name" placeholder="Page title" formControlName="component_name">
+    <form [formGroup]="form" (submit)="onSubmit(form.value)" fxLayout="column" fxLayoutGap="45px">
+      <!-- Input PageDetails -->
+      <div fxLayout="row" fxLayoutGap="15px">
+        <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="component_name">Page Title</label>
+          <input fxFlex type="text" class="input-feild" id="component_name" placeholder="page title" formControlName="component_name">
+        </div>
+        <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="component_menu_name">Page Menu Title</label>
+          <input fxFlex type="text" class="input-feild" id="component_menuname" placeholder="page menu title" formControlName="component_menuname">
+        </div>
+        <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="parent_id">Page Parent</label>
+          <div class="select_box">
+            <select fxFlex formControlName="parent_id" class="selectpicker" id="parent_id">
+              <option *ngFor="let parent of parentPageDetails" [value]="parent.id">
+                {{parent.id}}-{{parent.component_name}}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_parent">Page Parent</label>
-        <select fxFlex formControlName="component_parent" id="component_parent">
-          <option *ngFor="let parent of pageDetails" [value]="parent.id">
-            {{parent.id}}-{{parent.component_name}}
 
-          </option>
-        </select>
+      <!-- Theme Inputs -->
+      <div fxLayout="row" fxLayoutGap="15px">
+        <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="component_background_color" class="input_title">Background Color</label>
+          <div fxFlex style="position:relative">
+            <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)"
+              [(colorPicker)]="bgColor" formControlName="component_background_color" id="component_background_color" [style.background]="bgColor"
+              [style.color]="bgColor" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+            />
+            <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
+          </div>
+        </div>
+        <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="component_image" class="input_title">Component Image</label>
+          <!-- <input type="file" id="component_image" (change)="onComponentImageChange($event)" #fileInput1> -->
+          <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile(1)">clear file</button> -->
+          <div class="file_inputs">
+            <div class="choose_button">
+              <input type="file" class="file" id="component_image" (change)="onComponentImageChange($event)" #fileInput1 /> Choose file
+              <label> No file selected</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="component_background_image" class="input_title">Component Background Image</label>
+          <!-- <input type="file" id="component_background_image" (change)="onComponentBackgroundImageChange($event)" #fileInput2> -->
+
+          <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile(2)">clear file</button> -->
+          <div class="file_inputs">
+            <div class="choose_button">
+              <input type="file" class="file" id="component_background_image" (change)="onComponentBackgroundImageChange($event)" #fileInput2/> Choose file
+              <label> No file selected</label>
+            </div>
+          </div>
+        </div>
+        <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="component_order">Page order</label>
+          <input type="text" id="component_order" placeholder="Page Order" formControlName="component_order">
+        </div>
       </div>
-      <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_description">Page Description</label>
-        <ck-editor fxFlex name="editor1" formControlName="component_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+
+      <!-- Web Description Block -->
+      <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+        <label for="web_description">Web Description</label>
+        <ck-editor fxFlex name="editor1" formControlName="web_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
         <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
       </div>
 
-      <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_order">Page order</label>
-        <input fxFlex type="text" class="form-control" id="component_order" placeholder="Page Order" formControlName="component_order">
-      </div>
-      <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_menu_name">Page Menu Title</label>
-        <input  fxFlex type="text" class="form-control" id="component_menu_name" placeholder="page menu title" formControlName="component_menu_name">
-      </div>
-      <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_background_color">Select background color of page</label>
-        <input fxFlex [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)" [(colorPicker)]="color"
-          formControlName="component_background_color" id="component_background_color" [style.background]="color" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
-        />
-      </div>
-        <div class="form-group">
-            <label for="component_name">Page Title</label>
-            <input type="text" class="form-control" id="component_name" placeholder="page title" formControlName="component_name">
-        </div>
-        <div class="form-group">
-            <label for="component_menu_name">Page Menu Title</label>
-            <input type="text" class="form-control" id="component_menu_name" placeholder="page menu title" formControlName="component_menu_name">
-        </div>
-        <div class="form-group">
-            <label for="component_parent">Page Parent</label>
-            <select formControlName="component_parent" id="component_parent">
-        <option *ngFor="let parent of evens"
-          [value]="parent.id" [selected]="option === selectedOption">
-          {{parent.id}}-{{parent.component_name}}
-             
-        </option>
-     </select>
-        </div>
-        <div class="form-group">
-            <label for="component_description">Page Description</label>
-            <ck-editor name="editor1" formControlName="component_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
-            <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
-        </div>
-        <div class="form-group">
-            <label for="component_background_color">Select background color of page</label>
-            <input [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)" [(colorPicker)]="color" formControlName="component_background_color" id="component_background_color" [style.background]="color" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"/>
-        </div>
-        <div class="form-group">
-            <label for="component_order">Page order</label>
-            <input type="text" class="form-control" id="component_order" placeholder="Page Order" formControlName="component_order">
-        </div>
-
-      <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_image">Choose component image</label>
-        <input type="file" id="component_image" (change)="onComponentImageChange($event)" #fileInput>
-        <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
-      </div>
-      <div class="form-group" fxLayout="row">
-        <label fxFlex="20" for="component_background_image">Choose component background image</label>
-        <input type="file" id="component_background_image" (change)="onComponentBackgroundImageChange($event)" #fileInput>
-        <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
+      <!-- App Description Block -->
+      <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+        <label for="app_description">App Description</label>
+        <ck-editor fxFlex name="editor1" formControlName="app_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
       </div>
 
-      <button type="submit" [disabled]="form.invalid || loading" mat-raised-button color="primary">{{button_text}}
-        <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-      </button>
+      <!-- Action Buttons -->
+      <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
+        <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
+
+        <button type="submit" [disabled]="form.invalid || loading" class="button_submit" mat-button>{{button_text}}
+          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+        </button>
+      </div>
+
+
+
 
     </form>
   </div>
+  <!-- // ===== Add Pages End ======= -->
+
 
   <!-- ====== Pages Table ======= -->
-  <div *ngIf="!isEdit">
+  <div *ngIf="isTableView">
     <div>
       <table class="table table-bordered table-hover">
         <thead>
@@ -118,7 +136,6 @@
         </thead>
         <tbody>
           <tr *ngFor="let page_item of pageDetails">
-
             <!-- <th scope="row">{{page_item.id}}</th> -->
             <td>{{page_item.component_name}}</td>
             <!-- <td>{{page_item.component_description}}</td> -->
@@ -146,5 +163,87 @@
       <br/>
     </div>
   </div>
+  <!-- // ====== Pages Table End ======= -->
 
+
+  <!-- =========grid view parent====== -->
+
+  <div *ngIf="isGridView">
+    <div class="main-category">
+      <h6>Main Category</h6>
+    </div>
+    <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of parentPageDetails">
+        <mat-card class="example-card" (click)="getChild(detail)">
+          <div id="pageview">
+            <!-- <img src=""  alt="pagescreen"/> -->
+            <img *ngIf="detail.component_image" class="img-responsive img-fluid page-screenshot" src="data:image/png;base64,{{detail.component_image}}"
+              alt="Photo of a Shiba Inu">
+          </div>
+          <mat-card-content>
+            <div id="pageheader">
+              <div class="edit-title">
+                <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
+                <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <!-- <div class="button-row">
+                    <div clsss="button-stack">
+                      <button mat-mini-fab color="primary"></button>
+                      <button mat-mini-fab color="accent"></button>
+                      <button mat-mini-fab color="warn"></button>
+                      <a color="blue">+2 more</a>
+                      <a class="pull-right"><i class="fa fa-clock-o"></i></a>
+                    </div>
+                  </div> -->
+          </mat-card-actions>
+        </mat-card>
+        <br>
+        <br>
+      </div>
+    </div>
+
+    <!-- // =========grid view parents End====== -->
+    <div class="divider"></div>
+    <!-- // =========grid view childs====== -->
+    <div>
+      <div class="main-category">
+        <h6>Sub Category</h6>
+      </div>
+      <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
+        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
+          <mat-card class="example-card">
+            <div id="pageview">
+              <!-- <img src=""  alt="pagescreen"/> -->
+              <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
+            </div>
+            <mat-card-content>
+              <div id="pageheader">
+                <div class="edit-title">
+                  <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
+                  <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <!-- <div class="button-row">
+                    <div clsss="button-stack">
+                      <button mat-mini-fab color="primary"></button>
+                      <button mat-mini-fab color="accent"></button>
+                      <button mat-mini-fab color="warn"></button>
+                      <a color="blue">+2 more</a>
+                      <a class="pull-right"><i class="fa fa-clock-o"></i></a>
+                    </div>
+                  </div> -->
+            </mat-card-actions>
+          </mat-card>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- // =========grid view childs End====== -->
+  </div>
 </div>
