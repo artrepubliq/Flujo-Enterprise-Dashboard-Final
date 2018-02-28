@@ -17,7 +17,7 @@
             <img fxLayoutAlign="center center" *ngIf="profileItems?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileItems.avatar}}">
           </div>
           <div class="upload-logo">
-            <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
+            <input mat-raised-button type="file" id="avatar" accept=".jpg, .png, .jpeg" (change)="onFileChange($event)" #fileInput>
             <p *ngIf="!profileItems?.avatar" class="hover-upload">Upload Your Image</p>
             <p *ngIf="profileItems?.avatar" class="hover-upload">Update Your Image</p>
             <button *ngIf="profileItems?.avatar" class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
@@ -73,7 +73,7 @@
               <img *ngIf="profileItems.avatar" src="data:image/png;base64,{{profileItems.avatar}}" alt="Logo" class="img-fluid">
             </div>
             <div class="upload-logo">
-              <input mat-raised-button type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
+              <input mat-raised-button type="file" id="avatar" accept=".jpg, .png, .jpeg" (change)="onFileChange($event)" #fileInput>
               <p *ngIf="!profileItems?.avatar" class="hover-upload">Upload Your Image</p>
               <p *ngIf="profileItems?.avatar" class="hover-upload">Update Your Image</p>
               <button *ngIf="profileItems?.avatar" class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>

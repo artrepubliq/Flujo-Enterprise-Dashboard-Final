@@ -55,6 +55,7 @@ export class LogoComponent implements OnInit {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
+      if(file.size <= 600000){
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.logoItems.logo_url_path = reader.result.split(',')[1];
@@ -68,12 +69,16 @@ export class LogoComponent implements OnInit {
         } else {
            uploadImage = { logo_id: null, client_id: AppConstants.CLIENT_ID, image: reader.result.split(',')[1] };
         }
-        console.log(uploadImage);
         this.uploadLogoimageHttpRequest(uploadImage);
 
       };
+    }else {
+      this.alertService.danger('File is too large');
+      this.getLogoDetails();
+    }
     }
   }
+
 
   uploadLogoimageHttpRequest(reqObject) {
 
@@ -115,6 +120,7 @@ export class LogoComponent implements OnInit {
         if (data.error) {
           this.alertService.warning(data.result);
           this.loadingSave = false;
+          this.getLogoDetails();
           this.spinnerService.hide();
         }else {
           this.alertService.success('Logo details submitted successfully.');

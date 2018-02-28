@@ -8,7 +8,12 @@
   margin: 0;
   border-radius: 0;
   padding: 0;
-  padding-right: 15px;
+ 
+  padding-right: 30px;
+  z-index: 999;
+  position: fixed;
+  width: 100%;
+  top: 0;
   .admin-website {
     margin-left: 25px;
     .title {
@@ -34,6 +39,9 @@
           font-size: 24px;
           color: #c1c1c1;
         }
+        img {
+          max-height: 20px;
+        }
       }
       a.nav-link:hover {
         border-left: 1px solid #eeeeee;
@@ -46,7 +54,7 @@
         font-weight: 500;
         text-align: left;
         color: #808080;
-        min-width: 220px;
+        // min-width: 220px;
       }
       .default-profile-icon {
         width: 40px;
@@ -72,6 +80,9 @@
       .dropdown-menu {
         width: 100%;
         border-radius: 0;
+        min-width: 220px;
+        left: auto;
+        right: 0;
         .activity {
           width: 100%;
           position: relative;
@@ -136,7 +147,9 @@
     border-bottom: 1px solid #52306b;
   }
   .nav-item {
-    min-height: 60px;
+    min-height: 30px;
+    line-height: 15px !important;
+    margin-bottom: 0 !important;
   }
   .nav-item-divider {
     height: 30px;
@@ -155,7 +168,7 @@
     font-size: 14px;
     text-align: left;
     color: #7e678f;
-    padding: 30px 15px;
+    padding: 15px 15px;
     position: relative;
     padding-left: 34%;
     cursor: pointer;
@@ -276,7 +289,7 @@
 }
 
 // **=======** Sidebar Toggle Styles **=======**
-/*.sidebar-toggle {
+/* .sidebar-toggle {
   width: 80px;
   overflow: visible !important;
   .nav-item.open>.dropdown-menu {
@@ -350,7 +363,8 @@
       }
     }
   }
-}*/
+}
+*/
 
 // **=======** Page Wrapper Styles **=======**
 #page-content-wrapper {
@@ -358,8 +372,9 @@
   // // background-color: #ffffff;
   // box-shadow: 0 1.5px 7px 0 rgba(0, 0, 0, 0.1);
   // position: relative;
-  padding: 30px 5.5vw;
-  padding-right: 9vw;
+  padding: 15px 40px 20px 15px;
+  // padding-right: 9vw;
+
 }
 
 // ========== Side Bar Hover Effect ===========
@@ -389,7 +404,6 @@
     display: none;
   }
 }
-
 .sidebar-toggle:hover {
   width: 240px;
   .nav-title,

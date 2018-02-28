@@ -164,8 +164,8 @@
       <mat-tab *ngFor="let albumItem of albumGallery" label={{albumItem.title}}>
 
         <div class="row grid-gallery">
-          <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let albumItem of albumGalleryItem">
-            <div class="grid-item">
+          <div class="col-lg-4 col-md-4 col-xs-6 img-box" *ngFor="let albumItem of albumGalleryItem">
+            <div class="grid-item img-item">
               <div class="img-block">
                 <img src='data:image/png;base64,{{albumItem.image}}' class="img-fluid" alt="Gallary Img">
                 <div class="bg-layer"></div>

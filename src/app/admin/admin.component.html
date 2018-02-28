@@ -1,20 +1,231 @@
 <!-- TopNav -->
 <nav class="navbar navbarTop" role="navigation">
 
-    <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
-      <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
-        <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
+
+  <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
+    <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
+      <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
+    </a>
+  </div>
+  <div class="admin-website mr-auto">
+    <p class="title">
+      <span>DVB Website : </span>
+      <span class="page-title">CurrentPageName</span>
+    </p>
+  </div>
+  <ul class="nav top-nav">
+    <li class="navbarItem">
+      <a href="#notifications" class="nav-link">
+
+        <!-- <i class="fa fa-comment-o"></i> -->
+        <img src="assets/icons/chat-icon-normal@2x.png" class="img-fluid" alt="chat">
       </a>
-    </div>
-    <ul class="nav top-nav">
-      <li class="navbarItem">
-        <a href="#notifications" class="nav-link">
+    </li>
+    <li class="navbarItem">
+      <a href="#notifications" class="nav-link">
+
+        <!-- <i class="fa fa-question-circle"></i> -->
+        <img src="assets/icons/help-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+    </li>
+    <li class="navbarItem">
+      <a href="#notifications" class="nav-link">
+        <!-- <i class="fa fa-info-circle"></i> -->
+        <img src="assets/icons/info-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+    </li>
+    <li class="navbarItem dropdown admin-profile">
+      <a class="nav-link" data-toggle="dropdown">
+        <!-- <span class="user-logo">
+          <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
+        </span>
+        {{nickName}} -->
+
+        <!-- <i class="fa fa-ellipsis-v"></i> -->
+        <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a class="activity">{{nickName}}</a>
+        </li>
+        <li>
+          <a routerLink="./profile" routerLinkActive="active" class="activity">
+            <i class="fa fa-user"></i> Edit Profile</a>
+        </li>
+        <li>
+          <a href="#" class="activity">
+            <i class="fa fa-cog"></i> Settings</a>
+        </li>
+        <li>
+          <a class="activity" (click)="authService.logout()" *ngIf="authService.authenticated">
+            <i class="fa fa-power-off"></i>Log Out</a>
+        </li>
+        <!-- <li><a href="#"><i class="fa fa-fw fa-power-off"></i> Logout</a></li> -->
+      </ul>
+    </li>
+  </ul>
+
+</nav>
+<!-- // Top Nav -->
+
+<!-- Body Wrapper -->
+
+<div id="wrapper" fxLayout="row" class="contentBody">
+
+  <!-- Side Navigation -->
+  <aside id="sidebar-wrapper" class="sidebar-menu ps" [ngClass]="{'sidebar-toggle':sidebarToggledButton}" [perfectScrollbar]="config">
+    <ul class="nav flex-column">
+      <!-- Web App -->
+      <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
+        <a class="nav-link dropdown-toggle" (click)="dropdownOpen=!dropdownOpen">
+          <img src="assets/icons/web-icon-normal@2x.png" alt="web icon">
+          <span>Web</span>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" routerLink="./logo" routerLinkActive="active">Logo</a>
+          <ng4-loading-spinner> </ng4-loading-spinner>
+          <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Profile</a>
+          <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a>
+          <a class="dropdown-item" routerLink="./media" routerLinkActive="active">Media Management</a>
+          <a class="dropdown-item" routerLink="./reports" routerLinkActive="active">Reports</a>
+          <a class="dropdown-item" routerLink="./themeconfiguration" routerLinkActive="active">Theme Global Config</a>
+          <!-- <li class="nav-item" [ngClass]="{'open':showDropdownMain1}">
+            <a class="nav-link subNav-link dropdown-toggle" (click)="showDropdownMain1=!showDropdownMain1">
+              <span>Pages</span>
+            </a>
+            <div class="dropdown-menu">
+              <li class="nav-item" [ngClass]="{'open':showMyCons}">
+                <a class="nav-link subNav-link dropdown-toggle" (click)="showMyCons=!showMyCons">
+                  <span>My Constituency</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item">Constituency at a glance</a>
+                  <a class="dropdown-item">About warangal urban</a>
+                  <a class="dropdown-item">Navya Divya Bhavya Warangal</a>
+                  <a class="dropdown-item">Connectivity</a>
+                  <a class="dropdown-item">Recognitions</a>
+                  <a class="dropdown-item">Scope for devhvelopment</a>
+                  <a class="dropdown-item">Info for Investors</a>
+                </div>
+              </li>
+              <li class="nav-item" [ngClass]="{'open':showMyConcerns}">
+                <a class="nav-link subNav-link dropdown-toggle" (click)="showMyConcerns=!showMyConcerns">
+                  <span>My Concerns</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item">Smart city</a>
+                  <a class="dropdown-item">Heritage conservation</a>
+                  <a class="dropdown-item">Cultural capital</a>
+                  <a class="dropdown-item">Tourism</a>
+                  <a class="dropdown-item">Employment</a>
+                  <a class="dropdown-item">Women empowerment &amp; safety</a>
+                  <a class="dropdown-item">Sustainable Development</a>
+                  <a class="dropdown-item">Environment</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="dropdown-item">My Journey</a>
+              </li>
+            </div>
+          </li> -->
+        </div>
+      </li>
+      <!-- <li class="nav-item" [ngClass]="{'open':dropdownOpenApp}">
+        <a class="nav-link dropdown-toggle" (click)="dropdownOpenApp=!dropdownOpenApp">
+          <img src="assets/icons/app-icon-normal@2x.png" alt="app icon">
+          <span>App</span>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item">Android</a>
+          <a class="dropdown-item">iOS</a>
+        </div>
+      </li> -->
+
+      <!-- <li class="nav-item divider-line"></li> -->
+      <!-- Communication Block -->
+      <li class="nav-title">Flow
           <i class="fa fa-cog"></i>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" routerLink="./sociallinks" routerLinkActive="active">
+            <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
+            <span>Social</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="./email" routerLinkActive="active">
+            <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+            <span>Mail</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="./sms" routerLinkActive="active">
+            <img src="assets/icons/social-icon-normal@2x.png" alt="social icon">
+            <span>SMS</span>
+          </a>
+        </li>
+      <li class="nav-title">Nucleus
+        <i class="fa fa-cog"></i>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./reportanissue" routerLinkActive="active">
+          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <span>Report An Issue</span>
         </a>
       </li>
-      <li class="navbarItem">
-        <a href="#notifications" class="nav-link">
-          <i class="fa fa-bell-o"></i>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./feedback" routerLinkActive="active">
+        <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+        <span>Feedback</span>
+      </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./changemakerreport" routerLinkActive="active">
+        <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+        <span>Change Maker Report</span>
+      </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./smtpconfiguration" routerLinkActive="active">
+          <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
+          <span>SMTP</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./user" routerLinkActive="active">
+          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <span>Create User</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./neweditor" routerLinkActive="active">
+          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <span>New editor</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./surveys" routerLinkActive="active">
+          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <span>Surveys</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./analytics" routerLinkActive="active">
+          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <span>Analytics</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./database" routerLinkActive="active">
+          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <span>Database</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./neweditor" routerLinkActive="active">
+          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <span>New editor</span>
         </a>
       </li>
       <li class="navbarItem dropdown admin-profile">

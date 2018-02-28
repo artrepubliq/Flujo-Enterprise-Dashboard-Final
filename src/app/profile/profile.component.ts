@@ -61,6 +61,7 @@ export class ProfileComponent implements OnInit {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
+      if(file.size <= 600000){
       reader.readAsDataURL(file);
       reader.onload = () => {
         // this.profileData.avatar = reader.result.split(',')[1];
@@ -71,6 +72,9 @@ export class ProfileComponent implements OnInit {
            avatar: reader.result.split(',')[1] };
         this.uploadProfileImage(uploadImage);
       };
+    }else {
+      this.alertService.danger('File is too large');
+    }
     }
   }
   uploadProfileImage = (reqObject) => {

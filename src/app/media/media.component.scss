@@ -64,20 +64,18 @@
          bottom: 0;
     }
 }
- .grid-gallery {
-     .grid-item {
-         margin-bottom: 30px;
-         padding: 15px;
-         border-radius: 0;
-         cursor: pointer;
-         p {
-             color: #369;
-             margin: 0;
-             font-size: 14px;
-        }
-    }
-     .grid-item:hover {
-         box-shadow: 1px 2px 8px #000;
+
+
+.grid-gallery {
+  .grid-item {
+    margin-bottom: 30px;
+    padding: 5px;
+    border-radius: 0;
+    cursor: pointer;
+    p {
+      color: #369;
+      margin: 0;
+      font-size: 14px;
     }
 }
  // New styles 

@@ -1,9 +1,101 @@
 
 @import url('https://fonts.googleapis.com/css?family=Lato|Merriweather|Montserrat|PT+Sans|Raleway|Risque|Roboto|Roboto+Slab|Source+Sans+Pro');
-#themegform .form-control{
+.form-control{
     box-shadow: none;
 }
 
 .colorPickerBox {
+    position: relative;
+}
+
+*{
+    font-family: 'Roboto' , sans-serif;
+}
+.theme-global{
+    color:#666666;
+    font-size: 14px;
+}
+.theme-header{
+    font-size: 30px;
+	font-weight: 100;
+	text-align: left;
+    color: #666666;
+    margin-bottom: 15px !important;
+}
+.border-hor-one{
+    height: 1.5px;
+    border-radius: 0.8px;
+    background-color: #d8d8d8;
+}
+
+.rounded-rectangle-2360 {
+    width: 1.5px;
+    height: 350px;
+    margin-top: 80px;
+    border-radius: 0.8px;
+	background-color: #d8d8d8;
+}
+.rounded-rectangle-2358 {
+	height: 1.5px;
+	border-radius: 0.8px;
+	background-color: #d8d8d8;
+}
+select.from-cntrol{
+    border: none !important;
+}
+.btn-new{
+    border-radius: 35px;
+    padding:5px 18px;
+    border: solid 1.5px #4a2565;
+    font-family: Roboto;
+	font-size: 14px;
+	font-weight: 500;
+	color: #4a2565;
+}
+#ChildMenuOverColor,#PrimaryMenuTitleColor, #ChildMenuTitleColor,#PrimaryMenuOverColor,#titleColor{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+	background-color: #452c59;
+	border: solid 1.5px #ffffff;
+}
+.preview-theme-header{
+    font-size: 21px;
+}
+.pad-20{
+    padding: 20px;
+}
+.hash-code{
+    position: absolute;
+    left:4rem;
+    top :2.5rem;
+}
+input, button{
+    cursor: pointer;
+    border: solid 1.5px #d8d8d8;
+}
+button.adjustfontsize{
+    background: white;
+    padding: 7px;
+    width: 33px;
+    border-radius: 3px;
+}
+select.select-option {
+    border: none;
+    max-width: 90%;
+    max-height: 31px ;
+    position: absolute;
+    left: 10px;
+    top: 4px;
+    font-size: 14px;
+	color: #666666;
+}
+.rounded-rectangle-2736 {
+    width: 200px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    border: solid 1.5px #d8d8d8;
+    text-align: center;
     position: relative;
 }

@@ -17,18 +17,21 @@ export class PagesComponent implements OnInit, OnDestroy {
     childDetails: any;
     ttt: any;
     form: FormGroup;
-    isEdit = false;
-    isAddPage = false;
-    isTableView = false;
-    isGridView = true;
-    loading = false;
-    button_text = 'save';
+
+    isEdit:boolean = false;
+    isAddPage: boolean = false;
+    isTableView: boolean = false;
+    isGridView: boolean = true;
+    loading: boolean = false;
+    button_text: string = "Save";
     decodedString: string;
     dialog: any;
     public parentPageDetails;
     public pageDetails: object;
     public web_description = '';
     public app_description = '';
+
+    bgColor='#3c3c3c';
 
     dummy: string;
     @ViewChild('fileInput1') fileInput1: ElementRef;
@@ -225,7 +228,7 @@ getChild(childData) {
             this.form.reset();
             this.isEdit = false;
             this.isGridView = true;
-            this.button_text = 'save';
+            this.button_text = "Save";
             this.getPageDetails();
     }
     cancelFileEdit() {
