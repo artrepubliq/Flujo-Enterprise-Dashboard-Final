@@ -36,3 +36,29 @@ button {
 //   margin: 6px 0;
 // }
 
+
+.choose-button {
+  background: none;
+  border: 1px solid #666666 !important;
+  border-radius: 30px !important;
+  line-height: 30px;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  color: #666666;
+  position: absolute;
+  right: 0;
+  text-transform: uppercase;
+  box-shadow: none !important;
+  overflow: hidden;
+  padding: initial;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.p-rel {
+  position: relative;
+}
+.preview_button {
+  position: absolute;
+  left: 0;
+}
