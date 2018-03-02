@@ -12,7 +12,6 @@
           <tr>
             <th scope="col">S.No</th>
             <th scope="col">Name</th>
-            <th scope="col">Password</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
             <th scope="col">Role</th>
@@ -23,7 +22,6 @@
             <!-- <th scope="row">{{page_item.id}}</th> -->
             <td>{{user.id}}</td>
             <td>{{user.user_name}}</td>
-            <td>{{user.user_password}}</td>
             <td>{{user.email}}</td>
             <td>{{user.phone}}</td>
             <td *ngIf="user.role==1">Social Manager</td>
@@ -46,9 +44,9 @@
     <div fxLayout="column" fxLayoutGap="3rem">
       <div fxLayout="row" fxLayoutGap="10px" class="form-group">
         <label fxLayoutAlign="start" fxFlex="10" for="name">Name :</label>
-        <input fxFlex="50" type="text" class="form-control" id="user_name" formControlName="user_name" oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');"
+        <input fxFlex="50" type="text" class="form-control" id="name" formControlName="name" oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');"
           required placeholder="Name">
-        <div [hidden]="CreateUserForm.controls.user_name.valid || CreateUserForm.controls.user_name.pristine && !submitted" class="alert">
+        <div [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert">
           Name is required
         </div>
       </div>
