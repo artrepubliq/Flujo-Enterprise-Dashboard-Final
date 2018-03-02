@@ -232,9 +232,28 @@
           <span>New editor</span>
         </a>
       </li>
-
-      <li class="nav-item-divider">
-        <img src="assets/slider.svg" alt="divider" class="img-fluid">
+      <li class="navbarItem dropdown admin-profile">
+        <a class="dropdown-toggle nav-link" data-toggle="dropdown">
+          <span class="user-logo">
+            <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
+          </span>
+          <!-- <span class="default-profile-icon">kk</span> -->
+          {{nickName}}</a>
+        <ul class="dropdown-menu">
+          <li>
+            <a routerLink="./profile" routerLinkActive="active" class="activity">
+              <i class="fa fa-user"></i> Edit Profile</a>
+          </li>
+          <li>
+            <a href="#" class="activity">
+              <i class="fa fa-cog"></i> Change Password</a>
+          </li>
+          <li>
+            <a class="activity" (click)="loginAuthService.logout()" *ngIf="!loginAuthService.authenticated">
+              <i class="fa fa-power-off"></i>Log Out</a>
+          </li>
+          <!-- <li><a href="#"><i class="fa fa-fw fa-power-off"></i> Logout</a></li> -->
+        </ul>
       </li>
 
       <!-- Team Chat -->
