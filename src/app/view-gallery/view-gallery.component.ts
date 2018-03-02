@@ -2,13 +2,13 @@ import { OnInit, Inject, Component, ViewChild, TemplateRef, ViewContainerRef } f
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 import { EditGalleryItems } from '../directives/edit-gallery-popup/editgallery.popup';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 @Component({
   selector: 'app-view-gallery',
   templateUrl: './view-gallery.component.html',
   styleUrls: ['./view-gallery.component.scss']
 })
-export class ViewGalleryComponent implements OnInit { 
+export class ViewGalleryComponent implements OnInit {
   albumItemForm: FormGroup;
   albumItem: any;
   constructor(private formBuilder: FormBuilder , public dialog: MatDialog) {
@@ -22,9 +22,8 @@ export class ViewGalleryComponent implements OnInit {
   // close:string;
 
   openDialog(albumItem): void {
-    
    this.albumItem = albumItem;
-    let dialogRef = this.dialog.open(EditGalleryItems, {
+    const dialogRef = this.dialog.open(EditGalleryItems, {
       data: this.albumItem
       // height: "400px",
       // width:"600px"
@@ -34,13 +33,14 @@ export class ViewGalleryComponent implements OnInit {
     //   // this.close = result;
     // });
      dialogRef.afterClosed().subscribe(result => {
-      console.log("eshwar"+result);      
+      console.log('eshwar' + result);
     });
   }
 
   ngOnInit() {
   }
 
+  // tslint:disable-next-line:member-ordering
   albumImages = [
     { name: 'Title', imagesUer: 'profile_user.jpg'},
     { name: 'Title', imagesUer: 'profile_user.jpg'},
@@ -58,7 +58,7 @@ export class ViewGalleryComponent implements OnInit {
     { name: 'Title', imagesUer: 'profile_user.jpg'},
     { name: 'Title', imagesUer: 'profile_user.jpg'},
     { name: 'Title', imagesUer: 'profile_user.jpg'}
-  ]
+  ];
 
 
 }

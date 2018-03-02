@@ -6,7 +6,7 @@ import { HttpService } from '../service/httpClient.service';
 import { HttpClient } from '@angular/common/http';
 import { AppConstants } from '../app.constants';
 import { AlertModule, AlertService } from 'ngx-alerts';
-import { ICreateUserDetails } from '../model/createUser.model'
+import { ICreateUserDetails } from '../model/createUser.model';
 @Component({
   selector: 'app-create-user-component',
   templateUrl: './create-user-component.component.html',
@@ -16,18 +16,20 @@ export class CreateUserComponentComponent implements OnInit {
   isAddUser: boolean;
   userDetails: ICreateUserDetails;
   CreateUserForm: any;
-  loading: boolean = false;
-  isEdit: boolean = true;
-  button_text: string = "save";
+  public loading = false;
+  public isEdit = true;
+  button_text = 'save';
   // model=new User(1,'','','','');
 
   PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
 
-  constructor(private alertService: AlertService, private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient) {
+  constructor(private alertService: AlertService, private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
+  private httpClient: HttpClient) {
     this.CreateUserForm = this.formBuilder.group({
-      // 'name': ['', Validators.required],
-      'name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+      // 'user_name': ['', Validators.required],
+      'user_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+      'user_password': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'role': ['', Validators.required],
@@ -44,7 +46,7 @@ export class CreateUserComponentComponent implements OnInit {
     console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.CreateUserForm.value;
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_postcreateuser", formModel)
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
       .subscribe(
       data => {
         this.CreateUserForm.reset();
@@ -60,26 +62,26 @@ export class CreateUserComponentComponent implements OnInit {
   onDelete = (body) => {
     // const formModel = this.form.value;
     this.spinnerService.show();
-    let user_id = body.id;
+    const user_id = body.id;
     // this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.delete(AppConstants.API_URL + "flujo_client_deletecreateuser/" + user_id)
+    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletecreateuser/' + user_id)
       .subscribe(
       data => {
         this.getUsersList();
         this.spinnerService.hide();
         console.log(data);
         this.loading = false;
-        this.alertService.warning("User delete successfully");
+        this.alertService.warning('User delete successfully');
       },
       error => {
         this.loading = false;
         this.spinnerService.hide();
-        this.alertService.danger("Something went wrong")
+        this.alertService.danger('Something went wrong');
       });
   }
   getUsersList() {
     this.spinnerService.show();
-    this.httpClient.get<ICreateUserDetails>(AppConstants.API_URL + "/flujo_client_getcreateuser/" + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICreateUserDetails>(AppConstants.API_URL + '/flujo_client_getcreateuser/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         data ? this.isEdit = false : this.isEdit = true;
@@ -92,13 +94,13 @@ export class CreateUserComponentComponent implements OnInit {
         console.log(error);
         this.spinnerService.hide();
       }
-      )
+      );
   }
   setDefaultClientUserDetails = (userData) => {
 
     if (userData) {
       // this.button_text = "Update";
-      this.CreateUserForm.controls['name'].setValue(userData.name);
+      this.CreateUserForm.controls['user_name'].setValue(userData.user_name);
       this.CreateUserForm.controls['email'].setValue(userData.email);
       this.CreateUserForm.controls['phone'].setValue(userData.phone);
       this.CreateUserForm.controls['role'].setValue(userData.role);
@@ -116,7 +118,7 @@ export class CreateUserComponentComponent implements OnInit {
     // this.alertService.success('User updated successfull.');
     this.isEdit = true;
     this.isAddUser = true;
-    this.button_text = "Update";
+    this.button_text = 'Update';
     this.setDefaultClientUserDetails(userItem);
   }
   parsePostResponse(response) {
@@ -128,7 +130,7 @@ export class CreateUserComponentComponent implements OnInit {
       this.CreateUserForm.reset();
       this.getUsersList();
       this.isEdit = false;
-      this.button_text = "save";
+      this.button_text = 'save';
 
     }
   }
