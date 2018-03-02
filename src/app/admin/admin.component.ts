@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
+// import { AuthService } from '../auth/auth.service';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
@@ -13,7 +13,7 @@ export class AdminComponent implements OnInit {
   public nickName: string;
 
 
-  constructor(public loginAuthService: LoginAuthService, public authService: AuthService, private mScrollbarService: MalihuScrollbarService) { }
+  constructor(public loginAuthService: LoginAuthService, private mScrollbarService: MalihuScrollbarService) { }
   ngOnInit(): void {
     this.nickName = localStorage.getItem("nickname");
     this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });

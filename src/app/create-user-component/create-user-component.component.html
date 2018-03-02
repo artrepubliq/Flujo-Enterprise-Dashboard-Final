@@ -52,14 +52,14 @@
           Name is required
         </div>
       </div>
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-          <label fxLayoutAlign="start" fxFlex="10" for="name">Password :</label>
-          <input fxFlex="50" type="password" class="form-control" id="user_password" formControlName="user_password"
-            required placeholder="Password">
-          <div [hidden]="CreateUserForm.controls.user_password.valid || CreateUserForm.controls.user_password.pristine && !submitted" class="alert">
-            Name is required
-          </div>
+      <!-- <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+        <label fxLayoutAlign="start" fxFlex="10" for="name">Password :</label>
+        <input fxFlex="50" type="password" class="form-control" id="user_password" formControlName="user_password" required placeholder="Password">
+        <div [hidden]="CreateUserForm.controls.user_password.valid || CreateUserForm.controls.user_password.pristine && !submitted"
+          class="alert">
+          Name is required
         </div>
+      </div> -->
       <div fxLayout="row" fxLayoutGap="10px" class="form-group">
         <label fxLayoutAlign="start" fxFlex="10" for="email">Email :</label>
         <input fxFlex="50" type="Email" formControlName="email" class="form-control" id="email" placeholder="Email" required>
@@ -91,6 +91,6 @@
     <button type="submit" [disabled]="CreateUserForm.invalid || loading" mat-raised-button color="primary">{{button_text}}
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
-    <button mat-raised-button (click)="cancelUser()" >Cancel</button>
+    <button mat-raised-button (click)="cancelUser()">Cancel</button>
   </form>
 </div>
