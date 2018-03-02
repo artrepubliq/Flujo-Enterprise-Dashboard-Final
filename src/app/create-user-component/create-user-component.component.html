@@ -114,6 +114,7 @@
   </div>
   <div class="form-header" *ngIf="isEdit">
     <h2>Create User</h2>
+
     <form id="createuserform" *ngIf="isEdit" [formGroup]="CreateUserForm" (submit)="onSubmit(CreateUserForm.value)">
       <div fxLayout="column" fxLayoutGap="3rem">
         <div fxLayout="row" fxLayoutGap="10px" class="form-group">
@@ -123,6 +124,7 @@
           <div [hidden]="CreateUserForm.controls.user_name.valid || CreateUserForm.controls.user_name.pristine && !submitted" class="alert">
             Name is required
           </div>
+
         </div>
         <div fxLayout="row" fxLayoutGap="10px" class="form-group">
             <label fxLayoutAlign="start" fxFlex="10" for="name">Password :</label>
@@ -160,10 +162,12 @@
           </div>
         </div>
       </div>
+
       <button type="submit" [disabled]="CreateUserForm.invalid || loading" mat-raised-button color="primary">{{button_text}}
         <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
       </button>
       <button mat-raised-button (click)="cancelUser()" >Cancel</button>
     </form>
   </div>
+
 </div>

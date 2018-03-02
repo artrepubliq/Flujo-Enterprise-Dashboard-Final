@@ -157,7 +157,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                 this.pageDetails = data;
                 console.log(this.pageDetails);
                 this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
-                    return parentData.parent_id === -1;
+                    return parentData.parent_id === '-1';
                 });
                 // this.setDefaultClientPageDetails(this.pageDetails);
                 console.log(this.parentPageDetails);
