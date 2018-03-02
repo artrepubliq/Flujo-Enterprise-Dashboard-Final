@@ -1,6 +1,6 @@
-import { Component, OnInit,ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CKEditorModule } from 'ngx-ckeditor';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { HttpService } from '../service/httpClient.service';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
@@ -15,15 +15,16 @@ import { NgxSmartLoaderService } from 'ngx-smart-loader';
 export class EmailserviceComponent implements OnInit {
   mailSendingForm: FormGroup;
   socialLinksForm: FormGroup;
-  public loading:false;
+  public loading: false;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
-  constructor(public loader: NgxSmartLoaderService,private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  constructor(public loader: NgxSmartLoaderService, private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
+     private httpService: HttpService, private alertService: AlertService) {
     this.mailSendingForm = this.formBuilder.group({
-      'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'subject': ['', Validators.required],
       'message': ['', Validators.required],
-      'file':[null],
-      'check':[''],
+      'file': [null],
+      'check': [''],
       'client_id': null
     });
    }
@@ -38,16 +39,15 @@ export class EmailserviceComponent implements OnInit {
   //   console.log(this.socialLinksForm.value);
   // }
   onFileChange(event) {
-    if(event.target.files.length > 0) {
-      let file = event.target.files[0];
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
       this.mailSendingForm.get('file').setValue(file);
     }
   }
   mailSendingFormSubmit(body: any) {
     this.spinnerService.show();
     console.log(this.mailSendingForm.value);
-    //this.mailSendingForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
-    this.httpService.create(this.mailSendingForm.value, "/flujo_client_emailcsvdb")
+    this.httpService.create(this.mailSendingForm.value, '/flujo_client_emailcsvdb')
       .subscribe(
       data => {
         if (data) {
@@ -61,6 +61,6 @@ export class EmailserviceComponent implements OnInit {
         this.alertService.danger('Email could not be sent ');
         this.mailSendingForm.reset();
         this.spinnerService.hide();
-      })
+      });
   }
 }

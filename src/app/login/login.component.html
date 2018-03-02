@@ -12,6 +12,7 @@
         </div>
         <button type="submit" [disabled]="form.invalid || loading" class="btn btn-success">Submit <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
     </form> -->
+    <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
     <div fxLayoutAlign="center center" class="loginfield" fxLayout>
             <div class="flujo-overlay"></div>
                 <mat-card class="example-card" fxLayout="column">
@@ -21,21 +22,21 @@
                           <!-- <mat-card-title><h6 class="text-lowercase">Flujo Admin</h6></mat-card-title> -->
                     </mat-card-header>
                     <mat-card-content fxLayout="column" fxLayoutAlign="center center">
-                        <form>
+                        <form [formGroup]="loginForm" (submit)="onSubmit(loginForm.value)" method="POST">
                             <div fxLayout="column" fxFlex="100%"> 
                                 <mat-form-field fxFlex>
-                                    <input  matInput placeholder="User Name">
+                                    <input  matInput placeholder="User Name" id="user_name" formControlName="user_name">
                                     <span matPrefix><i class="fa fa-user">&nbsp;</i> </span>
                                 </mat-form-field>
                                 <mat-form-field fxFlex>
-                                    <input  matInput placeholder="Password">
+                                    <input type="password" id="user_password"  matInput placeholder="Password" formControlName="user_password">
                                     <span matPrefix><i class="fa fa-key">&nbsp;</i> </span>
                                 </mat-form-field>                           
+                                <mat-card-actions  fxLayoutAlign="center stretch">
+                                      <button fxFlex  fxLayoutAlign="center" type="submit" mat-raised-button class="btn-login" color="default"><h6>LOG IN <i class="fa fa-angle-right"></i></h6></button>
+                                </mat-card-actions>
                             </div>
                         </form>
                     </mat-card-content>
-                    <mat-card-actions  fxLayoutAlign="center stretch">
-                          <button fxFlex  fxLayoutAlign="center" mat-raised-button class="btn-login" color="default"><h6>LOG IN <i class="fa fa-angle-right"></i></h6></button>
-                    </mat-card-actions>
                 </mat-card>
         </div>
