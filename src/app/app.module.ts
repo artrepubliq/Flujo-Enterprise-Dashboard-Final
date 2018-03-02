@@ -97,19 +97,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DialogOverviewExampleDialog,
 
     LogoutPopUpDialog,
-    ChangepasswordComponent
-
-
+    ChangepasswordComponent,
     ReportanissueComponent,
     FeedbackComponent,
-<<<<<<< HEAD
     ChangemakerComponent,
 
     LogoutPopUpDialog
 
-=======
-    ChangemakerComponent
->>>>>>> f18c394ad8080c80469995b708cd5554ed7b3d43
   ],
   imports: [
     BrowserModule,

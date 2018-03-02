@@ -59,8 +59,11 @@ button i{
     }
     button i{
         font-family:FontAwesome !important;
-        opacity: 0.4;
+        opacity: 0.6;
     }
+    button i:hover{
+      opacity: 1;
+  }
 }
 
 
