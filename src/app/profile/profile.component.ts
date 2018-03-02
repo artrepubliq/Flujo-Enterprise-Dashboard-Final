@@ -1,5 +1,5 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component, ElementRef, ViewChild, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { HttpService } from '../service/httpClient.service';
 import { IProfileData } from '../model/profile.model';
 import {MatTableModule} from '@angular/material/table';
@@ -9,59 +9,58 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppComponent } from '../app.component';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
-import { IHttpResponse } from "../model/httpresponse.model";
+import { IHttpResponse } from '../model/httpresponse.model';
 
 @Component({
-  selector:'./app-profile',
+  selector: './app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent { 
+export class ProfileComponent implements OnInit {
   profileImage: any;
   profileItems: any;
   profileImageDetails: any;
   form: FormGroup;
-  loading: boolean = false;
-  button_text: string = "save";
+  loading = false;
+  button_text = 'save';
   decodedString: string;
   profileImag: string;
   isEdit: boolean;
   resultExist: boolean;
   isDataExist: boolean;
-  isHideDeletebtn:boolean;
+  isHideDeletebtn: boolean;
   profileData: IProfileData;
-  ELEMENT_DATA: IProfileData;  
-  profileDetail:Array<object>;
+  ELEMENT_DATA: IProfileData;
+  profileDetail: Array<object>;
   // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-  
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  constructor(private httpClient: HttpClient, private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private alertService: AlertService) {
+  constructor(private httpClient: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
+    private formBuilder: FormBuilder, private alertService: AlertService) {
     this.createForm();
-    localStorage.setItem('client_id',"1232");
+    localStorage.setItem('client_id', '1232');
     this.getProfileDetails();
-    
-  }
-  ngOnInit() {
-        setTimeout(function() {
-            this.spinnerService.hide();
-          }.bind(this), 3000);
   }
   PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
-  createForm = ()=> {
+  createForm = () => {
     this.form = this.formBuilder.group({
       company_name: ['', Validators.required],
       website_url: ['', Validators.required],
       mobile_number: ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
-      client_id: localStorage.getItem("client_id"),
+      client_id: localStorage.getItem('client_id'),
       // avatar: null
     });
   }
+  ngOnInit() {
+    setTimeout(function() {
+        this.spinnerService.hide();
+      }.bind(this), 3000);
+}
   onFileChange = (event) => {
     this.profileDetail = [];
-    let reader = new FileReader();
+    const reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
-      let file = event.target.files[0];
+      const file = event.target.files[0];
       if(file.size <= 600000){
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -69,7 +68,8 @@ export class ProfileComponent {
         this.profileItems.avatar = reader.result.split(',')[1];
         this.profileDetail.push(reader.result.split(',')[1]);
         // this.form.get('avatar').setValue(reader.result.split(',')[1]);
-        let uploadImage = {profile_id:this.profileImageDetails.id,client_id:this.profileImageDetails.client_id, avatar:reader.result.split(',')[1]}
+        const uploadImage = {profile_id: this.profileImageDetails.id, client_id: this.profileImageDetails.client_id,
+           avatar: reader.result.split(',')[1] };
         this.uploadProfileImage(uploadImage);
       };
     }else {
@@ -77,11 +77,11 @@ export class ProfileComponent {
     }
     }
   }
-  uploadProfileImage = (reqObject)=>{
+  uploadProfileImage = (reqObject) => {
   this.spinnerService.show();
   this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
   // const imageModel = this.form.value
-  this.httpClient.post(AppConstants.API_URL+"flujo_client_postprofileimageupload",reqObject)
+  this.httpClient.post(AppConstants.API_URL + 'flujo_client_postprofileimageupload', reqObject)
 .subscribe(
   data => {
     this.profileImageDetails = reqObject.avatar;
@@ -95,22 +95,21 @@ export class ProfileComponent {
     this.alertService.danger('Profile Image not uploaded');
   });
   }
-  onSubmit = (body)=> {
-    
+  onSubmit = (body) => {
     this.spinnerService.show();
     const formModel = this.form.value;
     // if(!this.form.value.avatar){
     //   formModel.avatar = "null"
     // }
-    formModel.client_id = localStorage.getItem("client_id");
+    formModel.client_id = localStorage.getItem('client_id');
     this.spinnerService.show();
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL+"flujo_client_postprofile", formModel)
+    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postprofile', formModel)
     .subscribe(
         data => {
-          if(data.error){
+          if (data.error) {
             this.alertService.warning(data.result);
             this.spinnerService.hide();
-          }else{
+          }else {
             this.parsePostResponse(data);
             this.alertService.success('Profile details submitted successfully.');
             // this.getProfileDetails();
@@ -120,7 +119,6 @@ export class ProfileComponent {
             //  this.loading = false;
             this.spinnerService.hide();
           }
-         
         },
         error => {
           this.loading = false;
@@ -129,29 +127,28 @@ export class ProfileComponent {
         });
   }
 
-  clearFile = ()=> {
+  clearFile = () => {
     this.form.get('avatar').setValue(null);
     this.fileInput.nativeElement.value = '';
   }
 
-  onDelete = (body)=>{
+  onDelete = (body) => {
     this.spinnerService.show();
     const formModel = this.profileItems.avatar;
     this.spinnerService.show();
     this.loading = true;
     // console.log(formModel);
-    this.httpClient.delete(AppConstants.API_URL+"flujo_client_deleteprofile/"+AppConstants.CLIENT_ID)
+    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteprofile/' + AppConstants.CLIENT_ID)
     .subscribe(
         data => {
           this.alertService.success('profile image deleted Successfully.');
           this.form.reset();
           this.getProfileDetails();
-          this.button_text = "save";
+          this.button_text = 'save';
           // this.isHideDeletebtn = false;
           this.spinnerService.hide();
            console.log(data);
            this.spinnerService.hide();
-           
         },
         error => {
           this.loading = false;
@@ -159,24 +156,24 @@ export class ProfileComponent {
         });
   }
 
-  getProfileDetails = () =>{
+  getProfileDetails = () => {
     this.loading = true;
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL+"flujo_client_profile/"+AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + 'flujo_client_profile/' + AppConstants.CLIENT_ID)
         .subscribe(
           data => {
             this.profileImageDetails = data;
             // this.BindProfileData(data);
-            data? this.isEdit =false : this.isEdit = true;
-            if(data != null){
+            data ? this.isEdit = false : this.isEdit = true;
+            if (data != null) {
             this.setDefaultClientProfileDetails(data);
              this.spinnerService.hide();
-            } else{
-              this.button_text = "save";
+            } else {
+              this.button_text = 'save';
               this.isHideDeletebtn = false;
-              data? this.isEdit =false : this.isEdit = true;
-              this.alertService.success('No Data found');    
-              this.spinnerService.hide();   
+              data ? this.isEdit = false : this.isEdit = true;
+              this.alertService.success('No Data found');
+              this.spinnerService.hide();
             }
              this.loading = false;
             // this.isEdit = false;
@@ -186,21 +183,21 @@ export class ProfileComponent {
             this.loading = false;
             this.spinnerService.hide();
           }
-        )
+        );
   }
 
   // BindProfileData = (profileData) => {
   //   this.profileData = profileData.result;
   //   console.log(profileData);
   // }
-  //this method is used to update profile detals to the form, if detalis exist
+  // this method is used to update profile detals to the form, if detalis exist
   // EditProfileData(){
   //     this.isEdit = true;
   //     this.button_text = "Update";
   //     this.profileImag = this.profileData.avatar;
   //     this.form.controls['company_name'].setValue(this.profileData.company_name);
   //     this.form.controls['website_url'].setValue(this.profileData.website_url);
-  //     this.form.controls['mobile_number'].setValue(this.profileData.mobile_number);    
+  //     this.form.controls['mobile_number'].setValue(this.profileData.mobile_number);
   // }
   EditInfo = () => {
     this.isEdit = true;
@@ -211,7 +208,7 @@ export class ProfileComponent {
 
     if (profileData) {
       this.isHideDeletebtn = true;
-      this.button_text = "Update";
+      this.button_text = 'Update';
       this.profileItems = profileData;
       this.profileImage = profileData.avatar;
       this.form.controls['company_name'].setValue(profileData.company_name);
@@ -222,25 +219,24 @@ export class ProfileComponent {
     }
 
   }
-  cancelFileEdit(){
+  cancelFileEdit() {
     this.isEdit = false;
     this.setDefaultClientProfileDetails(this.profileImageDetails);
   }
 
-  parsePostResponse(response){
-    
-    if(!response){
+  parsePostResponse(response) {
+    if (!response) {
         this.loading = false;
         this.spinnerService.hide();
       this.alertService.danger('Required parameters missing.');
-    }else{
+    }else {
         // this.alertService.success('page operation successfull.');
         this.loading = false;
         this.spinnerService.hide();
         this.form.reset();
         this.getProfileDetails();
         this.isEdit = false;
-        this.button_text = "save";
+        this.button_text = 'save';
 
     }
 }
