@@ -5,7 +5,7 @@
     <button class="text-uppercase btn-addpage float-right" mat-raised-button color="primary" (click)="addUsers()">Create User </button>
   </div>
   <div class="row" *ngIf="!isEdit">
-    <div class="col-md-12">
+    <!-- <div class="col-md-12">
       <h3>Create User List:</h3>
       <table class="table table-hover">
         <thead>
@@ -19,7 +19,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let user of userDetails">
-            <!-- <th scope="row">{{page_item.id}}</th> -->
+             <th scope="row">{{page_item.id}}</th> 
             <td>{{user.id}}</td>
             <td>{{user.user_name}}</td>
             <td>{{user.email}}</td>
@@ -35,60 +35,139 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
+    <div class="col-md-12">
+        <!-- <h3>Feedback Report:</h3> -->
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th scope="col" colspan="2">
+                  <span class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input class="d-inline" type="checkbox" >
+                      <b>
+                        <p class="d-inline">Name &nbsp; <i class="fa fa-angle-down"></i></p>
+                      </b>
+                    </span> 
+              </th>
+              <!-- <th scope="col">
+                  <div>
+                      <span class="d-inline">Updated &nbsp; <i class="fa fa-angle-down"></i></span>
+                  </div>
+              </th> -->
+              <th scope="col">Email</th>
+              <th scope="col">Phone Number</th>
+              <th scope="col">Role</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <!-- <th scope="col">
+                  <span class="d-inline">
+                      Source&nbsp;<i class="fa fa-angle-down"></i>
+                  </span>   
+              </th> -->
+              <!-- <th scope="col">
+                  <span class="d-inline" >
+                      Feedback &nbsp;<i class="fa fa-angle-down"></i>
+                  </span> 
+              </th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="btn-stack" *ngFor="let user of userDetails">
+              <td scope="col" colspan="2">
+                  <span class="d-inline">
+                      <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
+                      <input  type="checkbox">
+                      <!-- <b><p class="name-feedback d-inline">{{user.user_name}}</p></b> -->
+                  </span> 
+              </td>
+              <!-- <td>{{item.datenow}}</td> -->
+              <td>{{user.email}}</td>
+              <td>{{user.phone}}</td>
+              <td *ngIf="user.role==1">Social Manager</td>
+              <td *ngIf="user.role==2">Content Manager</td>
+              <td><button (click)="editCompnent(user)" type="button" class="btn"><i class="fa fa-pencil"></i></button></td>
+              <td><button type="button" class="btn"><i class="fa fa-eye"></i></button></td>
+              <td><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
+              <!-- <td>
+                  <p class="btn btn-outline-success btn-sm btn-issues">Good</p>
+                  <span class="text-muted d-inline pull-right">
+                      <p class="d-inline"><i class="fa fa-ellipsis-v"></i></p>
+                  </span>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+        <!-- <button (click)="exportFeedbackData()" class="btn btn-outline-secondary btn-sm btn-report pull-right" float-right style="float:right">Export</button>
+        <div class="sendMail-data">
+            <div class="sendMail-data form-group">
+                <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
+                    <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
+                    <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+                      enter valid email
+                    </div>
+                  <button (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report  mt-2">Send As Email</button>
+                </form>
+              </div>
+        </div> -->
+      </div>
   </div>
   <div class="form-header" *ngIf="isEdit">
     <h2>Create User</h2>
-  </div>
-  <form id="createuserform" *ngIf="isEdit" [formGroup]="CreateUserForm" (submit)="onSubmit(CreateUserForm.value)">
-    <div fxLayout="column" fxLayoutGap="3rem">
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="10" for="name">Name :</label>
-        <input fxFlex="50" type="text" class="form-control" id="name" formControlName="name" oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');"
-          required placeholder="Name">
-        <div [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert">
-          Name is required
+
+    <form id="createuserform" *ngIf="isEdit" [formGroup]="CreateUserForm" (submit)="onSubmit(CreateUserForm.value)">
+      <div fxLayout="column" fxLayoutGap="3rem">
+        <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+          <label fxLayoutAlign="start" fxFlex="10" for="name">Name :</label>
+          <input fxFlex="50" type="text" class="form-control" id="user_name" formControlName="user_name" oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');"
+            required placeholder="Name">
+          <div [hidden]="CreateUserForm.controls.user_name.valid || CreateUserForm.controls.user_name.pristine && !submitted" class="alert">
+            Name is required
+          </div>
+
         </div>
-      </div>
-      <!-- <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="10" for="name">Password :</label>
-        <input fxFlex="50" type="password" class="form-control" id="user_password" formControlName="user_password" required placeholder="Password">
-        <div [hidden]="CreateUserForm.controls.user_password.valid || CreateUserForm.controls.user_password.pristine && !submitted"
-          class="alert">
-          Name is required
+        <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+            <label fxLayoutAlign="start" fxFlex="10" for="name">Password :</label>
+            <input fxFlex="50" type="password" class="form-control" id="user_password" formControlName="user_password"
+              required placeholder="Password">
+            <div [hidden]="CreateUserForm.controls.user_password.valid || CreateUserForm.controls.user_password.pristine && !submitted" class="alert">
+              Name is required
+            </div>
+          </div>
+        <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+          <label fxLayoutAlign="start" fxFlex="10" for="email">Email :</label>
+          <input fxFlex="50" type="Email" formControlName="email" class="form-control" id="email" placeholder="Email" required>
+          <div [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert">
+            Valid Email is required
+          </div>
         </div>
-      </div> -->
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="10" for="email">Email :</label>
-        <input fxFlex="50" type="Email" formControlName="email" class="form-control" id="email" placeholder="Email" required>
-        <div [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert">
-          Valid Email is required
+  
+        <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+          <label fxLayoutAlign="start" fxFlex="10" for="role">Role :</label>
+          <select fxFlex="50" formControlName="role" class="form-control" id="bodyfontfamily" required id="role">
+            <option value="">Select Role</option>
+            <option value="1">Social Manager</option>
+            <option value="2">Content Manager</option>
+          </select>
+          <div [hidden]="CreateUserForm.controls.role.valid || CreateUserForm.controls.role.pristine && !submitted" class="alert">
+            Role is required
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+          <label fxLayoutAlign="start" fxFlex="10" for="phonenumber">Phone :</label>
+          <input fxFlex="50" type="tel" class="form-control" maxlength="10" formControlName="phone" id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+            placeholder="Phone Number" required>
+          <div [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted" class="alert">
+            Valid Phone number is required
+          </div>
         </div>
       </div>
 
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="10" for="role">Role :</label>
-        <select fxFlex="50" formControlName="role" class="form-control" id="bodyfontfamily" required id="role">
-          <option value="">Select Role</option>
-          <option value="1">Social Manager</option>
-          <option value="2">Content Manager</option>
-        </select>
-        <div [hidden]="CreateUserForm.controls.role.valid || CreateUserForm.controls.role.pristine && !submitted" class="alert">
-          Role is required
-        </div>
-      </div>
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="10" for="phonenumber">Phone :</label>
-        <input fxFlex="50" type="tel" class="form-control" maxlength="10" formControlName="phone" id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-          placeholder="Phone Number" required>
-        <div [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted" class="alert">
-          Valid Phone number is required
-        </div>
-      </div>
-    </div>
-    <button type="submit" [disabled]="CreateUserForm.invalid || loading" mat-raised-button color="primary">{{button_text}}
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-    <button mat-raised-button (click)="cancelUser()">Cancel</button>
-  </form>
+      <button type="submit" [disabled]="CreateUserForm.invalid || loading" mat-raised-button color="primary">{{button_text}}
+        <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+      </button>
+      <button mat-raised-button (click)="cancelUser()" >Cancel</button>
+    </form>
+  </div>
+
 </div>

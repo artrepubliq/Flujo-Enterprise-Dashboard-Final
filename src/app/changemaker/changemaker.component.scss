@@ -123,10 +123,13 @@
     }
     span.text-muted{
         font-size: 13px;
-        color: #999999;
+        color: #999999 !important;
     }
     span{
         color: #666666;
+        font-size: 13px !important;
+        line-height: 1.62 !important;
+        color: #666666 !important;
     }
 }
 .problem-box:hover{
@@ -138,6 +141,9 @@
       width: 20rem;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: 13px !important;
+      line-height: 1.62 !important;
+      color: #666666 !important;
 }
 p.name-feedback{
     display: inline-block;
@@ -145,6 +151,9 @@ p.name-feedback{
     width: 1.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 13px !important;
+    line-height: 1.62 !important;
+    color: #666666 !important;
 }
 .table-bordered{
     background-color: rgb(255, 255, 255);
