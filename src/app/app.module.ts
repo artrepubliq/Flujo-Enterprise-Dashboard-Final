@@ -54,6 +54,7 @@ import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
+import { FilerepositoryComponent } from './filerepository/filerepository.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -85,7 +86,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
      // directives
     EditGalleryItems,
     GalleryDirective,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    FilerepositoryComponent
   ],
   imports: [
     BrowserModule,
