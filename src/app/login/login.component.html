@@ -25,11 +25,11 @@
                         <form [formGroup]="loginForm" (submit)="onSubmit(loginForm.value)" method="POST">
                             <div fxLayout="column" fxFlex="100%"> 
                                 <mat-form-field fxFlex>
-                                    <input  matInput placeholder="User Name" id="user_name" formControlName="user_name">
+                                    <input  matInput placeholder="User Name" id="name" formControlName="name">
                                     <span matPrefix><i class="fa fa-user">&nbsp;</i> </span>
                                 </mat-form-field>
                                 <mat-form-field fxFlex>
-                                    <input type="password" id="user_password"  matInput placeholder="Password" formControlName="user_password">
+                                    <input type="password" id="password"  matInput placeholder="Password" formControlName="password">
                                     <span matPrefix><i class="fa fa-key">&nbsp;</i> </span>
                                 </mat-form-field>                           
                                 <mat-card-actions  fxLayoutAlign="center stretch">

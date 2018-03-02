@@ -18,3 +18,27 @@ div.alert{
 #createuserform .form-control{
   box-shadow: none !important;
 }
+.table-bordered{
+  background-color: rgb(255, 255, 255);
+}
+.table-bordered thead th, tbody td{
+  vertical-align: middle !important;
+}
+.table-bordered thead tr, tbody tr{
+  height: 70px;
+}
+.table-bordered th{
+  font-size: 13px;
+font-weight: 500;
+color: #666666;
+}
+.table-bordered td{
+  font-size: 14px;
+font-weight: 500;
+color: #333333;
+}
+.table-bordered th, .table-bordered td{
+  border-left:none;
+  border-right:none;
+  
+}
