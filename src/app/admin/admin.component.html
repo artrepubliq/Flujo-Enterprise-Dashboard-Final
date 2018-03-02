@@ -1,6 +1,6 @@
+
 <!-- TopNav -->
 <nav class="navbar navbarTop" role="navigation">
-
 
   <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
     <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
@@ -53,11 +53,15 @@
             <i class="fa fa-user"></i> Edit Profile</a>
         </li>
         <li>
+          <a routerLink="./changepassword" routerLinkActive="active" class="activity">
+            <i class="fa fa-user"></i> Change Password</a>
+        </li>
+        <li>
           <a href="#" class="activity">
             <i class="fa fa-cog"></i> Settings</a>
         </li>
         <li>
-          <a class="activity" (click)="authService.logout()" *ngIf="authService.authenticated">
+          <a class="activity" (click)="loginAuthService.logout()">
             <i class="fa fa-power-off"></i>Log Out</a>
         </li>
         <!-- <li><a href="#"><i class="fa fa-fw fa-power-off"></i> Logout</a></li> -->
@@ -228,31 +232,89 @@
           <span>New editor</span>
         </a>
       </li>
-      <li class="navbarItem dropdown admin-profile">
-        <a class="dropdown-toggle nav-link" data-toggle="dropdown">
-          <span class="user-logo">
-            <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
-          </span>
-          <!-- <span class="default-profile-icon">kk</span> -->
-          {{nickName}}</a>
-        <ul class="dropdown-menu">
-          <li>
-            <a routerLink="./profile" routerLinkActive="active" class="activity">
-              <i class="fa fa-user"></i> Edit Profile</a>
-          </li>
-          <li>
-            <a href="#" class="activity">
-              <i class="fa fa-cog"></i> Change Password</a>
-          </li>
-          <li>
-            <a class="activity" (click)="loginAuthService.logout()" *ngIf="!loginAuthService.authenticated">
-              <i class="fa fa-power-off"></i>Log Out</a>
-          </li>
-          <!-- <li><a href="#"><i class="fa fa-fw fa-power-off"></i> Logout</a></li> -->
-        </ul>
-      </li>
-    </ul>
 
+      <li class="nav-item-divider">
+        <img src="assets/slider.svg" alt="divider" class="img-fluid">
+      </li>
+
+      <!-- Team Chat -->
+      <li class="nav-title">Your teams
+        <i class="fa fa-cog"></i>
+      </li>
+      <ul class="team-items">
+        <li>
+          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
+            <span>Abhi Ram</span>
+          </a>
+        </li>
+        <li>
+          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
+            <span>Apoorva</span>
+          </a>
+        </li>
+        <li>
+          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="K"> </i>
+            <span>Yogesh</span>
+          </a>
+        </li>
+        <li>
+          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
+            <span>Eshwar</span>
+          </a>
+        </li>
+        <li>
+          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/team/kk.jpeg" class="img-fluid" alt="K">
+            </i>
+            <span>KrishnaKanth</span>
+          </a>
+        </li>
+        <li>
+          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
+            <span>Ajay</span>
+          </a>
+        </li>
+        <li>
+          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
+            <span>Keerthan</span>
+          </a>
+        </li>
+        <li>
+          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
+            <span>Santhosh</span>
+          </a>
+        </li>
+        <li>
+          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
+            <span>KK</span>
+          </a>
+        </li>
+        <li>
+          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
+            <span>Krishna</span>
+          </a>
+        </li>
+      </ul>
+    </ul>
   </aside>
   <!-- // Side Navigation -->
 
@@ -266,4 +328,5 @@
   <!-- // Content Wrapper -->
 
 </div>
+
 <!-- // Body Wrapper -->
