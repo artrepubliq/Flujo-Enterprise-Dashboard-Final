@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-// import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';

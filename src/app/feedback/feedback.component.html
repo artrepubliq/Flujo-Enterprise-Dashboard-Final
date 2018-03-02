@@ -1,0 +1,104 @@
+<div  fxLayout="column" fxLayoutGap="15px">
+    <div fxLayout="row"  fxLayout.sm="column"  fxLayout.xs="column" fxLayoutAlign="start center">
+        <div fxFlex="30">
+          <h6 class="issues">Feedback</h6>
+        </div>
+        <div  fxFlex="40" fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
+         <label class=" btn btn-outline-secondary  btn-actissue" >
+            <input type="radio"  name="options" id="option1" autocomplete="off" checked> Active Issues
+         </label>
+         <label class="btn btn-outline-secondary btn-pastissue">
+           <input type="radio"  name="options" id="option2" autocomplete="off"> Past Issues
+         </label>
+        </div>
+        <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+          <div  class="text-center button-group btn-group-toggle" data-toggle="buttons">
+           <label class="pull-right btn btn-outline-secondary  btn-view-grid" >
+              <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
+           </label>
+           <label class="pull-right btn btn-outline-secondary  btn-view-list">
+             <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
+           </label>
+          </div>
+          <div class="dropdown">
+              <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter By
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <li class="dropdown-item">Date</li>
+                  <li class="dropdown-item">Issue</li>
+                  <li class="dropdown-item">Name</li>
+                </div>
+              </ul>
+            </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col-md-12">
+        <!-- <h3>Feedback Report:</h3> -->
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">
+                  <span class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input class="d-inline" type="checkbox" >
+                      <b>
+                        <p class="d-inline">Name &nbsp; <i class="fa fa-angle-down"></i></p>
+                      </b>
+                    </span> 
+              </th>
+              <th scope="col">
+                  <div>
+                      <span class="d-inline">Updated &nbsp; <i class="fa fa-angle-down"></i></span>
+                  </div>
+              </th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone Number</th>
+              <th scope="col">
+                  <span class="d-inline">
+                      Source&nbsp;<i class="fa fa-angle-down"></i>
+                  </span>   
+              </th>
+              <th scope="col">
+                  <span class="d-inline" >
+                      Feedback &nbsp;<i class="fa fa-angle-down"></i>
+                  </span> 
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of feedbackData">
+              <td>
+                  <span class="d-inline">
+                      <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
+                      <input  type="checkbox">
+                      <b><p class="name-feedback d-inline">{{item.name}}</p></b>
+                  </span> 
+              </td>
+              <td>{{item.datenow}}</td>
+              <td>{{item.email}}</td>
+              <td>{{item.phone}}</td>
+              <td>{{item.id}}</td>
+              <td>
+                  <p class="btn btn-outline-success btn-sm btn-issues">Good</p>
+                  <span class="text-muted d-inline pull-right">
+                      <p class="d-inline"><i class="fa fa-ellipsis-v"></i></p>
+                  </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button (click)="exportFeedbackData()" class="btn btn-outline-secondary btn-sm btn-report pull-right" float-right style="float:right">Export</button>
+        <div class="sendMail-data">
+            <div class="sendMail-data form-group">
+                <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
+                    <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
+                    <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+                      enter valid email
+                    </div>
+                  <button (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report  mt-2">Send As Email</button>
+                </form>
+              </div>
+        </div>
+      </div>
+    </div>
+    </div>
