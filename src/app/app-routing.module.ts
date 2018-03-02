@@ -20,6 +20,7 @@ import { CreateUserComponentComponent } from './create-user-component/create-use
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { EditorComponent } from './editor/editor.component';
 import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
+import { ChangepasswordComponent } from './changepassword/changepassword.component';
 const routes: Routes = [
   {
     path: '',
@@ -47,6 +48,7 @@ const routes: Routes = [
         children: [
           { path: 'logo', component: LogoComponent },
           { path: 'profile', component: ProfileComponent },
+          { path: 'changepassword',component: ChangepasswordComponent },
           { path: '', component: AdminDashboardComponent },
           { path: 'pages', component: PagesComponent },
           { path: 'media', component: MediaComponent },
