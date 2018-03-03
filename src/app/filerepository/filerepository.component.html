@@ -25,11 +25,11 @@
       <label>
         Folder Name
       </label>
-      <input id="folder" class="form-control" [(ngModel)]="folder" value="folder" formControlName="folder"/>
+      <input id="folder" class="form-control" [(ngModel)]="folder" value="folder"  formControlName="folder"/>
     </div>
   </div>
   <div>
-    <button [disabled]="FileUploadControl.invalid">Submit</button>
+    <button [disabled]="disable()">Submit</button>
   </div>
 </form>
 <div class="row error" *ngIf="errors.length > 0">    
