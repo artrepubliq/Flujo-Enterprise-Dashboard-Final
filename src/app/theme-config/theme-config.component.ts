@@ -12,19 +12,22 @@ import { IThemeData } from '../model/themeData.model';
   selector: 'app-theme-config',
   templateUrl: './theme-config.component.html',
   styleUrls: ['./theme-config.component.scss']
+
 })
 
 export class ThemeConfigComponent implements OnInit {
+  titleColor: any;
+  PrimaryMenuTitleColor: any;
+  ChildMenuTitleColor: any;
+  PrimaryMenuOverColor: any;
+  ChildMenuOverColor: any;
+  selectedBodyFont: string;
+  selectedTitleFont: string;
+  theme_id: number;
 
+  updatedThemeData: IThemeData;
 
-  titleColor= '#548eee';
-  PrimaryMenuTitleColor='#534eae';
-  ChildMenuTitleColor='#aed342';
-  PrimaryMenuOverColor='#dea566';
-  ChildMenuOverColor='#ccc765';
-
-
-  TitleFontFamily:any = [
+  TitleFontFamily: any = [
     {id: 1, name: 'Roboto'},
     {id: 2, name: 'Lato'},
     {id: 3, name: 'Raleway'},
@@ -32,21 +35,23 @@ export class ThemeConfigComponent implements OnInit {
     {id: 5, name: 'Montserrat'},
     {id: 6, name: 'Merriweather'}
   ];
-
-
-
+  themeConfigForm: FormGroup;
   selectedFont: any;
-  fontSize:number = 12;
-  min: number = 8;
-  max: number = 30;
+  fontSize = 12;
+  min = 8;
+  max = 30;
   log = '';
-  onOptionSelected(event){
-    console.log(event); //option value will be sent as event
+  onOptionSelected(event) {
+    console.log(event); // option value will be sent as event
+  }
 
-   }
-  constructor() { 
+  constructor(
+    public loader: NgxSmartLoaderService,
+    private spinnerService: Ng4LoadingSpinnerService,
+    private formBuilder: FormBuilder,
+    private httpClient: HttpClient,
+    private alertService: AlertService) {
 
-    
       this.themeConfigForm = this.formBuilder.group({
         'title_font': ['', Validators.required],
         'body_font_family': ['', Validators.required],
@@ -58,13 +63,13 @@ export class ThemeConfigComponent implements OnInit {
         'child_menu_hover_color': ['', Validators.required],
         'theme_id': ['']
       });
-      
+
   }
 
-  /* this is for on submitting the form*/ 
+  /* this is for on submitting the form*/
   submitTheme() {
-    //console.log(this.themeConfigForm.value);
-    let themeData = this.themeConfigForm.value;
+    // console.log(this.themeConfigForm.value);
+    const themeData = this.themeConfigForm.value;
     themeData.client_id = AppConstants.CLIENT_ID;
     console.log(themeData);
     this.spinnerService.show();
@@ -76,11 +81,11 @@ export class ThemeConfigComponent implements OnInit {
                       console.log(data);
                       this.spinnerService.hide();
                   }else {
-                    this.alertService.success("Theme details updated successfully");
+                    this.alertService.success('Theme details updated successfully');
                     this.spinnerService.hide();
                     // this.updatedThemeData = data;
                     // if(this.updatedThemeData.data[0].theme_id){
-                      
+
                     // }
                   }
               },
@@ -93,30 +98,30 @@ export class ThemeConfigComponent implements OnInit {
   //   const NAME = this.TitleFontFamily.find((item: any) => item.id === +id).name;
   // }
 
-  /* this is to get theme details  from server*/ 
+  /* this is to get theme details  from server*/
   getThemeDetails = () => {
      this.spinnerService.show();
-     this.httpClient.get(AppConstants.API_URL+"flujo_client_gettexttheme/"+AppConstants.THEME_ID)
+     this.httpClient.get(AppConstants.API_URL + 'flujo_client_gettexttheme/' + AppConstants.THEME_ID)
          .subscribe(
-           data =>{
+           data => {
              console.log(data);
-             if(data != null){
+             if (data != null) {
               this.spinnerService.hide();
               this.setThemeDetails(data);
-             } else{
+             } else {
                this.alertService.success('No Data found');
-               this.spinnerService.hide();   
+               this.spinnerService.hide();
              }
            },
-           error =>{
+           error => {
              console.log(error);
            }
          );
    }
 
-/* this is to set theme details in the form */ 
+/* this is to set theme details in the form */
    setThemeDetails = (themeData) => {
-    if (themeData) {      
+    if (themeData) {
       console.log(themeData);
       this.themeConfigForm.controls['body_font_family'].setValue(themeData[0].body_font_family);
       this.selectedBodyFont = themeData[0].body_font_family;
@@ -148,7 +153,7 @@ export class ThemeConfigComponent implements OnInit {
     }
   }
 
-  /* this is for resetting the theme config form*/ 
+  /* this is for resetting the theme config form*/
   resetForm() {
     this.themeConfigForm.controls['body_font_family'].setValue('');
       this.selectedBodyFont = '';
@@ -177,10 +182,6 @@ export class ThemeConfigComponent implements OnInit {
       // this.themeConfigForm.controls['theme_id'].setValue(themeData[0].id);
       // this.theme_id = themeData[0].id;
   }
-
-  // logDropdown(id: number): void {
-  //   const NAME = this.TitleFontFamily.find((item: any) => item.id === +id).name;
-  // }
 
   ngOnInit() {
     this.getThemeDetails();
