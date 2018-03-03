@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
-import { AuthService } from './auth/auth.service';
+// import { AuthService } from './auth/auth.service';
 import { LoginAuthService } from './auth/login.auth.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import * as _ from 'underscore';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'flujo dasboard';
 
-  constructor(public dialog: MatDialog, private router: Router, private authService: AuthService,
+  constructor(public dialog: MatDialog, private router: Router,
      private loginAuthService: LoginAuthService) {
     // this.openDialog();
 

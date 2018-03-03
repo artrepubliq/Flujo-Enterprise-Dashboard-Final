@@ -100,7 +100,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangepasswordComponent,
     ReportanissueComponent,
     FeedbackComponent,
-    ChangemakerComponent
+    ChangemakerComponent,
+
+    LogoutPopUpDialog
+
   ],
   imports: [
     BrowserModule,

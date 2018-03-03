@@ -43,7 +43,6 @@ export class CreateUserComponentComponent implements OnInit {
   }
   onSubmit = (body) => {
     this.spinnerService.show();
-    console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.CreateUserForm.value;
     this.httpClient.post<ICreateUserDetails>(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)

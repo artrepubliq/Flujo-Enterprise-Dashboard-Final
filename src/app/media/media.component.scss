@@ -82,8 +82,11 @@
       margin: 0;
       font-size: 14px;
     }
+
   }
-} // New styles 
+}
+
+// New styles 
 .uploader_block {
   padding: 50px;
   border-radius: 5px;
@@ -100,6 +103,7 @@
       font-weight: 300;
       text-align: left;
       color: #4a2565;
+
     }
     p {
       font-size: 15px;
@@ -127,8 +131,6 @@
     background-color: #4a2665;
     color: #fff;
   }
-}
-
 .header-media {
   color: #666666;
   .title {
@@ -325,6 +327,6 @@ input {
 
 .activeButtonClass {
   color: #ffffff;
-  background-color: #369
+  background-color: #369;
+ }
 }
-
