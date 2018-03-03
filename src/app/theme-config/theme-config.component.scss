@@ -32,7 +32,9 @@
     width: 1.5px;
     height: 350px;
     margin-top: 80px;
+
     border-radius: 0.8px;
+
 	background-color: #d8d8d8;
 }
 .rounded-rectangle-2358 {
@@ -46,11 +48,13 @@ select.from-cntrol{
 .btn-new{
     border-radius: 35px;
     padding:5px 18px;
+
     border: solid 1.5px #4a2565;
     font-family: Roboto;
 	font-size: 14px;
 	font-weight: 500;
 	color: #4a2565;
+
 }
 #ChildMenuOverColor,#PrimaryMenuTitleColor, #ChildMenuTitleColor,#PrimaryMenuOverColor,#titleColor{
     width: 40px;
@@ -70,15 +74,18 @@ select.from-cntrol{
     left:4rem;
     top :2.5rem;
 }
+
 input, button{
     cursor: pointer;
     border: solid 1.5px #d8d8d8;
+
 }
 button.adjustfontsize{
     background: white;
     padding: 7px;
     width: 33px;
     border-radius: 3px;
+
 }
 select.select-option {
     border: none;
@@ -98,4 +105,5 @@ select.select-option {
     border: solid 1.5px #d8d8d8;
     text-align: center;
     position: relative;
+
 }

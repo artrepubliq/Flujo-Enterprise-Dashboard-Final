@@ -21,11 +21,13 @@ import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { EditorComponent } from './editor/editor.component';
 import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
 
+
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
+import { FilerepositoryComponent } from './filerepository/filerepository.component';
 
 
 const routes: Routes = [
@@ -38,7 +40,6 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },
-  
   {
     path: 'callback',
     component: CallbackComponent
@@ -72,6 +73,7 @@ const routes: Routes = [
           { path: 'user', component: CreateUserComponentComponent },
           { path: 'neweditor', component: EditorComponent },
           { path: 'media/gallery', component: ViewGalleryComponent },
+          { path: 'filerepository', component: FilerepositoryComponent}
         ]
       }
     ]
