@@ -25,8 +25,8 @@ export class LoginComponent implements OnInit {
     private httpClient: HttpClient, private authService: AuthService, private loginAuthService: LoginAuthService) {
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
-      'user_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
-      'user_password': ['', Validators.required],
+      'email': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+      'password': ['', Validators.required],
     });
     if (this.loginAuthService.authenticated) {
       this.router.navigate(['/admin']);

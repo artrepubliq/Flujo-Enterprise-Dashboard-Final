@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+      
+    <div class="col scrollContent">
+      
+          <a *ngIf="!isFbLogedin" (click)="fbLogin()" class="btn btn-primary">Login with facebook</a>
+        <div *ngIf="fbResponseDataItems">
+          <div class="card" *ngFor="let fbItem of fbResponseDataItems">
+
+
+            <img *ngIf="fbItem.full_picture" class="img-fluid" src={{fbItem.full_picture}} alt="Card image cap">
+
+
+            <div class="card-body">
+              <p class="card-text">{{fbItem.message}}</p>
+              <p>likes: {{fbItem.likes.summary.total_count}}</p>
+              <p>comments: {{fbItem.comments.summary.total_count}}</p>
+            </div>
+
+          </div>
+        </div>
+        <a *ngIf="isFbLogedin" (click)="fbLoadMore()" class="btn btn-primary">Load More</a>
+      </div>
+    </div>
+    <div class="col scrollContent">
+      <div>
+          <a *ngIf="!isShowTwitter" (click)="getTwitterFeed()" class="btn btn-primary">Show Twitter</a>
+        <ngx-twitter-timeline *ngIf="isShowTwitter" [data]="{
+            sourceType: 'url',
+            url: 'https://twitter.com/@dasyamofficial'}" [opts]="{
+            tweetLimit: 20
+        }"></ngx-twitter-timeline>
+      </div>
+    </div>
+  </div>
+</div>
