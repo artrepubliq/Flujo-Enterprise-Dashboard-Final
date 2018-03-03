@@ -1,190 +1,148 @@
-<!-- <div fxLayout="column" fxLayoutGap="1rem">
-  <div class="form-header">
-    <h2 [ngStyle]="titleStyles">Theme Global Configuration</h2>
-  </div>
-  <form id="themegform">
-    <div fxLayout="column" fxLayoutGap="3rem">
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="20" for="bodyfontfamily">Body Font Family :</label>
-        <select fxFlex="30" class="form-control" id="bodyfontfamily">
-          <option>Roboto</option>
-          <option>Lato</option>
-          <option>Raleway</option>
-          <option>Roboto Slab</option>
-          <option>Montserrat</option>
-          <option>Merriweather</option>
-        </select>
-      </div>
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="20" for="titlecolor">Title Color :</label>
-        <div fxFlex="30" class="colorPickerBox">
-          <input [value]="titlecolor" [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [(colorPicker)]="titlecolor" [style.background]="titlecolor"
-            class="form-control" id="titlecolor" />
-        </div>
-      </div>
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="20" for="titlefont">Title Font :</label>
-        <select fxFlex="30" class="form-control" id="titlefont">
-          <option>Roboto</option>
-          <option>Lato</option>
-          <option>Raleway</option>
-          <option>Roboto Slab</option>
-          <option>Montserrat</option>
-          <option>Merriweather</option>
-        </select>
-      </div>
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="20" for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
-        <div fxFlex="30" class="colorPickerBox">
-          <input [value]="PrimaryMenuTitleColor" [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [(colorPicker)]="PrimaryMenuTitleColor"
-            [style.background]="PrimaryMenuTitleColor" class="form-control" id="PrimaryMenuTitleColor" />
-        </div>
-      </div>
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="20" for="ChildMenuTitleColor">Child Menu Title Color :</label>
-        <div fxFlex="30" class="colorPickerBox">
-          <input [value]="ChildMenuTitleColor" [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [(colorPicker)]="ChildMenuTitleColor"
-            [style.background]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor" />
-        </div>
-      </div>
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="20" for="PrimaryMenuOverColor">Primary Menu Over Color :</label>
-        <div fxFlex="30" class="colorPickerBox">
-          <input [value]="PrimaryMenuOverColor" [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [(colorPicker)]="PrimaryMenuOverColor"
-            [style.background]="PrimaryMenuOverColor" class="form-control" id="PrimaryMenuOverColor" />
-        </div>
-      </div>
-      <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-        <label fxLayoutAlign="start" fxFlex="20" for="ChildMenuOverColor">Child Menu Over Color :</label>
-        <div fxFlex="30" class="colorPickerBox">
-          <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="ChildMenuOverColor" [(colorPicker)]="ChildMenuOverColor"
-            [style.background]="ChildMenuOverColor" class="form-control" id="ChildMenuOverColor" />
-        </div>
-      </div>
-      <div>
-        <button type="submit" class="btn btn-success">Save</button>
-      </div>
-    </div>
-  </form>
-</div> -->
-<ng4-loading-spinner></ng4-loading-spinner>
-<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-<form id="themegform" [formGroup]="themeConfigForm" class="theme-global" fxLayout="column" fxLayoutGap="1rem">
+
+<div class="theme-global" fxLayout="column" fxLayoutGap="1rem">
+    <!-- <form id="themegform" [formGroup]="themeConfigForm" (submit)="submitTheme()"> -->
   <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="3rem">
     <!-- =====theme block ====== -->
     <div fxFlex="50%" fxLayout="column" fxLayoutGap="1.2rem">
       <div>
         <h6 class="theme-header">Fonts</h6>
+
       </div>
       <div fxLayout="row" fxLayoutGap="3rem" fxLayoutWrap fxLayoutAlign="start">
-        <div fxFlex fxLayout="column" fxLayoutGap="3rem">
-          <div fxLayout="row" fxLayoutGap="3rem">
-            <div fxFlex="50%">
-              <label class="" for="rolename">Title Font Family</label>
-              <select required [(ngModel)]="selectedTitleFont" id="rolename" class="form-control btn-new select-option" data-style="btn-new"
-                (ngModelChange)='onOptionSelected($event)' formControlName="title_font">
-                <option selected="selected" value="">Select Font-Family</option>
-                <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
-              </select>
-            </div>
-            <div fxFlex="50%">
-              <label class="" for="rolename">Body Font Family</label>
-              <select required [(ngModel)]="selectedBodyFont" id="rolename" class="form-control btn-new select-option" data-style="btn-new"
-                (ngModelChange)='onOptionSelected($event)' formControlName="body_font_family">
-                <option selected="selected" value="">Select Font-Family</option>
-                <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
-              </select>
-            </div>
-          </div>
-          <div fxLayout="row" fxLayoutGap="3rem">
-            <div fxFlex="100%">
-              <label for="fontSize">Font Size</label>
-              <div class="form-group form-inline">
-                <input fxFlex id="fontSize" type="number" class="form-control" [(ngModel)]="fontSize" min="8" max="30" formControlName="theme_font_size"
-                  readonly/>
-                <button class="adjustfontsize" [disabled]="fontSize >=30" (click)="fontSize = fontSize + 1">+</button>
-                <button class="adjustfontsize" [disabled]="fontSize <= 8" (click)="fontSize = fontSize - 1">-</button>
+          <div fxFlex fxLayout="column" fxLayoutGap="3rem">
+            <div fxLayout="row" fxLayoutGap="3rem"> 
+              <div fxFlex="50%">
+                  <label class="" for="rolename">Title Font Family</label>
+                  <div class="rounded-rectangle-2736">
+                    <select placeholder="Select Font-Family" required [(ngModel)]="selectedTitleFont" id="titlefont" 
+                    class="form-control btn-new select-option" data-style="btn-new"
+                    (ngModelChange)='onOptionSelected($event)' >
+                      <!-- <option selected="selected" value="">Select Font-Family</option> -->
+                      <option [ngValue]="undefined" disabled>Select Font-Family</option>
+                      <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}"  [selected]="item.name== 'Roboto'">{{item.name}}</option>
+                    </select>
+                  </div>
+              </div>
+              <div fxFlex="50%">
+                  <label class="" for="rolename">Body Font Family</label>
+                  <div class="rounded-rectangle-2736">
+                    <select placeholder="Select Font-Family" required [(ngModel)]="selectedBodyFont" id="bodyfont" class="form-control btn-new select-option" data-style="btn-new" 
+                    (ngModelChange)='onOptionSelected($event)' >
+                        <!-- <option selected="selected" value="">Select Font-Family</option> -->
+                        <option [ngValue]="undefined" disabled>Select Font-Family</option>                        
+                        <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
+                    </select>
+                  </div>
               </div>
             </div>
-
+            <div fxLayout="row" fxLayoutGap="3rem">
+              <div fxFlex="100%">
+                  <label for="fontSize">Font Size</label>
+                  <div class="form-group form-inline">
+                    <input fxFlex id="fontSize" type="number" class="form-control" [(ngModel)]="fontSize" min="8" max="30"> 
+                    <button class="adjustfontsize" (click)="fontSize = fontSize + 1">+</button>
+                    <button class="adjustfontsize"(click)="fontSize = fontSize - 1">-</button>
+                  </div>
+              </div>
+             
+            </div>
           </div>
-        </div>
       </div>
       <div class="border-hor-one"></div>
       <div>
-        <h6 class="theme-header">Colours</h6>
+          <h6 class="theme-header">Colours</h6>
       </div>
       <div fxLayout="column" fxLayoutGap="2rem" fxLayoutWrap fxLayoutAlign="center">
-        <div fxLayout="row" fxLayoutGap="2rem">
-          <div class="colorPickerBox">
-            <label fxLayoutAlign="start" for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
-            <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="PrimaryMenuTitleColor" [(colorPicker)]="PrimaryMenuTitleColor"
-              [cpOKButton]="true" [cpSaveClickOutside]="false" [style.background]="PrimaryMenuTitleColor" [style.color]="PrimaryMenuTitleColor"
-              class="form-control" id="PrimaryMenuTitleColor" formControlName="primary_menu_title_color" (colorPickerChange)="themeConfigForm.get('primary_menu_title_color').setValue($event)"
-            />
-            <p class="hash-code">{{PrimaryMenuTitleColor}}</p>
-          </div>
-          <div class="colorPickerBox">
-            <label fxLayoutAlign="start" for="ChildMenuTitleColor">Child Menu Title Color :</label>
-            <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="ChildMenuTitleColor" [(colorPicker)]="ChildMenuTitleColor"
-              [cpOKButton]="true" [cpSaveClickOutside]="false" [style.background]="ChildMenuTitleColor" [style.color]="ChildMenuTitleColor"
-              class="form-control" id="ChildMenuTitleColor" formControlName="child_menu_title_color" (colorPickerChange)="themeConfigForm.get('child_menu_title_color').setValue($event)"
-            />
-            <p class="hash-code">{{ChildMenuTitleColor}}</p>
-          </div>
-          <div class="colorPickerBox">
-            <label for="titleColor" fxLayoutAlign="start">Title Color</label>
-            <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="titleColor" [(colorPicker)]="titleColor" [cpOKButton]="true"
-              [cpSaveClickOutside]="false" [style.background]="titleColor" [style.color]="titleColor" class="form-control"
-              id="titleColor" formControlName="title_color" (colorPickerChange)="themeConfigForm.get('title_color').setValue($event)"
-            />
-            <p class="hash-code">{{titleColor}}</p>
-          </div>
-        </div>
         <div fxLayout="row" fxLayoutGap="3rem">
-          <div class="colorPickerBox">
-            <label fxLayoutAlign="start" for="PrimaryMenuOverColor">Primary Menu Hover Color :</label>
-            <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="PrimaryMenuOverColor" [(colorPicker)]="PrimaryMenuOverColor"
-              [cpOKButton]="true" [cpSaveClickOutside]="false" [style.background]="PrimaryMenuOverColor" [style.color]="PrimaryMenuOverColor"
-              class="form-control" id="PrimaryMenuOverColor" formControlName="primary_menu_hover_color" (colorPickerChange)="themeConfigForm.get('primary_menu_hover_color').setValue($event)"
-            />
-            <p class="hash-code">{{PrimaryMenuOverColor}}</p>
-          </div>
-          <div class="colorPickerBox">
-            <label fxLayoutAlign="start" for="ChildMenuOverColor">Child Menu Hover Color :</label>
-            <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="ChildMenuOverColor" [(colorPicker)]="ChildMenuOverColor"
-              [cpOKButton]="true" [cpSaveClickOutside]="false" [style.background]="ChildMenuOverColor" [style.color]="ChildMenuOverColor"
-              class="form-control" id="ChildMenuOverColor" formControlName="child_menu_hover_color" (colorPickerChange)="themeConfigForm.get('child_menu_hover_color').setValue($event)"
-            />
-            <p class="hash-code">{{ChildMenuOverColor}}</p>
-            <input type="hidden" [value]="theme_id" id='theme_id' class="form-control" formControlName="theme_id">
-          </div>
+            <div class="colorPickerBox">
+                <label fxLayoutAlign="start" for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
+                <input  [cpPosition]="'right'" 
+                        [cpPositionRelativeToArrow]="false" [value]="PrimaryMenuTitleColor" 
+                        [(colorPicker)]="PrimaryMenuTitleColor"
+                        [cpOKButton]="true"
+                        [cpSaveClickOutside]="false"
+                        [style.background]="PrimaryMenuTitleColor" [style.color]="PrimaryMenuTitleColor" class="form-control" id="PrimaryMenuTitleColor" 
+                        />
+                  <p class="hash-code">{{PrimaryMenuTitleColor}}</p>                                      
+              </div>
+              <div class="colorPickerBox">
+                  <label fxLayoutAlign="start" for="ChildMenuTitleColor">Child Menu Title Color :</label>
+                  <input  [cpPosition]="'right'" 
+                          [cpPositionRelativeToArrow]="false" [value]="ChildMenuTitleColor" 
+                          [(colorPicker)]="ChildMenuTitleColor"
+                          [cpOKButton]="true"
+                          [cpSaveClickOutside]="false"
+                          [style.background]="ChildMenuTitleColor" [style.color]="ChildMenuTitleColor" class="form-control" id="ChildMenuTitleColor"                          
+                          />
+                  <p class="hash-code">{{ChildMenuTitleColor}}</p>                    
+                </div>
+                <div class="colorPickerBox">
+                    <label for="titleColor" fxLayoutAlign="start" >Title Color</label>
+                    <input 
+                          [cpPosition]="'right'" 
+                          [cpPositionRelativeToArrow]="false" [value]="titleColor" 
+                          [(colorPicker)]="titleColor"
+                          [cpOKButton]="true"
+                          [cpSaveClickOutside]="false"
+                          [style.background]="titleColor" [style.color]="titleColor" class="form-control" id="titleColor" 
+                    />
+                    <p class="hash-code">{{titleColor}}</p>
+                </div>
         </div>
+          <div fxLayout="row" fxLayoutGap="3rem">
+            <div class="colorPickerBox">
+                <label fxLayoutAlign="start" for="PrimaryMenuOverColor">Primary Menu Hover Color :</label>
+                <input  [cpPosition]="'right'" 
+                        [cpPositionRelativeToArrow]="false" [value]="PrimaryMenuOverColor" 
+                        [(colorPicker)]="PrimaryMenuOverColor"
+                        [cpOKButton]="true"
+                        [cpSaveClickOutside]="false"
+                        [style.background]="PrimaryMenuOverColor" [style.color]="PrimaryMenuOverColor" class="form-control" id="PrimaryMenuOverColor"
+                        
+                        />
+                  <p class="hash-code">{{PrimaryMenuOverColor}}</p>
+              </div>
+              <div class="colorPickerBox">
+                  <label fxLayoutAlign="start" for="ChildMenuOverColor">Child Menu Hover Color :</label>
+                   <input [cpPosition]="'right'" 
+                          [cpPositionRelativeToArrow]="false" [value]="ChildMenuOverColor" 
+                          [(colorPicker)]="ChildMenuOverColor"
+                          [cpOKButton]="true"
+                          [cpSaveClickOutside]="false"
+                          [style.background]="ChildMenuOverColor" [style.color]="ChildMenuOverColor" class="form-control" id="ChildMenuOverColor" 
+                          
+                          />
+                    <p class="hash-code">{{ChildMenuOverColor}}</p>
+                </div>
+          </div>
       </div>
     </div>
-    <div fxHide.xs fxLayout="column" class="rounded-rectangle-2360" fxLayoutAlign="center center"></div>
+    <div  class="rounded-rectangle-2360" fxLayout="column" fxLayoutAlign="center center" ></div>
     <!-- =====preview block ====== -->
     <div fxFlex="50%" fxLayout="column" fxLayoutGap="1.5rem">
-      <div class="pad-20"></div>
-      <div fxLayout="row" fxLayoutGap="1rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
-        <h6 [style.color]="titleColor" [ngStyle]="{'fontFamily': selectedTitleFont}" fxFlex="100%" class="preview-theme-header">The quick brown fox jumps over the lazy dog</h6>
-        <p [ngStyle]="{'fontFamily': selectedBodyFont, 'fontSize': fontSize + 'px'}">The quick brown fox jumps over the lazy dog</p>
+       <div class="pad-20"></div>
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
+            <h6  [style.fontFamily]="selectedTitleFont" [style.color]="titleColor"  fxFlex="100%"  class="preview-theme-header">The quick brown fox jumps over the lazy dog</h6>
+            <p   [ngStyle]="{'fontFamily': selectedBodyFont, 'fontSize': fontSize + 'px'}" >The quick brown fox jumps over the lazy dog</p>
+        </div>
+        <div class="border-hor-one"></div>
+        <div class="pad-20"></div>
+        <div fxLayout="row" fxLayoutGap="3rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
+            <h6 [style.color]="PrimaryMenuTitleColor" fxFlex="100%" class="preview-theme-header">Primary menu title color</h6>
+            <p [style.color]="ChildMenuTitleColor" >Child menu title color</p>
+        </div>
+        <div fxLayout="row" fxLayoutGap="3rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
+            <h6 [style.color]="PrimaryMenuOverColor" fxFlex="100%" class="preview-theme-header">Primary menu hover color</h6>
+            <p [style.color]="ChildMenuOverColor">Child menu hover color</p>
+        </div>
       </div>
-      <div class="border-hor-one"></div>
-      <div class="pad-20"></div>
-      <div fxLayout="row" fxLayoutGap="3rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
-        <h6 [style.color]="PrimaryMenuTitleColor" fxFlex="100%" class="preview-theme-header">Primary menu title color</h6>
-        <p [style.color]="ChildMenuTitleColor">Child menu title color</p>
-      </div>
-      <div fxLayout="row" fxLayoutGap="3rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
-        <h6 [style.color]="PrimaryMenuOverColor" fxFlex="100%" class="preview-theme-header">Primary menu hover color</h6>
-        <p [style.color]="ChildMenuOverColor">Child menu hover color</p>
-      </div>
-    </div>
+
   </div>
-  <div fxLayout="row" class="rounded-rectangle-2358"></div>
+  <div  fxLayout="row" class="rounded-rectangle-2358"></div>
   <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">
-    <button class="pull-right btn btn-outline-secondary btn-new" (click)="resetForm()">Cancel</button>
-    <button class="pull-right btn btn-outline-secondary btn-new" [disabled]="themeConfigForm.invalid" (click)="submitTheme()">Save</button>
+    <button class="pull-right btn btn-outline-secondary btn-new">Cancel</button>
+    <button class="pull-right btn btn-outline-secondary btn-new">Save</button>
   </div>
-</form>
+  <!-- </form> -->
+</div>
+

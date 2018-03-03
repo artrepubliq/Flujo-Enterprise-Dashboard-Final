@@ -1,33 +1,34 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
 
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
-import { ISocialLinks } from "../model/sociallinks.model";
-import { HttpClient } from "@angular/common/http";
-import * as _ from 'underscore'
+import { ISocialLinks } from '../model/sociallinks.model';
+import { HttpClient } from '@angular/common/http';
+import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
-import { IHttpResponse } from "../model/httpresponse.model";
+import { IHttpResponse } from '../model/httpresponse.model';
 
 @Component({
   templateUrl: './sociallinks.component.html',
   styleUrls: ['./sociallinks.component.scss']
 })
-export class SocialLinksComponent {
+export class SocialLinksComponent implements OnInit {
   socialItemId: any;
   SocialData: ISocialLinks;
   socialItems: any;
   socialLinksForm: FormGroup;
-  form_btntext: string = "save";
-  public isEdit: boolean = false;
+  form_btntext = 'save';
+  public isEdit = false;
 
-  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
+    private alertService: AlertService) {
 
     this.socialLinksForm = this.formBuilder.group({
       'socialitem_name': ['', [Validators.required]],
-      'socialitem_url': ['', [Validators.required, ValidationService.domainValidator]],
+      'socialitem_url': ['', [Validators.required]],
       'socialitem_id': null,
       client_id: AppConstants.CLIENT_ID
     });
@@ -41,14 +42,14 @@ export class SocialLinksComponent {
   }
   socialLinksFormSubmit(body: any) {
     this.spinnerService.show();
-    if (this.form_btntext == "Update") {
+    if (this.form_btntext === 'Update') {
       this.socialLinksForm.controls['socialitem_id'].setValue(this.socialItemId);
     } else {
-      this.socialLinksForm.controls['socialitem_id'].setValue("null");
+      this.socialLinksForm.controls['socialitem_id'].setValue('null');
     }
 
 
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL+"/flujo_client_postsociallinks", this.socialLinksForm.value)
+    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_postsociallinks', this.socialLinksForm.value)
 
 
       .subscribe(
@@ -60,7 +61,6 @@ export class SocialLinksComponent {
             this.spinnerService.hide();
             this.getSocialLinksData();
             this.alertService.success('Social Links  request completed Successfully');
-            
           }
         },
         err => {
@@ -70,13 +70,13 @@ export class SocialLinksComponent {
       );
   }
 
-  //get sociallinks data from db
+  // get sociallinks data from db
   getSocialLinksData() {
 
     this.spinnerService.show();
     this.isEdit = false;
     this.httpClient
-      .get<ISocialLinks>(AppConstants.API_URL+'flujo_client_getsociallinks/'+AppConstants.CLIENT_ID)
+      .get<ISocialLinks>(AppConstants.API_URL + 'flujo_client_getsociallinks/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         this.spinnerService.hide();
@@ -96,20 +96,19 @@ export class SocialLinksComponent {
       );
 
   }
-  //function to view the social items
+  // function to view the social items
   viewSocialLinks() {
     this.isEdit = false;
   }
-  //add new item
-  addNewItem(){
+  // add new item
+  addNewItem() {
     this.isEdit = true;
     this.setSocialFormToDefault();
   }
-  //sociallinks delete from db
+  // sociallinks delete from db
   deleteSocialLinks(socialItem) {
     this.spinnerService.show();
-    
-      this.httpClient.delete(AppConstants.API_URL+"flujo_client_deletesociallinks/" + socialItem.id)
+      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletesociallinks/' + socialItem.id)
         .subscribe(
           data => {
           if (data) {
@@ -120,10 +119,9 @@ export class SocialLinksComponent {
         },
         error => {
           console.log(error);
-          this.alertService.danger("Social item is not deleted.");
+          this.alertService.danger('Social item is not deleted.');
           this.spinnerService.hide();
-        })
-    
+        });
   }
   setDataToForm(formdata) {
     this.socialLinksForm.controls['socialitem_name'].setValue(formdata.socialitem_name);
@@ -131,18 +129,18 @@ export class SocialLinksComponent {
 
   }
   setSocialFormToDefault() {
-    this.form_btntext = "save";
-    this.socialLinksForm.controls['socialitem_name'].setValue("");
-    this.socialLinksForm.controls['socialitem_url'].setValue("");
-    this.socialLinksForm.controls['socialitem_id'].setValue("");
+    this.form_btntext = 'save';
+    this.socialLinksForm.controls['socialitem_name'].setValue('');
+    this.socialLinksForm.controls['socialitem_url'].setValue('');
+    this.socialLinksForm.controls['socialitem_id'].setValue('');
 
   }
   EditSocialLinks(socialData) {
     this.isEdit = true;
     this.socialItemId = socialData.id;
-    localStorage.setItem("socialitem_id", socialData.id);
-    console.log(localStorage.getItem("socialitem_id"));
-    this.form_btntext = socialData.id ? "Update" : "Save";
+    localStorage.setItem('socialitem_id', socialData.id);
+    console.log(localStorage.getItem('socialitem_id'));
+    this.form_btntext = socialData.id ? 'Update' : 'Save';
     this.setDataToForm(socialData);
   }
 }

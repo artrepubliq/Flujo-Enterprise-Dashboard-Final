@@ -4,8 +4,8 @@ import { AlertModule } from 'ngx-alerts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { AppComponent, LogoutPopUpDialog } from './app.component';
+import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,8 +24,12 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-// tslint:disable-next-line:max-line-length
-import { MatButtonModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
+
+import { MatButtonModule, MatFormFieldModule, MatInputModule,
+  MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+// this includes the core NgIdleModule but includes keepalive providers for easy wireup
+import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
 
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
@@ -50,11 +54,23 @@ import { Http, RequestOptions } from '@angular/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
+import { LoginAuthService } from './auth/login.auth.service';
 import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
+
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+
+import { ChangepasswordComponent } from './changepassword/changepassword.component';
+
+import { ReportanissueComponent } from './reportanissue/reportanissue.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { ChangemakerComponent } from './changemaker/changemaker.component';
+
+
 import { FilerepositoryComponent } from './filerepository/filerepository.component';
+
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -81,13 +97,21 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ThemeConfigComponent,
     EditorComponent,
     ViewGalleryComponent,
-
-
-     // directives
+    
+    // directives
     EditGalleryItems,
     GalleryDirective,
     DialogOverviewExampleDialog,
+
+    LogoutPopUpDialog,
+    ChangepasswordComponent,
+    ReportanissueComponent,
+    FeedbackComponent,
+    ChangemakerComponent,
+
+    LogoutPopUpDialog,
     FilerepositoryComponent
+
   ],
   imports: [
     BrowserModule,
@@ -118,12 +142,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTabsModule,
     MatTooltipModule,
     MatCardModule,
+    MomentModule,
+    NgIdleKeepaliveModule.forRoot(),
+    MalihuScrollbarModule.forRoot()
   ],
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog],
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog],
   providers: [AuthService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,
+              LoginAuthService
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
@@ -138,6 +166,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
             ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
 
-}
+export class AppModule { }
+

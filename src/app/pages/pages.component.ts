@@ -1,41 +1,44 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import * as _ from 'underscore';
-import { ColorPickerModule,ColorPickerDirective } from 'ngx-color-picker';
+import { ColorPickerModule, ColorPickerDirective } from 'ngx-color-picker';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';
-import { IHttpResponse } from "../model/httpresponse.model";
+import { IHttpResponse } from '../model/httpresponse.model';
 import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
 })
-export class PagesComponent {
+export class PagesComponent implements OnInit, OnDestroy {
     childDetails: any;
     ttt: any;
     form: FormGroup;
+
     isEdit:boolean = false;
     isAddPage: boolean = false;
     isTableView: boolean = false;
     isGridView: boolean = true;
     loading: boolean = false;
-    button_text: string = "save";
+    button_text: string = "Save";
     decodedString: string;
     dialog: any;
     public parentPageDetails;
     public pageDetails: object;
-    public web_description: string = '';
-    public app_description: string = '';
+    public web_description = '';
+    public app_description = '';
+
+    bgColor='#3c3c3c';
 
     dummy: string;
     @ViewChild('fileInput1') fileInput1: ElementRef;
     @ViewChild('fileInput2') fileInput2: ElementRef;
-    constructor(private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
+    constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
+    private alertService: AlertService) {
         this.createForm();
-        
         this.getPageDetails();
     }
     ngOnInit() {
@@ -46,11 +49,11 @@ export class PagesComponent {
     createForm = () => {
         this.form = this.formBuilder.group({
             component_name: ['', Validators.required],
-            component_menuname: ['',null],
+            component_menuname: ['', null],
             parent_id: null,
             web_description: ['', Validators.required],
             app_description: ['', Validators.required],
-            component_background_color:['',],
+            component_background_color: ['', ],
             component_order: ['', Validators.required],
             component_id: null,
             component_image: null,
@@ -60,54 +63,53 @@ export class PagesComponent {
     }
 
     onComponentImageChange = (event) => {
-        let reader = new FileReader();
+        const reader = new FileReader();
         if (event.target.files && event.target.files.length > 0) {
-            let file = event.target.files[0];
+            const file = event.target.files[0];
             reader.readAsDataURL(file);
             reader.onload = () => {
                 this.form.get('component_image').setValue(
                     reader.result.split(',')[1]
-                )
+                );
             };
         }
     }
-    onComponentBackgroundImageChange = (event) =>{
-        let reader = new FileReader();
+    onComponentBackgroundImageChange = (event) => {
+        const reader = new FileReader();
         if (event.target.files && event.target.files.length > 0) {
-            let file = event.target.files[0];
+            const file = event.target.files[0];
             reader.readAsDataURL(file);
             reader.onload = () => {
                 this.form.get('component_background_image').setValue(
                     reader.result.split(',')[1]
-                )
+                );
             };
         }
     }
-   
     onSubmit = (body) => {
         this.spinnerService.show();
         const formModel = this.form.value;
         this.spinnerService.show();
-        this.form.controls['client_id'].setValue(localStorage.getItem("client_id"));
-        if(!body.component_id){
-            this.form.controls['component_id'].setValue("null");
+        this.form.controls['client_id'].setValue(localStorage.getItem('client_id'));
+        if (!body.component_id) {
+            this.form.controls['component_id'].setValue('null');
         }
-        if(!this.form.value.parent_id){
-            this.form.controls['parent_id'].setValue("-1");
+        if (!this.form.value.parent_id) {
+            this.form.controls['parent_id'].setValue('-1');
         }
-        this.httpClient.post<IHttpResponse>( AppConstants.API_URL+"flujo_client_postcomponent", this.form.value)
+        this.httpClient.post<IHttpResponse>( AppConstants.API_URL + 'flujo_client_postcomponent', this.form.value)
             .subscribe(
             data => {
-                if(data.error){
+                if (data.error) {
                     this.alertService.warning(data.result);
                     // this.parsePostResponse(data);
                     this.spinnerService.hide();
-                }else{
+                }else {
                     this.getPageDetails();
                     this.parsePostResponse(data);
                     this.spinnerService.hide();
                 }
-               
+
             },
             error => {
                 this.loading = false;
@@ -115,12 +117,11 @@ export class PagesComponent {
             });
     }
 
-    clearFile = (id) =>{
-        if(id == 1){
+    clearFile = (id) => {
+        if (id === 1) {
             this.form.get('component_image').setValue(null);
             this.fileInput1.nativeElement.value = '';
-        }
-        else{
+        }else {
         this.form.get('component_background_image').setValue(null);
         this.fileInput2.nativeElement.value = '';
         }
@@ -128,8 +129,8 @@ export class PagesComponent {
     onDelete = (body) => {
         // const formModel = this.form.value;
         this.spinnerService.show();
-        let component_id = body.id;
-        this.httpClient.delete(AppConstants.API_URL+"flujo_client_deletecomponent/"+component_id)
+        const component_id = body.id;
+        this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletecomponent/' + component_id)
             .subscribe(
             data => {
                 this.getPageDetails();
@@ -137,18 +138,17 @@ export class PagesComponent {
                 this.pageDetails = null;
                 console.log(data);
                 this.loading = false;
-                this.alertService.success("Page delete successfully");
+                this.alertService.success('Page delete successfully');
             },
             error => {
                 this.loading = false;
                 this.spinnerService.hide();
-                this.alertService.success("Something went wrong")
+                this.alertService.success('Something went wrong');
             });
     }
     getPageDetails = () => {
         this.spinnerService.show();
-        this.httpClient.get( AppConstants.API_URL+"flujo_client_getcomponent/"+AppConstants.CLIENT_ID)
-        
+        this.httpClient.get( AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
             .subscribe(
             data => {
                 this.parentPageDetails = null;
@@ -156,8 +156,8 @@ export class PagesComponent {
                 this.isEdit = false;
                 this.pageDetails = data;
                 console.log(this.pageDetails);
-                this.parentPageDetails = _.filter(this.pageDetails, (parentData)=>{
-                    return parentData.parent_id == -1; 
+                this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
+                    return parentData.parent_id === '-1';
                 });
                 // this.setDefaultClientPageDetails(this.pageDetails);
                 console.log(this.parentPageDetails);
@@ -168,17 +168,16 @@ export class PagesComponent {
                 this.loading = false;
                 this.spinnerService.hide();
             }
-            )
+            );
     }
-getChild(childData){
-     this.childDetails = _.filter(this.pageDetails, (parentData)=>{
-        return parentData.parent_id == childData.id; 
+getChild(childData) {
+     this.childDetails = _.filter(this.pageDetails, (parentData) => {
+        return parentData.parent_id === childData.id;
     });
     console.log(this.childDetails);
 }
-    //this method is used to update page detals to the form, if detalis exist
+    // this method is used to update page detals to the form, if detalis exist
     setDefaultClientPageDetails = (pageData) => {
-        
         if (pageData) {
             // this.button_text = "Update";
             this.form.controls['component_id'].setValue(pageData.id);
@@ -191,7 +190,7 @@ getChild(childData){
             this.form.controls['component_background_color'].setValue(pageData.component_background_color);
             this.form.controls['component_order'].setValue(pageData.component_order);
             this.form.controls['parent_id'].setValue(pageData.parent_id);
-            this.dummy = pageData.parent_id
+            this.dummy = pageData.parent_id;
             console.log(this.form.value);
         }
 
@@ -208,11 +207,10 @@ getChild(childData){
         this.isEdit = false;
         this.isGridView = false;
         this.isTableView = true;
-        
+
     }
-    viewPagesGrid =() => {
+    viewPagesGrid = () => {
         this.isEdit = false;
-        
         this.isTableView = false;
         this.isGridView = true;
     }
@@ -221,16 +219,16 @@ getChild(childData){
         this.isEdit = true;
         this.isTableView = false;
         this.isGridView = false;
-        this.button_text = "Update";
+        this.button_text = 'Update';
         this.setDefaultClientPageDetails(componentItem);
     }
-    parsePostResponse(response){
-        this.alertService.success("request completed successfully.");
+    parsePostResponse(response) {
+        this.alertService.success('request completed successfully.');
             this.loading = false;
             this.form.reset();
             this.isEdit = false;
             this.isGridView = true;
-            this.button_text = "save";
+            this.button_text = "Save";
             this.getPageDetails();
     }
     cancelFileEdit() {
@@ -238,9 +236,8 @@ getChild(childData){
         this.isGridView = true;
     }
     ngOnDestroy() {
-        if(this.dialog) {
+        if (this.dialog) {
           this.dialog = null;
         }
       }
-    
 }

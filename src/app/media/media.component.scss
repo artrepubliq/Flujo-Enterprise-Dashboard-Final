@@ -74,7 +74,7 @@
 .grid-gallery {
   .grid-item {
     margin-bottom: 30px;
-    padding: 15px;
+    padding: 5px;
     border-radius: 0;
     cursor: pointer;
     p {
@@ -82,13 +82,11 @@
       margin: 0;
       font-size: 14px;
     }
-  }
-  .grid-item:hover {
-    box-shadow: 1px 2px 8px #000;
+
   }
 }
 
-// New styles
+// New styles 
 .uploader_block {
   padding: 50px;
   border-radius: 5px;
@@ -105,6 +103,7 @@
       font-weight: 300;
       text-align: left;
       color: #4a2565;
+
     }
     p {
       font-size: 15px;
@@ -132,8 +131,6 @@
     background-color: #4a2665;
     color: #fff;
   }
-}
-
 .header-media {
   color: #666666;
   .title {
@@ -144,9 +141,7 @@
       color: #666666;
     }
   }
-}
-
-// Media Tabs
+} // Media Tabs
 .mat-tab-label {
   font-family: 'Roboto';
   font-size: 15px;
@@ -211,9 +206,7 @@ p {
       color: #666666;
     }
   }
-}
-
-// Media Tabs
+} // Media Tabs 
 .mat-tab-label {
   font-family: 'Roboto';
   font-size: 15px;
@@ -295,12 +288,12 @@ p {
     font-size: 12px;
     width: 100%;
     outline: none;
-  } //   textarea {
-  //       width: 100%;
-  //       outline: none;
-  //       font-size: 12px;
-  //       margin-bottom: 15px;
-  //   }
+  } //  textarea {
+  //      width: 100%;
+  //      outline: none;
+  //      font-size: 12px;
+  //      margin-bottom: 15px;
+  // }
 }
 
 .edit-img {
@@ -313,12 +306,14 @@ p {
   min-width: 66vw;
   padding: 5vh 15vw;
 }
+
 .error-msg {
   color: red;
   font-size: 14px;
   line-height: 30px;
   padding-left: 10px;
 }
+
 input {
   outline: none;
   padding: 13px 15px;
@@ -328,4 +323,10 @@ input {
   border-radius: 2px;
   background-color: #ffffff;
   border: solid 1.5px #eee;
+}
+
+.activeButtonClass {
+  color: #ffffff;
+  background-color: #369;
+ }
 }

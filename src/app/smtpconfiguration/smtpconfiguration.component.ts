@@ -1,6 +1,5 @@
-
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component, ElementRef, ViewChild, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
@@ -10,20 +9,21 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
   templateUrl: './smtpconfiguration.component.html',
   styleUrls: ['./smtpconfiguration.component.scss']
 })
-export class SMTPConfigurationComponent { 
+export class SMTPConfigurationComponent implements OnInit {
   smtpUpdationForm: FormGroup;
-  btn_text: string = "save";
+  btn_text = 'save';
   smtpItems: any;
-  public isEdit: boolean = false;
-  constructor(private spinnerService: Ng4LoadingSpinnerService  , private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
+  public isEdit = false;
+  constructor(private spinnerService: Ng4LoadingSpinnerService  , private formBuilder: FormBuilder,
+     private httpClient: HttpClient, private alertService: AlertService) {
     this.smtpUpdationForm = this.formBuilder.group({
       'host_name': ['', Validators.required],
       'from_name': ['', Validators.required],
-      'from_email': ['', Validators.required,],
+      'from_email': ['', Validators.required, ],
       'user_name': ['', Validators.required],
       'password': ['', Validators.required],
       'client_id': null
-    }); 
+    });
     this.getuserSMTPConfigData();
    }
    ngOnInit() {
@@ -31,11 +31,11 @@ export class SMTPConfigurationComponent {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
-//smtp post data to server
-  SmtpPost(body:any ) {
+// smtp post data to server
+  SmtpPost(body: any ) {
     this.spinnerService.show();
-    this.smtpUpdationForm.controls["client_id"].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.post(AppConstants.API_URL+"/flujo_client_postsmtpconfiguration", this.smtpUpdationForm.value)
+    this.smtpUpdationForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    this.httpClient.post(AppConstants.API_URL + '/flujo_client_postsmtpconfiguration', this.smtpUpdationForm.value)
     .subscribe(
       res => {
         if (res) {
@@ -56,34 +56,33 @@ export class SMTPConfigurationComponent {
 
   getuserSMTPConfigData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL+"flujo_client_getsmtpconfiguration/"+AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getsmtpconfiguration/' + AppConstants.CLIENT_ID)
     .subscribe(
       data => {
-        data? this.isEdit =false : this.isEdit = true;
+        data ? this.isEdit = false : this.isEdit = true;
 
-        if(data){
+        if (data) {
           this.spinnerService.hide();
          this.smtpItems = data;
-        }else{
+        }else {
 
           this.spinnerService.hide();
-          this.alertService.danger("No data found with this client.");
+          this.alertService.danger('No data found with this client.');
         }
-        
       },
       error => {
         this.spinnerService.hide();
-        this.alertService.danger("Something went wrong. please try again.");
+        this.alertService.danger('Something went wrong. please try again.');
           console.log(error);
       });
   }
-  deleteSMTP(){
+  deleteSMTP() {
     this.spinnerService.show();
-    this.httpClient.delete(AppConstants.API_URL+"flujo_client_deletesmtpconfiguration/"+AppConstants.CLIENT_ID)
+    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletesmtpconfiguration/' + AppConstants.CLIENT_ID)
     .subscribe(
       data => {
-        this.btn_text = "save";
-        if(data){
+        this.btn_text = 'save';
+        if (data) {
           this.spinnerService.hide();
          this.smtpUpdationForm.reset();
          this.alertService.success('Social Links  deleted Successfully');
@@ -92,12 +91,11 @@ export class SMTPConfigurationComponent {
       },
       error => {
         this.spinnerService.hide();
-        this.alertService.danger("Something went wrong. please try again.");
+        this.alertService.danger('Something went wrong. please try again.');
           console.log(error);
       });
   }
-  setSMTPDataFormDefault(smtpData){
-    
+  setSMTPDataFormDefault(smtpData) {
     this.smtpUpdationForm.controls['host_name'].setValue(smtpData.host_name);
     this.smtpUpdationForm.controls['from_name'].setValue(smtpData.from_name);
     this.smtpUpdationForm.controls['from_email'].setValue(smtpData.from_email);
@@ -105,9 +103,9 @@ export class SMTPConfigurationComponent {
     this.smtpUpdationForm.controls['password'].setValue(smtpData.password);
     this.smtpUpdationForm.controls['client_id'].setValue(smtpData.client_id);
   }
-  EditSMTPLinks(socialData){
+  EditSMTPLinks(socialData) {
     this.isEdit = true;
-    this.btn_text = "update";
+    this.btn_text = 'update';
     this.setSMTPDataFormDefault(socialData);
   }
 }

@@ -72,15 +72,16 @@
 <ngx-alerts maxMessages="3" timeout="3000"></ngx-alerts>
 <ng4-loading-spinner></ng4-loading-spinner>
 
-<div fxLayout="column" fxLayoutGap="50px">
+<div fxLayout="column" fxLayoutGap="50px" class="page_padding">
 
   <!-- File Uploader -->
   <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
     <form class="file_uploader" enctype="multipart/form-data">
       <div class="">
         <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->
-        <image-upload (removed)="onRemoved($event)" (uploadStateChanged)="onUploadStateChanged($event)" class="image-upload" id="image" [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'"
-          (change)="selectMedia($event)" [style]="customStyle" #fileInput>
+        <image-upload (removed)="onRemoved($event)" (uploadStateChanged)="onUploadStateChanged($event)" class="image-upload" id="image"
+          [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'" (change)="selectMedia($event)" [style]="customStyle"
+          #fileInput>
         </image-upload>
         <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit()">Upload</button>
       </div>
@@ -102,6 +103,16 @@
         <h3>All Images</h3>
       </div>
       <div class="sort_controls" fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="30px">
+        <mat-form-field>
+          <mat-select placeholder="Sort by Popularity">
+            <mat-option value="option1" (click)='UsedImages()'>Used Images</mat-option>
+            <mat-option value="option3" (click)='UnUsedImages()'>UnUsedImages</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- <select>
+          <option value="1" (click)='UsedImages()'>Used Images</option>
+          <option value="2" (click)='UnUsedImages()'>UnUsed Images</option>
+        </select> -->
         <i class="fa fa-th-large"></i>
         <i class="fa fa-th"></i>
       </div>
@@ -112,18 +123,22 @@
     <mat-tab-group class="media-tabs" [selectedIndex]="selectedTab" (selectedTabChange)="tabChanged($event)">
       <mat-tab label="All">
         <div *ngIf="!isshowAlbumGallery" enctype="multipart/form-data">
-          <div fxLayout="row">
-            <button mat-raised-button class="mr-3">Select Images to Create Gallery</button>
+          <div fxLayout="row" fxLayoutAlign=" center">
+            <!-- <button mat-raised-button class="mr-3" [ngClass]="{'activeButtonClass': usedActiveButton}" (click)='UsedImages()'>Used Images</button>
+            <button mat-raised-button class="mr-3" [ngClass]="{'activeButtonClass': unUsedActiveButton}" (click)='UnUsedImages()'>Unused Images</button> -->
+
+            <!-- <button mat-raised-button class="mr-3">Select Images to Create Gallery</button> -->
+            <p class="mr-3 mb-0">Select Images to Create Gallery</p>
             <div>
               <label for="title">Title :</label>
               <input placeholder="Enter Album title here" type="text" [(ngModel)]="albumTitle">
-              
+
               <button class="btn btn-primary" type="submit" (click)="CreateNewAlbumForm()">Create Gallery</button>
             </div>
             <span *ngIf="!isAlbumObjectsPresentAlert" class="error-msg">please enter album title and select two or more images</span>
           </div>
           <br>
-          <div class="row m-0 text-center text-lg-left">
+          <div *ngIf="!isViewUsedUnUsedImages" class="row m-0 text-center text-lg-left">
             <div class="col-lg-4 col-md-4 col-xs-6 img-box" *ngFor="let items of mediaData,let i = index" (click)="hightlightStatus[i]=!hightlightStatus[i]; getImageId(items)"
               [class.highlight]="hightlightStatus[i]">
               <div class="img-item">
@@ -137,13 +152,21 @@
             </div>
           </div>
         </div>
+        <div class="row m-0 text-center text-lg-left" *ngIf="isViewUsedUnUsedImages">
+          <div class="col-lg-4 col-md-4 col-xs-6 img-box" *ngFor="let usedImages of usedUnUsedMedia">
+            <div class="img-item">
+              <div class="bg-layer"></div>
+              <img class="img-fluid" src='data:image/png;base64,{{usedImages.image}}' alt="">
+            </div>
+          </div>
+        </div>
       </mat-tab>
 
       <mat-tab *ngFor="let albumItem of albumGallery" label={{albumItem.title}}>
 
         <div class="row grid-gallery">
-          <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngFor="let albumItem of albumGalleryItem">
-            <div class="grid-item">
+          <div class="col-lg-4 col-md-4 col-xs-6 img-box" *ngFor="let albumItem of albumGalleryItem">
+            <div class="grid-item img-item">
               <div class="img-block">
                 <img src='data:image/png;base64,{{albumItem.image}}' class="img-fluid" alt="Gallary Img">
                 <div class="bg-layer"></div>

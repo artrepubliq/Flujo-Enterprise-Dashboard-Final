@@ -12,21 +12,18 @@ import { IThemeData } from '../model/themeData.model';
   selector: 'app-theme-config',
   templateUrl: './theme-config.component.html',
   styleUrls: ['./theme-config.component.scss']
-  
 })
 
 export class ThemeConfigComponent implements OnInit {
-  titleColor: any;
-  PrimaryMenuTitleColor: any;
-  ChildMenuTitleColor: any;
-  PrimaryMenuOverColor: any;
-  ChildMenuOverColor: any;
-  selectedBodyFont: string;
-  selectedTitleFont: string;
-  theme_id: number;
-  
-  updatedThemeData: IThemeData;
-  
+
+
+  titleColor= '#548eee';
+  PrimaryMenuTitleColor='#534eae';
+  ChildMenuTitleColor='#aed342';
+  PrimaryMenuOverColor='#dea566';
+  ChildMenuOverColor='#ccc765';
+
+
   TitleFontFamily:any = [
     {id: 1, name: 'Roboto'},
     {id: 2, name: 'Lato'},
@@ -35,7 +32,9 @@ export class ThemeConfigComponent implements OnInit {
     {id: 5, name: 'Montserrat'},
     {id: 6, name: 'Merriweather'}
   ];
-  themeConfigForm: FormGroup;
+
+
+
   selectedFont: any;
   fontSize:number = 12;
   min: number = 8;
@@ -43,14 +42,10 @@ export class ThemeConfigComponent implements OnInit {
   log = '';
   onOptionSelected(event){
     console.log(event); //option value will be sent as event
-  }
 
-  constructor(
-    public loader: NgxSmartLoaderService,
-    private spinnerService: Ng4LoadingSpinnerService,
-    private formBuilder: FormBuilder,
-    private httpClient: HttpClient,
-    private alertService: AlertService) { 
+   }
+  constructor() { 
+
     
       this.themeConfigForm = this.formBuilder.group({
         'title_font': ['', Validators.required],
@@ -182,6 +177,10 @@ export class ThemeConfigComponent implements OnInit {
       // this.themeConfigForm.controls['theme_id'].setValue(themeData[0].id);
       // this.theme_id = themeData[0].id;
   }
+
+  // logDropdown(id: number): void {
+  //   const NAME = this.TitleFontFamily.find((item: any) => item.id === +id).name;
+  // }
 
   ngOnInit() {
     this.getThemeDetails();
