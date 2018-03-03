@@ -71,9 +71,8 @@
         <div fxFlex>
             <h6 class="social">Add a Social Link</h6>
           </div>
-      <div  fxFlex >
-        <button (click)="viewSocialLinks()" class="pull-right btn btn-sm btn-outline-secondary btn-social"><span><i class="fa fa-angle-left fa-2x"></i> View Social Links</span></button>
-
+      <div fxFlex >
+        <button (click)="viewSocialLinks()" class="pull-right btn btn-outline-secondary btn-social"><span><i class="fa fa-angle-left fa-2x"></i> View Social Links</span></button>
       </div>
     </div>
     <form [formGroup]="socialLinksForm" method="post" enctype="multipart/form-data">
@@ -103,7 +102,7 @@
         <h6 class="social">Social</h6>
       </div>
       <div fxFlex>
-        <button (click)="addNewItem()" class="pull-right btn btn-outline-secondary btn-social">Add New Link +</button>
+        <button (click)="addNewItem()" class="pull-right btn-sm btn btn-outline-secondary btn-social">Add New Link +</button>
       </div>
     </div>
     <div *ngFor="let socialitem of socialItems" class="link-row"  fxLayout.xs="column"  fxLayout="row">
