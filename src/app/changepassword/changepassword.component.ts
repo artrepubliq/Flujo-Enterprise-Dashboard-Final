@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 import { Keepalive } from '@ng-idle/keepalive';
 import { IcustomLoginModelDetails } from '../model/custom.login.model';
 import { PasswordValidation } from '../service/confirm-password';
+import { IchangeDetails } from '../model/change-password.model';
+import * as _ from 'underscore';
 @Component({
   selector: 'app-changepassword',
   templateUrl: './changepassword.component.html',
@@ -21,17 +23,20 @@ import { PasswordValidation } from '../service/confirm-password';
 })
 export class ChangepasswordComponent implements OnInit {
 
+  userId: void;
   name: string;
   data: string;
   isMatch: boolean;
   changePasswordForm: any;
-  constructor(private router: Router, private alertService: AlertService,
+  changeApiDetails:IchangeDetails;
+  constructor(private router: Router, private alertService: AlertService, private loginAuthService: LoginAuthService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private httpClient:HttpClient) {
       this.changePasswordForm = this.formBuilder.group({
         'old_password':['', Validators.required],
         'new_password':['', Validators.required],
         'confirm_new_password':['', Validators.required],
-        'client_id' : [null]
+        'admin_id' : [null],
+        user_id:[null]
       },{validator: this.checkPasswords});
       
    }
@@ -58,16 +63,27 @@ export class ChangepasswordComponent implements OnInit {
   }
   
   onSubmit = (body) => {
-    
     this.spinnerService.show();
-    this.changePasswordForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    // this.userId = localStorage.getItem('user_id')
+    // console.log(localStorage.getItem('user_id'));
+    this.changePasswordForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
+    this.changePasswordForm.controls['user_id'].setValue(localStorage.getItem('user_id'));
     const formModel = this.changePasswordForm.value;
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_updatepasswordcreateuser', formModel)
+    this.httpClient.post<IchangeDetails>(AppConstants.API_URL + 'flujo_client_updatepasswordcreateuser', formModel)
       .subscribe(
       data => {
+        if(!data.error ){
         this.changePasswordForm.reset();
-        this.alertService.info('Password was changed succesfully');
+        this.alertService.success('Password was changed succesfully');
         this.spinnerService.hide();
+        _.delay(de => {
+            this.router.navigate(['/login']);
+        } , 1000);
+      }else{
+        this.spinnerService.hide();
+        this.changePasswordForm.reset();
+        this.alertService.danger('Password was not changed');
+      }
       },
       error => {
         this.spinnerService.hide();
