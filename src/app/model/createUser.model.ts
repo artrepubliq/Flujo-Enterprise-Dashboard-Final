@@ -4,4 +4,5 @@ export interface ICreateUserDetails{
     email:string;
     phone:string;
     role:string;
+    error:string;
 }

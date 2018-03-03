@@ -43,13 +43,12 @@ export class CreateUserComponentComponent implements OnInit {
   }
   onSubmit = (body) => {
     this.spinnerService.show();
-    console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.CreateUserForm.value;
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
+    this.httpClient.post<ICreateUserDetails>(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
       .subscribe(
       data => {
-        this.CreateUserForm.reset();
+        // this.CreateUserForm.reset();
         this.parsePostResponse(data);
         // this.alertService.info('User added succesfully');
         this.spinnerService.hide();
@@ -124,7 +123,7 @@ export class CreateUserComponentComponent implements OnInit {
   parsePostResponse(response) {
 
     if (response.result) {
-      this.alertService.danger('Required parameters missing.');
+      this.alertService.danger('Email already exists.');
     } else {
       this.alertService.info('User data submitted successfully.');
       this.CreateUserForm.reset();

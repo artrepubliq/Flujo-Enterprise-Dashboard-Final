@@ -24,7 +24,7 @@
           <tr *ngFor="let user of userDetails">
              <th scope="row">{{page_item.id}}</th> 
             <td>{{user.id}}</td>
-            <td>{{user.user_name}}</td>
+            <td>{{user.name}}</td>
             <td>{{user.email}}</td>
             <td>{{user.phone}}</td>
             <td *ngIf="user.role==1">Social Manager</td>
@@ -40,6 +40,7 @@
       </table>
     </div> -->
     <div class="col-md-12">
+
         <!-- <h3>Feedback Report:</h3> -->
         <table class="table table-hover table-bordered">
           <thead>
@@ -53,26 +54,28 @@
                     </span> 
               </th>
               <!-- <th scope="col">
+
                   <div>
                       <span class="d-inline">Updated &nbsp; <i class="fa fa-angle-down"></i></span>
                   </div>
               </th> -->
-              <th scope="col">Email</th>
-              <th scope="col">Phone Number</th>
-              <th scope="col">Role</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <!-- <th scope="col">
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Role</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <!-- <th scope="col">
                   <span class="d-inline">
                       Source&nbsp;<i class="fa fa-angle-down"></i>
                   </span>   
               </th> -->
-              <!-- <th scope="col">
+            <!-- <th scope="col">
                   <span class="d-inline" >
                       Feedback &nbsp;<i class="fa fa-angle-down"></i>
                   </span> 
               </th> -->
+
             </tr>
           </thead>
           <tbody>
@@ -93,15 +96,16 @@
               <td><button type="button" class="btn"><i class="fa fa-eye"></i></button></td>
               <td><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
               <!-- <td>
+
                   <p class="btn btn-outline-success btn-sm btn-issues">Good</p>
                   <span class="text-muted d-inline pull-right">
                       <p class="d-inline"><i class="fa fa-ellipsis-v"></i></p>
                   </span>
               </td> -->
-            </tr>
-          </tbody>
-        </table>
-        <!-- <button (click)="exportFeedbackData()" class="btn btn-outline-secondary btn-sm btn-report pull-right" float-right style="float:right">Export</button>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <button (click)="exportFeedbackData()" class="btn btn-outline-secondary btn-sm btn-report pull-right" float-right style="float:right">Export</button>
         <div class="sendMail-data">
             <div class="sendMail-data form-group">
                 <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
@@ -113,8 +117,9 @@
                 </form>
               </div>
         </div> -->
-      </div>
+    </div>
   </div>
+
   <div fxLayout="row" *ngIf="isEdit">
     <div fxFlex="50%">
       <h6  class="form-header">Create User</h6>
@@ -178,4 +183,5 @@
           </div>
         </div>
       </form>
+
 </div>

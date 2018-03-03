@@ -123,11 +123,12 @@
     <mat-tab-group class="media-tabs" [selectedIndex]="selectedTab" (selectedTabChange)="tabChanged($event)">
       <mat-tab label="All">
         <div *ngIf="!isshowAlbumGallery" enctype="multipart/form-data">
-          <div fxLayout="row">
-            <button mat-raised-button class="mr-3" [ngClass]="{'activeButtonClass': usedActiveButton}" (click)='UsedImages()'>Used Images</button>
-            <button mat-raised-button class="mr-3" [ngClass]="{'activeButtonClass': unUsedActiveButton}" (click)='UnUsedImages()'>Unused Images</button>
+          <div fxLayout="row" fxLayoutAlign=" center">
+            <!-- <button mat-raised-button class="mr-3" [ngClass]="{'activeButtonClass': usedActiveButton}" (click)='UsedImages()'>Used Images</button>
+            <button mat-raised-button class="mr-3" [ngClass]="{'activeButtonClass': unUsedActiveButton}" (click)='UnUsedImages()'>Unused Images</button> -->
 
-            <button mat-raised-button class="mr-3">Select Images to Create Gallery</button>
+            <!-- <button mat-raised-button class="mr-3">Select Images to Create Gallery</button> -->
+            <p class="mr-3 mb-0">Select Images to Create Gallery</p>
             <div>
               <label for="title">Title :</label>
               <input placeholder="Enter Album title here" type="text" [(ngModel)]="albumTitle">
