@@ -46,10 +46,10 @@ export class CreateUserComponentComponent implements OnInit {
     console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.CreateUserForm.value;
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
+    this.httpClient.post<ICreateUserDetails>(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
       .subscribe(
       data => {
-        this.CreateUserForm.reset();
+        // this.CreateUserForm.reset();
         this.parsePostResponse(data);
         // this.alertService.info('User added succesfully');
         this.spinnerService.hide();
@@ -100,7 +100,7 @@ export class CreateUserComponentComponent implements OnInit {
 
     if (userData) {
       // this.button_text = "Update";
-      this.CreateUserForm.controls['user_name'].setValue(userData.user_name);
+      this.CreateUserForm.controls['name'].setValue(userData.name);
       this.CreateUserForm.controls['email'].setValue(userData.email);
       this.CreateUserForm.controls['phone'].setValue(userData.phone);
       this.CreateUserForm.controls['role'].setValue(userData.role);
@@ -124,7 +124,7 @@ export class CreateUserComponentComponent implements OnInit {
   parsePostResponse(response) {
 
     if (response.result) {
-      this.alertService.danger('Required parameters missing.');
+      this.alertService.danger('Email already exists.');
     } else {
       this.alertService.info('User data submitted successfully.');
       this.CreateUserForm.reset();

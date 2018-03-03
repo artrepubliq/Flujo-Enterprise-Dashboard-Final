@@ -97,9 +97,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DialogOverviewExampleDialog,
 
     LogoutPopUpDialog,
-    ChangepasswordComponent
-
-
+    ChangepasswordComponent,
     ReportanissueComponent,
     FeedbackComponent,
     ChangemakerComponent

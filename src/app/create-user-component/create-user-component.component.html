@@ -21,7 +21,7 @@
           <tr *ngFor="let user of userDetails">
             <!-- <th scope="row">{{page_item.id}}</th> -->
             <td>{{user.id}}</td>
-            <td>{{user.user_name}}</td>
+            <td>{{user.name}}</td>
             <td>{{user.email}}</td>
             <td>{{user.phone}}</td>
             <td *ngIf="user.role==1">Social Manager</td>
@@ -69,7 +69,7 @@
       <div fxLayout="row" fxLayoutGap="10px" class="form-group">
         <label fxLayoutAlign="start" fxFlex="10" for="role">Role :</label>
         <select fxFlex="50" formControlName="role" class="form-control" id="bodyfontfamily" required id="role">
-          <option value="">Select Role</option>
+          <option class="placeholder" disabled selected value>Select Role</option>
           <option value="1">Social Manager</option>
           <option value="2">Content Manager</option>
         </select>

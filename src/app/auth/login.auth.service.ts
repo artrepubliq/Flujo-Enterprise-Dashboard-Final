@@ -25,7 +25,7 @@ if(!this.customLoggedIn) {
   this.router.navigate(['/login']);
   this.clearLocalStorageData();
 } else {
-console.log('expired');
+// console.log('expired');
 }
 
   }
@@ -34,7 +34,8 @@ console.log('expired');
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.access_token);
     // console.log(localStorage.getItem('token'));
-    localStorage.setItem('nickname', JSON.stringify(authResult.user_name));
+    localStorage.setItem('nickname', JSON.stringify(authResult.name));
+    localStorage.setItem('user_id',(authResult.user_id));
     localStorage.setItem('expires_at', JSON.stringify(expTime));
     this.router.navigate(['/admin']);
     this.setLoggedInCustom(true);
@@ -63,7 +64,7 @@ clearLocalStorageData(){
 
     if(this.customLoggedIn ) {
       this.setLoggedInCustom(Date.now() < expiresAt);
-      console.log(expiresAt);
+      // console.log(expiresAt);
     }else {
 return;
     }
