@@ -103,7 +103,7 @@ export class CreateUserComponentComponent implements OnInit {
       this.CreateUserForm.controls['email'].setValue(userData.email);
       this.CreateUserForm.controls['phone'].setValue(userData.phone);
       this.CreateUserForm.controls['role'].setValue(userData.role);
-      this.CreateUserForm.controls['user_id'].setValue(userData.id);
+      this.CreateUserForm.controls['id'].setValue(userData.id);
       console.log(this.CreateUserForm.value);
     }
 
@@ -134,6 +134,9 @@ export class CreateUserComponentComponent implements OnInit {
     }
   }
 
+  viewUsers(){
+    this.isEdit = false;
+  }
   cancelUser() {
     this.isEdit = false;
   }

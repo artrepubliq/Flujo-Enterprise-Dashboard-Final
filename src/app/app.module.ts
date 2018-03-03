@@ -24,11 +24,13 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
+
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
   MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
+
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
 import { EditGalleryItems } from './directives/edit-gallery-popup/editgallery.popup';
@@ -57,6 +59,7 @@ import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
+
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
@@ -64,6 +67,9 @@ import { ChangepasswordComponent } from './changepassword/changepassword.compone
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
+
+
+import { FilerepositoryComponent } from './filerepository/filerepository.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -91,6 +97,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ThemeConfigComponent,
     EditorComponent,
     ViewGalleryComponent,
+    
     // directives
     EditGalleryItems,
     GalleryDirective,
@@ -102,7 +109,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FeedbackComponent,
     ChangemakerComponent,
 
-    LogoutPopUpDialog
+    LogoutPopUpDialog,
+    FilerepositoryComponent
 
   ],
   imports: [
@@ -158,4 +166,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
             ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
+

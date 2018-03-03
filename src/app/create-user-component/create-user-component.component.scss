@@ -9,10 +9,11 @@
 .form-group{
   position: relative !important; 
 }
-div.alert{
+div.alert {
   position: absolute;
-  top:30px;
-  left:9%;
+  top: 60px;
+  left: 0;
+  padding-left: 0 !important;
   color:darken($color: #d60808, $amount: 0);
 }
 #createuserform .form-control{
@@ -58,4 +59,72 @@ color: #333333;
   button i:hover{
     opacity: 1;
 }
+}
+.form-header{
+  font-size: 30px;
+  font-weight: 300;
+  color: #666666;
+}
+#createuserform input, select {
+  height: 40px;
+  border-radius: 0px !important;
+  background-color: #ffffff;
+  border: solid 1.5px #d8d8d8;
+  padding: 20px 10px;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #c1c1c1;
+  width: 100%;
+  outline: none;
+}
+#createuserform select{
+  border: none !important;
+  height: 35px;
+  position: absolute;
+  left:0;
+  top: 0;
+  max-width: 100% !important;
+}
+#createuserform div.select-wrap{
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  padding: 20px 10px;
+  border-radius: 0px !important;
+  background-color: #ffffff;
+  border: solid 1.5px #d8d8d8;
+}
+#createuserform label{
+  font-size: 14px;
+  color: #666666;
+}
+.btn-users{
+  border-radius:35px !important;
+  vertical-align: middle;
+  border: solid 1.5px #4a2565;
+  font-family: Roboto;
+  font-size: 14px;
+  padding: 5px 10px;
+  font-weight: 500;
+  color: #4a2565;
+}
+.btn-user{
+  border-radius:35px !important;
+  vertical-align: middle;
+  border: solid 1.5px #4a2565;
+  font-family: Roboto;
+  font-size: 14px;
+  padding: 0px 10px;
+  font-weight: 500;
+  color: #4a2565;
+}
+button i{
+  font-family:FontAwesome !important;
+  vertical-align: middle;
 }
