@@ -20,16 +20,8 @@ import { CreateUserComponentComponent } from './create-user-component/create-use
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { EditorComponent } from './editor/editor.component';
 import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
-
-
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
-
-import { ReportanissueComponent } from './reportanissue/reportanissue.component';
-import { FeedbackComponent } from './feedback/feedback.component';
-import { ChangemakerComponent } from './changemaker/changemaker.component';
-import { FilerepositoryComponent } from './filerepository/filerepository.component';
-
-
+import { SocialManagementComponent } from './social-management/social-management.component';
 const routes: Routes = [
   {
     path: '',
@@ -40,6 +32,7 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },
+
   {
     path: 'callback',
     component: CallbackComponent
@@ -56,15 +49,15 @@ const routes: Routes = [
         children: [
           { path: 'logo', component: LogoComponent },
           { path: 'profile', component: ProfileComponent },
-          { path: 'changepassword',component: ChangepasswordComponent },
+          { path: 'changepassword', component: ChangepasswordComponent },
           { path: '', component: AdminDashboardComponent },
           { path: 'pages', component: PagesComponent },
           { path: 'media', component: MediaComponent },
           { path: 'sociallinks', component: SocialLinksComponent },
           { path: 'smtpconfiguration', component: SMTPConfigurationComponent },
-          { path: 'reportanissue', component: ReportanissueComponent },
-          { path: 'feedback', component: FeedbackComponent },
-          { path: 'changemakerreport', component: ChangemakerComponent },
+          { path: 'reportanissue', component: ReportsComponent },
+          { path: 'feedback', component: ReportsComponent },
+          { path: 'changemakerreport', component: ReportsComponent },
           { path: 'themeconfiguration', component: ThemeConfigComponent },
           { path: 'email', component: EmailserviceComponent },
           { path: 'sms', component: SmsuiComponent},
@@ -73,7 +66,7 @@ const routes: Routes = [
           { path: 'user', component: CreateUserComponentComponent },
           { path: 'neweditor', component: EditorComponent },
           { path: 'media/gallery', component: ViewGalleryComponent },
-          { path: 'filerepository', component: FilerepositoryComponent}
+          { path: 'socialmanagement', component: SocialManagementComponent },
         ]
       }
     ]
