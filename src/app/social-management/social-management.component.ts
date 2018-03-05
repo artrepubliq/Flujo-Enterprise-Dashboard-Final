@@ -41,6 +41,7 @@ export class SocialManagementComponent implements OnInit {
   }
 
   fbLogin = () => {
+    console.log(this.fb);
     // login with options
     const options: LoginOptions = {
       scope: 'public_profile,user_friends,email, pages_show_list , manage_pages, publish_pages',
