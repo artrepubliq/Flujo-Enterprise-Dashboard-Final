@@ -27,9 +27,12 @@ export class CreateUserComponentComponent implements OnInit {
   constructor(private alertService: AlertService, private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
   private httpClient: HttpClient) {
     this.CreateUserForm = this.formBuilder.group({
-      // 'user_name': ['', Validators.required],
+
       'user_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
-      'user_password': ['', Validators.required],
+      // 'first_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+    //  'last_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+      // 'user_password': ['', Validators.required],
+
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'role': ['', Validators.required],
@@ -101,6 +104,9 @@ export class CreateUserComponentComponent implements OnInit {
     if (userData) {
       // this.button_text = "Update";
       this.CreateUserForm.controls['user_name'].setValue(userData.user_name);
+
+      // this.CreateUserForm.controls['last_name'].setValue(userData.last_name);
+
       this.CreateUserForm.controls['email'].setValue(userData.email);
       this.CreateUserForm.controls['phone'].setValue(userData.phone);
       this.CreateUserForm.controls['role'].setValue(userData.role);
