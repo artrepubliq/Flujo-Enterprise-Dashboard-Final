@@ -6,12 +6,6 @@
     border-radius:35px !important;
     vertical-align: middle;
     padding-top: 4px;
-    padding:5px 18px;
-    border: solid 1.5px #4a2565;
-    font-family: Roboto;
-    font-size: 14px;
-    font-weight: 500;
-    color: #4a2565;
 }
 button i{
     font-family:FontAwesome !important;
@@ -65,11 +59,8 @@ button i{
     }
     button i{
         font-family:FontAwesome !important;
-        opacity: 0.6;
+        opacity: 0.4;
     }
-    button i:hover{
-      opacity: 1;
-  }
 }
 
 

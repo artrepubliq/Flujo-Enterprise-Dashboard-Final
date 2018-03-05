@@ -20,13 +20,12 @@ import { IcustomLoginModelDetails } from '../model/custom.login.model';
 })
 export class LoginComponent implements OnInit {
   loginForm: any;
-  EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private authService: AuthService, private loginAuthService: LoginAuthService) {
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
-      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
+      'email': ['', Validators.pattern('^[a-zA-Z \-\']+')],
       'password': ['', Validators.required],
     });
     if (this.loginAuthService.authenticated) {
