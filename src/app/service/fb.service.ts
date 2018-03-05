@@ -16,7 +16,6 @@ FBInit = () => {
       };
 
       this.fb.init(initParams);
-
   }
 }
 

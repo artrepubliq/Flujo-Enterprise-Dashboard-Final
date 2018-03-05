@@ -83,7 +83,7 @@
           [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'" (change)="selectMedia($event)" [style]="customStyle"
           #fileInput>
         </image-upload>
-        <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit()">Upload</button>
+        <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="onUploadImages()">Upload</button>
       </div>
     </form>
 
