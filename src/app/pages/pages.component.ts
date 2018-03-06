@@ -18,12 +18,12 @@ export class PagesComponent implements OnInit, OnDestroy {
     ttt: any;
     form: FormGroup;
 
-    isEdit:boolean = false;
-    isAddPage: boolean = false;
-    isTableView: boolean = false;
-    isGridView: boolean = true;
-    loading: boolean = false;
-    button_text: string = "Save";
+    isEdit = false;
+    isAddPage = false;
+    isTableView = false;
+    isGridView = true;
+    loading = false;
+    button_text = 'Save';
     decodedString: string;
     dialog: any;
     public parentPageDetails;
@@ -31,7 +31,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     public web_description = '';
     public app_description = '';
 
-    bgColor='#3c3c3c';
+    bgColor= '#3c3c3c';
 
     dummy: string;
     @ViewChild('fileInput1') fileInput1: ElementRef;
@@ -157,7 +157,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                 this.pageDetails = data;
                 console.log(this.pageDetails);
                 this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
-                    return parentData.parent_id === -1;
+                    return parentData.parent_id === '-1';
                 });
                 // this.setDefaultClientPageDetails(this.pageDetails);
                 console.log(this.parentPageDetails);
@@ -228,7 +228,7 @@ getChild(childData) {
             this.form.reset();
             this.isEdit = false;
             this.isGridView = true;
-            this.button_text = "Save";
+            this.button_text = 'Save';
             this.getPageDetails();
     }
     cancelFileEdit() {

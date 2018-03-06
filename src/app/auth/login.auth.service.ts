@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as auth0 from 'auth0-js';
 import { AUTH_CONFIG } from './auth-config';
@@ -7,25 +7,41 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import * as _ from 'underscore';
 
 @Injectable()
-export class LoginAuthService {
+export class LoginAuthService implements OnInit {
 
   clientProfileObject: any;
+  expiresAt: any;
   // Create a stream of logged in status to communicate throughout app
   customLoggedIn: boolean;
   customLoggedIn$ = new BehaviorSubject<boolean>(this.customLoggedIn);
 
   constructor(private router: Router, private http: HttpClient) {
+    console.log('login constructor' + this.expiresAt);
+    this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    console.log(this.expiresAt);
+    if (Date.now() < this.expiresAt) {
+      this.setLoggedInCustom(true);
+      }else {
+        this.setLoggedInCustom(false);
+      }
+  }
+  ngOnInit() {
+    // if (Date.now() < this.expiresAt) {
+    // this.setLoggedInCustom(true);
+    // }else {
+    //   this.setLoggedInCustom(false);
+    // }
   }
   setLoggedInCustom(value: boolean) {
     // Update login status subject
     this.customLoggedIn$.next(value);
     this.customLoggedIn = value;
-if(!this.customLoggedIn) {
-  window.alert("close session");
-  this.router.navigate(['/login']);
-} else {
-console.log('expired');
-}
+    if (!this.customLoggedIn) {
+      window.alert('close session');
+      this.router.navigate(['/login']);
+    } else {
+      return;
+    }
 
   }
   public _setSession(authResult) {
@@ -55,15 +71,12 @@ console.log('expired');
 
   get authenticated(): boolean {
     // Check if current date is greater than expiration
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-
-    if(this.customLoggedIn ) {
-      this.setLoggedInCustom(Date.now() < expiresAt);
-      console.log(expiresAt);
-    }else {
-return;
+    if (this.customLoggedIn) {
+      this.setLoggedInCustom(Date.now() < this.expiresAt);
+      console.log(this.expiresAt);
+    } else {
+      return;
     }
-      
     // return Date.now() < expiresAt;
   }
 
