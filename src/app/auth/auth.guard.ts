@@ -7,20 +7,17 @@ import { LoginAuthService } from '../auth/login.auth.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router, private loginAuthService: LoginAuthService) {}
+  constructor(private router: Router, private loginAuthService: LoginAuthService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    // if (!this.authService.getLoginStatus()) {
+    console.log(this.loginAuthService.getCustomLoginStatus());
       if (!this.loginAuthService.getCustomLoginStatus()) {
-      this.router.navigate(['/']);
-     console.log(localStorage.getItem('expires_at'));
-      return false;
-    }
-    // else{
-    // this.router.navigate(['/dashboard']);
+        this.router.navigate(['/']);
+        return false;
+      }
      return true;
-    // }
+
   }
 }

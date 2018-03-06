@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
-// import { AuthService } from './auth/auth.service';
+import { AuthService } from './auth/auth.service';
 import { LoginAuthService } from './auth/login.auth.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import * as _ from 'underscore';

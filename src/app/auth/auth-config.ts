@@ -5,7 +5,6 @@ interface AuthConfig {
     REDIRECT: string;
     SCOPE: string;
   }
-  
   export const AUTH_CONFIG: AuthConfig = {
     CLIENT_ID: 'ig2WMBnfpVXJwg1UNvzA3t1JjAOYBybu',
     CLIENT_DOMAIN: 'flujosass.auth0.com', // e.g., you.auth0.com
@@ -15,3 +14,4 @@ interface AuthConfig {
     // REDIRECT: 'http://flujo.in/callback',
     SCOPE: 'openid profile email'
   };
+  

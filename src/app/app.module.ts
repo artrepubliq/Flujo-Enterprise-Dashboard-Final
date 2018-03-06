@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
-import { AuthService } from './auth/auth.service';
+// import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesComponent } from './pages/pages.component';
 import { HttpService } from './service/httpClient.service';
@@ -24,13 +24,11 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
   MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
-
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
 import { EditGalleryItems } from './directives/edit-gallery-popup/editgallery.popup';
@@ -59,18 +57,12 @@ import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
-
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
-
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
-
-import { ReportanissueComponent } from './reportanissue/reportanissue.component';
-import { FeedbackComponent } from './feedback/feedback.component';
-import { ChangemakerComponent } from './changemaker/changemaker.component';
-
-
-import { FilerepositoryComponent } from './filerepository/filerepository.component';
-
+import { SocialManagementComponent } from './social-management/social-management.component';
+import { FacebookModule } from 'ngx-facebook';
+import { FBService } from './service/fb.service';
+import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -97,21 +89,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ThemeConfigComponent,
     EditorComponent,
     ViewGalleryComponent,
-    
+    SocialManagementComponent,
     // directives
     EditGalleryItems,
     GalleryDirective,
     DialogOverviewExampleDialog,
-
     LogoutPopUpDialog,
-    ChangepasswordComponent,
-    ReportanissueComponent,
-    FeedbackComponent,
-    ChangemakerComponent,
-
-    LogoutPopUpDialog,
-    FilerepositoryComponent
-
+    ChangepasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -144,14 +128,18 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatCardModule,
     MomentModule,
     NgIdleKeepaliveModule.forRoot(),
-    MalihuScrollbarModule.forRoot()
+    MalihuScrollbarModule.forRoot(),
+    FacebookModule.forRoot(),
+    NgxTwitterTimelineModule
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog],
-  providers: [AuthService,
+  providers: [
+              // AuthService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,
-              LoginAuthService
+              LoginAuthService,
+              FBService,
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
@@ -166,6 +154,4 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
             ],
   bootstrap: [AppComponent]
 })
-
 export class AppModule { }
-

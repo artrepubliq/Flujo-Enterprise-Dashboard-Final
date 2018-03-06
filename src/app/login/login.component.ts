@@ -8,7 +8,7 @@ import { AppConstants } from '../app.constants';
 import { AlertModule, AlertService } from 'ngx-alerts';
 // We haven't defined these services yet
 // import { AuthService } from '../auth.service';
-import { AuthService } from '../auth/auth.service';
+// import { AuthService } from '../auth/auth.service';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { Router } from '@angular/router';
 import { Keepalive } from '@ng-idle/keepalive';
@@ -20,13 +20,12 @@ import { IcustomLoginModelDetails } from '../model/custom.login.model';
 })
 export class LoginComponent implements OnInit {
   loginForm: any;
-  EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
-    private httpClient: HttpClient, private authService: AuthService, private loginAuthService: LoginAuthService) {
+    private httpClient: HttpClient, private loginAuthService: LoginAuthService) {
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
-      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
+      'email': ['', Validators.pattern('^[a-zA-Z \-\']+')],
       'password': ['', Validators.required],
     });
     if (this.loginAuthService.authenticated) {
