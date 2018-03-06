@@ -48,14 +48,8 @@
       </table>
     </div>
   </div>
-
-  <div fxLayout="row" *ngIf="isEdit">
-    <div fxFlex="50%">
-      <h6  class="form-header">Create User</h6>
-    </div>
-    <div fxFlex="50%">
-        <button (click)="viewUsers()" class="pull-right btn btn-sm btn-outline-secondary btn-users d-inline"><span><i class="fa fa-angle-left fa-2x d-inline"></i> View Users</span></button>
-    </div>
+  <div class="form-header" *ngIf="isEdit">
+    <h2>Create User</h2>
   </div>
       <!-- 
            ////
@@ -175,6 +169,7 @@
     </form>
     <!-- //.. Logo Edit Block -->
   </div>
+
 </div>
 
 

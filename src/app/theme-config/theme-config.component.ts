@@ -85,7 +85,6 @@ export class ThemeConfigComponent implements OnInit {
                     this.spinnerService.hide();
                     // this.updatedThemeData = data;
                     // if(this.updatedThemeData.data[0].theme_id){
-
                     // }
                   }
               },
@@ -97,7 +96,6 @@ export class ThemeConfigComponent implements OnInit {
   // logDropdown(id: number): void {
   //   const NAME = this.TitleFontFamily.find((item: any) => item.id === +id).name;
   // }
-
   /* this is to get theme details  from server*/
   getThemeDetails = () => {
      this.spinnerService.show();

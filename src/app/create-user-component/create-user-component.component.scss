@@ -9,16 +9,16 @@
 .form-group{
   position: relative !important; 
 }
-div.alert {
+div.alert{
   position: absolute;
-  top: 60px;
-  left: 0;
-  padding-left: 0 !important;
+  top:30px;
+  left:9%;
   color:darken($color: #d60808, $amount: 0);
 }
 #createuserform .form-control{
   box-shadow: none !important;
 }
+
 .table-bordered{
   background-color: rgb(255, 255, 255);
 }
@@ -386,3 +386,4 @@ button i{
   transition: all 1s;
   -webkit-transition: all 1s;
 }
+
