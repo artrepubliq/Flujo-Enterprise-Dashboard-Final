@@ -63,6 +63,9 @@ import { SocialManagementComponent } from './social-management/social-management
 import { FacebookModule } from 'ngx-facebook';
 import { FBService } from './service/fb.service';
 import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
+import { ReportanissueComponent } from './reportanissue/reportanissue.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { ChangemakerComponent } from './changemaker/changemaker.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -95,7 +98,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     GalleryDirective,
     DialogOverviewExampleDialog,
     LogoutPopUpDialog,
-    ChangepasswordComponent
+    ChangepasswordComponent,
+    ReportanissueComponent,
+    FeedbackComponent,
+    ChangemakerComponent
+
   ],
   imports: [
     BrowserModule,
