@@ -9,7 +9,7 @@ import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { AlertService } from 'ngx-alerts';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { RequestOptions, Headers } from '@angular/http';
-
+import { IRepositories } from '../model/repositories.model';
 
 @Component({
   selector: 'app-filerepository',
@@ -20,6 +20,8 @@ import { RequestOptions, Headers } from '@angular/http';
 export class FilerepositoryComponent implements OnInit {
     FileUploadControl: FormGroup;
     errors: Array<string> = [];
+    repositories: Array<IRepositories> = [];
+    filtered_repositories: Array<IRepositories> = [];
     dragAreaClass = 'dragarea';
     file_name: string ;
     repository_name: string ;
@@ -42,7 +44,8 @@ export class FilerepositoryComponent implements OnInit {
           this.FileUploadControl = this.formBuilder.group({
           'file_name': ['', Validators.required],
           'folder': ['', Validators.required],
-          'file_path': null
+          'file_path': null,
+          'file_size': null
         });
 
     }
@@ -57,12 +60,12 @@ export class FilerepositoryComponent implements OnInit {
       formData.append('folder', fileData.folder);
       formData.append('file_name', fileData.file_name);
       formData.append('client_id', fileData.client_id);
-
+      formData.append('file_size', fileData.file_size);
       this.spinnerService.show();
 
       this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
           .subscribe(
-            data => {
+            data => {console.log(data);
                 if (data.error) {
                     this.alertService.warning(data.result);
                       console.log(data);
@@ -78,7 +81,10 @@ export class FilerepositoryComponent implements OnInit {
             }
           );
     }
-    ngOnInit() { }
+    ngOnInit() {
+        /* get folders by client Id */
+        this.getFolders(AppConstants.CLIENT_ID);
+     }
 
     /* this is used when a user changes the file or drops the file  */
     onFileChange(event) {
@@ -125,7 +131,12 @@ export class FilerepositoryComponent implements OnInit {
           return;
       }
     //   console.log(files);
-      this.FileUploadControl.controls['file_path'].setValue(files[0]);
+    const fileSizeinMB = files[0].size / (1024 * 1000);
+    const size = Math.round(fileSizeinMB * 100) / 100;
+    console.log(fileSizeinMB);
+    console.log(size);
+    this.FileUploadControl.controls['file_path'].setValue(files[0]);
+    this.FileUploadControl.controls['file_size'].setValue(size);
     }
 
     /* this is for checking for the maximum number of files */
@@ -186,5 +197,48 @@ export class FilerepositoryComponent implements OnInit {
         } else {
             return true;
         }
+    }
+
+    /* this is to get Folders by client id*/
+    getFolders(client_id) {
+        this.httpClient.get<Array<IRepositories>>(AppConstants.API_URL + 'flujo_client_getfilerepository/' + client_id)
+            .subscribe(
+                data => {
+                    this.repositories = data;
+                    console.log(this.repositories);
+                },
+                error => {
+                    console.log(error);
+                }
+            );
+    }
+    /* this is for getting documents*/
+    getDocuments(repositories, folder_name) {
+        // console.log(folder);
+        // console.log(repositories);
+        const newFolders = repositories.filter(nerepositories => nerepositories.folder === folder_name);
+        console.log(newFolders);
+        this.filtered_repositories = newFolders;
+        // const newFolders = repositories.filter(nerepositories =>{
+        //     if (nerepositories.folder === folder_name) {
+        //         return nerepositories;
+        //     }
+        // });
+    }
+    /* this is for deleting the documents*/
+    deleteFile(id, client_id) {
+        this.spinnerService.show();
+        this.httpClient.delete<Array<IRepositories>>(AppConstants.API_URL + 'flujo_client_deletefilerepository/' + id)
+            .subscribe(
+                data => {
+                    this.spinnerService.hide();
+                    this.alertService.success('File deleted successfully');
+                    console.log(data);
+                },
+                error => {
+                    this.alertService.success('File something went wrong successfully');
+                    console.log(error);
+                }
+            );
     }
 }
