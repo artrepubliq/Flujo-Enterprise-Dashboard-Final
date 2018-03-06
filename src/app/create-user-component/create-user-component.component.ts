@@ -27,9 +27,12 @@ export class CreateUserComponentComponent implements OnInit {
   constructor(private alertService: AlertService, private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
   private httpClient: HttpClient) {
     this.CreateUserForm = this.formBuilder.group({
-      // 'user_name': ['', Validators.required],
-      'name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+
+      'user_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+      // 'first_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+    //  'last_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
       // 'user_password': ['', Validators.required],
+
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'role': ['', Validators.required],
@@ -43,12 +46,13 @@ export class CreateUserComponentComponent implements OnInit {
   }
   onSubmit = (body) => {
     this.spinnerService.show();
+    console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.CreateUserForm.value;
-    this.httpClient.post<ICreateUserDetails>(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
       .subscribe(
       data => {
-        // this.CreateUserForm.reset();
+        this.CreateUserForm.reset();
         this.parsePostResponse(data);
         // this.alertService.info('User added succesfully');
         this.spinnerService.hide();
@@ -99,7 +103,10 @@ export class CreateUserComponentComponent implements OnInit {
 
     if (userData) {
       // this.button_text = "Update";
-      this.CreateUserForm.controls['name'].setValue(userData.name);
+      this.CreateUserForm.controls['user_name'].setValue(userData.user_name);
+
+      // this.CreateUserForm.controls['last_name'].setValue(userData.last_name);
+
       this.CreateUserForm.controls['email'].setValue(userData.email);
       this.CreateUserForm.controls['phone'].setValue(userData.phone);
       this.CreateUserForm.controls['role'].setValue(userData.role);
@@ -123,7 +130,7 @@ export class CreateUserComponentComponent implements OnInit {
   parsePostResponse(response) {
 
     if (response.result) {
-      this.alertService.danger('Email already exists.');
+      this.alertService.danger('Required parameters missing.');
     } else {
       this.alertService.info('User data submitted successfully.');
       this.CreateUserForm.reset();

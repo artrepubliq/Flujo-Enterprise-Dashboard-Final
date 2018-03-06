@@ -12,15 +12,13 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    // if (!this.authService.getLoginStatus()) {
+
       if (!this.loginAuthService.getCustomLoginStatus()) {
       this.router.navigate(['/']);
      console.log(localStorage.getItem('expires_at'));
       return false;
     }
-    // else{
-    // this.router.navigate(['/dashboard']);
      return true;
-    // }
+
   }
 }

@@ -2,7 +2,7 @@
         <form [formGroup]="albumItemForm"  class="edit-gallery">
     <div class="edit-img">
         <!-- <img src="{{data.image}}" class="img-fluid" alt="Gallary Img"> -->
-        <img  src='data:image/png;base64,{{data[0].image}}' class="img-fluid" alt="Gallary Img">
+        <img  src='data:image/png;base64,{{image}}' class="img-fluid" alt="Gallary Img">
     </div>
    
         <input formControlName="title" id="title" type="text"  placeholder="Image Title">        

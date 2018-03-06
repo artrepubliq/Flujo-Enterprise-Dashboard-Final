@@ -58,13 +58,11 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
-
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
-
-import { ReportanissueComponent } from './reportanissue/reportanissue.component';
-import { FeedbackComponent } from './feedback/feedback.component';
-import { ChangemakerComponent } from './changemaker/changemaker.component';
-
+import { SocialManagementComponent } from './social-management/social-management.component';
+import { FacebookModule } from 'ngx-facebook';
+import { FBService } from './service/fb.service';
+import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -91,19 +89,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ThemeConfigComponent,
     EditorComponent,
     ViewGalleryComponent,
+    SocialManagementComponent,
     // directives
     EditGalleryItems,
     GalleryDirective,
     DialogOverviewExampleDialog,
-
     LogoutPopUpDialog,
-    ChangepasswordComponent,
-    ReportanissueComponent,
-    FeedbackComponent,
-    ChangemakerComponent,
-
-    LogoutPopUpDialog
-
+    ChangepasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -136,14 +128,17 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatCardModule,
     MomentModule,
     NgIdleKeepaliveModule.forRoot(),
-    MalihuScrollbarModule.forRoot()
+    MalihuScrollbarModule.forRoot(),
+    FacebookModule.forRoot(),
+    NgxTwitterTimelineModule
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog],
   providers: [AuthService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,
-              LoginAuthService
+              LoginAuthService,
+              FBService,
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
