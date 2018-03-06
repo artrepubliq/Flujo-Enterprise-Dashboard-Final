@@ -25,7 +25,8 @@ import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
-  MatDialogModule, MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
+  // tslint:disable-next-line:max-line-length
+  MatDialogModule, MatDatepickerModule, MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -39,7 +40,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { MediaComponent, DialogOverviewExampleDialog } from './media/media.component';
+import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component';
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
@@ -63,6 +64,8 @@ import { SocialManagementComponent } from './social-management/social-management
 import { FacebookModule } from 'ngx-facebook';
 import { FBService } from './service/fb.service';
 import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
+import { BiographyComponent } from './biography/biography.component';
+import { DateFormat } from './model/date.formatt';
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
@@ -101,10 +104,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DialogOverviewExampleDialog,
     LogoutPopUpDialog,
     ChangepasswordComponent,
+    BiographyComponent,
+    FileSelectPopup
     ReportanissueComponent,
     FeedbackComponent,
     ChangemakerComponent
-
   ],
   imports: [
     BrowserModule,
@@ -139,9 +143,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgIdleKeepaliveModule.forRoot(),
     MalihuScrollbarModule.forRoot(),
     FacebookModule.forRoot(),
-    NgxTwitterTimelineModule
+    NgxTwitterTimelineModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog],
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup],
   providers: [
               // AuthService,
               HttpService,
@@ -149,6 +155,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               NgxSmartLoaderService,
               LoginAuthService,
               FBService,
+              {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
