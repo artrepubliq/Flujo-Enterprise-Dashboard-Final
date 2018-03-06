@@ -63,6 +63,7 @@ import { SocialManagementComponent } from './social-management/social-management
 import { FacebookModule } from 'ngx-facebook';
 import { FBService } from './service/fb.service';
 import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
+import { FilerepositoryComponent } from './filerepository/filerepository.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -90,6 +91,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EditorComponent,
     ViewGalleryComponent,
     SocialManagementComponent,
+    FilerepositoryComponent,
     // directives
     EditGalleryItems,
     GalleryDirective,
