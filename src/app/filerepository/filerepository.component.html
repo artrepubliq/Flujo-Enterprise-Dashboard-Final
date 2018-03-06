@@ -1,0 +1,80 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<div class="row" style="margin: 10px">
+<form  fxFlex="50%" [formGroup]="FileUploadControl" (submit)="onSubmit()" enctype="multipart/form-data">
+  <div draggable="true" ngClass="{{dragAreaClass}}">
+    <div class="row">
+      <div class="col-md-12 text-center" class="form-group" >
+        <a href="javascript:void(0)" (click)="file.click()" >
+          Click to browse 
+        </a>
+        Or Drag & Drop to upload your files
+        <input type="file"  class="form-control"
+          #file 
+          [multiple]="(maxFiles == 1)"
+          (change) = "onFileChange($event)"
+          style="display:none" 
+          id="file_path"
+          />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>File Name</label>
+      <input id="file_name" class="form-control" [(ngModel)] = "file_name" value="file_name" formControlName="file_name" />
+    </div>
+    <div>
+      <label>
+        Folder Name
+      </label>
+      <input id="folder" class="form-control" [(ngModel)]="folder" value="folder"  formControlName="folder"/>
+    </div>
+  </div>
+  <div>
+    <button [disabled]="disable()">Submit</button>
+  </div>
+</form>
+</div>
+
+<div style="margin : 20px">
+
+</div>
+
+<div class="row" *ngIf="repositories.length > 0">    
+  <ul>
+    <li *ngFor="let repositoryitem of repositories" (click)="getDocuments(repositories, repositoryitem.folder)">{{repositoryitem.folder}}</li>
+    <!-- <div *ngIf="filtered_repositories.length > 0">
+      <ul>
+          <li *ngFor="let filtered_item of filtered_repositories">{{filtered_item.file_name}}</li>
+      </ul>
+    </div> -->
+  </ul>
+
+  <div style="margin:20%" class="row" *ngIf="filtered_repositories.length > 0">
+    <table>
+      <thead>
+        <th> file link</th>
+        <th> Action </th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let filtered_item of filtered_repositories">
+          <td>
+              <a href="http://{{filtered_item.file_path}}" download="{{filtered_item.file_name}}.{{filtered_item.file_extension}}">
+                  {{filtered_item.file_name}}
+              </a>  
+          </td>
+          <td (click)="deleteFile(filtered_item.id, filtered_item.client_id)">
+            Delete
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <ul>
+        <li *ngFor="let filtered_item of filtered_repositories">
+          <a href="{{filtered_item.file_path}}">
+          {{filtered_item.file_name}}
+          </a>
+        </li>
+    </ul> -->
+  </div>
+</div>
+
