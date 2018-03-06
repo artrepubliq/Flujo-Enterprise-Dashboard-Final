@@ -5,7 +5,8 @@ import { AUTH_CONFIG } from './auth-config';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import * as _ from 'underscore';
-
+import { IHttpResponse } from '../model/httpresponse.model';
+import { AppConstants } from '../app.constants';
 @Injectable()
 export class LoginAuthService implements OnInit {
 
@@ -14,7 +15,6 @@ export class LoginAuthService implements OnInit {
   // Create a stream of logged in status to communicate throughout app
   customLoggedIn: boolean;
   customLoggedIn$ = new BehaviorSubject<boolean>(this.customLoggedIn);
-
   constructor(private router: Router, private http: HttpClient) {
     this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     if (Date.now() < this.expiresAt) {
@@ -58,6 +58,18 @@ export class LoginAuthService implements OnInit {
 
   logout() {
     if (this.customLoggedIn) {
+      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/'+localStorage.user_id)
+      .subscribe(
+        data => {
+          if (data) {
+          
+        }else {
+          
+        }
+        },
+        error => {
+          
+        });
       this.router.navigate(['/login']);
     }
     // Remove tokens and profile and update login status subject
