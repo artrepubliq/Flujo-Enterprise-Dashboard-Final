@@ -23,7 +23,6 @@ export class LoginAuthService {
 if(!this.customLoggedIn) {
   window.alert("close session");
   this.router.navigate(['/login']);
-  this.clearLocalStorageData();
 } else {
 console.log('expired');
 }
@@ -32,8 +31,9 @@ console.log('expired');
   public _setSession(authResult) {
     const expTime = 600 * 1000 + Date.now();
     // Save session data and update login status subject
-    localStorage.setItem('token', authResult.access_token);
-    // console.log(localStorage.getItem('token'));
+    localStorage.setItem('token', authResult.accessToken);
+    console.log(localStorage.getItem('token'));
+    localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('nickname', JSON.stringify(authResult.user_name));
     localStorage.setItem('expires_at', JSON.stringify(expTime));
     this.router.navigate(['/admin']);
@@ -42,18 +42,14 @@ console.log('expired');
   getCustomLoginStatus() {
     return this.customLoggedIn;
   }
-clearLocalStorageData(){
-  localStorage.removeItem('token');
-  localStorage.removeItem('expires_at');
-  localStorage.removeItem('nickname');
-}
+
   logout() {
     if (this.customLoggedIn) {
       this.router.navigate(['/login']);
-      this.clearLocalStorageData();
-      console.log(this.clearLocalStorageData());
     }
     // Remove tokens and profile and update login status subject
+    localStorage.removeItem('token');
+    localStorage.removeItem('expires_at');
     this.setLoggedInCustom(false);
   }
 

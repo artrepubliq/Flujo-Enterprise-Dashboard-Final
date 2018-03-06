@@ -100,7 +100,6 @@ export class LogoComponent implements OnInit {
       });
   }
 
-
   onSubmit = (body) => {
     // if(!this.logoDetail){
     //   this.logoDetail= [];

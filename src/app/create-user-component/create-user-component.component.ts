@@ -28,8 +28,8 @@ export class CreateUserComponentComponent implements OnInit {
   private httpClient: HttpClient) {
     this.CreateUserForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
-      'name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
-      // 'user_password': ['', Validators.required],
+      'user_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+      'user_password': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'role': ['', Validators.required],
@@ -43,6 +43,7 @@ export class CreateUserComponentComponent implements OnInit {
   }
   onSubmit = (body) => {
     this.spinnerService.show();
+    console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.CreateUserForm.value;
     this.httpClient.post(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
