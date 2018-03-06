@@ -59,7 +59,7 @@
     </div> -->
     <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
       <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
-      <button type="submit" class="button_submit" (click)="smsContactFormSubmit(smsContactForm.value)">Send</button>
+      <button type="submit" class="button_submit" (click)="smsContactFormSubmit(smsContactForm.value)" [disabled]="!smsContactForm.valid">Send</button>
     </div>
   </form>
 </div>

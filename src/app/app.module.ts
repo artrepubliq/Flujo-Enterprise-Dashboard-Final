@@ -66,6 +66,11 @@ import { FBService } from './service/fb.service';
 import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
 import { BiographyComponent } from './biography/biography.component';
 import { DateFormat } from './model/date.formatt';
+import { ReportanissueComponent } from './reportanissue/reportanissue.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { ChangemakerComponent } from './changemaker/changemaker.component';
+import { FilerepositoryComponent } from './filerepository/filerepository.component';
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -92,6 +97,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EditorComponent,
     ViewGalleryComponent,
     SocialManagementComponent,
+    FilerepositoryComponent,
     // directives
     EditGalleryItems,
     GalleryDirective,
@@ -100,6 +106,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangepasswordComponent,
     BiographyComponent,
     FileSelectPopup
+    ReportanissueComponent,
+    FeedbackComponent,
+    ChangemakerComponent
   ],
   imports: [
     BrowserModule,
