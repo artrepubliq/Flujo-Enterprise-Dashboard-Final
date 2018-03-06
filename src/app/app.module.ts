@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
-import { AuthService } from './auth/auth.service';
+// import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesComponent } from './pages/pages.component';
 import { HttpService } from './service/httpClient.service';
@@ -66,6 +66,7 @@ import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
+import { FilerepositoryComponent } from './filerepository/filerepository.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -93,6 +94,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EditorComponent,
     ViewGalleryComponent,
     SocialManagementComponent,
+    FilerepositoryComponent,
     // directives
     EditGalleryItems,
     GalleryDirective,
@@ -140,7 +142,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxTwitterTimelineModule
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog],
-  providers: [AuthService,
+  providers: [
+              // AuthService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,

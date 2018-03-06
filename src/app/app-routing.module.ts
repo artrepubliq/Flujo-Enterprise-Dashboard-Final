@@ -25,6 +25,7 @@ import { SocialManagementComponent } from './social-management/social-management
 import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
+import { FilerepositoryComponent } from "./filerepository/filerepository.component";
 const routes: Routes = [
   {
     path: '',
@@ -70,6 +71,7 @@ const routes: Routes = [
           { path: 'neweditor', component: EditorComponent },
           { path: 'media/gallery', component: ViewGalleryComponent },
           { path: 'socialmanagement', component: SocialManagementComponent },
+          { path: 'filerepository', component: FilerepositoryComponent },
         ]
       }
     ]

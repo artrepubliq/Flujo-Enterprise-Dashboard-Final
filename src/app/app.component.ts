@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'flujo dasboard';
 
-  constructor(public dialog: MatDialog, private router: Router, private authService: AuthService,
+  constructor(public dialog: MatDialog, private router: Router,
      private loginAuthService: LoginAuthService) {
     // this.openDialog();
 
