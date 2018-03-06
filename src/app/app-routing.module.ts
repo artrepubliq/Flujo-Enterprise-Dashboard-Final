@@ -23,6 +23,7 @@ import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { SocialManagementComponent } from './social-management/social-management.component';
 import { FilerepositoryComponent } from "./filerepository/filerepository.component";
+import { ManageReportsComponent } from "./manage-reports/manage-reports.component";
 const routes: Routes = [
   {
     path: '',
@@ -69,6 +70,7 @@ const routes: Routes = [
           { path: 'media/gallery', component: ViewGalleryComponent },
           { path: 'socialmanagement', component: SocialManagementComponent },
           { path: 'filerepository', component: FilerepositoryComponent },
+          { path: 'managereports', component: ManageReportsComponent },
         ]
       }
     ]

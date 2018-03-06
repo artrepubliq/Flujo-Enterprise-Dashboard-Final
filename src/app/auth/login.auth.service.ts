@@ -16,9 +16,7 @@ export class LoginAuthService implements OnInit {
   customLoggedIn$ = new BehaviorSubject<boolean>(this.customLoggedIn);
 
   constructor(private router: Router, private http: HttpClient) {
-    console.log('login constructor' + this.expiresAt);
     this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    console.log(this.expiresAt);
     if (Date.now() < this.expiresAt) {
       this.setLoggedInCustom(true);
       }else {
@@ -48,7 +46,6 @@ export class LoginAuthService implements OnInit {
     const expTime = 600 * 1000 + Date.now();
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
-    console.log(localStorage.getItem('token'));
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('nickname', JSON.stringify(authResult.user_name));
     localStorage.setItem('expires_at', JSON.stringify(expTime));
@@ -73,7 +70,6 @@ export class LoginAuthService implements OnInit {
     // Check if current date is greater than expiration
     if (this.customLoggedIn) {
       this.setLoggedInCustom(Date.now() < this.expiresAt);
-      console.log(this.expiresAt);
     } else {
       return;
     }
