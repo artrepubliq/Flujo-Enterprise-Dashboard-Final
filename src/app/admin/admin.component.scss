@@ -505,6 +505,7 @@
     }
     .dropdown-menu {
       background-color: #52306b;
+      min-width: auto !important;
     }
     .nav-link.dropdown-toggle::after {
       transform: rotate(180deg);
