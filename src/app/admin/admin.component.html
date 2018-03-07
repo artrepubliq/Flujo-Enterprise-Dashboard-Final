@@ -1,11 +1,25 @@
 
 <!-- TopNav -->
 <nav class="navbar navbarTop" role="navigation">
-
   <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
-    <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
-      <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
-    </a>
+    <div fxLayout="row" fxLayoutGap="0.1rem">
+      <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
+        <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
+      </a>
+      <ul class="nav flex-column login-info">
+        <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
+          <a class="nav-link dropdown-toggle" (click)="dropdownOpen=!dropdownOpen">
+            <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
+            <span>Art Republiq</span>
+            <span>Santosh <sup><span class="active-info">.</span></sup></span>
+          </a>
+          <div class="dropdown-menu">
+            <ng4-loading-spinner> </ng4-loading-spinner>
+            <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Edit Profile</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="admin-website mr-auto">
     <p class="title">
@@ -49,8 +63,28 @@
           <a class="activity">{{nickName}}</a>
         </li>
         <li>
-          <a routerLink="./profile" routerLinkActive="active" class="activity">
-            <i class="fa fa-user"></i> Edit Profile</a>
+          <a routerLink="./logo" routerLinkActive="active" class="activity">
+            <i class="fa fa-user"></i>Logo</a>
+        </li>
+        <li>
+          <a routerLink="./media" routerLinkActive="active" class="activity">
+            <i class="fa fa-user"></i>Media Management</a>
+        </li>
+        <li>
+          <a routerLink="./themeconfiguration" routerLinkActive="active" class="activity">
+            <i class="fa fa-user"></i>Theme Global Config</a>
+        </li>
+        <li>
+          <a routerLink="./smtpconfiguration" routerLinkActive="active" class="activity">
+            <i class="fa fa-user"></i>SMTP</a>
+        </li>
+        <li>
+          <a routerLink="./user" routerLinkActive="active" class="activity">
+            <i class="fa fa-user"></i>Create User</a>
+        </li>
+        <li>
+          <a routerLink="./sociallinks" routerLinkActive="active" class="activity">
+            <i class="fa fa-user"></i>Social links update</a>
         </li>
         <li>
           <a routerLink="./changepassword" routerLinkActive="active" class="activity">
@@ -80,7 +114,7 @@
   <aside id="sidebar-wrapper" class="sidebar-menu ps" [ngClass]="{'sidebar-toggle':sidebarToggledButton}" [perfectScrollbar]="config">
     <ul class="nav flex-column">
       <!-- Web App -->
-      <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
+      <!-- <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
         <a class="nav-link dropdown-toggle" (click)="dropdownOpen=!dropdownOpen">
           <img src="assets/icons/web-icon-normal@2x.png" alt="web icon">
           <span>Web</span>
@@ -88,13 +122,14 @@
         <div class="dropdown-menu">
           <a class="dropdown-item" routerLink="./logo" routerLinkActive="active">Logo</a>
           <ng4-loading-spinner> </ng4-loading-spinner>
-          <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Profile</a>
-          <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a>
-          <a class="dropdown-item" routerLink="./media" routerLinkActive="active">Media Management</a>
-          <a class="dropdown-item" routerLink="./reports" routerLinkActive="active">Reports</a>
-          <a class="dropdown-item" routerLink="./themeconfiguration" routerLinkActive="active">Theme Global Config</a>
-          <a class="dropdown-item" routerLink="./biography" routerLinkActive="active">Biography</a>
-          <a class="dropdown-item" routerLink="./filerepository" routerLinkActive="active">Upload Files</a>
+
+           <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Profile</a> -->
+          <!-- <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a> -->
+          <!-- <a class="dropdown-item" routerLink="./media" routerLinkActive="active">Media Management</a> -->
+          <!-- <a class="dropdown-item" routerLink="./reports" routerLinkActive="active">Reports</a> -->
+          <!-- <a class="dropdown-item" routerLink="./themeconfiguration" routerLinkActive="active">Theme Global Config</a> -->
+          <!-- <a class="dropdown-item" routerLink="./filerepository" routerLinkActive="active">Upload Files</a> -->
+
           <!-- <li class="nav-item" [ngClass]="{'open':showDropdownMain1}">
             <a class="nav-link subNav-link dropdown-toggle" (click)="showDropdownMain1=!showDropdownMain1">
               <span>Pages</span>
@@ -133,9 +168,9 @@
                 <a class="dropdown-item">My Journey</a>
               </li>
             </div>
-          </li> -->
+          </li> 
         </div>
-      </li>
+      </li> -->
       <!-- <li class="nav-item" [ngClass]="{'open':dropdownOpenApp}">
         <a class="nav-link dropdown-toggle" (click)="dropdownOpenApp=!dropdownOpenApp">
           <img src="assets/icons/app-icon-normal@2x.png" alt="app icon">
@@ -146,8 +181,14 @@
           <a class="dropdown-item">iOS</a>
         </div>
       </li> -->
-
-      <!-- <li class="nav-item divider-line"></li> -->
+      <li class="nav-item">
+          <br/> <a class="nav-link" routerLink="./editor" routerLinkActive="active">
+             <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
+            <!-- <i class="fa fa-ionic"></i> -->
+            <span>Editor</span>
+          </a><br/>
+        </li>
+      <li class="divider-line"></li>
       <!-- Communication Block -->
       <li class="nav-title">Flow
           <i class="fa fa-cog"></i>
@@ -155,9 +196,10 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="./socialmanagement" routerLinkActive="active">
           <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
-          <span>SOCIAL MANAGEMENT</span>
+          <span>Social Management</span>
         </a>
       </li>
+
       <li class="nav-item">
         <a class="nav-link" routerLink="./managereports" routerLinkActive="active">
           <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
@@ -166,11 +208,7 @@
       </li>
       
       <li class="nav-item">
-          <a class="nav-link" routerLink="./sociallinks" routerLinkActive="active">
-            <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
-            <span>Social</span>
-          </a>
-        </li>
+
         <li class="nav-item">
           <a class="nav-link" routerLink="./email" routerLinkActive="active">
             <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
@@ -183,6 +221,7 @@
             <span>SMS</span>
           </a>
         </li>
+        <li class="divider-line"></li>
       <li class="nav-title">Nucleus
         <i class="fa fa-cog"></i>
       </li>
@@ -196,32 +235,32 @@
         <a class="nav-link" routerLink="./feedback" routerLinkActive="active">
         <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
         <span>Feedback</span>
-      </a>
+        </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="./changemakerreport" routerLinkActive="active">
         <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
         <span>Change Maker Report</span>
-      </a>
+        </a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" routerLink="./smtpconfiguration" routerLinkActive="active">
           <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
           <span>SMTP</span>
         </a>
-      </li>
-      <li class="nav-item">
+      </li> -->
+      <!-- <li class="nav-item">
         <a class="nav-link" routerLink="./user" routerLinkActive="active">
           <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
           <span>Create User</span>
         </a>
-      </li>
-      <li class="nav-item">
+      </li> -->
+      <!-- <li class="nav-item">
         <a class="nav-link" routerLink="./neweditor" routerLinkActive="active">
           <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
           <span>New editor</span>
         </a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" routerLink="./surveys" routerLinkActive="active">
           <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
@@ -241,12 +280,12 @@
         </a>
       </li>
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" routerLink="./neweditor" routerLinkActive="active">
           <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
           <span>New editor</span>
         </a>
-      </li>
+      </li> -->
 
       <li class="nav-item-divider">
         <img src="assets/slider.svg" alt="divider" class="img-fluid">

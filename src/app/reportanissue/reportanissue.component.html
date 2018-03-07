@@ -31,7 +31,129 @@
           </div>
       </div>
     </div>
-    <div *ngFor="let report of reportProblemData" class="link-row"  fxLayout.xs="column"  fxLayout="row">
+    <div class="row">
+        <div class="col-md-12">
+          <!-- <h3>Feedback Report:</h3> -->
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">
+                    <span class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="d-inline" type="checkbox" >
+                        <b>
+                          <p class="d-inline">Name &nbsp; <i class="fa fa-angle-down"></i></p>
+                        </b>
+                      </span> 
+                </th>
+                <th scope="col">
+                    <div>
+                        <span class="d-inline">Updated &nbsp; <i class="fa fa-angle-down"></i></span>
+                    </div>
+                </th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">
+                    <span class="d-inline">
+                        Gender&nbsp;<i class="fa fa-angle-down"></i>
+                    </span>   
+                </th>
+                <th scope="col">
+                    <span class="d-inline" >
+                        Age &nbsp;<i class="fa fa-angle-down"></i>
+                    </span> 
+                </th>
+                <th scope="col">
+                    <span class="d-inline" >
+                        Locality &nbsp;<i class="fa fa-angle-down"></i>
+                    </span> 
+                </th>
+              </tr>
+            </thead>
+            <ng-template class="link-row problem-box" id="accordion" ngFor let-report [ngForOf]="reportProblemData" let-i="index">
+              <tbody class="" id="problem-row1">
+                  <tr>
+                    <td>
+                        <span class="d-inline">
+                            <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
+                            <input  type="checkbox">
+                            <b><p class="name-feedback d-inline">{{report.name}}</p></b>
+                        </span> 
+                    </td>
+                    <td>{{report.submitted_at}}</td>
+                    <td>{{report.email}}</td>
+                    <td>{{report.phone}}</td>
+                    <td>Male</td>
+                    <td>
+                        <p class="">25</p>
+                    </td>
+                    <td>
+                      <span class="d-inline">
+                            <p class="d-inline">Karimnagar</p>
+                            <p class="text-muted d-inline pull-right">
+                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                               <i class="fa fa-caret-down"></i>
+                             </a> 
+                            </p>
+                        </span>
+                    </td>
+                  </tr>
+                  </tbody>                  
+                  <tbody class="" id="collapseOne">
+                    <tr>
+                      <td colspan="2">
+                          <span class="d-inline file-icon text-muted">
+                              <i class="fa fa-paperclip"> </i> &nbsp;
+                            </span> 
+                          <span  class="d-inline report-file-descr"> Now is the time for all good men to come to the aid of their party.</span>
+                      </td>
+                      <td>
+                          <span class="text-muted d-inline">
+                              Category:&nbsp;
+                            </span>
+                            <span class="d-inline">Email</span>
+                      </td>
+                      <td>
+                          <span class="text-muted d-inline">
+                              Source:&nbsp;
+                            </span>
+                            <span class="d-inline">Website</span>
+                      </td>
+                      
+                      <td colspan="2"><span class="text-muted d-inline">
+                          Address:&nbsp;
+                        </span>
+                        <span class="d-inline">
+                          123, Yogi <br/>is a Kati
+                        </span>
+                      </td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                          <!-- <form class="example-form">
+                              <mat-form-field class="example-full-width">
+                                <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                    {{ option }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </form> -->
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td colspan="2">
+
+                      </td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </ng-template>
+          </table>
+        </div>
+      </div>
+    <!-- <div *ngFor="let report of reportProblemData" class="link-row"  fxLayout.xs="column"  fxLayout="row">
       <div class="problem-box" fxFlex fxLayout="column" fxLayoutGap="15px">
         <div fxLayout="row" fxLayoutGap="3rem" >
           <div class="" fxFlex="20%" fxLayoutAlign="start center">
@@ -93,7 +215,7 @@
         </div>
       </div>
       
-    </div>
+    </div> -->
     <div fxLayout="row">
       <div class="sendMail-data">
         <form action="" [formGroup]="reportCsvMail" fxLayout="row" fxLayoutGap="15px">
