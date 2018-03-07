@@ -70,6 +70,7 @@ import { ReportanissueComponent } from './reportanissue/reportanissue.component'
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FilerepositoryComponent } from './filerepository/filerepository.component';
+import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -98,6 +99,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ViewGalleryComponent,
     SocialManagementComponent,
     FilerepositoryComponent,
+    ManageReportsComponent,
     // directives
     EditGalleryItems,
     GalleryDirective,

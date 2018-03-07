@@ -1,3 +1,146 @@
-.mat-list-icon {
-    color: rgba(0, 0, 0, 0.54);
+.uploader_block {
+  padding: 50px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+  .file_uploader {
+    min-width: 300px;
   }
+  .uploader_content {
+    min-width: 460px;
+    ;
+    h3 {
+      font-size: 30px;
+      font-weight: 300;
+      text-align: left;
+      color: #4a2565;
+    }
+    p {
+      font-size: 15px;
+      font-style: italic;
+      text-align: left;
+      color: #c1c1c1;
+    }
+  }
+  .image-upload:before {
+    content: "\f0ee";
+    font-family: 'FontAwesome';
+    font-size: 52px;
+    color: #91d7ea;
+    position: absolute;
+    left: 20px;
+  }
+  .image-upload {
+    position: relative;
+  }
+  .upload-button {
+    margin: 15px 0;
+    height: 48px;
+    width: 130px;
+    border-radius: 25px;
+    background-color: #4a2665;
+    color: #fff;
+  }
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  color: #666666;
+}
+
+// ======= Floder ============
+.floder_block {
+  height: 60px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  min-width: 175px;
+  position: relative;
+  margin-bottom: 30px;
+  cursor: pointer;
+  .floder_name {
+    font-size: 13px;
+    color: #919191;
+  }
+}
+
+.floder_block.active,
+.floder_block:hover {
+  .floder_name {
+    font-weight: 500;
+  }
+  i.fa-file-o:before {
+    content: "\f15b";
+  }
+}
+
+.floder_block.active:after {
+  content: "";
+  background-color: #50d166;
+  width: 7px;
+  height: 7px;
+  border-radius: 50px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+// ======== File =======
+.file_block {
+  // width: 175px;
+  height: 210px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  cursor: pointer;
+  .file_icon {
+    height: calc(100% - 55.5px);
+    i {
+      font-size: 80px;
+    }
+  }
+  .file_footer {
+    padding: 14px 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top: 1.5px solid #f7f7f7;
+    .title {
+      font-size: 15px;
+      font-weight: 500;
+      text-align: left;
+      color: #919191;
+    }
+  }
+  .file_actions {
+    position: absolute;
+    top: 30%;
+    right: 30%;
+    display: none;
+    z-index: 1;
+    .action {
+      padding: 12px;
+      background-color: #ffffff;
+    }
+  }
+  .bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 55.5px;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+  }
+}
+
+.file_block:hover {
+  .file_actions,
+  .bg-layer {
+    display: block;
+  }
+}

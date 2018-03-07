@@ -11,3 +11,4 @@ export interface IloggedinUsers {
     is_logged_in: boolean;
     isUserActive: boolean;
 }
+

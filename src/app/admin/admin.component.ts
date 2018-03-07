@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 // import { AuthService } from '../auth/auth.service';
-import { LoginAuthService } from '../auth/login.auth.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
+import { LoginAuthService } from '../auth/login.auth.service';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'underscore';
 import { IHttpResponse } from '../model/httpresponse.model';
@@ -21,11 +21,13 @@ export class AdminComponent implements OnInit {
   public nickName: string;
   createUserList: CreateUserComponentComponent;
 
-  constructor(public loginAuthService: LoginAuthService, private httpClient: HttpClient, private mScrollbarService: MalihuScrollbarService) {
+  constructor(public loginAuthService: LoginAuthService,
+    public httpClient: HttpClient,
+    public mScrollbarService: MalihuScrollbarService) {
     this.getUserList();
-   }
+  }
   ngOnInit(): void {
-    this.nickName = localStorage.getItem("nickname");
+    this.nickName = localStorage.getItem('nickname');
     this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
   }
@@ -55,7 +57,7 @@ export class AdminComponent implements OnInit {
           console.log(this.activeUsers);
       },
       error => {
-          console.log(error);
+        console.log(error);
       }
       );
   }
