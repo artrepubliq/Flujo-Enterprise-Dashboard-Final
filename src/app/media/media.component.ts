@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, SimpleChanges, Inject } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, SimpleChanges, Inject, HostListener,EventEmitter, Input, Output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -47,6 +47,7 @@ export class MediaComponent implements OnInit {
   public usedImageIdsArray;
   public unUsedImageIdsArray;
   uploadImagesForm: any;
+  dragAreaClass = 'dragarea';
   showHide: boolean;
   // submitAlbumData: FormGroup;
   albumObject: IGalleryObject;
@@ -112,6 +113,7 @@ export class MediaComponent implements OnInit {
     },
 
   };
+  public dragging: boolean;
   constructor(public dialog: MatDialog, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
 
@@ -130,8 +132,6 @@ export class MediaComponent implements OnInit {
       order: ['', Validators.required]
     });
   }
-
-
   ngOnInit() {
     this.ishide = true;
     this.getMediaGalleryData();
@@ -153,6 +153,9 @@ export class MediaComponent implements OnInit {
         reader.readAsDataURL(file);
         reader.onload = () => {
           imageDetail.push(reader.result.split(',')[1]);
+          // this.imagePreview = imageDetail;
+          // console.log(this.imagePreview);
+          // this.openFileDialog(imageDetail);
         };
       }
       try {
@@ -161,7 +164,6 @@ export class MediaComponent implements OnInit {
 
       }
     }
-
   }
   onRemoved(file: FileHolder) {
     this.ishide = true;
@@ -170,6 +172,17 @@ export class MediaComponent implements OnInit {
   onUploadStateChanged(state: boolean) {
     console.log(JSON.stringify(state));
   }
+  // Popup for file uploading
+  // openFileDialog(imageDetail): void {
+  //   let dialogRef = this.dialog.open(FileSelectPopup, {
+  //     width: '80vw',
+  //     data: imageDetail,
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //   });
+  // }
   // this function used to upload the image or multiple images
   onUploadImages(body: any) {
     this.spinnerService.show();
@@ -629,6 +642,24 @@ export class DialogOverviewExampleDialog {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'dialog-overview-example-file-dialog',
+  templateUrl: 'file-select.popup.html',
+})
+// tslint:disable-next-line:component-class-suffix
+export class FileSelectPopup {
+
+  constructor(
+    public dialogRef: MatDialogRef<FileSelectPopup>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { dialogRef.disableClose = true; }
+
+  onNoClick(): void {
+    console.log(this.data);
     this.dialogRef.close();
   }
 
