@@ -7,6 +7,12 @@ import CSVExportService from 'json2csvexporter';
 import { AppConstants } from '../app.constants';
 import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {Observable} from 'rxjs/Observable';
+import {startWith} from 'rxjs/operators/startWith';
+import {map} from 'rxjs/operators/map';
+import {FormControl} from '@angular/forms';
+
 
 @Component({
   selector: 'app-reportanissue',
@@ -43,10 +49,23 @@ export class ReportanissueComponent implements OnInit {
     this.getuserFeedbackData();
     this.getReportYourProblemData();
   }
+
+  myControl: FormControl = new FormControl();
+  filter(val: string): string[] {
+    return this.options.filter(option =>
+      option.toLowerCase().indexOf(val.toLowerCase()) === 0);
+  }
+  
   ngOnInit() {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
+
+    this.filteredOptions = this.myControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(val => this.filter(val))
+    );
   }
   showFeedback() {
     this.isFeedbackReport = true;
@@ -156,6 +175,7 @@ export class ReportanissueComponent implements OnInit {
       data => {
         console.log(data);
         this.reportProblemData = data;
+        console.log(this.reportProblemData.submitted_at);
         this.spinnerService.hide();
       },
       error => {
@@ -175,7 +195,7 @@ export class ReportanissueComponent implements OnInit {
     const Data = [
       {
         id: this.reportProblemData[0].id, name: this.reportProblemData[0].name, email: this.reportProblemData[0].email, phone: this.reportProblemData[0].phone,
-        Problem: this.reportProblemData[0].Problem, datenow: this.reportProblemData[0].datenow
+        Problem: this.reportProblemData[0].Problem, datenow: this.reportProblemData[0].submitted_at
       },
     ];
     const exporter = CSVExportService.create({
@@ -242,5 +262,11 @@ export class ReportanissueComponent implements OnInit {
         this.alertService.danger('Email could not sent');
       });
   }
-
+  
+  options = [
+    'One',
+    'Two',
+    'Three'
+  ];
+  filteredOptions: Observable<string[]>;
 }

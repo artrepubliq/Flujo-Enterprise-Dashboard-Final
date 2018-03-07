@@ -71,6 +71,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FilerepositoryComponent, FileRepositoryPopup } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
+import {MatIconModule} from '@angular/material/icon';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -142,6 +143,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTabsModule,
     MatTooltipModule,
     MatCardModule,
+    MatIconModule,
     MomentModule,
     MatAutocompleteModule,
     NgIdleKeepaliveModule.forRoot(),
