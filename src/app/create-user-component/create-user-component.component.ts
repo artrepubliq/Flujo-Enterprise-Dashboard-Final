@@ -130,7 +130,7 @@ export class CreateUserComponentComponent implements OnInit {
   parsePostResponse(response) {
 
     if (response.result) {
-      this.alertService.danger('Required parameters missing.');
+      this.alertService.danger('Email ID already existed');
     } else {
       this.alertService.info('User data submitted successfully.');
       this.CreateUserForm.reset();
