@@ -26,8 +26,8 @@ import { BiographyComponent } from './biography/biography.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
-import { FilerepositoryComponent } from "./filerepository/filerepository.component";
-import { ManageReportsComponent } from "./manage-reports/manage-reports.component";
+import { FilerepositoryComponent } from './filerepository/filerepository.component';
+import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 const routes: Routes = [
   {
     path: '',
@@ -73,7 +73,7 @@ const routes: Routes = [
           { path: 'neweditor', component: EditorComponent },
           { path: 'media/gallery', component: ViewGalleryComponent },
           { path: 'socialmanagement', component: SocialManagementComponent },
-          { path: 'biography', component: BiographyComponent }
+          { path: 'biography', component: BiographyComponent },
           { path: 'filerepository', component: FilerepositoryComponent },
           { path: 'managereports', component: ManageReportsComponent },
         ]

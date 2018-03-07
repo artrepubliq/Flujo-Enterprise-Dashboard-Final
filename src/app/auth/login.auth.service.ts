@@ -15,7 +15,7 @@ export class LoginAuthService implements OnInit {
   // Create a stream of logged in status to communicate throughout app
   customLoggedIn: boolean;
   customLoggedIn$ = new BehaviorSubject<boolean>(this.customLoggedIn);
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(private router: Router, private httpClient: HttpClient) {
     this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     if (Date.now() < this.expiresAt) {
       this.setLoggedInCustom(true);
@@ -58,17 +58,11 @@ export class LoginAuthService implements OnInit {
 
   logout() {
     if (this.customLoggedIn) {
-      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/'+localStorage.user_id)
+      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.user_id)
       .subscribe(
         data => {
-          if (data) {
-          
-        }else {
-          
-        }
         },
         error => {
-          
         });
       this.router.navigate(['/login']);
     }
