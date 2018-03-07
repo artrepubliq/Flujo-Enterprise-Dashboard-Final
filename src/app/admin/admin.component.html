@@ -93,6 +93,8 @@
           <a class="dropdown-item" routerLink="./media" routerLinkActive="active">Media Management</a>
           <a class="dropdown-item" routerLink="./reports" routerLinkActive="active">Reports</a>
           <a class="dropdown-item" routerLink="./themeconfiguration" routerLinkActive="active">Theme Global Config</a>
+          <a class="dropdown-item" routerLink="./biography" routerLinkActive="active">Biography</a>
+          <a class="dropdown-item" routerLink="./filerepository" routerLinkActive="active">Upload Files</a>
           <!-- <li class="nav-item" [ngClass]="{'open':showDropdownMain1}">
             <a class="nav-link subNav-link dropdown-toggle" (click)="showDropdownMain1=!showDropdownMain1">
               <span>Pages</span>
@@ -156,6 +158,13 @@
           <span>SOCIAL MANAGEMENT</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./managereports" routerLinkActive="active">
+          <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
+          <span>MANAGE REPORTS</span>
+        </a>
+      </li>
+      
       <li class="nav-item">
           <a class="nav-link" routerLink="./sociallinks" routerLinkActive="active">
             <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
@@ -247,14 +256,14 @@
         <i class="fa fa-cog"></i>
       </li>
       <ul class="team-items">
-        <li>
+        <li *ngFor="let chatItem of loggedinUsersList">
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
             <i class="team-user-icon user-logo">
               <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
-            <span>Abhi Ram</span>
+            <span>{{chatItem.name}} </span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
             <i class="team-user-icon user-logo">
               <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
@@ -317,7 +326,7 @@
               <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
             <span>Krishna</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </ul>
   </aside>

@@ -22,6 +22,12 @@ import { EditorComponent } from './editor/editor.component';
 import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { SocialManagementComponent } from './social-management/social-management.component';
+import { BiographyComponent } from './biography/biography.component';
+import { ChangemakerComponent } from './changemaker/changemaker.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { ReportanissueComponent } from './reportanissue/reportanissue.component';
+import { FilerepositoryComponent } from "./filerepository/filerepository.component";
+import { ManageReportsComponent } from "./manage-reports/manage-reports.component";
 const routes: Routes = [
   {
     path: '',
@@ -55,9 +61,9 @@ const routes: Routes = [
           { path: 'media', component: MediaComponent },
           { path: 'sociallinks', component: SocialLinksComponent },
           { path: 'smtpconfiguration', component: SMTPConfigurationComponent },
-          { path: 'reportanissue', component: ReportsComponent },
-          { path: 'feedback', component: ReportsComponent },
-          { path: 'changemakerreport', component: ReportsComponent },
+          { path: 'reportanissue', component: ReportanissueComponent },
+          { path: 'feedback', component: FeedbackComponent },
+          { path: 'changemakerreport', component: ChangemakerComponent },
           { path: 'themeconfiguration', component: ThemeConfigComponent },
           { path: 'email', component: EmailserviceComponent },
           { path: 'sms', component: SmsuiComponent},
@@ -67,6 +73,9 @@ const routes: Routes = [
           { path: 'neweditor', component: EditorComponent },
           { path: 'media/gallery', component: ViewGalleryComponent },
           { path: 'socialmanagement', component: SocialManagementComponent },
+          { path: 'biography', component: BiographyComponent }
+          { path: 'filerepository', component: FilerepositoryComponent },
+          { path: 'managereports', component: ManageReportsComponent },
         ]
       }
     ]

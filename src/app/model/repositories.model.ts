@@ -5,4 +5,5 @@ export interface IRepositories {
     file_name: string;
     file_path: string;
     submitted_at: any;
+    isActive?: boolean;
 }

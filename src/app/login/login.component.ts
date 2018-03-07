@@ -8,11 +8,13 @@ import { AppConstants } from '../app.constants';
 import { AlertModule, AlertService } from 'ngx-alerts';
 // We haven't defined these services yet
 // import { AuthService } from '../auth.service';
-import { AuthService } from '../auth/auth.service';
+// import { AuthService } from '../auth/auth.service';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { Router } from '@angular/router';
 import { Keepalive } from '@ng-idle/keepalive';
 import { IcustomLoginModelDetails } from '../model/custom.login.model';
+import { error } from 'util';
+import { IHttpResponse } from '../model/httpresponse.model';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,7 +24,7 @@ export class LoginComponent implements OnInit {
   loginForm: any;
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
-    private httpClient: HttpClient, private authService: AuthService, private loginAuthService: LoginAuthService) {
+    private httpClient: HttpClient, private loginAuthService: LoginAuthService) {
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
       'email': ['', Validators.pattern('^[a-zA-Z \-\']+')],
@@ -56,4 +58,5 @@ export class LoginComponent implements OnInit {
         }
       });
   }
+  
 }
