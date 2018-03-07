@@ -1,7 +1,7 @@
-export interface ICreateUserDetails{
-    id:string;
-    name:string;
-    email:string;
-    phone:string;
-    role:string;
+export interface ICreateUserDetails {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    role: string;
 }
