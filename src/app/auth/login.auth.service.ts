@@ -15,7 +15,7 @@ export class LoginAuthService implements OnInit {
   // Create a stream of logged in status to communicate throughout app
   customLoggedIn: boolean;
   customLoggedIn$ = new BehaviorSubject<boolean>(this.customLoggedIn);
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(private router: Router, private httpClient: HttpClient) {
     this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     if (Date.now() < this.expiresAt) {
       this.setLoggedInCustom(true);
