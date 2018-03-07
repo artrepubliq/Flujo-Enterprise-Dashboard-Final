@@ -5,12 +5,17 @@
 <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
   <form class="file_uploader" enctype="multipart/form-data">
     <div class="">
+        <a href="javascript:void(0)" (click)="file.click()">
+            Click to browse
+          </a>
+          Or Drag & Drop to upload your files
+          <input type="file" class="form-control" #file [multiple]="(maxFiles == 1)" (change)="onFileChange($event)" style="display:none"
+            id="file_path" />
       <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->
-      <image-upload (removed)="onRemoved($event)" (uploadStateChanged)="onUploadStateChanged($event)" class="image-upload" id="image"
-        [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'" (change)="selectMedia($event)" [style]="customStyle"
-        #fileInput>
-      </image-upload>
-      <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit()">Upload</button>
+      <!-- <input  type="file" (removed)="onRemoved($event)" (uploadStateChanged)="onUploadStateChanged($event)" class="image-upload" id="image"
+        [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'" (change)="onFileChange($event)" [style]="customStyle"
+        #fileInput> -->
+      <!-- <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit()">Upload</button> -->
     </div>
   </form>
 
