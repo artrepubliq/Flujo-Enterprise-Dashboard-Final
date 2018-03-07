@@ -105,7 +105,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     LogoutPopUpDialog,
     ChangepasswordComponent,
     BiographyComponent,
-    FileSelectPopup
+    FileSelectPopup,
     ReportanissueComponent,
     FeedbackComponent,
     ChangemakerComponent

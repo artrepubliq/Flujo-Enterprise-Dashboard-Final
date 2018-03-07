@@ -253,7 +253,8 @@
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
             <i class="team-user-icon user-logo">
               <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
-            <span>{{chatItem.name}} </span>
+            <span class="userStatus" [ngClass]="{'active': chatItem.isUserActive}">{{chatItem.name}} </span>
+
           </a>
         </li>
         <!-- <li>

@@ -72,7 +72,7 @@ const routes: Routes = [
           { path: 'neweditor', component: EditorComponent },
           { path: 'media/gallery', component: ViewGalleryComponent },
           { path: 'socialmanagement', component: SocialManagementComponent },
-          { path: 'biography', component: BiographyComponent }
+          { path: 'biography', component: BiographyComponent },
           { path: 'filerepository', component: FilerepositoryComponent },
         ]
       }
