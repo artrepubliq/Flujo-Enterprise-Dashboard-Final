@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import * as _ from 'underscore';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { AppConstants } from '../app.constants';
+import {MatIconModule} from '@angular/material/icon';
 @Component({
   templateUrl: './admin.component.html',
   styleUrls: ['../app.component.scss']

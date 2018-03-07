@@ -144,5 +144,4 @@ export class CreateUserComponentComponent implements OnInit {
   cancelUser() {
     this.isEdit = false;
   }
-
 }
