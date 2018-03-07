@@ -47,7 +47,7 @@ export class LoginAuthService implements OnInit {
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('nickname', JSON.stringify(authResult.user_name));
+    localStorage.setItem('nickname', JSON.stringify(authResult.name));
     localStorage.setItem('expires_at', JSON.stringify(expTime));
     this.router.navigate(['/admin']);
     this.setLoggedInCustom(true);
@@ -58,17 +58,11 @@ export class LoginAuthService implements OnInit {
 
   logout() {
     if (this.customLoggedIn) {
-      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/'+localStorage.user_id)
+      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.user_id)
       .subscribe(
         data => {
-          if (data) {
-          
-        }else {
-          
-        }
         },
         error => {
-          
         });
       this.router.navigate(['/login']);
     }

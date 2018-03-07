@@ -144,3 +144,36 @@
     display: block;
   }
 }
+
+.upload_popup {
+  position: relative;
+  input {
+    outline: none;
+    padding: 13px 15px;
+    font-size: 14px;
+    text-align: left;
+    color: #c1c1c1;
+    border-radius: 2px;
+    background-color: #ffffff;
+    border: solid 1.5px #f7f7f7;
+  }
+  label {
+    font-size: 14px;
+    text-align: left;
+    color: #666666;
+  }
+  .file_action {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    .button_submit {
+      width: 100px;
+    }
+  }
+  .file_choose {
+    min-width: 280px;
+    min-height: 280px;
+    border: 1.5px dashed #91d7ea; 
+    border-radius: 5px;
+  }
+}

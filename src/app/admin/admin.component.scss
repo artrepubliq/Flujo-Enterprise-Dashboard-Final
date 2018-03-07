@@ -288,6 +288,25 @@
         left: 13%;
         top: 15%;
       }
+      .userStatus {
+        opacity: 0.5;
+      }
+      .userStatus.active {
+        opacity: 1;
+      }
+      .userStatus:after {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border: 1px solid #c5b6d1;
+        right: 15px;
+        top: 20px;
+        border-radius: 50px;
+      }
+      .userStatus.active:after {
+        background-color: #50d166;
+      }
     }
     .team-user:hover {
       background-color: #52306b;
