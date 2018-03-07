@@ -66,7 +66,7 @@
            ////
             <div fxLayout="row" fxLayoutGap="10px" class="form-group">
               <label fxLayoutAlign="start" fxFlex="10" for="name">Password :</label>
-              <input fxFlex="50" type="password" class="form-control" id="password" formControlName="user_password"
+              <input fxFlex="50" type="password" class="form-control" id="password" formControlName="password"
                 required placeholder="Password">
               <div [hidden]="CreateUserForm.controls.user_password.valid || CreateUserForm.controls.user_password.pristine && !submitted" class="alert">
                 Name is required
@@ -123,7 +123,8 @@
           <div fxLayout="column">
             <!-- <div fxLayout="row" fxLayoutGap="0.5rem"> -->
               <div fxLayout="column" class="form-group">
-                <div><label fxLayoutAlign="start" for="user_name">First Name</label></div>
+
+                <div><label fxLayoutAlign="start" for="name">First Name</label></div>
                 <div><input fxFlex="100%" type="text" class="form-control" id="name" formControlName="name" placeholder="First Name"  required oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');" ></div>
                 <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert">
                     First Name is required
