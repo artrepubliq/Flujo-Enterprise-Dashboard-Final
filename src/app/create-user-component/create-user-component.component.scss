@@ -9,10 +9,11 @@
 .form-group{
   position: relative !important; 
 }
-div.alert{
+div.alert {
   position: absolute;
-  top:30px;
-  left:9%;
+  top: 60px;
+  left: 0;
+  padding-left: 0;
   color:darken($color: #d60808, $amount: 0);
 }
 #createuserform .form-control{
