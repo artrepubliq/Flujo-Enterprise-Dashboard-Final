@@ -28,7 +28,7 @@ export class CreateUserComponentComponent implements OnInit {
   private httpClient: HttpClient) {
     this.CreateUserForm = this.formBuilder.group({
 
-      'user_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+      'name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
       // 'first_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
     //  'last_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
       // 'user_password': ['', Validators.required],

@@ -7,15 +7,19 @@ import { HttpClient } from '@angular/common/http';
 import * as _ from 'underscore';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { AppConstants } from '../app.constants';
+import { IloggedinUsers } from '../model/createUser.model';
+import { CreateUserComponentComponent } from '../create-user-component/create-user-component.component';
 @Component({
   templateUrl: './admin.component.html',
   styleUrls: ['../app.component.scss']
 
 })
 export class AdminComponent implements OnInit {
-  loggedinUsersList: Object;
+  isUserActive: boolean;
+  public activeUsers: Array<IloggedinUsers>;
+  loggedinUsersList: Array<IloggedinUsers>;
   public nickName: string;
-
+  createUserList: CreateUserComponentComponent;
 
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
@@ -25,6 +29,7 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.nickName = localStorage.getItem('nickname');
     this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
+    this.isUserActive = false;
   }
   viewPages() {
     localStorage.setItem('page_item', 'viewpages');
@@ -33,10 +38,23 @@ export class AdminComponent implements OnInit {
     localStorage.setItem('page_item', 'addpages');
   }
   getUserList = () => {
-    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
-      .subscribe(
+    this.httpClient.get<Array<IloggedinUsers>>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID )
+    .subscribe(
       data => {
-        this.loggedinUsersList = data;
+        console.log(data[0].is_logged_in);
+          this.loggedinUsersList = data;
+          console.log(this.loggedinUsersList);
+          this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
+            return activeUserData.is_logged_in === '1';
+        });
+        if (this.activeUsers) {
+          _.each(this.activeUsers, (iteratee, index) =>{
+            this.activeUsers[index].isUserActive = true;
+          });
+        }else{
+          
+        }
+          console.log(this.activeUsers);
       },
       error => {
         console.log(error);
