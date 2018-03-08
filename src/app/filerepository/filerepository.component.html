@@ -30,7 +30,7 @@
 <!-- Header Title -->
 <div fxLayout="row" class="header-media" fxLayoutAlign=" center">
   <h3 class="title m-0" fxFlex>
-    Floders
+    Folders
   </h3>
   <div class="sort_controls" fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="30px">
     <i class="fa fa-th-large"></i>
@@ -57,7 +57,8 @@
 <br>
 <div>
   <h3 class="title" *ngIf="filtered_repositories.length > 0">Files</h3>
-  <div class="row" *ngIf="filtered_repositories.length > 0">
+  <h3 *ngIf="!filtered_repositories.length > 0">No files available</h3>
+  <div class="row" *ngIf="filtered_repositories.length > 0 ">
     <div class="col-md-3" *ngFor="let filtered_item of filtered_repositories">
       <div class="file_block">
         <div fxLayoutAlign="center center" class="file_icon">
@@ -69,13 +70,14 @@
         <div class="file_actions">
           <div fxLayout="row" fxLayoutGap="15px">
             <a href="http://{{filtered_item.file_path}}" download="{{filtered_item.file_name}}.{{filtered_item.file_extension}}" class="fa fa-download action"></a>
-            <i class="fa fa-trash action" (click)="deleteFile(filtered_item.id, filtered_item.client_id, filtered_repositories)"></i>
+            <i class="fa fa-trash action" (click)="deleteFile(filtered_item.id, filtered_repositories)"></i>
           </div>
         </div>
         <div class="bg-layer"></div>
       </div>
     </div>
   </div>
+  
 </div>
 
 <br>
