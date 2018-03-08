@@ -14,9 +14,9 @@ import * as _ from 'underscore';
 import { FileHolder } from 'angular2-image-upload';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 
-import {Observable} from 'rxjs/Observable';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
+import { Observable } from 'rxjs/Observable';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
 
 @Component({
     selector: 'app-filerepository',
@@ -29,7 +29,7 @@ export class FilerepositoryComponent implements OnInit {
     ishide: boolean;
     FileUploadControl: FormGroup;
     errors: Array<string> = [];
-    clickedFile: boolean ;
+    clickedFile: boolean;
     repositories: Array<IRepositories> = [];
     filtered_repositories: Array<IRepositories> = [];
     dragAreaClass = 'dragarea';
@@ -37,8 +37,8 @@ export class FilerepositoryComponent implements OnInit {
     repository_name: string;
     uploaded_file: any;
     foldersdata = [];
-     /* image upload files styles */
-     customStyle = {
+    /* image upload files styles */
+    customStyle = {
         selectButton: {
             'border-radius': '20px',
             'background-color': '#ee286b',
@@ -156,20 +156,16 @@ export class FilerepositoryComponent implements OnInit {
         this.saveFiles(files);
         console.log(this.repositories);
 
-        this.repositories.forEach( folders => this.foldersdata.push(folders.folder));
-        // this.foldersdata['file'] = files;
-        // this.foldersdata['client_id'] = AppConstants.CLIENT_ID;
+        this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
         this.openDialog(this.foldersdata);
-
-        // console.log(this.foldersdata);
     }
     onRemoved(file: FileHolder) {
         this.ishide = true;
         // do some stuff with the removed file.
-      }
-      onUploadStateChanged(state: boolean) {
+    }
+    onUploadStateChanged(state: boolean) {
         console.log(JSON.stringify(state));
-      }
+    }
     @HostListener('dragover', ['$event']) onDragOver(event) {
         this.dragAreaClass = 'droparea';
         event.preventDefault();
@@ -195,6 +191,8 @@ export class FilerepositoryComponent implements OnInit {
         event.stopPropagation();
         const files = event.dataTransfer.files;
         this.saveFiles(files);
+        this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
+        this.openDialog(this.foldersdata);
     }
 
     /* this is an event listener whenever a file is being changed */
@@ -206,7 +204,6 @@ export class FilerepositoryComponent implements OnInit {
             this.uploadStatus.emit(false);
             return;
         }
-        //   console.log(files);
         const fileSizeinMB = files[0].size / (1024 * 1000);
         const size = Math.round(fileSizeinMB * 100) / 100;
         console.log(fileSizeinMB);
@@ -217,14 +214,13 @@ export class FilerepositoryComponent implements OnInit {
     }
     openDialog(repositories): void {
         const dialogRef = this.dialog.open(FileRepositoryPopup, {
-          width: '80vw',
-          data: repositories,
-        //   files: files
+            width: '80vw',
+            data: repositories,
         });
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
+            console.log('The dialog was closed');
         });
-      }
+    }
     /* this is for checking for the maximum number of files */
     private isValidFiles(files) {
         // Check Number of files
@@ -269,7 +265,7 @@ export class FilerepositoryComponent implements OnInit {
                 + this.maxSize + 'MB ( ' + size + 'MB )');
         }
     }
-    // console.log(this.FileUploadControl.valid);
+
     // this is to disable submit button
     disable() {
         // console.log(this.disabled);
@@ -308,11 +304,6 @@ export class FilerepositoryComponent implements OnInit {
         const newFolders = repositories.filter(nerepositories => nerepositories.folder === folder_name);
         console.log(newFolders);
         this.filtered_repositories = newFolders;
-        // const newFolders = repositories.filter(nerepositories =>{
-        //     if (nerepositories.folder === folder_name) {
-        //         return nerepositories;
-        //     }
-        // });
     }
     resetIsactive(repositories) {
         _.each(repositories, (iteratee, index) => {
@@ -345,9 +336,9 @@ export class FilerepositoryComponent implements OnInit {
     selector: 'dialog-overview-example-dialog',
     templateUrl: 'filerepository.popup.html',
     styleUrls: ['./filerepository.component.scss']
-  })
-  // tslint:disable-next-line:component-class-suffix
-  export class FileRepositoryPopup {
+})
+// tslint:disable-next-line:component-class-suffix
+export class FileRepositoryPopup {
 
     fileUploadForm: FormGroup;
     dialogform: FormControl;
@@ -364,18 +355,18 @@ export class FilerepositoryComponent implements OnInit {
     fileRepository: FilerepositoryComponent;
     // console.log(folderObject);
     constructor(
-      public dialogRef: MatDialogRef<FileRepositoryPopup>,
-      @Inject(MAT_DIALOG_DATA) public data: any,
-      private formBuilder: FormBuilder,
-      private httpClient: HttpClient,
-      public loader: NgxSmartLoaderService,
-      private spinnerService: Ng4LoadingSpinnerService,
-      private alertService: AlertService,
+        public dialogRef: MatDialogRef<FileRepositoryPopup>,
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private formBuilder: FormBuilder,
+        private httpClient: HttpClient,
+        public loader: NgxSmartLoaderService,
+        private spinnerService: Ng4LoadingSpinnerService,
+        private alertService: AlertService,
     ) {
         this.filteredOptions = this.myControl.valueChanges.pipe(
             startWith(''),
             map(val => this.filter(val))
-          );
+        );
         const folderObject = this.data;
         this.file_path = folderObject['file_path'];
 
@@ -394,14 +385,14 @@ export class FilerepositoryComponent implements OnInit {
         });
 
         // console.log(this.options);
-       }
+    }
 
     filter(val: string): string[] {
         return this.options.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0);
     }
 
     onNoClick(): void {
-      this.dialogRef.close();
+        this.dialogRef.close();
     }
     closeDialog(): void {
         this.dialogRef.close();
@@ -436,10 +427,10 @@ export class FilerepositoryComponent implements OnInit {
                         this.alertService.warning(data.result);
                         console.log(data);
                         this.spinnerService.hide();
-
                     } else {
                         this.alertService.success('File uploaded successfully');
                         this.spinnerService.hide();
+                        this.dialogRef.close();
                         window.location.reload();
                     }
                 },
@@ -448,4 +439,4 @@ export class FilerepositoryComponent implements OnInit {
                 }
             );
     }
-  }
+}
