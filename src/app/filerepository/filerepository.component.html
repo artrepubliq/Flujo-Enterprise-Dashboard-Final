@@ -5,21 +5,20 @@
 <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
   <form class="file_uploader" enctype="multipart/form-data">
     <div class="">
-        <a href="javascript:void(0)" (click)="file.click()">
-            Click to browse
-          </a>
-          Or Drag & Drop to upload your files
-          <input type="file" class="form-control" #file [multiple]="(maxFiles == 1)" (change)="onFileChange($event)" style="display:none"
-            id="file_path" />
-      <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->
-      <!-- <input  type="file" (removed)="onRemoved($event)" (uploadStateChanged)="onUploadStateChanged($event)" class="image-upload" id="image"
-        [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'" (change)="onFileChange($event)" [style]="customStyle"
-        #fileInput> -->
-      <!-- <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="mediaManagementFormSubmit()">Upload</button> -->
+      <!-- <a href="javascript:void(0)" (click)="file.click()">
+        Click to browse
+      </a> -->
+      <div fxLayout="column" class="choose-block" fxLayoutAlign="center center">
+        <div class="choose_files">
+          <button>Choose</button>
+          <input type="file" #file [multiple]="(maxFiles == 1)" (change)="onFileChange($event)" id="file_path" />
+        </div>
+        <p>or drag ‘n’ drop here</p>
+      </div>
     </div>
   </form>
 
-  <div class="uploader_content" fxLayout="column" fxLayoutAlign=" center">
+  <div class="uploader_content" fxLayout="column" fxLayoutAlign="center start">
     <h3>Feed me dude I’m hungry, will you?</h3>
     <p>Shit man, What the f***!</p>
   </div>
