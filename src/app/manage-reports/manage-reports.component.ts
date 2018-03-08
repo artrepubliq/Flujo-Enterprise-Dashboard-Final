@@ -1,44 +1,197 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
 import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { ICreateUserDetails } from '../model/createUser.model';
+
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
+import { IPostAssignedUser, IPostReportStatus } from '../model/reports-management.model';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { AlertService } from 'ngx-alerts';
 @Component({
-  templateUrl: './manage-reports.component.html',
-  styleUrls: ['./manage-reports.component.scss']
+    templateUrl: './manage-reports.component.html',
+    styleUrls: ['./manage-reports.component.scss']
 
 })
-export class ManageReportsComponent implements OnInit {
-    loggedinUsersList: Array<ICreateUserDetails>;
-  constructor(public httpClient: HttpClient) {
-   }
-  ngOnInit() {
-    this.getAllReports();
-    this.getUserList();
-  }
-// this function is used for getting reports data from the server
-  getAllReports = () => {
-    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getreportproblem/' + AppConstants.CLIENT_ID )
-    .subscribe(
-      data => {
-          console.log(data);
-      },
-      error => {
-          console.log(error);
-      }
-      );
-  }
-  // this function is used for getting all the users from the database
-  getUserList = () => {
-    this.httpClient.get<Array<ICreateUserDetails>>(AppConstants.API_URL + 'flujo_client_getcreateuser/' + AppConstants.CLIENT_ID)
-      .subscribe(
-      data => {
-        this.loggedinUsersList = data;
-        console.log(this.loggedinUsersList[0].id);
-      },
-      error => {
-        console.log(error);
-      }
-      );
-  }
+export class ManageReportsComponent implements OnInit, AfterViewInit {
+    assignedReportId: any;
+
+    reportProblemData: Object;
+    // loggedinUsersList: Array<ICreateUserDetails>;
+    loggedinUsersList: Array<any>;
+    postAssignedUsersObject: IPostAssignedUser;
+    postMoveToRemarksObject: IPostReportStatus;
+    // postAssignedUserArray = [];
+    usersListControl: FormControl = new FormControl();
+    moveToListControl: FormControl = new FormControl();
+    remarksListControl: FormControl = new FormControl();
+    reportAssignedToUserName: string;
+    reportMoveToOption: string;
+    reportRemarksOption: string;
+    usersListOptions = [];
+    moveToListOptions = ['solve', 'solved', 'solving'];
+    RemarksListOptions = ['constituency', 'othersOne', 'otherstwo', 'othersthree'];
+    filteredusersListOptions: Observable<string[]>;
+    filteredMoveToListOptions: Observable<string[]>;
+    FilteredRemarksListOptions: Observable<string[]>;
+    constructor(public httpClient: HttpClient,
+        private spinnerService: Ng4LoadingSpinnerService,
+        private alertService: AlertService
+    ) {
+
+    }
+    ngOnInit() {
+        this.spinnerService.show();
+        this.prepareMoveToAutoCompleteOptionsList(this.moveToListOptions);
+        this.prepareRemarksAutoCompleteOptionsList(this.RemarksListOptions);
+
+        this.getUserList()
+            .subscribe(
+            data => {
+                this.loggedinUsersList = data;
+                this.prepareAutoCompleteOptionsList(this.loggedinUsersList);
+                console.log(this.filteredusersListOptions);
+            },
+            error => {
+                console.log(error);
+            }
+            );
+
+        this.getAllReports();
+    }
+    ngAfterViewInit() {
+        this.spinnerService.hide();
+    }
+    // prepare auto complete options list
+    prepareAutoCompleteOptionsList = (listData) => {
+        if (listData) {
+            _.each(listData, (iteratee) => {
+                this.usersListOptions.push(iteratee.name);
+            });
+            try {
+                this.filteredusersListOptions = this.usersListControl.valueChanges.pipe(
+                    startWith(''),
+                    map(val => this.usersListOptions.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0))
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+    // Moveto options filter callbak
+    prepareMoveToAutoCompleteOptionsList = (optionsList) => {
+        try {
+            this.filteredMoveToListOptions = this.moveToListControl.valueChanges.pipe(
+                startWith(''),
+                map(val => optionsList.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0))
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    // Moveto options filter callbak
+    prepareRemarksAutoCompleteOptionsList = (optionsList) => {
+        try {
+            this.FilteredRemarksListOptions = this.remarksListControl.valueChanges.pipe(
+                startWith(''),
+                map(val => optionsList.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0))
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    AssignedUserName = (user, reportId) => {
+        this.reportAssignedToUserName = user;
+        this.assignedReportId = reportId;
+        this.prepareAutoCompleteOptionsList(this.loggedinUsersList);
+    }
+    // this function is used for getting remarks option
+    getRemarksOption = (remarksoption, reportId) => {
+        this.assignedReportId = reportId;
+        this.reportRemarksOption = remarksoption;
+        this.prepareRemarksAutoCompleteOptionsList(this.RemarksListOptions);
+    }
+    // this function is used for getting Move to options data
+    getMoveToOptions = (moveoption, reportId) => {
+        this.assignedReportId = reportId;
+        this.reportMoveToOption = moveoption;
+        this.prepareMoveToAutoCompleteOptionsList(this.moveToListOptions);
+    }
+    // this finction is  for to store the assigned user in database by calling http service
+    updateAssignedUserIntoDB() {
+        this.spinnerService.show();
+        this.postAssignedUsersObject = <IPostAssignedUser>{};
+        this.postAssignedUsersObject.assigned_user_name = this.reportAssignedToUserName;
+        this.postAssignedUsersObject.client_id = AppConstants.CLIENT_ID;
+        this.postAssignedUsersObject.report_issue_id = this.assignedReportId;
+        this.postAssignedUsersObject.email_to_send = localStorage.getItem('email');
+        this.httpClient.post<Object>(AppConstants.API_URL + 'flujo_client_postreportassigned', this.postAssignedUsersObject)
+            .subscribe(
+            resp => {
+                this.alertService.success('Your request updated successfully.');
+                this.spinnerService.hide();
+                this.usersListControl = new FormControl();
+            },
+            error => {
+                this.alertService.danger('Somthing went wrong. please try again.');
+                this.spinnerService.hide();
+                console.log(error);
+            }
+            );
+    }
+    // this function is used for updating the reports remarks and moveto status and by whoom its update.
+    UpdateReportsStatus = () => {
+        this.spinnerService.show();
+        if (localStorage.getItem('user_id')) {
+            this.postMoveToRemarksObject = <IPostReportStatus>{};
+            this.postMoveToRemarksObject.report_id = this.assignedReportId;
+            this.postMoveToRemarksObject.report_remarks = this.reportRemarksOption;
+            this.postMoveToRemarksObject.report_status = this.reportMoveToOption;
+            this.postMoveToRemarksObject.updated_by = localStorage.getItem('user_id');
+            this.postMoveToRemarksObject.email_to_send = localStorage.getItem('email');
+            this.httpClient.post<Object>(AppConstants.API_URL + 'flujo_client_updatereportproblem', this.postMoveToRemarksObject)
+                .subscribe(
+                resp => {
+                    this.alertService.success('Your request updated successfully.');
+                    this.spinnerService.hide();
+                    this.moveToListControl = new FormControl();
+                    this.remarksListControl = new FormControl();
+                },
+                error => {
+                    this.alertService.danger('Somthing went wrong. please try again.');
+                    this.spinnerService.hide();
+                    console.log(error);
+                }
+                );
+        }
+    }
+    // clear all fields of UpdateReportsStatus
+    clearUpdateReportsStatusFields() {
+        this.postMoveToRemarksObject = null;
+        this.postMoveToRemarksObject.report_id = null;
+        this.postMoveToRemarksObject.report_remarks = null;
+        this.postMoveToRemarksObject.report_status = null;
+        this.postMoveToRemarksObject.updated_by = null;
+    }
+    // this function is used for getting reports data from the server
+    getAllReports = () => {
+        this.httpClient.get(AppConstants.API_URL + 'flujo_client_getreportproblem/' + AppConstants.CLIENT_ID)
+            .subscribe(
+            data => {
+                this.reportProblemData = data;
+                console.log(data);
+            },
+            error => {
+                console.log(error);
+            }
+            );
+    }
+    // this function is used for getting all the users from the database
+    getUserList = () => {
+        // tslint:disable-next-line:max-line-length
+        return this.httpClient.get<Array<ICreateUserDetails>>(AppConstants.API_URL + 'flujo_client_getcreateuser/' + AppConstants.CLIENT_ID);
+    }
 }

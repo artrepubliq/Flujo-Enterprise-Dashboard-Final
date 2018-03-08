@@ -15,8 +15,8 @@ export class LoginAuthService implements OnInit {
   // Create a stream of logged in status to communicate throughout app
   customLoggedIn: boolean;
   customLoggedIn$ = new BehaviorSubject<boolean>(this.customLoggedIn);
-  constructor(private router: Router, private httpClient: HttpClient) {
 
+  constructor(private router: Router, private httpClient: HttpClient) {
     this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     if (Date.now() < this.expiresAt) {
       this.setLoggedInCustom(true);
@@ -38,16 +38,19 @@ export class LoginAuthService implements OnInit {
     if (!this.customLoggedIn) {
       window.alert('close session');
       this.router.navigate(['/login']);
+      // this.clearLocalStorage();
     } else {
       return;
     }
 
   }
   public _setSession(authResult) {
-    const expTime = 600 * 1000 + Date.now();
+    const expTime = 60 * 60 * 1000 + Date.now();
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('email', authResult.email);
+    localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('nickname', JSON.stringify(authResult.user_name));
     localStorage.setItem('expires_at', JSON.stringify(expTime));
     this.router.navigate(['/admin']);
@@ -67,12 +70,18 @@ export class LoginAuthService implements OnInit {
         });
       this.router.navigate(['/login']);
     }
-    // Remove tokens and profile and update login status subject
-    localStorage.removeItem('token');
-    localStorage.removeItem('expires_at');
-    this.setLoggedInCustom(false);
+  this.clearLocalStorage();
   }
-
+  clearLocalStorage = () => {
+  // Remove tokens and profile and update login status subject
+  localStorage.removeItem('token');
+  localStorage.removeItem('id_token');
+  localStorage.removeItem('user_id');
+  localStorage.removeItem('nickname');
+  localStorage.removeItem('expires_at');
+  localStorage.removeItem('email');
+  this.setLoggedInCustom(false);
+  }
   get authenticated(): boolean {
     // Check if current date is greater than expiration
     if (this.customLoggedIn) {
