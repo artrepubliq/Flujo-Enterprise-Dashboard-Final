@@ -38,6 +38,55 @@ export class FilerepositoryComponent implements OnInit {
     uploaded_file: any;
     foldersdata = [];
     
+    /* image upload files styles */
+    customStyle = {
+        selectButton: {
+            'border-radius': '20px',
+            'background-color': '#ee286b',
+            'box-shadow': '0 1.5px 18px 0 rgba(0, 0, 0, 0.15)',
+            'font-size': '14px',
+            'font-weight': '500',
+            'text-align': 'center',
+            'color': '#ffffff',
+            'text-transform': 'initial',
+            'font-family': 'Roboto',
+            'width': '130px',
+            'height': '40px',
+            'float': 'right'
+        },
+        clearButton: {
+            'border-radius': '20px',
+            'background-color': '#ee286b',
+            'box-shadow': '0 1.5px 18px 0 rgba(0, 0, 0, 0.15)',
+            'font-size': '14px',
+            'font-weight': '500',
+            'text-align': 'center',
+            'color': '#ffffff',
+            'text-transform': 'initial',
+            'font-family': 'Roboto',
+            'width': '130px',
+            'height': '40px',
+            'float': 'right'
+        },
+        layout: {
+            'border-radius': '5px',
+            'background-color': 'transparent',
+            'border': 'dashed 1.5px #91d7ea'
+        },
+        previewPanel: {
+            'background-color': 'transparent',
+            'border-radius': '0 0 25px 25px',
+        },
+        dropBoxMessage: {
+            'font-family': 'Roboto',
+            'font-size': '15px',
+            'font-weight': '500',
+            'text-align': 'center',
+            'color': 'red',
+            'display': 'none'
+        },
+
+    };
     // disabled = false;
     @Input() projectId: number;
     @Input() sectionId: number;
@@ -148,6 +197,7 @@ export class FilerepositoryComponent implements OnInit {
         const files = event.dataTransfer.files;
         this.saveFiles(files);
         this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
+        console.log(this.foldersdata);
         if (this.errors.length === 0) {
             this.foldersdata['file_path'] = files[0];
             this.openDialog(this.foldersdata);
@@ -261,9 +311,9 @@ export class FilerepositoryComponent implements OnInit {
         this.repositories[index].isActive = true;
         // console.log(folder);
         // console.log(repositories);
-        const newFolders = repositories.filter(nerepositories => nerepositories.folder === folder_name);
-        console.log(newFolders);
-        this.filtered_repositories = newFolders;
+        const files = repositories.filter(nerepositories => nerepositories.folder === folder_name);
+        console.log(files[0].files);
+        this.filtered_repositories = files[0].files;
     }
     resetIsactive(repositories) {
         _.each(repositories, (iteratee, index) => {
@@ -271,13 +321,13 @@ export class FilerepositoryComponent implements OnInit {
         });
     }
     /* this is for deleting the documents*/
-    deleteFile(id, client_id, repositories) {
+    deleteFile(id, repositories) {
         this.spinnerService.show();
         this.httpClient.delete<Array<IRepositories>>(AppConstants.API_URL + 'flujo_client_deletefilerepository/' + id)
             .subscribe(
                 data => {
                     this.spinnerService.hide();
-                    this.getFolders(client_id);
+                    this.getFolders(AppConstants.CLIENT_ID);
                     const newFolders = repositories.filter(newFiles => newFiles.id !== id);
                     console.log(newFolders);
                     this.filtered_repositories = newFolders;
@@ -362,7 +412,7 @@ export class FileRepositoryPopup {
         this.dialogRef.close();
     }
 
-    submitForm() {
+    submitForm = () => {
         // console.log(this.myControl.value);
         // console.log(this.fileUploadForm.value);
         console.log(this.fileUploadForm.invalid);
