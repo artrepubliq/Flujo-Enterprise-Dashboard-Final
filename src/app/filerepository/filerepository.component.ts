@@ -157,7 +157,10 @@ export class FilerepositoryComponent implements OnInit {
         console.log(this.repositories);
 
         this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
-        this.openDialog(this.foldersdata);
+        console.log(this.errors);
+        if (this.errors.length === 0 ) {
+            this.openDialog(this.foldersdata);
+        }
     }
     onRemoved(file: FileHolder) {
         this.ishide = true;
@@ -349,6 +352,7 @@ export class FileRepositoryPopup {
     file_name_control: FormControl = new FormControl();
     options = [];
     file_path;
+    display_file_name: string;
     disable = true;
     filteredOptions: Observable<string[]>;
     folderObject = this.data;
@@ -369,7 +373,7 @@ export class FileRepositoryPopup {
         );
         const folderObject = this.data;
         this.file_path = folderObject['file_path'];
-
+        this.display_file_name = this.file_path.name;
         delete folderObject['file_path'];
         this.options = folderObject;
         console.log(this.folderObject);
