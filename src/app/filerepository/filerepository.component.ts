@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
@@ -11,6 +11,13 @@ import { IHttpResponse } from '../model/httpresponse.model';
 import { RequestOptions, Headers } from '@angular/http';
 import { IRepositories } from '../model/repositories.model';
 import * as _ from 'underscore';
+import { FileHolder } from 'angular2-image-upload';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
+
+import { Observable } from 'rxjs/Observable';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
+
 @Component({
     selector: 'app-filerepository',
     templateUrl: './filerepository.component.html',
@@ -18,15 +25,67 @@ import * as _ from 'underscore';
 })
 
 export class FilerepositoryComponent implements OnInit {
+    fileName: any;
+    ishide: boolean;
     FileUploadControl: FormGroup;
     errors: Array<string> = [];
-    clickedFile: boolean ;
+    clickedFile: boolean;
     repositories: Array<IRepositories> = [];
     filtered_repositories: Array<IRepositories> = [];
     dragAreaClass = 'dragarea';
     file_name: string;
     repository_name: string;
     uploaded_file: any;
+    foldersdata = [];
+    /* image upload files styles */
+    customStyle = {
+        selectButton: {
+            'border-radius': '20px',
+            'background-color': '#ee286b',
+            'box-shadow': '0 1.5px 18px 0 rgba(0, 0, 0, 0.15)',
+            'font-size': '14px',
+            'font-weight': '500',
+            'text-align': 'center',
+            'color': '#ffffff',
+            'text-transform': 'initial',
+            'font-family': 'Roboto',
+            'width': '130px',
+            'height': '40px',
+            'float': 'right'
+        },
+        clearButton: {
+            'border-radius': '20px',
+            'background-color': '#ee286b',
+            'box-shadow': '0 1.5px 18px 0 rgba(0, 0, 0, 0.15)',
+            'font-size': '14px',
+            'font-weight': '500',
+            'text-align': 'center',
+            'color': '#ffffff',
+            'text-transform': 'initial',
+            'font-family': 'Roboto',
+            'width': '130px',
+            'height': '40px',
+            'float': 'right'
+        },
+        layout: {
+            'border-radius': '5px',
+            'background-color': 'transparent',
+            'border': 'dashed 1.5px #91d7ea'
+        },
+        previewPanel: {
+            'background-color': 'transparent',
+            'border-radius': '0 0 25px 25px',
+        },
+        dropBoxMessage: {
+            'font-family': 'Roboto',
+            'font-size': '15px',
+            'font-weight': '500',
+            'text-align': 'center',
+            'color': 'red',
+            'display': 'none'
+        },
+
+    };
     // disabled = false;
     @Input() projectId: number;
     @Input() sectionId: number;
@@ -40,6 +99,7 @@ export class FilerepositoryComponent implements OnInit {
         private httpClient: HttpClient,
         public loader: NgxSmartLoaderService,
         private spinnerService: Ng4LoadingSpinnerService,
+        public dialog: MatDialog,
         private alertService: AlertService) {
 
         this.FileUploadControl = this.formBuilder.group({
@@ -91,11 +151,21 @@ export class FilerepositoryComponent implements OnInit {
     /* this is used when a user changes the file or drops the file  */
     onFileChange(event) {
         const files = event.target.files;
-        console.log(files);
+        this.fileName = files;
+        console.log(files.name);
         this.saveFiles(files);
-        console.log(this.FileUploadControl.invalid);
-    }
+        console.log(this.repositories);
 
+        this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
+        this.openDialog(this.foldersdata);
+    }
+    onRemoved(file: FileHolder) {
+        this.ishide = true;
+        // do some stuff with the removed file.
+    }
+    onUploadStateChanged(state: boolean) {
+        console.log(JSON.stringify(state));
+    }
     @HostListener('dragover', ['$event']) onDragOver(event) {
         this.dragAreaClass = 'droparea';
         event.preventDefault();
@@ -121,6 +191,8 @@ export class FilerepositoryComponent implements OnInit {
         event.stopPropagation();
         const files = event.dataTransfer.files;
         this.saveFiles(files);
+        this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
+        this.openDialog(this.foldersdata);
     }
 
     /* this is an event listener whenever a file is being changed */
@@ -132,15 +204,23 @@ export class FilerepositoryComponent implements OnInit {
             this.uploadStatus.emit(false);
             return;
         }
-        //   console.log(files);
         const fileSizeinMB = files[0].size / (1024 * 1000);
         const size = Math.round(fileSizeinMB * 100) / 100;
         console.log(fileSizeinMB);
         console.log(size);
         this.FileUploadControl.controls['file_path'].setValue(files[0]);
+        this.foldersdata['file_path'] = files[0];
         this.FileUploadControl.controls['file_size'].setValue(size);
     }
-
+    openDialog(repositories): void {
+        const dialogRef = this.dialog.open(FileRepositoryPopup, {
+            width: '80vw',
+            data: repositories,
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+        });
+    }
     /* this is for checking for the maximum number of files */
     private isValidFiles(files) {
         // Check Number of files
@@ -185,7 +265,7 @@ export class FilerepositoryComponent implements OnInit {
                 + this.maxSize + 'MB ( ' + size + 'MB )');
         }
     }
-    // console.log(this.FileUploadControl.valid);
+
     // this is to disable submit button
     disable() {
         // console.log(this.disabled);
@@ -224,14 +304,9 @@ export class FilerepositoryComponent implements OnInit {
         const newFolders = repositories.filter(nerepositories => nerepositories.folder === folder_name);
         console.log(newFolders);
         this.filtered_repositories = newFolders;
-        // const newFolders = repositories.filter(nerepositories =>{
-        //     if (nerepositories.folder === folder_name) {
-        //         return nerepositories;
-        //     }
-        // });
     }
     resetIsactive(repositories) {
-        _.each(repositories, (iteratee, index) =>{
+        _.each(repositories, (iteratee, index) => {
             this.repositories[index].isActive = false;
         });
     }
@@ -255,54 +330,113 @@ export class FilerepositoryComponent implements OnInit {
                 }
             );
     }
+}
+@Component({
+    // tslint:disable-next-line:component-selector
+    selector: 'dialog-overview-example-dialog',
+    templateUrl: 'filerepository.popup.html',
+    styleUrls: ['./filerepository.component.scss']
+})
+// tslint:disable-next-line:component-class-suffix
+export class FileRepositoryPopup {
 
-    /* image upload files styles */
-    customStyle = {
-        selectButton: {
-            'border-radius': '20px',
-            'background-color': '#ee286b',
-            'box-shadow': '0 1.5px 18px 0 rgba(0, 0, 0, 0.15)',
-            'font-size': '14px',
-            'font-weight': '500',
-            'text-align': 'center',
-            'color': '#ffffff',
-            'text-transform': 'initial',
-            'font-family': 'Roboto',
-            'width': '130px',
-            'height': '40px',
-            'float': 'right'
-        },
-        clearButton: {
-            'border-radius': '20px',
-            'background-color': '#ee286b',
-            'box-shadow': '0 1.5px 18px 0 rgba(0, 0, 0, 0.15)',
-            'font-size': '14px',
-            'font-weight': '500',
-            'text-align': 'center',
-            'color': '#ffffff',
-            'text-transform': 'initial',
-            'font-family': 'Roboto',
-            'width': '130px',
-            'height': '40px',
-            'float': 'right'
-        },
-        layout: {
-            'border-radius': '5px',
-            'background-color': 'transparent',
-            'border': 'dashed 1.5px #91d7ea'
-        },
-        previewPanel: {
-            'background-color': 'transparent',
-            'border-radius': '0 0 25px 25px',
-        },
-        dropBoxMessage: {
-            'font-family': 'Roboto',
-            'font-size': '15px',
-            'font-weight': '500',
-            'text-align': 'center',
-            'color': 'red',
-            'display': 'none'
-        },
+    fileUploadForm: FormGroup;
+    dialogform: FormControl;
+    foldername: Observable<any[]>;
+    foldersObject: any = this.data;
+    client_id = AppConstants.CLIENT_ID;
+    myControl: FormControl = new FormControl();
+    file_name_control: FormControl = new FormControl();
+    options = [];
+    file_path;
+    disable = true;
+    filteredOptions: Observable<string[]>;
+    folderObject = this.data;
+    fileRepository: FilerepositoryComponent;
+    // console.log(folderObject);
+    constructor(
+        public dialogRef: MatDialogRef<FileRepositoryPopup>,
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private formBuilder: FormBuilder,
+        private httpClient: HttpClient,
+        public loader: NgxSmartLoaderService,
+        private spinnerService: Ng4LoadingSpinnerService,
+        private alertService: AlertService,
+    ) {
+        this.filteredOptions = this.myControl.valueChanges.pipe(
+            startWith(''),
+            map(val => this.filter(val))
+        );
+        const folderObject = this.data;
+        this.file_path = folderObject['file_path'];
 
-    };
+        delete folderObject['file_path'];
+        this.options = folderObject;
+        console.log(this.folderObject);
+        // folderObject.forEach(folders => {
+        //     this.options.push(folders.folder);
+        // });
+
+        this.fileUploadForm = this.formBuilder.group({
+            'file_name': ['', Validators.required],
+            'folder': ['', Validators.required],
+            'file_path': null,
+            'client_id': null
+        });
+
+        // console.log(this.options);
+    }
+
+    filter(val: string): string[] {
+        return this.options.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0);
+    }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+    closeDialog(): void {
+        this.dialogRef.close();
+    }
+
+    submitForm() {
+        // console.log(this.myControl.value);
+        // console.log(this.fileUploadForm.value);
+        console.log(this.fileUploadForm.invalid);
+        this.fileUploadForm.controls['client_id'].setValue(this.client_id);
+        this.fileUploadForm.controls['file_path'].setValue(this.file_path);
+        this.fileUploadForm.controls['folder'].setValue(this.myControl.value);
+        this.fileUploadForm.controls['file_name'].setValue(this.file_name_control.value);
+        if (this.fileUploadForm.invalid) {
+            return false;
+        }
+        const formModel = this.fileUploadForm.value;
+        const formData = new FormData();
+        formData.append('file_path', formModel.file_path);
+        formData.append('file_name', formModel.file_name);
+        formData.append('folder', formModel.folder);
+        formData.append('client_id', formModel.client_id);
+        // formData.append('file_size', fileData.file_size);
+        console.log(this.fileUploadForm.value);
+        this.spinnerService.show();
+
+        this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
+            .subscribe(
+                data => {
+                    console.log(data);
+                    if (data.error) {
+                        this.alertService.warning(data.result);
+                        console.log(data);
+                        this.spinnerService.hide();
+                    } else {
+                        this.alertService.success('File uploaded successfully');
+                        this.spinnerService.hide();
+                        this.dialogRef.close();
+                        window.location.reload();
+                    }
+                },
+                error => {
+                    console.log(error);
+                }
+            );
+    }
 }
