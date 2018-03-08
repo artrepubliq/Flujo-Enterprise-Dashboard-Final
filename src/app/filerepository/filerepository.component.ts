@@ -152,12 +152,16 @@ export class FilerepositoryComponent implements OnInit {
     onFileChange(event) {
         const files = event.target.files;
         this.fileName = files;
-        console.log(files.name);
+        // console.log(files.name);
         this.saveFiles(files);
         console.log(this.repositories);
-
         this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
-        this.openDialog(this.foldersdata);
+        // console.log(this.errors);
+        if (this.errors.length === 0) {
+            console.log(this.foldersdata);
+            this.foldersdata['file_path'] = files[0];
+            this.openDialog(this.foldersdata);
+        }
     }
     onRemoved(file: FileHolder) {
         this.ishide = true;
@@ -192,7 +196,10 @@ export class FilerepositoryComponent implements OnInit {
         const files = event.dataTransfer.files;
         this.saveFiles(files);
         this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
-        this.openDialog(this.foldersdata);
+        if (this.errors.length === 0) {
+            this.foldersdata['file_path'] = files[0];
+            this.openDialog(this.foldersdata);
+        }
     }
 
     /* this is an event listener whenever a file is being changed */
@@ -226,11 +233,11 @@ export class FilerepositoryComponent implements OnInit {
         // Check Number of files
         if (files.length > this.maxFiles) {
             this.alertService.warning('Error: At a time you can upload only ' + this.maxFiles + ' files');
-            // this.errors.push("Error: At a time you can upload only " + this.maxFiles + " files");
+            this.errors.push('Error: At a time you can upload only ' + this.maxFiles + ' files');
             return;
         }
         this.isValidFileExtension(files);
-        return this.errors.length === 0;
+        // return this.errors.length === 0;
     }
 
     /* this is for checking the valid extension of files*/
@@ -247,6 +254,7 @@ export class FilerepositoryComponent implements OnInit {
             if (!exists) {
                 this.alertService.warning('Error (Extension): ' + files[i].name);
                 this.errors.push('Error (Extension): ' + files[i].name);
+                return;
             }
             // Check file size
             this.isValidFileSize(files[i]);
@@ -349,6 +357,7 @@ export class FileRepositoryPopup {
     file_name_control: FormControl = new FormControl();
     options = [];
     file_path;
+    display_file_name: string;
     disable = true;
     filteredOptions: Observable<string[]>;
     folderObject = this.data;
@@ -368,8 +377,11 @@ export class FileRepositoryPopup {
             map(val => this.filter(val))
         );
         const folderObject = this.data;
+        console.log(folderObject);
         this.file_path = folderObject['file_path'];
-
+        if (this.file_path) {
+            this.display_file_name = this.file_path.name;
+        }
         delete folderObject['file_path'];
         this.options = folderObject;
         console.log(this.folderObject);
