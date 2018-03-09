@@ -70,8 +70,8 @@
                 </th>
               </tr>
             </thead>
-            <ng-template class="link-row problem-box" id="accordion" ngFor let-report [ngForOf]="reportProblemData" let-i="index">
-              <tbody class="" id="problem-row1">
+            <ng-template  class="link-row problem-box" id="accordion" ngFor let-report [ngForOf]="reportProblemData" let-i="index">
+              <tbody [ngClass]="['link-row']" class="" id="problem-row1">
                   <tr>
                     <td>
                         <span class="d-inline">
@@ -91,7 +91,7 @@
                       <span class="d-inline">
                             <p class="d-inline">Karimnagar</p>
                             <p class="text-muted d-inline pull-right">
-                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#{{report.id}}">
                                <i class="fa fa-caret-down"></i>
                              </a> 
                             </p>
@@ -99,13 +99,13 @@
                     </td>
                   </tr>
                   </tbody>                  
-                  <tbody class="" id="collapseOne">
+                  <tbody [ngClass]="['collapse']" class="" id="{{report.id}}">
                     <tr>
-                      <td colspan="2">
+                      <td colspan="2" class="report-problem-descr">
                           <span class="d-inline file-icon text-muted">
                               <i class="fa fa-paperclip"> </i> &nbsp;
                             </span> 
-                          <span  class="d-inline report-file-descr"> Now is the time for all good men to come to the aid of their party.</span>
+                          <span  class="d-inline report-file-descr"> {{report.problem}}</span>
                       </td>
                       <td>
                           <span class="text-muted d-inline">
