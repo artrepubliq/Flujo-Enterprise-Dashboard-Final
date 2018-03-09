@@ -175,7 +175,7 @@ export class FilerepositoryComponent implements OnInit {
     }
     openDialog(repositories): void {
         const dialogRef = this.dialog.open(FileRepositoryPopup, {
-            width: '80vw',
+            width: '50vw',
             data: repositories,
         });
         dialogRef.afterClosed().subscribe(result => {
