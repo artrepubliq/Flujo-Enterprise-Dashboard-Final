@@ -37,7 +37,7 @@ export class FilerepositoryComponent implements OnInit {
     repository_name: string;
     uploaded_file: any;
     foldersdata = [];
-    
+
     /* image upload files styles */
     customStyle = {
         selectButton: {
@@ -113,16 +113,16 @@ export class FilerepositoryComponent implements OnInit {
     }
 
     /* this is when we submit the form */
-    onSubmit() {
-        const fileData = this.FileUploadControl.value;
-        fileData.client_id = AppConstants.CLIENT_ID;
-        console.log(fileData);
-        const formData = new FormData();
-        formData.append('file_path', fileData.file_path);
-        formData.append('folder', fileData.folder);
-        formData.append('file_name', fileData.file_name);
-        formData.append('client_id', fileData.client_id);
-        formData.append('file_size', fileData.file_size);
+    onSubmit(formData) {
+        // const fileData = this.FileUploadControl.value;
+        // fileData.client_id = AppConstants.CLIENT_ID;
+        // console.log(fileData);
+        // const formData = new FormData();
+        // formData.append('file_path', fileData.file_path);
+        // formData.append('folder', fileData.folder);
+        // formData.append('file_name', fileData.file_name);
+        // formData.append('client_id', fileData.client_id);
+        // formData.append('file_size', fileData.file_size);
         this.spinnerService.show();
 
         this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
@@ -136,7 +136,7 @@ export class FilerepositoryComponent implements OnInit {
                     } else {
                         this.alertService.success('File uploaded successfully');
                         this.spinnerService.hide();
-
+                        this.getFolders(AppConstants.CLIENT_ID);
                     }
                 },
                 error => {
@@ -228,6 +228,8 @@ export class FilerepositoryComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
+            this.spinnerService.show();
+            this.onSubmit(result);
         });
     }
     /* this is for checking for the maximum number of files */
@@ -296,6 +298,7 @@ export class FilerepositoryComponent implements OnInit {
         this.httpClient.get<Array<IRepositories>>(AppConstants.API_URL + 'flujo_client_getfilerepository/' + client_id)
             .subscribe(
                 data => {
+                    this.spinnerService.hide();
                     this.repositories = data;
                     console.log(this.repositories);
                 },
@@ -364,6 +367,7 @@ export class FileRepositoryPopup {
     filteredOptions: Observable<string[]>;
     folderObject = this.data;
     fileRepository: FilerepositoryComponent;
+    formData = new FormData();
     // console.log(folderObject);
     constructor(
         public dialogRef: MatDialogRef<FileRepositoryPopup>,
@@ -373,6 +377,7 @@ export class FileRepositoryPopup {
         public loader: NgxSmartLoaderService,
         private spinnerService: Ng4LoadingSpinnerService,
         private alertService: AlertService,
+        // private filerepositoryComponent: FilerepositoryComponent
     ) {
         this.filteredOptions = this.myControl.valueChanges.pipe(
             startWith(''),
@@ -409,7 +414,7 @@ export class FileRepositoryPopup {
         this.dialogRef.close();
     }
     closeDialog(): void {
-        this.dialogRef.close();
+        this.dialogRef.close(this.formData);
     }
 
     submitForm = () => {
@@ -424,33 +429,32 @@ export class FileRepositoryPopup {
             return false;
         }
         const formModel = this.fileUploadForm.value;
-        const formData = new FormData();
-        formData.append('file_path', formModel.file_path);
-        formData.append('file_name', formModel.file_name);
-        formData.append('folder', formModel.folder);
-        formData.append('client_id', formModel.client_id);
+
+        this.formData.append('file_path', formModel.file_path);
+        this.formData.append('file_name', formModel.file_name);
+        this.formData.append('folder', formModel.folder);
+        this.formData.append('client_id', formModel.client_id);
         // formData.append('file_size', fileData.file_size);
         console.log(this.fileUploadForm.value);
         this.spinnerService.show();
-
-        this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
-            .subscribe(
-                data => {
-                    console.log(data);
-                    if (data.error) {
-                        this.alertService.warning(data.result);
-                        console.log(data);
-                        this.spinnerService.hide();
-                    } else {
-                        this.alertService.success('File uploaded successfully');
-                        this.spinnerService.hide();
-                        this.dialogRef.close();
-                        window.location.reload();
-                    }
-                },
-                error => {
-                    console.log(error);
-                }
-            );
+        this.dialogRef.close(this.formData);
+        // this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postfilerepository', this.formData)
+        //     .subscribe(
+        //         data => {
+        //             console.log(data);
+        //             if (data.error) {
+        //                 this.alertService.warning(data.result);
+        //                 console.log(data);
+        //                 this.spinnerService.hide();
+        //             } else {
+        //                 this.alertService.success('File uploaded successfully');
+        //                 this.spinnerService.hide();
+        //                 // window.location.reload();
+        //             }
+        //         },
+        //         error => {
+        //             console.log(error);
+        //         }
+        //     );
     }
 }
