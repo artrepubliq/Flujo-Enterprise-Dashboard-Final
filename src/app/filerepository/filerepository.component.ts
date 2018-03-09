@@ -37,7 +37,7 @@ export class FilerepositoryComponent implements OnInit {
     repository_name: string;
     uploaded_file: any;
     foldersdata = [];
-    
+
     /* image upload files styles */
     customStyle = {
         selectButton: {
@@ -113,30 +113,31 @@ export class FilerepositoryComponent implements OnInit {
     }
 
     /* this is when we submit the form */
-    onSubmit() {
-        const fileData = this.FileUploadControl.value;
-        fileData.client_id = AppConstants.CLIENT_ID;
-        console.log(fileData);
+    onSubmit(filedata) {
+        // const fileData = this.FileUploadControl.value;
+        // fileData.client_id = AppConstants.CLIENT_ID;
+        // console.log(fileData);
         const formData = new FormData();
-        formData.append('file_path', fileData.file_path);
-        formData.append('folder', fileData.folder);
-        formData.append('file_name', fileData.file_name);
-        formData.append('client_id', fileData.client_id);
-        formData.append('file_size', fileData.file_size);
+        formData.append('file_path', filedata.file_path);
+        formData.append('folder', filedata.folder);
+        formData.append('file_name', filedata.file_name);
+        formData.append('client_id', filedata.client_id);
+        // formData.append('file_size', filedata.file_size);
         this.spinnerService.show();
 
         this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
             .subscribe(
                 data => {
-                    console.log(data);
+                    // console.log(data);
                     if (data.error) {
                         this.alertService.warning(data.result);
-                        console.log(data);
+                        // console.log(data);
                         this.spinnerService.hide();
                     } else {
                         this.alertService.success('File uploaded successfully');
                         this.spinnerService.hide();
-
+                        this.foldersdata = [];
+                        this.getFolders(AppConstants.CLIENT_ID);
                     }
                 },
                 error => {
@@ -197,7 +198,7 @@ export class FilerepositoryComponent implements OnInit {
         const files = event.dataTransfer.files;
         this.saveFiles(files);
         this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
-        console.log(this.foldersdata);
+        // console.log(this.foldersdata);
         if (this.errors.length === 0) {
             this.foldersdata['file_path'] = files[0];
             this.openDialog(this.foldersdata);
@@ -215,8 +216,8 @@ export class FilerepositoryComponent implements OnInit {
         }
         const fileSizeinMB = files[0].size / (1024 * 1000);
         const size = Math.round(fileSizeinMB * 100) / 100;
-        console.log(fileSizeinMB);
-        console.log(size);
+        // console.log(fileSizeinMB);
+        // console.log(size);
         this.FileUploadControl.controls['file_path'].setValue(files[0]);
         this.foldersdata['file_path'] = files[0];
         this.FileUploadControl.controls['file_size'].setValue(size);
@@ -228,6 +229,10 @@ export class FilerepositoryComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
+            this.foldersdata = [];
+            if ((result) && (result.file_name  !== null) && (result.folder !== null) && (result.file_path !== null)) {
+                this.onSubmit(result);
+            }
         });
     }
     /* this is for checking for the maximum number of files */
@@ -296,6 +301,7 @@ export class FilerepositoryComponent implements OnInit {
         this.httpClient.get<Array<IRepositories>>(AppConstants.API_URL + 'flujo_client_getfilerepository/' + client_id)
             .subscribe(
                 data => {
+                    this.spinnerService.hide();
                     this.repositories = data;
                     console.log(this.repositories);
                 },
@@ -304,15 +310,23 @@ export class FilerepositoryComponent implements OnInit {
                 }
             );
     }
+    /* this is for sorting folders */
+    sortByFolderName = () => {
+       this.repositories =  _.sortBy(this.repositories, 'folder');
+    }
+    /* this is to sort by size */
+    sortBySize = () => {
+        this.repositories = _.sortBy(this.repositories, 'files');
+    }
     /* this is for getting documents*/
     getDocuments(repositories, folder_name, index) {
-        console.log(index);
+        // console.log(index);
         this.resetIsactive(repositories);
         this.repositories[index].isActive = true;
         // console.log(folder);
         // console.log(repositories);
         const files = repositories.filter(nerepositories => nerepositories.folder === folder_name);
-        console.log(files[0].files);
+        // console.log(files[0].files);
         this.filtered_repositories = files[0].files;
     }
     resetIsactive(repositories) {
@@ -329,10 +343,10 @@ export class FilerepositoryComponent implements OnInit {
                     this.spinnerService.hide();
                     this.getFolders(AppConstants.CLIENT_ID);
                     const newFolders = repositories.filter(newFiles => newFiles.id !== id);
-                    console.log(newFolders);
+                    // console.log(newFolders);
                     this.filtered_repositories = newFolders;
                     this.alertService.success('File deleted successfully');
-                    console.log(data);
+                    // console.log(data);
                 },
                 error => {
                     this.alertService.success('File something went wrong successfully');
@@ -364,6 +378,7 @@ export class FileRepositoryPopup {
     filteredOptions: Observable<string[]>;
     folderObject = this.data;
     fileRepository: FilerepositoryComponent;
+    formData = new FormData();
     // console.log(folderObject);
     constructor(
         public dialogRef: MatDialogRef<FileRepositoryPopup>,
@@ -373,20 +388,21 @@ export class FileRepositoryPopup {
         public loader: NgxSmartLoaderService,
         private spinnerService: Ng4LoadingSpinnerService,
         private alertService: AlertService,
+        // private filerepositoryComponent: FilerepositoryComponent
     ) {
         this.filteredOptions = this.myControl.valueChanges.pipe(
             startWith(''),
             map(val => this.filter(val))
         );
         const folderObject = this.data;
-        console.log(folderObject);
+        // console.log(folderObject);
         this.file_path = folderObject['file_path'];
         if (this.file_path) {
             this.display_file_name = this.file_path.name;
         }
         delete folderObject['file_path'];
         this.options = folderObject;
-        console.log(this.folderObject);
+        // console.log(this.folderObject);
         // folderObject.forEach(folders => {
         //     this.options.push(folders.folder);
         // });
@@ -415,42 +431,24 @@ export class FileRepositoryPopup {
     submitForm = () => {
         // console.log(this.myControl.value);
         // console.log(this.fileUploadForm.value);
-        console.log(this.fileUploadForm.invalid);
+        // console.log(this.fileUploadForm.invalid);
         this.fileUploadForm.controls['client_id'].setValue(this.client_id);
         this.fileUploadForm.controls['file_path'].setValue(this.file_path);
         this.fileUploadForm.controls['folder'].setValue(this.myControl.value);
         this.fileUploadForm.controls['file_name'].setValue(this.file_name_control.value);
+        const formModel = this.fileUploadForm.value;
+
+        this.formData.append('file_path', formModel.file_path);
+        this.formData.append('file_name', formModel.file_name);
+        this.formData.append('folder', formModel.folder);
+        this.formData.append('client_id', formModel.client_id);
+        // formData.append('file_size', fileData.file_size);
+        // console.log(this.fileUploadForm.value);
+
         if (this.fileUploadForm.invalid) {
             return false;
+        } else {
+            this.dialogRef.close(this.fileUploadForm.value);
         }
-        const formModel = this.fileUploadForm.value;
-        const formData = new FormData();
-        formData.append('file_path', formModel.file_path);
-        formData.append('file_name', formModel.file_name);
-        formData.append('folder', formModel.folder);
-        formData.append('client_id', formModel.client_id);
-        // formData.append('file_size', fileData.file_size);
-        console.log(this.fileUploadForm.value);
-        this.spinnerService.show();
-
-        this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
-            .subscribe(
-                data => {
-                    console.log(data);
-                    if (data.error) {
-                        this.alertService.warning(data.result);
-                        console.log(data);
-                        this.spinnerService.hide();
-                    } else {
-                        this.alertService.success('File uploaded successfully');
-                        this.spinnerService.hide();
-                        this.dialogRef.close();
-                        window.location.reload();
-                    }
-                },
-                error => {
-                    console.log(error);
-                }
-            );
     }
 }
