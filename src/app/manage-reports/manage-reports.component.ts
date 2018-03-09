@@ -32,7 +32,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
     reportMoveToOption: string;
     reportRemarksOption: string;
     usersListOptions = [];
-    moveToListOptions = ['solve', 'solved', 'solving'];
+    moveToListOptions = ['In Progress', 'Completed', 'Pending/UnResolved'];
     RemarksListOptions = ['constituency', 'othersOne', 'otherstwo', 'othersthree'];
     filteredusersListOptions: Observable<string[]>;
     filteredMoveToListOptions: Observable<string[]>;

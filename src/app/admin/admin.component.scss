@@ -550,8 +550,8 @@
   .dropdown-menu {
     position: absolute;;
     transform: initial !important;
-    width: 100%;
-    background-color: transparent;
+    width: 80% !important;
+    background-color: transparent;    
     border-radius: 0;
     border: none;
     margin: 0;
@@ -570,8 +570,13 @@
     }
     .dropdown-item.active {
       color: #c5b6d1;
-      background-color: transparent;
+      background-color: #3f165d;
+      width: 80% !important;
     }
+    a.dropdown-item {
+      width: 80% !important;
+
+  }
     .dropdown-item:hover {
       background-color: #3f165d;
     } // .nav-link.subNav-link.dropdown-toggle::after {
