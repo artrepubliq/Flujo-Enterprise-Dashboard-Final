@@ -310,6 +310,14 @@ export class FilerepositoryComponent implements OnInit {
                 }
             );
     }
+    /* this is for sorting folders */
+    sortByFolderName = () => {
+       this.repositories =  _.sortBy(this.repositories, 'folder');
+    }
+    /* this is to sort by size */
+    sortBySize = () => {
+        this.repositories = _.sortBy(this.repositories, 'files');
+    }
     /* this is for getting documents*/
     getDocuments(repositories, folder_name, index) {
         // console.log(index);
