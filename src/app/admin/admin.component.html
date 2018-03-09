@@ -1,4 +1,3 @@
-
 <!-- TopNav -->
 <nav class="navbar navbarTop" role="navigation">
   <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
@@ -11,7 +10,11 @@
           <a class="nav-link dropdown-toggle" (click)="dropdownOpen=!dropdownOpen">
             <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
             <span>Art Republiq</span>
-            <span>{{nickName}} <sup><span class="active-info">.</span></sup></span>
+            <span>{{nickName}}
+              <sup>
+                <span class="active-info">.</span>
+              </sup>
+            </span>
           </a>
           <div class="dropdown-menu">
             <ng4-loading-spinner> </ng4-loading-spinner>
@@ -124,13 +127,13 @@
           <ng4-loading-spinner> </ng4-loading-spinner>
 
            <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Profile</a> -->
-          <!-- <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a> -->
-          <!-- <a class="dropdown-item" routerLink="./media" routerLinkActive="active">Media Management</a> -->
-          <!-- <a class="dropdown-item" routerLink="./reports" routerLinkActive="active">Reports</a> -->
-          <!-- <a class="dropdown-item" routerLink="./themeconfiguration" routerLinkActive="active">Theme Global Config</a> -->
-          <!-- <a class="dropdown-item" routerLink="./filerepository" routerLinkActive="active">Upload Files</a> -->
+      <!-- <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a> -->
+      <!-- <a class="dropdown-item" routerLink="./media" routerLinkActive="active">Media Management</a> -->
+      <!-- <a class="dropdown-item" routerLink="./reports" routerLinkActive="active">Reports</a> -->
+      <!-- <a class="dropdown-item" routerLink="./themeconfiguration" routerLinkActive="active">Theme Global Config</a> -->
+      <!-- <a class="dropdown-item" routerLink="./filerepository" routerLinkActive="active">Upload Files</a> -->
 
-          <!-- <li class="nav-item" [ngClass]="{'open':showDropdownMain1}">
+      <!-- <li class="nav-item" [ngClass]="{'open':showDropdownMain1}">
             <a class="nav-link subNav-link dropdown-toggle" (click)="showDropdownMain1=!showDropdownMain1">
               <span>Pages</span>
             </a>
@@ -182,61 +185,68 @@
         </div>
       </li> -->
       <li class="nav-item">
-          <br/> <a class="nav-link" routerLink="./pages" routerLinkActive="active">
-             <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
-            <!-- <i class="fa fa-ionic"></i> -->
-            <span>Editor</span>
-          </a><br/>
-        </li>
+        <a class="nav-link editor-link" routerLink="./pages" routerLinkActive="active">
+          <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
+          <img src="assets/icons/editor-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
+          <!-- <i class="fa fa-ionic"></i> -->
+          <span>Editor</span>
+        </a>
+      </li>
       <li class="divider-line"></li>
       <!-- Communication Block -->
       <li class="nav-title">Flow
-          <i class="fa fa-cog"></i>
+        <i class="fa fa-cog"></i>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="./socialmanagement" routerLinkActive="active">
-          <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
-          <span>Social Management</span>
+          <img src="assets/icons/social-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
+          <img src="assets/icons/social-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
+          <span>Social</span>
         </a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" routerLink="./managereports" routerLinkActive="active">
           <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
           <span>MANAGE REPORTS</span>
         </a>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./email" routerLinkActive="active">
+          <img src="assets/icons/mail-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/mail-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Mail</span>
+        </a>
       </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="./email" routerLinkActive="active">
-            <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
-            <span>Mail</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="./sms" routerLinkActive="active">
-            <img src="assets/icons/social-icon-normal@2x.png" alt="social icon">
-            <span>SMS</span>
-          </a>
-        </li>
-        <li class="divider-line"></li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="./sms" routerLinkActive="active">
+          <img src="assets/icons/sms-color-nav-icon-normal@2x.png" class="normal_img" alt="social icon">
+          <img src="assets/icons/sms-color-nav-icon-active@2x.png" class="active_img" alt="social icon">
+          <span>SMS</span>
+        </a>
+      </li>
+      <li class="divider-line"></li>
       <li class="nav-title">Nucleus
         <i class="fa fa-cog"></i>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="./reportanissue" routerLinkActive="active">
-          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <img src="assets/icons/report-an-issue-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/report-an-issue-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
           <span>Report An Issue</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="./feedback" routerLinkActive="active">
-        <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
-        <span>Feedback</span>
+          <img src="assets/icons/feedback-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/feedback-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Feedback</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="./changemakerreport" routerLinkActive="active">
-        <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
-        <span>Change Maker Report</span>
+          <img src="assets/icons/change-maker-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/change-maker-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Change Maker Report</span>
         </a>
       </li>
       <!-- <li class="nav-item">
@@ -259,26 +269,30 @@
       </li> -->
       <li class="nav-item">
         <a class="nav-link" routerLink="./surveys" routerLinkActive="active">
-          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <img src="assets/icons/survey-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/survey-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
           <span>Surveys</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="./analytics" routerLinkActive="active">
-          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <img src="assets/icons/analytics-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/analytics-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
           <span>Analytics</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="./database" routerLinkActive="active">
-          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <img src="assets/icons/database-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/database-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
           <span>Database</span>
         </a>
       </li>
       <li class="divider-line"></li>
       <li class="nav-item">
         <a class="nav-link" routerLink="./filerepository" routerLinkActive="active">
-          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <img src="assets/icons/drive-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/drive-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
           <!-- <i class="material-icons">storage</i> -->
           <!-- <mat-icon>home</mat-icon> -->
           <span>Drive</span>
