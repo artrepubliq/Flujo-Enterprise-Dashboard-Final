@@ -72,6 +72,7 @@ import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FilerepositoryComponent, FileRepositoryPopup } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 import {MatIconModule} from '@angular/material/icon';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -112,7 +113,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FileRepositoryPopup,
     ReportanissueComponent,
     FeedbackComponent,
-    ChangemakerComponent
+    ChangemakerComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,
