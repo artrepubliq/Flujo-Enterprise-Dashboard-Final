@@ -1,10 +1,16 @@
 export interface IRepositories {
-    id: number;
+    // id: number;
     client_id: number;
     folder: string;
+    folder_id: string;
+    files: IFiles;
+    isActive?: boolean;
+    // submitted_at: any;
+    // files_object: any;
+}
+export interface IFiles {
+    id: number;
     file_name: string;
     file_path: string;
-    submitted_at: any;
-    isActive?: boolean;
-    files?: any;
+    file_extension: string;
 }

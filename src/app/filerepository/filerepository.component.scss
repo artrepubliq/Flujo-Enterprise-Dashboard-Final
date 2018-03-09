@@ -5,6 +5,44 @@
   box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15);
   .file_uploader {
     min-width: 300px;
+    border: 1.5px dashed #91d7ea;
+    border-radius: 5px;
+    padding: 20px;
+    .choose-block {
+      p {
+        font-size: 15px;
+        font-weight: 500;
+        text-align: center;
+        color: #919191;
+      }
+      .choose_files {
+        position: relative;
+        display: inline-block;
+        width: 130px;
+        height: 40px;
+        border-radius: 20px;
+        button {
+          width: 130px;
+          height: 40px;
+          border-radius: 20px;
+          background-color: #ee286b;
+          box-shadow: 0px 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+          font-size: 14px;
+          font-weight: 500;
+          text-align: center;
+          color: #ffffff;
+        }
+        input[type="file"] {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          z-index: 1;
+          left: 0;
+          top: 0;
+        }
+      }
+    }
   }
   .uploader_content {
     min-width: 460px;
@@ -21,25 +59,6 @@
       text-align: left;
       color: #c1c1c1;
     }
-  }
-  .image-upload:before {
-    content: "\f0ee";
-    font-family: 'FontAwesome';
-    font-size: 52px;
-    color: #91d7ea;
-    position: absolute;
-    left: 20px;
-  }
-  .image-upload {
-    position: relative;
-  }
-  .upload-button {
-    margin: 15px 0;
-    height: 48px;
-    width: 130px;
-    border-radius: 25px;
-    background-color: #4a2665;
-    color: #fff;
   }
 }
 
@@ -97,6 +116,7 @@
   box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
   position: relative;
   cursor: pointer;
+  margin-bottom: 30px;
   .file_icon {
     height: calc(100% - 55.5px);
     i {
@@ -147,21 +167,7 @@
 
 .upload_popup {
   position: relative;
-  input {
-    outline: none;
-    padding: 13px 15px;
-    font-size: 14px;
-    text-align: left;
-    color: #c1c1c1;
-    border-radius: 2px;
-    background-color: #ffffff;
-    border: solid 1.5px #f7f7f7;
-  }
-  label {
-    font-size: 14px;
-    text-align: left;
-    color: #666666;
-  }
+  padding: 26px;
   .file_action {
     position: absolute;
     right: 0;
@@ -171,9 +177,25 @@
     }
   }
   .file_choose {
-    min-width: 280px;
-    min-height: 280px;
-    border: 1.5px dashed #91d7ea; 
+    min-width: 280px; // min-height: 280px;
+    border: 1.5px dashed #91d7ea;
     border-radius: 5px;
+    position: relative;
+    i{
+      font-size: 80px;
+    }
+    p {
+      position: absolute;
+      top: 100%;
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: normal;
+      font-style: italic;
+      font-stretch: normal;
+      line-height: 1.6;
+      letter-spacing: normal;
+      text-align: left;
+      color: #c1c1c1;
+    }
   }
 }
