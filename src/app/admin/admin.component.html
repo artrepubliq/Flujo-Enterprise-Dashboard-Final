@@ -6,7 +6,7 @@
         <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
       </a>
       <ul class="nav flex-column login-info">
-        <li class="nav-item" [ngClass]="{'open':dropdownOpen}" >
+        <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
           <a class="nav-link dropdown-toggle" (click)="dropdownOpen=!dropdownOpen">
             <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
             <span>Art Republiq</span>
@@ -205,13 +205,6 @@
           <span>Social</span>
         </a>
       </li>
-
-       <li class="nav-item">
-        <a class="nav-link" routerLink="./managereports" routerLinkActive="active">
-          <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
-          <span>Manage Reports</span>
-        </a>
-      </li> 
       <li class="nav-item">
         <a class="nav-link" routerLink="./email" routerLinkActive="active">
           <img src="assets/icons/mail-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
@@ -239,11 +232,12 @@
         </a>
       </li> -->
       <li class="nav-item">
-          <a class="nav-link" routerLink="./managereports" routerLinkActive="active">
-            <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
-            <span>Manage Reports</span>
-          </a>
-        </li>
+        <a class="nav-link" routerLink="./managereports" routerLinkActive="active">
+          <img src="assets/icons/report-an-issue-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/report-an-issue-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Manage Reports</span>
+        </a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="./feedback" routerLinkActive="active">
           <img src="assets/icons/feedback-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
