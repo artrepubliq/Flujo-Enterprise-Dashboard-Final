@@ -38,55 +38,6 @@ export class FilerepositoryComponent implements OnInit {
     uploaded_file: any;
     foldersdata = [];
 
-    /* image upload files styles */
-    customStyle = {
-        selectButton: {
-            'border-radius': '20px',
-            'background-color': '#ee286b',
-            'box-shadow': '0 1.5px 18px 0 rgba(0, 0, 0, 0.15)',
-            'font-size': '14px',
-            'font-weight': '500',
-            'text-align': 'center',
-            'color': '#ffffff',
-            'text-transform': 'initial',
-            'font-family': 'Roboto',
-            'width': '130px',
-            'height': '40px',
-            'float': 'right'
-        },
-        clearButton: {
-            'border-radius': '20px',
-            'background-color': '#ee286b',
-            'box-shadow': '0 1.5px 18px 0 rgba(0, 0, 0, 0.15)',
-            'font-size': '14px',
-            'font-weight': '500',
-            'text-align': 'center',
-            'color': '#ffffff',
-            'text-transform': 'initial',
-            'font-family': 'Roboto',
-            'width': '130px',
-            'height': '40px',
-            'float': 'right'
-        },
-        layout: {
-            'border-radius': '5px',
-            'background-color': 'transparent',
-            'border': 'dashed 1.5px #91d7ea'
-        },
-        previewPanel: {
-            'background-color': 'transparent',
-            'border-radius': '0 0 25px 25px',
-        },
-        dropBoxMessage: {
-            'font-family': 'Roboto',
-            'font-size': '15px',
-            'font-weight': '500',
-            'text-align': 'center',
-            'color': 'red',
-            'display': 'none'
-        },
-
-    };
     // disabled = false;
     @Input() projectId: number;
     @Input() sectionId: number;

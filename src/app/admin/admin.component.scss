@@ -152,6 +152,7 @@
   transition: 0.3s ease-in-out;
   .divider-line {
     border-bottom: 1px solid #52306b;
+    margin: 10px 0;
   }
   .nav-item {
     min-height: 30px;
@@ -184,6 +185,21 @@
       max-height: 20px;
       position: absolute;
       left: 13%;
+    }
+    .active_img {
+      display: none;
+    }
+  }
+  .nav-link.editor-link {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+  .nav-link.active {
+    .active_img {
+      display: block;
+    }
+    .normal_img {
+      display: none;
     }
   }
   .nav-item.open>.dropdown-menu {
