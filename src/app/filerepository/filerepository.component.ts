@@ -230,7 +230,7 @@ export class FilerepositoryComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
             this.foldersdata = [];
-            if ((result.file_name  !== null) && (result.folder !== null) && (result.file_path !== null)) {
+            if ((result) && (result.file_name  !== null) && (result.folder !== null) && (result.file_path !== null)) {
                 this.onSubmit(result);
             }
         });
@@ -303,7 +303,7 @@ export class FilerepositoryComponent implements OnInit {
                 data => {
                     this.spinnerService.hide();
                     this.repositories = data;
-                    // console.log(this.repositories);
+                    console.log(this.repositories);
                 },
                 error => {
                     console.log(error);
