@@ -11,7 +11,7 @@
           <a class="nav-link dropdown-toggle" (click)="dropdownOpen=!dropdownOpen">
             <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
             <span>Art Republiq</span>
-            <span>Santosh <sup><span class="active-info">.</span></sup></span>
+            <span>{{nickName}} <sup><span class="active-info">.</span></sup></span>
           </a>
           <div class="dropdown-menu">
             <ng4-loading-spinner> </ng4-loading-spinner>
@@ -83,6 +83,10 @@
             <i class="fa fa-user-plus"></i>Create User</a>
         </li>
         <li>
+          <a routerLink="./pages" routerLinkActive="active" class="activity">
+            <i class="fa fa-plus"></i>Add Pages</a>
+        </li>
+        <li>
           <a routerLink="./sociallinks" routerLinkActive="active" class="activity">
             <i class="fa fa-external-link"></i>Social links update</a>
         </li>
@@ -102,7 +106,6 @@
       </ul>
     </li>
   </ul>
-
 </nav>
 <!-- // Top Nav -->
 
@@ -199,12 +202,6 @@
           <span>Social Management</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="./managereports" routerLinkActive="active">
-          <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
-          <span>MANAGE REPORTS</span>
-        </a>
-      </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="./email" routerLinkActive="active">
             <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
@@ -221,12 +218,18 @@
       <li class="nav-title">Nucleus
         <i class="fa fa-cog"></i>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" routerLink="./reportanissue" routerLinkActive="active">
           <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
           <span>Report An Issue</span>
         </a>
-      </li>
+      </li> -->
+      <li class="nav-item">
+          <a class="nav-link" routerLink="./managereports" routerLinkActive="active">
+            <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
+            <span>Manage Reports</span>
+          </a>
+        </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="./feedback" routerLinkActive="active">
         <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
