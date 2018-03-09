@@ -187,8 +187,8 @@
                                             </div>                                  
                                         </div>
                                         
-                                        <div fxFlex>
-                                            <form class="example-form">
+                                        <div class="assign-issue" fxFlex>
+                                            <form class="example-form form-inline">
                                                 <mat-form-field class="example-full-width">
                                                     <input type="text" placeholder="Remarks select or type" aria-label="Number" matInput [formControl]="remarksListControl" [matAutocomplete]="auto3">
                                                         <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
@@ -197,7 +197,7 @@
                                                             </mat-option>
                                                     </mat-autocomplete>
                                                 </mat-form-field>
-                                                <!-- <button (click)="UpdateReportsStatus()">Assign</button> -->
+                                                <button class="btn btn-outline-secondary btn-sm btn-report" (click)="UpdateReportsStatus()">Assign</button>
                                             </form>
                                         </div>
                                        
