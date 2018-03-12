@@ -31,10 +31,12 @@
 }
 
 .example-header-image {
-    background-image: url('/assets/flujo-favicon.png');
+    background-image: url('/assets/flujo-logo@3x.png');
     background-size: contain;
     max-width: 50px;
     max-height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
  }
  .mat-card-avatar {
     height: 60px;
