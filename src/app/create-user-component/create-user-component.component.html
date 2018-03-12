@@ -45,12 +45,91 @@
               <td *ngIf="user.role==1">Social Manager</td>
               <td *ngIf="user.role==2">Content Manager</td>
               <td><button (click)="editCompnent(user)" type="button" class="btn"><i class="fa fa-pencil"></i></button></td>
-              <td><button type="button" class="btn"><i class="fa fa-eye"></i></button></td>
+              <td><button type="button" class="btn" (click)="openAccessDialog(user)"><i class="fa fa-eye"></i></button></td>
               <td><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
 
           </tr>
         </tbody>
       </table>
+    </div> -->
+    <div class="col-md-12">
+
+        <!-- <h3>Feedback Report:</h3> -->
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th scope="col" colspan="2">
+                  <span fxLayoutGap="0.5rem" class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input class="d-inline" type="checkbox" >
+                      <b>
+                        <p class="d-inline">Name &nbsp;&nbsp; <i class="fa fa-angle-down"></i></p>
+                      </b>
+                    </span> 
+              </th>
+              <!-- <th scope="col">
+
+                  <div>
+                      <span class="d-inline">Updated &nbsp; <i class="fa fa-angle-down"></i></span>
+                  </div>
+              </th> -->
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Role</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <!-- <th scope="col">
+                  <span class="d-inline">
+                      Source&nbsp;<i class="fa fa-angle-down"></i>
+                  </span>   
+              </th> -->
+            <!-- <th scope="col">
+                  <span class="d-inline" >
+                      Feedback &nbsp;<i class="fa fa-angle-down"></i>
+                  </span> 
+              </th> -->
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="btn-stack" *ngFor="let user of userDetails">
+              <td scope="col" colspan="2">
+                  <span fxLayoutGap="0.5rem" class="d-inline">
+                      <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
+                      <input  type="checkbox">
+                      <b><p class="name-feedback d-inline">{{user.name}}</p></b>
+                  </span> 
+              </td>
+              <!-- <td>{{item.datenow}}</td> -->
+              <td>{{user.email}}</td>
+              <td>{{user.phone}}</td>
+              <td *ngIf="user.role==1">Social Manager</td>
+              <td *ngIf="user.role==2">Content Manager</td>
+              <td><button (click)="editCompnent(user)" type="button" class="btn"><i class="fa fa-pencil"></i></button></td>
+              <td><button type="button" class="btn" (click)="openDialog()"><i class="fa fa-eye"></i></button></td>
+              <td><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
+              <!-- <td>
+
+                  <p class="btn btn-outline-success btn-sm btn-issues">Good</p>
+                  <span class="text-muted d-inline pull-right">
+                      <p class="d-inline"><i class="fa fa-ellipsis-v"></i></p>
+                  </span>
+              </td> -->
+          </tr>
+        </tbody>
+      </table>
+      <!-- <button (click)="exportFeedbackData()" class="btn btn-outline-secondary btn-sm btn-report pull-right" float-right style="float:right">Export</button>
+        <div class="sendMail-data">
+            <div class="sendMail-data form-group">
+                <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
+                    <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
+                    <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+                      enter valid email
+                    </div>
+                  <button (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report  mt-2">Send As Email</button>
+                </form>
+              </div>
+        </div> -->
     </div>
   </div>
 
