@@ -3,7 +3,7 @@ import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { AdminComponent } from './admin/admin.component';
 import { CallbackComponent } from './callback.component';
-import { ReportsComponent } from './reports/reports.component';
+//import { ReportsComponent } from './reports/reports.component';
 import { LoginComponent } from './login/login.component';
 // import { PrivateDealsComponent } from './private-deals/private-deals.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
