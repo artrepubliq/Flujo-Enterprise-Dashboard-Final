@@ -32,6 +32,7 @@ export class FilerepositoryComponent implements OnInit {
     clickedFile: boolean;
     repositories: Array<IRepositories> = [];
     filtered_repositories: Array<IRepositories> = [];
+    allFiles = [];
     dragAreaClass = 'dragarea';
     file_name: string;
     repository_name: string;
@@ -233,28 +234,36 @@ export class FilerepositoryComponent implements OnInit {
     }
 
     // this is to disable submit button
-    disable() {
-        // console.log(this.disabled);
-        // console.log(this.FileUploadControl.valid);
-        // return false;
-        // console.log(this.errors);
-        // console.log(this.FileUploadControl.controls['file_path'].value);
-        if ((this.FileUploadControl.valid === true) && (this.errors.length === 0) &&
-            (this.FileUploadControl.controls['file_path'].value) != null) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+    // disable() {
+    //     // console.log(this.disabled);
+    //     // console.log(this.FileUploadControl.valid);
+    //     // return false;
+    //     // console.log(this.errors);
+    //     // console.log(this.FileUploadControl.controls['file_path'].value);
+    //     if ((this.FileUploadControl.valid === true) && (this.errors.length === 0) &&
+    //         (this.FileUploadControl.controls['file_path'].value) != null) {
+    //         return false;
+    //     } else {
+    //         return true;
+    //     }
+    // }
 
     /* this is to get Folders by client id*/
     getFolders(client_id) {
+        console.log(client_id);
         this.httpClient.get<Array<IRepositories>>(AppConstants.API_URL + 'flujo_client_getfilerepository/' + client_id)
             .subscribe(
                 data => {
+                    this.allFiles = [];
                     this.spinnerService.hide();
                     this.repositories = data;
                     console.log(this.repositories);
+                    // $this.filtered_repositories =
+                    this.repositories.forEach(allFiles => {
+                        this.allFiles.push(allFiles.files);
+                     });
+                     this.filtered_repositories = [].concat.apply([], this.allFiles);
+                     console.log(this.allFiles);
                 },
                 error => {
                     console.log(error);
@@ -279,6 +288,7 @@ export class FilerepositoryComponent implements OnInit {
         const files = repositories.filter(nerepositories => nerepositories.folder === folder_name);
         // console.log(files[0].files);
         this.filtered_repositories = files[0].files;
+        console.log(this.filtered_repositories);
     }
     resetIsactive(repositories) {
         _.each(repositories, (iteratee, index) => {
@@ -292,11 +302,12 @@ export class FilerepositoryComponent implements OnInit {
             .subscribe(
                 data => {
                     this.spinnerService.hide();
-                    this.getFolders(AppConstants.CLIENT_ID);
-                    const newFolders = repositories.filter(newFiles => newFiles.id !== id);
-                    // console.log(newFolders);
-                    this.filtered_repositories = newFolders;
+                    // const newFolders = repositories.filter(newFiles => newFiles.id !== id);
+                    // // console.log(newFolders);
+                    // this.filtered_repositories = newFolders;
                     this.alertService.success('File deleted successfully');
+                    this.filtered_repositories = [];
+                    this.getFolders(AppConstants.CLIENT_ID);
                     // console.log(data);
                 },
                 error => {
