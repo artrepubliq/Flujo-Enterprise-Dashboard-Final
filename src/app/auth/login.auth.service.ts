@@ -46,7 +46,7 @@ export class LoginAuthService implements OnInit {
     const expTime = 600 * 1000 + Date.now();
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('id_token', authResult.user_id);
     localStorage.setItem('nickname', JSON.stringify(authResult.name));
     localStorage.setItem('expires_at', JSON.stringify(expTime));
     this.router.navigate(['/admin']);

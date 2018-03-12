@@ -45,7 +45,7 @@
               <td *ngIf="user.role==1">Social Manager</td>
               <td *ngIf="user.role==2">Content Manager</td>
               <td><button (click)="editCompnent(user)" type="button" class="btn"><i class="fa fa-pencil"></i></button></td>
-              <td><button type="button" class="btn"><i class="fa fa-eye"></i></button></td>
+              <td><button type="button" class="btn" (click)="openAccessDialog(user)"><i class="fa fa-eye"></i></button></td>
               <td><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
 
           </tr>
@@ -106,7 +106,7 @@
               <td *ngIf="user.role==1">Social Manager</td>
               <td *ngIf="user.role==2">Content Manager</td>
               <td><button (click)="editCompnent(user)" type="button" class="btn"><i class="fa fa-pencil"></i></button></td>
-              <td><button type="button" class="btn"><i class="fa fa-eye"></i></button></td>
+              <td><button type="button" class="btn" (click)="openDialog()"><i class="fa fa-eye"></i></button></td>
               <td><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
               <!-- <td>
 
