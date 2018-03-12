@@ -5,7 +5,7 @@
         </h4>
     </div>
     <br>
-    <form fxLayout="column" action=""  (submit)="onSubmit(accessLevelsFormSubmit.value)">
+    <form fxLayout="column" action="" [formGroup]="accessLevelsFormSubmit"  (submit)="onSubmit(accessLevelsFormSubmit.value)">
         <div fxLayout="row" class="headings" fxLayoutGap="15px">
             <div fxFlex>
                 Feature Type

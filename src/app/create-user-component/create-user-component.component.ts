@@ -167,6 +167,7 @@ export class CreateUserComponentComponent implements OnInit {
   styleUrls: ['./create-user-component.component.scss']
 })
 export class AccessLevelPopup {
+  accessLevelsFormSubmit: FormGroup;
   names:Array<IAccessLevelModel>;
   checkedone = false;
   color = 'warn';
@@ -174,7 +175,12 @@ export class AccessLevelPopup {
   public eventCalls: Array<string> = [];
   constructor(
     public dialogRef: MatDialogRef<AccessLevelPopup>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { dialogRef.disableClose = true;
+    @Inject(MAT_DIALOG_DATA) public data: any,private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private alertService: AlertService,private httpClient:HttpClient) { dialogRef.disableClose = true;
+      this.accessLevelsFormSubmit=formBuilder.group({
+        'access_levels':[null],
+        'user_id':[null],
+        'client_id':[null]
+      });
       this.checkBoxNames();
     }
 
@@ -266,5 +272,23 @@ export class AccessLevelPopup {
       write:true
     },
     ]
+  }
+  onSubmit = (body) =>{
+    this.spinnerService.show();
+    this.accessLevelsFormSubmit.controls['access_levels'].setValue(this.names);
+    this.accessLevelsFormSubmit.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    this.accessLevelsFormSubmit.controls['user_id'].setValue(localStorage.getItem('id_token'));
+    const formModel = this.accessLevelsFormSubmit.value;
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postuseraccess', formModel)
+      .subscribe(
+      data => {
+        this.alertService.success('User access levels updated successfully');
+        this.spinnerService.hide();
+        this.closeDialog();
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger('User access levels not updated');
+      });
   }
 }
