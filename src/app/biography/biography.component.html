@@ -6,11 +6,11 @@
     <div fxLayout="column" fxLayoutGap="15px">
       <div fxLayout="column" fxLayoutGap="10px">
         <label for="">Career Position</label>
-        <input type="text" placeholder="Career Position" formControlName="career_position">
+        <input type="text" class="input" placeholder="Career Position" formControlName="career_position">
       </div>
       <div fxLayout="column" fxLayoutGap="10px">
           <mat-form-field class="">
-              <input matInput [min]="minDate" formControlName="from_year" [max]="maxDate" [matDatepicker]="picker1" placeholder="To date" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+              <input matInput [min]="minDate" formControlName="from_year" [max]="maxDate" [matDatepicker]="picker1" placeholder="From date" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
               <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
               <mat-datepicker touchUi="true" startView="year" [startAt]="startDate" #picker1></mat-datepicker>
             </mat-form-field>
@@ -24,7 +24,7 @@
       </div>
       <div fxLayout="column" fxLayoutGap="10px">
         <label for="">Career Description</label>
-        <input type="text" placeholder="Career Description" formControlName="career_description">
+        <input type="text" class="input" placeholder="Career Description" formControlName="career_description">
       </div>
       <div fxLayoutAlign="end center">
         <button mat-raised-button class="submit" type="submit" [disabled]="biographySubmitForm.invalid"> Submit</button>
