@@ -34,6 +34,10 @@ export class AdminComponent implements OnInit {
     this.nickName = localStorage.getItem('nickname');
     this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
+    this.getUserList();
+    setInterval(() => {
+      this.getUserList();
+    }, 5000);
   }
   viewPages() {
     localStorage.setItem('page_item', 'viewpages');
@@ -45,9 +49,9 @@ export class AdminComponent implements OnInit {
     this.httpClient.get<Array<IloggedinUsers>>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID )
     .subscribe(
       data => {
-        console.log(data[0].is_logged_in);
+        // console.log(data[0].is_logged_in);
           this.loggedinUsersList = data;
-          console.log(this.loggedinUsersList);
+          // console.log(this.loggedinUsersList);
           this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
             return activeUserData.is_logged_in === '1';
         });
@@ -58,7 +62,7 @@ export class AdminComponent implements OnInit {
         }else{
           
         }
-          console.log(this.activeUsers);
+          // console.log(this.activeUsers);
       },
       error => {
         console.log(error);
