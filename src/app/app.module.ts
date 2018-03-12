@@ -42,7 +42,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component';
 import { SmsuiComponent } from './smsui/smsui.component';
-import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
+import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -110,6 +110,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangepasswordComponent,
     BiographyComponent,
     FileSelectPopup,
+    AccessLevelPopup,
     FileRepositoryPopup,
     ReportanissueComponent,
     FeedbackComponent,
@@ -155,8 +156,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxTwitterTimelineModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSlideToggleModule
   ],
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup],
+
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, AccessLevelPopup],
   providers: [
               // AuthService,
               HttpService,
