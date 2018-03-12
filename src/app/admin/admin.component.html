@@ -1,7 +1,7 @@
 <!-- TopNav -->
 <nav class="navbar navbarTop" role="navigation">
   <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
-    <div fxLayout="row" fxLayoutGap="0.1rem">
+    <div fxLayout="row" fxLayoutGap="0.1rem" fxLayoutAlign="start center">
       <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
         <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
       </a>
@@ -10,13 +10,10 @@
           <a class="nav-link dropdown-toggle" data-toggle="dropdown">
             <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
             <span>Art Republiq</span>
-
-            <span>{{nickName}}
-              <sup>
-                <span class="active-info">.</span>
-              </sup>
+            <span class="active-indication">
+              <span class="nickname">{{nickName}}</span>
+              <span class="active-info"><sup>.</sup></span>
             </span>
-
           </a>
           <div class="dropdown-menu">
             <ng4-loading-spinner> </ng4-loading-spinner>
