@@ -19,7 +19,7 @@ import { CKEditorModule } from 'ngx-ckeditor';
 import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
-import { ReportsComponent } from './reports/reports.component';
+// import { ReportsComponent } from './reports/reports.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
@@ -90,7 +90,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialLinksComponent,
     ControlMessagesComponent,
     SMTPConfigurationComponent,
-    ReportsComponent,
+    // ReportsComponent,
     EmailserviceComponent,
     ChatBoxComponent,
     MediaComponent,
