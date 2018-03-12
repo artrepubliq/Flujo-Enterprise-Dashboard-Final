@@ -143,7 +143,7 @@ export class CreateUserComponentComponent implements OnInit {
   parsePostResponse(response) {
 
     if (response.result) {
-      this.alertService.danger('Email already exists');
+      this.alertService.danger('Email ID already existed');
     } else {
       this.alertService.info('User data submitted successfully.');
       this.CreateUserForm.reset();
@@ -157,7 +157,6 @@ export class CreateUserComponentComponent implements OnInit {
   cancelUser() {
     this.isEdit = false;
   }
-
 }
 
 @Component({

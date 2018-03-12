@@ -26,7 +26,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
   // tslint:disable-next-line:max-line-length
-  MatDialogModule, MatDatepickerModule, MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatSlideToggleModule } from '@angular/material';
+  MatDialogModule, MatDatepickerModule, MatNativeDateModule,MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -69,8 +69,10 @@ import { DateFormat } from './model/date.formatt';
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
-import { FilerepositoryComponent } from './filerepository/filerepository.component';
+import { FilerepositoryComponent, FileRepositoryPopup } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
+import {MatIconModule} from '@angular/material/icon';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -109,9 +111,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     BiographyComponent,
     FileSelectPopup,
     AccessLevelPopup,
+    FileRepositoryPopup,
     ReportanissueComponent,
     FeedbackComponent,
-    ChangemakerComponent
+    ChangemakerComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,
@@ -141,8 +145,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatDialogModule,
     MatTabsModule,
     MatTooltipModule,
+    MatExpansionModule,
     MatCardModule,
+    MatIconModule,
     MomentModule,
+    MatAutocompleteModule,
     NgIdleKeepaliveModule.forRoot(),
     MalihuScrollbarModule.forRoot(),
     FacebookModule.forRoot(),
@@ -151,7 +158,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatNativeDateModule,
     MatSlideToggleModule
   ],
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, AccessLevelPopup],
+
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, AccessLevelPopup],
   providers: [
               // AuthService,
               HttpService,

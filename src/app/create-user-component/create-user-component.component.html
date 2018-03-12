@@ -138,7 +138,7 @@
       <h6  class="form-header">Create User</h6>
     </div>
     <div fxFlex="50%">
-        <button (click)="viewUsers()" class="pull-right btn btn-sm btn-outline-secondary btn-users d-inline"><span><i class="fa fa-angle-left fa-2x d-inline"></i> View Users</span></button>
+        <button (click)="cancelUser()" class="pull-right btn btn-sm btn-outline-secondary btn-users d-inline"><span><i class="fa fa-angle-left fa-2x d-inline"></i> View Users</span></button>
     </div>
   </div>
       <!-- 
@@ -202,6 +202,7 @@
           <div fxLayout="column">
             <!-- <div fxLayout="row" fxLayoutGap="0.5rem"> -->
               <div fxLayout="column" class="form-group">
+
                 <div><label fxLayoutAlign="start" for="name">First Name</label></div>
                 <div><input fxFlex="100%" type="text" class="form-control" id="name" formControlName="name" placeholder="First Name"  required oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');" ></div>
                 <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert">

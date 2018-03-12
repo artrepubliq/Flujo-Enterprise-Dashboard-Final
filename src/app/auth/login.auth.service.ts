@@ -58,17 +58,11 @@ export class LoginAuthService implements OnInit {
 
   logout() {
     if (this.customLoggedIn) {
-      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/'+localStorage.user_id)
+      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.user_id)
       .subscribe(
         data => {
-          if (data) {
-          
-        }else {
-          
-        }
         },
         error => {
-          
         });
       this.router.navigate(['/login']);
     }

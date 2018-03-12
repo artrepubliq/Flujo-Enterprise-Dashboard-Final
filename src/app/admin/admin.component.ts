@@ -7,8 +7,12 @@ import { HttpClient } from '@angular/common/http';
 import * as _ from 'underscore';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { AppConstants } from '../app.constants';
+
+import {MatIconModule} from '@angular/material/icon';
+
 import { IloggedinUsers } from '../model/createUser.model';
 import { CreateUserComponentComponent } from '../create-user-component/create-user-component.component';
+
 @Component({
   templateUrl: './admin.component.html',
   styleUrls: ['../app.component.scss']
