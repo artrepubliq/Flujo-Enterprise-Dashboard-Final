@@ -5,7 +5,7 @@
         </h4>
     </div>
     <br>
-    <form fxLayout="column" action="" [formGroup]="accessLevelsFormSubmit" (submit)="onSubmit(accessLevelsFormSubmit.value)">
+    <form fxLayout="column" action="" [formGroup]="accessLevelsFormSubmit"  (submit)="onSubmit(accessLevelsFormSubmit.value)">
         <div fxLayout="row" class="headings" fxLayoutGap="15px">
             <div fxFlex>
                 Feature Type
@@ -23,23 +23,23 @@
             </div>
         </div>
         <div fxLayout="column">
-            <div fxLayout="row" fxLayoutGap="15px">
+            <div fxLayout="row" fxLayoutGap="15px" *ngFor="let name of names let i=index">
                 <div fxFlex>
-                    CMS
+                    {{name.name}}
                 </div>
                 <div fxFlex>
-                    <mat-slide-toggle [checked]="checkedone" (change)="testChange($event)"></mat-slide-toggle>
+                    <mat-slide-toggle [color]="color" [checked]="name.enable" (change)="testChange($event,i,'enable',name.feature_id)"></mat-slide-toggle>
                 </div>
                 <div fxFlex fxLayout="row" fxLayoutGap="15px">
                     <div fxFlex>
-                        <mat-slide-toggle [checked]="checkedtwo"></mat-slide-toggle>
+                        <mat-slide-toggle [color]="color" [checked]="name.read" (change)="testChange($event,i,'read',name.feature_id)"></mat-slide-toggle>
                     </div>
                     <div fxFlex>
-                        <mat-slide-toggle [checked]="checkedtwo"></mat-slide-toggle>
+                        <mat-slide-toggle [color]="color" [checked]="name.write" (change)="testChange($event,i,'write',name.feature_id)"></mat-slide-toggle>
                     </div>
                 </div>
             </div>
-            <div fxLayout="row" fxLayoutGap="15px">
+            <!-- <div fxLayout="row" fxLayoutGap="15px">
                 <div fxFlex>
                     Team
                 </div>
@@ -118,7 +118,7 @@
                         <mat-slide-toggle></mat-slide-toggle>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="access_actions">
             <button class="button_submit" type="submit">Save</button>
