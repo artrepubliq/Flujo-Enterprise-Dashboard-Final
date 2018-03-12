@@ -118,7 +118,7 @@
     padding: 18px;
     height: 70px;
     margin: 0;
-    border-bottom: 1px solid #52306b;
+    // border-bottom: 1px solid #52306b;
     img {
       max-height: 30px;
       max-width: 50px;
@@ -487,7 +487,9 @@
   // margin-top: 8px;
   .active-info{
     color:turquoise;
-    font-size: 30px;
+    font-size: 4em;
+    position: absolute;
+    top:-0.75em;
   }
   span{
     word-wrap: none;
@@ -597,5 +599,15 @@
     //     margin-right: 25%;
     //   }
     // }
+  }
+  .nickname{
+    display: inline-block;
+    white-space: nowrap;
+    width: 5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .active-indication{
+    position: relative;
   }
 }
