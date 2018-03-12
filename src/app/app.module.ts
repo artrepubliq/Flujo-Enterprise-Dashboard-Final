@@ -26,7 +26,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
   // tslint:disable-next-line:max-line-length
-  MatDialogModule, MatDatepickerModule, MatNativeDateModule,MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
+  MatDialogModule,MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule,MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -42,7 +42,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component';
 import { SmsuiComponent } from './smsui/smsui.component';
-import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
+import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -72,6 +72,7 @@ import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FilerepositoryComponent, FileRepositoryPopup } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 import {MatIconModule} from '@angular/material/icon';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -109,10 +110,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangepasswordComponent,
     BiographyComponent,
     FileSelectPopup,
+    AccessLevelPopup,
     FileRepositoryPopup,
     ReportanissueComponent,
     FeedbackComponent,
-    ChangemakerComponent
+    ChangemakerComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,
@@ -153,8 +156,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxTwitterTimelineModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSlideToggleModule
   ],
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup],
+
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, AccessLevelPopup],
   providers: [
               // AuthService,
               HttpService,

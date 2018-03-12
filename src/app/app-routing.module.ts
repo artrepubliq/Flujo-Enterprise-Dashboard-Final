@@ -28,6 +28,8 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
 import { FilerepositoryComponent } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -76,6 +78,7 @@ const routes: Routes = [
           { path: 'biography', component: BiographyComponent },
           { path: 'filerepository', component: FilerepositoryComponent },
           { path: 'managereports', component: ManageReportsComponent },
+          { path: 'analytics', component: AnalyticsComponent },
         ]
       }
     ]
