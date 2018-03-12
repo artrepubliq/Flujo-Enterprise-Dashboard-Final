@@ -8,6 +8,8 @@ import { AppConstants } from '../app.constants';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { ICreateUserDetails } from '../model/createUser.model';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
+import { IAccessLevelModel } from '../model/accessLevel.model';
+import * as _ from 'underscore';
 @Component({
   selector: 'app-create-user-component',
   templateUrl: './create-user-component.component.html',
@@ -165,13 +167,22 @@ export class CreateUserComponentComponent implements OnInit {
   styleUrls: ['./create-user-component.component.scss']
 })
 export class AccessLevelPopup {
+  accessLevelsFormSubmit: FormGroup;
+  names:Array<IAccessLevelModel>;
   checkedone = false;
-  color = 'accent';
+  color = 'warn';
   checkedtwo = false;
   public eventCalls: Array<string> = [];
   constructor(
     public dialogRef: MatDialogRef<AccessLevelPopup>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { dialogRef.disableClose = true; }
+    @Inject(MAT_DIALOG_DATA) public data: any,private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private alertService: AlertService,private httpClient:HttpClient) { dialogRef.disableClose = true;
+      this.accessLevelsFormSubmit=formBuilder.group({
+        'access_levels':[null],
+        'user_id':[null],
+        'client_id':[null]
+      });
+      this.checkBoxNames();
+    }
 
   onNoClick(): void {
     console.log(this.data);
@@ -180,16 +191,104 @@ export class AccessLevelPopup {
   closeDialog(): void {
     this.dialogRef.close();
   }
-  testChange(event) {
-    console.log(event.checked);
-    if (event.checked === true) {
-      this.checkedtwo = true;
-      this.checkedone = true;
-      // console.log("test if");
+  testChange(event,i,values,featureId) {
+    // console.log(this.names);
+    this.names[i][values] = event.checked;
+    if (values === 'enable') {
+      this.names[i]['read'] =event.checked;
+      this.names[i]['write'] =event.checked;
+      console.log("test if");
     }
     else {
       this.checkedtwo = false;
       this.checkedone = false;
     }
+  }
+  checkBoxNames = () =>{
+    
+    this.names = [
+
+    {
+      name:'CMS',
+      feature_id:1,
+      enable:true,
+      read:true,
+      write:true,
+    },
+    {
+      name:'Team',
+      feature_id:2,
+      enable:true,
+      read:true,
+      write:true
+    },
+    {
+      name:'Repository',
+      feature_id:3,
+      enable:true,
+      read:true,
+      write:true
+    },
+    {
+      name:'Social',
+      feature_id:4,
+      enable:true,
+      read:true,
+      write:true
+    },
+    {
+      name:'Mail',
+      feature_id:5,
+      enable:true,
+      read:true,
+      write:true
+    },
+    {
+      name:'SMS',
+      feature_id:6,
+      enable:true,
+      read:true,
+      write:true
+    },
+    {
+      name:'Report an issue',
+      feature_id:7,
+      enable:true,
+      read:true,
+      write:true
+    },
+    {
+      name:'Feedback',
+      feature_id:8,
+      enable:true,
+      read:true,
+      write:true
+    },
+    {
+      name:'Flow',
+      feature_id:9,
+      enable:true,
+      read:true,
+      write:true
+    },
+    ]
+  }
+  onSubmit = (body) =>{
+    this.spinnerService.show();
+    this.accessLevelsFormSubmit.controls['access_levels'].setValue(this.names);
+    this.accessLevelsFormSubmit.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    this.accessLevelsFormSubmit.controls['user_id'].setValue(localStorage.getItem('id_token'));
+    const formModel = this.accessLevelsFormSubmit.value;
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postuseraccess', formModel)
+      .subscribe(
+      data => {
+        this.alertService.success('User access levels updated successfully');
+        this.spinnerService.hide();
+        this.closeDialog();
+      },
+      error => {
+        this.spinnerService.hide();
+        this.alertService.danger('User access levels not updated');
+      });
   }
 }
