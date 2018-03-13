@@ -62,7 +62,7 @@
   <div class="row" *ngIf="filtered_repositories.length > 0 ">
     <div class="col-md-3" *ngFor="let filtered_item of filtered_repositories">
       <div class="file_block">
-        <div fxLayoutAlign="center center" class="file_icon">
+        <div fxLayoutAlign="center center" class="file_icon" (click)="openViewDialog(filtered_item.file_path,filtered_item.file_extension)">
           <i class="fa fa-file-o" aria-hidden="true"></i>
         </div>
         <div class="file_footer">
@@ -70,11 +70,12 @@
         </div>
         <div class="file_actions">
           <div fxLayout="row" fxLayoutGap="15px">
-            <a href="http://{{filtered_item.file_path}}" download="{{filtered_item.file_name}}.{{filtered_item.file_extension}}" class="fa fa-download action"></a>
+            <a href="http://{{filtered_item.file_path}}" download="{{filtered_item.file_name}}.{{filtered_item.file_extension}}" class="fa fa-download action">
+            </a>
             <i class="fa fa-trash action" (click)="deleteFile(filtered_item.id, filtered_repositories)"></i>
           </div>
         </div>
-        <div class="bg-layer"></div>
+        <!-- <div class="bg-layer"></div> -->
       </div>
     </div>
   </div>
