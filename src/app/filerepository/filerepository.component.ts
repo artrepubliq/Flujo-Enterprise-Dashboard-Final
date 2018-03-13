@@ -442,6 +442,6 @@ export class FileRepositoryPopup {
         console.log(this.data.file);
         console.log(this.data.file_extension);
         this.file_path = 'http://' + this.data.file;
-        this.file_extension = this.data.file_extension;
+        this.file_extension = this.data.file_extension.toLowerCase();
     }
   }
