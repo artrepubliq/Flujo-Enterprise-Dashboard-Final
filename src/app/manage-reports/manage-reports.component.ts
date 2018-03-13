@@ -53,7 +53,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
             data => {
                 this.loggedinUsersList = data;
                 this.prepareAutoCompleteOptionsList(this.loggedinUsersList);
-                console.log(this.filteredusersListOptions);
             },
             error => {
                 console.log(error);
@@ -127,7 +126,13 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         this.postAssignedUsersObject.assigned_user_name = this.reportAssignedToUserName;
         this.postAssignedUsersObject.client_id = AppConstants.CLIENT_ID;
         this.postAssignedUsersObject.report_issue_id = this.assignedReportId;
-        this.postAssignedUsersObject.email_to_send = localStorage.getItem('email');
+        // this.postAssignedUsersObject.email_to_send = localStorage.getItem('email');
+        _.some(this.loggedinUsersList, (user, index) => {
+                const result = user.name === this.reportAssignedToUserName;
+            if (result) {
+                this.postAssignedUsersObject.email_to_send = this.loggedinUsersList[index].email;
+            }
+        });
         this.httpClient.post<Object>(AppConstants.API_URL + 'flujo_client_postreportassigned', this.postAssignedUsersObject)
             .subscribe(
             resp => {

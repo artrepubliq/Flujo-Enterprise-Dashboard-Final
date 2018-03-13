@@ -150,7 +150,7 @@
                                     <mat-form-field class="example-full-width">
                                         <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
                                         <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
-                                            <mat-option  *ngFor="let option of filteredusersListOptions | async" [value]="option" (click)="AssignedUserName(option, report.id)">
+                                            <mat-option  *ngFor="let option of filteredusersListOptions | async; let i= index" [value]="option" (click)="AssignedUserName(option, report.id, i)">
                                                 {{ option }}
                                             </mat-option>
                                         </mat-autocomplete>
