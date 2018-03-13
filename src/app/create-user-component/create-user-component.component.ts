@@ -10,6 +10,7 @@ import { ICreateUserDetails } from '../model/createUser.model';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
 import { IAccessLevelModel } from '../model/accessLevel.model';
 import * as _ from 'underscore';
+import { json } from 'body-parser';
 @Component({
   selector: 'app-create-user-component',
   templateUrl: './create-user-component.component.html',
@@ -167,22 +168,29 @@ export class CreateUserComponentComponent implements OnInit {
   styleUrls: ['./create-user-component.component.scss']
 })
 export class AccessLevelPopup {
+  filteredAccessIds: Array<IAccessLevelModel>;
+  userAccessId: string;
   accessLevelsFormSubmit: FormGroup;
-  names:Array<IAccessLevelModel>;
+  names: Array<IAccessLevelModel>;
   checkedone = false;
-  color = 'warn';
+  color = 'primary';
   checkedtwo = false;
+  accessLevelData: Array<object>;
+  // accessLevelRawData:Array<IAccesLevels>;
   public eventCalls: Array<string> = [];
   constructor(
     public dialogRef: MatDialogRef<AccessLevelPopup>,
-    @Inject(MAT_DIALOG_DATA) public data: any,private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private alertService: AlertService,private httpClient:HttpClient) { dialogRef.disableClose = true;
-      this.accessLevelsFormSubmit=formBuilder.group({
-        'access_levels':[null],
-        'user_id':[null],
-        'client_id':[null]
-      });
-      this.checkBoxNames();
-    }
+    @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private alertService: AlertService, private httpClient: HttpClient) {
+    dialogRef.disableClose = true;
+    this.accessLevelsFormSubmit = formBuilder.group({
+      'access_levels': [null],
+      'user_id': [null],
+      'client_id': [null],
+    });
+    this.checkBoxNames();
+    this.getAccessLevelData();
+    console.log(data.id);
+  }
 
   onNoClick(): void {
     console.log(this.data);
@@ -191,104 +199,87 @@ export class AccessLevelPopup {
   closeDialog(): void {
     this.dialogRef.close();
   }
-  testChange(event,i,values,featureId) {
-    // console.log(this.names);
-    this.names[i][values] = event.checked;
+  testChange(event, i, values, featureId, UserId) {
+    this.accessLevelData[i][values] = event.checked;
     if (values === 'enable') {
-      this.names[i]['read'] =event.checked;
-      this.names[i]['write'] =event.checked;
-      console.log("test if");
+      this.accessLevelData[i]['read'] = event.checked;
+      this.accessLevelData[i]['write'] = event.checked;
     }
-    else {
-      this.checkedtwo = false;
-      this.checkedone = false;
+    // If two are true enable will be true
+    if (this.accessLevelData[i]['read'] && this.accessLevelData[i]['write'] === true) {
+      this.accessLevelData[i]['enable'] = event.checked = true;
+    }
+    // If two are false enable will be false
+    if (this.accessLevelData[i]['read'] === false && this.accessLevelData[i]['write'] === false) {
+      this.accessLevelData[i]['enable'] = event.checked = false;
+    }
+    // If either one is true enable will need to true
+    if (this.accessLevelData[i]['read'] === true || this.accessLevelData[i]['write'] === true) {
+      this.accessLevelData[i]['enable'] = event.checked = true;
     }
   }
-  checkBoxNames = () =>{
-    
-    this.names = [
-
-    {
-      name:'CMS',
-      feature_id:1,
-      enable:true,
-      read:true,
-      write:true,
-    },
-    {
-      name:'Team',
-      feature_id:2,
-      enable:true,
-      read:true,
-      write:true
-    },
-    {
-      name:'Repository',
-      feature_id:3,
-      enable:true,
-      read:true,
-      write:true
-    },
-    {
-      name:'Social',
-      feature_id:4,
-      enable:true,
-      read:true,
-      write:true
-    },
-    {
-      name:'Mail',
-      feature_id:5,
-      enable:true,
-      read:true,
-      write:true
-    },
-    {
-      name:'SMS',
-      feature_id:6,
-      enable:true,
-      read:true,
-      write:true
-    },
-    {
-      name:'Report an issue',
-      feature_id:7,
-      enable:true,
-      read:true,
-      write:true
-    },
-    {
-      name:'Feedback',
-      feature_id:8,
-      enable:true,
-      read:true,
-      write:true
-    },
-    {
-      name:'Flow',
-      feature_id:9,
-      enable:true,
-      read:true,
-      write:true
-    },
+  checkBoxNames = () => {
+    let defaultData: Array<IAccessLevelModel> = [
+      { name: 'Editor', feature_id: 1, enable: true, read: true, write: true, order:'1' },
+      { name: 'Social', feature_id: 2, enable: true, read: true, write: true,  order:'2'},
+      { name: 'Mail', feature_id: 3, enable: true, read: true, write: true ,order:'3'},
+      { name: 'SMS', feature_id: 4, enable: true, read: true, write: true ,order:'4'},
+      { name: 'Report an issue', feature_id: 5, enable: true, read: true, write: true ,order:'5'},
+      { name: 'Analytics', feature_id: 6, enable: true, read: true, write: true ,order:'6'},
+      { name: 'Feedback', feature_id: 7, enable: true, read: true, write: true ,order:'7'},
+      { name: 'Change Maker', feature_id: 8, enable: true, read: true, write: true, order:'8'},
+      { name: 'Surveys', feature_id: 9, enable: true, read: true, write: true, order:'9'},
+      { name: 'Database', feature_id: 10, enable: true, read: true, write: true, order:'10'},
+      { name: 'Drive', feature_id: 11, enable: true, read: true, write: true, order:'11'},
+      { name: 'Team', feature_id: 12, enable: true, read: true, write: true, order:'12'},
     ]
+    return defaultData;
   }
-  onSubmit = (body) =>{
+  // Posting of user access level data to api
+  onSubmit = (body) => {
     this.spinnerService.show();
-    this.accessLevelsFormSubmit.controls['access_levels'].setValue(this.names);
+    this.accessLevelsFormSubmit.controls['access_levels'].setValue(this.accessLevelData);
     this.accessLevelsFormSubmit.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    this.accessLevelsFormSubmit.controls['user_id'].setValue(localStorage.getItem('id_token'));
+    this.accessLevelsFormSubmit.controls['user_id'].setValue(this.data.id);
     const formModel = this.accessLevelsFormSubmit.value;
     this.httpClient.post(AppConstants.API_URL + 'flujo_client_postuseraccess', formModel)
       .subscribe(
-      data => {
-        this.alertService.success('User access levels updated successfully');
-        this.spinnerService.hide();
-        this.closeDialog();
-      },
-      error => {
-        this.spinnerService.hide();
-        this.alertService.danger('User access levels not updated');
-      });
+        data => {
+          this.alertService.success('User access levels updated successfully');
+          this.spinnerService.hide();
+          this.getAccessLevelData();
+        },
+        error => {
+          this.spinnerService.hide();
+          this.alertService.danger('User access levels not updated');
+        });
+  }
+  // Getting of user access data if data is not present default checkbox method will call 
+  getAccessLevelData = () => {
+    this.spinnerService.show();
+    this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
+      .subscribe(
+        data => {
+          if (data.length > 0) {
+            this.filteredAccessIds = _.filter(data, (item) => {
+              // data.id will come from open access dialog and we are comparing selected id and server data id
+              return item.user_id === this.data.id;
+            });
+            if (this.filteredAccessIds.length > 0) {
+              this.accessLevelData = JSON.parse(this.filteredAccessIds[0].access_levels);
+              this.spinnerService.hide();
+            } else {
+              this.accessLevelData = this.checkBoxNames();
+              this.spinnerService.hide();
+            }
+          } else {
+            this.accessLevelData = this.checkBoxNames();
+          }
+        },
+        error => {
+          console.log(error);
+          this.spinnerService.hide();
+        }
+      );
   }
 }
