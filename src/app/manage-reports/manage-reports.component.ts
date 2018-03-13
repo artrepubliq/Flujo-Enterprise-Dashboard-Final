@@ -53,7 +53,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
             data => {
                 this.loggedinUsersList = data;
                 this.prepareAutoCompleteOptionsList(this.loggedinUsersList);
-                console.log(this.filteredusersListOptions);
             },
             error => {
                 console.log(error);
@@ -109,14 +108,14 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         this.prepareAutoCompleteOptionsList(this.loggedinUsersList);
     }
     // this function is used for getting remarks option
-    getRemarksOption = (remarksoption, reportId) => {
-        this.assignedReportId = reportId;
+    getRemarksOption = (remarksoption) => {
+        // this.assignedReportId = reportId;
         this.reportRemarksOption = remarksoption;
         this.prepareRemarksAutoCompleteOptionsList(this.RemarksListOptions);
     }
     // this function is used for getting Move to options data
-    getMoveToOptions = (moveoption, reportId) => {
-        this.assignedReportId = reportId;
+    getMoveToOptions = (moveoption) => {
+        // this.assignedReportId = reportId;
         this.reportMoveToOption = moveoption;
         this.prepareMoveToAutoCompleteOptionsList(this.moveToListOptions);
     }
@@ -127,7 +126,13 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         this.postAssignedUsersObject.assigned_user_name = this.reportAssignedToUserName;
         this.postAssignedUsersObject.client_id = AppConstants.CLIENT_ID;
         this.postAssignedUsersObject.report_issue_id = this.assignedReportId;
-        this.postAssignedUsersObject.email_to_send = localStorage.getItem('email');
+        // this.postAssignedUsersObject.email_to_send = localStorage.getItem('email');
+        _.some(this.loggedinUsersList, (user, index) => {
+                const result = user.name === this.reportAssignedToUserName;
+            if (result) {
+                this.postAssignedUsersObject.email_to_send = this.loggedinUsersList[index].email;
+            }
+        });
         this.httpClient.post<Object>(AppConstants.API_URL + 'flujo_client_postreportassigned', this.postAssignedUsersObject)
             .subscribe(
             resp => {
@@ -143,15 +148,17 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
             );
     }
     // this function is used for updating the reports remarks and moveto status and by whoom its update.
-    UpdateReportsStatus = () => {
+    UpdateReportsStatus = (report) => {
         this.spinnerService.show();
         if (localStorage.getItem('user_id')) {
             this.postMoveToRemarksObject = <IPostReportStatus>{};
-            this.postMoveToRemarksObject.report_id = this.assignedReportId;
+            this.postMoveToRemarksObject.report_id = report.id;
             this.postMoveToRemarksObject.report_remarks = this.reportRemarksOption;
             this.postMoveToRemarksObject.report_status = this.reportMoveToOption;
             this.postMoveToRemarksObject.updated_by = localStorage.getItem('user_id');
-            this.postMoveToRemarksObject.email_to_send = localStorage.getItem('email');
+            this.postMoveToRemarksObject.email_to_send = report.email;
+            this.postMoveToRemarksObject.send_reportstatus_phone = report.phone;
+            this.postMoveToRemarksObject.description = report.problem;
             this.httpClient.post<Object>(AppConstants.API_URL + 'flujo_client_updatereportproblem', this.postMoveToRemarksObject)
                 .subscribe(
                 resp => {
