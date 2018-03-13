@@ -3,12 +3,15 @@ style="width:500px; height:500px;" frameborder="0"></iframe> -->
 
 <!-- <iframe src="http://docs.google.com/gview?url={{data}}&embedded=true" 
 style="width:500px; height:500px;" frameborder="0"></iframe> -->
-<div>
+
+<div *ngIf="file_extension ==='pdf'">
+        <h3>{{file_name}}.{{file_extension}}</h3>
         <pdf-viewer [src]="file_path"
                     [original-size]="false"
                     style="display: block;"
         ></pdf-viewer>
 </div>
-<div *ngIf="(file_extension === 'png' || file_extension === 'jpeg' || file_extension === 'png')">
+<div *ngIf="(file_extension === 'png' || file_extension === 'jpeg' || file_extension === 'jpg')">
+    <h3>{{file_name}}.{{file_extension}}</h3>
     <img src="{{file_path}}">
 </div>

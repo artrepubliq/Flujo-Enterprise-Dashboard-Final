@@ -62,7 +62,7 @@
   <div class="row" *ngIf="filtered_repositories.length > 0 ">
     <div class="col-md-3" *ngFor="let filtered_item of filtered_repositories">
       <div class="file_block">
-        <div fxLayoutAlign="center center" class="file_icon" (click)="openViewDialog(filtered_item.file_path,filtered_item.file_extension)">
+        <div fxLayoutAlign="center center" class="file_icon" (click)="openViewDialog(filtered_item.file_path, filtered_item.file_extension, filtered_item.file_name)">
           <i class="fa fa-file-o" aria-hidden="true"></i>
         </div>
         <div class="file_footer">

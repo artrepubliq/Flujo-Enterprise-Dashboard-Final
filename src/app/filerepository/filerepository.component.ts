@@ -192,22 +192,22 @@ export class FilerepositoryComponent implements OnInit {
     }
 
     /* this is aa function to open a dialog modal to view file*/
-    openViewDialog = (file, fileExtension) => {
+    openViewDialog = (file, fileExtension, fileName) => {
         console.log(fileExtension);
         console.log(fileExtension.toLowerCase());
         // console.log(file);
         if (fileExtension.toLowerCase() === 'png') {
-            this.openFileViewDialog(file, fileExtension);
+            this.openFileViewDialog(file, fileExtension, fileName);
             // return;
         } else if (fileExtension.toLowerCase() === 'jpeg') {
-            this.openFileViewDialog(file, fileExtension);
+            this.openFileViewDialog(file, fileExtension, fileName);
             // return;
         } else if (fileExtension.toLowerCase() === 'jpg') {
-            this.openFileViewDialog(file, fileExtension);
+            this.openFileViewDialog(file, fileExtension, fileName);
             // return;
         } else if (fileExtension.toLowerCase() === 'pdf') {
 
-            this.openFileViewDialog(file, fileExtension);
+            this.openFileViewDialog(file, fileExtension, fileName);
             // return;
         } else {
             this.alertService.warning('Sorry No preview available');
@@ -216,10 +216,10 @@ export class FilerepositoryComponent implements OnInit {
 
 
     /* this is to open the dialog modal of file view*/
-    openFileViewDialog(file_data, file_extensison) {
+    openFileViewDialog(file_data, file_extensison, fileName) {
         const dialogReference = this.fileViewDialog.open(FileViewerPopUp, {
           height: '95%',
-          data: {file: file_data, file_extension: file_extensison}
+          data: {file: file_data, file_extension: file_extensison, file_name: fileName}
         });
         dialogReference.afterClosed().subscribe(result => {
           console.log(`Dialog result: ${result}`);
@@ -427,6 +427,7 @@ export class FileRepositoryPopup {
   export class FileViewerPopUp {
     file_path: string;
     file_extension: string;
+    file_name: string;
     constructor(
         public dialogRef: MatDialogRef<FileViewerPopUp>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -442,6 +443,7 @@ export class FileRepositoryPopup {
         console.log(this.data.file);
         console.log(this.data.file_extension);
         this.file_path = 'http://' + this.data.file;
-        this.file_extension = this.data.file_extension;
+        this.file_name = this.data.file_name;
+        this.file_extension = this.data.file_extension.toLowerCase();
     }
   }
