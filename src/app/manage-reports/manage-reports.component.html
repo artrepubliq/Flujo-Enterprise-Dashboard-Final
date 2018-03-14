@@ -29,14 +29,14 @@
        </label>
         </div>
         <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
-            <div class=" text-center button-group btn-group-toggle" data-toggle="buttons">
+            <!-- <div class=" text-center button-group btn-group-toggle" data-toggle="buttons">
                 <label class="pull-right btn btn-outline-secondary  btn-view-grid">
             <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
          </label>
                 <label class="pull-right btn btn-outline-secondary  btn-view-list">
            <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
          </label>
-            </div>
+            </div> -->
             <div class="dropdown">
                 <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -115,7 +115,7 @@
                 </mat-expansion-panel-header>
                 <mat-action-row>
                         <div fxLayout="column" fxFlex="100%" >
-                                <div class="reports-data-ext" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem"  fxLayoutAlign="start center">
+                                <div class="reports-data-ext problem-box" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem"  fxLayoutAlign="start center">
                                         <div fxFlex="10.7%" class="report-problem-descr">
                                             <span  class="file-icon text-muted">
                                                 <i class="fa fa-paperclip"> </i>
@@ -149,7 +149,7 @@
                 </mat-action-row>              
                 <mat-action-row>
                         <div fxLayout="column" fxFlex="100%" >
-                                <div class="reports-data-form" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem"  fxLayoutAlign="start center">
+                                <div class="reports-data-form problem-box" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem"  fxLayoutAlign="start center">
                                         <div class="assign-issue" fxLayout="row" fxLayoutAlign="start center" fxFlex="40%">
                                            <div>
                                                <span class="text-muted d-inline">Assign Issue:&nbsp;&nbsp;</span>
@@ -178,7 +178,7 @@
                                                     <mat-form-field class="example-full-width">
                                                     <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
                                                     <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
-                                                        <mat-option  *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption, report.id)">
+                                                        <mat-option  *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption)">
                                                             {{ moveoption }}
                                                         </mat-option>
                                                     </mat-autocomplete>
@@ -192,12 +192,12 @@
                                                 <mat-form-field class="example-full-width">
                                                     <input type="text" placeholder="Remarks select or type" aria-label="Number" matInput [formControl]="remarksListControl" [matAutocomplete]="auto3">
                                                         <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
-                                                            <mat-option  *ngFor="let remarksoption of FilteredRemarksListOptions | async" [value]="remarksoption" (click)="getRemarksOption(remarksoption, report.id)">
+                                                            <mat-option  *ngFor="let remarksoption of FilteredRemarksListOptions | async" [value]="remarksoption" (click)="getRemarksOption(remarksoption)">
                                                                     {{ remarksoption }}
                                                             </mat-option>
                                                     </mat-autocomplete>
                                                 </mat-form-field>
-                                                <button class="btn btn-outline-secondary btn-sm btn-report" (click)="UpdateReportsStatus()">Assign</button>
+                                                <button class="btn btn-outline-secondary btn-sm btn-report" (click)="UpdateReportsStatus(report)">Assign</button>
                                             </form>
                                         </div>
                                        

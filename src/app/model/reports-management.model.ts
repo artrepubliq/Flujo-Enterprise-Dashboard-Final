@@ -13,4 +13,6 @@ export interface IPostReportStatus {
     report_status: string;
     updated_by: string;
     email_to_send: string;
+    send_reportstatus_phone: string;
+    description: string;
 }
