@@ -321,11 +321,11 @@
         <i class="fa fa-cog"></i>
       </li>
       <ul class="team-items">
-        <li *ngFor="let chatItem of loggedinUsersList">
+        <li *ngFor="let chatItem of activeUsers">
           <a class="team-user" routerLink="./chat" routerLinkActive="active">
             <i class="team-user-icon user-logo">
               <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
-            <span class="userStatus" [ngClass]="{'active': chatItem.isUserActive}">{{chatItem.name}} </span>
+            <span class="userStatus" [ngClass]="{'active': chatItem.isUserActive}">{{chatItem.name}}</span>
 
           </a>
         </li>
