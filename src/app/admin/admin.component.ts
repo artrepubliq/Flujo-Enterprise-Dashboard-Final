@@ -20,8 +20,9 @@ import { CreateUserComponentComponent } from '../create-user-component/create-us
 })
 export class AdminComponent implements OnInit {
   isUserActive: boolean;
-  public activeUsers: Array<IloggedinUsers>;
+  activeUsers: Array<IloggedinUsers>;
   loggedinUsersList: Array<IloggedinUsers>;
+  userList:Array<IloggedinUsers>;
   public nickName: string;
   createUserList: CreateUserComponentComponent;
 
@@ -31,7 +32,7 @@ export class AdminComponent implements OnInit {
     this.getUserList();
   }
   ngOnInit(): void {
-    this.nickName = localStorage.getItem('nickname');
+    this.nickName = JSON.parse(localStorage.getItem('nickname'));
     this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     this.getUserList();
@@ -49,11 +50,13 @@ export class AdminComponent implements OnInit {
     this.httpClient.get<Array<IloggedinUsers>>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID )
     .subscribe(
       data => {
+        try {
         // console.log(data[0].is_logged_in);
           this.loggedinUsersList = data;
           // console.log(this.loggedinUsersList);
+         
           this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
-            return activeUserData.is_logged_in === '1';
+            return activeUserData.is_logged_in === '1' && activeUserData.id !=localStorage.getItem('id_token') ;
         });
         if (this.activeUsers) {
           _.each(this.activeUsers, (iteratee, index) =>{
@@ -62,6 +65,9 @@ export class AdminComponent implements OnInit {
         }else{
           
         }
+      } catch(error) {
+        console.log(error);
+      }
           // console.log(this.activeUsers);
       },
       error => {
