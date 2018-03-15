@@ -1,5 +1,8 @@
 <!-- ====== SMTP Edit Block -->
-
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000">
+    <strong>{{successMessage }}</strong>
+  </ngx-alerts>
 <div class="smtp_box" fxLayoutAlign="center center">
   <div class="smtp-config-view">
     <!-- ====== SMTP View Block -->
@@ -79,10 +82,6 @@
           [disabled]="!smtpUpdationForm.valid">{{btn_text}}</button>
         <button mat-raised-button type="submit" class="edit-button" (click)="deleteSMTP(smtpUpdationForm.value)">delete</button>
       </div>
-
-      <ngx-alerts maxMessages="3" timeout="5000">
-        <strong>{{successMessage }}</strong>
-      </ngx-alerts>
     </form>
   </div>
 </div>

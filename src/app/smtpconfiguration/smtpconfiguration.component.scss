@@ -109,6 +109,15 @@
                 border: solid 1.5px #4a2565;
                 margin-left: 10px;
             }
+            .edit-button:hover {
+                background-color: #4a2565;
+                color: #fff;
+                border-color: transparent;
+            }
+            .edit-button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+              }
             .pull-left{
                 position: absolute;
                 left:20px;
