@@ -296,7 +296,7 @@ export class FilerepositoryComponent implements OnInit {
                         if (data.result && data.size) {
                             this.allFiles = [];
                             this.repositories = data.result;
-                            // console.log(data.size);
+                            // console.log(this.repositories);
                             this.total_size = data.size;
                             this.total_size_in_mb = (this.total_size / 1048576).toFixed(2);
                             this.repositories.forEach(allFiles => {
@@ -364,6 +364,7 @@ export class FilerepositoryComponent implements OnInit {
             );
     }
 }
+/* this is the component for file name and folder name popup input*/
 @Component({
     // tslint:disable-next-line:component-selector
     selector: 'dialog-overview-example-dialog',
@@ -449,7 +450,7 @@ export class FileRepositoryPopup {
         }
     }
 }
-
+/* this is the component for file view popup*/
 @Component({
     // tslint:disable-next-line:component-selector
     selector: 'fileviewer-dialog',
