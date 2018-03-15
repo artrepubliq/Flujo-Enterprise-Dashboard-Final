@@ -90,10 +90,27 @@
                 background-color: #ffffff;
                 border: solid 1.5px #f7f7f7;
               }
+              .form-group {
+                margin-bottom: 15px;
+                label {
+                  min-width: 150px;
+                }
+                .form-control {
+                  box-shadow: none;
+                  outline: none;
+                  width: auto;
+                  display: initial;
+                  margin-left: 15px;
+                }
+              }
               hr{
                 border: 1.5px solid #f7f7f7;
                 padding: 0;
                 margin: 0;
+              }
+              .input:focus,input:active{
+                  box-shadow: none;
+                  outline: none;
               }
         }
         .smtp_footer{
@@ -109,6 +126,15 @@
                 border: solid 1.5px #4a2565;
                 margin-left: 10px;
             }
+            .edit-button:hover {
+                background-color: #4a2565;
+                color: #fff;
+                border-color: transparent;
+            }
+            .edit-button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+              }
             .pull-left{
                 position: absolute;
                 left:20px;
