@@ -47,9 +47,12 @@ export class LoginAuthService implements OnInit {
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.user_id);
+    localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('nickname', JSON.stringify(authResult.name));
     localStorage.setItem('expires_at', JSON.stringify(expTime));
+    // this.router.navigateByUrl('/');
     this.router.navigate(['/admin']);
+    window.location.reload();
     this.setLoggedInCustom(true);
   }
   getCustomLoginStatus() {
