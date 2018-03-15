@@ -32,7 +32,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
     reportMoveToOption: string;
     reportRemarksOption: string;
     usersListOptions = [];
-    moveToListOptions = ['solve', 'solved', 'solving'];
+    moveToListOptions = ['In Progress', 'Completed', 'Pending/UnResolved'];
     RemarksListOptions = ['constituency', 'othersOne', 'otherstwo', 'othersthree'];
     filteredusersListOptions: Observable<string[]>;
     filteredMoveToListOptions: Observable<string[]>;
@@ -108,14 +108,14 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         this.prepareAutoCompleteOptionsList(this.loggedinUsersList);
     }
     // this function is used for getting remarks option
-    getRemarksOption = (remarksoption, reportId) => {
-        this.assignedReportId = reportId;
+    getRemarksOption = (remarksoption) => {
+        // this.assignedReportId = reportId;
         this.reportRemarksOption = remarksoption;
         this.prepareRemarksAutoCompleteOptionsList(this.RemarksListOptions);
     }
     // this function is used for getting Move to options data
-    getMoveToOptions = (moveoption, reportId) => {
-        this.assignedReportId = reportId;
+    getMoveToOptions = (moveoption) => {
+        // this.assignedReportId = reportId;
         this.reportMoveToOption = moveoption;
         this.prepareMoveToAutoCompleteOptionsList(this.moveToListOptions);
     }
@@ -148,15 +148,17 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
             );
     }
     // this function is used for updating the reports remarks and moveto status and by whoom its update.
-    UpdateReportsStatus = () => {
+    UpdateReportsStatus = (report) => {
         this.spinnerService.show();
         if (localStorage.getItem('user_id')) {
             this.postMoveToRemarksObject = <IPostReportStatus>{};
-            this.postMoveToRemarksObject.report_id = this.assignedReportId;
+            this.postMoveToRemarksObject.report_id = report.id;
             this.postMoveToRemarksObject.report_remarks = this.reportRemarksOption;
             this.postMoveToRemarksObject.report_status = this.reportMoveToOption;
             this.postMoveToRemarksObject.updated_by = localStorage.getItem('user_id');
-            this.postMoveToRemarksObject.email_to_send = localStorage.getItem('email');
+            this.postMoveToRemarksObject.email_to_send = report.email;
+            this.postMoveToRemarksObject.send_reportstatus_phone = report.phone;
+            this.postMoveToRemarksObject.description = report.problem;
             this.httpClient.post<Object>(AppConstants.API_URL + 'flujo_client_updatereportproblem', this.postMoveToRemarksObject)
                 .subscribe(
                 resp => {

@@ -162,7 +162,7 @@
                                     <mat-form-field class="example-full-width">
                                         <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
                                         <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
-                                            <mat-option  *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption, report.id)">
+                                            <mat-option  *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption)">
                                                 {{ moveoption }}
                                             </mat-option>
                                         </mat-autocomplete>
@@ -172,12 +172,12 @@
                                     <mat-form-field class="example-full-width">
                                         <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="remarksListControl" [matAutocomplete]="auto3">
                                         <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
-                                            <mat-option  *ngFor="let remarksoption of FilteredRemarksListOptions | async" [value]="remarksoption" (click)="getRemarksOption(remarksoption, report.id)">
+                                            <mat-option  *ngFor="let remarksoption of FilteredRemarksListOptions | async" [value]="remarksoption" (click)="getRemarksOption(remarksoption)">
                                                 {{ remarksoption }}
                                             </mat-option>
                                         </mat-autocomplete>
                                     </mat-form-field>
-                                    <button (click)="UpdateReportsStatus()">Assign</button>
+                                    <button (click)="UpdateReportsStatus(report)">Assign</button>
                                 </form>
                             </td>
                             <td></td>
