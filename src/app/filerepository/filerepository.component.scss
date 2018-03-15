@@ -144,6 +144,7 @@
       font-weight: 500;
       text-align: left;
       color: #919191;
+      margin-bottom: 5px;
     }
   }
   .file_actions {
@@ -209,4 +210,42 @@
       color: #c1c1c1;
     }
   }
+}
+
+.jpeg:before, .png:before, .jpg:before {
+  content: "\f1c5";
+}
+.pdf:before {
+  content: "\f1c1";
+}
+.csv:before {
+  content: "\f1c3";
+}
+.doc::before, .docx::before {
+  content: "\f1c2";
+}
+.file_size {
+  font-size: 10px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #c1c1c1;
+  margin: 0;
+}
+
+.file_storage_details {
+  width: 165px;
+  height: 38.5px;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: 4.1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #c1c1c1;
 }
