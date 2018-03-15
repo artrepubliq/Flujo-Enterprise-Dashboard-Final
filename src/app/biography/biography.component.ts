@@ -59,7 +59,7 @@ export class BiographyComponent implements OnInit {
     private httpClient: HttpClient, private alertService: AlertService) {
       this.biographySubmitForm = this.formBuilder.group({
         'career_position': ['', Validators.required],
-        'from_year': ['', Validators.required],
+        'from_year': [null],
         'to_year': [null],
         'career_description': ['', Validators.required],
         'client_id': [null]

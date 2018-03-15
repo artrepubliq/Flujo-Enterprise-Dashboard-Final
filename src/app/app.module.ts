@@ -19,7 +19,6 @@ import { CKEditorModule } from 'ngx-ckeditor';
 import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
-// import { ReportsComponent } from './reports/reports.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
@@ -69,10 +68,12 @@ import { DateFormat } from './model/date.formatt';
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
-import { FilerepositoryComponent, FileRepositoryPopup } from './filerepository/filerepository.component';
+import { FilerepositoryComponent, FileRepositoryPopup, FileViewerPopUp } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 import {MatIconModule} from '@angular/material/icon';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { DocumentViewModule } from 'ngx-document-view';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -90,7 +91,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialLinksComponent,
     ControlMessagesComponent,
     SMTPConfigurationComponent,
-    // ReportsComponent,
     EmailserviceComponent,
     ChatBoxComponent,
     MediaComponent,
@@ -112,6 +112,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FileSelectPopup,
     AccessLevelPopup,
     FileRepositoryPopup,
+    FileViewerPopUp,
     ReportanissueComponent,
     FeedbackComponent,
     ChangemakerComponent,
@@ -156,10 +157,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxTwitterTimelineModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    PdfViewerModule,
+    DocumentViewModule
   ],
 
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, AccessLevelPopup],
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup,FileViewerPopUp,
+     AccessLevelPopup],
   providers: [
               // AuthService,
               HttpService,
