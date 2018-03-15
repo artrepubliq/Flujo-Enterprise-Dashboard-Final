@@ -33,10 +33,10 @@
     Folders
   </h3>
   <div class="sort_controls" fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="30px">
-    <div>
+    <!-- <div> -->
       <p class="file_storage_details" *ngIf=" (total_size/1048576).toFixed(2) >= 1.0 ">{{ (total_size/1048576).toFixed(2)}} MB used of 1 GB</p>
       <p class="file_storage_details" *ngIf=" (total_size/1048576).toFixed(2) < 1.0 ">{{ (total_size/1024).toFixed(2)}} KB used of 1 GB</p>
-    </div>
+    <!-- </div> -->
     <i class="fa fa-th-large"></i>
     <i class="fa fa-th"></i>
     <mat-form-field>
