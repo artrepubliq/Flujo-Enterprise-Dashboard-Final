@@ -297,99 +297,26 @@
         <a class="nav-link" routerLink="./filerepository" routerLinkActive="active">
           <img src="assets/icons/drive-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
           <img src="assets/icons/drive-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
-          <!-- <i class="material-icons">storage</i> -->
-          <!-- <mat-icon>home</mat-icon> -->
+          
           <span>Drive</span>
         </a>
       </li>
       <li class="divider-line"></li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" routerLink="./neweditor" routerLinkActive="active">
-          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
-          <span>New editor</span>
-        </a>
-      </li> -->
-
-      <!-- <li class="nav-item-divider">
-        <img src="assets/slider.svg" alt="divider" class="img-fluid">
-      </li> -->
+     
       <!-- Team Chat -->
       <li class="nav-title">Your teams
         <i class="fa fa-cog"></i>
       </li>
       <ul class="team-items">
         <li *ngFor="let chatItem of activeUsers">
-          <a class="team-user" routerLink="./chat" routerLinkActive="active">
+          <a class="team-user" routerLinkActive="active">
             <i class="team-user-icon user-logo">
               <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
-            <span class="userStatus" [ngClass]="{'active': chatItem.isUserActive}">{{chatItem.name}}</span>
+              <span class="userStatus" (click)=ChatIO(chatItem) [ngClass]="{'active': chatItem.isUserActive}">{{chatItem.name}}</span>
 
           </a>
         </li>
-        <!-- <li>
-          <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
-            <span>Apoorva</span>
-          </a>
-        </li>
-        <li>
-          <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="K"> </i>
-            <span>Yogesh</span>
-          </a>
-        </li>
-        <li>
-          <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
-            <span>Eshwar</span>
-          </a>
-        </li>
-        <li>
-          <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/team/kk.jpeg" class="img-fluid" alt="K">
-            </i>
-            <span>KrishnaKanth</span>
-          </a>
-        </li>
-        <li>
-          <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
-            <span>Ajay</span>
-          </a>
-        </li>
-        <li>
-          <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
-            <span>Keerthan</span>
-          </a>
-        </li>
-        <li>
-          <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
-            <span>Santhosh</span>
-          </a>
-        </li>
-        <li>
-          <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
-            <span>KK</span>
-          </a>
-        </li>
-        <li>
-          <a class="team-user" routerLink="./chat" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/icons/web-icon-normal@2x.png" class="img-fluid" alt="K"> </i>
-            <span>Krishna</span>
-          </a>
-        </li> -->
+       
       </ul>
     </ul>
   </aside>
