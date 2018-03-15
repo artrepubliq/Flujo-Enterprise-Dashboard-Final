@@ -33,12 +33,16 @@
     Folders
   </h3>
   <div class="sort_controls" fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="30px">
+    <div>
+      <p class="file_storage_details" *ngIf=" (total_size/1048576).toFixed(2) >= 1.0 ">{{ (total_size/1048576).toFixed(2)}} MB used of 1 GB</p>
+      <p class="file_storage_details" *ngIf=" (total_size/1048576).toFixed(2) < 1.0 ">{{ (total_size/1024).toFixed(2)}} KB used of 1 GB</p>
+    </div>
     <i class="fa fa-th-large"></i>
     <i class="fa fa-th"></i>
     <mat-form-field>
       <mat-select placeholder="Sort by Popularity">
         <mat-option value="option1" (click)='sortByFolderName()'>A to Z</mat-option>
-        <mat-option value="option3" (click)='sortBySize()' >File Size</mat-option>
+        <mat-option value="option3" (click)='sortBySize()'>File Size</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -63,10 +67,12 @@
     <div class="col-md-3" *ngFor="let filtered_item of filtered_repositories">
       <div class="file_block">
         <div fxLayoutAlign="center center" class="file_icon" (click)="openViewDialog(filtered_item.file_path, filtered_item.file_extension, filtered_item.file_name)">
-          <i class="fa fa-file-o" aria-hidden="true"></i>
+          <i class="fa {{filtered_item.file_extension.toLowerCase()}}" aria-hidden="true"></i>
         </div>
         <div class="file_footer">
           <h3 class="title">{{filtered_item.file_name +"."+ filtered_item.file_extension}}</h3>
+          <p class="file_size" *ngIf=" (filtered_item.file_size/1048576).toFixed(2) >= 1.0 ">{{(filtered_item.file_size/1048576).toFixed(2)}} MB</p>
+          <p class="file_size" *ngIf=" (filtered_item.file_size/1048576).toFixed(2) < 1.0 ">{{(filtered_item.file_size/1024).toFixed(2)}} KB</p>
         </div>
         <div class="file_actions">
           <div fxLayout="row" fxLayoutGap="15px">
@@ -79,7 +85,6 @@
       </div>
     </div>
   </div>
-  
 </div>
 <!-- <dialog-overview-example-dialog (getData)="myEvent($event)"></dialog-overview-example-dialog> -->
 
