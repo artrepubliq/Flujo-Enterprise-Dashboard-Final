@@ -72,6 +72,8 @@ export class LoginAuthService implements OnInit {
     // Remove tokens and profile and update login status subject
     localStorage.removeItem('token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('user_id');
+
     this.setLoggedInCustom(false);
   }
 
