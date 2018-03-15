@@ -15,4 +15,5 @@ export interface IUserChangemaker{
 }
 export interface mediaDetail{
     image:string|any;
+    id:string;
 }

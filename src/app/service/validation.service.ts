@@ -5,14 +5,14 @@ import { HttpClient } from '@angular/common/http';
 
 export class ValidationService {
     static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
-        let config = {
+        const config = {
             'required': 'Required',
             'invalidCreditCard': 'Is invalid credit card number',
             'invalidEmailAddress': 'Invalid email address',
             'invalidPassword': 'Invalid password. Password must be at least 6 characters long, and contain a number.',
             'minlength': `Minimum length ${validatorValue.requiredLength}`,
-            'invalidDomain':'Please Provide Valid Url ',
-            'invalidPhone':'Enter valid phone number'
+            'invalidDomain': 'Please Provide Valid Url ',
+            'invalidPhone': 'Enter valid phone number'
         };
 
         return config[validatorName];
@@ -20,6 +20,7 @@ export class ValidationService {
 
     static creditCardValidator(control) {
         // Visa, MasterCard, American Express, Diners Club, Discover, JCB
+        // tslint:disable-next-line:max-line-length
         if (control.value.match(/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/)) {
             return null;
         } else {
@@ -29,6 +30,7 @@ export class ValidationService {
 
     static emailValidator(control) {
         // RFC 2822 compliant regex
+        // tslint:disable-next-line:max-line-length
         if (control.value.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)) {
             return null;
         } else {

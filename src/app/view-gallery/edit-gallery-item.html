@@ -1,0 +1,14 @@
+<div class="edit-gallery-block">
+  <div class="edit-img">
+    <img src="assets/profile_user.jpg" class="img-fluid" alt="Gallary Img">
+  </div>{{albumItem | json}}test
+  <form class="edit-gallery">
+    
+    <input type="text" placeholder="Image Title">
+    <!-- <input type="text" placeholder="Description"> -->
+    <textarea name="" id="" cols="30" rows="5" placeholder="Description"></textarea>
+    <input type="text" placeholder="Order">
+    <button mat-raised-button class="mr-4">Save</button>
+    <button mat-raised-button [mat-dialog-close]="data?.close">Cancel</button>
+  </form>
+</div>

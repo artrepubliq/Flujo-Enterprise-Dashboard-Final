@@ -1,6 +1,6 @@
-import { Component, OnInit,ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CKEditorModule } from 'ngx-ckeditor';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { HttpService } from '../service/httpClient.service';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
@@ -15,28 +15,18 @@ import { NgxSmartLoaderService } from 'ngx-smart-loader';
 export class EmailserviceComponent implements OnInit {
   mailSendingForm: FormGroup;
   socialLinksForm: FormGroup;
-  public loading:false;
-  
-  constructor(public loader: NgxSmartLoaderService,private spinnerService: Ng4LoadingSpinnerService,private formBuilder: FormBuilder, private httpService: HttpService, private alertService: AlertService) {
+  public loading: false;
+  EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+  constructor(public loader: NgxSmartLoaderService, private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
+     private httpService: HttpService, private alertService: AlertService) {
     this.mailSendingForm = this.formBuilder.group({
-      'email': ['', [Validators.required, ValidationService.emailValidator]],
+      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'subject': ['', Validators.required],
       'message': ['', Validators.required],
-      'file':[''],
-      'check':[''],
+      'file': [null],
+      'check': [''],
       'client_id': null
     });
-
-    // this.socialLinksForm = this.formBuilder.group({
-    //  'email_text_two': ['', [Validators.required, ValidationService.emailValidator]],      
-    //   'facebook': ['', [Validators.required, ValidationService.domainValidator]],
-    //   'twitter': ['', [Validators.required, ValidationService.domainValidator]],
-    //   'wikipedia': ['', [Validators.required, ValidationService.domainValidator]],
-    //   'youtube': ['', [Validators.required, ValidationService.domainValidator]],
-    //   'client_id': null
-    // });
-
-    // console.log(this.socialLinksForm); 
    }
 
   ngOnInit() {
@@ -48,23 +38,29 @@ export class EmailserviceComponent implements OnInit {
   // socialLinksFormSubmit(body: any) {
   //   console.log(this.socialLinksForm.value);
   // }
-
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.mailSendingForm.get('file').setValue(file);
+    }
+  }
   mailSendingFormSubmit(body: any) {
+    this.spinnerService.show();
     console.log(this.mailSendingForm.value);
-    this.mailSendingForm.controls['client_id'].setValue(localStorage.getItem("client_id"));
-    this.httpService.create(this.mailSendingForm.value, "/flujo_client_emailcsvdb")
+    this.httpService.create(this.mailSendingForm.value, '/flujo_client_emailcsvdb')
       .subscribe(
       data => {
-
         if (data) {
-          this.alertService.success('Social Links  Updated Successfully');
-          
-          this.mailSendingForm.reset()
+          this.alertService.success('Email has been sent ');
+          this.mailSendingForm.reset();
+          this.spinnerService.hide();
         }
-
       },
       error => {
         console.log(error);
-      })
+        this.alertService.danger('Email could not be sent ');
+        this.mailSendingForm.reset();
+        this.spinnerService.hide();
+      });
   }
 }

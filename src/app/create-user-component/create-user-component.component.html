@@ -1,43 +1,188 @@
-<div  fxLayout="column" fxLayoutGap="1rem">
-  <div  class="form-header">
-    <h2>Create User</h2>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="space-between start" fxFlex=60%>
-      <form [formGroup]="CreateUserForm" (ngSubmit)="onSubmit()" fxLayout="column" fxFlex=40% fxLayoutAlign="start" fxLayoutGap="40px" class="form-inline">
-        <div  fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
-          <label for="name">Name :</label>
-          <input fxFlex="75%" type="text"  class="form-control" id="name" formControlName = "name" required placeholder="Name">
-          <div  [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert alert-danger">
-            Name is required
-          </div>
-        </div>
-        
-        <div fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
-          <label for="email">Email :</label>
-          <input fxFlex="75%" type="Email"  formControlName="email" class="form-control" id="email" placeholder="Email" required>
-          <div [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert alert-danger">
-              Valid Email is required
-            </div>
-        </div>
-    
-        <div fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
-          <label for="role">Role :</label>
-          <input fxFlex="75%" type="text" formControlName="role" class="form-control" placeholder="Role" required id="role">
-          <div [hidden]="CreateUserForm.controls.role.valid || CreateUserForm.controls.role.pristine && !submitted" class="alert alert-danger">
-              Role is required
-            </div>
-        </div>
-    
-        <div  fxLayout="row"  fxLayoutAlign="space-between" class="form-group">
-          <label for="phonenumber">Phone :</label>
-          <input fxFlex="75%" type="tel" class="form-control" formControlName="phone"  id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Phone Number" required>
-          <div [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted" class="alert alert-danger">
-              Valid Phone number is required
-          </div>
-        </div>   
-      </form>
+
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+
+  <div class="row" *ngIf="!isEdit">
+    <div fxFlex >
+        <button (click)="addUsers()" class="d-inline pull-right btn btn-sm btn-outline-secondary btn-users"><span>Create User <i class="fa fa-angle-right fa-2x d-inline"></i></span></button>
+    </div><br/><br/>
+
+    <div class="col-md-12">
+
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th scope="col" colspan="2">
+                  <span fxLayoutGap="0.5rem" class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input class="d-inline" type="checkbox" >
+                      <b>
+                        <p class="d-inline">Name &nbsp;&nbsp; <i class="fa fa-angle-down"></i></p>
+                      </b>
+                    </span> 
+              </th>
+
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Role</th>
+
+            <th></th>
+            <th></th>
+            <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="btn-stack" *ngFor="let user of userDetails">
+              <td scope="col" colspan="2">
+                  <span fxLayoutGap="0.5rem" class="d-inline">
+                      <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
+                      <input  type="checkbox">
+                      <b><p class="name-feedback d-inline">{{user.name}}</p></b>
+                  </span> 
+              </td>
+              <!-- <td>{{item.datenow}}</td> -->
+              <td>{{user.email}}</td>
+              <td>{{user.phone}}</td>
+              <td *ngIf="user.role==1">Social Manager</td>
+              <td *ngIf="user.role==2">Content Manager</td>
+              <td><button (click)="editCompnent(user)" type="button" class="btn"><i class="fa fa-pencil"></i></button></td>
+              <td><button type="button" class="btn" (click)="openAccessDialog(user)"><i class="fa fa-eye"></i></button></td>
+              <td><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
+
+          </tr>
+        </tbody>
+      </table>
     </div>
-        <div>
-          <button type="submit" class="btn btn-success" [disabled]="!CreateUserForm.valid">Submit</button>
+  </div>
+
+  <div fxLayout="row" *ngIf="isEdit">
+    <div fxFlex="50%">
+      <h6  class="form-header">Create User</h6>
+    </div>
+    <div fxFlex="50%">
+        <button (click)="cancelUser()" class="pull-right btn btn-sm btn-outline-secondary btn-users d-inline"><span><i class="fa fa-angle-left fa-2x d-inline"></i> View Users</span></button>
+    </div>
+  </div>
+      <!-- 
+           ////
+            <div fxLayout="row" fxLayoutGap="10px" class="form-group">
+              <label fxLayoutAlign="start" fxFlex="10" for="name">Password :</label>
+              <input fxFlex="50" type="password" class="form-control" id="password" formControlName="password"
+                required placeholder="Password">
+              <div [hidden]="CreateUserForm.controls.user_password.valid || CreateUserForm.controls.user_password.pristine && !submitted" class="alert">
+                Name is required
+              </div>
+            </div> 
+          ///////
+        -->
+  <div class="profile_block" *ngIf="isEdit" fxLayoutAlign="center center">
+  <div class="profile_logo">
+    <!-- Logo Edit Block -->
+    <form id="createuserform" [formGroup]="CreateUserForm" (submit)="onSubmit(CreateUserForm.value)">
+      <!-- Header -->
+      <div class="profile_header">
+        <h3 class="header_title">User Properties</h3>
+        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
+          <i class="fa fa-ellipsis-v"></i>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item>
+            <span>Redial</span>
+          </button>
+          <button mat-menu-item disabled>
+            <span>Check voicemail</span>
+          </button>
+          <button mat-menu-item>
+            <span>Disable alerts</span>
+          </button>
+        </mat-menu> -->
+      </div>
+      <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
+        <div class="" fxLayout="column" fxLayoutGap="20px">
+          <!-- Logo Image Upload -->
+          <div class="profile_img">
+            <div fxLayoutAlign="center center" class="logo-img">
+              <span *ngIf=""><img src="../assets/default_logo.png" class="img-fluid"></span>
+              <img *ngIf="" src="data:image/png;base64,{{profileItems.avatar}}" alt="Logo" class="img-fluid">
+            </div>
+            <div class="upload-logo">
+              <input mat-raised-button type="file" id="avatar" accept=".jpg, .png, .jpeg" (change)="onFileChange($event)" #fileInput>
+              <p *ngIf="" class="hover-upload">Upload Your Image</p>
+              <p *ngIf="" class="hover-upload">Update Your Image</p>
+              <button *ngIf="" class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
+              <div class="bg-layer"></div>
+            </div>
+          </div>
+          <!-- Logo File Details -->
+          <!-- <div class="logo-details">
+            <p class="file_Name">flujo_logo.svg</p>
+            <p class="file_Prop">Original : 48 px x 48 px</p>
+            <p class="file_Prop">3 kb</p>
+          </div> -->
         </div>
+        <div fxLayout="column" fxLayoutGap="1rem" fxFlex="100%">
+          <div fxLayout="column">
+            <!-- <div fxLayout="row" fxLayoutGap="0.5rem"> -->
+              <div fxLayout="column" class="form-group">
+
+                <div><label fxLayoutAlign="start" for="name">First Name</label></div>
+                <div><input fxFlex="100%" type="text" class="form-control" id="name" formControlName="name" placeholder="First Name"  required oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');" ></div>
+                <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert">
+                    First Name is required
+                </div>
+              </div>
+              <!-- <div fxLayout="column" class="form-group" hidden>
+                <div><label fxLayoutAlign="start" for="last_name">Last Name</label></div>
+                <div><input type="text" class="form-control" id="last_name" placeholder="Last Name" formControlName="last_name" oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');" ></div>
+                <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.last_name.valid || CreateUserForm.controls.last_name.pristine && !submitted" class="alert">
+                    Last Name is required
+                </div>
+              </div> -->
+            <!-- </div> -->
+          </div>
+          <div fxLayout="column" class="form-group">
+            <div><label>Mobile Number</label></div>
+            <div><input fxFlex="100%" type="tel" class="form-control" maxlength="10" formControlName="phone" id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+              maxlength="10" placeholder="Phone Number" required></div>
+            <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted" class="alert">
+                  Valid Phone number is required
+            </div>
+          </div>
+          <div fxLayout="column" class="form-group">
+              <div><label>Email</label></div>
+              <div><input fxFlex="100%" type="Email" formControlName="email" class="form-control" id="email" placeholder="Email" required></div>
+              <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert">
+                  Valid Email is required
+              </div>
+          </div>
+          <div fxLayout="column" class="form-group">
+              <div><label>Role</label></div>
+              <div fxFlex="50" class="select-wrap">
+                  <select fxFlex="100%" formControlName="role" class="form-control" required id="role">
+                    <option value="" selected>Select Role</option>
+                    <option value="1">Social Manager</option>
+                    <option value="2">Content Manager</option>
+                  </select>
+              </div>
+              <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.role.valid || CreateUserForm.controls.role.pristine && !submitted" class="alert">
+                  Role is required
+              </div>
+          </div>
+        </div>
+      </div>
+      <!-- Save Button -->
+      <div class="profile_footer" fxLayout="row" fxLayoutAlign="end center">
+        <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
+        <div><button mat-button class="logoCtrl_button cancel" (click)="cancelUser()" >Cancel</button></div>
+        <div><button mat-button class="logoCtrl_button" type="submit" [disabled]="CreateUserForm.invalid || loading" mat-raised-button>{{button_text}}
+          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+        </button></div>
+        <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loading">Delete</button> -->
+      </div>
+    </form>
+    <!-- //.. Logo Edit Block -->
+  </div>
 </div>
+
+
+
+

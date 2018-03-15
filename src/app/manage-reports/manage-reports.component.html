@@ -1,0 +1,377 @@
+<!-- <h1> manage reports</h1>
+
+<div>
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option (onSelectionChange)="callSomeFunction()" *ngFor="let option of filteredOptions | async" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div> -->
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<ng4-loading-spinner></ng4-loading-spinner>
+
+<div fxLayout="column" fxLayoutGap="15px">
+    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center">
+        <div fxFlex="30">
+            <h6 class="issues">Issues</h6>
+        </div>
+        <div fxFlex="40" fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-secondary  btn-actissue">
+          <input type="radio"  name="options" id="option1" autocomplete="off" checked> Active Issues
+       </label>
+            <label class="btn btn-outline-secondary btn-pastissue">
+         <input type="radio"  name="options" id="option2" autocomplete="off"> Past Issues
+       </label>
+        </div>
+        <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+            <!-- <div class=" text-center button-group btn-group-toggle" data-toggle="buttons">
+                <label class="pull-right btn btn-outline-secondary  btn-view-grid">
+            <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
+         </label>
+                <label class="pull-right btn btn-outline-secondary  btn-view-list">
+           <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
+         </label>
+            </div> -->
+            <div class="dropdown">
+                <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Filter By
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li class="dropdown-item">Date</li>
+                        <li class="dropdown-item">Issue</li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <mat-card   fxLayout="column">
+            <div class="reports-header" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem"  fxLayoutAlign="start center">
+                    <div  fxFlex="10.7%" class="name-field">
+                         <span  fxFlex="100%" fxLayoutAlign="start center" class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;
+                             <input fxFlex="5%" class="d-inline" type="checkbox" >
+                             <b>
+                                <p fxFlex="100%" class="d-inline">Name&nbsp; <i class="fa fa-angle-down d-inline"></i></p>
+                             </b>
+                         </span>
+                    </div>
+                    <div fxFlex="11%">
+                        <span class="d-inline">Updated &nbsp;<i class="fa fa-angle-down"></i></span>
+                    </div>
+                    <div fxFlex="11%">
+                     <span class="d-inline">Email </span>
+                    </div>
+                    <div fxFlex="11%">
+                     <span class="d-inline">Phone Number</span>
+                    </div>
+                    <div fxFlex="7%">
+                         <span class="d-inline">Gender&nbsp;<i class="fa fa-angle-down"></i> </span>
+                    </div>
+                    <div fxFlex="5%">
+                         <span class="d-inline">Age &nbsp;<i class="fa fa-angle-down"></i></span>
+                    </div>
+                    <div fxFlex="30%">
+                         <span class="d-inline">Locality &nbsp;<i class="fa fa-angle-down"></i></span>
+                    </div>
+                </div>
+        <mat-accordion>
+                <mat-expansion-panel  *ngFor="let report of reportProblemData">
+                <mat-expansion-panel-header>
+                    <div fxLayout="column" fxFlex="100%" >
+                        <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem"  fxLayoutAlign="start center">
+                                <div fxFlex="10.7%" class="name-data">
+                                    <span fxLayout="row" fxFlex="100%" fxLayoutAlign="start center" class="d-inline">
+                                        <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
+                                        <input  type="checkbox">
+                                        <b><p class="name-feedback d-inline">{{report.name}}</p></b>
+                                    </span>
+                                </div>
+                                <div fxFlex="12%"> 
+                                 <span fxFlex="100%" class="d-inline">{{report.submitted_at}}</span>
+                                </div>
+                                <div fxFlex="12%">
+                                 <span class="d-inline">{{report.email}}</span>
+                                </div>
+                                <div fxFlex="11%">
+                                 <span class="d-inline">{{report.phone}}</span>
+                                </div>
+                                <div fxFlex="7%">
+                                     <span class="d-inline">{{report.gender}} </span>
+                                </div>
+                                <div fxFlex="6%">
+                                     <span class="d-inline"><p class="">{{report.age}}</p></span>
+                                </div>
+                                <div fxFlex="30%">
+                                     <span class="d-inline">{{report.area}}</span>
+                                </div>
+                            </div>
+                    </div>
+                </mat-expansion-panel-header>
+                <mat-action-row>
+                        <div fxLayout="column" fxFlex="100%" >
+                                <div class="reports-data-ext problem-box" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem"  fxLayoutAlign="start center">
+                                        <div fxFlex="10.7%" class="report-problem-descr">
+                                            <span  class="file-icon text-muted">
+                                                <i class="fa fa-paperclip"> </i>
+                                            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span class="d-inline report-file-descr">{{report.problem}}</span>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="11%">
+                                            <span class="text-muted d-inline">
+                                                        Category:&nbsp;
+                                            </span>
+                                            <span class="d-inline">{{report.problem_type}}</span>
+                                        </div>
+                                        <div fxFlex="10%">
+                                            <span class="text-muted d-inline">
+                                                        Source:&nbsp;
+                                            </span>
+                                            <span class="d-inline">{{report.source}}</span>
+                                        </div>
+                                        
+                                        <div fxFlex="30%">
+                                            <span class="text-muted d-inline ">
+                                                        Address:&nbsp;
+                                            </span>
+                                            <span class="d-inline address">
+                                                        {{report.address}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                </mat-action-row>              
+                <mat-action-row>
+                        <div fxLayout="column" fxFlex="100%" >
+                                <div class="reports-data-form problem-box" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem"  fxLayoutAlign="start center">
+                                        <div class="assign-issue" fxLayout="row" fxLayoutAlign="start center" fxFlex="40%">
+                                           <div>
+                                               <span class="text-muted d-inline">Assign Issue:&nbsp;&nbsp;</span>
+                                           </div> 
+                                           <div >
+                                               <form class="example-form d-inline form-inline">
+                                                   <mat-form-field class="example-full-width">
+                                                       <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
+                                                       <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
+                                                           <mat-option  *ngFor="let option of filteredusersListOptions | async" [value]="option" (click)="AssignedUserName(option, report.id)">
+                                                                       {{ option }}
+                                                           </mat-option>
+                                                       </mat-autocomplete>
+                                                   </mat-form-field>
+                                                   <button class="btn btn-outline-secondary btn-sm btn-report" (click)="updateAssignedUserIntoDB()">Assign</button>
+                                               </form>
+                                           </div>
+                                        </div>
+                                      
+                                        <div fxLayout="row"fxFlex="25%" fxLayoutAlign="start center">  
+                                            <div>
+                                                <span class="text-muted d-inline">Move To:&nbsp;&nbsp;</span>
+                                            </div>   
+                                            <div>
+                                                <form class="example-form">
+                                                    <mat-form-field class="example-full-width">
+                                                    <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
+                                                    <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
+                                                        <mat-option  *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption)">
+                                                            {{ moveoption }}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                    </mat-form-field>
+                                                </form>
+                                            </div>                                  
+                                        </div>
+                                        
+                                        <div class="assign-issue" fxFlex>
+                                            <form class="example-form form-inline">
+                                                <mat-form-field class="example-full-width">
+                                                    <input type="text" placeholder="Remarks select or type" aria-label="Number" matInput [formControl]="remarksListControl" [matAutocomplete]="auto3">
+                                                        <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
+                                                            <mat-option  *ngFor="let remarksoption of FilteredRemarksListOptions | async" [value]="remarksoption" (click)="getRemarksOption(remarksoption)">
+                                                                    {{ remarksoption }}
+                                                            </mat-option>
+                                                    </mat-autocomplete>
+                                                </mat-form-field>
+                                                <button class="btn btn-outline-secondary btn-sm btn-report" (click)="UpdateReportsStatus(report)">Assign</button>
+                                            </form>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                </mat-action-row>    
+                </mat-expansion-panel>
+              </mat-accordion>
+    </mat-card>
+
+    <!-- <div fxLayout="row">
+            <div class="sendMail-data">
+                <form action="" [formGroup]="reportCsvMail" fxLayout="row" fxLayoutGap="15px">
+                    <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
+                    <div [hidden]="reportCsvMail.controls.email.valid || (reportCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+                        enter valid email
+                    </div>
+                    <button (click)="reportCsvMailSubmit(reportCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report">Send As Email</button>
+                </form>
+            </div>
+            <div fxLayoutAlign="end center" fxFlex>
+                <button (click)="exportReportProblemData()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export</button>
+    </div> -->
+
+</div>
+
+
+
+
+
+
+<!--
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <span class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="d-inline" type="checkbox" >
+                        <b>
+                          <p class="d-inline">Name &nbsp; <i class="fa fa-angle-down"></i></p>
+                        </b>
+                      </span>
+                        </th>
+                        <th scope="col">
+                            <div>
+                                <span class="d-inline">Updated &nbsp; <i class="fa fa-angle-down"></i></span>
+                            </div>
+                        </th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">
+                            <span class="d-inline">
+                        Gender&nbsp;<i class="fa fa-angle-down"></i>
+                    </span>
+                        </th>
+                        <th scope="col">
+                            <span class="d-inline">
+                        Age &nbsp;<i class="fa fa-angle-down"></i>
+                    </span>
+                        </th>
+                        <th scope="col">
+                            <span class="d-inline">
+                        Locality &nbsp;<i class="fa fa-angle-down"></i>
+                    </span>
+                        </th>
+                    </tr>
+                </thead>
+                <ng-template class="link-row problem-box" id="accordion" ngFor let-report [ngForOf]="reportProblemData" let-i="index">
+                    <tbody class="" id="problem-row1">
+                        <tr>
+                            <td>
+                                <span class="d-inline">
+                            <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
+                            <input  type="checkbox">
+                            <b><p class="name-feedback d-inline">{{report.name}}</p></b>
+                        </span>
+                            </td>
+                            <td>{{report.submitted_at}}</td>
+                            <td>{{report.email}}</td>
+                            <td>{{report.phone}}</td>
+                            <td>{{report.gender}}</td>
+                            <td>
+                                <p class="">{{report.age}}</p>
+                            </td>
+                            <td><span class="d-inline">
+                            <p class="d-inline">{{report.area}}</p>
+                            <p class="text-muted d-inline pull-right">
+                             <a data-toggle="collapse" data-parent="#accordion" href=#{{report.id}}>
+                               <i class="fa fa-caret-down"></i>
+                             </a> 
+                            </p>
+                        </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody class="" id={{report.id}}>
+                        <tr>
+                            <td colspan="2">
+                                <span class="d-inline file-icon text-muted">
+                              <i class="fa fa-paperclip"> </i> &nbsp;
+                            </span>
+                                <span class="d-inline report-file-descr">{{report.problem}}</span>
+                            </td>
+                            <td>
+                                <span class="text-muted d-inline">
+                              Category:&nbsp;
+                            </span>
+                                <span class="d-inline">{{report.problem_type}}</span>
+                            </td>
+                            <td>
+                                <span class="text-muted d-inline">
+                              Source:&nbsp;
+                            </span>
+                                <span class="d-inline">{{report.source}}</span>
+                            </td>
+
+                            <td colspan="2"><span class="text-muted d-inline">
+                          Address:&nbsp;
+                        </span>
+                                <span class="d-inline">
+                                    {{report.address}}
+                        </span>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <form class="example-form">
+                                    <mat-form-field class="example-full-width">
+                                        <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
+                                        <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
+                                            <mat-option  *ngFor="let option of filteredusersListOptions | async" [value]="option" (click)="AssignedUserName(option, report.id)">
+                                                {{ option }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                    <button (click)="updateAssignedUserIntoDB()">Assign</button>
+                                </form>
+                                
+                                <form class="example-form">
+                                    <mat-form-field class="example-full-width">
+                                        <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
+                                        <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
+                                            <mat-option  *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption, report.id)">
+                                                {{ moveoption }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </form>
+                                <form class="example-form">
+                                    <mat-form-field class="example-full-width">
+                                        <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="remarksListControl" [matAutocomplete]="auto3">
+                                        <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
+                                            <mat-option  *ngFor="let remarksoption of FilteredRemarksListOptions | async" [value]="remarksoption" (click)="getRemarksOption(remarksoption, report.id)">
+                                                {{ remarksoption }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                    <button (click)="UpdateReportsStatus()">Assign</button>
+                                </form>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="2">
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+            </table>
+        </div>
+    </div>
+    ///
+   
+    </div> -->

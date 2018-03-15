@@ -1,0 +1,93 @@
+// new login field
+
+.loginfield{
+    vertical-align: middle;
+    position: absolute;
+    top:0%;
+    left:0%;
+    right:0%;
+    bottom:0%;
+    margin: auto;
+    // z-index: -1;
+}
+.fa.fa-user, .fa.fa-key{
+        opacity: 0.6;
+    }
+.example-card {
+    max-width: 300px;
+    width: 100%;
+}
+.example-card h6 i{
+    display:inline;
+    vertical-align: middle;
+    font-size: 1.5em;  
+    line-height:40px;      
+}
+.example-card h6{
+    font-size: 1em;
+    vertical-align: middle;
+    margin-top: 5px;
+    
+}
+
+.example-header-image {
+    background-image: url('/assets/flujo-logo@3x.png');
+    background-size: contain;
+    max-width: 50px;
+    max-height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+ }
+ .mat-card-avatar {
+    height: 60px;
+    width: 60px;
+    border-radius: 0;
+    flex-shrink: 0;
+}
+.mat-card>.mat-card-actions:last-child {
+    padding-bottom: 0;
+}
+.mat-card-actions {
+    padding: 8px 0;
+}
+.mat-card-header{
+    background-color: #bababd;
+    max-width:initial !important;
+    padding: 10px 0;
+}
+.mat-card-title{
+    color:white;
+}
+.mat-card-content{
+    margin-top:15px;
+}
+@media (max-width: 599px){
+    .mat-card {
+        padding: 24px;
+    }   
+}
+.btn-login{
+    background-color: #452c58;
+    color: white;
+    border-radius: 0 !important;
+}
+.flujo-overlay{
+    background: radial-gradient(#40404b, #111118) rgba(34,34,40,0.94);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    // z-index: -2;
+    opacity: 0.9;
+    -webkit-transition: opacity 0.2s ease-in 0.4s;
+    transition: opacity 0.2s ease-in 0.4s;
+}
+
+.logIn_button {
+    margin: 0;
+    padding: 0;
+}
+.logIn_inputs {
+    padding:30px;
+}

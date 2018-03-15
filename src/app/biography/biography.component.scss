@@ -1,0 +1,24 @@
+.biography {
+    height: 100%;
+    .card {
+        box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+        padding: 30px 40px;
+        width: 40vw;
+    }
+    .input {
+        outline: none;
+        padding: 13px 15px;
+        font-size: 14px;
+        text-align: left;
+        color: #c1c1c1;
+        border-radius: 2px;
+        background-color: #ffffff;
+        border: solid 1.5px #f7f7f7;
+      }
+    .submit {
+        max-width: 130px;
+        border: solid 1.5px #4a2565;
+        border-radius: 20px;
+        float: right;
+    }
+}
