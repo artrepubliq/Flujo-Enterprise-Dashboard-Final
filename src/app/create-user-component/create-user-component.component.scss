@@ -105,29 +105,25 @@ color: #333333;
   font-size: 14px;
   color: #666666;
 }
-.btn-users{
-  border-radius:35px !important;
-  vertical-align: middle;
-  border: solid 1.5px #4a2565;
-  font-family: Roboto;
-  font-size: 14px;
-  padding: 5px 10px;
-  font-weight: 500;
-  color: #4a2565;
-}
+
 .btn-user{
   border-radius:35px !important;
   vertical-align: middle;
   border: solid 1.5px #4a2565;
   font-family: Roboto;
   font-size: 14px;
-  padding: 0px 10px;
+  padding: 4px 10px;
   font-weight: 500;
   color: #4a2565;
 }
+.btn-user:hover{
+  background-color: #4a2565;
+  color: #fff;
+  border-color: transparent;
+}
+
 button i{
   font-family:FontAwesome !important;
-  vertical-align: middle;
 }
 
 .profile-edit {
