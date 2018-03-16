@@ -52,7 +52,7 @@ export class LoginAuthService implements OnInit {
     localStorage.setItem('expires_at', JSON.stringify(expTime));
     // this.router.navigateByUrl('/');
     this.router.navigate(['/admin']);
-    window.location.reload();
+    // window.location.reload();
     this.setLoggedInCustom(true);
   }
   getCustomLoginStatus() {
