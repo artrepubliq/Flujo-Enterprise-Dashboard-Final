@@ -5,11 +5,20 @@
 .btn-social{
     border-radius:35px !important;
     vertical-align: middle;
-    padding-top: 4px;
+    border: solid 1.5px #4a2565;
+    font-family: Roboto;
+    font-size: 14px;
+    padding: 4px 10px;
+    font-weight: 500;
+    color: #4a2565;
+}
+.btn-social:hover{
+    background-color: #4a2565;
+    color: #fff;
+    border-color: transparent;
 }
 button i{
     font-family:FontAwesome !important;
-    vertical-align: middle;
 }
 .social {
 	font-size: 30px;
