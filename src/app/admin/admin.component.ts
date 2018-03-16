@@ -45,6 +45,7 @@ export class AdminComponent implements OnInit {
 
     // const  = [];
 
+    const window: any = Window;
 
     window.cc.GroupChannel.create('Team', this.loggedinIds, true, function(error, groupChannel) {
      if (error == null) {
@@ -53,7 +54,7 @@ export class AdminComponent implements OnInit {
       }
     });
  }
-
+ 
   viewPages() {
     localStorage.setItem('page_item', 'viewpages');
   }
