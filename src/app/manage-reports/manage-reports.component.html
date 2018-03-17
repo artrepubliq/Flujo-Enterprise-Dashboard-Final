@@ -90,7 +90,7 @@
             </div>
         </div>
         <mat-accordion>
-            <mat-expansion-panel class="problem-box" *ngFor="let report of reportProblemData">
+            <mat-expansion-panel class="problem-box" *ngFor="let report of reportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
                 <mat-expansion-panel-header>
                     <div fxLayout="column" fxFlex="100%">
                         <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
@@ -220,6 +220,7 @@
             </mat-expansion-panel>
         </mat-accordion>
     </mat-card>
+    <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
 <!-- 
     <div fxLayout="row">
         <div class="sendMail-data">
