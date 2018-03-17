@@ -90,15 +90,14 @@
             </div>
         </div>
         <mat-accordion>
-            <mat-expansion-panel *ngFor="let report of reportProblemData">
+            <mat-expansion-panel class="problem-box" *ngFor="let report of reportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
                 <mat-expansion-panel-header>
                     <div fxLayout="column" fxFlex="100%">
                         <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
                             <div fxFlex="10.7%" class="name-data">
                                 <span fxLayout="row" fxFlex="100%" fxLayoutAlign="start center" class="d-inline">
                                     <p class="text-muted d-inline">
-                                        <i class="fa fa-ellipsis-v"></i>&nbsp;
-                                        <i class="fa fa-ellipsis-v"></i>
+                                        <i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i>
                                     </p>
                                     <input type="checkbox">
                                     <b>
@@ -119,9 +118,7 @@
                                 <span class="d-inline">{{report.gender}} </span>
                             </div>
                             <div fxFlex="6%">
-                                <span class="d-inline">
-                                    <p class="">{{report.age}}</p>
-                                </span>
+                                <span class="d-inline"> {{report.age}}</span>
                             </div>
                             <div fxFlex="30%">
                                 <span class="d-inline">{{report.area}}</span>
@@ -223,7 +220,8 @@
             </mat-expansion-panel>
         </mat-accordion>
     </mat-card>
-
+    <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
+<!-- 
     <div fxLayout="row">
         <div class="sendMail-data">
             <form action="" [formGroup]="reportCsvMail" fxLayout="row" fxLayoutGap="15px">
@@ -238,7 +236,7 @@
             <button (click)="exportReportProblemData()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export</button>
         </div>
 
-    </div>
+    </div> -->
 </div>
 
 
