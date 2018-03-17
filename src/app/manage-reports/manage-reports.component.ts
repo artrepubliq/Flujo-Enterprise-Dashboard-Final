@@ -4,6 +4,7 @@ import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { ICreateUserDetails } from '../model/createUser.model';
 
+import CSVExportService from 'json2csvexporter';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
@@ -19,7 +20,7 @@ import { AlertService } from 'ngx-alerts';
 export class ManageReportsComponent implements OnInit, AfterViewInit {
     assignedReportId: any;
 
-    reportProblemData: Object;
+    reportProblemData: any;
     // loggedinUsersList: Array<ICreateUserDetails>;
     loggedinUsersList: Array<any>;
     postAssignedUsersObject: IPostAssignedUser;
@@ -201,4 +202,34 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:max-line-length
         return this.httpClient.get<Array<ICreateUserDetails>>(AppConstants.API_URL + 'flujo_client_getcreateuser/' + AppConstants.CLIENT_ID);
     }
+
+    exportManageReports() {
+        const csvColumnsList = ['name', 'submitted_at', 'email', 'phone', 'gender', 'age', 'area'];
+        const csvColumnsMap = {
+          name: 'Name',
+          submitted_at: 'Submitted on',
+          email: 'Email',
+          phone: 'Phone number',
+          gender: 'Gender',
+          age: 'Age',
+          area: 'Area'
+        };
+        const Data = [
+          {
+            name: this.reportProblemData.name,
+            submitted_at: this.reportProblemData.submitted_at,
+            email: this.reportProblemData.email,
+            phone: this.reportProblemData.phone,
+            gender: this.reportProblemData.gender,
+            age: this.reportProblemData.age,
+            area: this.reportProblemData.area
+          },
+        ];
+        const exporter = CSVExportService.create({
+          columns: csvColumnsList,
+          headers: csvColumnsMap,
+          includeHeaders: true,
+        });
+        exporter.downloadCSV(this.reportProblemData);
+      }
 }
