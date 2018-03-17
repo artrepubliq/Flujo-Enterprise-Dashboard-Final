@@ -23,6 +23,7 @@
              <input   name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
            </label>
           </div> -->
+      <button (click)="exportFeedbackData()" class="btn btn-outline-secondary btn-sm btn-report pull-right" float-right style="float:right">Export as CSV</button>
       <div class="dropdown">
         <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
@@ -98,7 +99,6 @@
           </tr>
         </tbody>
       </table>
-      <button (click)="exportFeedbackData()" class="btn btn-outline-secondary btn-sm btn-report pull-right" float-right style="float:right">Export</button>
       <div class="sendMail-data">
         <div class="sendMail-data form-group">
           <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
