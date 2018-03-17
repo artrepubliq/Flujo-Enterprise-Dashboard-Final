@@ -32,7 +32,7 @@
           </div>
       </div>
     </div>
-    <div *ngFor="let report of changemakerData" class="link-row"  fxLayout.xs="column"  fxLayout="row">
+    <div *ngFor="let report of changemakerData | paginate: { itemsPerPage: 10, currentPage: p }" class="link-row"  fxLayout.xs="column"  fxLayout="row">
       <div class="problem-box" fxFlex fxLayout="column" fxLayoutGap="15px">
         <div fxLayout="row" fxLayoutGap="3rem" >
           <div class="" fxFlex="20%" fxLayoutAlign="start center">
@@ -103,4 +103,5 @@
         <button (click)="exportChangermakereport()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export</button>
       </div>
     </div>
+    <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
 </div>
