@@ -1,0 +1,45 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000">
+</ngx-alerts>
+<div class="container biography" fxLayoutAlign="center center">
+  <form action="" [formGroup]="biographySubmitForm" (submit)="onSubmit(biographySubmitForm.value)" class="card">
+    <div class="biography_header">
+      <h3 class="header_title">Biography</h3>
+    </div>
+    <div fxLayout="column" class="biography_form" fxLayoutGap="15px">
+      <!-- <div fxLayout="column" fxLayoutGap="10px">
+        <label for="">Career Position</label>
+        <input type="text" class="input" placeholder="Career Position" formControlName="career_position">
+      </div> -->
+      <mat-form-field>
+        <input matInput type="text" placeholder="Career Position" formControlName="career_position">
+      </mat-form-field>
+      <div fxLayout="column" fxLayoutGap="10px">
+        <mat-form-field class="">
+          <input matInput [min]="minDate" formControlName="from_year" [max]="maxDate" [matDatepicker]="picker1" placeholder="From date"
+            (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker touchUi="true" startView="year" [startAt]="startDate" #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div fxLayout="column" fxLayoutGap="10px">
+        <mat-form-field class="">
+          <input matInput [min]="minDate" formControlName="to_year" [max]="maxDate" [matDatepicker]="picker2" placeholder="To date"
+            (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker touchUi="true" startView="year" [startAt]="startDate2" #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <!-- <div fxLayout="column" fxLayoutGap="10px">
+        <label for="">Career Description</label>
+        <input type="text" class="input" placeholder="Career Description" formControlName="career_description">
+      </div> -->
+      <mat-form-field>
+        <input matInput type="text" placeholder="Career Description" formControlName="career_description">
+      </mat-form-field>
+      <div fxLayoutAlign="end center">
+        <button mat-raised-button class="submit" type="submit" [disabled]="biographySubmitForm.invalid"> Submit</button>
+      </div>
+    </div>
+  </form>
+</div>

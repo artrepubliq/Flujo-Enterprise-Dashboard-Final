@@ -5,3 +5,10 @@ export interface ICreateUserDetails{
     phone:string;
     role:string;
 }
+export interface IloggedinUsers {
+    id: string;
+    access_token: string;
+    is_logged_in: boolean;
+    isUserActive: boolean;
+}
+

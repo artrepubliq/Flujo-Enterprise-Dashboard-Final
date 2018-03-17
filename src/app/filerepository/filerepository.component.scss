@@ -1,0 +1,257 @@
+.uploader_block {
+  padding: 50px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+  .file_uploader {
+    min-width: 300px;
+    border: 1.5px dashed #91d7ea;
+    border-radius: 5px;
+    padding: 20px;
+    .choose-block {
+      p {
+        font-size: 15px;
+        font-weight: 500;
+        text-align: center;
+        color: #919191;
+      }
+      .choose_files {
+        position: relative;
+        display: inline-block;
+        width: 130px;
+        height: 40px;
+        border-radius: 20px;
+        button {
+          width: 130px;
+          height: 40px;
+          border-radius: 20px;
+          background-color: #ee286b;
+          box-shadow: 0px 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+          font-size: 14px;
+          font-weight: 500;
+          text-align: center;
+          color: #ffffff;
+        }
+        input[type="file"] {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          z-index: 1;
+          left: 0;
+          top: 0;
+        }
+      }
+    }
+  }
+  .uploader_content {
+    min-width: 460px;
+    ;
+    h3 {
+      font-size: 30px;
+      font-weight: 300;
+      text-align: left;
+      color: #4a2565;
+    }
+    p {
+      font-size: 15px;
+      font-style: italic;
+      text-align: left;
+      color: #c1c1c1;
+    }
+  }
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  color: #666666;
+}
+
+// ======= Floder ============
+.floder_block {
+  height: 60px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  min-width: 175px;
+  position: relative;
+  margin-bottom: 30px;
+  cursor: pointer;
+  .floder_name {
+    font-size: 13px;
+    color: #919191;
+  }
+  .fa-folder-open {
+    display: none;
+  }
+}
+
+.floder_block.active,
+.floder_block:hover {
+  .floder_name {
+    font-weight: 500;
+  }
+}
+
+.floder_block.active {
+  .fa-folder-o {
+    display: none;
+  }
+  .fa-folder-open {
+    display: block;
+    margin-right: 15px;
+  }
+}
+
+.floder_block.active:after {
+  content: "";
+  background-color: #50d166;
+  width: 7px;
+  height: 7px;
+  border-radius: 50px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+// ======== File =======
+.file_block {
+  // width: 175px;
+  height: 210px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 30px;
+  .file_icon {
+    height: calc(100% - 55.5px);
+    i {
+      font-size: 80px;
+    }
+  }
+  .file_footer {
+    padding: 14px 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top: 1.5px solid #f7f7f7;
+    .title {
+      font-size: 15px;
+      font-weight: 500;
+      text-align: left;
+      color: #919191;
+      margin-bottom: 5px;
+    }
+  }
+  .file_actions {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: none;
+    z-index: 1;
+    .action {
+      padding: 12px;
+      background-color: #ffffff;
+    }
+  }
+  .bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 55.5px;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+  }
+}
+
+.file_block:hover {
+  .file_actions,
+  .bg-layer {
+    display: block;
+  }
+}
+
+.upload_popup {
+  position: relative;
+  padding: 26px;
+  padding-bottom: 40px;
+  .file_action {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    .button_submit {
+      width: 100px;
+    }
+  }
+  .file_choose {
+    min-width: 280px; // min-height: 280px;
+    border: 1.5px dashed #91d7ea;
+    border-radius: 5px;
+    position: relative;
+    i {
+      font-size: 80px;
+    }
+    p {
+      position: absolute;
+      top: 100%;
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: normal;
+      font-style: italic;
+      font-stretch: normal;
+      line-height: 1.6;
+      letter-spacing: normal;
+      text-align: left;
+      color: #c1c1c1;
+    }
+  }
+}
+
+/* File Extentions UI's */
+
+.jpeg:before, .png:before, .jpg:before {
+  content: "\f1c5";
+  color: #fdd10c;
+}
+.pdf:before {
+  content: "\f1c1";
+  color: #ee2f6b;
+}
+.csv:before {
+  content: "\f1c3";
+  color: #d8d8d8;
+}
+.doc::before, .docx::before {
+  content: "\f1c2";
+  color: #452c59;
+}
+.file_size {
+  font-size: 10px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #c1c1c1;
+  margin: 0;
+}
+
+.file_storage_details {
+  width: 165px;
+  height: 38.5px;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: normal;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: 4.1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #c1c1c1;
+}

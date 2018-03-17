@@ -31,10 +31,12 @@
 }
 
 .example-header-image {
-    background-image: url('/assets/flujo-favicon.png');
+    background-image: url('/assets/flujo-logo@3x.png');
     background-size: contain;
     max-width: 50px;
     max-height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
  }
  .mat-card-avatar {
     height: 60px;
@@ -43,19 +45,13 @@
     flex-shrink: 0;
 }
 .mat-card>.mat-card-actions:last-child {
-    margin-bottom: -24px;
     padding-bottom: 0;
 }
 .mat-card-actions {
-    margin-left: -24px;
-    margin-right: -24px;
     padding: 8px 0;
 }
 .mat-card-header{
     background-color: #bababd;
-    margin-top:-24px !important;
-    margin-left:-24px;
-    margin-right:-24px;
     max-width:initial !important;
     padding: 10px 0;
 }
@@ -82,8 +78,16 @@
     bottom: 0;
     right: 0;
     left: 0;
-    z-index: -2;
+    // z-index: -2;
     opacity: 0.9;
     -webkit-transition: opacity 0.2s ease-in 0.4s;
     transition: opacity 0.2s ease-in 0.4s;
+}
+
+.logIn_button {
+    margin: 0;
+    padding: 0;
+}
+.logIn_inputs {
+    padding:30px;
 }

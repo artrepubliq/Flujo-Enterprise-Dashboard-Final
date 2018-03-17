@@ -108,4 +108,7 @@ export class SMTPConfigurationComponent implements OnInit {
     this.btn_text = 'update';
     this.setSMTPDataFormDefault(socialData);
   }
+  cancelFileEdit() {
+    this.isEdit = false;
+    }
 }

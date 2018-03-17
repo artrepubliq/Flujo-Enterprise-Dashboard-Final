@@ -383,3 +383,8 @@ control-messages,
 .page_padding {
   padding: 3vh 6vw 15px 4vw;
 }
+
+// Mat Toggle custom style
+.mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: rgba(63, 81, 181, 0.5);
+}

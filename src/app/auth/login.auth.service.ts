@@ -5,7 +5,8 @@ import { AUTH_CONFIG } from './auth-config';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import * as _ from 'underscore';
-
+import { IHttpResponse } from '../model/httpresponse.model';
+import { AppConstants } from '../app.constants';
 @Injectable()
 export class LoginAuthService implements OnInit {
 
@@ -14,11 +15,8 @@ export class LoginAuthService implements OnInit {
   // Create a stream of logged in status to communicate throughout app
   customLoggedIn: boolean;
   customLoggedIn$ = new BehaviorSubject<boolean>(this.customLoggedIn);
-
-  constructor(private router: Router, private http: HttpClient) {
-    console.log('login constructor' + this.expiresAt);
+  constructor(private router: Router, private httpClient: HttpClient) {
     this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    console.log(this.expiresAt);
     if (Date.now() < this.expiresAt) {
       this.setLoggedInCustom(true);
       }else {
@@ -48,11 +46,13 @@ export class LoginAuthService implements OnInit {
     const expTime = 600 * 1000 + Date.now();
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
-    console.log(localStorage.getItem('token'));
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('nickname', JSON.stringify(authResult.user_name));
+    localStorage.setItem('id_token', authResult.user_id);
+    localStorage.setItem('user_id', authResult.user_id);
+    localStorage.setItem('nickname', JSON.stringify(authResult.name));
     localStorage.setItem('expires_at', JSON.stringify(expTime));
+    // this.router.navigateByUrl('/');
     this.router.navigate(['/admin']);
+    // window.location.reload();
     this.setLoggedInCustom(true);
   }
   getCustomLoginStatus() {
@@ -61,11 +61,19 @@ export class LoginAuthService implements OnInit {
 
   logout() {
     if (this.customLoggedIn) {
+      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.id_token)
+      .subscribe(
+        data => {
+        },
+        error => {
+        });
       this.router.navigate(['/login']);
     }
     // Remove tokens and profile and update login status subject
     localStorage.removeItem('token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('user_id');
+
     this.setLoggedInCustom(false);
   }
 
@@ -73,7 +81,6 @@ export class LoginAuthService implements OnInit {
     // Check if current date is greater than expiration
     if (this.customLoggedIn) {
       this.setLoggedInCustom(Date.now() < this.expiresAt);
-      console.log(this.expiresAt);
     } else {
       return;
     }
