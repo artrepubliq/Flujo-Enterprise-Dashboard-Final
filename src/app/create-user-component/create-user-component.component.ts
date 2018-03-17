@@ -248,6 +248,7 @@ export class AccessLevelPopup {
           this.alertService.success('User access levels updated successfully');
           this.spinnerService.hide();
           this.getAccessLevelData();
+          this.closeDialog();
         },
         error => {
           this.spinnerService.hide();
