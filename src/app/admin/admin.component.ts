@@ -22,10 +22,10 @@ export class AdminComponent implements OnInit {
   isUserActive: boolean;
   activeUsers: Array<IloggedinUsers>;
   loggedinUsersList: Array<IloggedinUsers>;
-  userList:Array<IloggedinUsers>;
+  userList: Array<IloggedinUsers>;
   public nickName: string;
   createUserList: CreateUserComponentComponent;
-
+ loggedinIds: Array<string>;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
     public mScrollbarService: MalihuScrollbarService) {
@@ -40,35 +40,55 @@ export class AdminComponent implements OnInit {
       this.getUserList();
     }, 5000);
   }
+
+  ChatIO = (chatItem) => {
+
+    // const  = [];
+
+    const window: any = Window;
+
+    window.cc.GroupChannel.create('Team', this.loggedinIds, true, function(error, groupChannel) {
+     if (error == null) {
+       console.log('New Group Channel has been created', groupChannel);
+       window.ChatCampUI.startChat(groupChannel.id);
+      }
+    });
+ }
+ 
   viewPages() {
     localStorage.setItem('page_item', 'viewpages');
   }
   addPages() {
     localStorage.setItem('page_item', 'addpages');
   }
+
+  // getting logged in ids for chatcamp
+  StoredLoggedinIds = () => {
+    this.loggedinIds = [];
+
+    _.each(this.loggedinUsersList, (loggedinUser: IloggedinUsers) => {
+      const loggedInId = loggedinUser.id;
+      this.loggedinIds.push(loggedInId);
+     });
+  }
+
+  // getting users list who are logged in
   getUserList = () => {
     this.httpClient.get<Array<IloggedinUsers>>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID )
     .subscribe(
       data => {
-        try {
-        // console.log(data[0].is_logged_in);
           this.loggedinUsersList = data;
-          // console.log(this.loggedinUsersList);
-         
+          this.StoredLoggedinIds();
           this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
-            return activeUserData.is_logged_in === '1' && activeUserData.id !=localStorage.getItem('id_token') ;
+            return activeUserData.is_logged_in === '1' && activeUserData.id !== localStorage.getItem('id_token') ;
         });
         if (this.activeUsers) {
-          _.each(this.activeUsers, (iteratee, index) =>{
+          _.each(this.activeUsers, (iteratee, index) => {
             this.activeUsers[index].isUserActive = true;
           });
-        }else{
-          
+        }else {
+           console.log('There are no active users');
         }
-      } catch(error) {
-        console.log(error);
-      }
-          // console.log(this.activeUsers);
       },
       error => {
         console.log(error);
