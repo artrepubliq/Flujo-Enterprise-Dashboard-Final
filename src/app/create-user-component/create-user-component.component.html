@@ -2,10 +2,10 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 
-  <div class="row" *ngIf="!isEdit">
-    <div fxFlex >
-        <button (click)="addUsers()" class="d-inline pull-right btn btn-sm btn-outline-secondary btn-users"><span>Create User <i class="fa fa-angle-right fa-2x d-inline"></i></span></button>
-    </div><br/><br/>
+  <div fxLayout="column" *ngIf="!isEdit" fxLayoutGap="20px">
+    <div fxFlex>
+        <button  (click)="addUsers()" class="d-inline pull-right btn btn-outline-secondary btn-user"><span>Create User <i class="fa fa-chevron-right d-inline"></i></span></button>
+    </div>
 
     <div class="col-md-12">
 
@@ -55,11 +55,11 @@
   </div>
 
   <div fxLayout="row" *ngIf="isEdit">
-    <div fxFlex="50%">
+    <!-- <div fxFlex="50%">
       <h6  class="form-header">Create User</h6>
-    </div>
-    <div fxFlex="50%">
-        <button (click)="cancelUser()" class="pull-right btn btn-sm btn-outline-secondary btn-users d-inline"><span><i class="fa fa-angle-left fa-2x d-inline"></i> View Users</span></button>
+    </div> -->
+    <div fxFlex>
+        <button (click)="cancelUser()" class="pull-right btn btn-outline-secondary btn-user d-inline"><span><i class="fa fa-chevron-left d-inline"></i> View Users</span></button>
     </div>
   </div>
       <!-- 
