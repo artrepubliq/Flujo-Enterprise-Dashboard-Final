@@ -8,7 +8,7 @@ export interface ICreateUserDetails{
 export interface IloggedinUsers {
     id: string;
     access_token: string;
-    is_logged_in: boolean;
+    is_logged_in: string;
     isUserActive: boolean;
 }
 

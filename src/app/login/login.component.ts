@@ -21,6 +21,7 @@ import { IHttpResponse } from '../model/httpresponse.model';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  chatCampUrlData: any;
   loginForm: any;
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
@@ -51,12 +52,19 @@ export class LoginComponent implements OnInit {
           this.spinnerService.hide();
           // this.loginAuthService.setLoggedInCustom(true);
           this.loginAuthService._setSession(data);
-          this.alertService.success('User loged in successfully');
+          if (data.can_chat === false) {
+            this.redirectUrlForChatCamp();
+            console.log('hiii');
+          }
+          this.alertService.success('User logged in successfully');
         }else {
           this.spinnerService.hide();
           this.alertService.danger('Please enter valid details');
         }
       });
   }
-  
+  redirectUrlForChatCamp = () => {
+    this.httpClient.post<IcustomLoginModelDetails>(AppConstants.API_URL + 'flujo_client_getchatservice', localStorage.getItem('id_token'));
+    return;
+  }
 }
