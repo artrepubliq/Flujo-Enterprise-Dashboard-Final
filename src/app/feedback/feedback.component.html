@@ -7,14 +7,14 @@
     <div fxFlex="40" fxLayoutAlign="center center" class="text-center button-group" style="margin:0 auto">
       <button (click)="radioChange('feedback')" name="options" id="option1" class=" btn btn-outline-secondary  btn-feedback" autocomplete="off"
         checked>Feedback</button>
-      <button  class="btn btn-outline-secondary btn-chmaker"  (click)="radioChange('changemakerreport')" name="options" id="option2"
+      <button class="btn btn-outline-secondary btn-chmaker" (click)="radioChange('changemakerreport')" name="options" id="option2"
         autocomplete="off"> Change maker</button>
-      <button (click)="radioChange('surveys')"  class="btn btn-outline-secondary btn-surveys" name="options" id="option2"
-        autocomplete="off"> Surveys</button>
-      <button class="btn btn-outline-secondary btn-dbs"  (click)="radioChange('database')" name="options" id="option2"
-        autocomplete="off"> Database</button>
+      <button (click)="radioChange('surveys')" class="btn btn-outline-secondary btn-surveys" name="options" id="option2" autocomplete="off">
+      Surveys</button>
+      <button class="btn btn-outline-secondary btn-dbs" (click)="radioChange('database')" name="options" id="option2" autocomplete="off">
+      Database</button>
     </div>
-    <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" *ngIf="componentName === 'feedback'" >
+    <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" *ngIf="componentName === 'feedback'">
       <!-- <div  class="text-center button-group btn-group-toggle" data-toggle="buttons">
            <label class="pull-right btn btn-outline-secondary  btn-view-grid" >
               <input   name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
@@ -38,7 +38,7 @@
     </div>
   </div>
   <div class="row" *ngIf="componentName === 'feedback'">
-    <div class="col-md-12">
+    <div class="col-md-12 feedback_table" [perfectScrollbar]="config">
       <!-- <h3>Feedback Report:</h3> -->
       <table class="table table-hover table-bordered">
         <thead>
@@ -76,7 +76,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of feedbackData | paginate: { itemsPerPage: 10, currentPage: p }">
+          <tr *ngFor="let item of feedbackData | paginate: { itemsPerPage: 5, currentPage: p }">
             <td>
               <span class="d-inline">
                 <!-- <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p> -->
@@ -99,20 +99,21 @@
           </tr>
         </tbody>
       </table>
-      <div class="sendMail-data">
-        <div class="sendMail-data form-group">
-          <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
-            <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
-            <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
-              enter valid email
-            </div>
-            <button (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report  mt-2">Send As Email</button>
-          </form>
-        </div>
-      </div>
     </div>
-    <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
   </div>
+  <div class="sendMail-data">
+    <div class="sendMail-data form-group">
+      <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
+        <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
+        <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+          enter valid email
+        </div>
+        <button (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report  mt-2">Send As Email</button>
+      </form>
+    </div>
+  </div>
+  <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
+
 </div>
 
 <app-changemaker *ngIf="componentName === 'changemakerreport'"></app-changemaker>
