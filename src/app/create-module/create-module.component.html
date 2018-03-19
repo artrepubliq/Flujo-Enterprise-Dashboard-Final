@@ -1,0 +1,156 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000">
+  <!-- <strong>{{successMessage }}</strong> -->
+</ngx-alerts>
+<div fxLayout="column" class="page_padding">
+  <!-- === Buttons ==== -->
+  <div class="addview-buttons">
+    <div class="page-header">
+      <span *ngIf="isEdit">New module creation </span>
+    </div>
+    <button mat-raised-button color="primary" (click)="viewPagesGrid()">
+      <i class="fa fa-th"></i>
+      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+    </button>
+    <button mat-raised-button color="primary" (click)="viewPages()">
+      <i class="fa fa-th-list"></i>
+      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+    </button>
+    <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Module +</button>
+  </div>
+  <!-- <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i> -->
+
+  <!-- ===== Add Pages ======= -->
+  <div *ngIf="isEdit" class="add-pages">
+    <form [formGroup]="moduleForm" (submit)="onSubmit(moduleForm.value)" fxLayout="column" fxLayoutGap="45px">
+      <!-- Input PageDetails -->
+      <div fxLayout="row" fxLayoutGap="15px">
+        <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="module_name">Module Name</label>
+          <input fxFlex type="text" class="input-feild" id="module_name" placeholder="Module Name" formControlName="module_name">
+        </div>
+        <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="module_title">Module Title</label>
+          <input fxFlex type="text" class="input-feild" id="module_title" placeholder="Module title" formControlName="module_title">
+        </div>
+      </div>
+
+      <!-- Theme Inputs -->
+      <div fxLayout="row" fxLayoutGap="15px">
+        <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="module_background_color" class="input_title">Module Background Color</label>
+          <div fxFlex style="position:relative">
+            <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="moduleForm.get('module_background_color').setValue($event)"
+              [(colorPicker)]="bgColor" formControlName="module_background_color" id="module_background_color" [style.background]="bgColor"
+              [style.color]="bgColor" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+            />
+            <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
+          </div>
+        </div>
+        <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="module_background_image" class="input_title">Module Background Image</label>
+          <!-- <input type="file" id="module_background_image" (change)="onmoduleBackgroundImageChange($event)" #fileInput2> -->
+
+          <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile(2)">clear file</button> -->
+          <div class="file_inputs">
+            <div class="choose_button">
+              <input type="file" class="file" id="module_background_image" (change)="onModuleBackgroundImageChange($event)" #fileInput/> Choose file
+              <label> No file selected</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module Description Block -->
+      <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+        <label for="module_description">Module Description</label>
+        <ck-editor fxFlex name="editor1" formControlName="module_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
+      </div>
+      <!-- Action Buttons -->
+      <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
+        <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
+
+        <button type="submit" [disabled]="moduleForm.invalid || loading" class="button_submit" mat-button>{{button_text}}
+          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+        </button>
+      </div>
+</form>
+  </div>
+  <!-- // ===== Add Pages End ======= -->
+
+
+  <!-- ====== Pages Table ======= -->
+  <div *ngIf="isTableView">
+    <div>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <!-- <th scope="col">Page Id</th> -->
+            <th scope="col">Module Name</th>
+            <th scope="col">Module Title</th>
+            <th scope="col">Module bg Image</th>
+            <th scope="col">Module id</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let module_item of moduleDetails">
+            <!-- <th scope="row">{{Module_item.id}}</th> -->
+            <td>{{module_item.module_name}}</td>
+            <td>{{module_item.module_title}}</td>
+            <!-- <td>{{module_item.module_description}}</td> -->
+            <td>
+              <span *ngIf="!module_item.module_background_image">no image</span>
+              <img *ngIf="module_item.module_background_image" class="figure" src="data:image/png;base64,{{module_item.module_background_image}}">
+            </td>
+            <td>{{module_item.id}}</td>
+            <td>
+              <button (click)="editCompnent(module_item)" class="btn btn-success">EDIT</button>
+            </td>
+            <td>
+              <button (click)="onDelete(module_item)" class="btn btn-success">DELETE</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <br/>
+    </div>
+  </div>
+  <!-- // ====== Pages Table End ======= -->
+
+
+  <!-- =========grid view parent====== -->
+
+  <div *ngIf="isGridView">
+
+    <div class="main-category">
+      <h6>Module Grid View</h6>
+    </div>
+    <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of moduleDetails">
+        <mat-card class="example-card">
+          <div id="pageview">
+            <!-- <img src=""  alt="pagescreen"/> -->
+            <!-- <img *ngIf="detail.module_background_image" class="img-responsive img-fluid page-screenshot" src="data:image/png;base64,{{detail.module_background_image}}"
+              alt="Photo of a Shiba Inu"> -->
+          </div>
+          <mat-card-content>
+            <div id="pageheader">
+              <div class="edit-title">
+                <h6 fxFlex="50%" id="page-title">{{detail.module_name}}</h6>
+                <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <br>
+        <br>
+      </div>
+    </div>
+
+    <!-- // =========grid view parents End====== -->
+  </div>
+</div>

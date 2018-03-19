@@ -75,6 +75,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DocumentViewModule } from 'ngx-document-view';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CreateModuleComponent } from './create-module/create-module.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -117,7 +118,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ReportanissueComponent,
     FeedbackComponent,
     ChangemakerComponent,
-    AnalyticsComponent
+    AnalyticsComponent,
+    CreateModuleComponent
   ],
   imports: [
     BrowserModule,
@@ -164,7 +166,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxPaginationModule
   ],
 
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup,FileViewerPopUp,
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
      AccessLevelPopup],
   providers: [
               // AuthService,

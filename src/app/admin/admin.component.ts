@@ -54,7 +54,6 @@ export class AdminComponent implements OnInit {
       }
     });
  }
- 
   viewPages() {
     localStorage.setItem('page_item', 'viewpages');
   }
@@ -80,11 +79,13 @@ export class AdminComponent implements OnInit {
           this.loggedinUsersList = data;
           this.StoredLoggedinIds();
           this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
-            return activeUserData.is_logged_in === '1' && activeUserData.id !== localStorage.getItem('id_token') ;
+            return  activeUserData.id !== localStorage.getItem('id_token') ;
         });
         if (this.activeUsers) {
           _.each(this.activeUsers, (iteratee, index) => {
-            this.activeUsers[index].isUserActive = true;
+            if (this.activeUsers[index].is_logged_in === '1') {
+              this.activeUsers[index].isUserActive = true;
+            }
           });
         }else {
            console.log('There are no active users');

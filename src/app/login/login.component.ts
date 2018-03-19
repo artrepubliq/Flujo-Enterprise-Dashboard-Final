@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
           this.spinnerService.hide();
           // this.loginAuthService.setLoggedInCustom(true);
           this.loginAuthService._setSession(data);
-          if (data.can_chat) {
+          if (data.can_chat === false) {
             this.redirectUrlForChatCamp();
             console.log('hiii');
           }
@@ -64,8 +64,7 @@ export class LoginComponent implements OnInit {
       });
   }
   redirectUrlForChatCamp = () => {
-    const formModel = this.chatCampUrlData.get('user_id').setValue(localStorage.getItem('user_id'));
-    this.httpClient.post<IcustomLoginModelDetails>(AppConstants.API_URL + 'flujo_client_login', formModel);
+    this.httpClient.post<IcustomLoginModelDetails>(AppConstants.API_URL + 'flujo_client_getchatservice', localStorage.getItem('id_token'));
     return;
   }
 }

@@ -3,5 +3,5 @@ export interface IcustomLoginModelDetails {
     result: string;
     status?: boolean;
     user_name: string;
-    can_chat: number;
+    can_chat: boolean;
 }
