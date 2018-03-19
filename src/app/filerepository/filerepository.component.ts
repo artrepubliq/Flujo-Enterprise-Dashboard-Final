@@ -445,6 +445,8 @@ export class FileRepositoryPopup {
         this.formData.append('client_id', formModel.client_id);
         if (this.fileUploadForm.invalid) {
             return false;
+        } else if (formModel.file_name.match(/^[^a-zA-Z0-9]+$/) || formModel.folder.match(/^[^a-zA-Z0-9]+$/)) {
+            return false;
         } else {
             this.dialogRef.close(this.fileUploadForm.value);
         }
