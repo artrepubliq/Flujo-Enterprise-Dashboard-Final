@@ -1,4 +1,4 @@
-export interface IHttpResponse{
+export interface IHttpResponse {
     error?: string;
     result?: string;
 }
