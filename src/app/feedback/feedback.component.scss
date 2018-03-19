@@ -224,5 +224,6 @@ input{
     margin-left: auto; 
 }
 .feedback_table{
-    height: calc(100vh - 300px)
+    height: calc(100vh - 300px);
+    position: relative;
 }
