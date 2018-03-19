@@ -1,19 +1,19 @@
 <ng4-loading-spinner></ng4-loading-spinner>
-<div  fxLayout="column" fxLayoutGap="15px">
-    <div fxLayout="row"  fxLayout.sm="column"  fxLayout.xs="column" fxLayoutAlign="start center">
-      <div fxFlex="30">
-        <h6 class="issues">Change Maker</h6>
-      </div>
-      <div  fxFlex="40" fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
-       <label class="btn btn-outline-secondary  btn-actissue" >
-          <input type="radio"  name="options" id="option1" autocomplete="off" checked> Active Issues
-       </label>
-       <label class="btn btn-outline-secondary btn-pastissue">
-         <input type="radio"  name="options" id="option2" autocomplete="off"> Past Issues
-       </label>
-      </div>
-      <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
-        <!-- <div  class=" text-center button-group btn-group-toggle" data-toggle="buttons">
+<div fxLayout="column" fxLayoutGap="15px">
+  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center">
+    <div fxFlex="30">
+      <h6 class="issues">Change Maker</h6>
+    </div>
+    <div fxFlex="40" fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-outline-secondary  btn-actissue">
+        <input type="radio" name="options" id="option1" autocomplete="off" checked> Active Issues
+      </label>
+      <label class="btn btn-outline-secondary btn-pastissue">
+        <input type="radio" name="options" id="option2" autocomplete="off"> Past Issues
+      </label>
+    </div>
+    <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+      <!-- <div  class=" text-center button-group btn-group-toggle" data-toggle="buttons">
          <label class="pull-right btn btn-outline-secondary   btn-view-grid" >
             <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
          </label>
@@ -21,88 +21,96 @@
            <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
          </label>
         </div> -->
-        <button (click)="exportChangermakereport()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
-        <div class="dropdown">
-            <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Filter By
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li class="dropdown-item">Date</li>
-                <li class="dropdown-item">Issue</li>
-              </div>
-            </ul>
+      <button (click)="exportChangermakereport()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
+      <div class="dropdown">
+        <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Filter By
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li class="dropdown-item">Date</li>
+            <li class="dropdown-item">Issue</li>
           </div>
+        </ul>
       </div>
     </div>
-    <div *ngFor="let report of changemakerData | paginate: { itemsPerPage: 10, currentPage: p }" class="link-row"  fxLayout.xs="column"  fxLayout="row">
+  </div>
+  <div class="changemaker_table" [perfectScrollbar]="config">
+    <div *ngFor="let report of changemakerData | paginate: { itemsPerPage: 10, currentPage: p }" class="link-row" fxLayout.xs="column"
+      fxLayout="row">
       <div class="problem-box" fxFlex fxLayout="column" fxLayoutGap="15px">
-        <div fxLayout="row" fxLayoutGap="3rem" >
+        <div fxLayout="row" fxLayoutGap="3rem">
           <div class="" fxFlex="20%" fxLayoutAlign="start center">
-              <span fxLayoutGap="5px">
-                <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
-                <input class="d-inline" type="checkbox" >
-                <b>
-                  <p class="d-inline">{{report.name}}</p>
-                </b>
-              </span> 
+            <span fxLayoutGap="5px">
+              <p class="text-muted d-inline">
+                <i class="fa fa-ellipsis-v"></i>&nbsp;
+                <i class="fa fa-ellipsis-v"></i>
+              </p>
+              <input class="d-inline" type="checkbox">
+              <b>
+                <p class="d-inline">{{report.name}}</p>
+              </b>
+            </span>
           </div>
-          <div fxFlex="25%"  fxLayoutAlign="start center">
-              <span class="text-muted d-inline">
-                4 hrs ago&nbsp;
-              </span>
-              <span class="d-inline">{{report.date_now}}</span>
+          <div fxFlex="25%" fxLayoutAlign="start center">
+            <span class="text-muted d-inline">
+              4 hrs ago&nbsp;
+            </span>
+            <span class="d-inline">{{report.date_now}}</span>
           </div>
-          <div fxFlex="20%"  fxLayoutAlign="start center">
-              <span class="text-muted d-inline">
-                Source:&nbsp;
-              </span>
-              <span class="d-inline">Website</span>
+          <div fxFlex="20%" fxLayoutAlign="start center">
+            <span class="text-muted d-inline">
+              Source:&nbsp;
+            </span>
+            <span class="d-inline">Website</span>
           </div>
-          <div fxFlex  fxLayoutAlign="end end">
-              <span class="text-muted d-inline">
-                  <p class="d-inline"><i class="fa fa-ellipsis-v"></i></p>
-              </span>
+          <div fxFlex fxLayoutAlign="end end">
+            <span class="text-muted d-inline">
+              <p class="d-inline">
+                <i class="fa fa-ellipsis-v"></i>
+              </p>
+            </span>
           </div>
 
         </div>
         <div class="divide-line"></div>
         <div fxLayout="row" fxLayoutGap="3rem">
-          <div fxFlex="20%"  fxLayoutAlign="start">
-                <span class="text-muted">
-                  Email:&nbsp;
-                </span>
-                <span>{{report.email}}</span>
+          <div fxFlex="20%" fxLayoutAlign="start">
+            <span class="text-muted">
+              Email:&nbsp;
+            </span>
+            <span>{{report.email}}</span>
           </div>
-          <div fxFlex="25%"  fxLayoutAlign="start">
-                <span class="text-muted">
-                  Phone:&nbsp;
-                </span>
-                <span>{{report.phone}}</span>
+          <div fxFlex="25%" fxLayoutAlign="start">
+            <span class="text-muted">
+              Phone:&nbsp;
+            </span>
+            <span>{{report.phone}}</span>
           </div>
-          <div fxFlex="40%"  fxLayoutAlign="start">
-                <span class="text-muted">
-                  <i class="fa fa-paperclip"> </i> &nbsp;
-                </span> 
-                <span  class="report-file-descr"> Now is the time for all good men to come to the aid of their party</span>
+          <div fxFlex="40%" fxLayoutAlign="start">
+            <span class="text-muted">
+              <i class="fa fa-paperclip"> </i> &nbsp;
+            </span>
+            <span class="report-file-descr"> Now is the time for all good men to come to the aid of their party</span>
           </div>
         </div>
       </div>
-      
     </div>
-    <div fxLayout="row">
+  </div>
+  <div fxLayout="row">
+    <div class="sendMail-data">
       <div class="sendMail-data">
-        <div class="sendMail-data">
-          <form action="" [formGroup]="changeMakerCsvMail" fxLayout="row" fxLayoutGap="15px">
-            <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
-            <div [hidden]="changeMakerCsvMail.controls.email.valid || (changeMakerCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
-              enter valid email
-            </div>
-            <button (click)="changeMakerCsvMailSubmit(changeMakerCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report">Send As Email</button>
-          </form>
-        </div>
+        <form action="" [formGroup]="changeMakerCsvMail" fxLayout="row" fxLayoutGap="15px">
+          <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
+          <div [hidden]="changeMakerCsvMail.controls.email.valid || (changeMakerCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+            enter valid email
+          </div>
+          <button (click)="changeMakerCsvMailSubmit(changeMakerCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report">Send As Email</button>
+        </form>
       </div>
-      <!-- <div fxLayoutAlign="end center" fxFlex>
+    </div>
+    <!-- <div fxLayoutAlign="end center" fxFlex>
         
       </div> -->
-    </div>
-    <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
+  </div>
+  <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
 </div>
