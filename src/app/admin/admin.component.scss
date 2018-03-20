@@ -549,34 +549,40 @@
       transform: rotate(180deg);
     }
   }
+  .show.active{
+    color: #c5b6d1 !important;;
+  }
   .dropdown-menu {
     position: absolute;;
     transform: initial !important;
-    width: 80% !important;
+    width: 90% !important;
     background-color: transparent;    
     border-radius: 0;
     border: none;
     margin: 0;
+    color: #c5b6d1 !important;
     .nav-item {
       min-height: auto;
     }
+    
     .dropdown-toggle:after {
       margin-right: 15%;
     }
     .dropdown-item,
     .subNav-link {
       font-size: 14px;
-      color: #7e678f;
+      color: #c5b6d1 !important;
       cursor: pointer;
       padding: 8px 8px 8px 22%;
     }
     .dropdown-item.active {
       color: #c5b6d1;
       background-color: #3f165d;
-      width: 80% !important;
+      width: 90% !important;
     }
     a.dropdown-item {
-      width: 80% !important;
+      width: 90% !important;
+      margin-top:-15px;
 
   }
     .dropdown-item:hover {
