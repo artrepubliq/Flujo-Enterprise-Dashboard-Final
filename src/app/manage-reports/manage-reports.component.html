@@ -28,6 +28,7 @@
                 <input type="radio" name="options" id="option2" autocomplete="off"> Past Issues
             </label>
         </div>
+        <button (click)="exportManageReports()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
         <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
             <!-- <div class=" text-center button-group btn-group-toggle" data-toggle="buttons">
                 <label class="pull-right btn btn-outline-secondary  btn-view-grid">
@@ -50,7 +51,7 @@
         </div>
     </div>
 
-    <mat-card fxLayout="column">
+    <mat-card fxLayout="column" class="manage_reports_table" [perfectScrollbar]="config">
         <div class="reports-header" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
             <div fxFlex="10.7%" class="name-field">
                 <span fxFlex="100%" fxLayoutAlign="start center" class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;
@@ -80,12 +81,10 @@
             </div>
             <div fxFlex="5%">
                 <span class="d-inline">Age &nbsp;
-                    <i class="fa fa-angle-down"></i>
                 </span>
             </div>
             <div fxFlex="30%">
                 <span class="d-inline">Locality &nbsp;
-                    <i class="fa fa-angle-down"></i>
                 </span>
             </div>
         </div>
@@ -170,31 +169,33 @@
                                 <div>
                                     <form class="example-form d-inline form-inline">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
+                                            <input type="text" placeholder="Enter Name or Email" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
                                             <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
                                                 <mat-option *ngFor="let option of filteredusersListOptions | async" [value]="option" (click)="AssignedUserName(option, report.id)">
                                                     {{ option }}
                                                 </mat-option>
                                             </mat-autocomplete>
+                                            <i class="fa fa-angle-down triangle"></i>                                            
                                         </mat-form-field>
                                         <button class="btn btn-outline-secondary btn-sm btn-report" (click)="updateAssignedUserIntoDB()">Assign</button>
                                     </form>
                                 </div>
                             </div>
 
-                            <div fxLayout="row" fxFlex="25%" fxLayoutAlign="start center">
+                            <div class="assign-issue" fxLayout="row" fxFlex="25%" fxLayoutAlign="start center">
                                 <div>
                                     <span class="text-muted d-inline">Move To:&nbsp;&nbsp;</span>
                                 </div>
                                 <div>
                                     <form class="example-form">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
+                                            <input type="text" placeholder="Move To" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
                                             <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
                                                 <mat-option *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption)">
                                                     {{ moveoption }}
                                                 </mat-option>
                                             </mat-autocomplete>
+                                            <i class="fa fa-angle-down triangle"></i>
                                         </mat-form-field>
                                     </form>
                                 </div>
@@ -209,6 +210,7 @@
                                                 {{ remarksoption }}
                                             </mat-option>
                                         </mat-autocomplete>
+                                        <i class="fa fa-angle-down triangle"></i>
                                     </mat-form-field>
                                     <button class="btn btn-outline-secondary btn-sm btn-report" (click)="UpdateReportsStatus(report)">Assign</button>
                                 </form>

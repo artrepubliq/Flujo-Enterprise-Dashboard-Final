@@ -5,7 +5,7 @@
       <h6 class="issues">Feedback</h6>
     </div>
     <div fxFlex="40" fxLayoutAlign="center center" class="text-center button-group" style="margin:0 auto">
-      <button (click)="radioChange('feedback')" name="options" id="option1" class=" btn btn-outline-secondary  btn-feedback" autocomplete="off"
+      <button (click)="radioChange('feedback')" name="options" id="option1"  [ngClass]="{'active':isActive}" class="btn btn-outline-secondary btn-feedback" autocomplete="off"
         checked>Feedback</button>
       <button  class="btn btn-outline-secondary btn-chmaker"  (click)="radioChange('changemakerreport')" name="options" id="option2"
         autocomplete="off"> Change maker</button>
@@ -38,7 +38,7 @@
     </div>
   </div>
   <div class="row" *ngIf="componentName === 'feedback'">
-    <div class="col-md-12">
+    <div class="col-md-12 feedback_table" [perfectScrollbar]="config">
       <!-- <h3>Feedback Report:</h3> -->
       <table class="table table-hover table-bordered">
         <thead>
@@ -99,16 +99,16 @@
           </tr>
         </tbody>
       </table>
-      <div class="sendMail-data">
-        <div class="sendMail-data form-group">
-          <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
-            <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
-            <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
-              enter valid email
-            </div>
-            <button (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report  mt-2">Send As Email</button>
-          </form>
-        </div>
+    </div>
+    <div class="sendMail-data col-md-12">
+      <div class="sendMail-data form-group">
+        <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
+          <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
+          <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+            enter valid email
+          </div>
+          <button (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report  mt-2">Send As Email</button>
+        </form>
       </div>
     </div>
     <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>

@@ -31,6 +31,10 @@
     top: 100%;
     color: red;
 }
+.button-group button:focus, .active{
+    background: white !important;
+    box-shadow: none !important;
+}
 .btn-report{
     border-radius:30px !important; 
 }
@@ -222,4 +226,8 @@ input{
 }
 .paginationn{
     margin-left: auto; 
+}
+.feedback_table{
+    height: calc(100vh - 300px);
+    position: relative;
 }
