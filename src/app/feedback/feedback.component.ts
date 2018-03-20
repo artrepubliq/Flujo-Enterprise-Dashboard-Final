@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class FeedbackComponent implements OnInit {
   componentName = 'feedback';
+  isActive = true;
   selected: string;
   checked: boolean;
   reportCsvMail: FormGroup;
@@ -264,6 +265,7 @@ export class FeedbackComponent implements OnInit {
     console.log('hai');
     console.log(name);
     this.componentName = name;
+    this.isActive=!this.isActive;
     // this.router.navigate(['/admin/' + name]);
   }
 }
