@@ -31,9 +31,9 @@
     top: 100%;
     color: red;
 }
-.button-group button:focus{
-    background: white;
-    box-shadow: none;
+.button-group button:focus, .active{
+    background: white !important;
+    box-shadow: none !important;
 }
 .btn-report{
     border-radius:30px !important; 
