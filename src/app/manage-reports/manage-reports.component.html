@@ -57,15 +57,17 @@
                 <span fxFlex="100%" fxLayoutAlign="start center" class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;
                     <input fxFlex="5%" class="d-inline" type="checkbox">
                     <b>
-                        <p fxFlex="100%" class="d-inline">Name&nbsp;
-                            <i class="fa fa-angle-down d-inline"></i>
+                        <p fxFlex="100%" class="d-inline" (click)="sortArray('name', 'name_arrow')">Name&nbsp;
+                            <i *ngIf="!arrows.name_arrow" class="fa fa-angle-down d-inline"></i>
+                            <i *ngIf="arrows.name_arrow" class="fa fa-angle-up d-inline"></i>
                         </p>
                     </b>
                 </span>
             </div>
-            <div fxFlex="11%">
+            <div fxFlex="11%" (click)="sortArray('submitted_at', 'submitted_at_arrow')">
                 <span class="d-inline">Updated &nbsp;
-                    <i class="fa fa-angle-down"></i>
+                    <i *ngIf="!arrows.submitted_at_arrow"class="fa fa-angle-down"></i>
+                    <i *ngIf="arrows.submitted_at_arrow"class="fa fa-angle-up"></i>
                 </span>
             </div>
             <div fxFlex="11%">
@@ -74,19 +76,22 @@
             <div fxFlex="11%">
                 <span class="d-inline">Phone Number</span>
             </div>
-            <div fxFlex="7%">
+            <div fxFlex="7%" (click)="sortArray('gender', 'gender_arrow')">
                 <span class="d-inline">Gender&nbsp;
-                    <i class="fa fa-angle-down"></i>
+                    <i *ngIf="!arrows.gender_arrow" class="fa fa-angle-down"></i>
+                    <i *ngIf="arrows.gender_arrow" class="fa fa-angle-up"></i>
                 </span>
             </div>
-            <div fxFlex="5%">
+            <div fxFlex="5%" (click)="sortArray('age', 'age_arrow')">
                 <span class="d-inline">Age &nbsp;
-                    <i class="fa fa-angle-down"></i>
+                    <i *ngIf="!arrows.age_arrow" class="fa fa-angle-down"></i>
+                    <i *ngIf="arrows.age_arrow" class="fa fa-angle-up"></i>
                 </span>
             </div>
-            <div fxFlex="30%">
+            <div fxFlex="30%" (click)="sortArray('area', 'area_arrow')">
                 <span class="d-inline">Locality &nbsp;
-                    <i class="fa fa-angle-down"></i>
+                    <i *ngIf="!arrows.area_arrow" class="fa fa-angle-down"></i>
+                    <i *ngIf="arrows.area_arrow" class="fa fa-angle-up"></i>
                 </span>
             </div>
         </div>
