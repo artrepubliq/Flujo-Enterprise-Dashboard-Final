@@ -5,7 +5,7 @@
       <h6 class="issues">Feedback</h6>
     </div>
     <div fxFlex="40" fxLayoutAlign="center center" class="text-center button-group" style="margin:0 auto">
-      <button (click)="radioChange('feedback')" name="options" id="option1" class=" btn btn-outline-secondary  btn-feedback" autocomplete="off"
+      <button (click)="radioChange('feedback')" name="options" id="option1"  [ngClass]="{'active':isActive}" class="btn btn-outline-secondary btn-feedback" autocomplete="off"
         checked>Feedback</button>
       <button  class="btn btn-outline-secondary btn-chmaker"  (click)="radioChange('changemakerreport')" name="options" id="option2"
         autocomplete="off"> Change maker</button>
