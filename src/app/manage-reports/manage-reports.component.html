@@ -176,31 +176,33 @@
                                 <div>
                                     <form class="example-form d-inline form-inline">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
+                                            <input type="text" placeholder="Enter Name or Email" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
                                             <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
                                                 <mat-option *ngFor="let option of filteredusersListOptions | async" [value]="option" (click)="AssignedUserName(option, report.id)">
                                                     {{ option }}
                                                 </mat-option>
                                             </mat-autocomplete>
+                                            <i class="fa fa-angle-down triangle"></i>                                            
                                         </mat-form-field>
                                         <button class="btn btn-outline-secondary btn-sm btn-report" (click)="updateAssignedUserIntoDB()">Assign</button>
                                     </form>
                                 </div>
                             </div>
 
-                            <div fxLayout="row" fxFlex="25%" fxLayoutAlign="start center">
+                            <div class="assign-issue" fxLayout="row" fxFlex="25%" fxLayoutAlign="start center">
                                 <div>
                                     <span class="text-muted d-inline">Move To:&nbsp;&nbsp;</span>
                                 </div>
                                 <div>
                                     <form class="example-form">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
+                                            <input type="text" placeholder="Move To" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
                                             <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
                                                 <mat-option *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption)">
                                                     {{ moveoption }}
                                                 </mat-option>
                                             </mat-autocomplete>
+                                            <i class="fa fa-angle-down triangle"></i>
                                         </mat-form-field>
                                     </form>
                                 </div>
@@ -215,6 +217,7 @@
                                                 {{ remarksoption }}
                                             </mat-option>
                                         </mat-autocomplete>
+                                        <i class="fa fa-angle-down triangle"></i>
                                     </mat-form-field>
                                     <button class="btn btn-outline-secondary btn-sm btn-report" (click)="UpdateReportsStatus(report)">Assign</button>
                                 </form>
