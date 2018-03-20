@@ -31,6 +31,10 @@
     top: 100%;
     color: red;
 }
+.button-group button:focus{
+    background: white;
+    box-shadow: none;
+}
 .btn-report{
     border-radius:30px !important; 
 }
