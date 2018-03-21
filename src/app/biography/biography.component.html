@@ -37,6 +37,16 @@
       <mat-form-field>
         <input matInput type="text" placeholder="Career Description" formControlName="career_description">
       </mat-form-field>
+      <div class="bio_colorPicker" fxFlex fxLayout="column" fxLayoutGap="12px">
+        <label for="background_color" class="input_title">Module Background Color</label>
+        <div fxFlex style="position:relative">
+          <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="biographySubmitForm.get('background_color').setValue($event)"
+            [(colorPicker)]="bgColor" formControlName="background_color" id="background_color" [style.background]="bgColor"
+            [style.color]="bgColor" [cpSaveClickOutside]="true" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+          />
+          <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
+        </div>
+      </div>
       <div fxLayoutAlign="end center">
         <button mat-raised-button class="submit" type="submit" [disabled]="biographySubmitForm.invalid"> Submit</button>
       </div>
