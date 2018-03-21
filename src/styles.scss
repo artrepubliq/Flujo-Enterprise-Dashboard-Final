@@ -388,3 +388,30 @@ control-messages,
 .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
   background-color: rgba(63, 81, 181, 0.5);
 }
+
+
+.problem-box {
+  .mat-form-field-underline {
+    display: none !important;
+  }
+  .mat-form-field-label {
+    top: 1.5em;
+    left: 1em;
+  }
+  .mat-expansion-panel-header .mat-expansion-indicator::after {
+    content: '' !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-left: 5px solid transparent !important;
+    border-right: 5px solid transparent !important;
+    border-top: 5px solid #999999 !important;
+    display: inline-block;
+    border-style: none;
+    border-width: none;
+    content: '';
+    display: inline-block;
+    padding: 0;
+    transform: rotate(0);
+    vertical-align: middle;
+    }
+}

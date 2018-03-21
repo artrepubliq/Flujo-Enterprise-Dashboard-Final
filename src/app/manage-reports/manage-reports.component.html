@@ -51,21 +51,23 @@
         </div>
     </div>
 
-    <mat-card fxLayout="column">
+    <mat-card fxLayout="column" class="manage_reports_table" [perfectScrollbar]="config">
         <div class="reports-header" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
             <div fxFlex="10.7%" class="name-field">
                 <span fxFlex="100%" fxLayoutAlign="start center" class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;
                     <input fxFlex="5%" class="d-inline" type="checkbox">
                     <b>
-                        <p fxFlex="100%" class="d-inline">Name&nbsp;
-                            <i class="fa fa-angle-down d-inline"></i>
+                        <p fxFlex="100%" class="d-inline" (click)="sortArray('name', 'name_arrow')">Name&nbsp;
+                            <i *ngIf="!arrows.name_arrow" class="fa fa-angle-down d-inline"></i>
+                            <i *ngIf="arrows.name_arrow" class="fa fa-angle-up d-inline"></i>
                         </p>
                     </b>
                 </span>
             </div>
-            <div fxFlex="11%">
+            <div fxFlex="11%" (click)="sortArray('submitted_at', 'submitted_at_arrow')">
                 <span class="d-inline">Updated &nbsp;
-                    <i class="fa fa-angle-down"></i>
+                    <i *ngIf="!arrows.submitted_at_arrow"class="fa fa-angle-down"></i>
+                    <i *ngIf="arrows.submitted_at_arrow"class="fa fa-angle-up"></i>
                 </span>
             </div>
             <div fxFlex="11%">
@@ -74,19 +76,22 @@
             <div fxFlex="11%">
                 <span class="d-inline">Phone Number</span>
             </div>
-            <div fxFlex="7%">
+            <div fxFlex="7%" (click)="sortArray('gender', 'gender_arrow')">
                 <span class="d-inline">Gender&nbsp;
-                    <i class="fa fa-angle-down"></i>
+                    <i *ngIf="!arrows.gender_arrow" class="fa fa-angle-down"></i>
+                    <i *ngIf="arrows.gender_arrow" class="fa fa-angle-up"></i>
                 </span>
             </div>
-            <div fxFlex="5%">
+            <div fxFlex="5%" (click)="sortArray('age', 'age_arrow')">
                 <span class="d-inline">Age &nbsp;
-                    <i class="fa fa-angle-down"></i>
+                    <i *ngIf="!arrows.age_arrow" class="fa fa-angle-down"></i>
+                    <i *ngIf="arrows.age_arrow" class="fa fa-angle-up"></i>
                 </span>
             </div>
-            <div fxFlex="30%">
+            <div fxFlex="30%" (click)="sortArray('area', 'area_arrow')">
                 <span class="d-inline">Locality &nbsp;
-                    <i class="fa fa-angle-down"></i>
+                    <i *ngIf="!arrows.area_arrow" class="fa fa-angle-down"></i>
+                    <i *ngIf="arrows.area_arrow" class="fa fa-angle-up"></i>
                 </span>
             </div>
         </div>
@@ -171,31 +176,33 @@
                                 <div>
                                     <form class="example-form d-inline form-inline">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
+                                            <input type="text" placeholder="Enter Name or Email" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
                                             <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
                                                 <mat-option *ngFor="let option of filteredusersListOptions | async" [value]="option" (click)="AssignedUserName(option, report.id)">
                                                     {{ option }}
                                                 </mat-option>
                                             </mat-autocomplete>
+                                            <i class="fa fa-angle-down triangle"></i>                                            
                                         </mat-form-field>
                                         <button class="btn btn-outline-secondary btn-sm btn-report" (click)="updateAssignedUserIntoDB()">Assign</button>
                                     </form>
                                 </div>
                             </div>
 
-                            <div fxLayout="row" fxFlex="25%" fxLayoutAlign="start center">
+                            <div class="assign-issue" fxLayout="row" fxFlex="25%" fxLayoutAlign="start center">
                                 <div>
                                     <span class="text-muted d-inline">Move To:&nbsp;&nbsp;</span>
                                 </div>
                                 <div>
                                     <form class="example-form">
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
+                                            <input type="text" placeholder="Move To" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
                                             <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
                                                 <mat-option *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption)">
                                                     {{ moveoption }}
                                                 </mat-option>
                                             </mat-autocomplete>
+                                            <i class="fa fa-angle-down triangle"></i>
                                         </mat-form-field>
                                     </form>
                                 </div>
@@ -210,6 +217,7 @@
                                                 {{ remarksoption }}
                                             </mat-option>
                                         </mat-autocomplete>
+                                        <i class="fa fa-angle-down triangle"></i>
                                     </mat-form-field>
                                     <button class="btn btn-outline-secondary btn-sm btn-report" (click)="UpdateReportsStatus(report)">Assign</button>
                                 </form>
