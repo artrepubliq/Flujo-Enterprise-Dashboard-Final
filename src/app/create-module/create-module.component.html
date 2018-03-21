@@ -42,7 +42,7 @@
           <div fxFlex style="position:relative">
             <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="moduleForm.get('module_background_color').setValue($event)"
               [(colorPicker)]="bgColor" formControlName="module_background_color" id="module_background_color" [style.background]="bgColor"
-              [style.color]="bgColor" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+              [style.color]="bgColor" [cpSaveClickOutside]="true" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
             />
             <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
           </div>
