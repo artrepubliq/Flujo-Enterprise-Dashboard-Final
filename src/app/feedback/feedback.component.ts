@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ValidationService } from '../service/validation.service';
@@ -8,14 +8,18 @@ import { AppConstants } from '../app.constants';
 import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
-
+import {MatTableDataSource, MatSort, MatPaginator, SortDirection} from '@angular/material';
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.scss']
 })
 export class FeedbackComponent implements OnInit {
+  // tslint:disable-next-line:no-input-rename
+  @Input('matSortDirection')
+  direction: SortDirection;
   componentName = 'feedback';
+  displayedColumns = ['name', 'updated',  'email', 'phone', 'message', ];
   isActive = true;
   selected: string;
   checked: boolean;
@@ -28,6 +32,10 @@ export class FeedbackComponent implements OnInit {
   isReportData = false;
   public feedbackData: any;
   changemakerData: any;
+  elementData: Array<Element>;
+  dataSource = new MatTableDataSource<Element>();
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   public reportProblemData: any;
   showEmailClickFeedback = false;
   showEmailClick = false;
@@ -51,7 +59,6 @@ export class FeedbackComponent implements OnInit {
     this.getChangemakerReportData();
     this.getuserFeedbackData();
     this.getReportYourProblemData();
-
   }
   ngOnInit() {
     setTimeout(function () {
@@ -120,7 +127,11 @@ export class FeedbackComponent implements OnInit {
       .subscribe(
       data => {
         this.feedbackData = data;
+        this.elementData = this.feedbackData;
         this.spinnerService.hide();
+        this.dataSource = new MatTableDataSource(this.elementData);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       },
       error => {
         console.log(error);
@@ -138,6 +149,11 @@ export class FeedbackComponent implements OnInit {
     //     // console.log('Something went wrong!');
     //   }
     //   );
+  }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
   exportFeedbackData() {
     const csvColumnsList = ['id', 'name', 'email', 'phone', 'message', 'datenow'];
@@ -265,7 +281,7 @@ export class FeedbackComponent implements OnInit {
     console.log('hai');
     console.log(name);
     this.componentName = name;
-    this.isActive=!this.isActive;
+    this.isActive = !this.isActive;
     // this.router.navigate(['/admin/' + name]);
   }
 }

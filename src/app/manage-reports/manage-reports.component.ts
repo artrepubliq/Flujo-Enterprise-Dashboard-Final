@@ -202,8 +202,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:max-line-length
         return this.httpClient.get<Array<ICreateUserDetails>>(AppConstants.API_URL + 'flujo_client_getcreateuser/' + AppConstants.CLIENT_ID);
     }
-<<<<<<< HEAD
-=======
 
     exportManageReports() {
         const csvColumnsList = ['name', 'submitted_at', 'email', 'phone', 'gender', 'age', 'area'];
@@ -234,5 +232,4 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         });
         exporter.downloadCSV(this.reportProblemData);
       }
->>>>>>> c2083b3c45b46bd16091324a1ed4bc42b8052de3
 }
