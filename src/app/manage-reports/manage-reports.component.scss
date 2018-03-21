@@ -359,3 +359,10 @@ input{
     height: calc(100vh - 300px);
     position: relative;
 }
+
+
+
+button.active {
+    background-color: #4a2565 !important;
+    color: #fff !important;
+}
