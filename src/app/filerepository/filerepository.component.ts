@@ -89,26 +89,26 @@ export class FilerepositoryComponent implements OnInit {
             this.spinnerService.hide();
             this.alertService.warning('You have exceeded your limit 1 GB');
         } else {
-        this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
-            .subscribe(
-                data => {
-                    // console.log(data);
-                    if (data.error) {
-                        this.alertService.warning(data.result);
+            this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
+                .subscribe(
+                    data => {
                         // console.log(data);
-                        this.spinnerService.hide();
-                    } else {
-                        this.alertService.success('File uploaded successfully');
-                        this.spinnerService.hide();
-                        this.foldersdata = [];
-                        // console.log(data);
-                        this.getFolders(AppConstants.CLIENT_ID);
+                        if (data.error) {
+                            this.alertService.warning(data.result);
+                            // console.log(data);
+                            this.spinnerService.hide();
+                        } else {
+                            this.alertService.success('File uploaded successfully');
+                            this.spinnerService.hide();
+                            this.foldersdata = [];
+                            // console.log(data);
+                            this.getFolders(AppConstants.CLIENT_ID);
+                        }
+                    },
+                    error => {
+                        console.log(error);
                     }
-                },
-                error => {
-                    console.log(error);
-                }
-            );
+                );
         }
     }
     ngOnInit() {
@@ -198,7 +198,7 @@ export class FilerepositoryComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
             this.foldersdata = [];
-            if ((result) && (result.file_name  !== null) && (result.folder !== null) && (result.file_path !== null)) {
+            if ((result) && (result.file_name !== null) && (result.folder !== null) && (result.file_path !== null)) {
                 this.onSubmit(result);
             }
         });
@@ -231,13 +231,13 @@ export class FilerepositoryComponent implements OnInit {
     /* this is to open the dialog modal of file view*/
     openFileViewDialog(file_data, file_extensison, fileName) {
         const dialogReference = this.fileViewDialog.open(FileViewerPopUp, {
-          height: '95%',
-          data: {file: file_data, file_extension: file_extensison, file_name: fileName}
+            height: '95%',
+            data: { file: file_data, file_extension: file_extensison, file_name: fileName }
         });
         dialogReference.afterClosed().subscribe(result => {
-          console.log(`Dialog result: ${result}`);
+            console.log(`Dialog result: ${result}`);
         });
-      }
+    }
 
 
     /* this is for checking for the maximum number of files */
@@ -306,6 +306,7 @@ export class FilerepositoryComponent implements OnInit {
                             // this.repositories = [];
                             this.filtered_repositories = [].concat.apply([], this.allFiles);
                             // console.log(this.allFiles);
+                            this.getFileSizes();
                         } else {
                             console.log(data);
                             this.repositories = [];
@@ -321,13 +322,29 @@ export class FilerepositoryComponent implements OnInit {
                 }
             );
     }
+    /* this is to get file sizes of each folder*/
+    getFileSizes = () => {
+        let size = 0;
+        this.repositories.map((object) => {
+            // console.log(object.files);
+            object.files.map((file) => {
+                size = size + Number(file.file_size);
+            });
+            object['size'] = size;
+            size = 0;
+        });
+    }
     /* this is for sorting folders */
     sortByFolderName = () => {
-       this.repositories =  _.sortBy(this.repositories, 'folder');
+        this.repositories =  _.sortBy(this.repositories, 'folder');
+    }
+    /* this is to sort by descending*/
+    sortByFolderNameDesc = () => {
+        this.repositories.reverse();
     }
     /* this is to sort by size */
     sortBySize = () => {
-        this.repositories = _.sortBy(this.repositories, 'files');
+        this.repositories = _.sortBy(this.repositories, 'size').reverse();
     }
     /* this is to append classes for file icon dynamically*/
     getClass = (fileExtension) => {
@@ -457,9 +474,9 @@ export class FileRepositoryPopup {
     // tslint:disable-next-line:component-selector
     selector: 'fileviewer-dialog',
     templateUrl: 'fileviewer.popup.html',
-  })
-  // tslint:disable-next-line:component-class-suffix
-  export class FileViewerPopUp {
+})
+// tslint:disable-next-line:component-class-suffix
+export class FileViewerPopUp {
     file_path: string;
     file_extension: string;
     file_name: string;
@@ -481,4 +498,4 @@ export class FileRepositoryPopup {
         this.file_name = this.data.file_name;
         this.file_extension = this.data.file_extension.toLowerCase();
     }
-  }
+}
