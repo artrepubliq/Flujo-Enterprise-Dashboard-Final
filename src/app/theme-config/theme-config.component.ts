@@ -61,7 +61,7 @@ export class ThemeConfigComponent implements OnInit {
         'title_color': ['', Validators.required],
         'primary_menu_hover_color': ['', Validators.required],
         'child_menu_hover_color': ['', Validators.required],
-        'theme_id': ['']
+        'theme_id': [null]
       });
 
   }
@@ -69,11 +69,12 @@ export class ThemeConfigComponent implements OnInit {
   /* this is for on submitting the form*/
   submitTheme() {
     // console.log(this.themeConfigForm.value);
+    this.themeConfigForm.controls['theme_id'].setValue(AppConstants.THEME_ID);
     const themeData = this.themeConfigForm.value;
     themeData.client_id = AppConstants.CLIENT_ID;
     console.log(themeData);
     this.spinnerService.show();
-    this.httpClient.post<IThemeData>( AppConstants.API_URL + 'flujo_client_posttexttheme', this.themeConfigForm.value)
+    this.httpClient.post<IThemeData>( AppConstants.API_URL + 'flujo_client_posttexttheme', themeData)
             .subscribe(
               data => {
                   if (data.error) {
@@ -99,7 +100,7 @@ export class ThemeConfigComponent implements OnInit {
   /* this is to get theme details  from server*/
   getThemeDetails = () => {
      this.spinnerService.show();
-     this.httpClient.get(AppConstants.API_URL + 'flujo_client_gettexttheme/' + AppConstants.THEME_ID)
+     this.httpClient.get(AppConstants.API_URL + 'flujo_client_gettexttheme/' + AppConstants.CLIENT_ID)
          .subscribe(
            data => {
              console.log(data);
@@ -142,7 +143,9 @@ export class ThemeConfigComponent implements OnInit {
       this.themeConfigForm.controls['child_menu_hover_color'].setValue(themeData[0].child_menu_hover_color);
       this.ChildMenuOverColor = themeData[0].child_menu_hover_color;
 
+      // tslint:disable-next-line:radix
       this.themeConfigForm.controls['theme_font_size'].setValue(parseInt(themeData[0].theme_font_size));
+      // tslint:disable-next-line:radix
       this.fontSize = parseInt(themeData[0].theme_font_size);
 
       this.themeConfigForm.controls['theme_id'].setValue(themeData[0].id);

@@ -27,8 +27,8 @@ export class CreateUserComponentComponent implements OnInit {
 
   PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
-
-  constructor(public dialog: MatDialog, private alertService: AlertService, private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
+  constructor(public dialog: MatDialog, private alertService: AlertService,
+    private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient) {
     this.CreateUserForm = this.formBuilder.group({
 
@@ -105,7 +105,7 @@ export class CreateUserComponentComponent implements OnInit {
       );
   }
   openAccessDialog(userItem): void {
-    let dialogRef = this.dialog.open(AccessLevelPopup, {
+    const dialogRef = this.dialog.open(AccessLevelPopup, {
       width: '45vw',
       data: userItem,
     });
@@ -163,10 +163,12 @@ export class CreateUserComponentComponent implements OnInit {
 }
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'dialog-overview-example-dialog',
   templateUrl: 'access-level.popup.html',
   styleUrls: ['./create-user-component.component.scss']
 })
+// tslint:disable-next-line:component-class-suffix
 export class AccessLevelPopup {
   filteredAccessIds: Array<IAccessLevelModel>;
   userAccessId: string;
@@ -180,7 +182,8 @@ export class AccessLevelPopup {
   public eventCalls: Array<string> = [];
   constructor(
     public dialogRef: MatDialogRef<AccessLevelPopup>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private alertService: AlertService, private httpClient: HttpClient) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder,
+     private spinnerService: Ng4LoadingSpinnerService, private alertService: AlertService, private httpClient: HttpClient) {
     dialogRef.disableClose = true;
     this.accessLevelsFormSubmit = formBuilder.group({
       'access_levels': [null],
@@ -219,20 +222,20 @@ export class AccessLevelPopup {
     }
   }
   checkBoxNames = () => {
-    let defaultData: Array<IAccessLevelModel> = [
-      { name: 'Editor', feature_id: 1, enable: true, read: true, write: true, order:'1' },
-      { name: 'Social', feature_id: 2, enable: true, read: true, write: true,  order:'2'},
-      { name: 'Mail', feature_id: 3, enable: true, read: true, write: true ,order:'3'},
-      { name: 'SMS', feature_id: 4, enable: true, read: true, write: true ,order:'4'},
-      { name: 'Report an issue', feature_id: 5, enable: true, read: true, write: true ,order:'5'},
-      { name: 'Analytics', feature_id: 6, enable: true, read: true, write: true ,order:'6'},
-      { name: 'Feedback', feature_id: 7, enable: true, read: true, write: true ,order:'7'},
-      { name: 'Change Maker', feature_id: 8, enable: true, read: true, write: true, order:'8'},
-      { name: 'Surveys', feature_id: 9, enable: true, read: true, write: true, order:'9'},
-      { name: 'Database', feature_id: 10, enable: true, read: true, write: true, order:'10'},
-      { name: 'Drive', feature_id: 11, enable: true, read: true, write: true, order:'11'},
-      { name: 'Team', feature_id: 12, enable: true, read: true, write: true, order:'12'},
-    ]
+    const defaultData: Array<IAccessLevelModel> = [
+      { name: 'Editor', feature_id: 1, enable: true, read: true, write: true, order: '1' },
+      { name: 'Social', feature_id: 2, enable: true, read: true, write: true,  order: '2'},
+      { name: 'Mail', feature_id: 3, enable: true, read: true, write: true , order: '3'},
+      { name: 'SMS', feature_id: 4, enable: true, read: true, write: true , order: '4'},
+      { name: 'Report an issue', feature_id: 5, enable: true, read: true, write: true , order: '5'},
+      { name: 'Analytics', feature_id: 6, enable: true, read: true, write: true , order: '6'},
+      { name: 'Feedback', feature_id: 7, enable: true, read: true, write: true , order: '7'},
+      { name: 'Change Maker', feature_id: 8, enable: true, read: true, write: true, order: '8'},
+      { name: 'Surveys', feature_id: 9, enable: true, read: true, write: true, order: '9'},
+      { name: 'Database', feature_id: 10, enable: true, read: true, write: true, order: '10'},
+      { name: 'Drive', feature_id: 11, enable: true, read: true, write: true, order: '11'},
+      { name: 'Team', feature_id: 12, enable: true, read: true, write: true, order: '12'},
+    ];
     return defaultData;
   }
   // Posting of user access level data to api
@@ -248,13 +251,14 @@ export class AccessLevelPopup {
           this.alertService.success('User access levels updated successfully');
           this.spinnerService.hide();
           this.getAccessLevelData();
+          this.closeDialog();
         },
         error => {
           this.spinnerService.hide();
           this.alertService.danger('User access levels not updated');
         });
   }
-  // Getting of user access data if data is not present default checkbox method will call 
+  // Getting of user access data if data is not present default checkbox method will call
   getAccessLevelData = () => {
     this.spinnerService.show();
     this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
@@ -262,7 +266,7 @@ export class AccessLevelPopup {
         data => {
           if (data.length > 0) {
             this.filteredAccessIds = _.filter(data, (item) => {
-              // data.id will come from open access dialog and we are comparing selected id and server data id
+              // this.data.id will come from open access dialog and we are comparing selected id and server data id
               return item.user_id === this.data.id;
             });
             if (this.filteredAccessIds.length > 0) {
