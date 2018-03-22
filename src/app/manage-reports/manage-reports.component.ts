@@ -13,15 +13,23 @@ import { map } from 'rxjs/operators/map';
 import { IPostAssignedUser, IPostReportStatus } from '../model/reports-management.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
+import { IshowReports } from '../model/showRepots.model';
+
+
+
 @Component({
     templateUrl: './manage-reports.component.html',
     styleUrls: ['./manage-reports.component.scss']
 
 })
+
 export class ManageReportsComponent implements OnInit, AfterViewInit {
+    showReports: IshowReports;
     assignedReportId: any;
 
     reportProblemData: any;
+    reportProblemData2: any;
+    filterReportProblemData: any;
     // loggedinUsersList: Array<ICreateUserDetails>;
     loggedinUsersList: Array<any>;
     postAssignedUsersObject: IPostAssignedUser;
@@ -51,6 +59,10 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         this.arrows.gender_arrow = false;
         this.arrows.name_arrow = false;
         this.arrows.submitted_at_arrow = false;
+
+        this.showReports = <IshowReports>{};
+        this.showReports.completedActive = false;
+        this.showReports.inProgressActive = false;
     }
     ngOnInit() {
         this.spinnerService.show();
@@ -198,6 +210,8 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
             .subscribe(
                 data => {
                     this.reportProblemData = data;
+                    this.reportProblemData2 = data;
+                    this.filterReportProblemData = data;
                     console.log(data);
                 },
                 error => {
@@ -252,4 +266,34 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
             this.arrows[arrow] = false;
         }
     }
+    sortByStatus = (reportStatus) => {
+        if (reportStatus === '0') {
+            this.showReports.completedActive = true;
+            this.showReports.inProgressActive = false;
+        }
+        if (reportStatus === '1') {
+            this.showReports.completedActive = false;
+            this.showReports.inProgressActive = true;
+        }
+        // this.showReports.completedActive = !this.showReports.completedActive;
+        // this.showReports.inProgressActive = !this.showReports.inProgressActive;
+        // console.log(this.showReports.completedActive);
+        // console.log(this.showReports.inProgressActive);
+        this.reportProblemData = this.reportProblemData2;
+        this.reportProblemData = this.reportProblemData.filter(reportData => reportData.report_status === reportStatus);
+        console.log(this.reportProblemData);
+    }
+
+    public onChange(searchTerm: string): void {
+        this.filterReportProblemData = this.reportProblemData.filter((item) =>
+                (item.name.includes(searchTerm) ||
+                (item.age.includes(searchTerm)) ||
+                (item.submitted_at.includes(searchTerm)) ||
+                (item.phone.includes(searchTerm)) ||
+                (item.email.includes(searchTerm)) ||
+                (item.gender.includes(searchTerm)) ||
+                (item.area.includes(searchTerm))
+        ));
+    }
+
 }
