@@ -219,4 +219,15 @@ input{
 .changemaker_table{
     height: calc(100vh - 300px);
     position: relative;
+    .link-row {
+        margin-bottom: 15px;
+    }
+}
+.changemaker_table{
+    height: calc(100vh - 260px);
+    position: relative;
+}
+
+.feedback_footer .button_submit {
+    width: auto;
 }

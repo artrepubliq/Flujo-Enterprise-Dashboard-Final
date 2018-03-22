@@ -1,4 +1,5 @@
 export interface Element {
+    id: string;
     name: string;
     position: number;
     weight: number;
@@ -6,5 +7,6 @@ export interface Element {
     email: string;
     phone: string;
     message: string;
-    datenow: string;
+    date_now: string;
+    lenght: string;
   }
