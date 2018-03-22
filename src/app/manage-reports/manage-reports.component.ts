@@ -16,6 +16,7 @@ import { AlertService } from 'ngx-alerts';
 import { IshowReports } from '../model/showRepots.model';
 
 
+
 @Component({
     templateUrl: './manage-reports.component.html',
     styleUrls: ['./manage-reports.component.scss']
@@ -28,6 +29,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
 
     reportProblemData: any;
     reportProblemData2: any;
+    filterReportProblemData: any;
     // loggedinUsersList: Array<ICreateUserDetails>;
     loggedinUsersList: Array<any>;
     postAssignedUsersObject: IPostAssignedUser;
@@ -46,7 +48,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
     filteredMoveToListOptions: Observable<string[]>;
     FilteredRemarksListOptions: Observable<string[]>;
     arrows: IArrows;
-
 
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
@@ -210,6 +211,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
                 data => {
                     this.reportProblemData = data;
                     this.reportProblemData2 = data;
+                    this.filterReportProblemData = data;
                     console.log(data);
                 },
                 error => {
@@ -269,7 +271,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
             this.showReports.completedActive = true;
             this.showReports.inProgressActive = false;
         }
-        if ( reportStatus === '1') {
+        if (reportStatus === '1') {
             this.showReports.completedActive = false;
             this.showReports.inProgressActive = true;
         }
@@ -281,4 +283,17 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         this.reportProblemData = this.reportProblemData.filter(reportData => reportData.report_status === reportStatus);
         console.log(this.reportProblemData);
     }
+
+    public onChange(searchTerm: string): void {
+        this.filterReportProblemData = this.reportProblemData.filter((item) =>
+                (item.name.includes(searchTerm) ||
+                (item.age.includes(searchTerm)) ||
+                (item.submitted_at.includes(searchTerm)) ||
+                (item.phone.includes(searchTerm)) ||
+                (item.email.includes(searchTerm)) ||
+                (item.gender.includes(searchTerm)) ||
+                (item.area.includes(searchTerm))
+        ));
+    }
+
 }

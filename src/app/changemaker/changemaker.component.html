@@ -1,10 +1,14 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <div fxLayout="column" fxLayoutGap="15px">
-  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center">
-    <div fxFlex="30">
-      <h6 class="issues">Change Maker</h6>
+  <div>
+    <h6 class="issues">Change Maker</h6>
+    <div fxLayoutAlign="center center">
+      <app-headerurls></app-headerurls>
     </div>
-    <div fxFlex="40" fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
+  </div>
+  
+  <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="30px">
+    <div fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
       <label class="btn btn-outline-secondary  btn-actissue">
         <input type="radio" name="options" id="option1" autocomplete="off" checked> Active Issues
       </label>
@@ -12,7 +16,7 @@
         <input type="radio" name="options" id="option2" autocomplete="off"> Past Issues
       </label>
     </div>
-    <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
       <!-- <div  class=" text-center button-group btn-group-toggle" data-toggle="buttons">
          <label class="pull-right btn btn-outline-secondary   btn-view-grid" >
             <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>

@@ -16,18 +16,27 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 
 <div fxLayout="column" fxLayoutGap="15px">
-  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center">
-    <div fxFlex="30">
+    <div>
       <h6 class="issues">Issues</h6>
+      <div fxLayoutAlign="center center">
+          <app-headerurls></app-headerurls>
+      </div>
     </div>
-    <div fxFlex="40" fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
-      <button  (click)="sortByStatus('0')" [ngClass]="{'active':showReports.completedActive}" name="options" id="option1" autocomplete="off"
+  <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center">
+    <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
+      <button (click)="sortByStatus('0')" [ngClass]="{'active':showReports.completedActive}" name="options" id="option1" autocomplete="off"
         checked> Completed </button>
-      <button  (click)="sortByStatus('1')" [ngClass]="{'active':showReports.inProgressActive}" name="options" id="option2" autocomplete="off">
+      <button (click)="sortByStatus('1')" [ngClass]="{'active':showReports.inProgressActive}" name="options" id="option2" autocomplete="off">
         In progress</button>
     </div>
-    <button (click)="exportManageReports()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
-    <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+        <button (click)="exportManageReports()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
+      <!-- <app-search-compoenent
+    (searchTerm)="filterReportData($event)"
+    ></app-search-compoenent> -->
+      <mat-form-field>
+        <input matInput placeholder="Search" [(ngModel)]="searchReport" (ngModelChange)="onChange($event)">
+      </mat-form-field>
       <!-- <div class=" text-center button-group btn-group-toggle" data-toggle="buttons">
                 <label class="pull-right btn btn-outline-secondary  btn-view-grid">
             <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
@@ -98,7 +107,7 @@
       </div>
     </div>
     <mat-accordion>
-      <mat-expansion-panel class="problem-box" *ngFor="let report of reportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
+      <mat-expansion-panel class="problem-box" *ngFor="let report of filterReportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
         <mat-expansion-panel-header>
           <div fxLayout="column" fxFlex="100%">
             <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
