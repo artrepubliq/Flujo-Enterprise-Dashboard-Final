@@ -29,6 +29,8 @@ import { FilerepositoryComponent } from './filerepository/filerepository.compone
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { CreateModuleComponent } from './create-module/create-module.component';
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
 const routes: Routes = [
   {
     path: '',
@@ -79,6 +81,8 @@ const routes: Routes = [
           { path: 'filerepository', component: FilerepositoryComponent },
           { path: 'managereports', component: ManageReportsComponent },
           { path: 'analytics', component: AnalyticsComponent },
+          { path: 'termsnconditions', component: TncComponent },
+          { path: 'privacynpolicy', component: PnpComponent },
         ]
       }
     ]

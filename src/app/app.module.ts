@@ -76,6 +76,10 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DocumentViewModule } from 'ngx-document-view';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateModuleComponent } from './create-module/create-module.component';
+
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
+
 import { HeaderurlsComponent } from './headerurls/headerurls.component';
 
 
@@ -122,7 +126,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangemakerComponent,
     AnalyticsComponent,
     CreateModuleComponent,
+
+    TncComponent,
+    PnpComponent
+
     HeaderurlsComponent,
+
   ],
   imports: [
     BrowserModule,
