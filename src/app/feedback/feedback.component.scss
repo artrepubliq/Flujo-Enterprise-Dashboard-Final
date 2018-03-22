@@ -1,29 +1,6 @@
 .sendMail-data {
-    position: relative;
-    display: inline-block;
-    .content-box {
-        padding: 8px;
-        position: absolute;
-        top: 0;
-        left: 100%;
-        margin-left: 20px;
-        box-shadow: 2px 4px 8px 0px rgba(0,0,0,0.5);
-        input {
-            padding: 8px;
-            font-size: 12px;
-            width: 100%;
-            margin-bottom: 5px;
-            outline: none;
-            border: 1px solid #eeeeee;
-        }
-        textarea {
-            border: 1px solid #eeeeee;
-            outline: none;
-            font-size: 12px;
-        }
-        input:focus,textarea:focus {
-            border-color: #000000;
-        }
+    .button_submit:disabled {
+        background: transparent;
     }
 }
 .form-error-msg {
@@ -225,9 +202,15 @@ input{
     border-radius: 30px;
 }
 .paginationn{
-    margin-left: auto; 
+    background: transparent;
 }
 .feedback_table{
-    height: calc(100vh - 300px);
+    height: calc(100vh - 260px);
     position: relative;
+}
+.feedback_footer {
+    position: absolute;
+    top: 100%;
+    margin-top: 30px;
+    width: 100%;
 }

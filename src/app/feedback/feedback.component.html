@@ -1,20 +1,23 @@
 <ng4-loading-spinner></ng4-loading-spinner>
-<div fxLayout="column" fxLayoutGap="15px">
-  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start center">
-    <div fxFlex="30" *ngIf="componentName === 'feedback'">
-      <h6 class="issues">Feedback</h6>
+<div class="p-rel" fxLayout="column" fxLayoutGap="15px">
+  <div>
+    <h6 class="issues">Feedback</h6>
+    <div fxLayoutAlign="center center">
+      <app-headerurls></app-headerurls>
     </div>
-    <div fxFlex="40" fxLayoutAlign="center center" class="text-center button-group" style="margin:0 auto">
-      <button (click)="radioChange('feedback')" name="options" id="option1"  [ngClass]="{'active':isActive}" class="btn btn-outline-secondary btn-feedback" autocomplete="off"
-        checked>Feedback</button>
-      <button  class="btn btn-outline-secondary btn-chmaker"  (click)="radioChange('changemakerreport')" name="options" id="option2"
+  </div>
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <!-- <div fxFlex="40" fxLayoutAlign="center center" class="text-center button-group" style="margin:0 auto">
+      <button (click)="radioChange('feedback')" name="options" id="option1" [ngClass]="{'active':isActive}" class="btn btn-outline-secondary btn-feedback"
+        autocomplete="off" checked>Feedback</button>
+      <button class="btn btn-outline-secondary btn-chmaker" (click)="radioChange('changemakerreport')" name="options" id="option2"
         autocomplete="off"> Change maker</button>
-      <button (click)="radioChange('surveys')"  class="btn btn-outline-secondary btn-surveys" name="options" id="option2"
-        autocomplete="off"> Surveys</button>
-      <button class="btn btn-outline-secondary btn-dbs"  (click)="radioChange('database')" name="options" id="option2"
-        autocomplete="off"> Database</button>
-    </div>
-    <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" *ngIf="componentName === 'feedback'" >
+      <button (click)="radioChange('surveys')" class="btn btn-outline-secondary btn-surveys" name="options" id="option2" autocomplete="off">
+        Surveys</button>
+      <button class="btn btn-outline-secondary btn-dbs" (click)="radioChange('database')" name="options" id="option2" autocomplete="off">
+        Database</button>
+    </div> -->
+    <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" *ngIf="componentName === 'feedback'">
       <!-- <div  class="text-center button-group btn-group-toggle" data-toggle="buttons">
            <label class="pull-right btn btn-outline-secondary  btn-view-grid" >
               <input   name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
@@ -24,7 +27,7 @@
            </label>
           </div> -->
       <button (click)="exportFeedbackData()" class="btn btn-outline-secondary btn-sm btn-report pull-right" float-right style="float:right">Export as CSV</button>
-      <div class="dropdown">
+      <!-- <div class="dropdown">
         <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           Filter By
@@ -34,18 +37,23 @@
             <li class="dropdown-item">Name</li>
           </div>
         </ul>
+      </div> -->
+      <div class="example-header">
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
       </div>
     </div>
   </div>
-  <div class="row" *ngIf="componentName === 'feedback'">
-    <div class="col-md-12 feedback_table" [perfectScrollbar]="config">
+  <div *ngIf="componentName === 'feedback'">
+    <div class="feedback_table" [perfectScrollbar]="config">
       <!-- <h3>Feedback Report:</h3> -->
-      <table class="table table-hover table-bordered">
+      <!-- <table class="table table-hover table-bordered">
         <thead>
           <tr>
             <th scope="col">
               <span class="fb-first-field">
-                <!-- <input class="d-inline" type="checkbox" > -->
+                <input class="d-inline" type="checkbox" >
                 <b>
                   <p class="d-inline">Name &nbsp;
                     <i class="fa fa-angle-down"></i>
@@ -68,19 +76,19 @@
                 <i class="fa fa-angle-down"></i>
               </span>
             </th>
-            <!-- <th scope="col">
+            <th scope="col">
                   <span class="d-inline" >
                       Feedback &nbsp;<i class="fa fa-angle-down"></i>
                   </span> 
-              </th> -->
+              </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of feedbackData | paginate: { itemsPerPage: 10, currentPage: p }">
             <td>
               <span class="d-inline">
-                <!-- <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p> -->
-                <!-- <input  type="checkbox"> -->
+                <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
+                <input  type="checkbox">
                 <b>
                   <p class="name-feedback d-inline">{{item.name}}</p>
                 </b>
@@ -90,28 +98,65 @@
             <td>{{item.email}}</td>
             <td>{{item.phone}}</td>
             <td>consectetur adipisicing elit sed do eiusmod tempor incididunt</td>
-            <!-- <td>
+            <td>
                   <p class="btn btn-outline-success btn-sm btn-issues">Good</p>
                   <span class="text-muted d-inline pull-right">
                       <p class="d-inline"><i class="fa fa-ellipsis-v"></i></p>
                   </span>
-              </td> -->
+              </td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
+      <mat-table #table [dataSource]="dataSource" matSortDirection="desc" matSort>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+          <mat-cell *matCellDef="let elementData"> {{elementData.name}} </mat-cell>
+        </ng-container>
+        <!-- Update column -->
+        <ng-container matColumnDef="updated">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Updated </mat-header-cell>
+          <mat-cell *matCellDef="let elementData"> {{elementData.datenow}} </mat-cell>
+        </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+          <mat-cell *matCellDef="let elementData"> {{elementData.email}} </mat-cell>
+        </ng-container>
+        <!-- Phone Column -->
+        <ng-container matColumnDef="phone">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </mat-header-cell>
+          <mat-cell *matCellDef="let elementData"> {{elementData.phone}} </mat-cell>
+        </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="message">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Message </mat-header-cell>
+          <mat-cell *matCellDef="let elementData"> {{elementData.message}} </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
     </div>
-    <div class="sendMail-data col-md-12">
+    <div class="feedback_footer" fxLayout="row" fxLayoutAlign="space-between ">
       <div class="sendMail-data form-group">
         <form action="" [formGroup]="feedbackCsvMail" fxLayout="row" fxLayoutGap="15px">
-          <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
-          <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
-            enter valid email
+          <div class="input_box p-rel">
+            <input formControlName="email" id="email" placeholder="Enter email">
+            <div [hidden]="feedbackCsvMail.controls.email.valid || (feedbackCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
+              enter valid email
+            </div>
           </div>
-          <button (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report  mt-2">Send As Email</button>
+          <div>
+            <button mat-raised-button class="button_submit" (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" [disabled]="feedbackCsvMail.invalid">Send As Email</button>
+          </div>
         </form>
       </div>
+      <mat-paginator class="paginationn" #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+      </mat-paginator>
     </div>
-    <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
+    <!-- <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls> -->
   </div>
 </div>
 
