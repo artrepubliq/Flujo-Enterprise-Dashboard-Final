@@ -78,7 +78,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateModuleComponent } from './create-module/create-module.component';
 import { HeaderurlsComponent } from './headerurls/headerurls.component';
 
-
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -169,7 +168,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxPaginationModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+
   ],
 
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
