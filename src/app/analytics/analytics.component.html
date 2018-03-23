@@ -1,100 +1,41 @@
 <ng4-loading-spinner></ng4-loading-spinner>
-<div class="analytics_block" fxLayout="column" fxLayoutGap="25px">
-  <!-- Analytics Header -->
-  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+<div fxLayout="column" fxLayoutGap="25px">
+  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" >
     <div fxLayout="row" fxFlex="40" fxLayoutGap="10px" fxLayoutAlign="start center">
       <h6 class="analytics">Analytics</h6>
-      <input type="date">
+      <input  type="date">
     </div>
     <div fxFlex fxLayoutAlign="start center" class="text-center button-group">
-      <button class="btn btn-outline-secondary btn-start" (click)="timeChange('option1')" name="options" id="option1" autocomplete="off">Today</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option2')" name="options" id="option2" [ngClass]="{'active':isActive}"
-        autocomplete="off"> Week</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option3')" name="options" id="option3" autocomplete="off">
-        Month</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option4')" name="options" id="option4" autocomplete="off">
-        Quarter</button>
-      <button class="btn btn-outline-secondary btn-end" (click)="timeChange('option5')" name="options" id="option5" autocomplete="off">
-        Year</button>
-    </div>
+      <button class="btn btn-outline-secondary btn-start"       (click)="timeChange('option1')"    name="options" id="option1"     autocomplete="off">Today</button>
+      <button class="btn btn-outline-secondary btn-options"     (click)="timeChange('option2')"    name="options" id="option2"   [ngClass]="{'active':isActive}"  autocomplete="off"> Week</button>
+      <button class="btn btn-outline-secondary btn-options"     (click)="timeChange('option3')"    name="options" id="option3"     autocomplete="off"> Month</button>
+      <button class="btn btn-outline-secondary btn-options"     (click)="timeChange('option4')"    name="options" id="option4"     autocomplete="off"> Quarter</button>
+      <button class="btn btn-outline-secondary btn-end"         (click)="timeChange('option5')"    name="options" id="option5"     autocomplete="off"> Year</button>
+    </div>   
   </div>
-  <!-- ..// Analytics Header -->
-
   <div class="divide-line"></div>
-
     <div class="problem-header">
         <h6>Problem Category</h6>
     </div>
     <div fxLayout="row" fxLayoutGap="1rem" class="problems" [perfectScrollbar]="config">
-        <div class="" *ngFor="let problem of data">
+        <div class="" *ngFor="let problem of problem_category">
+
               <mat-card class="example-card">
-                  <mat-card-content *ngFor="let category of problem.problem_category">  
+                  <mat-card-content >  
+                  
                     <div fxLayout="column" fxLayoutGap="1rem">
                       <div fxLayout="row" fxLayoutAlign="space-between start">
-                          <div class="solved">{{category.solved}}</div>
-                          <div class="pending">{{problem.pending}}</div>
+                          <div class="solved">{{problem.in_progress}}</div>
+                          <div class="pending">{{problem.unresolved}}</div>
                       </div>
                       <div fxLayout="column" fxLayoutAlign="end center">
-                          <div class="tproblems" fxFlex>{{problem.problems}}</div>
+                          <div class="tproblems" fxFlex>{{problem.count}}</div>
                           <div class="category"fxFlex>{{problem.category}}</div>
                       </div>
                     </div>
                   </mat-card-content>
                 </mat-card>
                 <br>
-
             </div>
-            <div fxLayout="column" fxLayoutAlign="end center">
-              <div class="tproblems" fxFlex>{{problem.problems}}</div>
-              <div class="category" fxFlex>{{problem.category}}</div>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-      <br>
-    </div>
-  </div>
-  <!-- ..// Problem Cards -->
-
-  <div fxLayout="row" fxLayoutGap="15px">
-    <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3 class="title">Gender</h3>
-        <i class="fa fa-ellipsis-v"></i>
-      </div>
-      <div class="chart_body">
-
-      </div>
-      <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
-        <h3>Female</h3>
-        <h3>Male</h3>
-      </div>
-    </div>
-
-    <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3 class="title">Gender</h3>
-        <i class="fa fa-ellipsis-v"></i>
-      </div>
-      <div class="chart_body">
-
-      </div>
-      <div class="chart_footer" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3>Female</h3>
-        <h3>Male</h3>
-      </div>
-    </div>
-    <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3 class="title">Gender</h3>
-        <i class="fa fa-ellipsis-v"></i>
-      </div>
-      <div class="chart_body">
-
-      </div>
-      <div class="chart_footer">
-
-      </div>
-    </div>
-  </div>
+        </div>
 </div>

@@ -41,7 +41,8 @@ export class AnalyticsComponent implements OnInit {
     {id: 8, solved: 10, pending:20, problems:50,category:"test"},
   ];
 
-  newData : any;
+  newData : any = [];
+  problem_category : any;
   constructor(public http: HttpClient) { }
 
   ngOnInit() {
@@ -53,11 +54,14 @@ export class AnalyticsComponent implements OnInit {
   }
 
   getData(params) {
-    this.http.post('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
+    this.http.post<Observable<any[]>>('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
     .subscribe(
       response => {
         console.log(response);
-        response = this.data;
+        this.newData = response;
+        this.problem_category = this.newData[0].problem_category;
+        console.log(JSON.stringify(this.problem_category));
+        
       },
       error => {
         console.log(error);
