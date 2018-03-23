@@ -54,7 +54,7 @@
             </div>
             <div fxLayout="column" fxLayoutAlign="end center">
               <div class="tproblems" fxFlex>{{problem.count}}</div>
-              <div class="category" fxFlex>{{problem.category}}</div>
+              <div class="category" fxFlex>{{problem.category | uppercase}}</div>
             </div>
           </div>
         </mat-card-content>
@@ -107,7 +107,9 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <app-charts-age-pie></app-charts-age-pie>
+
+          <app-charts-age-pie [ageData]="ageData"></app-charts-age-pie>
+
       </div>
       <div class="chart_footer">
 
