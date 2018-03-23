@@ -32,7 +32,7 @@
 
           <div fxLayout="column" fxLayoutGap="1rem">
             <div fxLayout="row" fxLayoutAlign="space-between start">
-              <div class="solved">{{problem.in_progress}}</div>
+              <div class="solved">{{problem.completed}}</div>
               <div class="pending">{{problem.unresolved}}</div>
             </div>
             <div fxLayout="column" fxLayoutAlign="end center">
@@ -68,24 +68,21 @@
 
     <div fxFlex class="chart_card">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3 class="title">Gender</h3>
+        <h3 class="title">Assign</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
 
       </div>
-      <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
-        <h3 class="chart_item fmale">Female</h3>
-        <h3 class="chart_item male">Male</h3>
-      </div>
+      
     </div>
     <div fxFlex class="chart_card">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3 class="title">Gender</h3>
+        <h3 class="title">Age</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-
+          <app-charts-age-pie></app-charts-age-pie>
       </div>
       <div class="chart_footer">
 
