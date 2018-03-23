@@ -446,6 +446,7 @@ control-messages,
   }
 }
 
+
 .status-bars {
   font-family: Roboto;
   font-weight: 500;
@@ -494,6 +495,26 @@ control-messages,
     span.muted{
       color: #999999;
       font-size: 12px;
+    }
+  }
+}
+.analytics_dates {
+  .mat-form-field-suffix {
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    height: 40px;
+    button {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+    .mat-button-wrapper {
+      margin-right: 16px;
+      float: right;
+    }
+    .mat-button-focus-overlay {
+      opacity: 0 !important;
     }
   }
 }

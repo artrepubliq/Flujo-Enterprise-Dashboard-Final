@@ -1,12 +1,29 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <div class="analytics_block" fxLayout="column" fxLayoutGap="25px">
   <!-- Analytics Header -->
-  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+  <div fxLayout="row">
     <div fxLayout="row" fxFlex="40" fxLayoutGap="10px" fxLayoutAlign="start center">
       <h6 class="analytics">Analytics</h6>
-      <input type="date">
+      <!-- <input type="date"> -->
+      <div class="analytics_dates" fxLayout="row" fxFlex="300px">
+
+        <mat-form-field color="accent" fxFlex>
+          <mat-label>Min date</mat-label>
+          <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" [disabled]="inputDisabled">
+          <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field color="accent" fxFlex>
+          <mat-label>Max date</mat-label>
+          <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" [disabled]="inputDisabled">
+          <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+
     </div>
-    <div fxFlex fxLayoutAlign="start center" class="text-center button-group">
+    <div fxFlex fxLayoutAlign="center center" class="button-group">
       <button class="btn btn-outline-secondary btn-start" (click)="timeChange('option1')" name="options" id="option1" autocomplete="off">Today</button>
       <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option2')" name="options" id="option2" [ngClass]="{'active':isActive}"
         autocomplete="off"> Week</button>
@@ -24,7 +41,7 @@
   <div class="problem-header">
     <h6>Problem Category</h6>
   </div>
-  <div fxLayout="row" fxLayoutGap="1rem" class="problems" [perfectScrollbar]="config">
+  <div fxLayout="row" fxLayoutGap="1rem" class="problems">
     <div class="" *ngFor="let problem of problem_category">
 
       <mat-card class="example-card">
@@ -32,32 +49,35 @@
 
           <div fxLayout="column" fxLayoutGap="1rem">
             <div fxLayout="row" fxLayoutAlign="space-between start">
-              <div class="solved">{{problem.in_progress}}</div>
+              <div class="solved">{{problem.completed}}</div>
               <div class="pending">{{problem.unresolved}}</div>
             </div>
             <div fxLayout="column" fxLayoutAlign="end center">
               <div class="tproblems" fxFlex>{{problem.count}}</div>
-              <div class="category" fxFlex>{{problem.category}}</div>
+              <div class="category" fxFlex>{{problem.category | uppercase}}</div>
             </div>
           </div>
         </mat-card-content>
       </mat-card>
       <br>
     </div>
+
   </div>
-  <br>
 </div>
 <!-- ..// Problem Cards -->
 
 <!-- ======= Charts Cards ======== -->
 <div fxLayout="column" fxLayoutGap="15px">
   <div fxLayout="row" fxLayoutGap="15px">
+    <!-- Chart - 1  -->
     <div fxFlex class="chart_card">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
         <h3 class="title">Gender</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
+        <ngx-charts-pie-grid [scheme]="colorScheme" [results]="gender" (select)="onSelect($event)">
+        </ngx-charts-pie-grid>
 
       </div>
       <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
@@ -66,25 +86,29 @@
       </div>
     </div>
 
+    <!-- Chart - 2  -->
     <div fxFlex class="chart_card">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3 class="title">Gender</h3>
+        <h3 class="title">Assign</h3>
+        <i class="fa fa-ellipsis-v"></i>
+      </div>
+      <div class="chart_body">
+        <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
+          [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+        </ngx-charts-bar-vertical-stacked>
+      </div>
+
+    </div>
+    <!-- Chart - 3  -->
+    <div fxFlex class="chart_card">
+      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+        <h3 class="title">Age</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
 
-      </div>
-      <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
-        <h3 class="chart_item fmale">Female</h3>
-        <h3 class="chart_item male">Male</h3>
-      </div>
-    </div>
-    <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3 class="title">Gender</h3>
-        <i class="fa fa-ellipsis-v"></i>
-      </div>
-      <div class="chart_body">
+          <app-charts-age-pie [ageData]="ageData"></app-charts-age-pie>
 
       </div>
       <div class="chart_footer">
@@ -92,12 +116,14 @@
       </div>
     </div>
   </div>
+
   <div class="rect_card" fxLayout="row" fxLayoutGap="15px">
     <div fxFlex class="chart_card">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
         <h3 class="title">Status</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
+
       <div class="chart_body">     
               <!-- {{color[0]}} -->
                   <div fxLayout="row" class="status-bars" fxLayoutAlign="space-between end">
@@ -147,7 +173,6 @@
                       </section>
                     </div>
                   </div>
-
       </div>
     </div>
     <div fxFlex class="chart_card">

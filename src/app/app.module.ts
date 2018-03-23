@@ -81,7 +81,8 @@ import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 
 import { HeaderurlsComponent } from './headerurls/headerurls.component';
-
+import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -130,11 +131,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     TncComponent,
     PnpComponent,
 
-    HeaderurlsComponent
+    HeaderurlsComponent,
+
+    ChartsAgePieComponent
 
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule, 
+    NgxChartsModule, 
     AppRoutingModule,
     HttpClientModule,
     CKEditorModule,
@@ -179,7 +184,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxPaginationModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule    
+    MatPaginatorModule,
+    NgxChartsModule
   ],
 
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
