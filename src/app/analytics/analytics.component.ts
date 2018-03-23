@@ -19,6 +19,15 @@ import { single, multi, gender } from './data';
 export class AnalyticsComponent implements OnInit {
   timeRange = 'option2';
   isActive = true;
+
+  // color = 'accent';
+  colors = ['#ee2f6b','#0cc0df','#fecd0f'];
+    // color1 = 'accent';
+    // color2 = 'primary';
+    // color3 = 'warn';
+  mode = 'determinate';
+  value = 50;
+
   touch: boolean;
   filterOdd: boolean;
   yearView: boolean;
@@ -33,6 +42,7 @@ export class AnalyticsComponent implements OnInit {
   color: ThemePalette;
 
   dateCtrl = new FormControl();
+
 
   dateFilter =
       (date: Date) => !(date.getFullYear() % 2) && (date.getMonth() % 2) && !(date.getDate() % 2)

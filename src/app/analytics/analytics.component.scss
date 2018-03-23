@@ -198,6 +198,13 @@ input {
   .chart_card {
     height: 210px;
   }
+  .chart_body{
+    vertical-align: middle;
+    padding:0 20px;
+    .status-bars{
+      margin-top: 30px;
+    }
+  }
 }
 
 .analytics_block {
