@@ -44,12 +44,8 @@
       </mat-card>
       <br>
     </div>
-    <div fxLayout="column" fxLayoutAlign="end center">
-      <div class="tproblems" fxFlex>{{problem.problems}}</div>
-      <div class="category" fxFlex>{{problem.category}}</div>
-    </div>
+    
   </div>
-  <br>
 </div>
 <!-- ..// Problem Cards -->
 
@@ -103,7 +99,9 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
       </div>
     </div>
     <div fxFlex class="chart_card">
