@@ -16,6 +16,7 @@ export class AnalyticsComponent implements OnInit {
   timeRange = 'option2';
   isActive = true;
 
+
   params = {
     client_id: AppConstants.CLIENT_ID,
     from_date: '2000-01-01',
@@ -62,5 +63,6 @@ export class AnalyticsComponent implements OnInit {
         console.log(error);
       });
   }
+
 
 }
