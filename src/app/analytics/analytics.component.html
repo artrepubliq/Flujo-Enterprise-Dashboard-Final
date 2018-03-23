@@ -1,12 +1,29 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <div class="analytics_block" fxLayout="column" fxLayoutGap="25px">
   <!-- Analytics Header -->
-  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+  <div fxLayout="row">
     <div fxLayout="row" fxFlex="40" fxLayoutGap="10px" fxLayoutAlign="start center">
       <h6 class="analytics">Analytics</h6>
-      <input type="date">
+      <!-- <input type="date"> -->
+      <div class="analytics_dates" fxLayout="row" fxFlex="300px">
+
+        <mat-form-field color="accent" fxFlex>
+          <mat-label>Min date</mat-label>
+          <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" [disabled]="inputDisabled">
+          <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field color="accent" fxFlex>
+          <mat-label>Max date</mat-label>
+          <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" [disabled]="inputDisabled">
+          <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+
     </div>
-    <div fxFlex fxLayoutAlign="start center" class="text-center button-group">
+    <div fxFlex fxLayoutAlign="center center" class="button-group">
       <button class="btn btn-outline-secondary btn-start" (click)="timeChange('option1')" name="options" id="option1" autocomplete="off">Today</button>
       <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option2')" name="options" id="option2" [ngClass]="{'active':isActive}"
         autocomplete="off"> Week</button>
@@ -24,7 +41,7 @@
   <div class="problem-header">
     <h6>Problem Category</h6>
   </div>
-  <div fxLayout="row" fxLayoutGap="1rem" class="problems" [perfectScrollbar]="config">
+  <div fxLayout="row" fxLayoutGap="1rem" class="problems">
     <div class="" *ngFor="let problem of problem_category">
 
       <mat-card class="example-card">
@@ -44,21 +61,23 @@
       </mat-card>
       <br>
     </div>
-    
+
   </div>
-  <br>
 </div>
 <!-- ..// Problem Cards -->
 
 <!-- ======= Charts Cards ======== -->
 <div fxLayout="column" fxLayoutGap="15px">
   <div fxLayout="row" fxLayoutGap="15px">
+    <!-- Chart - 1  -->
     <div fxFlex class="chart_card">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
         <h3 class="title">Gender</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
+        <ngx-charts-pie-grid [scheme]="colorScheme" [results]="gender" (select)="onSelect($event)">
+        </ngx-charts-pie-grid>
 
       </div>
       <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
@@ -67,41 +86,97 @@
       </div>
     </div>
 
+    <!-- Chart - 2  -->
     <div fxFlex class="chart_card">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
         <h3 class="title">Assign</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-
+        <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
+          [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+        </ngx-charts-bar-vertical-stacked>
       </div>
-      
+
     </div>
+    <!-- Chart - 3  -->
     <div fxFlex class="chart_card">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
         <h3 class="title">Age</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
+
           <app-charts-age-pie [ageData]="ageData"></app-charts-age-pie>
+
       </div>
       <div class="chart_footer">
 
       </div>
     </div>
   </div>
+
   <div class="rect_card" fxLayout="row" fxLayoutGap="15px">
     <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
         <h3 class="title">Status</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
-      <div class="chart_body">
 
+      <div class="chart_body">     
+              <!-- {{color[0]}} -->
+                  <div fxLayout="row" class="status-bars" fxLayoutAlign="space-between end">
+                    <div fxFlex="30" class="completed">
+                      <p class="completed">Completed</p>
+                      <div fxLayout="row" fxLayoutAlign="space-between start">
+                          <span [style.color]='colors[0]'>325</span>
+                          <span class="muted">325</span>
+                      </div><br/>  
+                      <section class="example-section">
+                        <mat-progress-bar
+                            class="example-margin"
+                            [mode]="mode"
+                            [value]="value"
+                            [bufferValue]="bufferValue">
+                        </mat-progress-bar>
+                      </section>
+                    </div>
+                    <div fxFlex="30" class="inprogress">
+                      <p class="inprogress">Inprogress</p>
+                      <div fxLayout="row" fxLayoutAlign="space-between start">
+                        <span [style.color]='colors[1]'>325</span>
+                        <span class="muted">325</span>
+                      </div><br/>  
+                      <section class="example-section">
+                        <mat-progress-bar
+                            class="example-margin"
+                            [mode]="mode"
+                            [value]="value"
+                            [bufferValue]="bufferValue">
+                        </mat-progress-bar>
+                      </section>
+                    </div>
+                    <div fxFlex="30" class="unresolved">
+                      <p class="unresolved">Unresolved</p>
+                      <div fxLayout="row" fxLayoutAlign="space-between start">
+                          <span [style.color]='colors[2]'>325</span>
+                          <span class="muted">325</span>
+                      </div><br/>  
+                      <section class="example-section">
+                        <mat-progress-bar
+                            class="example-margin"
+                            [mode]="mode"
+                            [value]="value"
+                            [bufferValue]="bufferValue">
+                        </mat-progress-bar>
+                      </section>
+                    </div>
+                  </div>
       </div>
     </div>
     <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
         <h3 class="title">Locality</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
