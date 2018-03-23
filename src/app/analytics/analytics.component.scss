@@ -1,130 +1,203 @@
-.button-group button:focus, .active{
-    background: white !important;
-    box-shadow: none !important;
+.button-group button:focus,
+.active {
+  background: white !important;
+  box-shadow: none !important;
 }
+
 .btn-start {
-    border-radius: 25px 0  0 25px;
-    padding: 0 20px !important;
-    color: #999999;
-    height: 40px;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: center;
-	border: solid 1.5px #f0f0f0;
+  border-radius: 25px 0 0 25px;
+  padding: 0 20px !important;
+  color: #999999;
+  height: 40px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  border: solid 1.5px #f0f0f0;
 }
-.btn-options{
-    color: #999999;
-    padding: 0 20px !important;
-    height: 40px;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: center;
-    border: solid 1.5px #f0f0f0;
-    border-left:none;
-    border-radius: 0 !important;
+
+.btn-options {
+  color: #999999;
+  padding: 0 20px !important;
+  height: 40px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  border: solid 1.5px #f0f0f0;
+  border-left: none;
+  border-radius: 0 !important;
 }
+
 .btn-end {
-    border-radius:  0 25px 25px 0 ;
-    padding: 0 20px !important;
-    border-left:none !important;
-    color: #999999;
-    height: 40px;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: center;
-    border: solid 1.5px #f0f0f0;
-}    
+  border-radius: 0 25px 25px 0;
+  padding: 0 20px !important;
+  border-left: none !important;
+  color: #999999;
+  height: 40px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  border: solid 1.5px #f0f0f0;
+}
 
 .btn-outline-secondary:hover {
-    background-color: #e2e2e2;
+  background-color: #e2e2e2;
 }
-.btn-outline-secondary:active{
-    box-shadow: none !important;
-    color: #999999;
-    background-color: #f0f0f0;
-    border: solid 1.5px #f0f0f0;
+
+.btn-outline-secondary:active {
+  box-shadow: none !important;
+  color: #999999;
+  background-color: #f0f0f0;
+  border: solid 1.5px #f0f0f0;
 }
-.btn-outline-secondary:not([disabled]):not(.disabled).active, 
+
+.btn-outline-secondary:not([disabled]):not(.disabled).active,
 .btn-outline-secondary:not([disabled]):not(.disabled):active,
-.show>.btn-outline-secondary.dropdown-toggle{
-    box-shadow: none !important;
-    color: #999999;
-    background-color: #f0f0f0;
-    border: solid 1.5px #f0f0f0;
-}
-.analytics{
-    font-size: 30px;
-	font-weight: 300;
-	color: #666666;
+.show>.btn-outline-secondary.dropdown-toggle {
+  box-shadow: none !important;
+  color: #999999;
+  background-color: #f0f0f0;
+  border: solid 1.5px #f0f0f0;
 }
 
-.btn-analytics{
-    border-radius:35px !important;
-    vertical-align: middle;
-    padding-top: 4px;
-    font-size: 12px;
-	font-weight: 500;
-    color: #999999;
-    border: solid 1.5px #f0f0f0;
+.analytics {
+  font-size: 30px;
+  font-weight: 300;
+  color: #666666;
 }
 
-.divide-line{
-    margin-top: 5px;
-    height: 1.5px;
-	background-color: #f5f5f5;
+.btn-analytics {
+  border-radius: 35px !important;
+  vertical-align: middle;
+  padding-top: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #999999;
+  border: solid 1.5px #f0f0f0;
 }
 
-input{
-    height: 40px;
-    border-radius: 20px;
-    background-color: transparent;
-    border: solid 1.5px #f0f0f0;
+.divide-line {
+  margin-top: 5px;
+  height: 1.5px;
+  background-color: #f5f5f5;
 }
-.problem-header{
-    font-family: Roboto;
-    font-size: 15px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #666666;  
-    margin-bottom: 0 !important;
+
+input {
+  height: 40px;
+  border-radius: 20px;
+  background-color: transparent;
+  border: solid 1.5px #f0f0f0;
+  padding-left: 20px;
 }
+
+.problem-header {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #666666;
+  margin-bottom: 0 !important;
+}
+
 .problems {
-    font-family: Roboto;
-    line-height: normal;
-    position: relative;
-    .problem {
-      white-space: nowrap;
-      display: inline;
-    }
-    .tproblems{
-        font-size: 45px;
-        font-weight: 300;
-        color: #666666;
-    }
-    .category{
-        font-size: 13px;
-        font-weight: 500;
-        color: #999999;      
-    }
-    .solved{
-        font-size: 13px;
-        font-weight: 500;
-        color: #50d166;
-    }
-    .pending{
-        font-size: 13px;
-        font-weight: 500;
-        color: #f13a30;
-    }
-    .example-card{
-        width: 175px;
-        height: 150px;
-        border-radius: 5px;
-        background-color: #ffffff;
-        box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+  font-family: Roboto;
+  line-height: normal;
+  position: relative;
+  .problem {
+    white-space: nowrap;
+    display: inline;
+  }
+  .tproblems {
+    font-size: 45px;
+    font-weight: 300;
+    color: #666666;
+  }
+  .category {
+    font-size: 13px;
+    font-weight: 500;
+    color: #999999;
+  }
+  .solved {
+    font-size: 13px;
+    font-weight: 500;
+    color: #50d166;
+  }
+  .pending {
+    font-size: 13px;
+    font-weight: 500;
+    color: #f13a30;
+  }
+  .example-card {
+    width: 175px;
+    height: 150px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* ==== Charts Cards ===== */
+
+.chart_card {
+  height: 365px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+  .cart_header,
+  .chart_footer {
+    border-bottom: 1.5px solid #f5f5f5;
+    padding: 22px 20px;
+    .title,
+    h3 {
+      font-size: 13px;
+      font-weight: 500;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: #666666;
+      margin: 0;
     }
   }
+  .chart_footer {
+    border-bottom: none;
+    border-top: 1.5px solid #f5f5f5;
+    padding: 22px 20px;
+    .chart_item {
+      position: relative;
+      padding-left: 20px;
+    }
+    .chart_item:before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      // background: #000;
+      position: absolute;
+      left: 0;
+      top: 3px;
+      border-radius: 50px;
+    }
+    .fmale:before {
+      background-color: #ee2f6b;
+    }
+    .male:before {
+      background-color: #0cc0df;
+    }
+  }
+  .chart_body {
+    height: calc(100% - 123px);
+  }
+}
 
+.rect_card {
+  .chart_card {
+    height: 210px;
+  }
+}
+
+.analytics_block {
+  padding: 10px 22px 0px 0px;
+}
