@@ -11,6 +11,7 @@ export interface IResult {
     folder_id: string;
     files: Array<IFiles>;
     isActive?: boolean;
+    size?: number;
 }
 
 export interface IFiles {
@@ -18,7 +19,7 @@ export interface IFiles {
     file_name: string;
     file_path: string;
     file_extension: string;
-    file_size: string;
+    file_size:  number;
     folder?: string;
     isActive?: boolean;
 }

@@ -1,0 +1,9 @@
+<div class="group_btns" fxLayout="row">
+  <button (click)="radioChange('feedback')" name="options" id="option1" [ngClass]="{'active':isActive}" autocomplete="off"
+    checked>Feedback</button>
+  <button (click)="radioChange('changemakerreport')" name="options" id="option2" autocomplete="off"> Change maker</button>
+  <button (click)="radioChange('surveys')" name="options" id="option2" autocomplete="off">
+    Surveys</button>
+  <button (click)="radioChange('database')" name="options" id="option2" autocomplete="off">
+    Database</button>
+</div>

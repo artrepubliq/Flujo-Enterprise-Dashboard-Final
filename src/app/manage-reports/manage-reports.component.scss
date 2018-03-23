@@ -99,6 +99,7 @@
     font-size: 30px;
     font-weight: 300;
     color: #666666;
+    margin-bottom: 0;
 }
 .btn-issues{
     border-radius:35px !important;
@@ -138,6 +139,16 @@
         line-height: 1.5 !important;
         color: #666666 !important;
     }
+    .mat-input-element {
+        outline: none !important;
+        padding: 13px 15px !important;
+        font-size: 14px !important;
+        text-align: left;
+        color: #c1c1c1 !important;
+        border-radius: 20px !important;
+        background-color: #ffffff !important;
+        border: solid 1.5px #f7f7f7 !important;
+      }
 }
 .file-icon{
     background-color:transparent;
@@ -260,6 +271,7 @@ input{
     font-size: 13px;
     font-weight: 500;
     color: #666666;
+    
 }
 .mat-expansion-panel-header{
     font-family: Roboto;
@@ -280,6 +292,7 @@ input{
 .mat-expansion-panel-header{
     padding:5px 26px;
     height: 65px !important;
+    
 }
 .reports-header,.reports-data{
     padding: 25px 0;
@@ -299,6 +312,7 @@ input{
     span{
         vertical-align:middle ;
     }
+    
 }
 // .mat-expansion-panel-content{
 //     border-bottom: 1px solid #f5f5f5 !important;
@@ -322,14 +336,61 @@ input{
         font-family: Roboto;
 	    font-size: 11px;
         font-weight: 500;
-        padding: 7px 15px;
+        padding: 12px 20px;
 	    text-align: center;
     }
     button:hover{
         background-color: #4a2565;
         color:  #fff;
     }
+    .triangle{
+        position: absolute;
+        top:1.5em;
+        right:1em;
+    }
 }
 .mat-action-row{
     border: none;
+    
+}
+.paginationn{
+    margin-left: auto; 
+}
+.manage_reports_table{
+    max-height: calc(100vh - 340px);
+    position: relative;
+}
+
+
+
+button.active {
+    background-color: #4a2565 !important;
+    color: #fff !important;
+}
+
+
+
+
+
+
+.group_btns {
+    button {
+        padding: 12px 23px;
+        height: 40px;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: center;
+        color: #999999;
+        border: 1.5px solid #f0f0f0;
+        border-right: none;
+    }
+    button:first-child {
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+    button:last-child {
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border-right: 1.5px solid #f0f0f0;
+    }
 }

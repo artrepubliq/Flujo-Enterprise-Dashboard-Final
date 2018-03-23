@@ -7,6 +7,7 @@ import { Tree } from '@angular/router/src/utils/tree';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { IHttpResponse } from '../model/httpresponse.model';
+import { ColorPickerModule, ColorPickerDirective } from 'ngx-color-picker';
 import { MatDatepickerInputEvent, NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 export class AppDateAdapter extends NativeDateAdapter {
 
@@ -50,6 +51,7 @@ export const APP_DATE_FORMATS = {
 export class BiographyComponent implements OnInit {
 
   biographySubmitForm: any;
+  bgColor= '#3c3c3c';
   events: string[] = [];
   startDate = new Date(1990, 0, 1);
   startDate2 = new Date(1990, 1, 1);
@@ -62,6 +64,7 @@ export class BiographyComponent implements OnInit {
         'from_year': [null],
         'to_year': [null],
         'career_description': ['', Validators.required],
+        background_color: ['', ],
         'client_id': [null]
       });
      }

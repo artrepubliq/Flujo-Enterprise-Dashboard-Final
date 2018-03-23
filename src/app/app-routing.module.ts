@@ -28,7 +28,9 @@ import { ReportanissueComponent } from './reportanissue/reportanissue.component'
 import { FilerepositoryComponent } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
-
+import { CreateModuleComponent } from './create-module/create-module.component';
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
 const routes: Routes = [
   {
     path: '',
@@ -75,9 +77,12 @@ const routes: Routes = [
           { path: 'media/gallery', component: ViewGalleryComponent },
           { path: 'socialmanagement', component: SocialManagementComponent },
           { path: 'biography', component: BiographyComponent },
+          { path: 'module', component: CreateModuleComponent },
           { path: 'filerepository', component: FilerepositoryComponent },
           { path: 'managereports', component: ManageReportsComponent },
           { path: 'analytics', component: AnalyticsComponent },
+          { path: 'termsnconditions', component: TncComponent },
+          { path: 'privacynpolicy', component: PnpComponent },
         ]
       }
     ]
