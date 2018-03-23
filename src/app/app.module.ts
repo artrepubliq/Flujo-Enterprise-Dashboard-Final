@@ -77,6 +77,12 @@ import { DocumentViewModule } from 'ngx-document-view';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateModuleComponent } from './create-module/create-module.component';
 
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
+
+import { HeaderurlsComponent } from './headerurls/headerurls.component';
+
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -119,7 +125,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FeedbackComponent,
     ChangemakerComponent,
     AnalyticsComponent,
-    CreateModuleComponent
+    CreateModuleComponent,
+
+    TncComponent,
+    PnpComponent
+
+    HeaderurlsComponent,
+
   ],
   imports: [
     BrowserModule,
