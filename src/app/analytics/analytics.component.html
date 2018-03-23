@@ -20,10 +20,10 @@
     <div fxLayout="row" fxLayoutGap="1rem" class="problems" [perfectScrollbar]="config">
         <div class="" *ngFor="let problem of data">
               <mat-card class="example-card">
-                  <mat-card-content>  
+                  <mat-card-content *ngFor="let category of problem.problem_category">  
                     <div fxLayout="column" fxLayoutGap="1rem">
                       <div fxLayout="row" fxLayoutAlign="space-between start">
-                          <div class="solved">{{problem.solved}}</div>
+                          <div class="solved">{{category.solved}}</div>
                           <div class="pending">{{problem.pending}}</div>
                       </div>
                       <div fxLayout="column" fxLayoutAlign="end center">
