@@ -15,7 +15,13 @@ import * as moment from 'moment';
 export class AnalyticsComponent implements OnInit {
   timeRange = 'option2';
   isActive = true;
-
+  // color = 'accent';
+  colors = ['#ee2f6b','#0cc0df','#fecd0f'];
+    // color1 = 'accent';
+    // color2 = 'primary';
+    // color3 = 'warn';
+  mode = 'determinate';
+  value = 50;
 
   params = {
     client_id: AppConstants.CLIENT_ID,
