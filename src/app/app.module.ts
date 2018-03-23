@@ -128,9 +128,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CreateModuleComponent,
 
     TncComponent,
-    PnpComponent
+    PnpComponent,
 
-    HeaderurlsComponent,
+    HeaderurlsComponent
 
   ],
   imports: [
