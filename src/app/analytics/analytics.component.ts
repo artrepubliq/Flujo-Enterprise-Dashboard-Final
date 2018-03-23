@@ -8,6 +8,8 @@ import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
 import * as _ from 'underscore';
 import * as moment from 'moment';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { single, multi, gender } from './data';
 
 @Component({
   selector: 'app-analytics',
@@ -47,10 +49,8 @@ export class AnalyticsComponent implements OnInit {
 
   onDateInput = (e: MatDatepickerInputEvent<Date>) => this.lastDateInput = e.value;
   onDateChange = (e: MatDatepickerInputEvent<Date>) => this.lastDateChange = e.value;
-  constructor() { }
+  
 
-  ngOnInit() {
-  }
   timeChange = (range) => {
     this.timeRange = range;
     this.isActive = ! this.isActive;
@@ -81,14 +81,10 @@ export class AnalyticsComponent implements OnInit {
 
   newData : any = [];
   problem_category : any;
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) { Object.assign(this, { single, multi, gender }) }
 
   ngOnInit() {
     this.getData(this.params);
-  }
-  timeChange = (range) => {
-    this.timeRange = range;
-    this.isActive = !this.isActive;
   }
 
   getData(params) {
@@ -107,4 +103,24 @@ export class AnalyticsComponent implements OnInit {
   }
 
 
+  onSelect(event) {
+    console.log(event);
+  }
+  /* Chart -2 */
+  single: any[];
+  multi: any[];
+
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = true;
+  showXAxisLabel = true;
+  xAxisLabel = 'Country';
+  showYAxisLabel = true;
+  yAxisLabel = 'Population';
+
+  colorScheme = {
+    domain: ['#0cc0df', '#ee2f6b', '#452c59', '#fecd0f']
+  };
+  /* Chart -2 */
 }
