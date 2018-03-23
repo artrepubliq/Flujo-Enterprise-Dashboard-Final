@@ -77,6 +77,8 @@ import { DocumentViewModule } from 'ngx-document-view';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateModuleComponent } from './create-module/create-module.component';
 import { HeaderurlsComponent } from './headerurls/headerurls.component';
+import { ProblemCategoryComponent } from './problem-category/problem-category.component';
+import { ProblemTypeService } from './service/problem-type.service';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -123,6 +125,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AnalyticsComponent,
     CreateModuleComponent,
     HeaderurlsComponent,
+    ProblemCategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -181,6 +184,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               NgxSmartLoaderService,
               LoginAuthService,
               FBService,
+              ProblemTypeService,
               {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,
               // {

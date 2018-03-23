@@ -1,0 +1,38 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<div class="card_pb">
+  <div class="report_problem_block" fxLayoutAlign="center center">
+    <div class="profile_header">
+      <h3 class="header_title">Problem Category</h3>
+      <div>
+        <i class="fa fa-pencil" *ngIf="updateProblem" aria-hidden="true" (click)="updateProblemData()"></i>
+      </div>
+
+      <div *ngIf="!isEdit">
+        <mat-form-field>
+          <mat-select placeholder="Select Problem" [(ngModel)]="selectedValue" name="problem" (ngModelChange)="onChangetProblem($event)">
+            <mat-option [value]=''>NONE</mat-option>
+            <mat-option *ngFor="let problem of problemTypeData" [value]="{reportproblemtype_id:problem.id, problem_type:problem.problem_type}">
+              {{problem.problem_type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <form [formGroup]="problemForm">
+        <div>
+          <mat-form-field *ngIf="isEdit" class="">
+            <input matInput placeholder="Problem Type" formControlName="problemtypename" [(ngModel)]="problemTypeName">
+          </mat-form-field>
+        </div>
+      </form>
+      <div fxLayout="row" fxLayoutGap="30px">
+        <div>
+          <button mat-button *ngIf="isEdit" (click)="updateProblemService()">Update</button>
+        </div>
+        <div>
+          <button mat-button *ngIf="isEdit" (click)="backToSelect()">cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

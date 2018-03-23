@@ -4,14 +4,14 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
-  
+
 })
 export class EditorComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit() {
-    
+
   }
 
 }

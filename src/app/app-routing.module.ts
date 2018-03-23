@@ -29,6 +29,7 @@ import { FilerepositoryComponent } from './filerepository/filerepository.compone
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { CreateModuleComponent } from './create-module/create-module.component';
+import { ProblemCategoryComponent } from './problem-category/problem-category.component';
 const routes: Routes = [
   {
     path: '',
@@ -79,6 +80,7 @@ const routes: Routes = [
           { path: 'filerepository', component: FilerepositoryComponent },
           { path: 'managereports', component: ManageReportsComponent },
           { path: 'analytics', component: AnalyticsComponent },
+          { path: 'problemcategory', component: ProblemCategoryComponent}
         ]
       }
     ]
