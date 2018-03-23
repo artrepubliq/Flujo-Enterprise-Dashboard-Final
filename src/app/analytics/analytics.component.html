@@ -94,16 +94,64 @@
   </div>
   <div class="rect_card" fxLayout="row" fxLayoutGap="15px">
     <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
         <h3 class="title">Status</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
-      <div class="chart_body">
+      <div class="chart_body">     
+              <!-- {{color[0]}} -->
+                  <div fxLayout="row" class="status-bars" fxLayoutAlign="space-between end">
+                    <div fxFlex="30" class="completed">
+                      <p class="completed">Completed</p>
+                      <div fxLayout="row" fxLayoutAlign="space-between start">
+                          <span [style.color]='colors[0]'>325</span>
+                          <span class="muted">325</span>
+                      </div><br/>  
+                      <section class="example-section">
+                        <mat-progress-bar
+                            class="example-margin"
+                            [mode]="mode"
+                            [value]="value"
+                            [bufferValue]="bufferValue">
+                        </mat-progress-bar>
+                      </section>
+                    </div>
+                    <div fxFlex="30" class="inprogress">
+                      <p class="inprogress">Inprogress</p>
+                      <div fxLayout="row" fxLayoutAlign="space-between start">
+                        <span [style.color]='colors[1]'>325</span>
+                        <span class="muted">325</span>
+                      </div><br/>  
+                      <section class="example-section">
+                        <mat-progress-bar
+                            class="example-margin"
+                            [mode]="mode"
+                            [value]="value"
+                            [bufferValue]="bufferValue">
+                        </mat-progress-bar>
+                      </section>
+                    </div>
+                    <div fxFlex="30" class="unresolved">
+                      <p class="unresolved">Unresolved</p>
+                      <div fxLayout="row" fxLayoutAlign="space-between start">
+                          <span [style.color]='colors[2]'>325</span>
+                          <span class="muted">325</span>
+                      </div><br/>  
+                      <section class="example-section">
+                        <mat-progress-bar
+                            class="example-margin"
+                            [mode]="mode"
+                            [value]="value"
+                            [bufferValue]="bufferValue">
+                        </mat-progress-bar>
+                      </section>
+                    </div>
+                  </div>
 
       </div>
     </div>
     <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
         <h3 class="title">Locality</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
