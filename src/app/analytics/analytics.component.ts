@@ -37,10 +37,8 @@ export class AnalyticsComponent implements OnInit {
 
   onDateInput = (e: MatDatepickerInputEvent<Date>) => this.lastDateInput = e.value;
   onDateChange = (e: MatDatepickerInputEvent<Date>) => this.lastDateChange = e.value;
-  constructor() { }
+  
 
-  ngOnInit() {
-  }
   timeChange = (range) => {
     this.timeRange = range;
     this.isActive = ! this.isActive;
@@ -75,10 +73,6 @@ export class AnalyticsComponent implements OnInit {
 
   ngOnInit() {
     this.getData(this.params);
-  }
-  timeChange = (range) => {
-    this.timeRange = range;
-    this.isActive = !this.isActive;
   }
 
   getData(params) {
