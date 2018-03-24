@@ -8,7 +8,7 @@
         <i class="fa fa-pencil" *ngIf="updateProblem" aria-hidden="true" (click)="updateProblemData()"></i>
       </div>
 
-      <div *ngIf="!isEdit">
+      <div *ngIf="selectProblem">
         <mat-form-field>
           <mat-select placeholder="Select Problem" [(ngModel)]="selectedValue" name="problem" (ngModelChange)="onChangetProblem($event)">
             <mat-option [value]=''>NONE</mat-option>
@@ -18,10 +18,17 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div>
+        <button mat-button *ngIf="newProblemBtn" (click)="createNewBtn()">Create new</button>
+      </div>
       <form [formGroup]="problemForm">
         <div>
           <mat-form-field *ngIf="isEdit" class="">
             <input matInput placeholder="Problem Type" formControlName="problemtypename" [(ngModel)]="problemTypeName">
+          </mat-form-field>
+
+          <mat-form-field *ngIf="isNew" class="">
+            <input matInput placeholder="Problem Type" formControlName="problemtypenamenew">
           </mat-form-field>
         </div>
       </form>
@@ -30,7 +37,13 @@
           <button mat-button *ngIf="isEdit" (click)="updateProblemService()">Update</button>
         </div>
         <div>
-          <button mat-button *ngIf="isEdit" (click)="backToSelect()">cancel</button>
+          <button mat-button *ngIf="isEdit" (click)="deleteProblem()">Delete</button>
+        </div>
+        <div>
+          <button mat-button *ngIf="isNew" (click)="createNewproblem()">Create</button>
+        </div>
+        <div>
+          <button mat-button *ngIf="isCancel" (click)="backToSelect()">cancel</button>
         </div>
       </div>
     </div>

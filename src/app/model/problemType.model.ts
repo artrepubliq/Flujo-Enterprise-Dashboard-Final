@@ -10,7 +10,7 @@ export interface Iresult {
 }
 
 export interface IUpdateableData {
-    reportproblemtype_id: string;
+    reportproblemtype_id?: string;
     problem_type: string;
     client_id?: string;
 }

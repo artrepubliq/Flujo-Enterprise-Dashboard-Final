@@ -16,4 +16,7 @@ export class ProblemTypeService {
   public updateProblemType(request_url: string, post_data: Object) {
     return this.httpClient.post<IHttpResponse>(AppConstants.API_URL + request_url, post_data);
   }
+  public deleteProblem(request_url: string, report_id: string) {
+    return this.httpClient.delete<IHttpResponse>(AppConstants.API_URL + request_url + report_id);
+  }
 }
