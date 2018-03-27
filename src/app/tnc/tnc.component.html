@@ -1,0 +1,35 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+
+<div class="container smsContact page_padding">
+    <ngx-alerts maxMessages="3" timeout="5000">
+    </ngx-alerts>
+  
+  
+    <div fxLayout="row" class="p-rel">
+      <div class="page-header">
+        Terms & Conditions
+      </div>
+      <button mat-raised-button class="choose-button">Choose Template +</button>
+    </div>
+  
+    <form role="form" class="admin-form"  method="post" enctype="multipart/form-data">
+      <div fxLayout="row" fxLayoutGap="48px">
+        <div fxFlex fxLayout="column" fxLayoutGap="13px" class="input_box">
+          <label>Title</label>
+          <div>
+            <input type="text" placeholder="Enter Title">
+          </div>
+        </div>
+      </div>
+  
+      <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+        <label>Description</label>
+        <div class="input_box">
+            <ck-editor fxFlex name="editor1"  skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        </div>
+      </div><br/>
+      <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
+        <button type="submit" class="button_submit">Submit</button>
+      </div>
+    </form>
+  </div>

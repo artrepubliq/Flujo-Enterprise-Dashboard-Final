@@ -445,3 +445,76 @@ control-messages,
     margin-top: 3px;
   }
 }
+
+
+.status-bars {
+  font-family: Roboto;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  .completed {
+    .mat-progress-bar-fill::after {
+    background-color: #ee2f6b;
+    border-radius: 5px;
+    }
+    p{
+      color: #666666;
+      font-size: 13px;
+     
+    }
+    span.muted{
+      color: #999999;
+      font-size: 12px;
+    }
+  }
+  .inprogress {
+    .mat-progress-bar-fill::after {
+    background-color: #0cc0df;
+    border-radius: 5px;
+    }
+    p{
+      color: #666666;
+      font-size: 13px;
+    }
+    span.muted{
+      color: #999999;
+      font-size: 12px;
+    }
+  }
+  .unresolved {
+    .mat-progress-bar-fill::after {
+    background-color: #fecd0f;
+    border-radius: 5px;
+    }
+    p{
+      color: #666666;
+      font-size: 13px;
+    }
+    span.muted{
+      color: #999999;
+      font-size: 12px;
+    }
+  }
+}
+.analytics_dates {
+  .mat-form-field-suffix {
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    height: 40px;
+    button {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+    .mat-button-wrapper {
+      margin-right: 16px;
+      float: right;
+    }
+    .mat-button-focus-overlay {
+      opacity: 0 !important;
+    }
+  }
+}

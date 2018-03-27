@@ -25,7 +25,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
   // tslint:disable-next-line:max-line-length
-  MatDialogModule, MatSlideToggleModule, MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, MatNativeDateModule, MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
+  MatDialogModule, MatSlideToggleModule,MatProgressBarModule, MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, MatNativeDateModule, MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -81,7 +81,12 @@ import { ProblemCategoryComponent } from './problem-category/problem-category.co
 import { ProblemTypeService } from './service/problem-type.service';
 import { AreaService } from './service/area.service';
 import { AreasComponent } from './areas/areas.component';
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
 
+import { HeaderurlsComponent } from './headerurls/headerurls.component';
+import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -126,12 +131,19 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangemakerComponent,
     AnalyticsComponent,
     CreateModuleComponent,
+
+    TncComponent,
+    PnpComponent,
+
     HeaderurlsComponent,
     ProblemCategoryComponent,
     AreasComponent,
+    ChartsAgePieComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule, 
+    NgxChartsModule, 
     AppRoutingModule,
     HttpClientModule,
     CKEditorModule,
@@ -162,6 +174,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatCardModule,
     MatIconModule,
     MomentModule,
+    MatProgressBarModule,
     MatAutocompleteModule,
     NgIdleKeepaliveModule.forRoot(),
     MalihuScrollbarModule.forRoot(),
@@ -175,7 +188,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxPaginationModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgxChartsModule
   ],
 
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
