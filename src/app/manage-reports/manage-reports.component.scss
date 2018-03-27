@@ -359,9 +359,23 @@ input{
 .manage_reports_table{
     max-height: calc(100vh - 340px);
     position: relative;
+    bottom: 2rem;
+    margin-top: 0.5;
+    .manage_reports_data{
+        padding:0 1rem;
+        padding-bottom: 0.5rem;
+    }
 }
-
-
+.paginationn{
+    background: transparent;
+}
+.feedback_footer {
+    position: fixed;
+    margin-top:2rem;
+    width: 100%;
+    bottom: 0;
+    right: 53px;
+}
 
 button.active {
     background-color: #4a2565 !important;
