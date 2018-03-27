@@ -5,7 +5,7 @@
     <div class="profile_header">
       <h3 class="header_title">Problem Category</h3>
       <div>
-        <i class="fa fa-pencil" *ngIf="updateProblem" aria-hidden="true" (click)="updateProblemData()"></i>
+        <i class="fa fa-pencil" fxLayout="column" fxLayoutAlign="start end" *ngIf="updateProblem" aria-hidden="true" (click)="updateProblemData()"></i>
       </div>
 
       <div *ngIf="selectProblem">
@@ -31,20 +31,20 @@
             <input matInput placeholder="Problem Type" formControlName="problemtypenamenew">
           </mat-form-field>
         </div>
+        <div fxLayout="row" fxLayoutGap="30px">
+          <div>
+            <button mat-button *ngIf="isEdit" (click)="updateProblemService()">Update</button>
+          </div>
+          <div>
+            <button mat-button *ngIf="isEdit" (click)="deleteProblem()">Delete</button>
+          </div>
+          <div>
+            <button mat-button *ngIf="isNew" (click)="createNewproblem()">Create</button>
+          </div>
+        </div>
       </form>
-      <div fxLayout="row" fxLayoutGap="30px">
-        <div>
-          <button mat-button *ngIf="isEdit" (click)="updateProblemService()">Update</button>
-        </div>
-        <div>
-          <button mat-button *ngIf="isEdit" (click)="deleteProblem()">Delete</button>
-        </div>
-        <div>
-          <button mat-button *ngIf="isNew" (click)="createNewproblem()">Create</button>
-        </div>
-        <div>
-          <button mat-button *ngIf="isCancel" (click)="backToSelect()">cancel</button>
-        </div>
+      <div>
+        <button mat-button *ngIf="isCancel" (click)="backToSelect()">Go back</button>
       </div>
     </div>
   </div>

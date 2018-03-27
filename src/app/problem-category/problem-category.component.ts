@@ -4,7 +4,7 @@ import { AppConstants } from '../app.constants';
 import { IproblemType, IUpdateableData } from '../model/problemType.model';
 import { ProblemTypeService } from '../service/problem-type.service';
 import { IHttpResponse } from '../model/httpresponse.model';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { AlertService } from 'ngx-alerts';
@@ -43,7 +43,7 @@ export class ProblemCategoryComponent implements OnInit {
     this.isCancel = false;
     this.problemForm = new FormGroup({
       'problemtypename': new FormControl(this.problemTypeName),
-      'problemtypenamenew': new FormControl(this.problemTypeNameNew)
+      'problemtypenamenew': new FormControl(this.problemTypeNameNew, [Validators.required])
     });
   }
 
@@ -100,24 +100,28 @@ export class ProblemCategoryComponent implements OnInit {
   }
 
   public updateProblemService(): void {
-    this.spinnerService.show();
     this.updatableData.client_id = AppConstants.CLIENT_ID;
     this.updatableData.problem_type = this.problemForm.get('problemtypename').value;
     console.log(this.updatableData);
-    this.problemService.updateProblemType('flujo_client_postreportproblemtype', this.updatableData)
-      .subscribe(
-        data => {
-          console.log(data);
-          this.spinnerService.hide();
-          this.alertService.success('Problem Updated Successfully');
-          this.getproblemData();
-        },
-        error => {
-          this.spinnerService.hide();
-          this.alertService.warning('Something went wrong');
-          console.log(error);
-        }
-      );
+    if (this.updatableData.problem_type) {
+      this.spinnerService.show();
+      this.problemService.updateProblemType('flujo_client_postreportproblemtype', this.updatableData)
+        .subscribe(
+          data => {
+            console.log(data);
+            this.spinnerService.hide();
+            this.alertService.success('Problem Updated Successfully');
+            this.getproblemData();
+          },
+          error => {
+            this.spinnerService.hide();
+            this.alertService.warning('Something went wrong');
+            console.log(error);
+          }
+        );
+    } else {
+      this.alertService.warning('Please fill in the Problem field');
+    }
   }
 
   public createNewBtn(): void {
@@ -139,6 +143,7 @@ export class ProblemCategoryComponent implements OnInit {
     };
     console.log(this.problemForm.get('problemtypenamenew').value);
     console.log(this.newProblemData);
+    this.spinnerService.show();
     this.problemService.updateProblemType('flujo_client_postreportproblemtype', this.newProblemData)
       .subscribe(
         data => {
@@ -156,21 +161,21 @@ export class ProblemCategoryComponent implements OnInit {
   }
 
   public deleteProblem(): void {
-    // this.spinnerService.show();
+    this.spinnerService.show();
     // this.updatableData.client_id = AppConstants.CLIENT_ID;
     // this.updatableData.problem_type = this.problemForm.get('problemtypename').value;
     console.log(this.updatableData.reportproblemtype_id);
     this.problemService.deleteProblem('flujo_client_deletereportproblemtype/', this.updatableData.reportproblemtype_id)
-    .subscribe(
-      data => {
+      .subscribe(
+        data => {
           this.spinnerService.hide();
           this.alertService.success('Problem deleted successfully');
           this.getproblemData();
-      },
-      error => {
+        },
+        error => {
           this.alertService.success('File something went wrong successfully');
           console.log(error);
-      }
-  );
+        }
+      );
   }
 }

@@ -79,6 +79,8 @@ import { CreateModuleComponent } from './create-module/create-module.component';
 import { HeaderurlsComponent } from './headerurls/headerurls.component';
 import { ProblemCategoryComponent } from './problem-category/problem-category.component';
 import { ProblemTypeService } from './service/problem-type.service';
+import { AreaService } from './service/area.service';
+import { AreasComponent } from './areas/areas.component';
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -126,6 +128,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CreateModuleComponent,
     HeaderurlsComponent,
     ProblemCategoryComponent,
+    AreasComponent,
   ],
   imports: [
     BrowserModule,
@@ -185,6 +188,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               LoginAuthService,
               FBService,
               ProblemTypeService,
+              AreaService,
               {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,
               // {

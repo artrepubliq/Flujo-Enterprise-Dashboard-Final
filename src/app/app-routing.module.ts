@@ -30,6 +30,7 @@ import { ManageReportsComponent } from './manage-reports/manage-reports.componen
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { CreateModuleComponent } from './create-module/create-module.component';
 import { ProblemCategoryComponent } from './problem-category/problem-category.component';
+import { AreasComponent } from './areas/areas.component';
 const routes: Routes = [
   {
     path: '',
@@ -80,7 +81,8 @@ const routes: Routes = [
           { path: 'filerepository', component: FilerepositoryComponent },
           { path: 'managereports', component: ManageReportsComponent },
           { path: 'analytics', component: AnalyticsComponent },
-          { path: 'problemcategory', component: ProblemCategoryComponent}
+          { path: 'problemcategory', component: ProblemCategoryComponent},
+          { path: 'areacategory', component: AreasComponent}
         ]
       }
     ]
