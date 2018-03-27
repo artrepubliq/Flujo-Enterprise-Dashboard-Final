@@ -26,7 +26,7 @@ export class AnalyticsComponent implements OnInit {
     // color2 = 'primary';
     // color3 = 'warn';
   mode = 'determinate';
-  value = 50;
+  value = 5;
 
   touch: boolean;
   filterOdd: boolean;
@@ -55,32 +55,21 @@ export class AnalyticsComponent implements OnInit {
     this.timeRange = range;
     this.isActive = ! this.isActive;
   }
+  // tslint:disable-next-line:member-ordering
   params = {
     client_id: AppConstants.CLIENT_ID,
     from_date: '2000-01-01',
     to_date: '2018-03-31',
     problem_type: ['water', 'power', 'road']
-  }
-  
-  data: any = [
-    {id: 1, solved: 10, pending: 20,problems:50,category:'water'},
-    {id: 2, solved: 10, pending: 20, problems:50,category:'power'},
-    {id: 3, solved: 10, pending: 20, problems:50,category:'sanitation'},
-    {id: 4, solved: 10, pending: 20, problems:50,category:"Drinage"},
-    {id: 5, solved: 10, pending: 20, problems:50,category:"roads"},
-    {id: 6, solved: 10, pending: 20, problems:50,category:"manholes"},
-    {id: 7, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:'test'},
-  ];
+  };
 
   newData : any = [];
   problem_category : any;
+  status_reports : any;
+  gender : any;
+  age : any;
+  assign : any;
+  area : any;
   constructor(public http: HttpClient) { Object.assign(this, { single, multi, gender }) }
 
   ngOnInit() {
@@ -91,11 +80,16 @@ export class AnalyticsComponent implements OnInit {
     this.http.post<Observable<any[]>>('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
     .subscribe(
       response => {
-        console.log(response);
+        console.log(JSON.stringify(response));
         this.newData = response;
         this.problem_category = this.newData[0].problem_category;
-        console.log(JSON.stringify(this.problem_category));
-        
+        this.status_reports = this.newData[4].report_status;
+        this.gender = this.newData[1].gender;
+        this.area = this.newData[2].area;
+        this.age = this.newData[3].age;
+        this.assign = this.newData[5].assign;
+        // console.log(JSON.stringify(this.problem_category));
+        // console.log(JSON.stringify(this.status_reports));
       },
       error => {
         console.log(error);
