@@ -78,7 +78,8 @@
       <div class="chart_body">
         <ngx-charts-pie-grid [scheme]="colorScheme" [results]="gender" (select)="onSelect($event)">
         </ngx-charts-pie-grid>
-
+        <ngx-charts-pie-grid [scheme]="colorScheme" [results]="gender" (select)="onSelect($event)">
+        </ngx-charts-pie-grid>
       </div>
       <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
         <h3 class="chart_item fmale">Female</h3>
@@ -93,7 +94,8 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
+        <ngx-charts-bar-vertical-stacked
+           [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
           [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
           [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
         </ngx-charts-bar-vertical-stacked>
@@ -108,7 +110,7 @@
       </div>
       <div class="chart_body">
 
-          <app-charts-age-pie [ageData]="ageData"></app-charts-age-pie>
+        <app-charts-age-pie [ageData]="ageData"></app-charts-age-pie>
 
       </div>
       <div class="chart_footer">
@@ -124,55 +126,46 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
 
-      <div class="chart_body">     
-              <!-- {{color[0]}} -->
-                  <div fxLayout="row" class="status-bars" fxLayoutAlign="space-between end">
-                    <div fxFlex="30" class="completed">
-                      <p class="completed">Completed</p>
-                      <div fxLayout="row" fxLayoutAlign="space-between start">
-                          <span [style.color]='colors[0]'>325</span>
-                          <span class="muted">325</span>
-                      </div><br/>  
-                      <section class="example-section">
-                        <mat-progress-bar
-                            class="example-margin"
-                            [mode]="mode"
-                            [value]="value"
-                            [bufferValue]="bufferValue">
-                        </mat-progress-bar>
-                      </section>
-                    </div>
-                    <div fxFlex="30" class="inprogress">
-                      <p class="inprogress">Inprogress</p>
-                      <div fxLayout="row" fxLayoutAlign="space-between start">
-                        <span [style.color]='colors[1]'>325</span>
-                        <span class="muted">325</span>
-                      </div><br/>  
-                      <section class="example-section">
-                        <mat-progress-bar
-                            class="example-margin"
-                            [mode]="mode"
-                            [value]="value"
-                            [bufferValue]="bufferValue">
-                        </mat-progress-bar>
-                      </section>
-                    </div>
-                    <div fxFlex="30" class="unresolved">
-                      <p class="unresolved">Unresolved</p>
-                      <div fxLayout="row" fxLayoutAlign="space-between start">
-                          <span [style.color]='colors[2]'>325</span>
-                          <span class="muted">325</span>
-                      </div><br/>  
-                      <section class="example-section">
-                        <mat-progress-bar
-                            class="example-margin"
-                            [mode]="mode"
-                            [value]="value"
-                            [bufferValue]="bufferValue">
-                        </mat-progress-bar>
-                      </section>
-                    </div>
-                  </div>
+      <div class="chart_body">
+        <!-- {{color[0]}} -->
+        <div fxLayout="row" class="status-bars" fxLayoutAlign="space-between end" *ngFor="let status of status_reports">
+          <div fxFlex="30" class="completed">
+            <p class="completed">Completed</p>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <span [style.color]='colors[0]'>{{status.completed}}</span>
+              
+            </div>
+            <br/>
+            <section class="example-section">
+              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+              </mat-progress-bar>
+            </section>
+          </div>
+          <div fxFlex="30" class="inprogress">
+            <p class="inprogress">Inprogress</p>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <span [style.color]='colors[1]'>{{status.in_progress}}</span>
+              
+            </div>
+            <br/>
+            <section class="example-section">
+              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+              </mat-progress-bar>
+            </section>
+          </div>
+          <div fxFlex="30" class="unresolved">
+            <p class="unresolved">Unresolved</p>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <span [style.color]='colors[2]'>{{status.unresolved}}</span>
+              
+            </div>
+            <br/>
+            <section class="example-section">
+              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+              </mat-progress-bar>
+            </section>
+          </div>
+        </div>
       </div>
     </div>
     <div fxFlex class="chart_card">
