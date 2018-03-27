@@ -61,3 +61,49 @@
     </div>
   </div>
 </div>
+<br>
+<br>
+<br>
+<div fxLayout="column" fxLayoutGap="30px" class="area_problem">
+  <div class="input_fields input_box">
+    <form [formGroup]="areaForm"  fxLayout="row" fxLayoutGap="15px">
+      <input type="text" class="input" placeholder="Area Name" formControlName="areatypenamenew">
+      <input placeholder="Area pincode" formControlName="areapincodenew">
+      <button class="button_submit" [disabled]="areaForm.invalid" (click)="createNewArea()">Add</button>
+    </form>
+  </div>
+  <div class="view_items" fxLayout="column" fxLayoutGap="15px">
+    <div class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
+      <div class="name" fxFlex>
+        Area Name
+      </div>
+      <div class="code" fxFlex>
+        Area Code
+      </div>
+      <div fxLayout="row" fxLayoutGap="15px" fxFlex>
+        <button (click)="updateAreaService()" type="button" class="btn">
+          <i class="fa fa-pencil"></i>
+        </button>
+        <button (click)="deletearea()" type="button" class="btn">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+    </div>
+    <div *ngFor="let area of areaData" class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
+      <div class="name" fxFlex>
+        {{area.area}}
+      </div>
+      <div class="code" fxFlex>
+        {{area.pincode}}
+      </div>
+      <div fxLayout="row" fxLayoutGap="15px" fxFlex>
+        <button (click)="updateAreaData()" type="button" class="btn">
+          <i class="fa fa-pencil"></i>
+        </button>
+        <button (click)="deletearea()" type="button" class="btn">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
