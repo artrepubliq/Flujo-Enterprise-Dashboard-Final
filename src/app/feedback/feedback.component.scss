@@ -207,6 +207,9 @@ input{
 .feedback_table{
     height: calc(100vh - 350px);
     position: relative;
+    .feedback-data{
+        padding: 0 0.7rem;
+    }
 }
 .feedback_footer {
     position: absolute;

@@ -1,4 +1,5 @@
-import { Component, OnInit, Inject, AfterViewInit, OnDestroy } from '@angular/core';
+
+import { Component, OnInit, Inject, AfterViewInit, ViewChild, OnDestroy  } from '@angular/core';
 import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
@@ -6,7 +7,8 @@ import { ICreateUserDetails } from '../model/createUser.model';
 import { IArrows } from '../model/arrows.model';
 
 import CSVExportService from 'json2csvexporter';
-import { FormControl } from '@angular/forms';
+import {MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort} from '@angular/material';
+import { FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
@@ -28,7 +30,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy {
     showReports: IshowReports;
     assignedReportId: any;
-
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     reportProblemData: any;
     reportProblemData2: any;
     filterReportProblemData: any;
@@ -43,6 +46,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     reportAssignedToUserName: string;
     reportMoveToOption: string;
     reportRemarksOption: string;
+    reportCsvMail: FormGroup;
     usersListOptions = [];
     moveToListOptions = ['In Progress', 'Completed', 'Pending/UnResolved'];
     RemarksListOptions = ['constituency', 'othersOne', 'otherstwo', 'othersthree'];
@@ -300,9 +304,11 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                 (item.area.includes(searchTerm))
         ));
     }
+
     public onChange(searchitem: string): void {
         this.filterSubject.next(searchitem);
     }
+
 
     public ngOnDestroy(): void {
         this.filterSubject.complete();
