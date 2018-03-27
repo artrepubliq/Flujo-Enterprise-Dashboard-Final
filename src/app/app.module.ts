@@ -188,7 +188,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxPaginationModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgxChartsModule
   ],
 
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,

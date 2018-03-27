@@ -20,6 +20,13 @@ import { single, multi, gender } from './data';
 export class AnalyticsComponent implements OnInit {
   timeRange = 'option2';
   isActive = true;
+  // color = 'accent';
+  colors = ['#ee2f6b','#0cc0df','#fecd0f'];
+    // color1 = 'warn';
+    // color2 = 'primary';
+    // color3 = 'accent';
+  mode = 'determinate';
+  value = 50;
 
 
   //post params for analytics ajax data
