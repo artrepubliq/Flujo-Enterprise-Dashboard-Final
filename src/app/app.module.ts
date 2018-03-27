@@ -76,7 +76,11 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DocumentViewModule } from 'ngx-document-view';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateModuleComponent } from './create-module/create-module.component';
-
+import { HeaderurlsComponent } from './headerurls/headerurls.component';
+import { ProblemCategoryComponent } from './problem-category/problem-category.component';
+import { ProblemTypeService } from './service/problem-type.service';
+import { AreaService } from './service/area.service';
+import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 
@@ -132,9 +136,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     PnpComponent,
 
     HeaderurlsComponent,
-
+    ProblemCategoryComponent,
+    AreasComponent,
     ChartsAgePieComponent
-
   ],
   imports: [
     BrowserModule,
@@ -197,6 +201,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               NgxSmartLoaderService,
               LoginAuthService,
               FBService,
+              ProblemTypeService,
+              AreaService,
               {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,
               // {

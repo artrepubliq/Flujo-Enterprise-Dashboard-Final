@@ -1,4 +1,5 @@
-import { Component, OnInit, Inject, AfterViewInit, ViewChild } from '@angular/core';
+
+import { Component, OnInit, Inject, AfterViewInit, ViewChild, OnDestroy  } from '@angular/core';
 import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
@@ -15,7 +16,9 @@ import { IPostAssignedUser, IPostReportStatus } from '../model/reports-managemen
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { IshowReports } from '../model/showRepots.model';
-
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 
 @Component({
@@ -24,7 +27,7 @@ import { IshowReports } from '../model/showRepots.model';
 
 })
 
-export class ManageReportsComponent implements OnInit, AfterViewInit {
+export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy {
     showReports: IshowReports;
     assignedReportId: any;
     @ViewChild(MatSort) sort: MatSort;
@@ -51,6 +54,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
     filteredMoveToListOptions: Observable<string[]>;
     FilteredRemarksListOptions: Observable<string[]>;
     arrows: IArrows;
+    private filterSubject: Subject<string> = new Subject<string>();
 
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
@@ -66,6 +70,8 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         this.showReports = <IshowReports>{};
         this.showReports.completedActive = false;
         this.showReports.inProgressActive = false;
+        this.filterSubject.debounceTime(300).distinctUntilChanged().subscribe( searchItem =>
+        this.onChange2(searchItem));
     }
     ngOnInit() {
         this.spinnerService.show();
@@ -287,7 +293,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         console.log(this.reportProblemData);
     }
 
-    public onChange(searchTerm: string): void {
+    public onChange2(searchTerm: string): void {
         this.filterReportProblemData = this.reportProblemData.filter((item) =>
                 (item.name.includes(searchTerm) ||
                 (item.age.includes(searchTerm)) ||
@@ -298,21 +304,13 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
                 (item.area.includes(searchTerm))
         ));
     }
-    reportCsvMailSubmit = (body) => {
-        this.spinnerService.show();
-        const formModel = this.reportCsvMail.value;
-    
-        this.httpClient.post(AppConstants.API_URL + 'flujo_client_reportproblemreportmailattachment', formModel)
-          .subscribe(
-          data => {
-            this.reportCsvMail.reset();
-            this.alertService.info('Attachement sent succesfully');
-            this.spinnerService.hide();
-          },
-          error => {
-            this.spinnerService.hide();
-            this.alertService.danger('Email could not sent');
-          });
-      }
 
+    public onChange(searchitem: string): void {
+        this.filterSubject.next(searchitem);
+    }
+
+
+    public ngOnDestroy(): void {
+        this.filterSubject.complete();
+    }
 }
