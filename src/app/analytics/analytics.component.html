@@ -76,10 +76,12 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <ngx-charts-pie-grid [scheme]="colorScheme" [results]="gender" (select)="onSelect($event)">
-        </ngx-charts-pie-grid>
-        <ngx-charts-pie-grid [scheme]="colorScheme" [results]="gender" (select)="onSelect($event)">
-        </ngx-charts-pie-grid>
+        <div >
+          <canvas id="genderChartCanvas">
+            {{genderChart}}
+          </canvas>
+        </div>
+        
       </div>
       <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
         <h3 class="chart_item fmale">Female</h3>
@@ -94,11 +96,11 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <ngx-charts-bar-vertical-stacked
-           [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
-          [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
-        </ngx-charts-bar-vertical-stacked>
+          <div >
+              <canvas id="assignChartCanvas">
+                {{assignChart}}
+              </canvas>
+            </div>
       </div>
 
     </div>
@@ -110,11 +112,16 @@
       </div>
       <div class="chart_body">
 
-        <app-charts-age-pie [ageData]="ageData"></app-charts-age-pie>
+          <div >
+              <canvas id="ageChartCanvas">
+                {{ageChart}}
+              </canvas>
+            </div>
 
       </div>
-      <div class="chart_footer">
-
+      <div class="chart_footer" *ngFor="let item of range">
+        <p>{{item}} item</p>
+        
       </div>
     </div>
   </div>
@@ -174,7 +181,11 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-
+          <div >
+              <canvas id="areaChartCanvas">
+                {{areaChart}}
+              </canvas>
+            </div>
       </div>
     </div>
   </div>
