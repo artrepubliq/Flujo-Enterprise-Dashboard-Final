@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
@@ -6,7 +6,8 @@ import { ICreateUserDetails } from '../model/createUser.model';
 import { IArrows } from '../model/arrows.model';
 
 import CSVExportService from 'json2csvexporter';
-import { FormControl } from '@angular/forms';
+import {MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort} from '@angular/material';
+import { FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
@@ -26,7 +27,8 @@ import { IshowReports } from '../model/showRepots.model';
 export class ManageReportsComponent implements OnInit, AfterViewInit {
     showReports: IshowReports;
     assignedReportId: any;
-
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     reportProblemData: any;
     reportProblemData2: any;
     filterReportProblemData: any;
@@ -41,6 +43,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
     reportAssignedToUserName: string;
     reportMoveToOption: string;
     reportRemarksOption: string;
+    reportCsvMail: FormGroup;
     usersListOptions = [];
     moveToListOptions = ['In Progress', 'Completed', 'Pending/UnResolved'];
     RemarksListOptions = ['constituency', 'othersOne', 'otherstwo', 'othersthree'];
@@ -295,5 +298,21 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
                 (item.area.includes(searchTerm))
         ));
     }
+    reportCsvMailSubmit = (body) => {
+        this.spinnerService.show();
+        const formModel = this.reportCsvMail.value;
+    
+        this.httpClient.post(AppConstants.API_URL + 'flujo_client_reportproblemreportmailattachment', formModel)
+          .subscribe(
+          data => {
+            this.reportCsvMail.reset();
+            this.alertService.info('Attachement sent succesfully');
+            this.spinnerService.hide();
+          },
+          error => {
+            this.spinnerService.hide();
+            this.alertService.danger('Email could not sent');
+          });
+      }
 
 }
