@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, OnDestroy } from '@angular/core';
 import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
@@ -14,7 +14,9 @@ import { IPostAssignedUser, IPostReportStatus } from '../model/reports-managemen
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { IshowReports } from '../model/showRepots.model';
-
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 
 @Component({
@@ -23,7 +25,7 @@ import { IshowReports } from '../model/showRepots.model';
 
 })
 
-export class ManageReportsComponent implements OnInit, AfterViewInit {
+export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy {
     showReports: IshowReports;
     assignedReportId: any;
 
@@ -48,6 +50,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
     filteredMoveToListOptions: Observable<string[]>;
     FilteredRemarksListOptions: Observable<string[]>;
     arrows: IArrows;
+    private filterSubject: Subject<string> = new Subject<string>();
 
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
@@ -63,6 +66,8 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         this.showReports = <IshowReports>{};
         this.showReports.completedActive = false;
         this.showReports.inProgressActive = false;
+        this.filterSubject.debounceTime(300).distinctUntilChanged().subscribe( searchItem =>
+        this.onChange2(searchItem));
     }
     ngOnInit() {
         this.spinnerService.show();
@@ -284,7 +289,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
         console.log(this.reportProblemData);
     }
 
-    public onChange(searchTerm: string): void {
+    public onChange2(searchTerm: string): void {
         this.filterReportProblemData = this.reportProblemData.filter((item) =>
                 (item.name.includes(searchTerm) ||
                 (item.age.includes(searchTerm)) ||
@@ -295,5 +300,11 @@ export class ManageReportsComponent implements OnInit, AfterViewInit {
                 (item.area.includes(searchTerm))
         ));
     }
+    public onChange(searchitem: string): void {
+        this.filterSubject.next(searchitem);
+    }
 
+    public ngOnDestroy(): void {
+        this.filterSubject.complete();
+    }
 }
