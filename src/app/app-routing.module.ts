@@ -31,6 +31,9 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { CreateModuleComponent } from './create-module/create-module.component';
 import { ProblemCategoryComponent } from './problem-category/problem-category.component';
 import { AreasComponent } from './areas/areas.component';
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -83,6 +86,9 @@ const routes: Routes = [
           { path: 'analytics', component: AnalyticsComponent },
           { path: 'problemcategory', component: ProblemCategoryComponent},
           { path: 'areacategory', component: AreasComponent}
+          { path: 'termsnconditions', component: TncComponent },
+          { path: 'privacynpolicy', component: PnpComponent },
+
         ]
       }
     ]

@@ -214,9 +214,17 @@ input{
     border-radius: 30px;
 }
 .paginationn{
-    margin-left: auto; 
+    margin-left: auto;
+    background: transparent;
 }
 .changemaker_table{
-    height: calc(100vh - 340px);
+    height: calc(100vh - 350px);
     position: relative;
+    .link-row {
+        margin-bottom: 15px;
+    }
+}
+
+.feedback_footer .button_submit {
+    width: auto;
 }
