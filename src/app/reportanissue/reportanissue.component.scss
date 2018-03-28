@@ -125,25 +125,83 @@
         font-size: 13px;
         color: #999999 !important;
     }
+   
     span{
         font-size: 13px !important;
         line-height: 1.62 !important;
         color: #666666 !important;
     }
 }
-.problem-box:hover{
+.file-icon{
+    width: 35px;
+	height: 35px;
+	border-radius: 2px;
+	background-color:transparent;
+    border: solid 1px #d8d8d8;
+    text-align: center !important;
+    i{
+        line-height: 35px;
+        padding: 5px 0;
+    }
+}
+.collapseOne tr{
+    padding: 0 5px;
+}
+.link-row:hover{
+    box-shadow:0 -6px 12px -1px #0cc0df;
+    -webkit-box-shadow: 0 -6px 15px -3px #0cc0df;
+    border-top: 1.5px solid #0cc0df;
+    border-bottom: none !important;
+    border-bottom: none !important;
+}
+.link-row:hover.show {
+    box-shadow:0 6px 12px -1px #0cc0df !important;
+    -webkit-box-shadow:0 6px 12px 1px #0cc0df !important;
+    border-top:1.5px solid #0cc0df !important;
+    border-bottom: none !important;
+} 
+tbody.show:hover{
+    box-shadow:0 6px 12px -1px #0cc0df !important;
+    -webkit-box-shadow:0 6px 12px 1px #0cc0df !important;
+    border-top:1.5px solid #0cc0df !important;
+    border-bottom: none !important;
+}
+tbody.show:hover .link-row{
+    box-shadow:0 -6px 12px -1px #0cc0df;
+    -webkit-box-shadow: 0 -6px 15px -3px #0cc0df;
+    border-top: 1.5px solid #0cc0df;
+    border-bottom: none !important;
+    border-bottom: none !important;
+}
+#accordion:hover{
     box-shadow:0 0 12px -1px #0cc0df;
     border:1px solid #0cc0df;
 }
-.report-file-descr{
-    white-space: nowrap;
-      width: 20rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: 13px !important;
-      line-height: 1.62 !important;
-      color: #666666 !important;
+.report-problem-descr{
+    position: relative;
+    max-width: 12rem;
+    max-width: 40%;
 }
+.report-file-descr{
+    position: absolute;
+    white-space: pre-wrap !important;
+    width: 20rem !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    font-size: 13px !important;
+    line-height: 1.62 !important;
+    color: #666666 !important;
+    top: 1rem;
+    left: 2.5rem;
+    height: 2.5rem !important;
+}
+.report-file-descr::after{
+    content: '...';
+    position: relative;
+    left: auto;
+    top: 0px;
+}
+
 p.name-feedback{
     display: inline-block;
     white-space: nowrap;
@@ -161,14 +219,15 @@ p.name-feedback{
     height: 70px;
 }
 .table-bordered th{
-    font-size: 13px;
+    font-family: Roboto;
+	font-size: 13px;
 	font-weight: 500;
 	color: #666666;
 }
 .table-bordered td{
-    font-size: 14px;
-	font-weight: 500;
-	color: #333333;
+    font-family: Roboto;
+	font-size: 13px;
+	color: #666666;
 }
 .table-bordered th, .table-bordered td{
     border-left:none;

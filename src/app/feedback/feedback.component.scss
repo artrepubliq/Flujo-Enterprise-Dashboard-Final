@@ -1,29 +1,6 @@
 .sendMail-data {
-    position: relative;
-    display: inline-block;
-    .content-box {
-        padding: 8px;
-        position: absolute;
-        top: 0;
-        left: 100%;
-        margin-left: 20px;
-        box-shadow: 2px 4px 8px 0px rgba(0,0,0,0.5);
-        input {
-            padding: 8px;
-            font-size: 12px;
-            width: 100%;
-            margin-bottom: 5px;
-            outline: none;
-            border: 1px solid #eeeeee;
-        }
-        textarea {
-            border: 1px solid #eeeeee;
-            outline: none;
-            font-size: 12px;
-        }
-        input:focus,textarea:focus {
-            border-color: #000000;
-        }
+    .button_submit:disabled {
+        background: transparent;
     }
 }
 .form-error-msg {
@@ -31,19 +8,31 @@
     top: 100%;
     color: red;
 }
+.button-group button:focus, .active{
+    background: white !important;
+    box-shadow: none !important;
+}
 .btn-report{
     border-radius:30px !important; 
 }
-.btn-actissue {
+.btn-feedback {
     border-radius: 25px 0  0 25px;
     color: #999999;
     font-size: 12px;
     font-weight: 500;
     text-align: center;
 	border: solid 1.5px #f0f0f0;
-
 }
-.btn-pastissue {
+.btn-surveys, .btn-chmaker{
+    color: #999999;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    border: solid 1.5px #f0f0f0;
+    border-left:none;
+    border-radius: 0 !important;
+}
+.btn-dbs {
     border-radius:  0 25px 25px 0 ;
     border-left:none !important;
     color: #999999;
@@ -156,12 +145,20 @@ p.name-feedback{
     height: 70px;
 }
 .table-bordered th{
-    font-size: 13px;
+    font-family: Roboto;
+	font-size: 13px;
 	font-weight: 500;
 	color: #666666;
+	// color: var(--brownish-grey);
 }
 .table-bordered td{
-    font-size: 14px;
+    font-family: Roboto;
+	font-size: 13px;
+	color: #666666;
+}
+.table-bordered td .name-feedback{
+    font-family: Roboto;
+	font-size: 14px;
 	font-weight: 500;
 	color: #333333;
 }
@@ -203,4 +200,20 @@ p.name-feedback{
 }
 input{
     border-radius: 30px;
+}
+.paginationn{
+    background: transparent;
+}
+.feedback_table{
+    height: calc(100vh - 350px);
+    position: relative;
+    .feedback-data{
+        padding: 0 0.7rem;
+    }
+}
+.feedback_footer {
+    position: absolute;
+    top: 100%;
+    margin-top: 30px;
+    width: 100%;
 }

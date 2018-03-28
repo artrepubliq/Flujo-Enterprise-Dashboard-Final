@@ -1,0 +1,192 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<div class="analytics_block" fxLayout="column" fxLayoutGap="25px">
+  <!-- Analytics Header -->
+  <div fxLayout="row">
+    <div fxLayout="row" fxFlex="40" fxLayoutGap="10px" fxLayoutAlign="start center">
+      <h6 class="analytics">Analytics</h6>
+      <!-- <input type="date"> -->
+      <div class="analytics_dates" fxLayout="row" fxFlex="300px">
+
+        <mat-form-field color="accent" fxFlex>
+          <mat-label>Min date</mat-label>
+          <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" [disabled]="inputDisabled">
+          <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field color="accent" fxFlex>
+          <mat-label>Max date</mat-label>
+          <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" [disabled]="inputDisabled">
+          <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+
+    </div>
+    <div fxFlex fxLayoutAlign="center center" class="button-group">
+      <button class="btn btn-outline-secondary btn-start" (click)="timeChange('option1')" name="options" id="option1" autocomplete="off">Today</button>
+      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option2')" name="options" id="option2" [ngClass]="{'active':isActive}"
+        autocomplete="off"> Week</button>
+      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option3')" name="options" id="option3" autocomplete="off">
+        Month</button>
+      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option4')" name="options" id="option4" autocomplete="off">
+        Quarter</button>
+      <button class="btn btn-outline-secondary btn-end" (click)="timeChange('option5')" name="options" id="option5" autocomplete="off">
+        Year</button>
+    </div>
+  </div>
+  <!-- ..// Analytics Header -->
+
+  <div class="divide-line"></div>
+  <div class="problem-header">
+    <h6>Problem Category</h6>
+  </div>
+  <div fxLayout="row" fxLayoutGap="1rem" class="problems">
+    <div class="" *ngFor="let problem of problem_category">
+
+      <mat-card class="example-card">
+        <mat-card-content>
+
+          <div fxLayout="column" fxLayoutGap="1rem">
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <div class="solved">{{problem.completed}}</div>
+              <div class="pending">{{problem.unresolved}}</div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="end center">
+              <div class="tproblems" fxFlex>{{problem.count}}</div>
+              <div class="category" fxFlex>{{problem.category | uppercase}}</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <br>
+    </div>
+
+  </div>
+</div>
+<!-- ..// Problem Cards -->
+
+<!-- ======= Charts Cards ======== -->
+<div fxLayout="column" fxLayoutGap="15px">
+  <div fxLayout="row" fxLayoutGap="15px">
+    <!-- Chart - 1  -->
+    <div fxFlex class="chart_card">
+      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+        <h3 class="title">Gender</h3>
+        <i class="fa fa-ellipsis-v"></i>
+      </div>
+      <div class="chart_body">
+        <div >
+          <canvas id="genderChartCanvas">
+            {{genderChart}}
+          </canvas>
+        </div>
+        
+      </div>
+      <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
+        <h3 class="chart_item fmale">Female</h3>
+        <h3 class="chart_item male">Male</h3>
+      </div>
+    </div>
+
+    <!-- Chart - 2  -->
+    <div fxFlex class="chart_card">
+      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+        <h3 class="title">Assign</h3>
+        <i class="fa fa-ellipsis-v"></i>
+      </div>
+      <div class="chart_body">
+          <div >
+              <canvas id="assignChartCanvas">
+                {{assignChart}}
+              </canvas>
+            </div>
+      </div>
+
+    </div>
+    <!-- Chart - 3  -->
+    <div fxFlex class="chart_card">
+      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+        <h3 class="title">Age</h3>
+        <i class="fa fa-ellipsis-v"></i>
+      </div>
+      <div class="chart_body">
+
+          <div >
+              <canvas id="ageChartCanvas">
+                {{ageChart}}
+              </canvas>
+            </div>
+
+      </div>
+      <div class="chart_footer" *ngFor="let item of range">
+        <p>{{item}} item</p>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="rect_card" fxLayout="row" fxLayoutGap="15px">
+    <div fxFlex class="chart_card">
+      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
+        <h3 class="title">Status</h3>
+        <i class="fa fa-ellipsis-v"></i>
+      </div>
+
+      <div class="chart_body">
+        <!-- {{color[0]}} -->
+        <div fxLayout="row" class="status-bars" fxLayoutAlign="space-between end" *ngFor="let status of status_reports">
+          <div fxFlex="30" class="completed">
+            <p class="completed">Completed</p>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <span [style.color]='colors[0]'>{{status.completed}}</span>
+              
+            </div>
+            <br/>
+            <section class="example-section">
+              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+              </mat-progress-bar>
+            </section>
+          </div>
+          <div fxFlex="30" class="inprogress">
+            <p class="inprogress">Inprogress</p>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <span [style.color]='colors[1]'>{{status.in_progress}}</span>
+              
+            </div>
+            <br/>
+            <section class="example-section">
+              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+              </mat-progress-bar>
+            </section>
+          </div>
+          <div fxFlex="30" class="unresolved">
+            <p class="unresolved">Unresolved</p>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <span [style.color]='colors[2]'>{{status.unresolved}}</span>
+              
+            </div>
+            <br/>
+            <section class="example-section">
+              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+              </mat-progress-bar>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxFlex class="chart_card">
+      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
+        <h3 class="title">Locality</h3>
+        <i class="fa fa-ellipsis-v"></i>
+      </div>
+      <div class="chart_body">
+          <div >
+              <canvas id="areaChartCanvas">
+                {{areaChart}}
+              </canvas>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>

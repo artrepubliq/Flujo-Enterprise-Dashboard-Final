@@ -3,7 +3,6 @@ import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { AdminComponent } from './admin/admin.component';
 import { CallbackComponent } from './callback.component';
-import { ReportsComponent } from './reports/reports.component';
 import { LoginComponent } from './login/login.component';
 // import { PrivateDealsComponent } from './private-deals/private-deals.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
@@ -26,8 +25,15 @@ import { BiographyComponent } from './biography/biography.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
-import { FilerepositoryComponent } from "./filerepository/filerepository.component";
-import { ManageReportsComponent } from "./manage-reports/manage-reports.component";
+import { FilerepositoryComponent } from './filerepository/filerepository.component';
+import { ManageReportsComponent } from './manage-reports/manage-reports.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { CreateModuleComponent } from './create-module/create-module.component';
+import { ProblemCategoryComponent } from './problem-category/problem-category.component';
+import { AreasComponent } from './areas/areas.component';
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -74,8 +80,15 @@ const routes: Routes = [
           { path: 'media/gallery', component: ViewGalleryComponent },
           { path: 'socialmanagement', component: SocialManagementComponent },
           { path: 'biography', component: BiographyComponent },
+          { path: 'module', component: CreateModuleComponent },
           { path: 'filerepository', component: FilerepositoryComponent },
           { path: 'managereports', component: ManageReportsComponent },
+          { path: 'analytics', component: AnalyticsComponent },
+          { path: 'problemcategory', component: ProblemCategoryComponent},
+          { path: 'areacategory', component: AreasComponent},
+          { path: 'termsnconditions', component: TncComponent },
+          { path: 'privacynpolicy', component: PnpComponent },
+
         ]
       }
     ]

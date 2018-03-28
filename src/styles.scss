@@ -9,6 +9,10 @@
   margin: 0;
 }
 
+.p-rel {
+  position: relative;
+}
+
 button,
 button:focus {
   outline: none;
@@ -240,7 +244,6 @@ input[type="file"] {
 button {
   font-size: 14px;
   color: #666666;
- 
   cursor: pointer;
 }
 
@@ -257,7 +260,7 @@ button.button_submit {
 
 button:disabled {
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: not-allowed !important;
 }
 
 /* Input File  */
@@ -377,9 +380,137 @@ control-messages,
   }
 }
 
-
 // Custom Global Page-padding
-
 .page_padding {
   padding: 3vh 6vw 15px 4vw;
+}
+
+// Mat Toggle custom style
+.mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: rgba(63, 81, 181, 0.5);
+}
+
+.problem-box {
+  .mat-form-field-underline {
+    display: none !important;
+  }
+  .mat-form-field-label {
+    top: 1.5em;
+    left: 1em;
+  }
+  .mat-expansion-panel-header .mat-expansion-indicator::after {
+    content: '' !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-left: 5px solid transparent !important;
+    border-right: 5px solid transparent !important;
+    border-top: 5px solid #999999 !important;
+    display: inline-block;
+    border-style: none;
+    border-width: none;
+    content: '';
+    display: inline-block;
+    padding: 0;
+    transform: rotate(0);
+    vertical-align: middle;
+  }
+}
+
+/* FeedBack Material Table Custom Styles */
+
+.feedback_table {
+  .mat-table {
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+  }
+  .mat-header-row {
+    padding: 6px 24px;
+    border-color: #f5f5f5;
+  }
+  .mat-row {
+    padding: 15px 24px;
+    border-color: #f5f5f5;
+  }
+  .mat-sort-header-arrow {
+    // opacity: 1 !important;
+    // transform: translateY(-25px);
+    height: 0px;
+  }
+  .mat-sort-header-stem {
+    height: 0px;
+    margin-top: 3px;
+  }
+}
+
+.status-bars {
+  font-family: Roboto;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  .completed {
+    .mat-progress-bar-fill::after {
+      background-color: #ee2f6b;
+      border-radius: 5px;
+    }
+    p {
+      color: #666666;
+      font-size: 13px;
+    }
+    span.muted {
+      color: #999999;
+      font-size: 12px;
+    }
+  }
+  .inprogress {
+    .mat-progress-bar-fill::after {
+      background-color: #0cc0df;
+      border-radius: 5px;
+    }
+    p {
+      color: #666666;
+      font-size: 13px;
+    }
+    span.muted {
+      color: #999999;
+      font-size: 12px;
+    }
+  }
+  .unresolved {
+    .mat-progress-bar-fill::after {
+      background-color: #fecd0f;
+      border-radius: 5px;
+    }
+    p {
+      color: #666666;
+      font-size: 13px;
+    }
+    span.muted {
+      color: #999999;
+      font-size: 12px;
+    }
+  }
+}
+
+.analytics_dates {
+  .mat-form-field-suffix {
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    height: 40px;
+    button {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+    .mat-button-wrapper {
+      margin-right: 16px;
+      float: right;
+    }
+    .mat-button-focus-overlay {
+      opacity: 0 !important;
+    }
+  }
 }

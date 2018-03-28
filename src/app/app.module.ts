@@ -19,16 +19,13 @@ import { CKEditorModule } from 'ngx-ckeditor';
 import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
-import { ReportsComponent } from './reports/reports.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
   // tslint:disable-next-line:max-line-length
-  MatDialogModule, MatDatepickerModule, MatNativeDateModule, DateAdapter,
-   MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule,
-   MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
+  MatDialogModule, MatSlideToggleModule,MatProgressBarModule, MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, MatNativeDateModule, MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -44,7 +41,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { MediaComponent, DialogOverviewExampleDialog } from './media/media.component'; // FileSelectPopup
 import { SmsuiComponent } from './smsui/smsui.component';
-import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
+import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -71,8 +68,24 @@ import { DateFormat } from './model/date.formatt';
 import { ReportanissueComponent } from './reportanissue/reportanissue.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
-import { FilerepositoryComponent } from './filerepository/filerepository.component';
+import { FilerepositoryComponent, FileRepositoryPopup, FileViewerPopUp } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
+import {MatIconModule} from '@angular/material/icon';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { DocumentViewModule } from 'ngx-document-view';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CreateModuleComponent } from './create-module/create-module.component';
+import { HeaderurlsComponent } from './headerurls/headerurls.component';
+import { ProblemCategoryComponent } from './problem-category/problem-category.component';
+import { ProblemTypeService } from './service/problem-type.service';
+import { AreaService } from './service/area.service';
+import { AreasComponent } from './areas/areas.component';
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
+
+import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -90,7 +103,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialLinksComponent,
     ControlMessagesComponent,
     SMTPConfigurationComponent,
-    ReportsComponent,
     EmailserviceComponent,
     ChatBoxComponent,
     MediaComponent,
@@ -109,13 +121,28 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     LogoutPopUpDialog,
     ChangepasswordComponent,
     BiographyComponent,
-    // FileSelectPopup,
+    FileSelectPopup,
+    AccessLevelPopup,
+    FileRepositoryPopup,
+    FileViewerPopUp,
     ReportanissueComponent,
     FeedbackComponent,
-    ChangemakerComponent
+    ChangemakerComponent,
+    AnalyticsComponent,
+    CreateModuleComponent,
+
+    TncComponent,
+    PnpComponent,
+
+    HeaderurlsComponent,
+    ProblemCategoryComponent,
+    AreasComponent,
+    ChartsAgePieComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule, 
+    NgxChartsModule, 
     AppRoutingModule,
     HttpClientModule,
     CKEditorModule,
@@ -143,16 +170,29 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatDialogModule,
     MatTabsModule,
     MatTooltipModule,
+    MatExpansionModule,
     MatCardModule,
+    MatIconModule,
     MomentModule,
+    MatProgressBarModule,
+    MatAutocompleteModule,
     NgIdleKeepaliveModule.forRoot(),
     MalihuScrollbarModule.forRoot(),
     FacebookModule.forRoot(),
     NgxTwitterTimelineModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSlideToggleModule,
+    PdfViewerModule,
+    DocumentViewModule,
+    NgxPaginationModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    NgxChartsModule
   ],
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog],    // FileSelectPopup
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
+     AccessLevelPopup],
   providers: [
               // AuthService,
               HttpService,
@@ -160,6 +200,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               NgxSmartLoaderService,
               LoginAuthService,
               FBService,
+              ProblemTypeService,
+              AreaService,
               {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,
               // {
