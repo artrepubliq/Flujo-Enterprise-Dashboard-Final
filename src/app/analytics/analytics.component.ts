@@ -46,7 +46,8 @@ export class AnalyticsComponent implements OnInit {
   lastDateInput: Date | null;
   lastDateChange: Date | null;
   color: ThemePalette;
-
+  newData: any = [];
+  problem_category: any;
   dateCtrl = new FormControl();
 
 
@@ -120,7 +121,7 @@ export class AnalyticsComponent implements OnInit {
         const assignInProgress = _.pluck(this.assign,'in_progress');
         const assignUnresolved = _.pluck(this.assign,'unresolved');
 
-        //console.log(JSON.stringify(this.gender));
+        // console.log(JSON.stringify(this.gender));
 
         // Gender Chart
         const ctx = document.getElementById("genderChartCanvas");
