@@ -10,7 +10,7 @@ import { CallbackComponent } from './callback.component';
 import { GalleryImagesService } from './service/gallery-images.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PagesComponent, MediaLocalImagePopupDialog } from './pages/pages.component';
+import { PagesComponent } from './pages/pages.component'; // MediaLocalImagePopupDialog
 import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -26,7 +26,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
   // tslint:disable-next-line:max-line-length
-  MatDialogModule, MatSlideToggleModule,MatProgressBarModule, MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, MatNativeDateModule, MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
+  MatDialogModule, MatSlideToggleModule, MatProgressBarModule, MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, MatNativeDateModule, MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -136,16 +136,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     PnpComponent,
 
     HeaderurlsComponent,
-<<<<<<< HEAD
-
-    ChartsAgePieComponent,
-    MediaLocalImagePopupDialog
-
-=======
     ProblemCategoryComponent,
     AreasComponent,
     ChartsAgePieComponent
->>>>>>> ae1eb47efdccdbab95ae75fe84ad2c2c98f322ce
   ],
   imports: [
     BrowserModule,
@@ -200,7 +193,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
 
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, MediaLocalImagePopupDialog],
+     AccessLevelPopup], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
               HttpService,
