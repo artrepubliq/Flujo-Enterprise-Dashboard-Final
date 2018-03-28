@@ -1,6 +1,6 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-<form id="themegform" [formGroup]="themeConfigForm" class="theme-global">
+<form id="themegform" [formGroup]="themeConfigForm" class="theme-global" fxLayout="column" fxLayoutGap="1.2rem">
   <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1.5rem">
     <!-- =====theme block ====== -->
     <div fxFlex="70%" fxLayout="column" fxLayoutGap="1.2rem">
@@ -68,7 +68,7 @@
             <p class="hash-code">{{ChildMenuTitleColor}}</p>
           </div>
           <div class="colorPickerBox">
-            <label for="titleColor" fxLayoutAlign="start">Select Gradient Title Colors</label>
+            <label for="titleColor" fxLayoutAlign="start">Select Gradient Title Colors :</label>
             <div fxLayout="" row>
               <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="gradient_title_color1" [(colorPicker)]="gradient_title_color1" [cpOKButton]="true"
                 [cpSaveClickOutside]="false" [style.background]="gradient_title_color1" [style.color]="gradient_title_color1" class="form-control"
@@ -109,7 +109,7 @@
     <div fxFlex="50%" fxLayout="column" fxLayoutGap="1.5rem">
       <div class="pad-20"></div>
       <div fxLayout="row" fxLayoutGap="1rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
-        <h6 [style.color]="titleColor" [ngStyle]="{'fontFamily': selectedTitleFont}" fxFlex="100%" class="preview-theme-header">The quick brown fox jumps over the lazy dog</h6>
+        <h6 [style.background-image]="gradientColor" [ngStyle]="{'fontFamily': selectedTitleFont}" fxFlex="100%" class="preview-theme-header gradient">The quick brown fox jumps over the lazy dog</h6>
         <p [ngStyle]="{'fontFamily': selectedBodyFont, 'fontSize': fontSize + 'px'}">The quick brown fox jumps over the lazy dog</p>
       </div>
       <div class="border-hor-one"></div>
