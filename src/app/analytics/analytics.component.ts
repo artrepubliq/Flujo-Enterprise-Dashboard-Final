@@ -170,7 +170,13 @@ export class AnalyticsComponent implements OnInit {
           'type': 'bar',
           'data': {
             datasets: [{
-              data: areaValue
+              data: areaValue,
+              backgroundColor: [
+                '#ee2f6b','#ee2f6b'
+              ],
+              barPercentage: [
+                '10'
+              ]
             }],
             labels: areaName
           },
