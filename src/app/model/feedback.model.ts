@@ -1,4 +1,4 @@
-export interface IUserFeedback{
+export interface IUserFeedback {
     id: string;
     name: string;
     email: string;
@@ -6,14 +6,14 @@ export interface IUserFeedback{
     message: string;
     datenow: string;
 }
-export interface IUserChangemaker{
+export interface IUserChangemaker {
     id: string;
     name: string;
     email: string;
     phone: string;
     datenow: string;
 }
-export interface mediaDetail{
-    image:string|any;
-    id:string;
+export interface mediaDetail {
+    image: string|any;
+    id: string;
 }
