@@ -268,10 +268,10 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     sortArray = (table_cell, arrow) => {
 
         if (this.arrows[arrow] === false) {
-            this.reportProblemData = _.sortBy(this.reportProblemData, table_cell).reverse();
+            this.filterReportProblemData = _.sortBy(this.filterReportProblemData, table_cell).reverse();
             this.arrows[arrow] = true;
         } else {
-            this.reportProblemData = _.sortBy(this.reportProblemData, table_cell);
+            this.filterReportProblemData = _.sortBy(this.filterReportProblemData, table_cell);
             this.arrows[arrow] = false;
         }
     }

@@ -109,7 +109,7 @@
           </div>
         </div>
         <mat-accordion>
-          <mat-expansion-panel class="problem-box" *ngFor="let report of filterReportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
+          <mat-expansion-panel class="problem-box" *ngFor="let report of filterReportProblemData">
             <mat-expansion-panel-header>
               <div fxLayout="column" fxFlex="100%">
                 <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
@@ -258,7 +258,7 @@
     <mat-paginator  *ngIf="filterReportProblemData" class="paginationn" #paginator
     [length]="filterReportProblemData.length"
     [pageIndex]="0"
-    [pageSize]="10"
+    [pageSize]="5"
     [pageSizeOptions]="[5, 10, 25, 100]">
     </mat-paginator>
   </div>
