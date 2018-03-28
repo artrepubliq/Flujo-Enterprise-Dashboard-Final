@@ -45,62 +45,64 @@
     </div>
   </div>
   <div class="changemaker_table" [perfectScrollbar]="config">
-    <div *ngFor="let report of changemakerData2 | paginate: { itemsPerPage: 10, currentPage: p }" class="link-row" fxLayout.xs="column"
-      fxLayout="row">
-      <div class="problem-box" fxFlex fxLayout="column" fxLayoutGap="15px">
-        <div fxLayout="row" fxLayoutGap="3rem">
-          <div class="" fxFlex="20%" fxLayoutAlign="start center">
-            <span fxLayoutGap="5px">
-              <p class="text-muted d-inline">
-                <i class="fa fa-ellipsis-v"></i>&nbsp;
-                <i class="fa fa-ellipsis-v"></i>
-              </p>
-              <input class="d-inline" type="checkbox">
-              <b>
-                <p class="d-inline">{{report.name}}</p>
-              </b>
-            </span>
+    <div class="change_data">
+      <div *ngFor="let report of changemakerData2 | paginate: { itemsPerPage: 10, currentPage: p }" class="link-row" fxLayout.xs="column"
+        fxLayout="row">
+        <div class="problem-box" fxFlex fxLayout="column" fxLayoutGap="15px">
+          <div fxLayout="row" fxLayoutGap="3rem">
+            <div class="" fxFlex="20%" fxLayoutAlign="start center">
+              <span fxLayoutGap="5px">
+                <p class="text-muted d-inline">
+                  <i class="fa fa-ellipsis-v"></i>
+                  <i class="fa fa-ellipsis-v"></i>
+                </p>
+                <input class="d-inline" type="checkbox">
+                <b>
+                  <p class="d-inline">{{report.name}}</p>
+                </b>
+              </span>
+            </div>
+            <div fxFlex="25%" fxLayoutAlign="start center">
+              <span class="text-muted d-inline">
+                4 hrs ago&nbsp;
+              </span>
+              <span class="d-inline">{{report.date_now}}</span>
+            </div>
+            <div fxFlex="20%" fxLayoutAlign="start center">
+              <span class="text-muted d-inline">
+                Source:&nbsp;
+              </span>
+              <span class="d-inline">Website</span>
+            </div>
+            <div fxFlex fxLayoutAlign="end end">
+              <span class="text-muted d-inline">
+                <p class="d-inline">
+                  <i class="fa fa-ellipsis-v"></i>
+                </p>
+              </span>
+            </div>
+  
           </div>
-          <div fxFlex="25%" fxLayoutAlign="start center">
-            <span class="text-muted d-inline">
-              4 hrs ago&nbsp;
-            </span>
-            <span class="d-inline">{{report.date_now}}</span>
-          </div>
-          <div fxFlex="20%" fxLayoutAlign="start center">
-            <span class="text-muted d-inline">
-              Source:&nbsp;
-            </span>
-            <span class="d-inline">Website</span>
-          </div>
-          <div fxFlex fxLayoutAlign="end end">
-            <span class="text-muted d-inline">
-              <p class="d-inline">
-                <i class="fa fa-ellipsis-v"></i>
-              </p>
-            </span>
-          </div>
-
-        </div>
-        <div class="divide-line"></div>
-        <div fxLayout="row" fxLayoutGap="3rem">
-          <div fxFlex="20%" fxLayoutAlign="start">
-            <span class="text-muted">
-              Email:&nbsp;
-            </span>
-            <span>{{report.email}}</span>
-          </div>
-          <div fxFlex="25%" fxLayoutAlign="start">
-            <span class="text-muted">
-              Phone:&nbsp;
-            </span>
-            <span >{{report.phone}}</span>
-          </div>
-          <div fxFlex="40%" fxLayoutAlign="start">
-            <span class="text-muted">
-              <i class="fa fa-paperclip"> </i> &nbsp;
-            </span>
-            <span class="report-file-descr"> Now is the time for all good men to come to the aid of their party</span>
+          <div class="divide-line"></div>
+          <div fxLayout="row" fxLayoutGap="3rem">
+            <div fxFlex="20%" fxLayoutAlign="start">
+              <span class="text-muted">
+                Email:&nbsp;
+              </span>
+              <span>{{report.email}}</span>
+            </div>
+            <div fxFlex="25%" fxLayoutAlign="start">
+              <span class="text-muted">
+                Phone:&nbsp;
+              </span>
+              <span >{{report.phone}}</span>
+            </div>
+            <div fxFlex="40%" fxLayoutAlign="start">
+              <span class="text-muted">
+                <i class="fa fa-paperclip"> </i> &nbsp;
+              </span>
+              <span class="report-file-descr"> Now is the time for all good men to come to the aid of their party</span>
+            </div>
           </div>
         </div>
       </div>

@@ -18,14 +18,21 @@ import * as moment from 'moment';
 export class AnalyticsComponent implements OnInit {
 
   isActive = true;
+  // color = 'accent';
+  colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
+    // color1 = 'warn';
+    // color2 = 'primary';
+    // color3 = 'accent';
+  mode = 'determinate';
+  value = 50;
 
   // color = 'accent';
-  colors = ['#ee2f6b','#0cc0df','#fecd0f'];
+  // colors = ['#ee2f6b','#0cc0df','#fecd0f'];
     // color1 = 'accent';
     // color2 = 'primary';
     // color3 = 'warn';
-  mode = 'determinate';
-  value = 5;
+  // mode = 'determinate';
+  // value = 5;
 
   touch: boolean;
   filterOdd: boolean;
@@ -39,8 +46,26 @@ export class AnalyticsComponent implements OnInit {
   lastDateInput: Date | null;
   lastDateChange: Date | null;
   color: ThemePalette;
+  newData: any = [];
+  problem_category: any;
+  dateCtrl = new FormControl();
+  status_reports: any;
+  gender: any = {};
+  ageData: any;
+  assign: any;
+  area: any;
 
-  
+
+  dateFilter =
+      (date: Date) => !(date.getFullYear() % 2) && (date.getMonth() % 2) && !(date.getDate() % 2)
+
+  onDateInput = (e: MatDatepickerInputEvent<Date>) => this.lastDateInput = e.value;
+  onDateChange = (e: MatDatepickerInputEvent<Date>) => this.lastDateChange = e.value;
+
+  timeChange = (range) => {
+    this.timeRange = range;
+    this.isActive = ! this.isActive;
+  }
   // tslint:disable-next-line:member-ordering
   params = {
     client_id: AppConstants.CLIENT_ID,
@@ -49,13 +74,6 @@ export class AnalyticsComponent implements OnInit {
     problem_type: ['water', 'power', 'road']
   };
 
-  newData : any = [];
-  problem_category : any;
-  status_reports : any;
-  gender : any = {};
-  ageData : any;
-  assign : any;
-  area : any;
   constructor(public http: HttpClient) { }
 
   ngOnInit() {
@@ -91,45 +109,48 @@ export class AnalyticsComponent implements OnInit {
         this.newData = response;
         this.problem_category = this.newData[0].problem_category;
         this.status_reports = this.newData[4].report_status;
-        //Gender related
+        // Gender related
         this.gender.female = this.newData[1].gender[0].female;
         this.gender.male = this.newData[1].gender[0].male;
-        //End of Gender related
+        // End of Gender related
 
-        //Area related
+        // Area related
         this.area = this.newData[3].area;
-        const areaName = _.pluck(this.area,'name');
-        const areaValue = _.pluck(this.area,'value');
-        //console.log(areaValue);
-        //End of Area related
+        const areaName = _.pluck(this.area, 'name');
+        const areaValue = _.pluck(this.area, 'value');
+        // console.log(areaValue);
+        // End of Area related
 
-        //Age related
+        // Age related
         this.ageData = this.newData[2].age;
-        const range = _.pluck(this.ageData,'name');
-        const rangeValue = _.pluck(this.ageData,'value');
-        //console.log(range);
-        //End of Age related
+        const range = _.pluck(this.ageData, 'name');
+        const rangeValue = _.pluck(this.ageData, 'value');
+        // console.log(range);
+        // End of Age related
 
 
         this.assign = this.newData[5].assign;
-        const assignID = _.pluck(this.assign,'id');
-        const assignName = _.pluck(this.assign,'name');
-        const assignEmail = _.pluck(this.assign,'email');
-        const assignCompleted = _.pluck(this.assign,'completed');
-        const assignInProgress = _.pluck(this.assign,'in_progress');
-        const assignUnresolved = _.pluck(this.assign,'unresolved');
+        const assignID = _.pluck(this.assign, 'id');
+        const assignName = _.pluck(this.assign, 'name');
+        const assignEmail = _.pluck(this.assign, 'email');
+        const assignCompleted = _.pluck(this.assign, 'completed');
+        const assignInProgress = _.pluck(this.assign, 'in_progress');
+        const assignUnresolved = _.pluck(this.assign, 'unresolved');
 
-        //console.log(JSON.stringify(this.gender));
+        // console.log(JSON.stringify(this.gender));
 
         // Gender Chart
-        const ctx = document.getElementById("genderChartCanvas");
+        const ctx = document.getElementById('genderChartCanvas');
         const genderChart = new Chart(ctx, {
           'type': 'pie',
           'data': {
             datasets: [{
-              data: [this.gender.female,this.gender.male]
+              data: [this.gender.female, this.gender.male],
+              backgroundColor: [
+                '#ee2f6b', '#0cc0df'
+              ]
             }],
-            labels: ['Female','Male']
+            labels: ['Female', 'Male']
           },
           'options': {
             legend: {
@@ -139,13 +160,16 @@ export class AnalyticsComponent implements OnInit {
         });
         // End of Gender Chart
 
-        //Age Chart
-        const agectx = document.getElementById("ageChartCanvas");
+        // Age Chart
+        const agectx = document.getElementById('ageChartCanvas');
         const ageChart = new Chart(agectx, {
           'type': 'doughnut',
           'data': {
             datasets: [{
-              data: rangeValue
+              data: rangeValue,
+              backgroundColor: [
+                '#0cc0df', '#ee2f6b', '#fecd0f', '#452c59'
+              ]
             }],
             labels: range
           },
@@ -155,10 +179,10 @@ export class AnalyticsComponent implements OnInit {
             }
           }
         });
-        //End of Age Chart
+        // End of Age Chart
 
-        //Area Chart
-        const areactx = document.getElementById("areaChartCanvas");
+        // Area Chart
+        const areactx = document.getElementById('areaChartCanvas');
         const areaChart = new Chart(areactx, {
           'type': 'bar',
           'data': {
@@ -181,22 +205,31 @@ export class AnalyticsComponent implements OnInit {
           }
           }
         });
-        //End of Area Chart
+        // End of Area Chart
 
-        //Assign Chart
-        const assignctx = document.getElementById("assignChartCanvas");
+        // Assign Chart
+        const assignctx = document.getElementById('assignChartCanvas');
         const assignChart = new Chart(assignctx, {
           'type': 'bar',
           'data': {
             datasets: [
               {
-              data: assignCompleted
+              data: assignCompleted,
+              backgroundColor: [
+                '#ee2f6b', '#ee2f6b', '#ee2f6b', '#ee2f6b'
+              ]
               },
               {
-                data: assignInProgress
+                data: assignInProgress,
+                backgroundColor: [
+                  '#ee2f6b', '#ee2f6b', '#ee2f6b', '#ee2f6b'
+                ]
               },
               {
-                data: assignUnresolved
+                data: assignUnresolved,
+                backgroundColor: [
+                  '#ee2f6b80', '#ee2f6b80', '#ee2f6b80', '#ee2f6b80'
+                ]
               }
             ],
             labels: assignID
@@ -214,13 +247,10 @@ export class AnalyticsComponent implements OnInit {
           }
           }
         });
-        //End of Assign Chart
+        // End of Assign Chart
       },
       error => {
         console.log(error);
       });
   }
-
-  
-
 }
