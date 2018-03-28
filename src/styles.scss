@@ -8,9 +8,11 @@
 .form-group.row {
   margin: 0;
 }
+
 .p-rel {
   position: relative;
 }
+
 button,
 button:focus {
   outline: none;
@@ -242,7 +244,6 @@ input[type="file"] {
 button {
   font-size: 14px;
   color: #666666;
- 
   cursor: pointer;
 }
 
@@ -379,9 +380,7 @@ control-messages,
   }
 }
 
-
 // Custom Global Page-padding
-
 .page_padding {
   padding: 3vh 6vw 15px 4vw;
 }
@@ -390,7 +389,6 @@ control-messages,
 .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
   background-color: rgba(63, 81, 181, 0.5);
 }
-
 
 .problem-box {
   .mat-form-field-underline {
@@ -415,19 +413,18 @@ control-messages,
     padding: 0;
     transform: rotate(0);
     vertical-align: middle;
-    }
+  }
 }
 
-
 /* FeedBack Material Table Custom Styles */
+
 .feedback_table {
   .mat-table {
     border-radius: 5px;
     background-color: #ffffff;
     box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
-
   }
-  .mat-header-row{
+  .mat-header-row {
     padding: 6px 24px;
     border-color: #f5f5f5;
   }
@@ -440,12 +437,11 @@ control-messages,
     // transform: translateY(-25px);
     height: 0px;
   }
-  .mat-sort-header-stem{
+  .mat-sort-header-stem {
     height: 0px;
     margin-top: 3px;
   }
 }
-
 
 .status-bars {
   font-family: Roboto;
@@ -456,48 +452,48 @@ control-messages,
   letter-spacing: normal;
   .completed {
     .mat-progress-bar-fill::after {
-    background-color: #ee2f6b;
-    border-radius: 5px;
+      background-color: #ee2f6b;
+      border-radius: 5px;
     }
-    p{
+    p {
       color: #666666;
       font-size: 13px;
-     
     }
-    span.muted{
+    span.muted {
       color: #999999;
       font-size: 12px;
     }
   }
   .inprogress {
     .mat-progress-bar-fill::after {
-    background-color: #0cc0df;
-    border-radius: 5px;
+      background-color: #0cc0df;
+      border-radius: 5px;
     }
-    p{
+    p {
       color: #666666;
       font-size: 13px;
     }
-    span.muted{
+    span.muted {
       color: #999999;
       font-size: 12px;
     }
   }
   .unresolved {
     .mat-progress-bar-fill::after {
-    background-color: #fecd0f;
-    border-radius: 5px;
+      background-color: #fecd0f;
+      border-radius: 5px;
     }
-    p{
+    p {
       color: #666666;
       font-size: 13px;
     }
-    span.muted{
+    span.muted {
       color: #999999;
       font-size: 12px;
     }
   }
 }
+
 .analytics_dates {
   .mat-form-field-suffix {
     width: 100%;

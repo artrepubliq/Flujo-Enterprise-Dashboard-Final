@@ -56,7 +56,7 @@ export class BiographyComponent implements OnInit {
   startDate = new Date(1990, 0, 1);
   startDate2 = new Date(1990, 1, 1);
   minDate = new Date(1990, 1, 1);
-  maxDate = new Date(2019, 0, 1);
+  maxDate = new Date(2019, 1, 1);
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
     private httpClient: HttpClient, private alertService: AlertService) {
       this.biographySubmitForm = this.formBuilder.group({
