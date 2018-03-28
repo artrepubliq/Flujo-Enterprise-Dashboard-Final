@@ -87,6 +87,8 @@ import { PnpComponent } from './pnp/pnp.component';
 
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AnalyticsService } from './service/analytics.service';
+import { ChartAgeDirective } from './chart-age.directive';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -138,7 +140,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     HeaderurlsComponent,
     ProblemCategoryComponent,
     AreasComponent,
-    ChartsAgePieComponent
+    ChartsAgePieComponent,
+    ChartAgeDirective
   ],
   imports: [
     BrowserModule,
@@ -204,6 +207,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               FBService,
               ProblemTypeService,
               AreaService,
+              AnalyticsService,
               {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,
               // {
