@@ -16,7 +16,9 @@ import { IThemeData } from '../model/themeData.model';
 })
 
 export class ThemeConfigComponent implements OnInit {
-  titleColor: any;
+  gradientColor: string;
+  gradient_title_color1: any;
+  gradient_title_color2: any;
   PrimaryMenuTitleColor: any;
   ChildMenuTitleColor: any;
   PrimaryMenuOverColor: any;
@@ -28,12 +30,12 @@ export class ThemeConfigComponent implements OnInit {
   updatedThemeData: IThemeData;
 
   TitleFontFamily: any = [
-    {id: 1, name: 'Roboto'},
-    {id: 2, name: 'Lato'},
-    {id: 3, name: 'Raleway'},
-    {id: 4, name: 'Roboto Slab'},
-    {id: 5, name: 'Montserrat'},
-    {id: 6, name: 'Merriweather'}
+    { id: 1, name: 'Roboto' },
+    { id: 2, name: 'Lato' },
+    { id: 3, name: 'Raleway' },
+    { id: 4, name: 'Roboto Slab' },
+    { id: 5, name: 'Montserrat' },
+    { id: 6, name: 'Merriweather' }
   ];
   themeConfigForm: FormGroup;
   selectedFont: any;
@@ -52,18 +54,18 @@ export class ThemeConfigComponent implements OnInit {
     private httpClient: HttpClient,
     private alertService: AlertService) {
 
-      this.themeConfigForm = this.formBuilder.group({
-        'title_font': ['', Validators.required],
-        'body_font_family': ['', Validators.required],
-        'theme_font_size': ['', Validators.required],
-        'primary_menu_title_color': ['', Validators.required],
-        'child_menu_title_color': ['', Validators.required],
-        'title_color': ['', Validators.required],
-        'primary_menu_hover_color': ['', Validators.required],
-        'child_menu_hover_color': ['', Validators.required],
-        'theme_id': [null]
-      });
-
+    this.themeConfigForm = this.formBuilder.group({
+      'title_font': ['', Validators.required],
+      'body_font_family': ['', Validators.required],
+      'theme_font_size': ['', Validators.required],
+      'primary_menu_title_color': ['', Validators.required],
+      'child_menu_title_color': ['', Validators.required],
+      'gradient_title_color1': ['', Validators.required],
+      'gradient_title_color2': ['', Validators.required],
+      'primary_menu_hover_color': ['', Validators.required],
+      'child_menu_hover_color': ['', Validators.required],
+      'theme_id': [null]
+    });
   }
 
   /* this is for on submitting the form*/
@@ -74,52 +76,52 @@ export class ThemeConfigComponent implements OnInit {
     themeData.client_id = AppConstants.CLIENT_ID;
     console.log(themeData);
     this.spinnerService.show();
-    this.httpClient.post<IThemeData>( AppConstants.API_URL + 'flujo_client_posttexttheme', themeData)
-            .subscribe(
-              data => {
-                  if (data.error) {
-                      this.alertService.warning(data.result);
-                      console.log(data);
-                      this.spinnerService.hide();
-                  }else {
-                    this.alertService.success('Theme details updated successfully');
-                    this.spinnerService.hide();
-                    // this.updatedThemeData = data;
-                    // if(this.updatedThemeData.data[0].theme_id){
-                    // }
-                  }
-              },
-              error => {
-                  // this.loading = false;
-                  this.spinnerService.hide();
-            });
+    this.httpClient.post<IThemeData>(AppConstants.API_URL + 'flujo_client_posttexttheme', themeData)
+      .subscribe(
+        data => {
+          if (data.error) {
+            this.alertService.warning(data.result);
+            console.log(data);
+            this.spinnerService.hide();
+          } else {
+            this.alertService.success('Theme details updated successfully');
+            this.spinnerService.hide();
+            // this.updatedThemeData = data;
+            // if(this.updatedThemeData.data[0].theme_id){
+            // }
+          }
+        },
+        error => {
+          // this.loading = false;
+          this.spinnerService.hide();
+        });
   }
   // logDropdown(id: number): void {
   //   const NAME = this.TitleFontFamily.find((item: any) => item.id === +id).name;
   // }
   /* this is to get theme details  from server*/
   getThemeDetails = () => {
-     this.spinnerService.show();
-     this.httpClient.get(AppConstants.API_URL + 'flujo_client_gettexttheme/' + AppConstants.CLIENT_ID)
-         .subscribe(
-           data => {
-             console.log(data);
-             if (data != null) {
-              this.spinnerService.hide();
-              this.setThemeDetails(data);
-             } else {
-               this.alertService.success('No Data found');
-               this.spinnerService.hide();
-             }
-           },
-           error => {
-             console.log(error);
-           }
-         );
-   }
+    this.spinnerService.show();
+    this.httpClient.get(AppConstants.API_URL + 'flujo_client_gettexttheme/' + AppConstants.CLIENT_ID)
+      .subscribe(
+        data => {
+          console.log(data);
+          if (data != null) {
+            this.spinnerService.hide();
+            this.setThemeDetails(data);
+          } else {
+            this.alertService.success('No Data found');
+            this.spinnerService.hide();
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
 
-/* this is to set theme details in the form */
-   setThemeDetails = (themeData) => {
+  /* this is to set theme details in the form */
+  setThemeDetails = (themeData) => {
     if (themeData) {
       console.log(themeData);
       this.themeConfigForm.controls['body_font_family'].setValue(themeData[0].body_font_family);
@@ -128,8 +130,11 @@ export class ThemeConfigComponent implements OnInit {
       this.themeConfigForm.controls['title_font'].setValue(themeData[0].title_font);
       this.selectedTitleFont = themeData[0].title_font;
 
-      this.themeConfigForm.controls['title_color'].setValue(themeData[0].title_color);
-      this.titleColor = themeData[0].title_color;
+      this.themeConfigForm.controls['gradient_title_color1'].setValue(themeData[0].gradient_title_color1);
+      this.gradient_title_color1 = themeData[0].gradient_title_color1;
+
+      this.themeConfigForm.controls['gradient_title_color2'].setValue(themeData[0].gradient_title_color2);
+      this.gradient_title_color2 = themeData[0].gradient_title_color2;
 
       this.themeConfigForm.controls['primary_menu_title_color'].setValue(themeData[0].primary_menu_title_color);
       this.PrimaryMenuTitleColor = themeData[0].primary_menu_title_color;
@@ -150,6 +155,9 @@ export class ThemeConfigComponent implements OnInit {
 
       this.themeConfigForm.controls['theme_id'].setValue(themeData[0].id);
       this.theme_id = themeData[0].id;
+
+      this.gradientColor = 'linear-gradient(130deg, ' + themeData[0].gradient_title_color1 + ', ' +
+        themeData[0].gradient_title_color2 + ')';
       // console.log(this.theme_id);
     }
   }
@@ -157,33 +165,48 @@ export class ThemeConfigComponent implements OnInit {
   /* this is for resetting the theme config form*/
   resetForm() {
     this.themeConfigForm.controls['body_font_family'].setValue('');
-      this.selectedBodyFont = '';
+    this.selectedBodyFont = '';
 
-      this.themeConfigForm.controls['title_font'].setValue('');
-      this.selectedTitleFont = '';
+    this.themeConfigForm.controls['title_font'].setValue('');
+    this.selectedTitleFont = '';
 
-      this.themeConfigForm.controls['title_color'].setValue('');
-      this.titleColor = '';
+    this.themeConfigForm.controls['gradient_title_color1'].setValue('');
+    this.gradient_title_color1 = '';
 
-      this.themeConfigForm.controls['primary_menu_title_color'].setValue('');
-      this.PrimaryMenuTitleColor = '';
+    this.themeConfigForm.controls['gradient_title_color2'].setValue('');
+    this.gradient_title_color2 = '';
 
-      this.themeConfigForm.controls['child_menu_title_color'].setValue('');
-      this.ChildMenuTitleColor = '';
+    this.themeConfigForm.controls['primary_menu_title_color'].setValue('');
+    this.PrimaryMenuTitleColor = '';
 
-      this.themeConfigForm.controls['primary_menu_hover_color'].setValue('');
-      this.PrimaryMenuOverColor = '';
+    this.themeConfigForm.controls['child_menu_title_color'].setValue('');
+    this.ChildMenuTitleColor = '';
 
-      this.themeConfigForm.controls['child_menu_hover_color'].setValue('');
-      this.ChildMenuOverColor = '';
+    this.themeConfigForm.controls['primary_menu_hover_color'].setValue('');
+    this.PrimaryMenuOverColor = '';
 
-      this.themeConfigForm.controls['theme_font_size'].setValue(12);
-      this.fontSize = 12;
+    this.themeConfigForm.controls['child_menu_hover_color'].setValue('');
+    this.ChildMenuOverColor = '';
 
-      // this.themeConfigForm.controls['theme_id'].setValue(themeData[0].id);
-      // this.theme_id = themeData[0].id;
+    this.themeConfigForm.controls['theme_font_size'].setValue(12);
+    this.fontSize = 12;
+
+    // this.themeConfigForm.controls['theme_id'].setValue(themeData[0].id);
+    // this.theme_id = themeData[0].id;
   }
 
+  // this is to set gradient color
+  setGradientLeft(event) {
+    // console.log(event);
+    this.gradientColor = 'linear-gradient(130deg, ' + this.gradient_title_color1 + ', ' + this.gradient_title_color2 + ')';
+    console.log(this.gradientColor);
+  }
+
+  setGradientRight(event) {
+    // console.log(event);
+    this.gradientColor = 'linear-gradient(130deg, ' + this.gradient_title_color1 + ', ' + this.gradient_title_color2 + ')';
+    console.log(this.gradientColor);
+  }
   ngOnInit() {
     this.getThemeDetails();
   }

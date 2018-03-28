@@ -1,9 +1,9 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-<form id="themegform" [formGroup]="themeConfigForm" class="theme-global" fxLayout="column" fxLayoutGap="1rem">
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="3rem">
+<form id="themegform" [formGroup]="themeConfigForm" class="theme-global">
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1.5rem">
     <!-- =====theme block ====== -->
-    <div fxFlex="50%" fxLayout="column" fxLayoutGap="1.2rem">
+    <div fxFlex="70%" fxLayout="column" fxLayoutGap="1.2rem">
       <div>
         <h6 class="theme-header">Fonts</h6>
       </div>
@@ -68,12 +68,19 @@
             <p class="hash-code">{{ChildMenuTitleColor}}</p>
           </div>
           <div class="colorPickerBox">
-            <label for="titleColor" fxLayoutAlign="start">Title Color</label>
-            <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="titleColor" [(colorPicker)]="titleColor" [cpOKButton]="true"
-              [cpSaveClickOutside]="false" [style.background]="titleColor" [style.color]="titleColor" class="form-control"
-              id="titleColor" formControlName="title_color" (colorPickerChange)="themeConfigForm.get('title_color').setValue($event)"
-            />
-            <p class="hash-code">{{titleColor}}</p>
+            <label for="titleColor" fxLayoutAlign="start">Select Gradient Title Colors</label>
+            <div fxLayout="" row>
+              <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="gradient_title_color1" [(colorPicker)]="gradient_title_color1" [cpOKButton]="true"
+                [cpSaveClickOutside]="false" [style.background]="gradient_title_color1" [style.color]="gradient_title_color1" class="form-control"
+                id="gradient_title_color1" formControlName="gradient_title_color1" (colorPickerChange)="themeConfigForm.get('gradient_title_color1').setValue($event); setGradientLeft($event);"
+              />
+              <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="gradient_title_color2" [(colorPicker)]="gradient_title_color2" [cpOKButton]="true"
+                [cpSaveClickOutside]="false" [style.background]="gradient_title_color2" [style.color]="gradient_title_color2" class="form-control"
+                id="gradient_title_color1" formControlName="gradient_title_color2" (colorPickerChange)="themeConfigForm.get('gradient_title_color2').setValue($event); setGradientRight($event);"
+              />
+              <div id="gradientbox" [style.background]="gradientColor"></div>
+            </div>
+            <!-- <p class="hash-code">{{titleColor}}</p> -->
           </div>
         </div>
         <div fxLayout="row" fxLayoutGap="3rem">

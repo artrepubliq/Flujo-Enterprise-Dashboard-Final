@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { AgeDetails } from '../model/analytics.model';
 
 @Component({
   selector: 'app-charts-age-pie',
@@ -7,20 +8,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
   styleUrls: ['./charts-age-pie.component.scss']
 })
 export class ChartsAgePieComponent implements OnInit {
-  single: any[] = [
-    {
-      "name": "Germany",
-      "value": 8940000
-    },
-    {
-      "name": "USA",
-      "value": 5000000
-    },
-    {
-      "name": "France",
-      "value": 7200000
-    }
-  ];;
+ @Input() ageData: AgeDetails;
   multi: any[];
   
   // view: any[] = [700, 400];
@@ -33,6 +21,7 @@ export class ChartsAgePieComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.ageData);
   }
 
   onSelect(event) {

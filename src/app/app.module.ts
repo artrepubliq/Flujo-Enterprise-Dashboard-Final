@@ -25,7 +25,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
   // tslint:disable-next-line:max-line-length
-  MatDialogModule, MatSlideToggleModule, MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, MatNativeDateModule, MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
+  MatDialogModule, MatSlideToggleModule,MatProgressBarModule, MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, MatNativeDateModule, MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -76,11 +76,14 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DocumentViewModule } from 'ngx-document-view';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateModuleComponent } from './create-module/create-module.component';
-
+import { HeaderurlsComponent } from './headerurls/headerurls.component';
+import { ProblemCategoryComponent } from './problem-category/problem-category.component';
+import { ProblemTypeService } from './service/problem-type.service';
+import { AreaService } from './service/area.service';
+import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 
-import { HeaderurlsComponent } from './headerurls/headerurls.component';
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -132,9 +135,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     PnpComponent,
 
     HeaderurlsComponent,
-
+    ProblemCategoryComponent,
+    AreasComponent,
     ChartsAgePieComponent
-
   ],
   imports: [
     BrowserModule,
@@ -170,6 +173,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatCardModule,
     MatIconModule,
     MomentModule,
+    MatProgressBarModule,
     MatAutocompleteModule,
     NgIdleKeepaliveModule.forRoot(),
     MalihuScrollbarModule.forRoot(),
@@ -184,7 +188,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-
+    NgxChartsModule
   ],
 
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
@@ -196,6 +200,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               NgxSmartLoaderService,
               LoginAuthService,
               FBService,
+              ProblemTypeService,
+              AreaService,
               {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,
               // {
