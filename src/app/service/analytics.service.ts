@@ -1,87 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
-import { FormControl } from '@angular/forms';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AppConstants } from '../app.constants';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
-import { Chart } from 'chart.js';
-import * as _ from 'underscore';
-import * as moment from 'moment';
 
-@Component({
-  selector: 'app-analytics',
-  templateUrl: './analytics.component.html',
-  styleUrls: ['./analytics.component.scss']
-})
-export class AnalyticsComponent implements OnInit {
+@Injectable()
+export class AnalyticsService {
 
-  isActive = true;
-
-  // color = 'accent';
-  colors = ['#ee2f6b','#0cc0df','#fecd0f'];
-    // color1 = 'accent';
-    // color2 = 'primary';
-    // color3 = 'warn';
-  mode = 'determinate';
-  value = 5;
-
-  touch: boolean;
-  filterOdd: boolean;
-  yearView: boolean;
-  inputDisabled: boolean;
-  datepickerDisabled: boolean;
-  minDate : any = new Date(1990, 1, 1);
-  maxDate : any = new Date();
-  startAt: Date;
-  date: Date;
-  lastDateInput: Date | null;
-  lastDateChange: Date | null;
-  color: ThemePalette;
-
-  
-  // tslint:disable-next-line:member-ordering
-  params = {
-    client_id: AppConstants.CLIENT_ID,
-    from_date: this.minDate,
-    to_date: this.maxDate,
-    problem_type: ['water', 'power', 'road']
-  };
-
-  newData : any = [];
-  problem_category : any;
-  status_reports : any;
-  gender : any = {};
-  ageData : any;
-  assign : any;
-  area : any;
-  constructor(public http: HttpClient) { }
-
-  ngOnInit() {
-    this.getData(this.params);
-    // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
-    // console.log(moment(this.minDate).format("YYYY-MM-DD"));
-  }
-
-  onValueChange() {
-    // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
-    // console.log(moment(this.minDate).format("YYYY-MM-DD"));
-
-    this.minDate = moment(this.minDate).format("YYYY-MM-DD");
-    this.maxDate = moment(this.maxDate).format("YYYY-MM-DD");
-    
-    this.params.from_date = this.minDate;
-    this.params.to_date = this.maxDate;
-    console.log(this.params.from_date);
-    console.log(this.params.to_date);
-
-    this.getData(this.params);
-  }
-
-  timeChange(r: String) {
-    console.log(r);
-  }
+  constructor(private http:HttpClient) { }
 
   getData(params) {
     this.http.post<Observable<any[]>>('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
@@ -220,7 +146,4 @@ export class AnalyticsComponent implements OnInit {
         console.log(error);
       });
   }
-
-  
-
 }
