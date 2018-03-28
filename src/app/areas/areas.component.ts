@@ -43,11 +43,13 @@ export class AreasComponent implements OnInit {
     this.selectArea = true;
     this.isCancel = false;
     this.areaPincode = '';
+    this.areaName = '';
     this.areaForm = new FormGroup({
-      'areaname': new FormControl(this.areaName),
-      'areapincode': new FormControl(this.areaPincode),
+      // 'areaname': new FormControl(this.areaName),
+      // 'areapincode': new FormControl(this.areaPincode),
       'areatypenamenew': new FormControl(this.areaTypeNameNew, [Validators.required]),
-      'areapincodenew': new FormControl(this.areaPincodeNew, [Validators.required])
+      'areapincodenew': new FormControl(this.areaPincodeNew, [Validators.required]),
+      'areaid': new FormControl(this.areaId),
     });
   }
 
@@ -82,18 +84,22 @@ export class AreasComponent implements OnInit {
     }
   }
 
-  public updateAreaData(): void {
-    if (this.updatableData) {
-      this.isEdit = true;
-      this.selectArea = false;
-      this.updateArea = false;
-      this.newAreaBtn = false;
-      this.isCancel = true;
-      this.areaName = this.updatableData.area;
-      this.areaId = this.updatableData.reportarea_id;
-      this.areaPincode = this.updatableData.pincode;
+  public updateAreaData(area): void {
+    console.log(area);
+    // console.log(this.updatableData);
+    // if (this.updatableData) {
+      // this.isEdit = true;
+      // this.selectArea = false;
+      // this.updateArea = false;
+      // this.newAreaBtn = false;
+      // this.isCancel = true;
+      this.areaName = area.area;
+      this.areaId = area.id;
+      this.areaPincode = area.pincode;
+      this.areaForm.get('areaid').setValue(area.id);
+      console.log(this.areaForm.get('areaid').value);
       // console.log(this.updatableData);
-    }
+    // }
   }
 
   public backToSelect(): void {
@@ -172,13 +178,14 @@ export class AreasComponent implements OnInit {
       );
   }
 
-  public deletearea(): void {
-    // this.spinnerService.show();
+  public deletearea(area): void {
     // this.updatableData.client_id = AppConstants.CLIENT_ID;
     // this.updatableData.Area_type = this.areaForm.get('areaname').value;
-    console.log(this.updatableData);
-    console.log(this.updatableData.reportarea_id);
-    this.areaService.deleteArea('flujo_client_deletereportarea/', this.updatableData.reportarea_id)
+    // console.log(this.updatableData);
+    // console.log(this.updatableData.reportarea_id);
+    this.spinnerService.show();
+    console.log(area);
+    this.areaService.deleteArea('flujo_client_deletereportarea/', area.id)
       .subscribe(
         data => {
           this.spinnerService.hide();
