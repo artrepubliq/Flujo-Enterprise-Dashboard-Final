@@ -16,7 +16,7 @@ import * as moment from 'moment';
   styleUrls: ['./analytics.component.scss']
 })
 export class AnalyticsComponent implements OnInit {
-  timeRange = 'option2';
+
   isActive = true;
   // color = 'accent';
   colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
@@ -39,8 +39,8 @@ export class AnalyticsComponent implements OnInit {
   yearView: boolean;
   inputDisabled: boolean;
   datepickerDisabled: boolean;
-  minDate = new Date(1990, 1, 1);
-  maxDate = new Date();
+  minDate : any = new Date(1990, 1, 1);
+  maxDate : any = new Date();
   startAt: Date;
   date: Date;
   lastDateInput: Date | null;
@@ -69,8 +69,8 @@ export class AnalyticsComponent implements OnInit {
   // tslint:disable-next-line:member-ordering
   params = {
     client_id: AppConstants.CLIENT_ID,
-    from_date: '2000-01-01',
-    to_date: '2018-03-31',
+    from_date: this.minDate,
+    to_date: this.maxDate,
     problem_type: ['water', 'power', 'road']
   };
 
@@ -78,7 +78,27 @@ export class AnalyticsComponent implements OnInit {
 
   ngOnInit() {
     this.getData(this.params);
-    console.log(this.maxDate);
+    // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
+    // console.log(moment(this.minDate).format("YYYY-MM-DD"));
+  }
+
+  onValueChange() {
+    // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
+    // console.log(moment(this.minDate).format("YYYY-MM-DD"));
+
+    this.minDate = moment(this.minDate).format("YYYY-MM-DD");
+    this.maxDate = moment(this.maxDate).format("YYYY-MM-DD");
+    
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+    console.log(this.params.from_date);
+    console.log(this.params.to_date);
+
+    this.getData(this.params);
+  }
+
+  timeChange(r: String) {
+    console.log(r);
   }
 
   getData(params) {
