@@ -85,7 +85,7 @@ const routes: Routes = [
           { path: 'managereports', component: ManageReportsComponent },
           { path: 'analytics', component: AnalyticsComponent },
           { path: 'problemcategory', component: ProblemCategoryComponent},
-          { path: 'areacategory', component: AreasComponent}
+          { path: 'areacategory', component: AreasComponent},
           { path: 'termsnconditions', component: TncComponent },
           { path: 'privacynpolicy', component: PnpComponent },
 
