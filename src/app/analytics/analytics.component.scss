@@ -191,12 +191,14 @@ input {
   .chart_body {
     height: calc(100% - 123px);
     padding: 20px;
+    position: relative;
   }
 }
 
 .rect_card {
   .chart_card {
     height: 210px;
+    max-width: 555px;
   }
   .chart_body{
     vertical-align: middle;

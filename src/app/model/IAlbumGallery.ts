@@ -1,4 +1,4 @@
-export interface IAlbumGallery{
+export interface IAlbumGallery {
     id: string;
     client_id: string;
     image: object;
