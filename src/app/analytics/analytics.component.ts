@@ -27,12 +27,12 @@ export class AnalyticsComponent implements OnInit {
   value = 50;
 
   // color = 'accent';
-  colors = ['#ee2f6b','#0cc0df','#fecd0f'];
+  // colors = ['#ee2f6b','#0cc0df','#fecd0f'];
     // color1 = 'accent';
     // color2 = 'primary';
     // color3 = 'warn';
-  mode = 'determinate';
-  value = 5;
+  // mode = 'determinate';
+  // value = 5;
 
   touch: boolean;
   filterOdd: boolean;
@@ -128,7 +128,10 @@ export class AnalyticsComponent implements OnInit {
           'type': 'pie',
           'data': {
             datasets: [{
-              data: [this.gender.female,this.gender.male]
+              data: [this.gender.female,this.gender.male],
+              backgroundColor: [
+                '#ee2f6b','#0cc0df'
+              ]
             }],
             labels: ['Female','Male']
           },
@@ -146,7 +149,10 @@ export class AnalyticsComponent implements OnInit {
           'type': 'doughnut',
           'data': {
             datasets: [{
-              data: rangeValue
+              data: rangeValue,
+              backgroundColor: [
+                '#0cc0df','#ee2f6b','#fecd0f','#452c59'
+              ]
             }],
             labels: range
           },
@@ -191,13 +197,22 @@ export class AnalyticsComponent implements OnInit {
           'data': {
             datasets: [
               {
-              data: assignCompleted
+              data: assignCompleted,
+              backgroundColor: [
+                '#ee2f6b','#ee2f6b','#ee2f6b','#ee2f6b'
+              ]
               },
               {
-                data: assignInProgress
+                data: assignInProgress,
+                backgroundColor: [
+                  '#ee2f6b','#ee2f6b','#ee2f6b','#ee2f6b'
+                ]
               },
               {
-                data: assignUnresolved
+                data: assignUnresolved,
+                backgroundColor: [
+                  '#ee2f6b80','#ee2f6b80','#ee2f6b80','#ee2f6b80'
+                ]
               }
             ],
             labels: assignID
