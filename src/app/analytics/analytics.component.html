@@ -114,8 +114,8 @@
         </canvas>
 
       </div>
-      <div class="chart_footer" *ngFor="let item of range">
-        <p>{{item}} item</p>
+      <div class="chart_footer" *ngFor="let data of range">
+        <p>{{data.name}} item</p>
 
       </div>
     </div>
@@ -175,12 +175,10 @@
         <h3 class="title">Locality</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
-      <div class="chart_body">
-        <div>
-          <canvas id="areaChartCanvas">
-            {{areaChart}}
-          </canvas>
-        </div>
+      <div class="chart_body locality_chart">
+        <canvas id="areaChartCanvas">
+          {{areaChart}}
+        </canvas>
       </div>
     </div>
   </div>
