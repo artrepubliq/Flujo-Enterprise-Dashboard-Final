@@ -62,10 +62,7 @@ export class AnalyticsComponent implements OnInit {
   onDateInput = (e: MatDatepickerInputEvent<Date>) => this.lastDateInput = e.value;
   onDateChange = (e: MatDatepickerInputEvent<Date>) => this.lastDateChange = e.value;
 
-  timeChange = (range) => {
-    this.timeRange = range;
-    this.isActive = ! this.isActive;
-  }
+  
   // tslint:disable-next-line:member-ordering
   params = {
     client_id: AppConstants.CLIENT_ID,
@@ -187,7 +184,13 @@ export class AnalyticsComponent implements OnInit {
           'type': 'bar',
           'data': {
             datasets: [{
-              data: areaValue
+              data: areaValue,
+              backgroundColor: [
+                '#ee2f6b','#ee2f6b','#ee2f6b'
+              ],
+              barPercentage: [
+                '10'
+              ]
             }],
             labels: areaName
           },
