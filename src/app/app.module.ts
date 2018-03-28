@@ -7,9 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
+import { GalleryImagesService } from './service/gallery-images.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PagesComponent } from './pages/pages.component';
+import { PagesComponent, MediaLocalImagePopupDialog } from './pages/pages.component';
 import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -133,13 +134,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
     HeaderurlsComponent,
 
-    ChartsAgePieComponent
+    ChartsAgePieComponent,
+    MediaLocalImagePopupDialog
 
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule, 
-    NgxChartsModule, 
+    BrowserAnimationsModule,
+    NgxChartsModule,
     AppRoutingModule,
     HttpClientModule,
     CKEditorModule,
@@ -188,13 +190,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
 
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup],
+     AccessLevelPopup, MediaLocalImagePopupDialog],
   providers: [
               // AuthService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,
               LoginAuthService,
+              GalleryImagesService,
               FBService,
               {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,

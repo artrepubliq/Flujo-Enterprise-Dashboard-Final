@@ -29,48 +29,20 @@ export class AnalyticsComponent implements OnInit {
   lastDateInput: Date | null;
   lastDateChange: Date | null;
   color: ThemePalette;
-
+  newData: any = [];
+  problem_category: any;
   dateCtrl = new FormControl();
-
-  dateFilter =
-      (date: Date) => !(date.getFullYear() % 2) && (date.getMonth() % 2) && !(date.getDate() % 2)
-
-  onDateInput = (e: MatDatepickerInputEvent<Date>) => this.lastDateInput = e.value;
-  onDateChange = (e: MatDatepickerInputEvent<Date>) => this.lastDateChange = e.value;
-  constructor() { }
-
-  ngOnInit() {
-  }
-  timeChange = (range) => {
-    this.timeRange = range;
-    this.isActive = ! this.isActive;
-  }
   params = {
     client_id: AppConstants.CLIENT_ID,
     from_date: '2000-01-01',
     to_date: '2018-03-31',
     problem_type: ['water', 'power', 'road']
-  }
-  
-  data: any = [
-    {id: 1, solved: 10, pending: 20,problems:50,category:'water'},
-    {id: 2, solved: 10, pending: 20, problems:50,category:'power'},
-    {id: 3, solved: 10, pending: 20, problems:50,category:'sanitation'},
-    {id: 4, solved: 10, pending: 20, problems:50,category:"Drinage"},
-    {id: 5, solved: 10, pending: 20, problems:50,category:"roads"},
-    {id: 6, solved: 10, pending: 20, problems:50,category:"manholes"},
-    {id: 7, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:"test"},
-    {id: 8, solved: 10, pending: 20, problems:50,category:'test'},
-  ];
+  };
+  dateFilter =
+      (date: Date) => !(date.getFullYear() % 2) && (date.getMonth() % 2) && !(date.getDate() % 2)
 
-  newData : any = [];
-  problem_category : any;
+  onDateInput = (e: MatDatepickerInputEvent<Date>) => this.lastDateInput = e.value;
+  onDateChange = (e: MatDatepickerInputEvent<Date>) => this.lastDateChange = e.value;
   constructor(public http: HttpClient) { }
 
   ngOnInit() {
@@ -89,7 +61,6 @@ export class AnalyticsComponent implements OnInit {
         this.newData = response;
         this.problem_category = this.newData[0].problem_category;
         console.log(JSON.stringify(this.problem_category));
-        
       },
       error => {
         console.log(error);
