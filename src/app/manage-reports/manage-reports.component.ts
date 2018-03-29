@@ -221,7 +221,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                     this.reportProblemData = data;
                     this.reportProblemData2 = data;
                     this.filterReportProblemData = data;
-                    console.log(data);
+                    // console.log(data);
                 },
                 error => {
                     console.log(error);
@@ -275,7 +275,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             this.arrows[arrow] = false;
         }
     }
-    sortByStatus = (reportStatus) => {
+    sortByStatus = (reportStatus, statusName, ) => {
         if (reportStatus === '0') {
             this.showReports.completedActive = true;
             this.showReports.inProgressActive = false;
@@ -284,13 +284,10 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             this.showReports.completedActive = false;
             this.showReports.inProgressActive = true;
         }
-        // this.showReports.completedActive = !this.showReports.completedActive;
-        // this.showReports.inProgressActive = !this.showReports.inProgressActive;
-        // console.log(this.showReports.completedActive);
-        // console.log(this.showReports.inProgressActive);
-        this.reportProblemData = this.reportProblemData2;
-        this.reportProblemData = this.reportProblemData.filter(reportData => reportData.report_status === reportStatus);
-        console.log(this.reportProblemData);
+
+        this.filterReportProblemData = this.reportProblemData;
+        this.filterReportProblemData = this.reportProblemData.filter(reportData => reportData.report_status === reportStatus);
+
     }
 
     public onChange2(searchTerm: string): void {
