@@ -24,14 +24,14 @@
 
     </div>
     <div fxFlex fxLayoutAlign="center center" class="button-group">
-      <button class="btn btn-outline-secondary btn-start" (click)="timeChange('option1')" name="options" id="option1" autocomplete="off">Today</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option2')" name="options" id="option2" [ngClass]="{'active':isActive}"
+      <button class="btn btn-outline-secondary btn-start" (click)="onToday()" name="options" id="option1" autocomplete="off">Today</button>
+      <button class="btn btn-outline-secondary btn-options" (click)="onWeek()" name="options" id="option2" [ngClass]="{'active':isActive}"
         autocomplete="off"> Week</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option3')" name="options" id="option3" autocomplete="off">
+      <button class="btn btn-outline-secondary btn-options" (click)="onMonth()" name="options" id="option3" autocomplete="off">
         Month</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option4')" name="options" id="option4" autocomplete="off">
+      <button class="btn btn-outline-secondary btn-options" (click)="onQuarter()" name="options" id="option4" autocomplete="off">
         Quarter</button>
-      <button class="btn btn-outline-secondary btn-end" (click)="timeChange('option5')" name="options" id="option5" autocomplete="off">
+      <button class="btn btn-outline-secondary btn-end" (click)="onYear()" name="options" id="option5" autocomplete="off">
         Year</button>
     </div>
   </div>
@@ -77,11 +77,7 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <div>
-          <canvas id="genderChartCanvas">
-            {{genderChart}}
-          </canvas>
-        </div>
+        <app-charts-gender [gender]='gender'></app-charts-gender>
 
       </div>
       <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
@@ -112,10 +108,8 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-          <canvas id="ageChartCanvas">
-            {{ageChart}}
-          </canvas>
-
+          
+          <app-charts-age-pie [ageData]="ageData"></app-charts-age-pie>
       </div>
       <div class="chart_footer" *ngFor="let item of range">
         <p>{{item}} item</p>

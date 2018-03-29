@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-charts-gender',
@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./charts-gender.component.scss']
 })
 export class ChartsGenderComponent implements OnInit {
-
+  @Input() gender: any;
   constructor() { }
 
   ngOnInit() {
+    console.log(JSON.stringify(this.gender));
   }
 
 }

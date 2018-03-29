@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
+import { ChartsAgePieComponent } from '../charts-age-pie/charts-age-pie.component';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AppConstants } from '../app.constants';
@@ -39,8 +40,8 @@ export class AnalyticsComponent implements OnInit {
   yearView: boolean;
   inputDisabled: boolean;
   datepickerDisabled: boolean;
-  minDate : any = moment("1990-01-01").format("YYYY-MM-DD");
-  maxDate : any = moment(new Date()).format("YYYY-MM-DD");
+  minDate: any = moment("1990-01-01").format("YYYY-MM-DD");
+  maxDate: any = moment(new Date()).format("YYYY-MM-DD");
   startAt: Date;
   date: Date;
   lastDateInput: Date | null;
@@ -79,14 +80,58 @@ export class AnalyticsComponent implements OnInit {
     
     this.params.from_date = this.minDate;
     this.params.to_date = this.maxDate;
-    console.log(this.params.from_date);
-    console.log(this.params.to_date);
+    
+    this.getData(this.params);
+  }
+
+  onToday() {
+    this.minDate = moment(new Date()).format("YYYY-MM-DD");
+    this.maxDate = moment(new Date()).format("YYYY-MM-DD");
+    
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
 
     this.getData(this.params);
   }
 
-  timeChange(r: String) {
-    console.log(r);
+  onWeek() {
+    this.minDate = moment(new Date()).subtract(7, 'd').format("YYYY-MM-DD");
+    this.maxDate = moment(new Date()).format("YYYY-MM-DD");
+    
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+  
+    this.getData(this.params);
+  }
+
+  onMonth() {
+    this.minDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD");
+    this.maxDate = moment(new Date()).format("YYYY-MM-DD");
+    
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+    
+    this.getData(this.params);
+  }
+
+  onQuarter () {
+    this.minDate = moment(new Date()).subtract(3, 'months').format("YYYY-MM-DD");
+    this.maxDate = moment(new Date()).format("YYYY-MM-DD");
+    
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+    
+    this.getData(this.params);
+  }
+
+  onYear() {
+    this.minDate = moment(new Date()).subtract(1, 'year').format("YYYY-MM-DD");
+    this.maxDate = moment(new Date()).format("YYYY-MM-DD");
+    
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+    
+    this.getData(this.params);
   }
 
   getData(params) {
@@ -94,7 +139,7 @@ export class AnalyticsComponent implements OnInit {
     this.http.post<Observable<any[]>>('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
     .subscribe(
       response => {
-        //console.log(JSON.stringify(response));
+        console.log(JSON.stringify(response));
         this.newData = response;
         this.problem_category = this.newData[0].problem_category;
         this.status_reports = this.newData[4].report_status;
@@ -114,7 +159,7 @@ export class AnalyticsComponent implements OnInit {
         this.ageData = this.newData[2].age;
         const range = _.pluck(this.ageData, 'name');
         const rangeValue = _.pluck(this.ageData, 'value');
-        // console.log(range);
+        //console.log(this.ageData);
         // End of Age related
 
 
@@ -148,27 +193,6 @@ export class AnalyticsComponent implements OnInit {
           }
         });
         // End of Gender Chart
-
-        // Age Chart
-        const agectx = document.getElementById('ageChartCanvas');
-        const ageChart = new Chart(agectx, {
-          'type': 'doughnut',
-          'data': {
-            datasets: [{
-              data: rangeValue,
-              backgroundColor: [
-                '#0cc0df', '#ee2f6b', '#fecd0f', '#452c59'
-              ]
-            }],
-            labels: range
-          },
-          'options': {
-            legend: {
-              display: false
-            }
-          }
-        });
-        // End of Age Chart
 
         // Area Chart
         const areactx = document.getElementById('areaChartCanvas');

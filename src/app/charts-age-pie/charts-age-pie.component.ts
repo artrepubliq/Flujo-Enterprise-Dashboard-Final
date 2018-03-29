@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
 import { AgeDetails } from '../model/analytics.model';
+import { Chart } from 'chart.js';
+import * as _ from 'underscore';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-charts-age-pie',
@@ -8,23 +10,37 @@ import { AgeDetails } from '../model/analytics.model';
   styleUrls: ['./charts-age-pie.component.scss']
 })
 export class ChartsAgePieComponent implements OnInit {
- @Input() ageData: AgeDetails;
-  multi: any[];
-  
-  // view: any[] = [700, 400];
+ @Input() ageData: any;
 
-  colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
-
+ range = _.pluck(this.ageData, 'name');
+ rangeValue = _.pluck(this.ageData, 'value');
+ // console.log(range);
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.ageData);
-  }
+    //console.log(JSON.stringify(this.ageData));
 
-  onSelect(event) {
-    console.log(event);
+    // Age Chart
+    const agectx = document.getElementById('ageChartCanvas');
+    const ageChart = new Chart(agectx, {
+      'type': 'doughnut',
+      'data': {
+        datasets: [{
+          data: this.rangeValue,
+          backgroundColor: [
+            '#0cc0df', '#ee2f6b', '#fecd0f', '#452c59'
+          ]
+        }],
+        labels: this.range
+      },
+      'options': {
+        legend: {
+          display: false
+        }
+      }
+    });
+    // End of Age Chart
   }
+  
 }
