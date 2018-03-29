@@ -6,28 +6,15 @@
     <form [formGroup]="problemForm" fxLayout="row" fxLayoutGap="15px">
       <input type="text" class="input" id="addOrUpdate" placeholder="Problem type" [value]="problemTypeNameNew" formControlName="problemtypenamenew">
       <button class="button_submit" [disabled]="problemForm.invalid" (click)="createNewproblem()">{{actionText}}</button>
-      <button class="button_submit cancel" [disabled]="problemForm.invalid" (click)="backToSelect()">Cancel</button>
+      <button class="button_submit cancel" [disabled]="problemForm.invalid" *ngIf="isEdit" (click)="backToSelect()">Cancel</button>
     </form>
   </div>
-  <div class="view_items" fxLayout="column" fxLayoutGap="15px">
-    <div class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
-      <div class="name" fxFlex>
-        Problem Type
-      </div>
-      <div fxLayout="row" fxLayoutGap="15px" fxFlex>
-        <button type="button" class="btn">
-          <i class="fa fa-pencil"></i>
-        </button>
-        <button type="button" class="btn">
-          <i class="fa fa-trash"></i>
-        </button>
-      </div>
-    </div>
+  <div class="view_items" fxLayout="column" fxLayoutGap="0px" [perfectScrollbar]="config">
     <div *ngFor="let problem of problemTypeData" class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
       <div class="name" fxFlex>
         {{problem.problem_type}}
       </div>
-      <div fxLayout="row" fxLayoutGap="15px" fxFlex>
+      <div fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
         <button (click)="updateProblemData(problem); triggerScrollTo()" type="button" class="btn">
           <i class="fa fa-pencil"></i>
         </button>

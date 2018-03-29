@@ -16,6 +16,7 @@ import { ScrollToConfigOptions, ScrollToService } from '@nicky-lenaers/ngx-scrol
 })
 export class AreasComponent implements OnInit {
 
+  isEdit: boolean;
   actionText: string;
   areaId: string;
   areaTypeNameNew: string;
@@ -36,6 +37,7 @@ export class AreasComponent implements OnInit {
     this.areaPincode = '';
     this.areaName = '';
     this.actionText = 'Add';
+    this.isEdit = false;
     this.areaForm = new FormGroup({
       'areatypenamenew': new FormControl(this.areaTypeNameNew, [Validators.required]),
       'areapincodenew': new FormControl(this.areaPincodeNew, [Validators.required]),
@@ -63,6 +65,7 @@ export class AreasComponent implements OnInit {
 
   public updateAreaData(area): void {
     console.log(area);
+    this.isEdit = true;
     this.actionText = 'Update';
     this.areaName = area.area;
     this.areaId = area.id;
@@ -73,6 +76,7 @@ export class AreasComponent implements OnInit {
   }
 
   public backToSelect(): void {
+    this.isEdit = false;
     this.areaId = '';
     this.areaName = '';
     this.areaPincode = '';
@@ -115,6 +119,8 @@ export class AreasComponent implements OnInit {
           this.getAreaData();
           this.areaForm.reset();
           this.spinnerService.hide();
+          this.isEdit = false;
+          this.actionText = 'Add';
         },
         error => {
           this.spinnerService.hide();
@@ -125,7 +131,6 @@ export class AreasComponent implements OnInit {
   }
 
   public deletearea(area): void {
-
     this.spinnerService.show();
     console.log(area);
     this.areaService.deleteArea('flujo_client_deletereportarea/', area.id)
@@ -134,6 +139,7 @@ export class AreasComponent implements OnInit {
           this.spinnerService.hide();
           this.alertService.success('Area deleted successfully');
           this.getAreaData();
+          this.areaForm.reset();
         },
         error => {
           this.alertService.success('File something went wrong successfully');

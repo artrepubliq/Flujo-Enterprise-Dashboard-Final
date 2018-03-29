@@ -1,12 +1,9 @@
 <ngx-alerts maxMessages="3" timeout="3000"></ngx-alerts>
 <ng4-loading-spinner></ng4-loading-spinner>
 
-<div fxLayout="column" fxLayoutGap="50px" class="page_padding">
+<div fxLayout="column" fxLayoutGap="15px" class="page_padding">
   <!-- File Uploader -->
   <div class="uploadFile_block">
-    <div class="show_upload">
-      <h3 (click)="uploadFile()">Upload Files</h3>
-    </div>
     <div class="toggleShow_uploader" [ngClass]="{'ShowFileUploader': toggleFileUploader }">
       <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
         <form class="file_uploader" enctype="multipart/form-data">
@@ -25,6 +22,9 @@
           <p>Shit man, What the f***!</p>
         </div>
       </div>
+    </div>
+    <div class="show_upload">
+      <h3 (click)="uploadFile()">Upload</h3>
     </div>
   </div>
   <!-- //.. File Uploader -->
