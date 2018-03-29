@@ -1,9 +1,7 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 
-<div class="show_upload">
-  <h3 (click)="uploadFile()">Upload Files</h3>
-</div>
+
 
 <!-- File Uploader -->
 <div class="toggleShow_uploader" [ngClass]="{'ShowFileUploader': toggleFileUploader }">
@@ -28,6 +26,12 @@
       <p>Shit man, What the f***!</p>
     </div>
   </div>
+</div>
+<div class="show_upload">
+  <h3 (click)="uploadFile()" > 
+    <!-- <i class="fa fa-chevron-down"></i> -->
+    Upload
+  </h3>
 </div>
 <!-- //.. File Uploader -->
 
