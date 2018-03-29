@@ -12,7 +12,7 @@ import { AlertModule, AlertService } from 'ngx-alerts';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { Router } from '@angular/router';
 import { Keepalive } from '@ng-idle/keepalive';
-import { IcustomLoginModelDetails } from '../model/custom.login.model';
+import { IcustomLoginModelDetails, IPostChatCampModel } from '../model/custom.login.model';
 import { error } from 'util';
 import { IHttpResponse } from '../model/httpresponse.model';
 @Component({
@@ -21,6 +21,7 @@ import { IHttpResponse } from '../model/httpresponse.model';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  chatCampUrlData: any;
   loginForm: any;
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
@@ -51,12 +52,30 @@ export class LoginComponent implements OnInit {
           this.spinnerService.hide();
           // this.loginAuthService.setLoggedInCustom(true);
           this.loginAuthService._setSession(data);
-          this.alertService.success('User loged in successfully');
+          if (data.can_chat === false) {
+           this.redirectUrlForChatCamp(data);
+
+          }
+          this.alertService.success('User logged in successfully');
         }else {
           this.spinnerService.hide();
           this.alertService.danger('Please enter valid details');
         }
       });
   }
-  
+  redirectUrlForChatCamp = (data: IcustomLoginModelDetails) => {
+    let chatCampPostObject: IPostChatCampModel;
+    chatCampPostObject = <IPostChatCampModel>{};
+    chatCampPostObject.chatcamp_accesstoken = data.chatcamp_accesstoken;
+    chatCampPostObject.user_id = data.user_id;
+    this.httpClient.post<IcustomLoginModelDetails>(AppConstants.API_URL + 'flujo_client_postchatservice', chatCampPostObject)
+    .subscribe(
+      chatResponse => {
+        console.log(chatResponse);
+      },
+      chatError => {
+        console.log(chatError);
+      }
+    );
+  }
 }

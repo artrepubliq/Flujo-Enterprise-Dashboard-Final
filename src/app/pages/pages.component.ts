@@ -155,12 +155,12 @@ export class PagesComponent implements OnInit, OnDestroy {
                 this.pageDetails = null;
                 this.isEdit = false;
                 this.pageDetails = data;
-                console.log(this.pageDetails);
                 this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
                     return parentData.parent_id === '-1';
                 });
-                // this.setDefaultClientPageDetails(this.pageDetails);
-                console.log(this.parentPageDetails);
+                this.childDetails = _.filter(this.pageDetails, (parentData) => {
+                    return parentData.parent_id !== '-1';
+                });
                 this.spinnerService.hide();
             },
             error => {
@@ -176,7 +176,7 @@ getChild(childData) {
     });
     console.log(this.childDetails);
 }
-    // this method is used to update page detals to the form, if detalis exist
+    // this method is used to set page detals to the form, if detalis exist
     setDefaultClientPageDetails = (pageData) => {
         if (pageData) {
             // this.button_text = "Update";

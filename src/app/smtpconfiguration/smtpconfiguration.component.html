@@ -1,108 +1,87 @@
 <!-- ====== SMTP Edit Block -->
-<div *ngIf="isEdit" class="edit-block">
-  <h2>SMTP Configuration:</h2>
-  <form [formGroup]="smtpUpdationForm" method="post">
-    <div>
-      <div class="form-group row">
-        <div class="col-sm-6">
-          <div class="form-input-block">
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000">
+    <strong>{{successMessage }}</strong>
+  </ngx-alerts>
+<div class="smtp_box" fxLayoutAlign="center center">
+  <div class="smtp-config-view">
+    <!-- ====== SMTP View Block -->
+    <div *ngIf="!isEdit" class="view-block">
+      <div class="smtp_header">
+        <h3 class="header_title">SMTP Configurations</h3>
+      </div>
+      <div class="smtp_body" fxLayout="row">
+        <div *ngIf="smtpItems" class="smtp-confgs" fxLayout="column" fxLayoutGap="20px" fxFlex="90">
+          <div fxLayout="column">
+            <label>Host name</label>
+            <p>{{smtpItems.host_name}}</p>
+            <hr>
+          </div>
+          <div fxLayout="column">
+            <label>From name</label>
+            <p>{{smtpItems.from_name}}</p>
+            <hr>
+          </div>
+          <div fxLayout="column">
+            <label>From Email</label>
+            <p>{{smtpItems.from_email}}</p>
+            <hr>
+          </div>
+          <div fxLayout="column">
+            <label>User name</label>
+            <p>{{smtpItems.user_name}}</p>
+            <hr>
+          </div>
+          <!-- <div fxLayout="column" class="hidden">
+                <label>Password</label>
+                <p>{{smtpItems.password}}</p>
+              </div> -->
+        </div>
+      </div>
+      <div class="smtp_footer" fxLayoutAlign="end center">
+        <button mat-raised-button class="edit-button" (click)="EditSMTPLinks(smtpItems)">Edit</button>
+      </div>
+    </div>
+
+    <form *ngIf="isEdit" [formGroup]="smtpUpdationForm" method="post">
+      <div class="smtp_header">
+        <h3 class="header_title">SMTP Configurations</h3>
+      </div>
+      <div class="smtp_body" fxLayout="row">
+        <div fxLayout="column" fxLayoutGap="10px" fxFlex="90">
+          <div  class="form-group" fxLayout="column">
             <label>Host Name:</label>
             <input class="form-control" formControlName="host_name" id="host_name">
             <!-- <control-messages [control]="smtpupForm.controls.host_name"></control-messages> -->
           </div>
-          <div class="form-input-block">
+          <div  class="form-group" fxLayout="column">
             <label>From Name:</label>
             <input class="form-control" formControlName="from_name" id="from_name">
             <!-- <control-messages [control]="smtpupForm.controls.from_name"></control-messages> -->
           </div>
-          <div class="form-input-block">
+          <div  class="form-group" fxLayout="column">
             <label>From Email:</label>
             <input class="form-control" formControlName="from_email" id="from_email">
             <!-- <control-messages [control]="smtpupForm.controls.from_email"></control-messages> -->
           </div>
-          <div class="form-input-block">
+          <div  class="form-group" fxLayout="column">
             <label>User Name:</label>
             <input type="text" class="form-control" formControlName="user_name" id="user_name">
             <!-- <control-messages [control]="smtpupForm.controls.user_name"></control-messages> -->
           </div>
-          <div class="form-input-block">
+          <div  class="form-group" fxLayout="column">
             <label>Password:</label>
             <input class="form-control" type="password" formControlName="password" id="password">
             <!-- <control-messages [control]="smtpupForm.controls.password"></control-messages> -->
           </div>
-          <button [hidden]="Ishide1" class="btn btn-warning" type="submit" (click)="SmtpPost(smtpUpdationForm.value)" [disabled]="!smtpUpdationForm.valid">{{btn_text}}</button>
-          <button type="submit" class="btn btn-warning" (click)="deleteSMTP(smtpUpdationForm.value)">delete</button>
-
-          <ngx-alerts maxMessages="3" timeout="5000">
-            <strong>{{successMessage }}</strong>
-          </ngx-alerts>
         </div>
       </div>
-    </div>
-  </form>
-</div>
-
-<!-- ====== SMTP View Block -->
-<div *ngIf="!isEdit" class="view-block">
-  <!-- <table *ngIf="smtpItems" class="table table-hover">
-    <tbody>
-      <tr>
-        <th>Host name </th>
-        <td>{{smtpItems.host_name}}</td>
-      </tr>
-
-      <tr>
-        <th>From name</th>
-        <td>{{smtpItems.from_name}}</td>
-      </tr>
-      <tr>
-        <th>From Email</th>
-        <td>{{smtpItems.from_email}}</td>
-      </tr>
-      <tr>
-        <th>User name</th>
-        <td> {{smtpItems.user_name}}</td>
-      </tr>
-      <tr>
-        <th>Password</th>
-        <td> {{smtpItems.password}}</td>
-      </tr>
-      <tr>
-        <td colspan=2>
-          <button class="mt-5 btn btn-primary" colspan="2" (click)="EditSMTPLinks(smtpItems)">Edit</button>
-        </td>
-      </tr>
-
-    </tbody>
-  </table> -->
-
-  <div *ngIf="smtpItems" class="social-links" fxLayout="column" fxLayoutGap="30px">
-    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
-      <h3>Host name</h3>
-      <p>{{smtpItems.host_name}}</p>
-      <!-- <p>{{socialItems.facebook}}</p> -->
-    </div>
-    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
-      <h3>From name</h3>
-      <p>{{smtpItems.from_name}}</p>
-      <!-- <p>{{socialItems.twitter}}</p> -->
-    </div>
-    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
-      <h3>From Email</h3>
-      <p>{{smtpItems.from_email}}</p>
-      <!-- <p>{{socialItems.wikipedia}}</p> -->
-    </div>
-    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
-      <h3>User name</h3>
-      <p>{{smtpItems.user_name}}</p>
-      <!-- <p>{{socialItems.youtube}}</p> -->
-    </div>
-    <div class="link-item" fxLayout="row" fxLayoutGap="30px">
-      <h3>Password</h3>
-      <p>{{smtpItems.password}}</p>
-      <!-- <p>{{socialItems.youtube}}</p> -->
-    </div>
-    <button mat-raised-button class="edit-button" (click)="EditSMTPLinks(smtpItems)">Edit</button>
+      <div class="smtp_footer" fxLayoutAlign="end center">
+        <button mat-button class="edit-button pull-left" (click)="cancelFileEdit()">Cancel</button>
+        <button mat-raised-button [hidden]="Ishide1" class="edit-button" type="submit" (click)="SmtpPost(smtpUpdationForm.value)"
+          [disabled]="!smtpUpdationForm.valid">{{btn_text}}</button>
+        <button mat-raised-button type="submit" class="edit-button" (click)="deleteSMTP(smtpUpdationForm.value)">delete</button>
+      </div>
+    </form>
   </div>
-
 </div>

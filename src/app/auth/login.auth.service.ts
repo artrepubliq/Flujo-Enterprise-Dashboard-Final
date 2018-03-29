@@ -15,7 +15,6 @@ export class LoginAuthService implements OnInit {
   // Create a stream of logged in status to communicate throughout app
   customLoggedIn: boolean;
   customLoggedIn$ = new BehaviorSubject<boolean>(this.customLoggedIn);
-
   constructor(private router: Router, private httpClient: HttpClient) {
     this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     if (Date.now() < this.expiresAt) {
@@ -51,9 +50,11 @@ export class LoginAuthService implements OnInit {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('email', authResult.email);
     localStorage.setItem('user_id', authResult.user_id);
-    localStorage.setItem('nickname', JSON.stringify(authResult.user_name));
+    localStorage.setItem('name', authResult.name);
     localStorage.setItem('expires_at', JSON.stringify(expTime));
+    // this.router.navigateByUrl('/');
     this.router.navigate(['/admin']);
+    // window.location.reload();
     this.setLoggedInCustom(true);
   }
   getCustomLoginStatus() {
@@ -77,7 +78,7 @@ export class LoginAuthService implements OnInit {
   localStorage.removeItem('token');
   localStorage.removeItem('id_token');
   localStorage.removeItem('user_id');
-  localStorage.removeItem('nickname');
+  localStorage.removeItem('name');
   localStorage.removeItem('expires_at');
   localStorage.removeItem('email');
   this.setLoggedInCustom(false);
