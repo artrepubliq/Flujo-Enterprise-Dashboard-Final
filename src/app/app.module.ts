@@ -84,6 +84,7 @@ import { AreaService } from './service/area.service';
 import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -204,7 +205,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    NgxChartsModule
+    NgxChartsModule,
+    ScrollToModule.forRoot()
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
      AccessLevelPopup], // MediaLocalImagePopupDialog

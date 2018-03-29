@@ -29,11 +29,9 @@ export class AnalyticsComponent implements OnInit {
 
   // color = 'accent';
   // colors = ['#ee2f6b','#0cc0df','#fecd0f'];
-
-    // color1 = 'accent';
-    // color2 = 'primary';
-    // color3 = 'warn';
-
+  // color1 = 'accent';
+  // color2 = 'primary';
+  // color3 = 'warn';
   // mode = 'determinate';
   // value = 5;
 
