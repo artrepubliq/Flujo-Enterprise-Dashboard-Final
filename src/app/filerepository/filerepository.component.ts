@@ -33,7 +33,7 @@ export class FilerepositoryComponent implements OnInit {
     FileUploadControl: FormGroup;
     errors: Array<string> = [];
     clickedFile: boolean;
-    repositories: Array<IResult> ;
+    repositories: Array<IResult>;
     filtered_repositories: Array<IResult> = [];
     allFiles;
     dragAreaClass = 'dragarea';
@@ -41,6 +41,7 @@ export class FilerepositoryComponent implements OnInit {
     repository_name: string;
     uploaded_file: any;
     foldersdata = [];
+    toggleFileUploader: boolean = false;
 
     // disabled = false;
     @Input() projectId: number;
@@ -336,7 +337,7 @@ export class FilerepositoryComponent implements OnInit {
     }
     /* this is for sorting folders */
     sortByFolderName = () => {
-        this.repositories =  _.sortBy(this.repositories, 'folder');
+        this.repositories = _.sortBy(this.repositories, 'folder');
     }
     /* this is to sort by descending*/
     sortByFolderNameDesc = () => {
@@ -379,6 +380,11 @@ export class FilerepositoryComponent implements OnInit {
                     console.log(error);
                 }
             );
+    }
+
+    /* SHOW Uploader Block */
+    uploadFile() {
+        this.toggleFileUploader = !this.toggleFileUploader;
     }
 }
 /* this is the component for file name and folder name popup input*/
