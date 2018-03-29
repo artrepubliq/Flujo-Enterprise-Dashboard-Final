@@ -70,7 +70,11 @@ select.from-cntrol {
 .preview-theme-header {
   font-size: 21px;
 }
-
+.preview-theme-header.gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .pad-20 {
   padding: 20px;
 }
