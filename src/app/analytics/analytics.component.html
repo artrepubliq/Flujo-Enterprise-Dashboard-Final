@@ -9,13 +9,13 @@
 
         <mat-form-field color="accent" fxFlex>
           <mat-label>Min date</mat-label>
-          <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" [disabled]="inputDisabled">
+          <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
           <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
         </mat-form-field>
         <mat-form-field color="accent" fxFlex>
           <mat-label>Max date</mat-label>
-          <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" [disabled]="inputDisabled">
+          <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
           <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
         </mat-form-field>
@@ -55,6 +55,7 @@
             <div fxLayout="column" fxLayoutAlign="end center">
               <div class="tproblems" fxFlex>{{problem.count}}</div>
               <div class="category" fxFlex>{{problem.category | uppercase}}</div>
+              
             </div>
           </div>
         </mat-card-content>
@@ -76,12 +77,12 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <div >
+        <div>
           <canvas id="genderChartCanvas">
             {{genderChart}}
           </canvas>
         </div>
-        
+
       </div>
       <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
         <h3 class="chart_item fmale">Female</h3>
@@ -96,11 +97,11 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-          <div >
-              <canvas id="assignChartCanvas">
-                {{assignChart}}
-              </canvas>
-            </div>
+        <div>
+          <canvas id="assignChartCanvas">
+            {{assignChart}}
+          </canvas>
+        </div>
       </div>
 
     </div>
@@ -111,17 +112,14 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-
-          <div >
-              <canvas id="ageChartCanvas">
-                {{ageChart}}
-              </canvas>
-            </div>
+          <canvas id="ageChartCanvas">
+            {{ageChart}}
+          </canvas>
 
       </div>
       <div class="chart_footer" *ngFor="let item of range">
         <p>{{item}} item</p>
-        
+
       </div>
     </div>
   </div>
@@ -140,7 +138,7 @@
             <p class="completed">Completed</p>
             <div fxLayout="row" fxLayoutAlign="space-between start">
               <span [style.color]='colors[0]'>{{status.completed}}</span>
-              
+
             </div>
             <br/>
             <section class="example-section">
@@ -152,7 +150,7 @@
             <p class="inprogress">Inprogress</p>
             <div fxLayout="row" fxLayoutAlign="space-between start">
               <span [style.color]='colors[1]'>{{status.in_progress}}</span>
-              
+
             </div>
             <br/>
             <section class="example-section">
@@ -164,7 +162,7 @@
             <p class="unresolved">Unresolved</p>
             <div fxLayout="row" fxLayoutAlign="space-between start">
               <span [style.color]='colors[2]'>{{status.unresolved}}</span>
-              
+
             </div>
             <br/>
             <section class="example-section">
@@ -181,11 +179,11 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-          <div >
-              <canvas id="areaChartCanvas">
-                {{areaChart}}
-              </canvas>
-            </div>
+        <div>
+          <canvas id="areaChartCanvas">
+            {{areaChart}}
+          </canvas>
+        </div>
       </div>
     </div>
   </div>

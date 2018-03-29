@@ -33,6 +33,7 @@ import { ProblemCategoryComponent } from './problem-category/problem-category.co
 import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
+import { DatabaseComponent } from './database/database.component';
 
 const routes: Routes = [
   {
@@ -88,12 +89,12 @@ const routes: Routes = [
           { path: 'areacategory', component: AreasComponent},
           { path: 'termsnconditions', component: TncComponent },
           { path: 'privacynpolicy', component: PnpComponent },
-
+          { path: 'database', component: DatabaseComponent },
         ]
       }
     ]
   }
-
+  
 ];
 
 @NgModule({
