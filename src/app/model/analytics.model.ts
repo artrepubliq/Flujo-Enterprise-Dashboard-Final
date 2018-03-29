@@ -7,19 +7,26 @@ export interface ProblemType {
 }
 
 export interface GenderDetails {
-    men: number,
-    women: number
+    name: String;
+    value: Number;
 }
 
 export interface AgeDetails {
-    a: number,
-    b: number,
-    c: number,
-    d: number
+    name: String;
+    value: Number;
 }
 
 export interface ReportStatus {
     completed: number,
     in_progress: number,
-    unresolved: number
+    unresolved: number,
+    id: number,
+    name: String,
+    email: String
+}
+
+export interface Params {
+    client_id: Number,
+    from_date: String,
+    to_date: String
 }
