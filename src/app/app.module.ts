@@ -40,7 +40,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { MediaComponent, DialogOverviewExampleDialog } from './media/media.component'; // FileSelectPopup
+import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
@@ -85,7 +85,7 @@ import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
-
+import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartAgeDirective } from './chart-age.directive';
@@ -135,7 +135,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangemakerComponent,
     AnalyticsComponent,
     CreateModuleComponent,
-
+    DeletefolderDialog,
     TncComponent,
     PnpComponent,
 
@@ -201,7 +201,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ScrollToModule.forRoot()
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup], // MediaLocalImagePopupDialog
+     AccessLevelPopup, DeletefolderDialog], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
               HttpService,

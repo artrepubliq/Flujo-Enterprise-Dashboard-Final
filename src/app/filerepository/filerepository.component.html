@@ -55,11 +55,14 @@
 <!-- //.. Header Title -->
 <!-- Floders -->
 <div class="row" *ngIf="repositories.length > 0">
-  <div class="col-md-3" *ngFor="let repositoryitem of repositories; let i = index">
+  <div class="col-md-3 folder_block" *ngFor="let repositoryitem of repositories; let i = index">
     <div class="floder_block" [ngClass]="{'active' : repositoryitem.isActive}" fxLayout="row" fxLayoutGap="15px" (click)="getDocuments(repositories, repositoryitem.folder, i)">
       <i class="fa fa-folder-o"></i>
       <i class="fa fa-folder-open"></i>
       <p class="floder_name">{{repositoryitem.folder}}</p>
+      <div class="trash-icon">
+        <i class="fa fa-trash action" (click)="deleteFolder(repositoryitem)"></i>
+      </div>
     </div>
   </div>
 </div>
