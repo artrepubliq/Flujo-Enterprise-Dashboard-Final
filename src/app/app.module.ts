@@ -40,7 +40,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component';
+import { MediaComponent, DialogOverviewExampleDialog } from './media/media.component'; // FileSelectPopup
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
@@ -174,6 +174,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatAutocompleteModule,
     MatMenuModule,
     ColorPickerModule,
     LoadingModule,
@@ -205,7 +206,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
     NgxChartsModule
   ],
-
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
      AccessLevelPopup], // MediaLocalImagePopupDialog
   providers: [
