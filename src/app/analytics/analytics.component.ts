@@ -15,6 +15,7 @@ import * as moment from 'moment';
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss']
 })
+
 export class AnalyticsComponent {
   // timeRange = 'option2';
   // isActive = true;
@@ -27,12 +28,14 @@ export class AnalyticsComponent {
   // value = 50;
 
   // // color = 'accent';
+
   // colors = ['#ee2f6b','#0cc0df','#fecd0f'];
   //   // color1 = 'accent';
   //   // color2 = 'primary';
   //   // color3 = 'warn';
   // mode = 'determinate';
   // value = 5;
+
 
   // touch: boolean;
   // filterOdd: boolean;
@@ -56,7 +59,7 @@ export class AnalyticsComponent {
 
   // onDateInput = (e: MatDatepickerInputEvent<Date>) => this.lastDateInput = e.value;
   // onDateChange = (e: MatDatepickerInputEvent<Date>) => this.lastDateChange = e.value;
-  
+
 
   // timeChange = (range) => {
   //   this.timeRange = range;
