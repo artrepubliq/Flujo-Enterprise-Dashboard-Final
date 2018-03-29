@@ -49,7 +49,7 @@ export class SmsuiComponent implements OnInit {
         if (data) {
           this.alertService.success('Message has been sent successfully');
           this.smsContactForm.reset();
-        }else{
+        }else {
         this.alertService.danger('Message not sent');
         this.smsContactForm.reset();
         }

@@ -19,8 +19,6 @@ import { IshowReports } from '../model/showRepots.model';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-
-
 @Component({
     templateUrl: './manage-reports.component.html',
     styleUrls: ['./manage-reports.component.scss']
@@ -55,7 +53,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     FilteredRemarksListOptions: Observable<string[]>;
     arrows: IArrows;
     private filterSubject: Subject<string> = new Subject<string>();
-
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
         private alertService: AlertService

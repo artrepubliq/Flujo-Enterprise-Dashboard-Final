@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AlertModule, AlertService } from 'ngx-alerts';
@@ -8,12 +8,15 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-
+import { GalleryImagesService } from '../service/gallery-images.service';
+import { mediaDetail } from '../model/feedback.model';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent implements OnInit, OnDestroy {
+    imagesOfgallery: mediaDetail[];
     childDetails: any;
     ttt: any;
     form: FormGroup;
@@ -25,27 +28,36 @@ export class PagesComponent implements OnInit, OnDestroy {
     loading = false;
     button_text = 'Save';
     decodedString: string;
-    dialog: any;
     public parentPageDetails;
     public pageDetails: object;
     public web_description = '';
     public app_description = '';
 
-    bgColor= '#3c3c3c';
+    bgColor = '#3c3c3c';
 
     dummy: string;
     @ViewChild('fileInput1') fileInput1: ElementRef;
     @ViewChild('fileInput2') fileInput2: ElementRef;
     constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
-    private alertService: AlertService) {
+        private alertService: AlertService, private galleryImagesService: GalleryImagesService, public dialog: MatDialog) {
         this.createForm();
         this.getPageDetails();
     }
     ngOnInit() {
-        setTimeout(function() {
+        setTimeout(function () {
             this.spinnerService.hide();
-          }.bind(this), 3000);
-      }
+        }.bind(this), 3000);
+        this.galleryImagesService.getGalleryImagesComponent('/flujo_client_getgallery/', AppConstants.CLIENT_ID)
+            .subscribe(
+                data => {
+                    this.imagesOfgallery = data;
+                    console.log(this.imagesOfgallery);
+                },
+                error => {
+                    console.log(error);
+                }
+            );
+    }
     createForm = () => {
         this.form = this.formBuilder.group({
             component_name: ['', Validators.required],
@@ -86,6 +98,16 @@ export class PagesComponent implements OnInit, OnDestroy {
             };
         }
     }
+    openDialog(): void {
+        const dialogRef = this.dialog.open(MediaLocalImagePopupDialog, {
+          width: '800px',
+          height: '500px',
+          data: this.imagesOfgallery
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+      }
     onSubmit = (body) => {
         this.spinnerService.show();
         const formModel = this.form.value;
@@ -97,33 +119,33 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (!this.form.value.parent_id) {
             this.form.controls['parent_id'].setValue('-1');
         }
-        this.httpClient.post<IHttpResponse>( AppConstants.API_URL + 'flujo_client_postcomponent', this.form.value)
+        this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postcomponent', this.form.value)
             .subscribe(
-            data => {
-                if (data.error) {
-                    this.alertService.warning(data.result);
-                    // this.parsePostResponse(data);
-                    this.spinnerService.hide();
-                }else {
-                    this.getPageDetails();
-                    this.parsePostResponse(data);
-                    this.spinnerService.hide();
-                }
+                data => {
+                    if (data.error) {
+                        this.alertService.warning(data.result);
+                        // this.parsePostResponse(data);
+                        this.spinnerService.hide();
+                    } else {
+                        this.getPageDetails();
+                        this.parsePostResponse(data);
+                        this.spinnerService.hide();
+                    }
 
-            },
-            error => {
-                this.loading = false;
-                this.spinnerService.hide();
-            });
+                },
+                error => {
+                    this.loading = false;
+                    this.spinnerService.hide();
+                });
     }
 
     clearFile = (id) => {
         if (id === 1) {
             this.form.get('component_image').setValue(null);
             this.fileInput1.nativeElement.value = '';
-        }else {
-        this.form.get('component_background_image').setValue(null);
-        this.fileInput2.nativeElement.value = '';
+        } else {
+            this.form.get('component_background_image').setValue(null);
+            this.fileInput2.nativeElement.value = '';
         }
     }
     onDelete = (body) => {
@@ -132,50 +154,50 @@ export class PagesComponent implements OnInit, OnDestroy {
         const component_id = body.id;
         this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletecomponent/' + component_id)
             .subscribe(
-            data => {
-                this.getPageDetails();
-                this.spinnerService.hide();
-                this.pageDetails = null;
-                console.log(data);
-                this.loading = false;
-                this.alertService.success('Page delete successfully');
-            },
-            error => {
-                this.loading = false;
-                this.spinnerService.hide();
-                this.alertService.success('Something went wrong');
-            });
+                data => {
+                    this.getPageDetails();
+                    this.spinnerService.hide();
+                    this.pageDetails = null;
+                    console.log(data);
+                    this.loading = false;
+                    this.alertService.success('Page delete successfully');
+                },
+                error => {
+                    this.loading = false;
+                    this.spinnerService.hide();
+                    this.alertService.success('Something went wrong');
+                });
     }
     getPageDetails = () => {
         this.spinnerService.show();
-        this.httpClient.get( AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
+        this.httpClient.get(AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
             .subscribe(
-            data => {
-                this.parentPageDetails = null;
-                this.pageDetails = null;
-                this.isEdit = false;
-                this.pageDetails = data;
-                console.log(this.pageDetails);
-                this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
-                    return parentData.parent_id === '-1';
-                });
-                // this.setDefaultClientPageDetails(this.pageDetails);
-                console.log(this.parentPageDetails);
-                this.spinnerService.hide();
-            },
-            error => {
-                console.log(error);
-                this.loading = false;
-                this.spinnerService.hide();
-            }
+                data => {
+                    this.parentPageDetails = null;
+                    this.pageDetails = null;
+                    this.isEdit = false;
+                    this.pageDetails = data;
+                    console.log(this.pageDetails);
+                    this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
+                        return parentData.parent_id === '-1';
+                    });
+                    // this.setDefaultClientPageDetails(this.pageDetails);
+                    console.log(this.parentPageDetails);
+                    this.spinnerService.hide();
+                },
+                error => {
+                    console.log(error);
+                    this.loading = false;
+                    this.spinnerService.hide();
+                }
             );
     }
-getChild(childData) {
-     this.childDetails = _.filter(this.pageDetails, (parentData) => {
-        return parentData.parent_id === childData.id;
-    });
-    console.log(this.childDetails);
-}
+    getChild(childData) {
+        this.childDetails = _.filter(this.pageDetails, (parentData) => {
+            return parentData.parent_id === childData.id;
+        });
+        console.log(this.childDetails);
+    }
     // this method is used to update page detals to the form, if detalis exist
     setDefaultClientPageDetails = (pageData) => {
         if (pageData) {
@@ -215,7 +237,7 @@ getChild(childData) {
         this.isGridView = true;
     }
     editCompnent = (componentItem) => {
-       // this.alertService.success('page updated successfull.');
+        // this.alertService.success('page updated successfull.');
         this.isEdit = true;
         this.isTableView = false;
         this.isGridView = false;
@@ -224,12 +246,12 @@ getChild(childData) {
     }
     parsePostResponse(response) {
         this.alertService.success('request completed successfully.');
-            this.loading = false;
-            this.form.reset();
-            this.isEdit = false;
-            this.isGridView = true;
-            this.button_text = 'Save';
-            this.getPageDetails();
+        this.loading = false;
+        this.form.reset();
+        this.isEdit = false;
+        this.isGridView = true;
+        this.button_text = 'Save';
+        this.getPageDetails();
     }
     cancelFileEdit() {
         this.isEdit = false;
@@ -237,7 +259,21 @@ getChild(childData) {
     }
     ngOnDestroy() {
         if (this.dialog) {
-          this.dialog = null;
+            this.dialog = null;
         }
-      }
+    }
 }
+@Component({
+    // tslint:disable-next-line:component-selector
+    selector: 'media-localimagepopup.html',
+    templateUrl: 'media-localimagepopup.html',
+  })
+  // tslint:disable-next-line:component-class-suffix
+  export class MediaLocalImagePopupDialog {
+    constructor(
+      public dialogRef: MatDialogRef<MediaLocalImagePopupDialog>,
+      @Inject(MAT_DIALOG_DATA) public data: any) { }
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+  }
