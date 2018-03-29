@@ -16,6 +16,12 @@ export class DatabaseComponent implements OnInit {
   displayedColumns = ['name', 'email', 'phone'];
   dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   /**

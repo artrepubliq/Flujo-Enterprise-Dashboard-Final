@@ -28,9 +28,9 @@ export class AnalyticsComponent implements OnInit {
 
   // color = 'accent';
   // colors = ['#ee2f6b','#0cc0df','#fecd0f'];
-    // color1 = 'accent';
-    // color2 = 'primary';
-    // color3 = 'warn';
+  // color1 = 'accent';
+  // color2 = 'primary';
+  // color3 = 'warn';
   // mode = 'determinate';
   // value = 5;
 
@@ -39,8 +39,8 @@ export class AnalyticsComponent implements OnInit {
   yearView: boolean;
   inputDisabled: boolean;
   datepickerDisabled: boolean;
-  minDate : any = new Date(1990, 1, 1);
-  maxDate : any = new Date();
+  minDate : any = moment("1990-01-01").format("YYYY-MM-DD");
+  maxDate : any = moment(new Date()).format("YYYY-MM-DD");
   startAt: Date;
   date: Date;
   lastDateInput: Date | null;
@@ -55,20 +55,11 @@ export class AnalyticsComponent implements OnInit {
   assign: any;
   area: any;
 
-
-  dateFilter =
-      (date: Date) => !(date.getFullYear() % 2) && (date.getMonth() % 2) && !(date.getDate() % 2)
-
-  onDateInput = (e: MatDatepickerInputEvent<Date>) => this.lastDateInput = e.value;
-  onDateChange = (e: MatDatepickerInputEvent<Date>) => this.lastDateChange = e.value;
-
-  
   // tslint:disable-next-line:member-ordering
   params = {
     client_id: AppConstants.CLIENT_ID,
     from_date: this.minDate,
-    to_date: this.maxDate,
-    problem_type: ['water', 'power', 'road']
+    to_date: this.maxDate
   };
 
   constructor(public http: HttpClient) { }
@@ -99,10 +90,11 @@ export class AnalyticsComponent implements OnInit {
   }
 
   getData(params) {
+    //console.log(JSON.stringify(params));
     this.http.post<Observable<any[]>>('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
     .subscribe(
       response => {
-        console.log(JSON.stringify(response));
+        //console.log(JSON.stringify(response));
         this.newData = response;
         this.problem_category = this.newData[0].problem_category;
         this.status_reports = this.newData[4].report_status;

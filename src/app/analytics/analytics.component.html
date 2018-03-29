@@ -55,6 +55,7 @@
             <div fxLayout="column" fxLayoutAlign="end center">
               <div class="tproblems" fxFlex>{{problem.count}}</div>
               <div class="category" fxFlex>{{problem.category | uppercase}}</div>
+              
             </div>
           </div>
         </mat-card-content>
@@ -96,9 +97,11 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <canvas id="assignChartCanvas">
-          {{assignChart}}
-        </canvas>
+        <div>
+          <canvas id="assignChartCanvas">
+            {{assignChart}}
+          </canvas>
+        </div>
       </div>
 
     </div>
@@ -109,13 +112,13 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <canvas id="ageChartCanvas">
-          {{ageChart}}
-        </canvas>
+          <canvas id="ageChartCanvas">
+            {{ageChart}}
+          </canvas>
 
       </div>
-      <div class="chart_footer" *ngFor="let data of range">
-        <p>{{data.name}} item</p>
+      <div class="chart_footer" *ngFor="let item of range">
+        <p>{{item}} item</p>
 
       </div>
     </div>
@@ -175,10 +178,12 @@
         <h3 class="title">Locality</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
-      <div class="chart_body locality_chart">
-        <canvas id="areaChartCanvas">
-          {{areaChart}}
-        </canvas>
+      <div class="chart_body">
+        <div>
+          <canvas id="areaChartCanvas">
+            {{areaChart}}
+          </canvas>
+        </div>
       </div>
     </div>
   </div>

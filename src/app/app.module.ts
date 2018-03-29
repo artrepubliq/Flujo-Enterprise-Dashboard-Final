@@ -40,7 +40,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component';
+import { MediaComponent, DialogOverviewExampleDialog } from './media/media.component'; // FileSelectPopup
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
@@ -84,10 +84,13 @@ import { AreaService } from './service/area.service';
 import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartAgeDirective } from './chart-age.directive';
 import { DatabaseComponent } from './database/database.component';
+import { ChartsGenderComponent } from './charts-gender/charts-gender.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -140,7 +143,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProblemCategoryComponent,
     AreasComponent,
     ChartsAgePieComponent,
-    DatabaseComponent
+    ChartAgeDirective,
+    DatabaseComponent,
+    ChartsGenderComponent
   ],
   imports: [
     BrowserModule,
@@ -162,6 +167,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatAutocompleteModule,
     MatMenuModule,
     ColorPickerModule,
     LoadingModule,
@@ -191,9 +197,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    NgxChartsModule
+    NgxChartsModule,
+    ScrollToModule.forRoot()
   ],
-
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
      AccessLevelPopup], // MediaLocalImagePopupDialog
   providers: [

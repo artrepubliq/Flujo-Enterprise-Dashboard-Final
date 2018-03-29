@@ -1,50 +1,39 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-<div class="card_pb">
-  <div class="report_problem_block" fxLayoutAlign="center center">
-    <div class="profile_header">
-      <h3 class="header_title">Problem Category</h3>
-      <div>
-        <i class="fa fa-pencil" fxLayout="column" fxLayoutAlign="start end" *ngIf="updateProblem" aria-hidden="true" (click)="updateProblemData()"></i>
-      </div>
 
-      <div *ngIf="selectProblem">
-        <mat-form-field>
-          <mat-select placeholder="Select Problem" [(ngModel)]="selectedValue" name="problem" (ngModelChange)="onChangetProblem($event)">
-            <mat-option [value]=''>NONE</mat-option>
-            <mat-option *ngFor="let problem of problemTypeData" [value]="{reportproblemtype_id:problem.id, problem_type:problem.problem_type}">
-              {{problem.problem_type}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+<div fxLayout="column" fxLayoutGap="30px" class="problem_type">
+  <div class="input_fields input_box">
+    <form [formGroup]="problemForm" fxLayout="row" fxLayoutGap="15px">
+      <input type="text" class="input" id="addOrUpdate" placeholder="Problem type" [value]="problemTypeNameNew" formControlName="problemtypenamenew">
+      <button class="button_submit" [disabled]="problemForm.invalid" (click)="createNewproblem()">{{actionText}}</button>
+      <button class="button_submit cancel" [disabled]="problemForm.invalid" (click)="backToSelect()">Cancel</button>
+    </form>
+  </div>
+  <div class="view_items" fxLayout="column" fxLayoutGap="15px">
+    <div class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
+      <div class="name" fxFlex>
+        Problem Type
       </div>
-      <div>
-        <button mat-button *ngIf="newProblemBtn" (click)="createNewBtn()">Create new</button>
+      <div fxLayout="row" fxLayoutGap="15px" fxFlex>
+        <button type="button" class="btn">
+          <i class="fa fa-pencil"></i>
+        </button>
+        <button type="button" class="btn">
+          <i class="fa fa-trash"></i>
+        </button>
       </div>
-      <form [formGroup]="problemForm">
-        <div>
-          <mat-form-field *ngIf="isEdit" class="">
-            <input matInput placeholder="Problem Type" formControlName="problemtypename" [(ngModel)]="problemTypeName">
-          </mat-form-field>
-
-          <mat-form-field *ngIf="isNew" class="">
-            <input matInput placeholder="Problem Type" formControlName="problemtypenamenew">
-          </mat-form-field>
-        </div>
-        <div fxLayout="row" fxLayoutGap="30px">
-          <div>
-            <button mat-button *ngIf="isEdit" (click)="updateProblemService()">Update</button>
-          </div>
-          <div>
-            <button mat-button *ngIf="isEdit" (click)="deleteProblem()">Delete</button>
-          </div>
-          <div>
-            <button mat-button *ngIf="isNew" (click)="createNewproblem()">Create</button>
-          </div>
-        </div>
-      </form>
-      <div>
-        <button mat-button *ngIf="isCancel" (click)="backToSelect()">Go back</button>
+    </div>
+    <div *ngFor="let problem of problemTypeData" class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
+      <div class="name" fxFlex>
+        {{problem.problem_type}}
+      </div>
+      <div fxLayout="row" fxLayoutGap="15px" fxFlex>
+        <button (click)="updateProblemData(problem); triggerScrollTo()" type="button" class="btn">
+          <i class="fa fa-pencil"></i>
+        </button>
+        <button (click)="deleteProblem(problem)" type="button" class="btn">
+          <i class="fa fa-trash"></i>
+        </button>
       </div>
     </div>
   </div>
