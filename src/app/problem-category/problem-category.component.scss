@@ -4,4 +4,32 @@
     box-shadow: 0px 1.5px 18px 0 rgba(0, 0, 0, 0.15);
     margin: 0 auto;
     background-color: #ffffff;
-}
+  }
+  .problem_type {
+      max-width: 40%;
+      .button_submit {
+          min-width: 100px;
+      }
+  }
+  .view_items {
+    .view_item {
+      border-radius: 5px;
+      background-color: #ffffff;
+      box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    .name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #666666;
+    }
+    .code {
+      font-size: 14px;
+      color: #919191;
+    }
+  }
+  
+  .button_submit.cancel {
+    max-width: 50px;
+    min-width: auto !important;
+  }
