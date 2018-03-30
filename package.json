@@ -27,11 +27,6 @@
     "@angular/router": "^5.0.0",
     "@ng-idle/core": "^2.0.0-beta.13",
     "@ng-idle/keepalive": "^2.0.0-beta.13",
-<<<<<<< HEAD
-=======
-    "@nicky-lenaers/ngx-scroll-to": "^0.6.0",
-    "@swimlane/ngx-charts": "^7.1.1",
->>>>>>> cafd3c43df4fb7f23f813e85612a7fc78d97a378
     "angular": "^1.6.8",
     "angular-froala-wysiwyg": "^2.7.4",
     "angular-material": "^1.1.6",
