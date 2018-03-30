@@ -1,20 +1,19 @@
 <!-- TopNav -->
 <nav class="navbar navbarTop" role="navigation">
-    <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
-      <div fxLayout="row" fxLayoutGap="0.1rem" fxLayoutAlign="start center">
-        <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
-          <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
-        </a>
-        <ul class="nav flex-column login-info">
-          <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-              <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
-              <span>Art Republiq</span>
-              <span class="active-indication">
-                <span class="nickname">{{nickName}}</span>
-                <span class="active-info">
-                  <sup>.</sup>
-                </span>
+  <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
+    <div fxLayout="row" fxLayoutGap="0.1rem" fxLayoutAlign="start center">
+      <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
+        <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
+      </a>
+      <ul class="nav flex-column login-info">
+        <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+            <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
+            <span>Art Republiq</span>
+            <span class="active-indication">
+              <span class="nickname">{{name}}</span>
+              <span class="active-info">
+                <sup>.</sup>
               </span>
             </a>
             <div class="dropdown-menu">
@@ -272,7 +271,7 @@
       </a>
       <ul class="dropdown-menu">
         <li>
-          <a class="activity">{{nickName}}</a>
+          <a class="activity">{{name}}</a>
         </li>
         <li>
           <a routerLink="./logo" routerLinkActive="active" class="activity">
