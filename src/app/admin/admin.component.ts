@@ -26,7 +26,7 @@ export class AdminComponent implements OnInit {
   activeUsers: Array<IloggedinUsers>;
   loggedinUsersList: Array<IloggedinUsers>;
   userList: Array<IloggedinUsers>;
-  public nickName: string;
+  public name: string;
   createUserList: CreateUserComponentComponent;
  loggedinIds: Array<string>;
   constructor(public loginAuthService: LoginAuthService,
@@ -49,7 +49,7 @@ export class AdminComponent implements OnInit {
     this.getUserList();
   }
   ngOnInit(): void {
-    this.nickName = JSON.parse(localStorage.getItem('nickname'));
+    this.name = localStorage.getItem('name');
     this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     this.getUserList();
