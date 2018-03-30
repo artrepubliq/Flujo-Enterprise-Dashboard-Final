@@ -398,7 +398,7 @@ export class FilerepositoryComponent implements OnInit {
         } else {
             console.log(repositoryitem);
             const delFolderdialog = this.deleteFolderDialog.open(DeletefolderDialog, {
-                width: '300px'
+                width: '420px'
             });
 
             delFolderdialog.afterClosed().subscribe(result => {
