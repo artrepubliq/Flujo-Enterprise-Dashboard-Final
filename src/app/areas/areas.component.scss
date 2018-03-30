@@ -7,16 +7,23 @@
 }
 .area_problem {
     max-width: 40%;
+    margin: 0 auto;
     .button_submit {
-        min-width: 100px;
+        min-width: 80px;
     }
 }
 .view_items {
+  box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  max-height: calc( 100vh - 200px);
   .view_item {
-    border-radius: 5px;
     background-color: #ffffff;
-    box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
     padding: 20px;
+    border-bottom: 1.5px solid #f5f5f5;
+    min-height: 80px;
+  }
+  .view_item:last-child {
+    border: none;
   }
   .name {
     font-size: 14px;

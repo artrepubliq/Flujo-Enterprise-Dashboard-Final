@@ -7,9 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
+import { GalleryImagesService } from './service/gallery-images.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PagesComponent } from './pages/pages.component';
+import { PagesComponent } from './pages/pages.component'; // MediaLocalImagePopupDialog
 import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -25,7 +26,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
   // tslint:disable-next-line:max-line-length
-  MatDialogModule, MatSlideToggleModule,MatProgressBarModule, MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, MatNativeDateModule, MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
+  MatDialogModule, MatSlideToggleModule, MatProgressBarModule, MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, MatNativeDateModule, MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -39,7 +40,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component';
+import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
@@ -83,9 +84,12 @@ import { AreaService } from './service/area.service';
 import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
-
+import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartAgeDirective } from './chart-age.directive';
+import { DatabaseComponent } from './database/database.component';
+import { ChartsGenderComponent } from './charts-gender/charts-gender.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -130,19 +134,22 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangemakerComponent,
     AnalyticsComponent,
     CreateModuleComponent,
-
+    DeletefolderDialog,
     TncComponent,
     PnpComponent,
 
     HeaderurlsComponent,
     ProblemCategoryComponent,
     AreasComponent,
-    ChartsAgePieComponent
+    ChartsAgePieComponent,
+    ChartAgeDirective,
+    DatabaseComponent,
+    ChartsGenderComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule, 
-    NgxChartsModule, 
+    BrowserAnimationsModule,
+    NgxChartsModule,
     AppRoutingModule,
     HttpClientModule,
     CKEditorModule,
@@ -159,6 +166,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatAutocompleteModule,
     MatMenuModule,
     ColorPickerModule,
     LoadingModule,
@@ -190,15 +198,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
     NgxChartsModule
   ],
-
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup],
+     AccessLevelPopup, DeletefolderDialog], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,
               LoginAuthService,
+              GalleryImagesService,
               FBService,
               ProblemTypeService,
               AreaService,

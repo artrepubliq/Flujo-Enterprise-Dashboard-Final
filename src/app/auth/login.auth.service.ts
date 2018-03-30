@@ -37,18 +37,20 @@ export class LoginAuthService implements OnInit {
     if (!this.customLoggedIn) {
       window.alert('close session');
       this.router.navigate(['/login']);
+      // this.clearLocalStorage();
     } else {
       return;
     }
 
   }
   public _setSession(authResult) {
-    const expTime = 600 * 1000 + Date.now();
+    const expTime = 60 * 60 * 1000 + Date.now();
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.user_id);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('email', authResult.email);
     localStorage.setItem('user_id', authResult.user_id);
-    localStorage.setItem('nickname', JSON.stringify(authResult.name));
+    localStorage.setItem('name', authResult.name);
     localStorage.setItem('expires_at', JSON.stringify(expTime));
     // this.router.navigateByUrl('/');
     this.router.navigate(['/admin']);
@@ -61,7 +63,7 @@ export class LoginAuthService implements OnInit {
 
   logout() {
     if (this.customLoggedIn) {
-      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.id_token)
+      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.user_id)
       .subscribe(
         data => {
         },
@@ -69,14 +71,18 @@ export class LoginAuthService implements OnInit {
         });
       this.router.navigate(['/login']);
     }
-    // Remove tokens and profile and update login status subject
-    localStorage.removeItem('token');
-    localStorage.removeItem('expires_at');
-    localStorage.removeItem('user_id');
-
-    this.setLoggedInCustom(false);
+  this.clearLocalStorage();
   }
-
+  clearLocalStorage = () => {
+  // Remove tokens and profile and update login status subject
+  localStorage.removeItem('token');
+  localStorage.removeItem('id_token');
+  localStorage.removeItem('user_id');
+  localStorage.removeItem('name');
+  localStorage.removeItem('expires_at');
+  localStorage.removeItem('email');
+  this.setLoggedInCustom(false);
+  }
   get authenticated(): boolean {
     // Check if current date is greater than expiration
     if (this.customLoggedIn) {

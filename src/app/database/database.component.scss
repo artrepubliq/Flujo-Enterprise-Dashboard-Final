@@ -1,0 +1,9 @@
+.database_table {
+    height: calc(100vh - 250px) ;
+    position: relative;
+}
+.database {
+    .mat-paginator {
+        background: transparent;
+    }
+}
