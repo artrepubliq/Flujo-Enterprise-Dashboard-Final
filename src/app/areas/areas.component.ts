@@ -7,7 +7,6 @@ import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { AppConstants } from '../app.constants';
-import { ScrollToConfigOptions, ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 
 @Component({
   selector: 'app-areas',
@@ -31,7 +30,6 @@ export class AreasComponent implements OnInit {
     public loader: NgxSmartLoaderService,
     private spinnerService: Ng4LoadingSpinnerService,
     private alertService: AlertService,
-    private _scrollToService: ScrollToService
   ) {
     this.areaPincode = '';
     this.areaName = '';
@@ -142,15 +140,5 @@ export class AreasComponent implements OnInit {
       );
   }
 
-  public triggerScrollTo() {
-
-    const config: ScrollToConfigOptions = {
-      target: 'destination',
-      easing: 'easeOutElastic',
-      offset: 20
-    };
-
-    this._scrollToService.scrollTo(config);
-  }
 
 }
