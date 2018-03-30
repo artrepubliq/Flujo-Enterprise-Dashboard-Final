@@ -230,6 +230,57 @@
             <span>Editor</span>
           </a>
         </li>
+      </ul>
+    </div>
+  </div>
+  <div class="admin-website mr-auto">
+    <p class="title">
+      <span>DVB Website : </span>
+      <span class="page-title">{{CurrentPageName}}</span>
+    </p>
+  </div>
+  <ul class="nav top-nav">
+    <li class="navbarItem">
+      <a href="#notifications" class="nav-link">
+
+        <!-- <i class="fa fa-comment-o"></i> -->
+        <img src="assets/icons/chat-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+    </li>
+    <li class="navbarItem">
+      <a href="#notifications" class="nav-link">
+
+        <!-- <i class="fa fa-question-circle"></i> -->
+        <img src="assets/icons/help-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+    </li>
+    <li class="navbarItem">
+      <a href="#notifications" class="nav-link">
+        <!-- <i class="fa fa-info-circle"></i> -->
+        <img src="assets/icons/info-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+    </li>
+    <li class="navbarItem dropdown admin-profile">
+      <a class="nav-link" data-toggle="dropdown">
+        <!-- <span class="user-logo">
+          <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
+        </span>
+        {{nickName}} -->
+
+        <!-- <i class="fa fa-ellipsis-v"></i> -->
+        <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a class="activity">{{nickName}}</a>
+        </li>
+        <li>
+          <a routerLink="./logo" routerLinkActive="active" class="activity">
+            <i class="fa fa-user"></i>Logo</a>
+        </li>
+        <li>
+          <a routerLink="./media" routerLinkActive="active" class="activity">
+            <i class="fa fa-folder-open-o"></i>Media Management</a>
         <li class="divider-line"></li>
         <!-- Communication Block -->
         <li class="nav-title">Flow
@@ -261,6 +312,9 @@
         <li class="nav-title">Nucleus
           <i class="fa fa-cog"></i>
         </li>
+        <li>
+          <a routerLink="./module" routerLinkActive="active" class="activity">
+            <i class="fa fa-edit"></i>Create Module</a>
         <!-- <li class="nav-item">
           <a class="nav-link" routerLink="./reportanissue" routerLinkActive="active">
             <img src="assets/icons/report-an-issue-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">

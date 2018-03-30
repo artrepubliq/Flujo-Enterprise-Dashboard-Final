@@ -15,32 +15,22 @@ import * as moment from 'moment';
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss']
 })
+
 export class AnalyticsComponent implements OnInit {
-  timeRange = 'option2';
+
   isActive = true;
   // color = 'accent';
   colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
-    // color1 = 'warn';
-    // color2 = 'primary';
-    // color3 = 'accent';
-  mode = 'determinate';
+   mode = 'determinate';
   value = 50;
-
-  // color = 'accent';
-  // colors = ['#ee2f6b','#0cc0df','#fecd0f'];
-    // color1 = 'accent';
-    // color2 = 'primary';
-    // color3 = 'warn';
-  // mode = 'determinate';
-  // value = 5;
 
   touch: boolean;
   filterOdd: boolean;
   yearView: boolean;
   inputDisabled: boolean;
   datepickerDisabled: boolean;
-  minDate = new Date(1990, 1, 1);
-  maxDate = new Date();
+  minDate : any = moment("1990-01-01").format("YYYY-MM-DD");
+  maxDate : any = moment(new Date()).format("YYYY-MM-DD");
   startAt: Date;
   date: Date;
   lastDateInput: Date | null;
@@ -55,37 +45,46 @@ export class AnalyticsComponent implements OnInit {
   assign: any;
   area: any;
 
-
-  dateFilter =
-      (date: Date) => !(date.getFullYear() % 2) && (date.getMonth() % 2) && !(date.getDate() % 2)
-
-  onDateInput = (e: MatDatepickerInputEvent<Date>) => this.lastDateInput = e.value;
-  onDateChange = (e: MatDatepickerInputEvent<Date>) => this.lastDateChange = e.value;
-
-  timeChange = (range) => {
-    this.timeRange = range;
-    this.isActive = ! this.isActive;
-  }
   // tslint:disable-next-line:member-ordering
   params = {
     client_id: AppConstants.CLIENT_ID,
-    from_date: '2000-01-01',
-    to_date: '2018-03-31',
-    problem_type: ['water', 'power', 'road']
+    from_date: this.minDate,
+    to_date: this.maxDate
   };
 
   constructor(public http: HttpClient) { }
 
   ngOnInit() {
     this.getData(this.params);
-    console.log(this.maxDate);
+    // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
+    // console.log(moment(this.minDate).format("YYYY-MM-DD"));
+  }
+
+  onValueChange() {
+    // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
+    // console.log(moment(this.minDate).format("YYYY-MM-DD"));
+
+    this.minDate = moment(this.minDate).format("YYYY-MM-DD");
+    this.maxDate = moment(this.maxDate).format("YYYY-MM-DD");
+    
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+    console.log(this.params.from_date);
+    console.log(this.params.to_date);
+
+    this.getData(this.params);
+  }
+
+  timeChange(r: String) {
+    console.log(r);
   }
 
   getData(params) {
+    //console.log(JSON.stringify(params));
     this.http.post<Observable<any[]>>('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
     .subscribe(
       response => {
-        console.log(JSON.stringify(response));
+        //console.log(JSON.stringify(response));
         this.newData = response;
         this.problem_category = this.newData[0].problem_category;
         this.status_reports = this.newData[4].report_status;
@@ -167,7 +166,13 @@ export class AnalyticsComponent implements OnInit {
           'type': 'bar',
           'data': {
             datasets: [{
-              data: areaValue
+              data: areaValue,
+              backgroundColor: [
+                '#ee2f6b','#ee2f6b','#ee2f6b'
+              ],
+              barPercentage: [
+                '10'
+              ]
             }],
             labels: areaName
           },

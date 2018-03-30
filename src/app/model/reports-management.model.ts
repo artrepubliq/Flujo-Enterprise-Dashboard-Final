@@ -6,7 +6,6 @@ export interface IPostAssignedUser {
 }
 
 // this interface is used to  update the reports status in reports table
-
 export interface IPostReportStatus {
     report_id: string;
     report_remarks: string;

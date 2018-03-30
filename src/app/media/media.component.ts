@@ -8,7 +8,7 @@ import { AlertModule, AlertService } from 'ngx-alerts';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatButtonModule } from '@angular/material';
-import { IGalleryObject, IGalleryImageItem, IAlbumImageUpdate, IBase64Images } from '../model/gallery.model';
+import { IGalleryObject, IGalleryImageItem, IAlbumImageUpdate, IBase64Images, IUploadImages } from '../model/gallery.model';
 import { AppConstants } from '../app.constants';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -25,6 +25,7 @@ import { Router } from '@angular/router';
 })
 
 export class MediaComponent implements OnInit {
+  toggleFileUploader: boolean = false;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   unUsedActiveButton: boolean;
@@ -50,7 +51,7 @@ export class MediaComponent implements OnInit {
   public allAlbumImageIdsArray;
   public usedImageIdsArray;
   public unUsedImageIdsArray;
-  uploadImagesForm: any;
+  uploadImagesObject: IUploadImages;
   dragAreaClass = 'dragarea';
   showHide: boolean;
   // submitAlbumData: FormGroup;
@@ -163,6 +164,7 @@ export class MediaComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.uploadImagesObject = <IUploadImages>{};
     this.ishide = true;
     this.getMediaGalleryData();
     this.getAlbumGallery();
@@ -207,7 +209,7 @@ export class MediaComponent implements OnInit {
         };
       }
       try {
-        this.uploadImagesForm.get('image').setValue(imageDetail);
+        this.uploadImagesObject.image = imageDetail;
       } catch (e) {
 
       }
@@ -234,17 +236,17 @@ export class MediaComponent implements OnInit {
   // this function used to upload the image or multiple images
   onUploadImages(body: any) {
     this.spinnerService.show();
-    this.uploadImagesForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    const formModel = this.uploadImagesForm.value;
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postgallery', formModel).subscribe(
-      res => {
 
-        this.getMediaGalleryData();
+    this.uploadImagesObject.client_id = AppConstants.CLIENT_ID;
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postgallery', this.uploadImagesObject).subscribe(
+      res => {
+        this.uploadImagesObject = <IUploadImages>{};
         this.successMessagebool = true;
         this.spinnerService.hide();
-        this.uploadImagesForm = null;
+
         this.successMessagebool = true;
         this.alertService.success('Images uploaded successfully');
+        this.getMediaGalleryData();
 
       },
       (err: HttpErrorResponse) => {
@@ -673,6 +675,11 @@ export class MediaComponent implements OnInit {
     this.usedUnUsedMedia = this.unUsedMediaData;
     console.log(this.unUsedMediaData);
   }
+
+  uploadFile() {
+    this.toggleFileUploader = !this.toggleFileUploader;
+  }
+
 }
 
 

@@ -197,12 +197,13 @@ input {
 
 .rect_card {
   .chart_card {
-    height: 210px;
+    height: 310px;
     max-width: 555px;
   }
   .chart_body{
-    vertical-align: middle;
-    padding:0 20px;
+    height: calc(100% - 62px);
+    // vertical-align: middle;
+    // padding:0 20px;
     .status-bars{
       margin-top: 30px;
     }
@@ -211,4 +212,8 @@ input {
 
 .analytics_block {
   padding: 10px 22px 0px 0px;
+}
+
+.locality_chart {
+  width: 84%;
 }

@@ -1,3 +1,4 @@
+
 <ng4-loading-spinner></ng4-loading-spinner>
 <div class="analytics_block" fxLayout="column" fxLayoutGap="25px">
   <!-- Analytics Header -->
@@ -9,13 +10,13 @@
 
         <mat-form-field color="accent" fxFlex>
           <mat-label>Min date</mat-label>
-          <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" [disabled]="inputDisabled">
+          <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
           <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
         </mat-form-field>
         <mat-form-field color="accent" fxFlex>
           <mat-label>Max date</mat-label>
-          <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" [disabled]="inputDisabled">
+          <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
           <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
         </mat-form-field>
@@ -55,6 +56,7 @@
             <div fxLayout="column" fxLayoutAlign="end center">
               <div class="tproblems" fxFlex>{{problem.count}}</div>
               <div class="category" fxFlex>{{problem.category | uppercase}}</div>
+              
             </div>
           </div>
         </mat-card-content>

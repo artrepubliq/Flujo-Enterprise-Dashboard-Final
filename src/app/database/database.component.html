@@ -1,0 +1,62 @@
+<div class="database" fxLayout="column" fxLayoutGap="15px">
+
+  <div class="example-header" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
+    <div>
+      <button class="button_submit">
+        Export as CSV
+      </button>
+    </div>
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+
+  <!-- Table -->
+  <div class="database_table" [perfectScrollbar]="config">
+    <div class="example-container mat-elevation-z8">
+      <mat-table #table [dataSource]="dataSource">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+        </ng-container>
+
+        <!-- Phone Number Column -->
+        <ng-container matColumnDef="phone">
+          <mat-header-cell *matHeaderCellDef> Phone </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="sendMail-data form-group">
+      <form fxLayout="row" fxLayoutGap="15px">
+        <div class="input_box p-rel">
+          <input formControlName="email" id="email" placeholder="Enter email">
+          <!-- <div  class="form-error-msg">
+            enter valid email
+          </div> -->
+        </div>
+        <div>
+          <button mat-raised-button class="button_submit" (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)">Send As Email</button>
+        </div>
+      </form>
+    </div>
+    <!-- Paginator  -->
+    <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+    </mat-paginator>
+  </div>
+
+</div>

@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Inject, AfterViewInit, ViewChild, OnDestroy  } from '@angular/core';
 import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
@@ -21,8 +20,6 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
-
-
 @Component({
     templateUrl: './manage-reports.component.html',
     styleUrls: ['./manage-reports.component.scss']
@@ -59,7 +56,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     FilteredRemarksListOptions: Observable<string[]>;
     arrows: IArrows;
     private filterSubject: Subject<string> = new Subject<string>();
-
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
         private alertService: AlertService, private router: Router, public adminComponent: AdminComponent
@@ -268,7 +264,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                     this.reportProblemData = data;
                     this.reportProblemData2 = data;
                     this.filterReportProblemData = data;
-                    console.log(data);
+                    // console.log(data);
                 },
                 error => {
                     console.log(error);
@@ -315,14 +311,14 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     sortArray = (table_cell, arrow) => {
 
         if (this.arrows[arrow] === false) {
-            this.reportProblemData = _.sortBy(this.reportProblemData, table_cell).reverse();
+            this.filterReportProblemData = _.sortBy(this.filterReportProblemData, table_cell).reverse();
             this.arrows[arrow] = true;
         } else {
-            this.reportProblemData = _.sortBy(this.reportProblemData, table_cell);
+            this.filterReportProblemData = _.sortBy(this.filterReportProblemData, table_cell);
             this.arrows[arrow] = false;
         }
     }
-    sortByStatus = (reportStatus) => {
+    sortByStatus = (reportStatus, statusName, ) => {
         if (reportStatus === '0') {
             this.showReports.completedActive = true;
             this.showReports.inProgressActive = false;
@@ -331,13 +327,10 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             this.showReports.completedActive = false;
             this.showReports.inProgressActive = true;
         }
-        // this.showReports.completedActive = !this.showReports.completedActive;
-        // this.showReports.inProgressActive = !this.showReports.inProgressActive;
-        // console.log(this.showReports.completedActive);
-        // console.log(this.showReports.inProgressActive);
-        this.reportProblemData = this.reportProblemData2;
-        this.reportProblemData = this.reportProblemData.filter(reportData => reportData.report_status === reportStatus);
-        console.log(this.reportProblemData);
+
+        this.filterReportProblemData = this.reportProblemData;
+        this.filterReportProblemData = this.reportProblemData.filter(reportData => reportData.report_status === reportStatus);
+
     }
 
     public onChange2(searchTerm: string): void {

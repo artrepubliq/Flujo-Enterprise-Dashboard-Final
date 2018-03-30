@@ -11,12 +11,14 @@ import { AppConstants } from '../app.constants';
 import {MatIconModule} from '@angular/material/icon';
 
 import { IloggedinUsers } from '../model/createUser.model';
+import { Title } from '@angular/platform-browser';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CreateUserComponentComponent, AccessLevelPopup } from '../create-user-component/create-user-component.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { IAccessLevelModel } from '../model/accessLevel.model';
 import { UseraccessServiceService } from '../service/useraccess-service.service';
-@Injectable()
+
 @Component({
   templateUrl: './admin.component.html',
   styleUrls: ['../app.component.scss']
@@ -28,21 +30,35 @@ export class AdminComponent implements OnInit {
   userAccessLevelObject: any;
   filteredAccessIds: any;
   isUserActive: boolean;
+  CurrentPageName: string;
   activeUsers: Array<IloggedinUsers>;
   loggedinUsersList: Array<IloggedinUsers>;
   userList: Array<IloggedinUsers>;
-  public nickName: string;
+  public name: string;
   createUserList: CreateUserComponentComponent;
  loggedinIds: Array<string>;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
-    public mScrollbarService: MalihuScrollbarService, private spinnerService: Ng4LoadingSpinnerService,
-    private alertService: AlertService, public dialog: MatDialog, public userAccessService: UseraccessServiceService) {
+    public mScrollbarService: MalihuScrollbarService,
+    titleService: Title, router: Router, activatedRoute: ActivatedRoute) {
+
+      router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          const title = this.getTitle(router.routerState, router.routerState.root).join('-');
+          if (title) {
+            // console.log('title', title);
+            this.CurrentPageName = title;
+            titleService.setTitle(title);
+          } else {
+            this.CurrentPageName = '';
+          }
+        }
+      });
     this.getUserList();
    this.getUserAccessLevelData();
   }
   ngOnInit(): void {
-    this.nickName = JSON.parse(localStorage.getItem('nickname'));
+    this.name = localStorage.getItem('name');
     this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     // console.log(this.userAccessService.getUserAccessLevelData());
@@ -107,6 +123,17 @@ export class AdminComponent implements OnInit {
       }
       );
   }
+  getTitle(state, parent) {
+    const data = [];
+    if (parent && parent.snapshot.data && parent.snapshot.data.title) {
+      data.push(parent.snapshot.data.title);
+    }
+
+    if (state && parent) {
+      data.push(... this.getTitle(state, state.firstChild(parent)));
+    }
+    return data;
+  }
   getUserAccessLevelData = () => {
     this.spinnerService.show();
     this.getUserAccessLevelsHttpClient()
@@ -170,5 +197,4 @@ export class EmptyAccessLevelDialog {
     this.loginAuthService.logout();
     this.dialogRef.close();
   }
-
 }
