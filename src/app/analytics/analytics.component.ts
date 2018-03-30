@@ -15,10 +15,13 @@ import * as moment from 'moment';
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss']
 })
+
 export class AnalyticsComponent implements OnInit {
 
   isActive = true;
-  mode = 'determinate';
+  // color = 'accent';
+  colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
+   mode = 'determinate';
   value = 50;
   touch: boolean;
   filterOdd: boolean;
