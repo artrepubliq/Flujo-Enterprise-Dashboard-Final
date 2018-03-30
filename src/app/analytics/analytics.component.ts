@@ -15,24 +15,14 @@ import * as moment from 'moment';
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss']
 })
+
 export class AnalyticsComponent implements OnInit {
 
   isActive = true;
   // color = 'accent';
   colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
-    // color1 = 'warn';
-    // color2 = 'primary';
-    // color3 = 'accent';
-  mode = 'determinate';
+   mode = 'determinate';
   value = 50;
-
-  // color = 'accent';
-  // colors = ['#ee2f6b','#0cc0df','#fecd0f'];
-  // color1 = 'accent';
-  // color2 = 'primary';
-  // color3 = 'warn';
-  // mode = 'determinate';
-  // value = 5;
 
   touch: boolean;
   filterOdd: boolean;

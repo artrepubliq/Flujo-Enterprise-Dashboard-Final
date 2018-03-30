@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Inject, AfterViewInit, ViewChild, OnDestroy  } from '@angular/core';
 import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';

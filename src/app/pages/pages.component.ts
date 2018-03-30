@@ -172,33 +172,34 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.httpClient.get(AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
             .subscribe(
-                data => {
-                    this.parentPageDetails = null;
-                    this.pageDetails = null;
-                    this.isEdit = false;
-                    this.pageDetails = data;
-                    console.log(this.pageDetails);
-                    this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
-                        return parentData.parent_id === '-1';
-                    });
-                    // this.setDefaultClientPageDetails(this.pageDetails);
-                    console.log(this.parentPageDetails);
-                    this.spinnerService.hide();
-                },
-                error => {
-                    console.log(error);
-                    this.loading = false;
-                    this.spinnerService.hide();
-                }
+            data => {
+                this.parentPageDetails = null;
+                this.pageDetails = null;
+                this.isEdit = false;
+                this.pageDetails = data;
+                this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
+                    return parentData.parent_id === '-1';
+                });
+                this.childDetails = _.filter(this.pageDetails, (parentData) => {
+                    return parentData.parent_id !== '-1';
+                });
+                this.spinnerService.hide();
+            },
+            error => {
+                console.log(error);
+                this.loading = false;
+                this.spinnerService.hide();
+            }
             );
     }
-    getChild(childData) {
-        this.childDetails = _.filter(this.pageDetails, (parentData) => {
-            return parentData.parent_id === childData.id;
-        });
-        console.log(this.childDetails);
-    }
-    // this method is used to update page detals to the form, if detalis exist
+getChild(childData) {
+     this.childDetails = _.filter(this.pageDetails, (parentData) => {
+        return parentData.parent_id === childData.id;
+    });
+    console.log(this.childDetails);
+}
+    // this method is used to set page detals to the form, if detalis exist
+
     setDefaultClientPageDetails = (pageData) => {
         if (pageData) {
             // this.button_text = "Update";
