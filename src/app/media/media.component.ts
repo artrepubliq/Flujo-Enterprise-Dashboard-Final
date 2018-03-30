@@ -23,6 +23,7 @@ import { FileHolder } from 'angular2-image-upload';
 })
 
 export class MediaComponent implements OnInit {
+  toggleFileUploader: boolean = false;
   unUsedActiveButton: boolean;
   isViewUsedUnUsedImages = false;
   usedUnUsedMedia: mediaDetail[];
@@ -616,6 +617,11 @@ export class MediaComponent implements OnInit {
     this.usedUnUsedMedia = this.unUsedMediaData;
     console.log(this.unUsedMediaData);
   }
+
+  uploadFile() {
+    this.toggleFileUploader = !this.toggleFileUploader;
+  }
+
 }
 
 

@@ -84,8 +84,7 @@ import { AreaService } from './service/area.service';
 import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
-import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
-
+import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartAgeDirective } from './chart-age.directive';
@@ -135,7 +134,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangemakerComponent,
     AnalyticsComponent,
     CreateModuleComponent,
-
+    DeletefolderDialog,
     TncComponent,
     PnpComponent,
 
@@ -197,11 +196,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    NgxChartsModule,
-    ScrollToModule.forRoot()
+    NgxChartsModule
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup], // MediaLocalImagePopupDialog
+     AccessLevelPopup, DeletefolderDialog], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
               HttpService,

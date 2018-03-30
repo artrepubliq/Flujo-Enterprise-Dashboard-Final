@@ -5,28 +5,12 @@
   <div class="input_fields input_box">
     <form [formGroup]="areaForm" fxLayout="row" fxLayoutGap="15px">
       <input type="text" class="input" id="addOrUpdate" placeholder="Area Name" [value]="areaName" formControlName="areatypenamenew">
-      <input placeholder="Area pincode" [value]="areaPincode" formControlName="areapincodenew">
+      <input type="number" placeholder="Area pincode" [value]="areaPincode" formControlName="areapincodenew">
       <button class="button_submit" [disabled]="areaForm.invalid" (click)="createNewArea()">{{actionText}}</button>
-      <button class="button_submit cancel" [disabled]="areaForm.invalid" (click)="backToSelect()">Cancel</button>
+      <button class="button_submit cancel" [disabled]="areaForm.invalid" *ngIf="isEdit" (click)="backToSelect()">Cancel</button>
     </form>
   </div>
-  <div class="view_items" fxLayout="column" fxLayoutGap="15px">
-    <div class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
-      <div class="name" fxFlex>
-        Area Name
-      </div>
-      <div class="code" fxFlex>
-        Area Code
-      </div>
-      <div fxLayout="row" fxLayoutGap="15px" fxFlex>
-        <button type="button" class="btn">
-          <i class="fa fa-pencil"></i>
-        </button>
-        <button type="button" class="btn">
-          <i class="fa fa-trash"></i>
-        </button>
-      </div>
-    </div>
+  <div class="view_items" fxLayout="column" fxLayoutGap="0px" [perfectScrollbar]="config">
     <div *ngFor="let area of areaData" class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
       <div class="name" fxFlex>
         {{area.area}}
@@ -34,8 +18,8 @@
       <div class="code" fxFlex>
         {{area.pincode}}
       </div>
-      <div fxLayout="row" fxLayoutGap="15px" fxFlex>
-        <button  (click)="updateAreaData(area); triggerScrollTo()" type="button" class="btn">
+      <div fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
+        <button  (click)="updateAreaData(area)" type="button" class="btn">
           <i class="fa fa-pencil"></i>
         </button>
         <button (click)="deletearea(area)" type="button" class="btn">

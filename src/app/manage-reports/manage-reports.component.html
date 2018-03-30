@@ -20,7 +20,7 @@
   <div>
     <h6 class="issues">Issues</h6>
     <div fxLayoutAlign="center center">
-      <app-headerurls></app-headerurls>
+
     </div>
   </div>
   <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center">
@@ -110,7 +110,7 @@
           </div>
         </div>
         <mat-accordion>
-          <mat-expansion-panel class="problem-box" *ngFor="let report of filterReportProblemData">
+          <mat-expansion-panel class="problem-box" *ngFor="let report of filterReportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
             <mat-expansion-panel-header>
               <div fxLayout="column" fxFlex="100%">
                 <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
@@ -256,11 +256,12 @@
                   <button (click)="reportCsvMailSubmit(reportCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report">Send As Email</button>
               </form>
           </div> -->
-    <mat-paginator  *ngIf="filterReportProblemData" class="paginationn" #paginator
+    <!-- <mat-paginator  *ngIf="filterReportProblemData" class="paginationn" #paginator
     [length]="filterReportProblemData.length"
     [pageIndex]="0"
     [pageSize]="5"
     [pageSizeOptions]="[5, 10, 25, 100]">
-    </mat-paginator>
+    </mat-paginator> -->
+    <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>
