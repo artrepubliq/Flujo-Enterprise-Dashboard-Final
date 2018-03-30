@@ -7,11 +7,16 @@ import { Tree } from '@angular/router/src/utils/tree';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { IHttpResponse } from '../model/httpresponse.model';
+import * as _ from 'underscore';
+import { AdminComponent } from '../admin/admin.component';
+import { Router } from '@angular/router';
 @Component({
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.scss']
 })
 export class LogoComponent implements OnInit {
+  filteredUserAccessData: any;
+  userAccessLevelObject: any;
   logoImage: any;
   form: FormGroup;
   loadingSave = false;
@@ -28,14 +33,58 @@ export class LogoComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
 
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
-    private httpClient: HttpClient, private alertService: AlertService) {
+    private httpClient: HttpClient, private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
     this.createForm();
     this.getLogoDetails();
+    // this for restrict user on root access level
+    if (this.adminComponent.userAccessLevelData) {
+      console.log(this.adminComponent.userAccessLevelData[0].name);
+      this.userRestrict();
+    } else {
+      this.adminComponent.getUserAccessLevelsHttpClient()
+        .subscribe(
+          resp => {
+            console.log(resp);
+            this.spinnerService.hide();
+            _.each(resp, item => {
+              if (item.user_id === localStorage.getItem('user_id')) {
+                  this.userAccessLevelObject = item.access_levels;
+              }else {
+                // this.userAccessLevelObject = null;
+              }
+            });
+            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+            this.userRestrict();
+          },
+          error => {
+            console.log(error);
+            this.spinnerService.hide();
+          }
+        );
+    }
   }
   ngOnInit() {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
+  }
+  // this for restrict user on root access level
+  userRestrict() {
+    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+      // tslint:disable-next-line:max-line-length
+      if (this.adminComponent.userAccessLevelData[iterate].name === 'Logo' && this.adminComponent.userAccessLevelData[iterate].enable) {
+        this.filteredUserAccessData = item;
+      } else {
+        // this.router.navigate(['/accessdenied']);
+        // console.log('else');
+      }
+    });
+    if (this.filteredUserAccessData) {
+      this.router.navigate(['/logo']);
+    }else {
+      this.router.navigate(['/accessdenied']);
+      console.log('else');
+    }
   }
   createForm = () => {
     this.form = this.formBuilder.group({
@@ -55,7 +104,7 @@ export class LogoComponent implements OnInit {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      if(file.size <= 600000){
+      if (file.size <= 600000) {
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.logoItems.logo_url_path = reader.result.split(',')[1];

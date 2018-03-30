@@ -8,6 +8,8 @@ import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { GalleryImagesService } from './service/gallery-images.service';
+import { RoleGuardService } from './auth/role-guard.service';
+import { UseraccessServiceService } from './service/useraccess-service.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesComponent } from './pages/pages.component'; // MediaLocalImagePopupDialog
@@ -15,7 +17,7 @@ import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LogoComponent } from './logo/logo.component';
-import { AdminComponent } from './admin/admin.component';
+import { AdminComponent, EmptyAccessLevelDialog } from './admin/admin.component';
 import { CKEditorModule } from 'ngx-ckeditor';
 import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
@@ -87,6 +89,7 @@ import { PnpComponent } from './pnp/pnp.component';
 
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -131,14 +134,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangemakerComponent,
     AnalyticsComponent,
     CreateModuleComponent,
-
     TncComponent,
     PnpComponent,
-
     HeaderurlsComponent,
     ProblemCategoryComponent,
     AreasComponent,
-    ChartsAgePieComponent
+    ChartsAgePieComponent,
+    EmptyAccessLevelDialog,
+    AccessdeniedComponent
   ],
   imports: [
     BrowserModule,
@@ -193,7 +196,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
 
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup], // MediaLocalImagePopupDialog
+     AccessLevelPopup, EmptyAccessLevelDialog], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
               HttpService,
@@ -203,6 +206,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               GalleryImagesService,
               FBService,
               ProblemTypeService,
+              RoleGuardService,
+              UseraccessServiceService,
               AreaService,
               {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,

@@ -33,6 +33,7 @@ import { ProblemCategoryComponent } from './problem-category/problem-category.co
 import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
+import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,7 @@ const routes: Routes = [
     path: 'callback',
     component: CallbackComponent
   },
+  {path: 'accessdenied', component: AccessdeniedComponent},
   {
     path: 'admin',
     component: AdminComponent,
@@ -59,7 +61,8 @@ const routes: Routes = [
           AuthGuard
         ],
         children: [
-          { path: 'logo', component: LogoComponent },
+          { path: 'logo', component: LogoComponent
+          },
           { path: 'profile', component: ProfileComponent },
           { path: 'changepassword', component: ChangepasswordComponent },
           { path: '', component: AdminDashboardComponent },
@@ -88,7 +91,6 @@ const routes: Routes = [
           { path: 'areacategory', component: AreasComponent},
           { path: 'termsnconditions', component: TncComponent },
           { path: 'privacynpolicy', component: PnpComponent },
-
         ]
       }
     ]

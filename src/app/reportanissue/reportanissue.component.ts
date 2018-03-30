@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ValidationService } from '../service/validation.service';
 import { AlertModule, AlertService } from 'ngx-alerts';
@@ -12,7 +12,9 @@ import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import {FormControl} from '@angular/forms';
-
+import { AdminComponent } from '../admin/admin.component';
+import { Router } from '@angular/router';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-reportanissue',
@@ -20,34 +22,63 @@ import {FormControl} from '@angular/forms';
   styleUrls: ['./reportanissue.component.scss']
 })
 export class ReportanissueComponent implements OnInit {
+  filteredUserAccessData: any;
+  userAccessLevelObject: any;
   reportCsvMail: FormGroup;
   changeMakerCsvMail: FormGroup;
   feedbackCsvMail: FormGroup;
-  isFeedbackReport: boolean = true;
-  isChangeReport: boolean = false;
-  loading: boolean = false;
-  isReportData: boolean = false;
+  isFeedbackReport = true;
+  isChangeReport = false;
+  loading = false;
+  isReportData = false;
   public feedbackData: any;
   changemakerData: any;
   public reportProblemData: any;
-  showEmailClickFeedback: boolean = false;
-  showEmailClick: boolean = false;
-  showEmailClickReport: boolean = false;
+  showEmailClickFeedback = false;
+  showEmailClick = false;
+  showEmailClickReport = false;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
 
-  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient, private alertService: AlertService) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
+    private httpClient: HttpClient, private alertService: AlertService,
+    public adminComponent: AdminComponent, private router: Router) {
    this.feedbackCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
    });
    this.changeMakerCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
    });
    this.reportCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required,Validators.pattern(this.EMAIL_REGEXP)])],
+    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
    });
     this.getChangemakerReportData();
     this.getuserFeedbackData();
     this.getReportYourProblemData();
+    if (this.adminComponent.userAccessLevelData) {
+      console.log(this.adminComponent.userAccessLevelData[0].name);
+      this.userRestrict();
+    } else {
+      this.adminComponent.getUserAccessLevelsHttpClient()
+        .subscribe(
+          resp => {
+            console.log(resp);
+            this.spinnerService.hide();
+            _.each(resp, item => {
+              if (item.user_id === localStorage.getItem('user_id')) {
+                  this.userAccessLevelObject = item.access_levels;
+              }else {
+                // this.userAccessLevelObject = null;
+              }
+            });
+            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+            this.userRestrict();
+          },
+          error => {
+            console.log(error);
+            this.spinnerService.hide();
+          }
+        );
+    }
   }
 
   myControl: FormControl = new FormControl();
@@ -55,7 +86,7 @@ export class ReportanissueComponent implements OnInit {
     return this.options.filter(option =>
       option.toLowerCase().indexOf(val.toLowerCase()) === 0);
   }
-  
+
   ngOnInit() {
     setTimeout(function () {
       this.spinnerService.hide();
@@ -66,6 +97,24 @@ export class ReportanissueComponent implements OnInit {
       startWith(''),
       map(val => this.filter(val))
     );
+  }
+  // this for restrict user on root access level
+  userRestrict() {
+    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+      // tslint:disable-next-line:max-line-length
+      if (this.adminComponent.userAccessLevelData[iterate].name === 'Report an issue' && this.adminComponent.userAccessLevelData[iterate].enable) {
+        this.filteredUserAccessData = item;
+      } else {
+        // this.router.navigate(['/accessdenied']);
+        // console.log('else');
+      }
+    });
+    if (this.filteredUserAccessData) {
+      this.router.navigate(['/managereports']);
+    }else {
+      this.router.navigate(['/accessdenied']);
+      console.log('else');
+    }
   }
   showFeedback() {
     this.isFeedbackReport = true;
@@ -84,8 +133,8 @@ export class ReportanissueComponent implements OnInit {
     // this.getReportYourProblemData();
   }
   getChangemakerReportData() {
-    this.spinnerService.show()
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_getallchangemaker")
+    this.spinnerService.show();
+    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getallchangemaker')
       .subscribe(
       data => {
         console.log(data);
@@ -94,7 +143,7 @@ export class ReportanissueComponent implements OnInit {
       },
       error => {
         console.log(error);
-      })
+      });
   }
 
   exportChangermakereport() {
@@ -109,7 +158,8 @@ export class ReportanissueComponent implements OnInit {
     };
     const Data = [
       {
-        id: this.changemakerData.id, name: this.changemakerData.name, email: this.changemakerData.email, phone: this.changemakerData.phone, date_now: this.changemakerData.datenow
+        id: this.changemakerData.id, name: this.changemakerData.name, email: this.changemakerData.email,
+        phone: this.changemakerData.phone, date_now: this.changemakerData.datenow
       },
     ];
     const exporter = CSVExportService.create({
@@ -121,7 +171,7 @@ export class ReportanissueComponent implements OnInit {
   }
   getuserFeedbackData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + "flujo_client_getfeedback/"+AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getfeedback/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         this.feedbackData = data;
@@ -129,7 +179,7 @@ export class ReportanissueComponent implements OnInit {
       },
       error => {
         console.log(error);
-      })
+      });
     // this.http
     //   .get<IUser>('http://flujo.in/dashboard/flujo.in_ajay/public/feedback-report')
     //   .subscribe(
@@ -170,7 +220,7 @@ export class ReportanissueComponent implements OnInit {
 
   getReportYourProblemData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + "/flujo_client_getreportproblem/" + AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + '/flujo_client_getreportproblem/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         console.log(data);
@@ -180,7 +230,7 @@ export class ReportanissueComponent implements OnInit {
       },
       error => {
         console.log(error);
-      })
+      });
   }
   exportReportProblemData() {
     const csvColumnsList = ['id', 'name', 'email', 'phone', 'Problem', 'datenow'];
@@ -194,7 +244,8 @@ export class ReportanissueComponent implements OnInit {
     };
     const Data = [
       {
-        id: this.reportProblemData[0].id, name: this.reportProblemData[0].name, email: this.reportProblemData[0].email, phone: this.reportProblemData[0].phone,
+        id: this.reportProblemData[0].id, name: this.reportProblemData[0].name, email: this.reportProblemData[0].email,
+        phone: this.reportProblemData[0].phone,
         Problem: this.reportProblemData[0].Problem, datenow: this.reportProblemData[0].submitted_at
       },
     ];
@@ -218,7 +269,7 @@ export class ReportanissueComponent implements OnInit {
     this.spinnerService.show();
     const formModel = this.feedbackCsvMail.value;
 
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_feedbackreportmailattachment", formModel)
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_feedbackreportmailattachment', formModel)
       .subscribe(
       data => {
         this.feedbackCsvMail.reset();
@@ -234,10 +285,10 @@ export class ReportanissueComponent implements OnInit {
     this.spinnerService.show();
     const formModel = this.changeMakerCsvMail.value;
 
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_changemakerreportmailattachment", formModel)
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_changemakerreportmailattachment', formModel)
       .subscribe(
       data => {
-        this.changeMakerCsvMail.reset()
+        this.changeMakerCsvMail.reset();
         this.alertService.info('Attachement sent succesfully');
         this.spinnerService.hide();
       },
@@ -250,7 +301,7 @@ export class ReportanissueComponent implements OnInit {
     this.spinnerService.show();
     const formModel = this.reportCsvMail.value;
 
-    this.httpClient.post(AppConstants.API_URL + "flujo_client_reportproblemreportmailattachment", formModel)
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_reportproblemreportmailattachment', formModel)
       .subscribe(
       data => {
         this.reportCsvMail.reset();
@@ -262,11 +313,12 @@ export class ReportanissueComponent implements OnInit {
         this.alertService.danger('Email could not sent');
       });
   }
-  
+  // tslint:disable-next-line:member-ordering
   options = [
     'One',
     'Two',
     'Three'
   ];
+  // tslint:disable-next-line:member-ordering
   filteredOptions: Observable<string[]>;
 }
