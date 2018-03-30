@@ -214,22 +214,29 @@
 
 /* File Extentions UI's */
 
-.jpeg:before, .png:before, .jpg:before {
+.jpeg:before,
+.png:before,
+.jpg:before {
   content: "\f1c5";
   color: #fdd10c;
 }
+
 .pdf:before {
   content: "\f1c1";
   color: #ee2f6b;
 }
+
 .csv:before {
   content: "\f1c3";
   color: #d8d8d8;
 }
-.doc::before, .docx::before {
+
+.doc::before,
+.docx::before {
   content: "\f1c2";
   color: #452c59;
 }
+
 .file_size {
   font-size: 10px;
   font-weight: normal;
@@ -254,4 +261,15 @@
   letter-spacing: normal;
   text-align: left;
   color: #c1c1c1;
+}
+
+.trash-icon {
+  display: none;
+  margin-left: auto;
+}
+
+.folder_block:hover {
+  .trash-icon {
+    display: block;
+  }
 }

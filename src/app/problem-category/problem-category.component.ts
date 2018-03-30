@@ -9,7 +9,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
 
 @Component({
   selector: 'app-problem-category',
@@ -17,6 +16,7 @@ import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scrol
   styleUrls: ['./problem-category.component.scss']
 })
 export class ProblemCategoryComponent implements OnInit {
+  isEdit: boolean;
   selectProblem: boolean;
   problemId: string;
   problemTypeNameNew: string;
@@ -33,12 +33,12 @@ export class ProblemCategoryComponent implements OnInit {
     public loader: NgxSmartLoaderService,
     private spinnerService: Ng4LoadingSpinnerService,
     private alertService: AlertService,
-    private _scrollToService: ScrollToService
   ) {
     this.updateProblem = false;
     this.selectProblem = true;
     this.actionText = 'Add';
     this.problemId = '';
+    this.isEdit = false;
     this.problemTypeNameNew = '';
     this.problemForm = new FormGroup({
       'problemid': new FormControl(this.problemId),
@@ -67,6 +67,7 @@ export class ProblemCategoryComponent implements OnInit {
 
   public updateProblemData(problem): void {
     console.log(problem);
+    this.isEdit = true;
     this.actionText = 'Update';
     this.problemTypeNameNew = problem.problem_type;
     this.problemId = problem.id;
@@ -76,20 +77,12 @@ export class ProblemCategoryComponent implements OnInit {
   }
 
   public backToSelect(): void {
+    this.isEdit = false;
     this.actionText = 'Add';
     this.problemTypeNameNew = '';
     this.problemId = '';
     this.problemForm.get('problemtypenamenew').setValue('');
     this.problemForm.get('problemid').setValue('');
-  }
-
-  public triggerScrollTo() {
-
-    const config: ScrollToConfigOptions = {
-      target: 'addOrUpdate'
-    };
-
-    this._scrollToService.scrollTo(config);
   }
 
   public createNewproblem() {
@@ -124,6 +117,8 @@ export class ProblemCategoryComponent implements OnInit {
           this.spinnerService.hide();
           this.getproblemData();
           this.problemForm.reset();
+          this.isEdit = false;
+          this.actionText = 'Add';
         },
         error => {
           this.spinnerService.hide();
@@ -142,6 +137,9 @@ export class ProblemCategoryComponent implements OnInit {
           this.spinnerService.hide();
           this.alertService.success('Problem deleted successfully');
           this.getproblemData();
+          this.problemForm.reset();
+          this.isEdit = false;
+          this.actionText = 'Add';
         },
         error => {
           this.alertService.success('File something went wrong successfully');
