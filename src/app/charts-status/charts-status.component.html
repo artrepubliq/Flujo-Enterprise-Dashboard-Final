@@ -1,3 +1,42 @@
-<p>
-  charts-status works!
-</p>
+<div >
+  <!-- {{color[0]}} -->
+  <div fxLayout="row" class="status-bars" fxLayoutAlign="space-between end" *ngFor="let status of status_reports">
+    <div fxFlex="30" class="completed">
+      <p class="completed">Completed</p>
+      <div fxLayout="row" fxLayoutAlign="space-between start">
+        <span [style.color]='colors[0]'>{{status.completed}}</span>
+
+      </div>
+      <br/>
+      <section class="example-section">
+        <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+        </mat-progress-bar>
+      </section>
+    </div>
+    <div fxFlex="30" class="inprogress">
+      <p class="inprogress">Inprogress</p>
+      <div fxLayout="row" fxLayoutAlign="space-between start">
+        <span [style.color]='colors[1]'>{{status.in_progress}}</span>
+
+      </div>
+      <br/>
+      <section class="example-section">
+        <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+        </mat-progress-bar>
+      </section>
+    </div>
+    <div fxFlex="30" class="unresolved">
+      <p class="unresolved">Unresolved</p>
+      <div fxLayout="row" fxLayoutAlign="space-between start">
+        <span [style.color]='colors[2]'>{{status.unresolved}}</span>
+
+      </div>
+      <br/>
+      <section class="example-section">
+        <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+        </mat-progress-bar>
+      </section>
+    </div>
+  </div>
+</div>
+

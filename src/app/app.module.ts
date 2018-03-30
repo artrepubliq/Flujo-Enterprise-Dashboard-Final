@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-alerts';
+// import { Chart } from 'chart.js';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -40,7 +41,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { MediaComponent, DialogOverviewExampleDialog } from './media/media.component'; // FileSelectPopup
+import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup
 import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
@@ -86,7 +87,6 @@ import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartAgeDirective } from './chart-age.directive';
 import { DatabaseComponent } from './database/database.component';
 import { ChartsGenderComponent } from './charts-gender/charts-gender.component';
@@ -94,6 +94,7 @@ import { ChartsAssignComponent } from './charts-assign/charts-assign.component';
 import { ChartsProblemCategoryComponent } from './charts-problem-category/charts-problem-category.component';
 import { ChartsStatusComponent } from './charts-status/charts-status.component';
 import { ChartsLoyalityComponent } from './charts-loyality/charts-loyality.component';
+import { CsvService } from 'angular2-json2csv';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -157,7 +158,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgxChartsModule,
     AppRoutingModule,
     HttpClientModule,
     CKEditorModule,
@@ -204,12 +204,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    NgxChartsModule
+
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
      AccessLevelPopup], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
+              CsvService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,

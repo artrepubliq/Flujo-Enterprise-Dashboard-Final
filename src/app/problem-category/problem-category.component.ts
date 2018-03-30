@@ -61,6 +61,8 @@ export class ProblemCategoryComponent implements OnInit {
         },
         error => {
           console.log(error);
+          this.spinnerService.hide();
+            this.alertService.warning('Something went wrong');
         }
       );
   }
