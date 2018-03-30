@@ -1,75 +1,13 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-<div class="card_pb">
-  <div class="report_area_block" fxLayoutAlign="center center">
-    <div class="profile_header">
-      <h3 class="header_title">area Category</h3>
-      <div>
-        <i class="fa fa-pencil" fxLayout="column" fxLayoutAlign="start end" *ngIf="updateArea" aria-hidden="true" (click)="updateAreaData()"></i>
-      </div>
-
-      <div *ngIf="selectArea" fxLayout="column" fxLayoutAlign="space-around center">
-        <mat-form-field>
-          <mat-select placeholder="Select area" [(ngModel)]="selectedValue" name="area" (ngModelChange)="onChangeArea($event)">
-            <mat-option [value]=''>NONE</mat-option>
-            <mat-option *ngFor="let area of areaData" [value]="{reportarea_id:area.id, area:area.area, pincode: area.pincode}">
-              {{area.area}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Area Pincode" disabled [value]="areaPincode">
-        </mat-form-field>
-      </div>
-      <div>
-        <button mat-button *ngIf="newAreaBtn" (click)="createNewBtn()">Create new</button>
-      </div>
-      <form [formGroup]="areaForm">
-        <div>
-          <div fxLayout="column" fxLayoutAlign="space-around center">
-            <mat-form-field *ngIf="isEdit" class="">
-              <input matInput placeholder="Area name" formControlName="areaname" [(ngModel)]="areaName">
-            </mat-form-field>
-            <mat-form-field *ngIf="isEdit" class="">
-              <input matInput placeholder="Area pincode" formControlName="areapincode" [(ngModel)]="areaPincode">
-            </mat-form-field>
-          </div>
-          <div fxLayout="column" fxLayoutAlign="space-around center">
-            <mat-form-field *ngIf="isNew" class="">
-              <input matInput placeholder="Area Name" formControlName="areatypenamenew">
-            </mat-form-field>
-            <mat-form-field *ngIf="isNew" class="">
-              <input matInput placeholder="Area pincode" formControlName="areapincodenew">
-            </mat-form-field>
-          </div>
-        </div>
-        <div fxLayout="row" fxLayoutGap="30px">
-          <div>
-            <button mat-button *ngIf="isEdit" (click)="updateAreaService()">Update</button>
-          </div>
-          <div>
-            <button mat-button *ngIf="isEdit" (click)="deletearea()">Delete</button>
-          </div>
-          <div>
-            <button mat-button *ngIf="isNew" [disabled]="areaForm.invalid" (click)="createNewArea()">Create</button>
-          </div>
-        </div>
-      </form>
-      <div fxLayout="column" fxLayoutAlign="end end">
-        <button mat-button *ngIf="isCancel" (click)="backToSelect()">Go Back</button>
-      </div>
-    </div>
-  </div>
-</div>
-<br>
-<br>
-<br>
+<div id="destination"></div>
 <div fxLayout="column" fxLayoutGap="30px" class="area_problem">
   <div class="input_fields input_box">
-    <form [formGroup]="areaForm"  fxLayout="row" fxLayoutGap="15px">
-      <input type="text" class="input" placeholder="Area Name" [value]="areaName" formControlName="areatypenamenew">
+    <form [formGroup]="areaForm" fxLayout="row" fxLayoutGap="15px">
+      <input type="text" class="input" id="addOrUpdate" placeholder="Area Name" [value]="areaName" formControlName="areatypenamenew">
       <input placeholder="Area pincode" [value]="areaPincode" formControlName="areapincodenew">
-      <button class="button_submit" [disabled]="areaForm.invalid" (click)="createNewArea()">Add</button>
+      <button class="button_submit" [disabled]="areaForm.invalid" (click)="createNewArea()">{{actionText}}</button>
+      <button class="button_submit cancel" [disabled]="areaForm.invalid" (click)="backToSelect()">Cancel</button>
     </form>
   </div>
   <div class="view_items" fxLayout="column" fxLayoutGap="15px">
@@ -81,10 +19,10 @@
         Area Code
       </div>
       <div fxLayout="row" fxLayoutGap="15px" fxFlex>
-        <button  type="button" class="btn">
+        <button type="button" class="btn">
           <i class="fa fa-pencil"></i>
         </button>
-        <button  type="button" class="btn">
+        <button type="button" class="btn">
           <i class="fa fa-trash"></i>
         </button>
       </div>
@@ -97,7 +35,7 @@
         {{area.pincode}}
       </div>
       <div fxLayout="row" fxLayoutGap="15px" fxFlex>
-        <button (click)="updateAreaData(area)" type="button" class="btn">
+        <button  (click)="updateAreaData(area); triggerScrollTo()" type="button" class="btn">
           <i class="fa fa-pencil"></i>
         </button>
         <button (click)="deletearea(area)" type="button" class="btn">

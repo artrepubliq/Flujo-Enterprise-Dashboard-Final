@@ -7,9 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
+import { GalleryImagesService } from './service/gallery-images.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PagesComponent } from './pages/pages.component';
+import { PagesComponent } from './pages/pages.component'; // MediaLocalImagePopupDialog
 import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -83,9 +84,13 @@ import { AreaService } from './service/area.service';
 import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartAgeDirective } from './chart-age.directive';
+import { DatabaseComponent } from './database/database.component';
+import { ChartsGenderComponent } from './charts-gender/charts-gender.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -137,7 +142,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     HeaderurlsComponent,
     ProblemCategoryComponent,
     AreasComponent,
-    ChartsAgePieComponent
+    ChartsAgePieComponent,
+    ChartAgeDirective,
+    DatabaseComponent,
+    ChartsGenderComponent
   ],
   imports: [
     BrowserModule,
@@ -189,16 +197,18 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    NgxChartsModule
+    NgxChartsModule,
+    ScrollToModule.forRoot()
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup],
+     AccessLevelPopup], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,
               LoginAuthService,
+              GalleryImagesService,
               FBService,
               ProblemTypeService,
               AreaService,
