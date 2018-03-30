@@ -7,7 +7,7 @@ import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { AppConstants } from '../app.constants';
-import { ScrollToConfigOptions, ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
+
 
 @Component({
   selector: 'app-areas',
@@ -32,7 +32,6 @@ export class AreasComponent implements OnInit {
     public loader: NgxSmartLoaderService,
     private spinnerService: Ng4LoadingSpinnerService,
     private alertService: AlertService,
-    private _scrollToService: ScrollToService
   ) {
     this.areaPincode = '';
     this.areaName = '';
@@ -40,7 +39,7 @@ export class AreasComponent implements OnInit {
     this.isEdit = false;
     this.areaForm = new FormGroup({
       'areatypenamenew': new FormControl(this.areaTypeNameNew, [Validators.required]),
-      'areapincodenew': new FormControl(this.areaPincodeNew, [Validators.required]),
+      'areapincodenew': new FormControl(this.areaPincodeNew, [Validators.required, Validators.minLength(3), Validators.maxLength(6)]),
       'areaid': new FormControl(this.areaId),
     });
   }
@@ -140,23 +139,14 @@ export class AreasComponent implements OnInit {
           this.alertService.success('Area deleted successfully');
           this.getAreaData();
           this.areaForm.reset();
+          this.isEdit = false;
+          this.actionText = 'Add';
         },
         error => {
           this.alertService.success('File something went wrong successfully');
           console.log(error);
         }
       );
-  }
-
-  public triggerScrollTo() {
-
-    const config: ScrollToConfigOptions = {
-      target: 'destination',
-      easing: 'easeOutElastic',
-      offset: 20
-    };
-
-    this._scrollToService.scrollTo(config);
   }
 
 }

@@ -5,7 +5,7 @@
   <div class="input_fields input_box">
     <form [formGroup]="areaForm" fxLayout="row" fxLayoutGap="15px">
       <input type="text" class="input" id="addOrUpdate" placeholder="Area Name" [value]="areaName" formControlName="areatypenamenew">
-      <input placeholder="Area pincode" [value]="areaPincode" formControlName="areapincodenew">
+      <input type="number" placeholder="Area pincode" [value]="areaPincode" formControlName="areapincodenew">
       <button class="button_submit" [disabled]="areaForm.invalid" (click)="createNewArea()">{{actionText}}</button>
       <button class="button_submit cancel" [disabled]="areaForm.invalid" *ngIf="isEdit" (click)="backToSelect()">Cancel</button>
     </form>
@@ -19,7 +19,7 @@
         {{area.pincode}}
       </div>
       <div fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
-        <button  (click)="updateAreaData(area); triggerScrollTo()" type="button" class="btn">
+        <button  (click)="updateAreaData(area)" type="button" class="btn">
           <i class="fa fa-pencil"></i>
         </button>
         <button (click)="deletearea(area)" type="button" class="btn">

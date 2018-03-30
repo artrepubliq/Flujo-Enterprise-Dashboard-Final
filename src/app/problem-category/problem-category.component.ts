@@ -9,7 +9,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
 
 @Component({
   selector: 'app-problem-category',
@@ -34,7 +33,6 @@ export class ProblemCategoryComponent implements OnInit {
     public loader: NgxSmartLoaderService,
     private spinnerService: Ng4LoadingSpinnerService,
     private alertService: AlertService,
-    private _scrollToService: ScrollToService
   ) {
     this.updateProblem = false;
     this.selectProblem = true;
@@ -85,15 +83,6 @@ export class ProblemCategoryComponent implements OnInit {
     this.problemId = '';
     this.problemForm.get('problemtypenamenew').setValue('');
     this.problemForm.get('problemid').setValue('');
-  }
-
-  public triggerScrollTo() {
-
-    const config: ScrollToConfigOptions = {
-      target: 'addOrUpdate'
-    };
-
-    this._scrollToService.scrollTo(config);
   }
 
   public createNewproblem() {
@@ -148,6 +137,9 @@ export class ProblemCategoryComponent implements OnInit {
           this.spinnerService.hide();
           this.alertService.success('Problem deleted successfully');
           this.getproblemData();
+          this.problemForm.reset();
+          this.isEdit = false;
+          this.actionText = 'Add';
         },
         error => {
           this.alertService.success('File something went wrong successfully');
