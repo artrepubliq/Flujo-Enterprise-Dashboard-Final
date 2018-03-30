@@ -411,3 +411,9 @@ button i{
     top:48px;
   }
 }
+
+
+.overflow_data {
+  height: calc(100vh - 300px);
+  position: relative;
+}

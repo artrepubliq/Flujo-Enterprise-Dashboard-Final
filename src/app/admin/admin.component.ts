@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Injectable } from '@angular/core';
 // import { AuthService } from '../auth/auth.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { HttpClient } from '@angular/common/http';
@@ -11,9 +11,13 @@ import { AppConstants } from '../app.constants';
 import {MatIconModule} from '@angular/material/icon';
 
 import { IloggedinUsers } from '../model/createUser.model';
-import { CreateUserComponentComponent } from '../create-user-component/create-user-component.component';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { CreateUserComponentComponent, AccessLevelPopup } from '../create-user-component/create-user-component.component';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { AlertService } from 'ngx-alerts';
+import { IAccessLevelModel } from '../model/accessLevel.model';
+import { UseraccessServiceService } from '../service/useraccess-service.service';
 
 @Component({
   templateUrl: './admin.component.html',
@@ -21,6 +25,10 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 })
 export class AdminComponent implements OnInit {
+  userAccessData: any;
+  userAccessLevelData: IAccessLevelModel;
+  userAccessLevelObject: any;
+  filteredAccessIds: any;
   isUserActive: boolean;
   CurrentPageName: string;
   activeUsers: Array<IloggedinUsers>;
@@ -47,11 +55,13 @@ export class AdminComponent implements OnInit {
         }
       });
     this.getUserList();
+   this.getUserAccessLevelData();
   }
   ngOnInit(): void {
     this.name = localStorage.getItem('name');
     this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
+    // console.log(this.userAccessService.getUserAccessLevelData());
     this.getUserList();
     setInterval(() => {
       this.getUserList();
@@ -113,7 +123,6 @@ export class AdminComponent implements OnInit {
       }
       );
   }
-
   getTitle(state, parent) {
     const data = [];
     if (parent && parent.snapshot.data && parent.snapshot.data.title) {
@@ -124,5 +133,68 @@ export class AdminComponent implements OnInit {
       data.push(... this.getTitle(state, state.firstChild(parent)));
     }
     return data;
+  }
+  getUserAccessLevelData = () => {
+    this.spinnerService.show();
+    this.getUserAccessLevelsHttpClient()
+      .subscribe(
+        data => {
+          console.log(data);
+          console.log(this.userAccessService.userAccessLevelObject);
+          console.log(localStorage.getItem('id_token'));
+          _.each(data, item => {
+            if (item.user_id === localStorage.getItem('id_token')) {
+                this.userAccessLevelObject = item.access_levels;
+            }else {
+              // this.userAccessLevelObject = null;
+            }
+          });
+         if (this.userAccessLevelObject) {
+          this.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+         } else {
+          this.openDialog();
+         }
+        },
+        error => {
+          console.log(error);
+          this.spinnerService.hide();
+        }
+      );
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(EmptyAccessLevelDialog, {
+      width: '40vw',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+  getUserAccessLevelsHttpClient() {
+    return  this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
+  }
+
+}
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'emptyaccesslevelpopup',
+  templateUrl: 'emptyaccesslevelpopup-example.html',
+  styleUrls: ['../app.component.scss']
+})
+// tslint:disable-next-line:component-class-suffix
+export class EmptyAccessLevelDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<EmptyAccessLevelDialog>, public loginAuthService: LoginAuthService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      dialogRef.disableClose = true;
+     }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+  logoutUser() {
+    this.loginAuthService.logout();
+    this.dialogRef.close();
   }
 }

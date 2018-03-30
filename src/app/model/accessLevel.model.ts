@@ -6,8 +6,8 @@ export interface IAccessLevelModel {
     values?: any;
     feature_id: number;
     access_levels ?: string;
-    id?: string;
-    UserId ?: string;
+    id?: number;
+    user_id ?: string;
     order ?: string;
 }
 // export interface IAccesLevels {
