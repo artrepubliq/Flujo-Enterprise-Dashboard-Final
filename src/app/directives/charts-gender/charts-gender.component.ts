@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Chart } from 'chart.js';
+import * as Chart from 'chart.js';
 
 @Component({
   selector: 'app-charts-gender',

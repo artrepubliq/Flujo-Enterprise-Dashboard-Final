@@ -25,6 +25,7 @@ import { Router } from '@angular/router';
 })
 
 export class MediaComponent implements OnInit {
+  uploadImagesForm: FormGroup;
   toggleFileUploader: boolean = false;
   filteredUserAccessData: any;
   userAccessLevelObject: any;

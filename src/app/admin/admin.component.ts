@@ -39,7 +39,9 @@ export class AdminComponent implements OnInit {
  loggedinIds: Array<string>;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
+    private spinnerService: Ng4LoadingSpinnerService,
     public mScrollbarService: MalihuScrollbarService,
+    private dialog: MatDialog,
     titleService: Title, router: Router, activatedRoute: ActivatedRoute) {
 
       router.events.subscribe(event => {
@@ -139,11 +141,8 @@ export class AdminComponent implements OnInit {
     this.getUserAccessLevelsHttpClient()
       .subscribe(
         data => {
-          console.log(data);
-          console.log(this.userAccessService.userAccessLevelObject);
-          console.log(localStorage.getItem('id_token'));
           _.each(data, item => {
-            if (item.user_id === localStorage.getItem('id_token')) {
+            if (item.user_id === localStorage.getItem('user_id')) {
                 this.userAccessLevelObject = item.access_levels;
             }else {
               // this.userAccessLevelObject = null;
