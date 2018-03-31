@@ -4,34 +4,36 @@
 
 
 <!-- File Uploader -->
-<div class="toggleShow_uploader" [ngClass]="{'ShowFileUploader': toggleFileUploader }">
-  <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
-    <form class="file_uploader" enctype="multipart/form-data">
-      <div class="">
-        <!-- <a href="javascript:void(0)" (click)="file.click()">
+<div class="uploadFile_block" [ngClass]="{'ShowFileUploader': toggleFileUploader }">
+  <div class="toggleShow_uploader">
+    <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
+      <form class="file_uploader" enctype="multipart/form-data">
+        <div class="">
+          <!-- <a href="javascript:void(0)" (click)="file.click()">
           Click to browse
         </a> -->
-        <div fxLayout="column" class="choose-block" fxLayoutAlign="center center">
-          <div class="choose_files">
-            <button>Choose</button>
-            <input type="file" #file [multiple]="(maxFiles == 1)" (change)="onFileChange($event)" id="file_path" />
+          <div fxLayout="column" class="choose-block" fxLayoutAlign="center center">
+            <div class="choose_files">
+              <button>Choose</button>
+              <input type="file" #file [multiple]="(maxFiles == 1)" (change)="onFileChange($event)" id="file_path" />
+            </div>
+            <p>or drag ‘n’ drop here</p>
           </div>
-          <p>or drag ‘n’ drop here</p>
         </div>
-      </div>
-    </form>
+      </form>
 
-    <div class="uploader_content" fxLayout="column" fxLayoutAlign="center start">
-      <h3>Feed me dude I’m hungry, will you?</h3>
-      <p>Shit man, What the f***!</p>
+      <div class="uploader_content" fxLayout="column" fxLayoutAlign="center start">
+        <h3>Feed me dude I’m hungry, will you?</h3>
+        <p>Shit man, What the f***!</p>
+      </div>
     </div>
   </div>
-</div>
-<div class="show_upload">
-  <h3 (click)="uploadFile()" > 
-    <!-- <i class="fa fa-chevron-down"></i> -->
-    Upload
-  </h3>
+  <div class="show_upload">
+    <h3 (click)="uploadFile()">
+      <!-- <i class="fa fa-chevron-down"></i> -->
+      Upload
+    </h3>
+  </div>
 </div>
 <!-- //.. File Uploader -->
 
