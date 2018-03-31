@@ -39,8 +39,8 @@ export class AdminComponent implements OnInit {
  loggedinIds: Array<string>;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
-    public mScrollbarService: MalihuScrollbarService,
     private spinnerService: Ng4LoadingSpinnerService,
+    public mScrollbarService: MalihuScrollbarService,
     titleService: Title, private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog) {
 
       router.events.subscribe(event => {

@@ -91,16 +91,14 @@ import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
-import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
-import { ChartAgeDirective } from './chart-age.directive';
 import { DatabaseComponent } from './database/database.component';
-import { ChartsGenderComponent } from './charts-gender/charts-gender.component';
-import { ChartsAssignComponent } from './charts-assign/charts-assign.component';
-import { ChartsProblemCategoryComponent } from './charts-problem-category/charts-problem-category.component';
-import { ChartsStatusComponent } from './charts-status/charts-status.component';
-import { ChartsLoyalityComponent } from './charts-loyality/charts-loyality.component';
-import { CsvService } from 'angular2-json2csv';
+import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.component';
+import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
+import { ChartsProblemCategoryComponent } from './directives//charts-problem-category/charts-problem-category.component';
+import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
+import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
+import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -151,17 +149,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     HeaderurlsComponent,
     ProblemCategoryComponent,
     AreasComponent,
-    ChartsAgePieComponent,
-    ChartAgeDirective,
     DatabaseComponent,
     ChartsGenderComponent,
     ChartsAssignComponent,
     ChartsProblemCategoryComponent,
     ChartsStatusComponent,
     ChartsLoyalityComponent,
-    ChartsGenderComponent,
     EmptyAccessLevelDialog,
-    AccessdeniedComponent
+    AccessdeniedComponent,
+    ChartAgeComponent
   ],
   imports: [
     BrowserModule,
