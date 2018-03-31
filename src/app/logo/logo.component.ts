@@ -38,13 +38,11 @@ export class LogoComponent implements OnInit {
     this.getLogoDetails();
     // this for restrict user on root access level
     if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
       this.userRestrict();
     } else {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
           resp => {
-            console.log(resp);
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
@@ -75,15 +73,12 @@ export class LogoComponent implements OnInit {
       if (this.adminComponent.userAccessLevelData[iterate].name === 'Logo' && this.adminComponent.userAccessLevelData[iterate].enable) {
         this.filteredUserAccessData = item;
       } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/logo']);
+      this.router.navigate(['admin/logo']);
     }else {
       this.router.navigate(['/accessdenied']);
-      console.log('else');
     }
   }
   createForm = () => {

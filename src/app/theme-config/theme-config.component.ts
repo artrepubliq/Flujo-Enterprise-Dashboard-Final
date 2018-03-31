@@ -111,7 +111,7 @@ export class ThemeConfigComponent implements OnInit {
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/themeconfiguration']);
+      this.router.navigate(['admin/themeconfiguration']);
     }else {
       this.router.navigate(['/accessdenied']);
       console.log('else');

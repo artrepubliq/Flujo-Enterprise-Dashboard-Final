@@ -73,13 +73,11 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.filterSubject.debounceTime(300).distinctUntilChanged().subscribe( searchItem =>
         this.onChange2(searchItem));
         if (this.adminComponent.userAccessLevelData) {
-            console.log(this.adminComponent.userAccessLevelData[0].name);
             this.userRestrict();
           } else {
             this.adminComponent.getUserAccessLevelsHttpClient()
               .subscribe(
                 resp => {
-                  console.log(resp);
                   this.spinnerService.hide();
                   _.each(resp, item => {
                     if (item.user_id === localStorage.getItem('user_id')) {
@@ -126,15 +124,13 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
       if (this.adminComponent.userAccessLevelData[iterate].name === 'Report an issue' && this.adminComponent.userAccessLevelData[iterate].enable) {
         this.filteredUserAccessData = item;
       } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
+
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/managereports']);
+      this.router.navigate(['admin/managereports']);
     }else {
       this.router.navigate(['/accessdenied']);
-      console.log('else');
     }
   }
     // prepare auto complete options list

@@ -32,13 +32,11 @@ export class SMTPConfigurationComponent implements OnInit {
     });
     this.getuserSMTPConfigData();
     if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
       this.userRestrict();
     } else {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
           resp => {
-            console.log(resp);
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
@@ -69,15 +67,12 @@ export class SMTPConfigurationComponent implements OnInit {
       if (this.adminComponent.userAccessLevelData[iterate].name === 'SMTP' && this.adminComponent.userAccessLevelData[iterate].enable) {
         this.filteredUserAccessData = item;
       } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/smtpconfiguration']);
+      this.router.navigate(['admin/smtpconfiguration']);
     }else {
       this.router.navigate(['/accessdenied']);
-      console.log('else');
     }
   }
 // smtp post data to server
