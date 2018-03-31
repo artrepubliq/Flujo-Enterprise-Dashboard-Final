@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AgeDetails } from '../model/analytics.model';
+import { AgeDetails } from '../../model/analytics.model';
 import Char from 'chart.js';
 import * as _ from 'underscore';
 import * as moment from 'moment';
