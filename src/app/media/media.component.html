@@ -3,8 +3,8 @@
 
 <div fxLayout="column" fxLayoutGap="15px" class="page_padding">
   <!-- File Uploader -->
-  <div class="uploadFile_block">
-    <div class="toggleShow_uploader" [ngClass]="{'ShowFileUploader': toggleFileUploader }">
+  <div class="uploadFile_block"  [ngClass]="{'ShowFileUploader': toggleFileUploader }">
+    <div class="toggleShow_uploader">
       <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
         <form class="file_uploader" enctype="multipart/form-data">
           <div class="">

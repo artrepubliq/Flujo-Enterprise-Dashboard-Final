@@ -9,6 +9,8 @@ import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { GalleryImagesService } from './service/gallery-images.service';
+import { RoleGuardService } from './auth/role-guard.service';
+import { UseraccessServiceService } from './service/useraccess-service.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesComponent } from './pages/pages.component'; // MediaLocalImagePopupDialog
@@ -16,7 +18,7 @@ import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LogoComponent } from './logo/logo.component';
-import { AdminComponent } from './admin/admin.component';
+import { AdminComponent, EmptyAccessLevelDialog } from './admin/admin.component';
 import { CKEditorModule } from 'ngx-ckeditor';
 import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
@@ -26,8 +28,11 @@ import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
-  // tslint:disable-next-line:max-line-length
-  MatDialogModule, MatSlideToggleModule, MatProgressBarModule, MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, MatNativeDateModule, MatExpansionModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
+    MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
+    MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, 
+    MatNativeDateModule, MatExpansionModule, DateAdapter,
+    MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, 
+    MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -94,6 +99,8 @@ import { ChartsAssignComponent } from './charts-assign/charts-assign.component';
 import { ChartsProblemCategoryComponent } from './charts-problem-category/charts-problem-category.component';
 import { ChartsStatusComponent } from './charts-status/charts-status.component';
 import { ChartsLoyalityComponent } from './charts-loyality/charts-loyality.component';
+import { CsvService } from 'angular2-json2csv';
+import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -141,7 +148,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DeletefolderDialog,
     TncComponent,
     PnpComponent,
-
     HeaderurlsComponent,
     ProblemCategoryComponent,
     AreasComponent,
@@ -153,6 +159,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsProblemCategoryComponent,
     ChartsStatusComponent,
     ChartsLoyalityComponent
+    ChartsGenderComponent
+    EmptyAccessLevelDialog,
+    AccessdeniedComponent
   ],
   imports: [
     BrowserModule,
@@ -205,7 +214,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog], // MediaLocalImagePopupDialog
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
               HttpService,
@@ -215,6 +224,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               GalleryImagesService,
               FBService,
               ProblemTypeService,
+              RoleGuardService,
+              UseraccessServiceService,
               AreaService,
               {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,

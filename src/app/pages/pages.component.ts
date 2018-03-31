@@ -10,12 +10,16 @@ import { IHttpResponse } from '../model/httpresponse.model';
 import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { GalleryImagesService } from '../service/gallery-images.service';
 import { mediaDetail } from '../model/feedback.model';
+import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { AdminComponent } from '../admin/admin.component';
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent implements OnInit, OnDestroy {
+    filteredUserAccessData: any;
+    userAccessLevelObject: any;
     imagesOfgallery: mediaDetail[];
     childDetails: any;
     ttt: any;
@@ -39,9 +43,35 @@ export class PagesComponent implements OnInit, OnDestroy {
     @ViewChild('fileInput1') fileInput1: ElementRef;
     @ViewChild('fileInput2') fileInput2: ElementRef;
     constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
-        private alertService: AlertService, private galleryImagesService: GalleryImagesService, public dialog: MatDialog) {
+        private alertService: AlertService, private galleryImagesService: GalleryImagesService, public dialog: MatDialog,
+    private router: Router, public adminComponent: AdminComponent) {
         this.createForm();
         this.getPageDetails();
+        if (this.adminComponent.userAccessLevelData) {
+            console.log(this.adminComponent.userAccessLevelData[0].name);
+            this.userRestrict();
+          } else {
+            this.adminComponent.getUserAccessLevelsHttpClient()
+              .subscribe(
+                resp => {
+                  console.log(resp);
+                  this.spinnerService.hide();
+                  _.each(resp, item => {
+                    if (item.user_id === localStorage.getItem('user_id')) {
+                        this.userAccessLevelObject = item.access_levels;
+                    }else {
+                      // this.userAccessLevelObject = null;
+                    }
+                  });
+                  this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+                  this.userRestrict();
+                },
+                error => {
+                  console.log(error);
+                  this.spinnerService.hide();
+                }
+              );
+          }
     }
     ngOnInit() {
         setTimeout(function () {
@@ -58,6 +88,23 @@ export class PagesComponent implements OnInit, OnDestroy {
                 }
             );
     }
+    userRestrict() {
+        _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+          // tslint:disable-next-line:max-line-length
+          if (this.adminComponent.userAccessLevelData[iterate].name === 'Editor' && this.adminComponent.userAccessLevelData[iterate].enable) {
+            this.filteredUserAccessData = item;
+      } else {
+        // this.router.navigate(['/accessdenied']);
+        // console.log('else');
+      }
+    });
+    if (this.filteredUserAccessData) {
+      this.router.navigate(['/pages']);
+    }else {
+      this.router.navigate(['/accessdenied']);
+      console.log('else');
+    }
+      }
     createForm = () => {
         this.form = this.formBuilder.group({
             component_name: ['', Validators.required],
@@ -172,33 +219,34 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.httpClient.get(AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
             .subscribe(
-                data => {
-                    this.parentPageDetails = null;
-                    this.pageDetails = null;
-                    this.isEdit = false;
-                    this.pageDetails = data;
-                    console.log(this.pageDetails);
-                    this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
-                        return parentData.parent_id === '-1';
-                    });
-                    // this.setDefaultClientPageDetails(this.pageDetails);
-                    console.log(this.parentPageDetails);
-                    this.spinnerService.hide();
-                },
-                error => {
-                    console.log(error);
-                    this.loading = false;
-                    this.spinnerService.hide();
-                }
+            data => {
+                this.parentPageDetails = null;
+                this.pageDetails = null;
+                this.isEdit = false;
+                this.pageDetails = data;
+                this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
+                    return parentData.parent_id === '-1';
+                });
+                this.childDetails = _.filter(this.pageDetails, (parentData) => {
+                    return parentData.parent_id !== '-1';
+                });
+                this.spinnerService.hide();
+            },
+            error => {
+                console.log(error);
+                this.loading = false;
+                this.spinnerService.hide();
+            }
             );
     }
-    getChild(childData) {
-        this.childDetails = _.filter(this.pageDetails, (parentData) => {
-            return parentData.parent_id === childData.id;
-        });
-        console.log(this.childDetails);
-    }
-    // this method is used to update page detals to the form, if detalis exist
+getChild(childData) {
+     this.childDetails = _.filter(this.pageDetails, (parentData) => {
+        return parentData.parent_id === childData.id;
+    });
+    console.log(this.childDetails);
+}
+    // this method is used to set page detals to the form, if detalis exist
+
     setDefaultClientPageDetails = (pageData) => {
         if (pageData) {
             // this.button_text = "Update";
