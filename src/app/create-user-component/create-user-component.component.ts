@@ -11,12 +11,18 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angu
 import { IAccessLevelModel } from '../model/accessLevel.model';
 import * as _ from 'underscore';
 import { json } from 'body-parser';
+import { Injectable } from '@angular/core';
+import { AdminComponent } from '../admin/admin.component';
+import { Router } from '@angular/router';
+@Injectable()
 @Component({
   selector: 'app-create-user-component',
   templateUrl: './create-user-component.component.html',
   styleUrls: ['./create-user-component.component.scss']
 })
 export class CreateUserComponentComponent implements OnInit {
+  filteredUserAccessData: any;
+  userAccessLevelObject: any;
   isAddUser: boolean;
   userDetails: ICreateUserDetails;
   CreateUserForm: any;
@@ -29,7 +35,7 @@ export class CreateUserComponentComponent implements OnInit {
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   constructor(public dialog: MatDialog, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
-    private httpClient: HttpClient) {
+    private httpClient: HttpClient, private router: Router, public adminComponent: AdminComponent) {
     this.CreateUserForm = this.formBuilder.group({
 
       'name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
@@ -44,9 +50,46 @@ export class CreateUserComponentComponent implements OnInit {
       'user_id': [null]
     });
     this.getUsersList();
+    if (this.adminComponent.userAccessLevelData) {
+      this.userRestrict();
+    } else {
+      this.adminComponent.getUserAccessLevelsHttpClient()
+        .subscribe(
+          resp => {
+            this.spinnerService.hide();
+            _.each(resp, item => {
+              if (item.user_id === localStorage.getItem('user_id')) {
+                  this.userAccessLevelObject = item.access_levels;
+              }else {
+                // this.userAccessLevelObject = null;
+              }
+            });
+            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+            this.userRestrict();
+          },
+          error => {
+            console.log(error);
+            this.spinnerService.hide();
+          }
+        );
+    }
   }
 
   ngOnInit() {
+  }
+  userRestrict() {
+    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+      // tslint:disable-next-line:max-line-length
+      if (this.adminComponent.userAccessLevelData[iterate].name === 'User Management' && this.adminComponent.userAccessLevelData[iterate].enable) {
+        this.filteredUserAccessData = item;
+      } else {
+      }
+    });
+    if (this.filteredUserAccessData) {
+      this.router.navigate(['admin/user']);
+    }else {
+      this.router.navigate(['/accessdenied']);
+    }
   }
   onSubmit = (body) => {
     this.spinnerService.show();
@@ -235,6 +278,20 @@ export class AccessLevelPopup {
       { name: 'Database', feature_id: 10, enable: true, read: true, write: true, order: '10'},
       { name: 'Drive', feature_id: 11, enable: true, read: true, write: true, order: '11'},
       { name: 'Team', feature_id: 12, enable: true, read: true, write: true, order: '12'},
+      { name: 'Logo', feature_id: 13, enable: true, read: true, write: true, order: '13'},
+      { name: 'Media Management', feature_id: 14, enable: true, read: true, write: true, order: '14'},
+      { name: 'Theme Global Config', feature_id: 15, enable: true, read: true, write: true, order: '15'},
+      { name: 'SMTP', feature_id: 16, enable: true, read: true, write: true, order: '16'},
+      { name: 'User Management', feature_id: 17, enable: true, read: true, write: true, order: '17'},
+      { name: 'Social links update', feature_id: 18, enable: true, read: true, write: true, order: '18'},
+      { name: 'Biography', feature_id: 19, enable: true, read: true, write: true, order: '19'},
+      { name: 'Create Module', feature_id: 20, enable: true, read: true, write: true, order: '20'},
+      { name: 'Terms & Conditions', feature_id: 21, enable: true, read: true, write: true, order: '21'},
+      { name: 'Privacy & Policy', feature_id: 22, enable: true, read: true, write: true, order: '22'},
+      { name: 'Change Password', feature_id: 23, enable: true, read: true, write: true, order: '23'},
+      { name: 'Problem Category', feature_id: 24, enable: true, read: true, write: true, order: '24'},
+      { name: 'Area Category', feature_id: 25, enable: true, read: true, write: true, order: '25'},
+      { name: 'Settings', feature_id: 26, enable: true, read: true, write: true, order: '26'},
     ];
     return defaultData;
   }
@@ -278,6 +335,7 @@ export class AccessLevelPopup {
             }
           } else {
             this.accessLevelData = this.checkBoxNames();
+            this.spinnerService.hide();
           }
         },
         error => {
