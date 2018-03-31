@@ -95,7 +95,7 @@ export class AnalyticsComponent implements OnInit {
   userRestrict() {
         _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
           // tslint:disable-next-line:max-line-length
-          if (this.adminComponent.userAccessLevelData[iterate].name === 'Drive' && this.adminComponent.userAccessLevelData[iterate].enable) {
+          if (this.adminComponent.userAccessLevelData[iterate].name === 'Analytics' && this.adminComponent.userAccessLevelData[iterate].enable) {
             this.filteredUserAccessData = item;
       } else {
 
