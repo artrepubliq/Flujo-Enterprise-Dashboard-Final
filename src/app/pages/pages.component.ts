@@ -99,7 +99,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/pages']);
+      this.router.navigate(['admin/pages']);
     }else {
       this.router.navigate(['/accessdenied']);
       console.log('else');

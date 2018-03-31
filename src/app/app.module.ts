@@ -29,9 +29,9 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
     MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
-    MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, 
+    MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
     MatNativeDateModule, MatExpansionModule, DateAdapter,
-    MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, 
+    MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule,
     MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup

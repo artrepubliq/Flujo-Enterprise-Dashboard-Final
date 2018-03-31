@@ -59,13 +59,11 @@ export class ChangemakerComponent implements OnInit {
    });
     this.getChangemakerReportData();
     if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
       this.userRestrict();
     } else {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
           resp => {
-            console.log(resp);
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
@@ -95,15 +93,12 @@ export class ChangemakerComponent implements OnInit {
       if (this.adminComponent.userAccessLevelData[iterate].name === 'Change Maker' && this.adminComponent.userAccessLevelData[iterate].enable) {
         this.filteredUserAccessData = item;
       } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/changemakerreport']);
+      this.router.navigate(['admin/changemakerreport']);
     }else {
       this.router.navigate(['/accessdenied']);
-      console.log('else');
     }
   }
   getChangemakerReportData() {
