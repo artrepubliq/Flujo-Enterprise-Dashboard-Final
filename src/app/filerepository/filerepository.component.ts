@@ -64,6 +64,7 @@ export class FilerepositoryComponent implements OnInit {
         public fileViewDialog: MatDialog,
         private alertService: AlertService,
         public adminComponent: AdminComponent,
+         public deleteFolderDialog: MatDialog,
         public router: Router) {
 
         this.FileUploadControl = this.formBuilder.group({
