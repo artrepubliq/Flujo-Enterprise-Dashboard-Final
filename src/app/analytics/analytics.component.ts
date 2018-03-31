@@ -22,6 +22,8 @@ import { AlertService } from 'ngx-alerts';
 
 export class AnalyticsComponent implements OnInit {
 
+  filteredUserAccessData: any;
+  userAccessLevelObject: any;
   isActive = true;
   // color = 'accent';
   colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
@@ -55,7 +57,8 @@ export class AnalyticsComponent implements OnInit {
     from_date: this.minDate,
     to_date: this.maxDate
   };
-  constructor(public http: HttpClient, public adminComponent: AdminComponent, private spinnerService: Ng4LoadingSpinnerService,
+  constructor(public http: HttpClient, public adminComponent: AdminComponent, 
+    private spinnerService: Ng4LoadingSpinnerService, private alertService: AlertService,
   private router: Router) {
     if (this.adminComponent.userAccessLevelData) {
       console.log(this.adminComponent.userAccessLevelData[0].name);
@@ -89,7 +92,21 @@ export class AnalyticsComponent implements OnInit {
     // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
     // console.log(moment(this.minDate).format("YYYY-MM-DD"));
   }
+  userRestrict() {
+        _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+          // tslint:disable-next-line:max-line-length
+          if (this.adminComponent.userAccessLevelData[iterate].name === 'Drive' && this.adminComponent.userAccessLevelData[iterate].enable) {
+            this.filteredUserAccessData = item;
+      } else {
 
+      }
+    });
+    if (this.filteredUserAccessData) {
+      this.router.navigate(['admin/filerepository']);
+    }else {
+      this.router.navigate(['/accessdenied']);
+    }
+      }
   onValueChange() {
     // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
     // console.log(moment(this.minDate).format("YYYY-MM-DD"));
