@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-alerts';
+// import { Chart } from 'chart.js';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -91,10 +92,14 @@ import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartAgeDirective } from './chart-age.directive';
 import { DatabaseComponent } from './database/database.component';
 import { ChartsGenderComponent } from './charts-gender/charts-gender.component';
+import { ChartsAssignComponent } from './charts-assign/charts-assign.component';
+import { ChartsProblemCategoryComponent } from './charts-problem-category/charts-problem-category.component';
+import { ChartsStatusComponent } from './charts-status/charts-status.component';
+import { ChartsLoyalityComponent } from './charts-loyality/charts-loyality.component';
+import { CsvService } from 'angular2-json2csv';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -150,13 +155,17 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartAgeDirective,
     DatabaseComponent,
     ChartsGenderComponent,
+    ChartsAssignComponent,
+    ChartsProblemCategoryComponent,
+    ChartsStatusComponent,
+    ChartsLoyalityComponent
+    ChartsGenderComponent
     EmptyAccessLevelDialog,
     AccessdeniedComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgxChartsModule,
     AppRoutingModule,
     HttpClientModule,
     CKEditorModule,
@@ -203,7 +212,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    NgxChartsModule
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
      AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog], // MediaLocalImagePopupDialog

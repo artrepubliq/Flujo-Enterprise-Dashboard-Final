@@ -6,12 +6,12 @@ import { AppConstants } from '../app.constants';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
-import { Chart } from 'chart.js';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 import { AdminComponent } from '../admin/admin.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-analytics',
@@ -28,7 +28,6 @@ export class AnalyticsComponent implements OnInit {
   colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
    mode = 'determinate';
   value = 50;
-
   touch: boolean;
   filterOdd: boolean;
   yearView: boolean;
@@ -56,7 +55,6 @@ export class AnalyticsComponent implements OnInit {
     from_date: this.minDate,
     to_date: this.maxDate
   };
-
   constructor(public http: HttpClient, public adminComponent: AdminComponent, private spinnerService: Ng4LoadingSpinnerService,
   private router: Router) {
     if (this.adminComponent.userAccessLevelData) {
@@ -116,42 +114,85 @@ export class AnalyticsComponent implements OnInit {
     this.maxDate = moment(this.maxDate).format('YYYY-MM-DD');
     this.params.from_date = this.minDate;
     this.params.to_date = this.maxDate;
-    console.log(this.params.from_date);
-    console.log(this.params.to_date);
 
     this.getData(this.params);
   }
 
-  timeChange(r: String) {
-    console.log(r);
+  onToday() {
+    this.minDate = moment(new Date()).format('YYYY-MM-DD');
+    this.maxDate = moment(new Date()).format('YYYY-MM-DD');
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+
+    this.getData(this.params);
+  }
+
+  onWeek() {
+    this.minDate = moment(new Date()).subtract(7, 'd').format('YYYY-MM-DD');
+    this.maxDate = moment(new Date()).format('YYYY-MM-DD');
+
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+
+    this.getData(this.params);
+  }
+
+  onMonth() {
+    this.minDate = moment(new Date()).subtract(1, 'months').format('YYYY-MM-DD');
+    this.maxDate = moment(new Date()).format('YYYY-MM-DD');
+
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+
+    this.getData(this.params);
+  }
+
+  onQuarter () {
+    this.minDate = moment(new Date()).subtract(3, 'months').format('YYYY-MM-DD');
+    this.maxDate = moment(new Date()).format('YYYY-MM-DD');
+
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+
+    this.getData(this.params);
+  }
+
+  onYear() {
+    this.minDate = moment(new Date()).subtract(1, 'year').format('YYYY-MM-DD');
+    this.maxDate = moment(new Date()).format('YYYY-MM-DD');
+
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+
+    this.getData(this.params);
   }
 
   getData(params) {
-    // console.log(JSON.stringify(params));
+    this.spinnerService.show();
+    console.log(JSON.stringify(params));
     this.http.post<Observable<any[]>>('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
     .subscribe(
       response => {
-        // console.log(JSON.stringify(response));
+        console.log(JSON.stringify(response));
         this.newData = response;
         this.problem_category = this.newData[0].problem_category;
         this.status_reports = this.newData[4].report_status;
         // Gender related
-        this.gender.female = this.newData[1].gender[0].female;
-        this.gender.male = this.newData[1].gender[0].male;
+        this.gender = {
+          male: this.newData[1].gender[0].male,
+          female: this.newData[1].gender[0].female
+        };
+        // console.log(this.gender);
         // End of Gender related
 
         // Area related
         this.area = this.newData[3].area;
-        const areaName = _.pluck(this.area, 'name');
-        const areaValue = _.pluck(this.area, 'value');
         // console.log(areaValue);
         // End of Area related
 
         // Age related
         this.ageData = this.newData[2].age;
-        const range = _.pluck(this.ageData, 'name');
-        const rangeValue = _.pluck(this.ageData, 'value');
-        // console.log(range);
+        console.log(this.ageData);
         // End of Age related
 
 
@@ -280,8 +321,12 @@ export class AnalyticsComponent implements OnInit {
           }
         });
         // End of Assign Chart
+         this.spinnerService.hide();
+        this.alertService.success('Updated');
       },
       error => {
+        this.spinnerService.hide();
+        this.alertService.warning('Something went wrong');
         console.log(error);
       });
   }
