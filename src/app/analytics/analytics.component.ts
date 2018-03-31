@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
-import { ChartsAgePieComponent } from '../charts-age-pie/charts-age-pie.component';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AppConstants } from '../app.constants';
@@ -9,6 +8,8 @@ import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
 import * as _ from 'underscore';
 import * as moment from 'moment';
+import { AlertService } from 'ngx-alerts';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-analytics',
@@ -51,7 +52,8 @@ export class AnalyticsComponent implements OnInit {
     to_date: this.maxDate
   };
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
+    private alertService: AlertService) { }
 
   ngOnInit() {
     this.getData(this.params);
@@ -123,6 +125,7 @@ export class AnalyticsComponent implements OnInit {
   }
 
   getData(params) {
+    this.spinnerService.show();
     console.log(JSON.stringify(params));
     this.http.post<Observable<any[]>>('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
     .subscribe(
@@ -146,13 +149,17 @@ export class AnalyticsComponent implements OnInit {
 
         // Age related
         this.ageData = this.newData[2].age;
-        // console.log(this.ageData);
+        console.log(this.ageData);
         // End of Age related
 
 
         this.assign = this.newData[5].assign;
+        this.spinnerService.hide();
+        this.alertService.success('Updated');
       },
       error => {
+        this.spinnerService.hide();
+        this.alertService.warning('Something went wrong');
         console.log(error);
       });
   }

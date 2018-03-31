@@ -217,7 +217,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
      AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
-              CsvService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,
