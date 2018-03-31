@@ -15,6 +15,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { EditGalleryItems } from '../directives/edit-gallery-popup/editgallery.popup';
 import * as _ from 'underscore';
 import { FileHolder } from 'angular2-image-upload';
+import { AdminComponent } from '../admin/admin.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-media',
@@ -23,7 +25,10 @@ import { FileHolder } from 'angular2-image-upload';
 })
 
 export class MediaComponent implements OnInit {
+  uploadImagesForm: FormGroup;
   toggleFileUploader: boolean = false;
+  filteredUserAccessData: any;
+  userAccessLevelObject: any;
   unUsedActiveButton: boolean;
   isViewUsedUnUsedImages = false;
   usedUnUsedMedia: mediaDetail[];
@@ -116,12 +121,48 @@ export class MediaComponent implements OnInit {
   };
   public dragging: boolean;
   constructor(public dialog: MatDialog, private spinnerService: Ng4LoadingSpinnerService,
-    private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
+    private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
+    public adminComponent: AdminComponent, private router: Router) {
+
+    this.uploadImagesForm = this.formBuilder.group({
+      image: [null],
+      client_id: [null]
+    });
+    // this.submitAlbumData = this.formBuilder.group({
+    //   title: ['', Validators.required],
+    //   images: [null],
+    //   client_id: [null]
+    // });
     this.albumItemForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       order: ['', Validators.required]
     });
+    if (this.adminComponent.userAccessLevelData) {
+      console.log(this.adminComponent.userAccessLevelData[0].name);
+      this.userRestrict();
+    } else {
+      this.adminComponent.getUserAccessLevelsHttpClient()
+        .subscribe(
+          resp => {
+            console.log(resp);
+            this.spinnerService.hide();
+            _.each(resp, item => {
+              if (item.user_id === localStorage.getItem('user_id')) {
+                  this.userAccessLevelObject = item.access_levels;
+              }else {
+                // this.userAccessLevelObject = null;
+              }
+            });
+            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+            this.userRestrict();
+          },
+          error => {
+            console.log(error);
+            this.spinnerService.hide();
+          }
+        );
+    }
   }
   ngOnInit() {
     this.uploadImagesObject = <IUploadImages>{};
@@ -133,6 +174,24 @@ export class MediaComponent implements OnInit {
     }.bind(this), 3000);
     this.albumObject = <IGalleryObject>{};
     this.albumObject.images = [];
+  }
+  // this for restrict user on root access level
+  userRestrict() {
+    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+      // tslint:disable-next-line:max-line-length
+      if (this.adminComponent.userAccessLevelData[iterate].name === 'Media Management' && this.adminComponent.userAccessLevelData[iterate].enable) {
+        this.filteredUserAccessData = item;
+      } else {
+        // this.router.navigate(['/accessdenied']);
+        // console.log('else');
+      }
+    });
+    if (this.filteredUserAccessData) {
+      this.router.navigate(['/media']);
+    }else {
+      this.router.navigate(['/accessdenied']);
+      console.log('else');
+    }
   }
   selectMedia(event) {
     const imageDetail = [];

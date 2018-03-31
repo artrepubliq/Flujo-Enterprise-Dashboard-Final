@@ -621,3 +621,28 @@
     position: relative;
   }
 }
+
+
+/* Access PopUp styles */
+.access_popup {
+  min-height: 30vh;
+  position: relative;
+  h3 {
+    font-size: 30px;
+    font-weight: 300;
+    color: #4a2565;
+  }
+  p {
+    font-size: 15px;
+    font-weight: normal;
+    font-style: italic;
+    text-align: left;
+    color: #c1c1c1;
+  }
+  .button_submit {
+    min-width: 70px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}

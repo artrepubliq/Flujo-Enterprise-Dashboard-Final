@@ -23,20 +23,22 @@
                 </div>
             </div>
         </div>
-        <div fxLayout="column">
-            <div fxLayout="row" fxLayoutGap="15px" *ngFor="let accessdata of accessLevelData let i=index">
-                <div fxFlex>
-                    {{accessdata.name}}
-                </div>
-                <div fxFlex>
-                    <mat-slide-toggle [color]="color" [checked]="accessdata.enable" (change)="testChange($event,i,'enable',accessdata.feature_id,data.id)"></mat-slide-toggle>
-                </div>
-                <div fxFlex fxLayout="row" fxLayoutGap="15px">
+        <div class="overflow_data" [perfectScrollbar]="config">
+            <div fxLayout="column">
+                <div fxLayout="row" fxLayoutGap="15px" *ngFor="let accessdata of accessLevelData let i=index">
                     <div fxFlex>
-                        <mat-slide-toggle [color]="color" [checked]="accessdata.read" (change)="testChange($event,i,'read',accessdata.feature_id,data.id)"></mat-slide-toggle>
+                        {{accessdata.name}}
                     </div>
                     <div fxFlex>
-                        <mat-slide-toggle [color]="color" [checked]="accessdata.write" (change)="testChange($event,i,'write',accessdata.feature_id,data.id)"></mat-slide-toggle>
+                        <mat-slide-toggle [color]="color" [checked]="accessdata.enable" (change)="testChange($event,i,'enable',accessdata.feature_id,data.id)"></mat-slide-toggle>
+                    </div>
+                    <div fxFlex fxLayout="row" fxLayoutGap="15px">
+                        <div fxFlex>
+                            <mat-slide-toggle [color]="color" [checked]="accessdata.read" (change)="testChange($event,i,'read',accessdata.feature_id,data.id)"></mat-slide-toggle>
+                        </div>
+                        <div fxFlex>
+                            <mat-slide-toggle [color]="color" [checked]="accessdata.write" (change)="testChange($event,i,'write',accessdata.feature_id,data.id)"></mat-slide-toggle>
+                        </div>
                     </div>
                 </div>
             </div>

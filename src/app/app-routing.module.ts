@@ -34,6 +34,7 @@ import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DatabaseComponent } from './database/database.component';
+import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,7 @@ const routes: Routes = [
     path: 'callback',
     component: CallbackComponent
   },
+  {path: 'accessdenied', component: AccessdeniedComponent},
   {
     path: 'admin',
     component: AdminComponent,

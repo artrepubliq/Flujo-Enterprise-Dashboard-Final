@@ -6,6 +6,7 @@ import { AppConstants } from '../app.constants';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
+import { Chart } from 'chart.js';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 import { AlertService } from 'ngx-alerts';
@@ -16,10 +17,13 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
   templateUrl: './analytics.component.html',
   styleUrls: ['./analytics.component.scss']
 })
+
 export class AnalyticsComponent implements OnInit {
 
   isActive = true;
-  mode = 'determinate';
+  // color = 'accent';
+  colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
+   mode = 'determinate';
   value = 50;
   touch: boolean;
   filterOdd: boolean;

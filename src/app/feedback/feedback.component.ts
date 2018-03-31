@@ -9,12 +9,16 @@ import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
 import {MatTableDataSource, MatSort, MatPaginator, SortDirection} from '@angular/material';
+import { AdminComponent } from '../admin/admin.component';
+import * as _ from 'underscore';
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.scss']
 })
 export class FeedbackComponent implements OnInit {
+  filteredUserAccessData: any;
+  userAccessLevelObject: any;
   // tslint:disable-next-line:no-input-rename
   @Input('matSortDirection')
   direction: SortDirection;
@@ -45,7 +49,8 @@ export class FeedbackComponent implements OnInit {
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
     private alertService: AlertService,
-    public router: Router
+    public router: Router,
+    public adminComponent: AdminComponent
   ) {
    this.feedbackCsvMail = this.formBuilder.group({
     'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
@@ -59,11 +64,53 @@ export class FeedbackComponent implements OnInit {
     this.getChangemakerReportData();
     this.getuserFeedbackData();
     this.getReportYourProblemData();
+    if (this.adminComponent.userAccessLevelData) {
+      console.log(this.adminComponent.userAccessLevelData[0].name);
+      this.userRestrict();
+    } else {
+      this.adminComponent.getUserAccessLevelsHttpClient()
+        .subscribe(
+          resp => {
+            console.log(resp);
+            this.spinnerService.hide();
+            _.each(resp, item => {
+              if (item.user_id === localStorage.getItem('user_id')) {
+                  this.userAccessLevelObject = item.access_levels;
+              }else {
+                // this.userAccessLevelObject = null;
+              }
+            });
+            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+            this.userRestrict();
+          },
+          error => {
+            console.log(error);
+            this.spinnerService.hide();
+          }
+        );
+    }
   }
   ngOnInit() {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
+  }
+  userRestrict() {
+    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+      // tslint:disable-next-line:max-line-length
+      if (this.adminComponent.userAccessLevelData[iterate].name === 'Feedback' && this.adminComponent.userAccessLevelData[iterate].enable) {
+        this.filteredUserAccessData = item;
+      } else {
+        // this.router.navigate(['/accessdenied']);
+        // console.log('else');
+      }
+    });
+    if (this.filteredUserAccessData.name) {
+      this.router.navigate(['/feedback']);
+    }else {
+      this.router.navigate(['/accessdenied']);
+      console.log('else');
+    }
   }
   showFeedback() {
     this.isFeedbackReport = true;

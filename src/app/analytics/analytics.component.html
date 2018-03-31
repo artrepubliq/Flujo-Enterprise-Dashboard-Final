@@ -1,3 +1,4 @@
+
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="analytics_block" fxLayout="column" fxLayoutGap="25px">
@@ -73,7 +74,7 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <!-- <app-charts-assign [assign]='assign'></app-charts-assign> -->
+        <app-charts-assign [assign]='assign'></app-charts-assign>
       </div>
 
     </div>
@@ -84,13 +85,13 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-          <div *ngIf="newData">
-            <app-charts-age-pie [ageData]="ageData"></app-charts-age-pie>
+          <div >
+            <app-chart-age [ageData]="ageData"></app-chart-age>
           </div>
           
       </div>
       <div class="chart_footer" *ngFor="let item of range">
-        <p>{{item}} item</p>
+        
 
       </div>
     </div>
