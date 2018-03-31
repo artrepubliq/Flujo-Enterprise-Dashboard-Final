@@ -6,6 +6,7 @@ import { AppConstants } from '../app.constants';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
+import { Chart } from 'chart.js';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 import { AdminComponent } from '../admin/admin.component';
