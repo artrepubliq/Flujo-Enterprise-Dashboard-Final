@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -18,7 +18,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
   styleUrls: ['./analytics.component.scss']
 })
 
-export class AnalyticsComponent implements OnInit {
+export class AnalyticsComponent implements OnInit, OnChanges {
 
   isActive = true;
   // color = 'accent';
@@ -42,7 +42,7 @@ export class AnalyticsComponent implements OnInit {
   dateCtrl = new FormControl();
   status_reports: any;
   gender: any = {};
-  ageData: any;
+  ageData: Array<Object>;
   assign: any;
   area: any;
 
@@ -60,6 +60,16 @@ export class AnalyticsComponent implements OnInit {
     this.getData(this.params);
     // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
     // console.log(moment(this.minDate).format("YYYY-MM-DD"));
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['ageData']) {
+      const range = _.pluck(this.ageData, 'name');
+      const rangeValue = _.pluck(this.ageData, 'value');
+      //this.displayChartData(range, rangeValue);
+    } else {
+      console.log('Age dat not available');
+    }
   }
 
   onValueChange() {
@@ -98,10 +108,8 @@ export class AnalyticsComponent implements OnInit {
   onMonth() {
     this.minDate = moment(new Date()).subtract(1, 'months').format('YYYY-MM-DD');
     this.maxDate = moment(new Date()).format('YYYY-MM-DD');
-
     this.params.from_date = this.minDate;
     this.params.to_date = this.maxDate;
-
     this.getData(this.params);
   }
 
@@ -127,13 +135,13 @@ export class AnalyticsComponent implements OnInit {
 
   getData(params) {
     this.spinnerService.show();
-    console.log(JSON.stringify(params));
+    // console.log(JSON.stringify(params));
     this.http.post<Observable<any[]>>('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
     .subscribe(
       response => {
-        console.log(JSON.stringify(response));
+        // console.log(JSON.stringify(response));
         this.newData = response;
-        this.problem_category = this.newData[0].problem_category;
+        this.problem_category = response[0].problem_category;
         this.status_reports = this.newData[4].report_status;
         // Gender related
         this.gender = {
@@ -150,13 +158,34 @@ export class AnalyticsComponent implements OnInit {
 
         // Age related
         this.ageData = this.newData[2].age;
-        console.log(this.ageData);
+        const range = _.pluck(this.ageData, 'name');
+        const rangeValue = _.pluck(this.ageData, 'value');
         // End of Age related
-
 
         this.assign = this.newData[5].assign;
         this.spinnerService.hide();
         this.alertService.success('Updated');
+
+
+        const agectx = document.getElementById('ageChartCanvas');
+        const ageChart = new Chart(agectx, {
+          'type': 'doughnut',
+          'data': {
+            datasets: [{
+              data: rangeValue,
+              backgroundColor: [
+                '#0cc0df', '#ee2f6b', '#fecd0f', '#452c59'
+              ]
+            }],
+            labels: range
+          },
+          'options': {
+            legend: {
+              display: false
+            }
+          }
+        });
+        
       },
       error => {
         this.spinnerService.hide();
