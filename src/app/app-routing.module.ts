@@ -34,6 +34,9 @@ import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DatabaseComponent } from './database/database.component';
+import { SmstemplateComponent } from './smstemplate/smstemplate.component';
+import { EmailTemplateComponent } from './email-template/email-template.component';
+
 
 const routes: Routes = [
   {
@@ -90,6 +93,8 @@ const routes: Routes = [
           { path: 'termsnconditions', component: TncComponent, data: {title: 'Terms & Condition\'s'} },
           { path: 'privacynpolicy', component: PnpComponent, data: {title: 'Privacy & Policy'} },
           { path: 'database', component: DatabaseComponent, data: {title: 'Database'} },
+          { path: 'smsconfiguration', component: SmstemplateComponent, data: {title: 'Sms Template Configuration'} },
+          { path: 'emailconfiguration', component: EmailTemplateComponent, data: {title: 'Email Template Configuration'} },
         ]
       }
     ]

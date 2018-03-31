@@ -90,6 +90,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartAgeDirective } from './chart-age.directive';
 import { DatabaseComponent } from './database/database.component';
 import { ChartsGenderComponent } from './charts-gender/charts-gender.component';
+import { SmstemplateComponent } from './smstemplate/smstemplate.component';
+import { EmailTemplateComponent } from './email-template/email-template.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -144,7 +146,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsAgePieComponent,
     ChartAgeDirective,
     DatabaseComponent,
-    ChartsGenderComponent
+    ChartsGenderComponent,
+    SmstemplateComponent,
+    EmailTemplateComponent
   ],
   imports: [
     BrowserModule,
