@@ -159,7 +159,7 @@ export class ProfileComponent implements OnInit {
   getProfileDetails = () => {
     this.loading = true;
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + 'flujo_client_profile/' + AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getprofile/' + AppConstants.CLIENT_ID)
         .subscribe(
           data => {
             this.profileImageDetails = data;

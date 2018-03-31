@@ -26,11 +26,11 @@
     </div>
   </div>
   <div class="admin-website mr-auto">
-    <p class="title">
-      <span>DVB Website : </span>
-      <span class="page-title">CurrentPageName</span>
-    </p>
-  </div>
+      <p class="title">
+        <span>DVB Website : </span>
+        <span class="page-title">{{CurrentPageName}}</span>
+      </p>
+    </div>
   <ul class="nav top-nav">
     <li class="navbarItem">
       <a href="#notifications" class="nav-link">
@@ -66,47 +66,52 @@
         <li>
           <a class="activity">{{name}}</a>
         </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[12]?.enable">
           <a routerLink="./logo" routerLinkActive="active" class="activity">
             <i class="fa fa-user"></i>Logo</a>
         </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[13]?.enable">
           <a routerLink="./media" routerLinkActive="active" class="activity">
             <i class="fa fa-folder-open-o"></i>Media Management</a>
         </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[14]?.enable">
           <a routerLink="./themeconfiguration" routerLinkActive="active" class="activity">
             <i class="fa fa-paint-brush"></i>Theme Global Config</a>
         </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[15]?.enable">
           <a routerLink="./smtpconfiguration" routerLinkActive="active" class="activity">
             <i class="fa fa-send-o"></i>SMTP</a>
         </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[16]?.enable">
           <a routerLink="./user" routerLinkActive="active" class="activity">
             <i class="fa fa-user-plus"></i>User Management</a>
         </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[17]?.enable">
           <a routerLink="./sociallinks" routerLinkActive="active" class="activity">
             <i class="fa fa-external-link"></i>Social links update</a>
         </li>
-        <li>
-          <a routerLink="./module" routerLinkActive="active" class="activity">
-            <i class="fa fa-edit"></i>Create Module</a>
-        </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[18]?.enable">
+
           <a routerLink="./biography" routerLinkActive="active" class="activity">
             <i class="fa fa-user-plus"></i>Biography</a>
         </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[19]?.enable">
           <a routerLink="./module" routerLinkActive="active" class="activity">
             <i class="fa fa-edit"></i>Create Module</a>
         </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[20]?.enable">
+          <a routerLink="./biography" routerLinkActive="active" class="activity">
+            <i class="fa fa-user-plus"></i>Biography</a>
+        </li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[21]?.enable">
+          <a routerLink="./module" routerLinkActive="active" class="activity">
+            <i class="fa fa-edit"></i>Create Module</a>
+        </li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[22]?.enable">
           <a routerLink="./termsnconditions" routerLinkActive="active" class="activity">
             <i class="fa fa-file-o"></i>Terms & Conditions</a>
         </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[23]?.enable">
           <a routerLink="./privacynpolicy" routerLinkActive="active" class="activity">
             <i class="fa fa-file-text-o"></i>Privacy & Policy</a>
         </li>
@@ -115,16 +120,16 @@
           <a routerLink="./changepassword" routerLinkActive="active" class="activity">
             <i class="fa fa-exchange"></i> Change Password</a>
         </li>
-        <li>
+        <li *ngIf="userAccessLevelData && userAccessLevelData[24]?.enable">
           <a routerLink="./problemcategory" routerLinkActive="active" class="activity">
             <i class="fa fa-exchange"></i> Problem Category</a>
         </li>
         <li>
-          <li>
+          <li *ngIf="userAccessLevelData && userAccessLevelData[25]?.enable">
             <a routerLink="./areacategory" routerLinkActive="active" class="activity">
               <i class="fa fa-exchange"></i> Area Category</a>
           </li>
-          <li>
+          <li *ngIf="userAccessLevelData && userAccessLevelData[26]?.enable">
             <a href="#" class="activity">
               <i class="fa fa-cog"></i> Settings</a>
           </li>
@@ -214,7 +219,7 @@
           <a class="dropdown-item">iOS</a>
         </div>
       </li> -->
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[0]?.enable">
         <a class="nav-link editor-link" routerLink="./pages" routerLinkActive="active">
           <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
           <img src="assets/icons/editor-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
@@ -227,21 +232,21 @@
       <li class="nav-title">Flow
         <i class="fa fa-cog"></i>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[1]?.enable">
         <a class="nav-link" routerLink="./socialmanagement" routerLinkActive="active">
           <img src="assets/icons/social-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
           <img src="assets/icons/social-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
           <span>Social</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[2]?.enable">
         <a class="nav-link" routerLink="./email" routerLinkActive="active">
           <img src="assets/icons/mail-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
           <img src="assets/icons/mail-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
           <span>Mail</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[3]?.enable">
         <a class="nav-link" routerLink="./sms" routerLinkActive="active">
           <img src="assets/icons/sms-color-nav-icon-normal@2x.png" class="normal_img" alt="social icon">
           <img src="assets/icons/sms-color-nav-icon-active@2x.png" class="active_img" alt="social icon">
@@ -260,21 +265,21 @@
           <span>Report An Issue</span>
         </a>
       </li> -->
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[4]?.enable">
         <a class="nav-link" routerLink="./managereports" routerLinkActive="active">
           <img src="assets/icons/report-an-issue-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
           <img src="assets/icons/report-an-issue-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
           <span>Manage Reports</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[5]?.enable">
         <a class="nav-link" routerLink="./feedback" routerLinkActive="active">
           <img src="assets/icons/feedback-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
           <img src="assets/icons/feedback-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
           <span>Feedback</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[6]?.enable">
         <a class="nav-link" routerLink="./changemakerreport" routerLinkActive="active">
           <img src="assets/icons/change-maker-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
           <img src="assets/icons/change-maker-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
@@ -299,21 +304,21 @@
           <span>New editor</span>
         </a>
       </li> -->
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[7]?.enable">
         <a class="nav-link" routerLink="./surveys" routerLinkActive="active">
           <img src="assets/icons/survey-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
           <img src="assets/icons/survey-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
           <span>Surveys</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[8]?.enable">
         <a class="nav-link" routerLink="./analytics" routerLinkActive="active">
           <img src="assets/icons/analytics-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
           <img src="assets/icons/analytics-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
           <span>Analytics</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[9]?.enable">
         <a class="nav-link" routerLink="./database" routerLinkActive="active">
           <img src="assets/icons/database-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
           <img src="assets/icons/database-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
@@ -321,7 +326,7 @@
         </a>
       </li>
       <li class="divider-line"></li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[10]?.enable">
         <a class="nav-link" routerLink="./filerepository" routerLinkActive="active">
           <img src="assets/icons/drive-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
           <img src="assets/icons/drive-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
@@ -332,7 +337,7 @@
       <li class="divider-line"></li>
 
       <!-- Team Chat -->
-      <li class="nav-title">Your teams
+      <li class="nav-title" *ngIf="userAccessLevelData && userAccessLevelData[11]?.enable">Your teams
         <i class="fa fa-cog"></i>
       </li>
       <ul class="team-items">

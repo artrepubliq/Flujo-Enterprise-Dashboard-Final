@@ -86,7 +86,7 @@ export class AuthService {
     console.log(localStorage.getItem('token'));
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('profile', JSON.stringify(profile));
-    localStorage.setItem('nickname', JSON.stringify(profile.nickname));
+    localStorage.setItem('name', profile.name);
     // localStorage.setItem('client_id', JSON.stringify(profile.aud));
     localStorage.setItem('client_details', JSON.stringify(authResult));
     localStorage.setItem('expires_at', JSON.stringify(expTime));

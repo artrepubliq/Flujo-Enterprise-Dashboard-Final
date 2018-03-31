@@ -9,14 +9,18 @@ import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { IModuleDetails } from '../model/accessLevel.model';
+import { AdminComponent } from '../admin/admin.component';
+import { Router } from '@angular/router';
 
 @Component({
-  // selector: 'app-create-module',
-  templateUrl: './create-module.component.html',
-  styleUrls: ['./create-module.component.scss']
+    // selector: 'app-create-module',
+    templateUrl: './create-module.component.html',
+    styleUrls: ['./create-module.component.scss']
 })
 export class CreateModuleComponent implements OnInit {
-  childDetails: any;
+    filteredUserAccessData: any;
+    userAccessLevelObject: any;
+    childDetails: any;
     ttt: any;
     moduleForm: FormGroup;
 
@@ -32,19 +36,56 @@ export class CreateModuleComponent implements OnInit {
     public moduleDetails: object;
     public module_description = '';
     public app_description = '';
-    bgColor= '#3c3c3c';
+    bgColor = '#3c3c3c';
     dummy: string;
     @ViewChild('fileInput') fileInput: ElementRef;
     constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
-    private alertService: AlertService) {
+        private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
         this.createForm();
         this.getModuleDetails();
+        if (this.adminComponent.userAccessLevelData) {
+            this.userRestrict();
+          } else {
+            this.adminComponent.getUserAccessLevelsHttpClient()
+              .subscribe(
+                resp => {
+                  this.spinnerService.hide();
+                  _.each(resp, item => {
+                    if (item.user_id === localStorage.getItem('user_id')) {
+                        this.userAccessLevelObject = item.access_levels;
+                    }else {
+                      // this.userAccessLevelObject = null;
+                    }
+                  });
+                  this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+                  this.userRestrict();
+                },
+                error => {
+                  console.log(error);
+                  this.spinnerService.hide();
+                }
+              );
+          }
     }
     ngOnInit() {
-        setTimeout(function() {
+        setTimeout(function () {
             this.spinnerService.hide();
-          }.bind(this), 3000);
-      }
+        }.bind(this), 3000);
+    }
+    userRestrict() {
+        _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+            // tslint:disable-next-line:max-line-length
+            if (this.adminComponent.userAccessLevelData[iterate].name === 'Biography' && this.adminComponent.userAccessLevelData[iterate].enable) {
+                this.filteredUserAccessData = item;
+            } else {
+            }
+        });
+        if (this.filteredUserAccessData) {
+            this.router.navigate(['admin/module']);
+        } else {
+            this.router.navigate(['/accessdenied']);
+        }
+    }
     createForm = () => {
         this.moduleForm = this.formBuilder.group({
             module_name: ['', Validators.required],
@@ -77,65 +118,65 @@ export class CreateModuleComponent implements OnInit {
         if (!body.module_id) {
             this.moduleForm.controls['module_id'].setValue('null');
         }
-        this.httpClient.post<IHttpResponse>( AppConstants.API_URL + 'flujo_client_postmodule', this.moduleForm.value)
+        this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postmodule', this.moduleForm.value)
             .subscribe(
-            data => {
-                if (data.error) {
-                    this.alertService.warning(data.result);
-                    // this.parsePostResponse(data);
-                    this.spinnerService.hide();
-                }else {
-                    this.getModuleDetails();
-                    this.parsePostResponse(data);
-                    this.spinnerService.hide();
-                }
+                data => {
+                    if (data.error) {
+                        this.alertService.warning(data.result);
+                        // this.parsePostResponse(data);
+                        this.spinnerService.hide();
+                    } else {
+                        this.getModuleDetails();
+                        this.parsePostResponse(data);
+                        this.spinnerService.hide();
+                    }
 
-            },
-            error => {
-                this.loading = false;
-                this.spinnerService.hide();
-            });
+                },
+                error => {
+                    this.loading = false;
+                    this.spinnerService.hide();
+                });
     }
 
     clearFile = (id) => {
-            this.moduleForm.get('component_image').setValue(null);
-            this.fileInput.nativeElement.value = '';
+        this.moduleForm.get('component_image').setValue(null);
+        this.fileInput.nativeElement.value = '';
     }
     onDelete = (body) => {
         const formModel = body.id;
         this.spinnerService.show();
         this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletemodule/' + formModel)
             .subscribe(
-            data => {
-                this.getModuleDetails();
-                this.spinnerService.hide();
-                this.moduleDetails = null;
-                console.log(data);
-                this.loading = false;
-                this.alertService.success('Page delete successfully');
-            },
-            error => {
-                this.loading = false;
-                this.spinnerService.hide();
-                this.alertService.success('Something went wrong');
-            });
+                data => {
+                    this.getModuleDetails();
+                    this.spinnerService.hide();
+                    this.moduleDetails = null;
+                    console.log(data);
+                    this.loading = false;
+                    this.alertService.success('Page delete successfully');
+                },
+                error => {
+                    this.loading = false;
+                    this.spinnerService.hide();
+                    this.alertService.success('Something went wrong');
+                });
     }
     getModuleDetails = () => {
         this.spinnerService.show();
-        this.httpClient.get<IModuleDetails>( AppConstants.API_URL + 'flujo_client_getmodule/' + AppConstants.CLIENT_ID)
+        this.httpClient.get<IModuleDetails>(AppConstants.API_URL + 'flujo_client_getmodule/' + AppConstants.CLIENT_ID)
             .subscribe(
-            data => {
-                this.moduleDetails = null;
-                this.isEdit = false;
-                this.moduleDetails = data;
-                console.log(this.moduleDetails);
-                this.spinnerService.hide();
-            },
-            error => {
-                console.log(error);
-                this.loading = false;
-                this.spinnerService.hide();
-            }
+                data => {
+                    this.moduleDetails = null;
+                    this.isEdit = false;
+                    this.moduleDetails = data;
+                    console.log(this.moduleDetails);
+                    this.spinnerService.hide();
+                },
+                error => {
+                    console.log(error);
+                    this.loading = false;
+                    this.spinnerService.hide();
+                }
             );
     }
     // this method is used to update page detals to the form, if detalis exist
@@ -173,7 +214,7 @@ export class CreateModuleComponent implements OnInit {
         this.isGridView = true;
     }
     editCompnent = (moduleItem) => {
-       // this.alertService.success('page updated successfull.');
+        // this.alertService.success('page updated successfull.');
         this.isEdit = true;
         this.isTableView = false;
         this.isGridView = false;
@@ -182,12 +223,12 @@ export class CreateModuleComponent implements OnInit {
     }
     parsePostResponse(response) {
         this.alertService.success('request completed successfully.');
-            this.loading = false;
-            this.moduleForm.reset();
-            this.isEdit = false;
-            this.isGridView = true;
-            this.button_text = 'Save';
-            this.getModuleDetails();
+        this.loading = false;
+        this.moduleForm.reset();
+        this.isEdit = false;
+        this.isGridView = true;
+        this.button_text = 'Save';
+        this.getModuleDetails();
     }
     cancelFileEdit() {
         this.isEdit = false;
