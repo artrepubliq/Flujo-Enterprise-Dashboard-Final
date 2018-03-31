@@ -57,7 +57,7 @@ export class AnalyticsComponent implements OnInit {
     from_date: this.minDate,
     to_date: this.maxDate
   };
-  constructor(public http: HttpClient, public adminComponent: AdminComponent, 
+  constructor(public http: HttpClient, public adminComponent: AdminComponent,
     private spinnerService: Ng4LoadingSpinnerService, private alertService: AlertService,
   private router: Router) {
     if (this.adminComponent.userAccessLevelData) {
@@ -102,7 +102,7 @@ export class AnalyticsComponent implements OnInit {
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/filerepository']);
+      this.router.navigate(['admin/analytics']);
     }else {
       this.router.navigate(['/accessdenied']);
     }
