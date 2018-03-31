@@ -92,16 +92,13 @@ import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { DatabaseComponent } from './database/database.component';
-
 import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.component';
 import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
 import { ChartsProblemCategoryComponent } from './directives//charts-problem-category/charts-problem-category.component';
 import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
 import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
-
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
-
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);

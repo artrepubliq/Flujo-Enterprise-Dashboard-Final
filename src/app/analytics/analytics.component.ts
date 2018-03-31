@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { AdminComponent } from '../admin/admin.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-analytics',
@@ -21,8 +22,6 @@ import { Router } from '@angular/router';
 
 export class AnalyticsComponent implements OnInit {
 
-  filteredUserAccessData: any;
-  userAccessLevelObject: any;
   isActive = true;
   // color = 'accent';
   colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
@@ -56,7 +55,6 @@ export class AnalyticsComponent implements OnInit {
     from_date: this.minDate,
     to_date: this.maxDate
   };
-
   constructor(public http: HttpClient, public adminComponent: AdminComponent, private spinnerService: Ng4LoadingSpinnerService,
   private router: Router) {
     if (this.adminComponent.userAccessLevelData) {
@@ -91,29 +89,13 @@ export class AnalyticsComponent implements OnInit {
     // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
     // console.log(moment(this.minDate).format("YYYY-MM-DD"));
   }
-  userRestrict() {
-    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-      // tslint:disable-next-line:max-line-length
-      if (this.adminComponent.userAccessLevelData[iterate].name === 'Analytics' && this.adminComponent.userAccessLevelData[iterate].enable) {
-        this.filteredUserAccessData = item;
-      } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/analytics']);
-    }else {
-      this.router.navigate(['/accessdenied']);
-      console.log('else');
-    }
-  }
+
   onValueChange() {
     // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
     // console.log(moment(this.minDate).format("YYYY-MM-DD"));
-
     this.minDate = moment(this.minDate).format('YYYY-MM-DD');
     this.maxDate = moment(this.maxDate).format('YYYY-MM-DD');
+
     this.params.from_date = this.minDate;
     this.params.to_date = this.maxDate;
     console.log(this.params.from_date);
@@ -121,9 +103,54 @@ export class AnalyticsComponent implements OnInit {
 
     this.getData(this.params);
   }
+  onToday() {
+    this.minDate = moment(new Date()).format('YYYY-MM-DD');
+    this.maxDate = moment(new Date()).format('YYYY-MM-DD');
 
-  timeChange(r: String) {
-    console.log(r);
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+
+    this.getData(this.params);
+  }
+
+  onWeek() {
+    this.minDate = moment(new Date()).subtract(7, 'd').format('YYYY-MM-DD');
+    this.maxDate = moment(new Date()).format('YYYY-MM-DD');
+
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+
+    this.getData(this.params);
+  }
+
+  onMonth() {
+    this.minDate = moment(new Date()).subtract(1, 'months').format('YYYY-MM-DD');
+    this.maxDate = moment(new Date()).format('YYYY-MM-DD');
+
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+
+    this.getData(this.params);
+  }
+
+  onQuarter () {
+    this.minDate = moment(new Date()).subtract(3, 'months').format('YYYY-MM-DD');
+    this.maxDate = moment(new Date()).format('YYYY-MM-DD');
+
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+
+    this.getData(this.params);
+  }
+
+  onYear() {
+    this.minDate = moment(new Date()).subtract(1, 'year').format('YYYY-MM-DD');
+    this.maxDate = moment(new Date()).format('YYYY-MM-DD');
+
+    this.params.from_date = this.minDate;
+    this.params.to_date = this.maxDate;
+
+    this.getData(this.params);
   }
 
   getData(params) {
@@ -139,21 +166,18 @@ export class AnalyticsComponent implements OnInit {
         this.gender.female = this.newData[1].gender[0].female;
         this.gender.male = this.newData[1].gender[0].male;
         // End of Gender related
-
         // Area related
         this.area = this.newData[3].area;
         const areaName = _.pluck(this.area, 'name');
         const areaValue = _.pluck(this.area, 'value');
         // console.log(areaValue);
         // End of Area related
-
         // Age related
         this.ageData = this.newData[2].age;
         const range = _.pluck(this.ageData, 'name');
         const rangeValue = _.pluck(this.ageData, 'value');
         // console.log(range);
         // End of Age related
-
 
         this.assign = this.newData[5].assign;
         const assignID = _.pluck(this.assign, 'id');
@@ -280,6 +304,8 @@ export class AnalyticsComponent implements OnInit {
           }
         });
         // End of Assign Chart
+        this.spinnerService.hide();
+        this.alertService.success('Updated');
       },
       error => {
         console.log(error);
