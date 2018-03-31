@@ -89,6 +89,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartAgeDirective } from './chart-age.directive';
 import { DatabaseComponent } from './database/database.component';
 import { ChartsGenderComponent } from './charts-gender/charts-gender.component';
+import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -133,7 +134,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChangemakerComponent,
     AnalyticsComponent,
     CreateModuleComponent,
-
+    DeletefolderDialog,
     TncComponent,
     PnpComponent,
 
@@ -198,7 +199,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NgxChartsModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup], // MediaLocalImagePopupDialog
+     AccessLevelPopup, DeletefolderDialog], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
               HttpService,

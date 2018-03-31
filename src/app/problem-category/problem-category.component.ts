@@ -16,6 +16,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
   styleUrls: ['./problem-category.component.scss']
 })
 export class ProblemCategoryComponent implements OnInit {
+  isEdit: boolean;
   selectProblem: boolean;
   problemId: string;
   problemTypeNameNew: string;
@@ -37,6 +38,7 @@ export class ProblemCategoryComponent implements OnInit {
     this.selectProblem = true;
     this.actionText = 'Add';
     this.problemId = '';
+    this.isEdit = false;
     this.problemTypeNameNew = '';
     this.problemForm = new FormGroup({
       'problemid': new FormControl(this.problemId),
@@ -65,6 +67,7 @@ export class ProblemCategoryComponent implements OnInit {
 
   public updateProblemData(problem): void {
     console.log(problem);
+    this.isEdit = true;
     this.actionText = 'Update';
     this.problemTypeNameNew = problem.problem_type;
     this.problemId = problem.id;
@@ -74,6 +77,7 @@ export class ProblemCategoryComponent implements OnInit {
   }
 
   public backToSelect(): void {
+    this.isEdit = false;
     this.actionText = 'Add';
     this.problemTypeNameNew = '';
     this.problemId = '';
@@ -113,6 +117,8 @@ export class ProblemCategoryComponent implements OnInit {
           this.spinnerService.hide();
           this.getproblemData();
           this.problemForm.reset();
+          this.isEdit = false;
+          this.actionText = 'Add';
         },
         error => {
           this.spinnerService.hide();
@@ -131,6 +137,9 @@ export class ProblemCategoryComponent implements OnInit {
           this.spinnerService.hide();
           this.alertService.success('Problem deleted successfully');
           this.getproblemData();
+          this.problemForm.reset();
+          this.isEdit = false;
+          this.actionText = 'Add';
         },
         error => {
           this.alertService.success('File something went wrong successfully');
