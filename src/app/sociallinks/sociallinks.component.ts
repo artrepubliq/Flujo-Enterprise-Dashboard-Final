@@ -81,7 +81,7 @@ export class SocialLinksComponent implements OnInit {
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/sociallinks']);
+      this.router.navigate(['admin/sociallinks']);
     }else {
       this.router.navigate(['/accessdenied']);
       console.log('else');

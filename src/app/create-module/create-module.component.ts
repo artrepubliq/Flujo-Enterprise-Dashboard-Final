@@ -44,13 +44,11 @@ export class CreateModuleComponent implements OnInit {
         this.createForm();
         this.getModuleDetails();
         if (this.adminComponent.userAccessLevelData) {
-            console.log(this.adminComponent.userAccessLevelData[0].name);
             this.userRestrict();
           } else {
             this.adminComponent.getUserAccessLevelsHttpClient()
               .subscribe(
                 resp => {
-                  console.log(resp);
                   this.spinnerService.hide();
                   _.each(resp, item => {
                     if (item.user_id === localStorage.getItem('user_id')) {
@@ -79,17 +77,13 @@ export class CreateModuleComponent implements OnInit {
             // tslint:disable-next-line:max-line-length
             if (this.adminComponent.userAccessLevelData[iterate].name === 'Biography' && this.adminComponent.userAccessLevelData[iterate].enable) {
                 this.filteredUserAccessData = item;
-                console.log('huu');
             } else {
-                // this.router.navigate(['/accessdenied']);
-                // console.log('else');
             }
         });
         if (this.filteredUserAccessData) {
-            this.router.navigate(['/module']);
+            this.router.navigate(['admin/module']);
         } else {
             this.router.navigate(['/accessdenied']);
-            console.log('else');
         }
     }
     createForm = () => {

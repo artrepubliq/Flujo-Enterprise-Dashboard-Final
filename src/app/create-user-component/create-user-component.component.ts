@@ -51,13 +51,11 @@ export class CreateUserComponentComponent implements OnInit {
     });
     this.getUsersList();
     if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
       this.userRestrict();
     } else {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
           resp => {
-            console.log(resp);
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
@@ -85,15 +83,12 @@ export class CreateUserComponentComponent implements OnInit {
       if (this.adminComponent.userAccessLevelData[iterate].name === 'User Management' && this.adminComponent.userAccessLevelData[iterate].enable) {
         this.filteredUserAccessData = item;
       } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
       }
     });
-    if (this.filteredUserAccessData.name) {
-      this.router.navigate(['/user']);
+    if (this.filteredUserAccessData) {
+      this.router.navigate(['admin/user']);
     }else {
       this.router.navigate(['/accessdenied']);
-      console.log('else');
     }
   }
   onSubmit = (body) => {

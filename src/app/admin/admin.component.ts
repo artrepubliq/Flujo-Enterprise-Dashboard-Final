@@ -40,7 +40,8 @@ export class AdminComponent implements OnInit {
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
     public mScrollbarService: MalihuScrollbarService,
-    titleService: Title, router: Router, activatedRoute: ActivatedRoute) {
+    private spinnerService: Ng4LoadingSpinnerService,
+    titleService: Title, private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog) {
 
       router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
@@ -106,17 +107,23 @@ export class AdminComponent implements OnInit {
           this.loggedinUsersList = data;
           this.StoredLoggedinIds();
           this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
+            this.isUserActive = false;
             return  activeUserData.id !== localStorage.getItem('id_token') ;
         });
         if (this.activeUsers) {
           _.each(this.activeUsers, (iteratee, index) => {
-            if (this.activeUsers[index].is_logged_in === '1') {
+            if (this.activeUsers[index].is_logged_in === '1' && localStorage.getItem('user_id')) {
               this.activeUsers[index].isUserActive = true;
+              // this.filteredAccessIds = this.activeUsers;
             }
+          });
+          this.activeUsers =  _.filter(this.activeUsers, (filteredactiveUserData) => {
+            return filteredactiveUserData.id !== localStorage.getItem('user_id');
           });
         }else {
            console.log('There are no active users');
         }
+        console.log(this.activeUsers);
       },
       error => {
         console.log(error);
@@ -139,12 +146,10 @@ export class AdminComponent implements OnInit {
     this.getUserAccessLevelsHttpClient()
       .subscribe(
         data => {
-          console.log(data);
-          console.log(this.userAccessService.userAccessLevelObject);
-          console.log(localStorage.getItem('id_token'));
           _.each(data, item => {
-            if (item.user_id === localStorage.getItem('id_token')) {
+            if (item.user_id === localStorage.getItem('user_id')) {
                 this.userAccessLevelObject = item.access_levels;
+                console.log(this.userAccessLevelObject);
             }else {
               // this.userAccessLevelObject = null;
             }

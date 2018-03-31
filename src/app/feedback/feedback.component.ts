@@ -65,13 +65,11 @@ export class FeedbackComponent implements OnInit {
     this.getuserFeedbackData();
     this.getReportYourProblemData();
     if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
       this.userRestrict();
     } else {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
           resp => {
-            console.log(resp);
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
@@ -101,15 +99,12 @@ export class FeedbackComponent implements OnInit {
       if (this.adminComponent.userAccessLevelData[iterate].name === 'Feedback' && this.adminComponent.userAccessLevelData[iterate].enable) {
         this.filteredUserAccessData = item;
       } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
       }
     });
-    if (this.filteredUserAccessData.name) {
-      this.router.navigate(['/feedback']);
+    if (this.filteredUserAccessData) {
+      this.router.navigate(['admin/feedback']);
     }else {
       this.router.navigate(['/accessdenied']);
-      console.log('else');
     }
   }
   showFeedback() {
