@@ -1,5 +1,6 @@
 
 <ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="analytics_block" fxLayout="column" fxLayoutGap="25px">
   <!-- Analytics Header -->
   <div fxLayout="row">
@@ -25,14 +26,14 @@
 
     </div>
     <div fxFlex fxLayoutAlign="center center" class="button-group">
-      <button class="btn btn-outline-secondary btn-start" (click)="timeChange('option1')" name="options" id="option1" autocomplete="off">Today</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option2')" name="options" id="option2" [ngClass]="{'active':isActive}"
+      <button class="btn btn-outline-secondary btn-start" (click)="onToday()" name="options" id="option1" autocomplete="off">Today</button>
+      <button class="btn btn-outline-secondary btn-options" (click)="onWeek()" name="options" id="option2" [ngClass]="{'active':isActive}"
         autocomplete="off"> Week</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option3')" name="options" id="option3" autocomplete="off">
+      <button class="btn btn-outline-secondary btn-options" (click)="onMonth()" name="options" id="option3" autocomplete="off">
         Month</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="timeChange('option4')" name="options" id="option4" autocomplete="off">
+      <button class="btn btn-outline-secondary btn-options" (click)="onQuarter()" name="options" id="option4" autocomplete="off">
         Quarter</button>
-      <button class="btn btn-outline-secondary btn-end" (click)="timeChange('option5')" name="options" id="option5" autocomplete="off">
+      <button class="btn btn-outline-secondary btn-end" (click)="onYear()" name="options" id="option5" autocomplete="off">
         Year</button>
     </div>
   </div>
@@ -42,29 +43,7 @@
   <div class="problem-header">
     <h6>Problem Category</h6>
   </div>
-  <div fxLayout="row" fxLayoutGap="1rem" class="problems">
-    <div class="" *ngFor="let problem of problem_category">
-
-      <mat-card class="example-card">
-        <mat-card-content>
-
-          <div fxLayout="column" fxLayoutGap="1rem">
-            <div fxLayout="row" fxLayoutAlign="space-between start">
-              <div class="solved">{{problem.completed}}</div>
-              <div class="pending">{{problem.unresolved}}</div>
-            </div>
-            <div fxLayout="column" fxLayoutAlign="end center">
-              <div class="tproblems" fxFlex>{{problem.count}}</div>
-              <div class="category" fxFlex>{{problem.category | uppercase}}</div>
-              
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-      <br>
-    </div>
-
-  </div>
+  <app-charts-problem-category [problem_category]="problem_category"></app-charts-problem-category>
 </div>
 <!-- ..// Problem Cards -->
 
@@ -78,12 +57,9 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <div>
-          <canvas id="genderChartCanvas">
-            {{genderChart}}
-          </canvas>
+        <div >
+            <app-charts-gender [gender]='gender'></app-charts-gender>
         </div>
-
       </div>
       <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
         <h3 class="chart_item fmale">Female</h3>
@@ -98,11 +74,7 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <div>
-          <canvas id="assignChartCanvas">
-            {{assignChart}}
-          </canvas>
-        </div>
+        <app-charts-assign [assign]='assign'></app-charts-assign>
       </div>
 
     </div>
@@ -113,13 +85,13 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-          <canvas id="ageChartCanvas">
-            {{ageChart}}
-          </canvas>
-
+          <div >
+            <app-chart-age [ageData]="ageData"></app-chart-age>
+          </div>
+          
       </div>
       <div class="chart_footer" *ngFor="let item of range">
-        <p>{{item}} item</p>
+        
 
       </div>
     </div>
@@ -133,45 +105,7 @@
       </div>
 
       <div class="chart_body">
-        <!-- {{color[0]}} -->
-        <div fxLayout="row" class="status-bars" fxLayoutAlign="space-between end" *ngFor="let status of status_reports">
-          <div fxFlex="30" class="completed">
-            <p class="completed">Completed</p>
-            <div fxLayout="row" fxLayoutAlign="space-between start">
-              <span [style.color]='colors[0]'>{{status.completed}}</span>
-
-            </div>
-            <br/>
-            <section class="example-section">
-              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
-              </mat-progress-bar>
-            </section>
-          </div>
-          <div fxFlex="30" class="inprogress">
-            <p class="inprogress">Inprogress</p>
-            <div fxLayout="row" fxLayoutAlign="space-between start">
-              <span [style.color]='colors[1]'>{{status.in_progress}}</span>
-
-            </div>
-            <br/>
-            <section class="example-section">
-              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
-              </mat-progress-bar>
-            </section>
-          </div>
-          <div fxFlex="30" class="unresolved">
-            <p class="unresolved">Unresolved</p>
-            <div fxLayout="row" fxLayoutAlign="space-between start">
-              <span [style.color]='colors[2]'>{{status.unresolved}}</span>
-
-            </div>
-            <br/>
-            <section class="example-section">
-              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
-              </mat-progress-bar>
-            </section>
-          </div>
-        </div>
+        <app-charts-status [status_reports]="status_reports"></app-charts-status>
       </div>
     </div>
     <div fxFlex class="chart_card">
@@ -180,11 +114,7 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <div>
-          <canvas id="areaChartCanvas">
-            {{areaChart}}
-          </canvas>
-        </div>
+        <app-charts-loyality [area]="area"></app-charts-loyality>
       </div>
     </div>
   </div>

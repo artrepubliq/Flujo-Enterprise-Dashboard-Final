@@ -28,62 +28,52 @@ export class ChangepasswordComponent implements OnInit {
   data: string;
   isMatch: boolean;
   changePasswordForm: any;
-  changeApiDetails:IchangeDetails;
+  changeApiDetails: IchangeDetails;
   constructor(private router: Router, private alertService: AlertService, private loginAuthService: LoginAuthService,
-    private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private httpClient:HttpClient) {
-      this.changePasswordForm = this.formBuilder.group({
-        'old_password':['', Validators.required],
-        'new_password':['', Validators.required],
-        'confirm_new_password':['', Validators.required],
-        'admin_id' : [null],
-        user_id:[null]
-      },{validator: this.checkPasswords});
-      
-   }
-   checkPasswords(group: FormGroup) { 
-   let new_password = group.controls.new_password.value;
-   let confirm_new_password = group.controls.confirm_new_password.value;
-    
-   return new_password === confirm_new_password ? null : { isMatch: true }    
+    private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient) {
+    this.changePasswordForm = this.formBuilder.group({
+      'old_password': ['', Validators.required],
+      'new_password': ['', Validators.required],
+      'confirm_new_password': ['', Validators.required],
+      'admin_id': [null],
+      user_id: [null]
+    }, { validator: this.checkPasswords });
 
- }
-   ngOnChanges(){
-    //  console.log('testtt');
-    //  if (this.MatchPassword) {
-    //   this.isMatch = false;
-    // }else{
-    //   this.isMatch = false;
-    // }
-    // if(!this.checkPasswords){
-    //   this.isMatch = true;
-    // }
-  }  
+  }
+  checkPasswords(group: FormGroup) {
+    const new_password = group.controls.new_password.value;
+    const confirm_new_password = group.controls.confirm_new_password.value;
+
+    return new_password === confirm_new_password ? null : { isMatch: true };
+
+  }
+
   ngOnInit() {
     this.isMatch = false;
   }
-  
+
   onSubmit = (body) => {
     this.spinnerService.show();
     // this.userId = localStorage.getItem('user_id')
     // console.log(localStorage.getItem('user_id'));
     this.changePasswordForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
-    this.changePasswordForm.controls['user_id'].setValue(localStorage.getItem('id_token'));
+    this.changePasswordForm.controls['user_id'].setValue(localStorage.getItem('user_id'));
     const formModel = this.changePasswordForm.value;
     this.httpClient.post<IchangeDetails>(AppConstants.API_URL + 'flujo_client_updatepasswordcreateuser', formModel)
       .subscribe(
       data => {
-        if(!data.error ){
-        this.changePasswordForm.reset();
-        this.alertService.success('Password was changed succesfully');
-        this.spinnerService.hide();
-        _.delay(de => {
+        if (!data.error) {
+          this.changePasswordForm.reset();
+          this.alertService.success('Password was changed succesfully');
+          this.spinnerService.hide();
+          _.delay(de => {
             this.router.navigate(['/login']);
-        } , 1000);
-      }else{
-        this.spinnerService.hide();
-        this.changePasswordForm.reset();
-        this.alertService.danger('Password was not changed');
-      }
+          }, 1000);
+        } else {
+          this.spinnerService.hide();
+          this.changePasswordForm.reset();
+          this.alertService.danger('Password was not changed');
+        }
       },
       error => {
         this.spinnerService.hide();

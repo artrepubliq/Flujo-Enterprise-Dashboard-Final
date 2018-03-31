@@ -34,9 +34,9 @@ import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DatabaseComponent } from './database/database.component';
+import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
-
 
 const routes: Routes = [
   {
@@ -53,6 +53,7 @@ const routes: Routes = [
     path: 'callback',
     component: CallbackComponent
   },
+  {path: 'accessdenied', component: AccessdeniedComponent},
   {
     path: 'admin',
     component: AdminComponent,
@@ -99,7 +100,6 @@ const routes: Routes = [
       }
     ]
   }
-
 ];
 
 @NgModule({

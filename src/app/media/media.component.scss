@@ -334,6 +334,16 @@ input {
   background-color: #369
 }
 
-.toggleShow_uploader.ShowFileUploader {
-  height: auto;
+.show_upload {
+  margin-top: -40px;
+}
+
+.ShowFileUploader {
+  .toggleShow_uploader {
+    height: auto;
+    opacity: 1;
+  }
+  .show_upload {
+    margin-top: 0px;
+  }
 }

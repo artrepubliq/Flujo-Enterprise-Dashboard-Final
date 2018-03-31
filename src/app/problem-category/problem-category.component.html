@@ -10,7 +10,7 @@
     </form>
   </div>
   <div class="view_items" fxLayout="column" fxLayoutGap="0px" [perfectScrollbar]="config">
-    <div *ngFor="let problem of problemTypeData" class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
+    <div *ngFor="let problem of problemTypeData" class="view_item problem_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
       <div class="name" fxFlex>
         {{problem.problem_type}}
       </div>

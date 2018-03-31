@@ -1,74 +1,62 @@
-<!-- <h1> manage reports</h1>
-    <div>
-    <form class="example-form">
-    <mat-form-field class="example-full-width">
-      <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-        <mat-option (onSelectionChange)="callSomeFunction()" *ngFor="let option of filteredOptions | async" [value]="option">
-          {{ option }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
- </div> -->
-
-<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<ngx-alerts maxMessages="3" timeout="5000">
+</ngx-alerts>
 <ng4-loading-spinner></ng4-loading-spinner>
 
-<div fxLayout="column" fxLayoutGap="15px">
+<div class="table_padding" fxLayout="column" fxLayoutGap="13px">
 
-  <div>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
     <h6 class="issues">Issues</h6>
-    <div fxLayoutAlign="center center">
-
-    </div>
-  </div>
-  <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center">
-    <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
-      <button (click)="sortByStatus('0')" [ngClass]="{'active':showReports.completedActive}" name="options" id="option1" autocomplete="off"
-        checked> Completed </button>
-      <button (click)="sortByStatus('1')" [ngClass]="{'active':showReports.inProgressActive}" name="options" id="option2" autocomplete="off">
-        In progress</button>
-    </div>
-    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
-      <button (click)="exportManageReports()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
-      <!-- <app-search-compoenent
-    (searchTerm)="filterReportData($event)"
-    ></app-search-compoenent> -->
-      <mat-form-field>
-        <input matInput placeholder="Search" [(ngModel)]="searchReport" (ngModelChange)="onChange($event)">
-      </mat-form-field>
-      <!-- <div class=" text-center button-group btn-group-toggle" data-toggle="buttons">
-                <label class="pull-right btn btn-outline-secondary  btn-view-grid">
-            <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
-         </label>
-                <label class="pull-right btn btn-outline-secondary  btn-view-list">
-           <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
-         </label>
-            </div> -->
-      <div class="dropdown">
-        <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          Filter By
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <!-- <mat-form-field>
-              <mat-datepicker #picker></mat-datepicker>
-              <input type="hidden" [matDatepicker]="picker" placeholder="Choose a date">
-            </mat-form-field> -->
-            <li class="dropdown-item" (click)="picker.open()">Date</li>
-            <li class="dropdown-item">Issue</li>
-          </div>
-        </ul>
+    <!-- <div fxLayoutAlign="center center">
+      <app-headerurls></app-headerurls>
+    </div> -->
+    <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center">
+      <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
+        <button (click)="sortByStatus('0')" [ngClass]="{'active':showReports.completedActive}" name="options" id="option1" autocomplete="off"
+          checked> Completed </button>
+        <button (click)="sortByStatus('1')" [ngClass]="{'active':showReports.inProgressActive}" name="options" id="option2" autocomplete="off">
+          In progress</button>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+        <button (click)="exportManageReports()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
+        <!-- <app-search-compoenent
+      (searchTerm)="filterReportData($event)"
+      ></app-search-compoenent> -->
+        <mat-form-field>
+          <input matInput placeholder="Search" [(ngModel)]="searchReport" (ngModelChange)="onChange($event)">
+        </mat-form-field>
+        <!-- <div class=" text-center button-group btn-group-toggle" data-toggle="buttons">
+                  <label class="pull-right btn btn-outline-secondary  btn-view-grid">
+              <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
+          </label>
+                  <label class="pull-right btn btn-outline-secondary  btn-view-list">
+            <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
+          </label>
+              </div> -->
+        <div class="dropdown">
+          <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Filter By
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <!-- <mat-form-field>
+                <mat-datepicker #picker></mat-datepicker>
+                <input type="hidden" [matDatepicker]="picker" placeholder="Choose a date">
+              </mat-form-field> -->
+              <li class="dropdown-item" (click)="picker.open()">Date</li>
+              <li class="dropdown-item">Issue</li>
+            </div>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
   <br/>
+
   <div class="manage_reports_table" [perfectScrollbar]="config">
     <div class="manage_reports_data">
-      <mat-card fxLayout="column">
+      <mat-card fxLayout="column" class="card_box">
         <div class="reports-header" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
           <div fxFlex="10.7%" class="name-field">
-            <span fxFlex="100%" fxLayoutAlign="start center" class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;
+            <span fxFlex="100%" fxLayoutAlign="start center" class="fb-first-field cursor-p">&nbsp;&nbsp;&nbsp;&nbsp;
               <input fxFlex="5%" class="d-inline" type="checkbox">
               <b>
                 <p fxFlex="100%" class="d-inline" (click)="sortArray('name', 'name_arrow')">Name&nbsp;
@@ -79,31 +67,31 @@
             </span>
           </div>
           <div fxFlex="11%" (click)="sortArray('submitted_at', 'submitted_at_arrow')">
-            <span class="d-inline">Updated &nbsp;
+            <span class="d-inline cursor-p">Updated &nbsp;
               <i *ngIf="!arrows.submitted_at_arrow" class="fa fa-angle-down"></i>
               <i *ngIf="arrows.submitted_at_arrow" class="fa fa-angle-up"></i>
             </span>
           </div>
           <div fxFlex="11%">
-            <span class="d-inline">Email </span>
+            <span class="d-inline cursor-d">Email </span>
           </div>
           <div fxFlex="11%">
-            <span class="d-inline">Phone Number</span>
+            <span class="d-inline cursor-d">Phone Number</span>
           </div>
           <div fxFlex="7%" (click)="sortArray('gender', 'gender_arrow')">
-            <span class="d-inline">Gender&nbsp;
+            <span class="d-inline cursor-p">Gender&nbsp;
               <i *ngIf="!arrows.gender_arrow" class="fa fa-angle-down"></i>
               <i *ngIf="arrows.gender_arrow" class="fa fa-angle-up"></i>
             </span>
           </div>
           <div fxFlex="5%" (click)="sortArray('age', 'age_arrow')">
-            <span class="d-inline">Age &nbsp;
+            <span class="d-inline cursor-p">Age &nbsp;
               <i *ngIf="!arrows.age_arrow" class="fa fa-angle-down"></i>
               <i *ngIf="arrows.age_arrow" class="fa fa-angle-up"></i>
             </span>
           </div>
           <div fxFlex="30%" (click)="sortArray('area', 'area_arrow')">
-            <span class="d-inline">Locality &nbsp;
+            <span class="d-inline cursor-p">Locality &nbsp;
               <i *ngIf="!arrows.area_arrow" class="fa fa-angle-down"></i>
               <i *ngIf="arrows.area_arrow" class="fa fa-angle-up"></i>
             </span>
@@ -116,10 +104,10 @@
                 <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
                   <div fxFlex="10.7%" class="name-data">
                     <span fxLayout="row" fxFlex="100%" fxLayoutAlign="start center" class="d-inline">
-                      <p class="text-muted d-inline">
+                      <!-- <p class="text-muted d-inline">
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
-                      </p>
+                      </p> -->
                       <input type="checkbox">
                       <b>
                         <p class="name-feedback d-inline">{{report.name}}</p>
@@ -243,8 +231,6 @@
       </mat-card>
     </div>
   </div>
-  <br/>
-  <br/>
   <div class="feedback_footer" fxLayout="row" fxLayoutAlign="space-between ">
     <!-- <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls> -->
     <!--   <div class="sendMail-data">
