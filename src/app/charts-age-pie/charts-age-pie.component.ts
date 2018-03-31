@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AgeDetails } from '../model/analytics.model';
-import Chart from 'chart.js';
+import Char from 'chart.js';
 import * as _ from 'underscore';
 import * as moment from 'moment';
+
+
 
 @Component({
   selector: 'app-charts-age-pie',
@@ -11,28 +13,28 @@ import * as moment from 'moment';
 })
 export class ChartsAgePieComponent implements OnInit, OnChanges {
   @Input() ageData: any;
-  range: any;
-  rangeValue: any;
-  Chart: any;
+  // range: any;
+  // rangeValue: any;
+  // Chart: any;
   constructor() { }
 
   ngOnInit() {
-  //   console.log(JSON.stringify(this.ageData));
-  //   setTimeout(() => {
-  //     console.log(JSON.stringify(this.ageData));
-  //     this.range = _.pluck(this.ageData, 'name');
-  //     this.rangeValue = _.pluck(this.ageData, 'value');
-  //     this.displayChartData(this.range, this.rangeValue);
-  // // console.log(range);
+     console.log(JSON.stringify(this.ageData));
+  setTimeout(() => {
+       console.log(JSON.stringify(this.ageData));
+       const range = _.pluck(this.ageData, 'name');
+       const rangeValue = _.pluck(this.ageData, 'value');
+       this.displayChartData(range, rangeValue);
+   console.log(range);
 
-  //   }, 3000);
+     }, 3000);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['ageData']) {
-      this.range = _.pluck(this.ageData, 'name');
-      this.rangeValue = _.pluck(this.ageData, 'value');
-      this.displayChartData(this.range, this.rangeValue);
+      const range = _.pluck(this.ageData, 'name');
+      const rangeValue = _.pluck(this.ageData, 'value');
+      this.displayChartData(range, rangeValue);
       console.log(JSON.stringify(this.ageData));
     }
   }
@@ -41,7 +43,7 @@ export class ChartsAgePieComponent implements OnInit, OnChanges {
     displayChartData(range, rangeValue) {
       // Age Chart
       const agectx = document.getElementById('ageChartCanvas');
-      const ageChart = new Chart(agectx, {
+      const ageChart = new Char(agectx, {
         'type': 'doughnut',
         'data': {
           datasets: [{

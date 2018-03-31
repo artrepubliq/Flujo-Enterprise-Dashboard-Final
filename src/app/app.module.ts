@@ -94,7 +94,6 @@ import { ChartsAssignComponent } from './charts-assign/charts-assign.component';
 import { ChartsProblemCategoryComponent } from './charts-problem-category/charts-problem-category.component';
 import { ChartsStatusComponent } from './charts-status/charts-status.component';
 import { ChartsLoyalityComponent } from './charts-loyality/charts-loyality.component';
-import { CsvService } from 'angular2-json2csv';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -209,7 +208,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
      AccessLevelPopup, DeletefolderDialog], // MediaLocalImagePopupDialog
   providers: [
               // AuthService,
-              CsvService,
               HttpService,
               ValidationService,
               NgxSmartLoaderService,

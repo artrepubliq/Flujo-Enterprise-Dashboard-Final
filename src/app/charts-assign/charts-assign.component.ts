@@ -13,6 +13,14 @@ export class ChartsAssignComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
+    const assignID = _.pluck(this.assign, 'id');
+        const assignName = _.pluck(this.assign, 'name');
+        const assignEmail = _.pluck(this.assign, 'email');
+        const assignCompleted = _.pluck(this.assign, 'completed');
+        const assignInProgress = _.pluck(this.assign, 'in_progress');
+        const assignUnresolved = _.pluck(this.assign, 'unresolved');
+        console.log(assignCompleted);
+      this.displayChartData(assignCompleted, assignInProgress, assignUnresolved, assignEmail);
   }
 
   ngOnChanges(changes: SimpleChanges) {

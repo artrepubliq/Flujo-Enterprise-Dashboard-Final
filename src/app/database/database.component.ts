@@ -6,7 +6,7 @@ import { AppConstants } from '../app.constants';
 import { Element, ElementResult } from '../model/database.model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ElementData } from '@angular/core/src/view';
-import {CsvService} from "angular2-json2csv";
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 @Component({
   selector: 'app-database',
@@ -27,7 +27,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private http: HttpClient, private _csvService: CsvService) {
+  constructor(private http: HttpClient) {
     this.myGroup = new FormGroup({
       email: new FormControl('email')
     });
@@ -44,7 +44,6 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     console.log(this.dataSource);
     this.dataSource.paginator = this.paginator;
-    
   }
 
   async getData() {
@@ -72,7 +71,21 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
   }
 
   generateCSV() {
-    this._csvService.download(this.dataSource.data, 'database');
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      useBom: true,
+      headers: [
+        'Name',
+        'Email',
+        'Phone'
+      ]
+    };
+    const csv = new Angular2Csv(this.dataSource.data, 'My Report', options);
+
   }
 }
 
