@@ -18,6 +18,8 @@ import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { AdminComponent } from '../admin/admin.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-filerepository',
@@ -26,6 +28,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 })
 
 export class FilerepositoryComponent implements OnInit {
+    filteredUserAccessData: any;
+    userAccessLevelObject: any;
     total_size: any;
     total_size_in_mb: any;
     fileName: any;
