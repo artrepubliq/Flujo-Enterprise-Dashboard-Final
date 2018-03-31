@@ -13,6 +13,7 @@ import { IRepositories, IFiles, IResult } from '../model/repositories.model';
 import * as _ from 'underscore';
 import { FileHolder } from 'angular2-image-upload';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
+import { DeletefolderDialog } from '../filerepository/deletefolder.dialog';
 
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
@@ -28,6 +29,7 @@ import { Router } from '@angular/router';
 })
 
 export class FilerepositoryComponent implements OnInit {
+    toggleFileUploader = false;
     filteredUserAccessData: any;
     userAccessLevelObject: any;
     total_size: any;
@@ -61,6 +63,7 @@ export class FilerepositoryComponent implements OnInit {
         private spinnerService: Ng4LoadingSpinnerService,
         public dialog: MatDialog,
         public fileViewDialog: MatDialog,
+        public deleteFolderDialog: MatDialog,
         private alertService: AlertService,
         public adminComponent: AdminComponent,
         public router: Router) {
@@ -384,6 +387,9 @@ export class FilerepositoryComponent implements OnInit {
         this.repositories =  _.sortBy(this.repositories, 'folder');
     }
     /* this is to sort by descending*/
+    uploadFile() {
+        this.toggleFileUploader = !this.toggleFileUploader;
+    }
     sortByFolderNameDesc = () => {
         this.repositories.reverse();
     }
@@ -421,6 +427,49 @@ export class FilerepositoryComponent implements OnInit {
                 },
                 error => {
                     this.alertService.success('File something went wrong successfully');
+                    console.log(error);
+                }
+            );
+    }
+
+    // this is to open dialog when clicked on delete folder icon
+    public deleteFolder(repositoryitem) {
+        console.log(repositoryitem);
+        if (repositoryitem.files.length === 0) {
+            // console.log(repositoryitem.files.length);
+            this.deleteFoldersAndFiles(repositoryitem.folder_id);
+        } else {
+            console.log(repositoryitem);
+            const delFolderdialog = this.deleteFolderDialog.open(DeletefolderDialog, {
+                width: '420px'
+            });
+
+            delFolderdialog.afterClosed().subscribe(result => {
+                console.log('The dialog was closed');
+
+                if (result === true) {
+                    this.deleteFoldersAndFiles(repositoryitem.folder_id);
+                } else {
+                    console.log('i cannot');
+                }
+            });
+        }
+    }
+
+    deleteFoldersAndFiles(folderId) {
+        console.log(folderId);
+        this.spinnerService.show();
+        this.httpClient.delete<Array<IRepositories>>(AppConstants.API_URL + 'flujo_client_deleterepositories/' + folderId)
+            .subscribe(
+                data => {
+                    this.spinnerService.hide();
+                    this.alertService.success('Folder deleted successfully');
+                    this.filtered_repositories = [];
+                    this.getFolders(AppConstants.CLIENT_ID);
+                },
+                error => {
+                    this.spinnerService.hide();
+                    this.alertService.warning('something went wrong');
                     console.log(error);
                 }
             );
@@ -542,5 +591,9 @@ export class FileViewerPopUp {
         this.file_path = 'http://' + this.data.file;
         this.file_name = this.data.file_name;
         this.file_extension = this.data.file_extension.toLowerCase();
+    }
+
+    public closeWindow(): void {
+        this.dialogRef.close();
     }
 }

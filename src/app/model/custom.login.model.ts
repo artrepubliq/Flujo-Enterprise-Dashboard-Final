@@ -5,6 +5,7 @@ export interface IcustomLoginModelDetails {
     user_id: string;
     can_chat: boolean;
     chatcamp_accesstoken: any;
+    email_verified?: string;
 }
 
 export interface IPostChatCampModel {
