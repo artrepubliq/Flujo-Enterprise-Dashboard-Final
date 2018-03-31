@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, SimpleChanges, Inject, HostListener,EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, SimpleChanges, Inject, HostListener, EventEmitter, Input, Output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { AlertModule, AlertService } from 'ngx-alerts';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatButtonModule } from '@angular/material';
-import { IGalleryObject, IGalleryImageItem, IAlbumImageUpdate, IBase64Images } from '../model/gallery.model';
+import { IGalleryObject, IGalleryImageItem, IAlbumImageUpdate, IBase64Images, IUploadImages } from '../model/gallery.model';
 import { AppConstants } from '../app.constants';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -23,6 +23,7 @@ import { FileHolder } from 'angular2-image-upload';
 })
 
 export class MediaComponent implements OnInit {
+  toggleFileUploader: boolean = false;
   unUsedActiveButton: boolean;
   isViewUsedUnUsedImages = false;
   usedUnUsedMedia: mediaDetail[];
@@ -46,7 +47,7 @@ export class MediaComponent implements OnInit {
   public allAlbumImageIdsArray;
   public usedImageIdsArray;
   public unUsedImageIdsArray;
-  uploadImagesForm: any;
+  uploadImagesObject: IUploadImages;
   dragAreaClass = 'dragarea';
   showHide: boolean;
   // submitAlbumData: FormGroup;
@@ -116,16 +117,6 @@ export class MediaComponent implements OnInit {
   public dragging: boolean;
   constructor(public dialog: MatDialog, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService) {
-
-    this.uploadImagesForm = this.formBuilder.group({
-      image: [null],
-      client_id: [null]
-    });
-    // this.submitAlbumData = this.formBuilder.group({
-    //   title: ['', Validators.required],
-    //   images: [null],
-    //   client_id: [null]
-    // });
     this.albumItemForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -133,6 +124,7 @@ export class MediaComponent implements OnInit {
     });
   }
   ngOnInit() {
+    this.uploadImagesObject = <IUploadImages>{};
     this.ishide = true;
     this.getMediaGalleryData();
     this.getAlbumGallery();
@@ -159,7 +151,7 @@ export class MediaComponent implements OnInit {
         };
       }
       try {
-        this.uploadImagesForm.get('image').setValue(imageDetail);
+        this.uploadImagesObject.image = imageDetail;
       } catch (e) {
 
       }
@@ -186,17 +178,17 @@ export class MediaComponent implements OnInit {
   // this function used to upload the image or multiple images
   onUploadImages(body: any) {
     this.spinnerService.show();
-    this.uploadImagesForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    const formModel = this.uploadImagesForm.value;
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postgallery', formModel).subscribe(
-      res => {
 
-        this.getMediaGalleryData();
+    this.uploadImagesObject.client_id = AppConstants.CLIENT_ID;
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postgallery', this.uploadImagesObject).subscribe(
+      res => {
+        this.uploadImagesObject = <IUploadImages>{};
         this.successMessagebool = true;
         this.spinnerService.hide();
-        this.uploadImagesForm = null;
+
         this.successMessagebool = true;
         this.alertService.success('Images uploaded successfully');
+        this.getMediaGalleryData();
 
       },
       (err: HttpErrorResponse) => {
@@ -625,6 +617,11 @@ export class MediaComponent implements OnInit {
     this.usedUnUsedMedia = this.unUsedMediaData;
     console.log(this.unUsedMediaData);
   }
+
+  uploadFile() {
+    this.toggleFileUploader = !this.toggleFileUploader;
+  }
+
 }
 
 

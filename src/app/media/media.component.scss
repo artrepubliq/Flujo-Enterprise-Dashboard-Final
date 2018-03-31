@@ -333,3 +333,17 @@ input {
   color: #ffffff;
   background-color: #369
 }
+
+.show_upload {
+  margin-top: -40px;
+}
+
+.ShowFileUploader {
+  .toggleShow_uploader {
+    height: auto;
+    opacity: 1;
+  }
+  .show_upload {
+    margin-top: -15px;
+  }
+}

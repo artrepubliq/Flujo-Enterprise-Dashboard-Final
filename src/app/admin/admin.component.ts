@@ -12,6 +12,8 @@ import {MatIconModule} from '@angular/material/icon';
 
 import { IloggedinUsers } from '../model/createUser.model';
 import { CreateUserComponentComponent } from '../create-user-component/create-user-component.component';
+import { Title } from '@angular/platform-browser';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Component({
   templateUrl: './admin.component.html',
@@ -20,19 +22,34 @@ import { CreateUserComponentComponent } from '../create-user-component/create-us
 })
 export class AdminComponent implements OnInit {
   isUserActive: boolean;
+  CurrentPageName: string;
   activeUsers: Array<IloggedinUsers>;
   loggedinUsersList: Array<IloggedinUsers>;
   userList: Array<IloggedinUsers>;
-  public nickName: string;
+  public name: string;
   createUserList: CreateUserComponentComponent;
  loggedinIds: Array<string>;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
-    public mScrollbarService: MalihuScrollbarService) {
+    public mScrollbarService: MalihuScrollbarService,
+    titleService: Title, router: Router, activatedRoute: ActivatedRoute) {
+
+      router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          const title = this.getTitle(router.routerState, router.routerState.root).join('-');
+          if (title) {
+            // console.log('title', title);
+            this.CurrentPageName = title;
+            titleService.setTitle(title);
+          } else {
+            this.CurrentPageName = '';
+          }
+        }
+      });
     this.getUserList();
   }
   ngOnInit(): void {
-    this.nickName = JSON.parse(localStorage.getItem('nickname'));
+    this.name = localStorage.getItem('name');
     this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     this.getUserList();
@@ -95,5 +112,17 @@ export class AdminComponent implements OnInit {
         console.log(error);
       }
       );
+  }
+
+  getTitle(state, parent) {
+    const data = [];
+    if (parent && parent.snapshot.data && parent.snapshot.data.title) {
+      data.push(parent.snapshot.data.title);
+    }
+
+    if (state && parent) {
+      data.push(... this.getTitle(state, state.firstChild(parent)));
+    }
+    return data;
   }
 }

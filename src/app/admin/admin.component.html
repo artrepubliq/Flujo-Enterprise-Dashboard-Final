@@ -28,7 +28,7 @@
   <div class="admin-website mr-auto">
     <p class="title">
       <span>DVB Website : </span>
-      <span class="page-title">CurrentPageName</span>
+      <span class="page-title">{{CurrentPageName}}</span>
     </p>
   </div>
   <ul class="nav top-nav">
@@ -91,7 +91,10 @@
             <i class="fa fa-external-link"></i>Social links update</a>
         </li>
         <li>
-
+          <a routerLink="./module" routerLinkActive="active" class="activity">
+            <i class="fa fa-edit"></i>Create Module</a>
+        </li>
+        <li>
           <a routerLink="./biography" routerLinkActive="active" class="activity">
             <i class="fa fa-user-plus"></i>Biography</a>
         </li>
@@ -99,22 +102,14 @@
           <a routerLink="./module" routerLinkActive="active" class="activity">
             <i class="fa fa-edit"></i>Create Module</a>
         </li>
-
-            <a routerLink="./biography" routerLinkActive="active" class="activity">
-              <i class="fa fa-user-plus"></i>Biography</a>
-          </li>
-          <li>
-            <a routerLink="./module" routerLinkActive="active" class="activity">
-              <i class="fa fa-edit"></i>Create Module</a>
-          </li>
-          <li>
-            <a routerLink="./termsnconditions" routerLinkActive="active" class="activity">
-              <i class="fa fa-file-o"></i>Terms & Conditions</a>
-          </li>
-          <li>
-            <a routerLink="./privacynpolicy" routerLinkActive="active" class="activity">
-              <i class="fa fa-file-text-o"></i>Privacy & Policy</a>
-          </li>
+        <li>
+          <a routerLink="./termsnconditions" routerLinkActive="active" class="activity">
+            <i class="fa fa-file-o"></i>Terms & Conditions</a>
+        </li>
+        <li>
+          <a routerLink="./privacynpolicy" routerLinkActive="active" class="activity">
+            <i class="fa fa-file-text-o"></i>Privacy & Policy</a>
+        </li>
 
         <li>
           <a routerLink="./changepassword" routerLinkActive="active" class="activity">

@@ -205,12 +205,18 @@ input{
     background: transparent;
 }
 .feedback_table{
-    height: calc(100vh - 350px);
+    height: calc(100vh - 250px);
     position: relative;
+    padding: 8px;
+    // .feedback-data{
+    //     padding: 0 0.7rem;
+    // }
 }
 .feedback_footer {
-    position: absolute;
-    top: 100%;
-    margin-top: 30px;
-    width: 100%;
+    // position: absolute;
+    // top: 100%;
+    // width: 100%;
+    margin-top: 15px;
 }
+
+    

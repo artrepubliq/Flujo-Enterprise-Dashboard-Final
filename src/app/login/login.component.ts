@@ -12,7 +12,7 @@ import { AlertModule, AlertService } from 'ngx-alerts';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { Router } from '@angular/router';
 import { Keepalive } from '@ng-idle/keepalive';
-import { IcustomLoginModelDetails } from '../model/custom.login.model';
+import { IcustomLoginModelDetails, IPostChatCampModel } from '../model/custom.login.model';
 import { error } from 'util';
 import { IHttpResponse } from '../model/httpresponse.model';
 @Component({
@@ -53,8 +53,8 @@ export class LoginComponent implements OnInit {
           // this.loginAuthService.setLoggedInCustom(true);
           this.loginAuthService._setSession(data);
           if (data.can_chat === false) {
-            this.redirectUrlForChatCamp();
-            console.log('hiii');
+           this.redirectUrlForChatCamp(data);
+
           }
           this.alertService.success('User logged in successfully');
         }else {
@@ -63,8 +63,19 @@ export class LoginComponent implements OnInit {
         }
       });
   }
-  redirectUrlForChatCamp = () => {
-    this.httpClient.post<IcustomLoginModelDetails>(AppConstants.API_URL + 'flujo_client_getchatservice', localStorage.getItem('id_token'));
-    return;
+  redirectUrlForChatCamp = (data: IcustomLoginModelDetails) => {
+    let chatCampPostObject: IPostChatCampModel;
+    chatCampPostObject = <IPostChatCampModel>{};
+    chatCampPostObject.chatcamp_accesstoken = data.chatcamp_accesstoken;
+    chatCampPostObject.user_id = data.user_id;
+    this.httpClient.post<IcustomLoginModelDetails>(AppConstants.API_URL + 'flujo_client_postchatservice', chatCampPostObject)
+    .subscribe(
+      chatResponse => {
+        console.log(chatResponse);
+      },
+      chatError => {
+        console.log(chatError);
+      }
+    );
   }
 }

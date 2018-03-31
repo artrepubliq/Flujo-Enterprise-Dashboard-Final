@@ -1,3 +1,4 @@
+
 <ng4-loading-spinner></ng4-loading-spinner>
 <div class="analytics_block" fxLayout="column" fxLayoutGap="25px">
   <!-- Analytics Header -->
@@ -9,13 +10,13 @@
 
         <mat-form-field color="accent" fxFlex>
           <mat-label>Min date</mat-label>
-          <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" [disabled]="inputDisabled">
+          <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
           <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
         </mat-form-field>
         <mat-form-field color="accent" fxFlex>
           <mat-label>Max date</mat-label>
-          <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" [disabled]="inputDisabled">
+          <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
           <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
         </mat-form-field>
@@ -55,6 +56,7 @@
             <div fxLayout="column" fxLayoutAlign="end center">
               <div class="tproblems" fxFlex>{{problem.count}}</div>
               <div class="category" fxFlex>{{problem.category | uppercase}}</div>
+              
             </div>
           </div>
         </mat-card-content>
@@ -76,8 +78,11 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <ngx-charts-pie-grid [scheme]="colorScheme" [results]="gender" (select)="onSelect($event)">
-        </ngx-charts-pie-grid>
+        <div>
+          <canvas id="genderChartCanvas">
+            {{genderChart}}
+          </canvas>
+        </div>
 
       </div>
       <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
@@ -93,10 +98,11 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
-          [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
-        </ngx-charts-bar-vertical-stacked>
+        <div>
+          <canvas id="assignChartCanvas">
+            {{assignChart}}
+          </canvas>
+        </div>
       </div>
 
     </div>
@@ -107,11 +113,13 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-
-          <app-charts-age-pie [ageData]="ageData"></app-charts-age-pie>
+          <canvas id="ageChartCanvas">
+            {{ageChart}}
+          </canvas>
 
       </div>
-      <div class="chart_footer">
+      <div class="chart_footer" *ngFor="let item of range">
+        <p>{{item}} item</p>
 
       </div>
     </div>
@@ -124,55 +132,46 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
 
-      <div class="chart_body">     
-              <!-- {{color[0]}} -->
-                  <div fxLayout="row" class="status-bars" fxLayoutAlign="space-between end">
-                    <div fxFlex="30" class="completed">
-                      <p class="completed">Completed</p>
-                      <div fxLayout="row" fxLayoutAlign="space-between start">
-                          <span [style.color]='colors[0]'>325</span>
-                          <span class="muted">325</span>
-                      </div><br/>  
-                      <section class="example-section">
-                        <mat-progress-bar
-                            class="example-margin"
-                            [mode]="mode"
-                            [value]="value"
-                            [bufferValue]="bufferValue">
-                        </mat-progress-bar>
-                      </section>
-                    </div>
-                    <div fxFlex="30" class="inprogress">
-                      <p class="inprogress">Inprogress</p>
-                      <div fxLayout="row" fxLayoutAlign="space-between start">
-                        <span [style.color]='colors[1]'>325</span>
-                        <span class="muted">325</span>
-                      </div><br/>  
-                      <section class="example-section">
-                        <mat-progress-bar
-                            class="example-margin"
-                            [mode]="mode"
-                            [value]="value"
-                            [bufferValue]="bufferValue">
-                        </mat-progress-bar>
-                      </section>
-                    </div>
-                    <div fxFlex="30" class="unresolved">
-                      <p class="unresolved">Unresolved</p>
-                      <div fxLayout="row" fxLayoutAlign="space-between start">
-                          <span [style.color]='colors[2]'>325</span>
-                          <span class="muted">325</span>
-                      </div><br/>  
-                      <section class="example-section">
-                        <mat-progress-bar
-                            class="example-margin"
-                            [mode]="mode"
-                            [value]="value"
-                            [bufferValue]="bufferValue">
-                        </mat-progress-bar>
-                      </section>
-                    </div>
-                  </div>
+      <div class="chart_body">
+        <!-- {{color[0]}} -->
+        <div fxLayout="row" class="status-bars" fxLayoutAlign="space-between end" *ngFor="let status of status_reports">
+          <div fxFlex="30" class="completed">
+            <p class="completed">Completed</p>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <span [style.color]='colors[0]'>{{status.completed}}</span>
+
+            </div>
+            <br/>
+            <section class="example-section">
+              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+              </mat-progress-bar>
+            </section>
+          </div>
+          <div fxFlex="30" class="inprogress">
+            <p class="inprogress">Inprogress</p>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <span [style.color]='colors[1]'>{{status.in_progress}}</span>
+
+            </div>
+            <br/>
+            <section class="example-section">
+              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+              </mat-progress-bar>
+            </section>
+          </div>
+          <div fxFlex="30" class="unresolved">
+            <p class="unresolved">Unresolved</p>
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <span [style.color]='colors[2]'>{{status.unresolved}}</span>
+
+            </div>
+            <br/>
+            <section class="example-section">
+              <mat-progress-bar class="example-margin" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+              </mat-progress-bar>
+            </section>
+          </div>
+        </div>
       </div>
     </div>
     <div fxFlex class="chart_card">
@@ -181,7 +180,11 @@
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-
+        <div>
+          <canvas id="areaChartCanvas">
+            {{areaChart}}
+          </canvas>
+        </div>
       </div>
     </div>
   </div>

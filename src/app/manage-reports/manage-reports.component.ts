@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, ViewChild, OnDestroy  } from '@angular/core';
 import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
@@ -6,7 +6,8 @@ import { ICreateUserDetails } from '../model/createUser.model';
 import { IArrows } from '../model/arrows.model';
 
 import CSVExportService from 'json2csvexporter';
-import { FormControl } from '@angular/forms';
+import {MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort} from '@angular/material';
+import { FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
@@ -17,8 +18,6 @@ import { IshowReports } from '../model/showRepots.model';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-
-
 @Component({
     templateUrl: './manage-reports.component.html',
     styleUrls: ['./manage-reports.component.scss']
@@ -28,7 +27,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy {
     showReports: IshowReports;
     assignedReportId: any;
-
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     reportProblemData: any;
     reportProblemData2: any;
     filterReportProblemData: any;
@@ -43,6 +43,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     reportAssignedToUserName: string;
     reportMoveToOption: string;
     reportRemarksOption: string;
+    reportCsvMail: FormGroup;
     usersListOptions = [];
     moveToListOptions = ['In Progress', 'Completed', 'Pending/UnResolved'];
     RemarksListOptions = ['constituency', 'othersOne', 'otherstwo', 'othersthree'];
@@ -51,7 +52,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     FilteredRemarksListOptions: Observable<string[]>;
     arrows: IArrows;
     private filterSubject: Subject<string> = new Subject<string>();
-
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
         private alertService: AlertService
@@ -217,7 +217,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                     this.reportProblemData = data;
                     this.reportProblemData2 = data;
                     this.filterReportProblemData = data;
-                    console.log(data);
+                    // console.log(data);
                 },
                 error => {
                     console.log(error);
@@ -264,14 +264,14 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     sortArray = (table_cell, arrow) => {
 
         if (this.arrows[arrow] === false) {
-            this.reportProblemData = _.sortBy(this.reportProblemData, table_cell).reverse();
+            this.filterReportProblemData = _.sortBy(this.filterReportProblemData, table_cell).reverse();
             this.arrows[arrow] = true;
         } else {
-            this.reportProblemData = _.sortBy(this.reportProblemData, table_cell);
+            this.filterReportProblemData = _.sortBy(this.filterReportProblemData, table_cell);
             this.arrows[arrow] = false;
         }
     }
-    sortByStatus = (reportStatus) => {
+    sortByStatus = (reportStatus, statusName, ) => {
         if (reportStatus === '0') {
             this.showReports.completedActive = true;
             this.showReports.inProgressActive = false;
@@ -280,13 +280,10 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             this.showReports.completedActive = false;
             this.showReports.inProgressActive = true;
         }
-        // this.showReports.completedActive = !this.showReports.completedActive;
-        // this.showReports.inProgressActive = !this.showReports.inProgressActive;
-        // console.log(this.showReports.completedActive);
-        // console.log(this.showReports.inProgressActive);
-        this.reportProblemData = this.reportProblemData2;
-        this.reportProblemData = this.reportProblemData.filter(reportData => reportData.report_status === reportStatus);
-        console.log(this.reportProblemData);
+
+        this.filterReportProblemData = this.reportProblemData;
+        this.filterReportProblemData = this.reportProblemData.filter(reportData => reportData.report_status === reportStatus);
+
     }
 
     public onChange2(searchTerm: string): void {
@@ -300,9 +297,11 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                 (item.area.includes(searchTerm))
         ));
     }
+
     public onChange(searchitem: string): void {
         this.filterSubject.next(searchitem);
     }
+
 
     public ngOnDestroy(): void {
         this.filterSubject.complete();

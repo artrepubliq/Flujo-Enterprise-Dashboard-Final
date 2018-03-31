@@ -30,7 +30,9 @@
         "../widget-example/static/js/main.18774add.js",
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
-        "../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"
+        "../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js",
+        "../node_modules/chart.js/dist/Chart.min.js",
+        "../node_modules/underscore/underscore.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

@@ -1,20 +1,20 @@
-export interface IGalleryObject{
-    id:string;
+export interface IGalleryObject {
+    id: string;
     client_id?: string;
     title: string;
     images: IGalleryImageItem[];
   }
-  export interface IGalleryImageItem{
+  export interface IGalleryImageItem {
     id: string;
-    description?:string;
-    title?:string;
-    order?:string;
+    description?: string;
+    title?: string;
+    order?: string;
   }
 
 
-  //interface for update the single image details updation
+  // interface for update the single image details updation
 
-  export interface IAlbumImageUpdate{
+  export interface IAlbumImageUpdate {
     id: string;
     title: string;
     description: string;
@@ -22,8 +22,14 @@ export interface IGalleryObject{
     order: string;
   }
 
-  //base 64 images interface
-  export interface IBase64Images{
+  // base 64 images interface
+  export interface IBase64Images {
     id: string;
     image: string;
+  }
+
+  // interface to upload the images
+  export interface IUploadImages {
+    image: any;
+    client_id: string;
   }
