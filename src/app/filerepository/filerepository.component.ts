@@ -28,6 +28,7 @@ import { Router } from '@angular/router';
 })
 
 export class FilerepositoryComponent implements OnInit {
+    toggleFileUploader= false;
     filteredUserAccessData: any;
     userAccessLevelObject: any;
     total_size: any;
@@ -382,6 +383,9 @@ export class FilerepositoryComponent implements OnInit {
     /* this is for sorting folders */
     sortByFolderName = () => {
         this.repositories =  _.sortBy(this.repositories, 'folder');
+    }
+    uploadFile() {
+        this.toggleFileUploader = !this.toggleFileUploader;
     }
     /* this is to sort by descending*/
     sortByFolderNameDesc = () => {

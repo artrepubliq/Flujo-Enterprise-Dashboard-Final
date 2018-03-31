@@ -158,8 +158,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsAssignComponent,
     ChartsProblemCategoryComponent,
     ChartsStatusComponent,
-    ChartsLoyalityComponent
-    ChartsGenderComponent
+    ChartsLoyalityComponent,
     EmptyAccessLevelDialog,
     AccessdeniedComponent
   ],
