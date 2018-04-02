@@ -13,7 +13,7 @@ import { RoleGuardService } from './auth/role-guard.service';
 import { UseraccessServiceService } from './service/useraccess-service.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PagesComponent } from './pages/pages.component'; // MediaLocalImagePopupDialog
+import { PagesComponent, MediaLocalImagePopupDialog } from './pages/pages.component';
 import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -101,6 +101,7 @@ import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
+import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -160,8 +161,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
     ChartAgeComponent,
+    MediaLocalImagePopupDialog,
     SmstemplateComponent,
-    EmailTemplateComponent
+    EmailTemplateComponent,
+    ChooseplatformComponent
   ],
   imports: [
     BrowserModule,
@@ -214,7 +217,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog], // MediaLocalImagePopupDialog
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog],
   providers: [
               // AuthService,
               HttpService,
