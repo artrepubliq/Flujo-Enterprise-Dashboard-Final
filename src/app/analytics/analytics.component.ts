@@ -67,7 +67,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
       const range = _.pluck(this.ageData, 'name');
       const rangeValue = _.pluck(this.ageData, 'value');
     } else {
-      console.log('Age dat not available');
+      console.log('Age data not available');
     }
   }
 
