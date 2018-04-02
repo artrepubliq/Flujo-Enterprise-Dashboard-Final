@@ -120,10 +120,9 @@ export class AdminComponent implements OnInit {
           this.activeUsers =  _.filter(this.activeUsers, (filteredactiveUserData) => {
             return filteredactiveUserData.id !== localStorage.getItem('user_id');
           });
-        }else {
+        } else {
            console.log('There are no active users');
         }
-        console.log(this.activeUsers);
       },
       error => {
         console.log(error);
@@ -149,8 +148,7 @@ export class AdminComponent implements OnInit {
           _.each(data, item => {
             if (item.user_id === localStorage.getItem('user_id')) {
                 this.userAccessLevelObject = item.access_levels;
-                console.log(this.userAccessLevelObject);
-            }else {
+            } else {
               // this.userAccessLevelObject = null;
             }
           });

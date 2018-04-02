@@ -22,18 +22,19 @@ import { IHttpResponse } from '../model/httpresponse.model';
 })
 export class LoginComponent implements OnInit {
   chatCampUrlData: any;
+  EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   loginForm: any;
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private loginAuthService: LoginAuthService) {
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
-      'email': ['', Validators.pattern('^[a-zA-Z \-\']+')],
+      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'password': ['', Validators.required],
     });
     if (this.loginAuthService.authenticated) {
       this.router.navigate(['/admin']);
-    }else {
+    } else {
       this.router.navigate(['/login']);
     }
   }
@@ -57,7 +58,7 @@ export class LoginComponent implements OnInit {
 
           }
           this.alertService.success('User logged in successfully');
-        }else {
+        } else {
           this.spinnerService.hide();
           this.alertService.danger('Please enter valid details');
         }
