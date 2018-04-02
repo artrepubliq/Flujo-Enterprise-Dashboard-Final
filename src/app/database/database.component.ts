@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { AppConstants } from '../app.constants';
 import { Element, ElementResult } from '../model/database.model';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, EmailValidator } from '@angular/forms';
 import { ElementData } from '@angular/core/src/view';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
@@ -20,7 +20,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line:member-ordering
   displayedColumns = ['id', 'name', 'email', 'phone'];
   dataSource = new MatTableDataSource<ElementResult>();
-  myGroup: FormGroup;
+  sendEmail: FormGroup;
   dataCount: number;
   fields = ['ID', 'NAME', 'EMAIL', 'PHONE'];
 
@@ -28,7 +28,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private http: HttpClient) {
-    this.myGroup = new FormGroup({
+    this.sendEmail = new FormGroup({
       email: new FormControl('email')
     });
   }
@@ -90,25 +90,3 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
 }
 
 
-//  ELEMENT_DATA: Element[] = [
-//   { name: 'Hydrogen', email: 'krishna@flujo.in', phone: '9000922211'},
-//   { name: 'Helium', email: 'mahesh@flujo.in', phone: '9030924614'},
-//   { name: 'Lithium', email: 'ajay@flujo.in', phone: '9030924614'},
-//   { name: 'Beryllium', email: 'santosh@flujo.in', phone: '9030924614'},
-//   { name: 'Boron', email: 'harish@flujo.in', phone: '9030924614'},
-//   { name: 'Carbon', email: 'keerthan@flujo.in', phone: '9030924614'},
-//   { name: 'Nitrogen', email: 'himakar@flujo.in', phone: '9030924614'},
-//   { name: 'Oxygen', email: 'yogesh@flujo.in', phone: '9030924614'},
-//   { name: 'Fluorine', email: 'goutham@flujo.in', phone: '9030924614'},
-//   { name: 'Neon', email: 'abhilash@flujo.in', phone: '9030924614'},
-//   { name: 'Sodium', email: 'abhiram@flujo.in', phone: '9030924614'},
-//   { name: 'Magnesium', email: 'pradeep@flujo.in', phone: '9030924614'},
-//   { name: 'Aluminum', email: 'krishna@flujo.in', phone: '9030924614'},
-//   { name: 'Silicon', email: 'krishna@flujo.in', phone: '9030924614'},
-//   { name: 'Phosphorus', email: 'krishna@flujo.in', phone: '9030924614'},
-//   { name: 'Sulfur', email: 'krishna@flujo.in', phone: '9030924614'},
-//   { name: 'Chlorine', email: 'krishna@flujo.in', phone: '9030924614'},
-//   { name: 'Argon', email: 'krishna@flujo.in', phone: '9030924614'},
-//   { name: 'Potassium', email: 'krishna@flujo.in', phone: '9030924614'},
-//   { name: 'Calcium', email: 'krishna@flujo.in', phone: '9030924614'},
-// ];

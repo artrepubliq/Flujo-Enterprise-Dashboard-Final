@@ -66,7 +66,6 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     if (changes['ageData']) {
       const range = _.pluck(this.ageData, 'name');
       const rangeValue = _.pluck(this.ageData, 'value');
-      //this.displayChartData(range, rangeValue);
     } else {
       console.log('Age dat not available');
     }
@@ -185,7 +184,6 @@ export class AnalyticsComponent implements OnInit, OnChanges {
             }
           }
         });
-        
       },
       error => {
         this.spinnerService.hide();
