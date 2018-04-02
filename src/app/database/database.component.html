@@ -53,9 +53,9 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <div class="sendMail-data form-group">
-      <form fxLayout="row" fxLayoutGap="15px" [formGroup]="myGroup" (submit)="feedbackCsvMailSubmit(feedbackCsvMail.value)">
+      <form fxLayout="row" fxLayoutGap="15px" [formGroup]="sendEmail" (submit)="feedbackCsvMailSubmit(feedbackCsvMail.value)">
         <div class="input_box p-rel">
-          <input formControlName="email" id="email" placeholder="Enter email">
+          <input formControlName="email" id="email" placeholder="Enter email" email="true">
           <!-- <div  class="form-error-msg">
             enter valid email
           </div> -->

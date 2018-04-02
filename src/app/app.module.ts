@@ -99,6 +99,9 @@ import { ChartsStatusComponent } from './directives/charts-status/charts-status.
 import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
+import { SmstemplateComponent } from './smstemplate/smstemplate.component';
+import { EmailTemplateComponent } from './email-template/email-template.component';
+import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -158,7 +161,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
     ChartAgeComponent,
-    MediaLocalImagePopupDialog
+    MediaLocalImagePopupDialog,
+    SmstemplateComponent,
+    EmailTemplateComponent,
+    ChooseplatformComponent
   ],
   imports: [
     BrowserModule,
