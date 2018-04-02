@@ -6,7 +6,7 @@ import { AppConstants } from '../app.constants';
 import { Element, ElementResult } from '../model/database.model';
 import { FormGroup, FormControl, EmailValidator } from '@angular/forms';
 import { ElementData } from '@angular/core/src/view';
-import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { Angular2Csv } from 'angular2-csv';
 
 @Component({
   selector: 'app-database',

@@ -29,9 +29,9 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
     MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
-    MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, 
+    MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
     MatNativeDateModule, MatExpansionModule, DateAdapter,
-    MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, 
+    MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule,
     MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
@@ -92,16 +92,15 @@ import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { DatabaseComponent } from './database/database.component';
-
 import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.component';
 import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
 import { ChartsProblemCategoryComponent } from './directives//charts-problem-category/charts-problem-category.component';
 import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
 import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
-
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
-
+import { SmstemplateComponent } from './smstemplate/smstemplate.component';
+import { EmailTemplateComponent } from './email-template/email-template.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -160,7 +159,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsLoyalityComponent,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
-    ChartAgeComponent
+    ChartAgeComponent,
+    SmstemplateComponent,
+    EmailTemplateComponent
   ],
   imports: [
     BrowserModule,

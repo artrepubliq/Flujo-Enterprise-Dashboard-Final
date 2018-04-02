@@ -42,12 +42,14 @@ export class ProfileComponent implements OnInit {
     this.getProfileDetails();
   }
   PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
+  EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   createForm = () => {
     this.form = this.formBuilder.group({
       company_name: ['', Validators.required],
       website_url: ['', Validators.required],
       mobile_number: ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       client_id: localStorage.getItem('client_id'),
+      email: ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       // avatar: null
     });
   }
@@ -159,7 +161,7 @@ export class ProfileComponent implements OnInit {
   getProfileDetails = () => {
     this.loading = true;
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + 'flujo_client_profile/' + AppConstants.CLIENT_ID)
+    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getprofile/' + AppConstants.CLIENT_ID)
         .subscribe(
           data => {
             this.profileImageDetails = data;
@@ -213,6 +215,7 @@ export class ProfileComponent implements OnInit {
       this.profileImage = profileData.avatar;
       this.form.controls['company_name'].setValue(profileData.company_name);
       this.form.controls['website_url'].setValue(profileData.website_url);
+      this.form.controls['email'].setValue(profileData.email);
       this.form.controls['mobile_number'].setValue(profileData.mobile_number);
       // this.form.controls['slogan_text'].setValue(profileData.slogan_text);
       // this.form.controls['avatar'].setValue(profileData);

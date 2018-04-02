@@ -26,7 +26,7 @@ import { Router } from '@angular/router';
 
 export class MediaComponent implements OnInit {
   uploadImagesForm: FormGroup;
-  toggleFileUploader: boolean = false;
+  toggleFileUploader = false;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   unUsedActiveButton: boolean;
@@ -139,13 +139,11 @@ export class MediaComponent implements OnInit {
       order: ['', Validators.required]
     });
     if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
       this.userRestrict();
     } else {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
           resp => {
-            console.log(resp);
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
@@ -182,15 +180,13 @@ export class MediaComponent implements OnInit {
       if (this.adminComponent.userAccessLevelData[iterate].name === 'Media Management' && this.adminComponent.userAccessLevelData[iterate].enable) {
         this.filteredUserAccessData = item;
       } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
+
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/media']);
+      this.router.navigate(['admin/media']);
     }else {
       this.router.navigate(['/accessdenied']);
-      console.log('else');
     }
   }
   selectMedia(event) {

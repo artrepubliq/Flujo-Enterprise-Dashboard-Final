@@ -92,7 +92,7 @@ export class ProblemCategoryComponent implements OnInit {
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/problemcategory']);
+      this.router.navigate(['admin/problemcategory']);
     }else {
       this.router.navigate(['/accessdenied']);
       console.log('else');
