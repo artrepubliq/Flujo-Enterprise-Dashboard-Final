@@ -9,35 +9,40 @@ import * as _ from 'underscore';
 })
 export class ChartAgeComponent implements OnChanges {
   @Input() ageData: any;
+  // myDoughnutChart: any;
   constructor() { }
+
+  // ngOnInit = () => {
+  //   const range = _.pluck(this.ageData, 'name');
+  //   const rangeValue = _.pluck(this.ageData, 'value');
+  //   console.log(range, rangeValue);
+  //   this.displayChartData(range, rangeValue);
+  // }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['ageData']) {
-      // console.log(this.ageData);
       const range = _.pluck(this.ageData, 'name');
       const rangeValue = _.pluck(this.ageData, 'value');
-      console.log(range, rangeValue);
-
-      this.displayChartData();
+      this.displayChartData(range, rangeValue);
+    } else {
+      console.log('Age dat not available');
     }
   }
 
-  displayChartData() {
+  displayChartData(range, rangeValue) {
     const agectx = document.getElementById('ageChartCanvas');
-    const myDoughnutChart = new Chart(agectx, {
+    const myAgeChart = new Chart(agectx, {
       'type': 'pie',
       'data': {
         datasets: [{
-            data: [10, 20, 30]
+            data: range
         }],
         // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
+        labels: rangeValue
       }
     });
+    console.log(myAgeChart + 'test on changes');
+    // console.log(this.myDoughnutChart);
   }
 
 }
