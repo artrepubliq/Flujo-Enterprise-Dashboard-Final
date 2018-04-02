@@ -20,7 +20,7 @@ export class ChartsAssignComponent implements OnChanges {
         const assignCompleted = _.pluck(this.assign, 'completed');
         const assignInProgress = _.pluck(this.assign, 'in_progress');
         const assignUnresolved = _.pluck(this.assign, 'unresolved');
-        console.log(assignCompleted);
+        // console.log(assignCompleted);
       this.displayChartData(assignCompleted, assignInProgress, assignUnresolved, assignEmail);
     }
   }
