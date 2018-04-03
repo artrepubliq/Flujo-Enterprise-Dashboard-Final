@@ -45,7 +45,9 @@
     </div>
 
   </div>
-
+<div>
+  <p>Total count: {{changemakerData2.length}}</p>
+</div>
   <div class="changemaker_table" [perfectScrollbar]="config">
     <div class="change_data">
       <div *ngFor="let report of changemakerData2 | paginate: { itemsPerPage: 10, currentPage: p }" class="link-row" fxLayout.xs="column"
