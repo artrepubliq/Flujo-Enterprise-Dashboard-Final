@@ -89,16 +89,15 @@
           <input type="text" id="component_order" placeholder="Page Order" formControlName="component_order">
         </div>
       </div>
-
       <!-- Web Description Block -->
-      <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+      <div class="input_box" fxLayout="column" fxLayoutGap="12px" *ngIf="webEditor">
         <label for="web_description">Web Description</label>
         <ck-editor fxFlex name="editor1" formControlName="web_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
         <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
       </div>
 
       <!-- App Description Block -->
-      <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+      <div class="input_box" fxLayout="column" fxLayoutGap="12px" *ngIf="appEditor">
         <label for="app_description">App Description</label>
         <ck-editor fxFlex name="editor1" formControlName="app_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
         <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
@@ -108,7 +107,7 @@
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
         <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
 
-        <button type="submit" [disabled]="form.invalid || loading" class="button_submit" mat-button>{{button_text}}
+        <button type="submit" class="button_submit" mat-button>{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
       </div>
@@ -118,6 +117,7 @@
 
 
   <!-- ====== Pages Table ======= -->
+  
   <div *ngIf="isTableView">
     <div>
       <table class="table table-bordered table-hover">

@@ -81,6 +81,7 @@ export class LoginAuthService implements OnInit {
   localStorage.removeItem('name');
   localStorage.removeItem('expires_at');
   localStorage.removeItem('email');
+  localStorage.removeItem('editor_source');
   this.setLoggedInCustom(false);
   }
   get authenticated(): boolean {

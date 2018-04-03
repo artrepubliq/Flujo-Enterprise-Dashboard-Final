@@ -102,6 +102,7 @@ import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
+import { EditorSelectionService } from './service/editor-selection.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -230,7 +231,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               RoleGuardService,
               UseraccessServiceService,
               AreaService,
-              {provide: DateAdapter, useClass: DateFormat}
+              {provide: DateAdapter, useClass: DateFormat},
+              EditorSelectionService
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
