@@ -1,6 +1,12 @@
 
 .socialconfig_box{
     height: 100%;
+    input{
+        border-radius:20px;
+        border: solid 1.5px #f7f7f7;
+        outline: none;
+        box-shadow: none;
+    }
     .third-party-lib-keys{
         min-width: 45vw;
         // min-height: 480px;
