@@ -77,11 +77,14 @@
       </div>
       <!-- Action Buttons -->
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
+        <button (click)="cancelFileEdit()" class="button_submit" mat-button>Cancel
+          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+        </button>
         <button type="submit" [disabled]="pnpSubmitForm.invalid || loading" class="button_submit" mat-button>{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
       </div>
-</form>
+    </form>
   </div>
   <!-- // ===== Add Pages End ======= -->
 
@@ -95,6 +98,7 @@
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -103,6 +107,9 @@
             <td [innerHtml]=privacyItem.privacy_policy></td>
             <td>
               <button (click)="editCompnent(privacyItem)" class="btn btn-success">EDIT</button>
+            </td>
+            <td>
+              <button (click)="deleteCompnent(privacyItem.id)" class="btn btn-danger">DELETE</button>
             </td>
           </tr>
 

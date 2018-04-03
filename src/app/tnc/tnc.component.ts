@@ -34,11 +34,16 @@ export class TncComponent implements OnInit {
     }
 
   ngOnInit() {
+    setTimeout(function () {
+      this.spinnerService.hide();
+  }.bind(this), 3000);
   }
 onSubmit = () => {
   this.spinnerService.show();
   this.tncSubmitForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-  this.tncSubmitForm.controls['termsconditions_id'].setValue(this.termsDetails[0].id);
+  if (this.termsDetails.id) {
+    this.tncSubmitForm.controls['termsconditions_id'].setValue(this.termsDetails[0].id);
+  }
   const formModel = this.tncSubmitForm.value;
   this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_posttermsconditions', formModel)
   .subscribe(
@@ -69,10 +74,26 @@ getTermsData = () => {
       this.isEdit = false;
       this.termsDetails = data;
       this.setDefaultClientPrivacyData(this.termsDetails);
+      this.spinnerService.hide();
     }, error => {
       console.log(error);
       this.loading = false;
       this.spinnerService.hide();
+    }
+  );
+}
+deleteCompnent = (body) => {
+  this.spinnerService.show();
+  this.httpClient.delete<IHttpResponse>(AppConstants.API_URL + 'flujo_client_deletetermsconditions/' + body.id)
+  .subscribe(
+    data => {
+      this.alertService.danger('Deleted Successfully');
+      this.spinnerService.hide();
+      this.getTermsData();
+    },
+    error => {
+      this.spinnerService.hide();
+      console.log(error);
     }
   );
 }
@@ -115,7 +136,7 @@ editCompnent = (termsItem) => {
   this.setDefaultClientPrivacyData(termsItem);
 }
 parsePostResponse(response) {
-  this.alertService.success('request completed successfully.');
+  this.alertService.success('Request Completed Successfully.');
       this.loading = false;
       this.tncSubmitForm.reset();
       this.isEdit = false;
@@ -126,5 +147,6 @@ parsePostResponse(response) {
 cancelFileEdit() {
   this.isEdit = false;
   this.isGridView = true;
+  this.getTermsData();
 }
 }

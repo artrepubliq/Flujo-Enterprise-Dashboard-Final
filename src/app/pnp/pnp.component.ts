@@ -34,11 +34,16 @@ export class PnpComponent implements OnInit {
     }
 
   ngOnInit() {
+    setTimeout(function () {
+      this.spinnerService.hide();
+  }.bind(this), 3000);
   }
 onSubmit = () => {
   this.spinnerService.show();
   this.pnpSubmitForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+  if (this.privacyDetails.id) {
   this.pnpSubmitForm.controls['privacypolicy_id'].setValue(this.privacyDetails[0].id);
+}
   const formModel = this.pnpSubmitForm.value;
   this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_postprivacypolicy', formModel)
   .subscribe(
@@ -74,6 +79,21 @@ getPrivacyData = () => {
       console.log(error);
       this.loading = false;
       this.spinnerService.hide();
+    }
+  );
+}
+deleteCompnent = (body) => {
+  this.spinnerService.show();
+  this.httpClient.delete<IHttpResponse>(AppConstants.API_URL + 'flujo_client_deleteprivacypolicy/' + body)
+  .subscribe(
+    data => {
+      this.alertService.danger('deleted successfully');
+      this.spinnerService.hide();
+      this.getPrivacyData();
+    },
+    error => {
+      this.spinnerService.hide();
+      console.log(error);
     }
   );
 }
@@ -116,7 +136,7 @@ editCompnent = (privacyItem) => {
   this.setDefaultClientPrivacyData(privacyItem);
 }
 parsePostResponse(response) {
-  this.alertService.success('request completed successfully.');
+  this.alertService.success('Request Completed Successfully.');
       this.loading = false;
       this.pnpSubmitForm.reset();
       this.isEdit = false;
@@ -127,5 +147,6 @@ parsePostResponse(response) {
 cancelFileEdit() {
   this.isEdit = false;
   this.isGridView = true;
+  this.getPrivacyData();
 }
 }
