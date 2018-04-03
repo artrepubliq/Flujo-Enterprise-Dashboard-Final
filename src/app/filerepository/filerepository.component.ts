@@ -389,10 +389,10 @@ export class FilerepositoryComponent implements OnInit {
     uploadFile() {
         this.toggleFileUploader = !this.toggleFileUploader;
     }
-    /* this is to sort by descending*/
-    uploadFile() {
-        this.toggleFileUploader = !this.toggleFileUploader;
-    }
+    // /* this is to sort by descending*/
+    // uploadFile() {
+    //     this.toggleFileUploader = !this.toggleFileUploader;
+    // }
     sortByFolderNameDesc = () => {
         this.repositories.reverse();
     }
