@@ -1,7 +1,7 @@
 
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-<div class="analytics_block" fxLayout="column" fxLayoutGap="25px">
+<div class="analytics_block" *ngIf="newData" fxLayout="column" fxLayoutGap="25px">
   <!-- Analytics Header -->
   <div fxLayout="row">
     <div fxLayout="row" fxFlex="40" fxLayoutGap="10px" fxLayoutAlign="start center">
@@ -86,7 +86,10 @@
       </div>
       <div class="chart_body">
           <div >
-            <app-chart-age [ageData]="ageData"></app-chart-age>
+            
+            <canvas id="ageChartCanvas">
+
+            </canvas>
           </div>
           
       </div>

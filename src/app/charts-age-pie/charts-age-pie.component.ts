@@ -66,4 +66,3 @@ export class ChartsAgePieComponent implements OnInit, OnChanges {
       // End of Age Chart
     }
 }
-

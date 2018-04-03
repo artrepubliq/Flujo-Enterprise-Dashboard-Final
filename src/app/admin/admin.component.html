@@ -76,7 +76,7 @@
         </li>
         <li *ngIf="userAccessLevelData && userAccessLevelData[14]?.enable">
           <a routerLink="./themeconfiguration" routerLinkActive="active" class="activity">
-            <i class="fa fa-paint-brush"></i>Theme Global Config</a>
+            <i class="fa fa-paint-brush"></i>Theme Global Configuration</a>
         </li>
         <li *ngIf="userAccessLevelData && userAccessLevelData[15]?.enable">
           <a routerLink="./smtpconfiguration" routerLinkActive="active" class="activity">
@@ -98,15 +98,22 @@
         <li *ngIf="userAccessLevelData && userAccessLevelData[19]?.enable">
           <a routerLink="./module" routerLinkActive="active" class="activity">
             <i class="fa fa-edit"></i>Create Module</a>
+        <li>
+          <a routerLink="./smsconfiguration" routerLinkActive="active" class="activity">
+            <i class="fa fa-edit"></i>SMS Template Configuration</a>
         </li>
-        <li *ngIf="userAccessLevelData && userAccessLevelData[20]?.enable">
+        <li>
+          <a routerLink="./emailconfiguration" routerLinkActive="active" class="activity">
+            <i class="fa fa-edit"></i>Email Template Configuration</a>
+        </li>
+        <!-- <li *ngIf="userAccessLevelData && userAccessLevelData[20]?.enable">
           <a routerLink="./biography" routerLinkActive="active" class="activity">
             <i class="fa fa-user-plus"></i>Biography</a>
         </li>
         <li *ngIf="userAccessLevelData && userAccessLevelData[21]?.enable">
           <a routerLink="./module" routerLinkActive="active" class="activity">
             <i class="fa fa-edit"></i>Create Module</a>
-        </li>
+        </li> -->
         <li *ngIf="userAccessLevelData && userAccessLevelData[22]?.enable">
           <a routerLink="./termsnconditions" routerLinkActive="active" class="activity">
             <i class="fa fa-file-o"></i>Terms & Conditions</a>
@@ -220,7 +227,7 @@
         </div>
       </li> -->
       <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[0]?.enable">
-        <a class="nav-link editor-link" routerLink="./pages" routerLinkActive="active">
+        <a class="nav-link editor-link" routerLink="./chooseplatform" routerLinkActive="active">
           <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
           <img src="assets/icons/editor-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
           <!-- <i class="fa fa-ionic"></i> -->

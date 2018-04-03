@@ -148,7 +148,7 @@ export class MediaComponent implements OnInit {
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                   this.userAccessLevelObject = item.access_levels;
-              }else {
+              } else {
                 // this.userAccessLevelObject = null;
               }
             });
@@ -185,7 +185,7 @@ export class MediaComponent implements OnInit {
     });
     if (this.filteredUserAccessData) {
       this.router.navigate(['admin/media']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
     }
   }
