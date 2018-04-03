@@ -1,0 +1,269 @@
+<div class="setup text-center" fxLayoutAlign="center center">
+    <tabset [pills]="true" class="text-center">
+        <tab title="Facebook">
+            <div class="socialconfig_box" fxLayoutAlign="center center">
+                <div class="third-party-lib-keys" fxLayoutAlign="start start">
+                    <div fxFlex class="socialconfig_body">
+                        <div class="lib-keys">
+                            <div *ngIf="!isEdit" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start center">
+                                <div fxFlex="100%" class="header">
+                                    <h3 class="header_title">Social Configurations for Facebook</h3>
+                                </div>
+                                <div class="config-body" fxLayout="row" fxLayoutAlign="start start">
+                                    <div fxFlex="100%" class="social-confgs" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start start">
+                                        <div fxLayout="column">
+                                            <label>Plugin Name</label>
+                                            <p>fb</p>
+                                        </div>
+                                        <div fxLayout="column">
+                                            <label>App Id</label>
+                                            <p>1002</p>
+                                        </div>
+                                        <div fxLayout="column">
+                                            <label>App Version</label>
+                                            <p>555</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="config_footer" fxLayoutAlign="end center">
+                                    <button mat-raised-button class="btn-editor" (click)="EditConfigItems()">Edit</button>
+                                </div>
+                            </div>
+
+                            <form *ngIf="isEdit" method="post">
+                                <div class="header" fxLayoutAlign="start center">
+                                    <h3 class="header_title">Social Configurations for Facebook</h3>
+                                </div>
+                                <div class="config-body edit-block" fxLayout="row">
+                                    <div fxLayout="column" class="social-confgs" fxLayoutGap="10px" fxFlex="100%">
+                                        <div class="form-group" fxLayout="column">
+                                            <label>Host Name:</label>
+                                            <input class="form-control" id="host_name">
+                                            <!-- <control-messages [control]="smtpupForm.controls.host_name"></control-messages> -->
+                                        </div>
+                                        <div class="form-group" fxLayout="column">
+                                            <label>From Name:</label>
+                                            <input class="form-control" id="from_name">
+                                            <!-- <control-messages [control]="smtpupForm.controls.from_name"></control-messages> -->
+                                        </div>
+                                        <div class="form-group" fxLayout="column">
+                                            <label>From Email:</label>
+                                            <input class="form-control" id="from_email">
+                                            <!-- <control-messages [control]="smtpupForm.controls.from_email"></control-messages> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="config_footer" fxLayoutAlign="end center">
+                                    <button mat-button class="btn-editor pull-left" (click)="cancelFileEdit()">Cancel</button>
+                                    <button mat-raised-button [hidden]="Ishide1" class="btn-editor" type="submit">{{btn_text}}</button>
+                                    <!-- <button mat-raised-button type="submit" class="btn-editor" >delete</button> -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tab>
+        <tab title="Twitter">
+            <div class="socialconfig_box" fxLayoutAlign="center center">
+                <div class="third-party-lib-keys" fxLayoutAlign="start start">
+                        <div fxFlex class="socialconfig_body">
+                                <div class="lib-keys">
+                                    <div *ngIf="!isEdit" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start center">
+                                        <div fxFlex="100%" class="header">
+                                            <h3 class="header_title">Social Configurations for Twitter</h3>
+                                        </div>
+                                        <div class="config-body" fxLayout="row" fxLayoutAlign="start start">
+                                            <div fxFlex="100%" class="social-confgs" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start start">
+                                                <div fxLayout="column">
+                                                    <label>Consumer Key</label>
+                                                    <p>*****</p>
+                                                </div>
+                                                <div fxLayout="column">
+                                                    <label>Consumer Secret</label>
+                                                    <p>1002</p>
+                                                </div>
+                                                <div fxLayout="column">
+                                                    <label>Access Token</label>
+                                                    <p>555</p>
+                                                </div>
+                                                <div fxLayout="column">
+                                                    <label>Access Token Secret</label>
+                                                    <p>555</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="config_footer" fxLayoutAlign="end center">
+                                            <button mat-raised-button class="btn-editor" (click)="EditConfigItems()">Edit</button>
+                                        </div>
+                                    </div>
+        
+                                    <form *ngIf="isEdit" method="post">
+                                        <div class="header" fxLayoutAlign="start center">
+                                            <h3 class="header_title">Social Configurations for Twitter</h3>
+                                        </div>
+                                        <div class="config-body edit-block" fxLayout="row">
+                                            <div fxLayout="column" class="social-confgs" fxLayoutGap="10px" fxFlex="100%">
+                                                <div class="form-group" fxLayout="column">
+                                                    <label>Consumer Key:</label>
+                                                    <input class="form-control" id="host_name">
+                                                    <!-- <control-messages [control]="smtpupForm.controls.host_name"></control-messages> -->
+                                                </div>
+                                                <div class="form-group" fxLayout="column">
+                                                    <label>Consumer Secret:</label>
+                                                    <input class="form-control" id="from_name">
+                                                    <!-- <control-messages [control]="smtpupForm.controls.from_name"></control-messages> -->
+                                                </div>
+                                                <div class="form-group" fxLayout="column">
+                                                    <label>Access Token:</label>
+                                                    <input class="form-control" id="from_email">
+                                                    <!-- <control-messages [control]="smtpupForm.controls.from_email"></control-messages> -->
+                                                </div>
+                                                <div class="form-group" fxLayout="column">
+                                                    <label>Access Token Secret:</label>
+                                                    <input class="form-control" id="from_email">
+                                                    <!-- <control-messages [control]="smtpupForm.controls.from_email"></control-messages> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="config_footer" fxLayoutAlign="end center">
+                                            <button mat-button class="btn-editor pull-left" (click)="cancelFileEdit()">Cancel</button>
+                                            <button mat-raised-button [hidden]="Ishide1" class="btn-editor" type="submit">{{btn_text}}</button>
+                                            <!-- <button mat-raised-button type="submit" class="btn-editor" >delete</button> -->
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </tab>
+        <tab title="Whatsapp">
+            <div class="socialconfig_box" fxLayoutAlign="center center">
+                <div class="third-party-lib-keys" fxLayoutAlign="start start">
+                        <div fxFlex class="socialconfig_body">
+                                <div class="lib-keys">
+                                    <div *ngIf="!isEdit" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start center">
+                                        <div fxFlex="100%" class="header">
+                                            <h3 class="header_title">Social Configurations for Whatsapp</h3>
+                                        </div>
+                                        <div class="config-body" fxLayout="row" fxLayoutAlign="start start">
+                                            <div fxFlex="100%" class="social-confgs" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start start">
+                                                <div fxLayout="column">
+                                                    <label>Whatsapp Instace Id:</label>
+                                                    <p>*****</p>
+                                                </div>
+                                                <div fxLayout="column">
+                                                    <label>Whatsapp Client Id:</label>
+                                                    <p>1002</p>
+                                                </div>
+                                                <div fxLayout="column">
+                                                    <label>Whatsapp Client Secret:</label>
+                                                    <p>555</p>
+                                                </div>
+                                                <div fxLayout="column">
+                                                    <label>Whatsapp Client Phone Number:</label>
+                                                    <p>555</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="config_footer" fxLayoutAlign="end center">
+                                            <button mat-raised-button class="btn-editor" (click)="EditConfigItems()">Edit</button>
+                                        </div>
+                                    </div>
+        
+                                    <form *ngIf="isEdit" method="post">
+                                        <div class="header" fxLayoutAlign="start center">
+                                            <h3 class="header_title">Social Configurations for Twitter</h3>
+                                        </div>
+                                        <div class="config-body edit-block" fxLayout="row">
+                                            <div fxLayout="column" class="social-confgs" fxLayoutGap="10px" fxFlex="100%">
+                                                <div class="form-group" fxLayout="column">
+                                                    <label>Whatsapp Instace Id:</label>
+                                                    <input class="form-control" id="host_name">
+                                                    <!-- <control-messages [control]="smtpupForm.controls.host_name"></control-messages> -->
+                                                </div>
+                                                <div class="form-group" fxLayout="column">
+                                                    <label>Whatsapp Client Id:</label>
+                                                    <input class="form-control" id="from_name">
+                                                    <!-- <control-messages [control]="smtpupForm.controls.from_name"></control-messages> -->
+                                                </div>
+                                                <div class="form-group" fxLayout="column">
+                                                    <label>Whatsapp Client Secret:</label>
+                                                    <input class="form-control" id="from_email">
+                                                    <!-- <control-messages [control]="smtpupForm.controls.from_email"></control-messages> -->
+                                                </div>
+                                                <div class="form-group" fxLayout="column">
+                                                    <label>Whatsapp Client Phone Number:</label>
+                                                    <input class="form-control" id="from_email">
+                                                    <!-- <control-messages [control]="smtpupForm.controls.from_email"></control-messages> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="config_footer" fxLayoutAlign="end center">
+                                            <button mat-button class="btn-editor pull-left" (click)="cancelFileEdit()">Cancel</button>
+                                            <button mat-raised-button [hidden]="Ishide1" class="btn-editor" type="submit">{{btn_text}}</button>
+                                            <!-- <button mat-raised-button type="submit" class="btn-editor" >delete</button> -->
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </tab>
+        <tab title="ChatCamp">
+            <div class="socialconfig_box" fxLayoutAlign="center center">
+                <div class="third-party-lib-keys" fxLayoutAlign="start start">
+                        <div fxFlex class="socialconfig_body">
+                                <div class="lib-keys">
+                                    <div *ngIf="!isEdit" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start center">
+                                        <div fxFlex="100%" class="header">
+                                            <h3 class="header_title">Social Configurations for ChatCamp</h3>
+                                        </div>
+                                        <div class="config-body" fxLayout="row" fxLayoutAlign="start start">
+                                            <div fxFlex="100%" class="social-confgs" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start start">
+                                                <div fxLayout="column">
+                                                    <label>App Key</label>
+                                                    <p>fb</p>
+                                                </div>
+                                                <div fxLayout="column">
+                                                    <label>App Key</label>
+                                                    <p>1002</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="config_footer" fxLayoutAlign="end center">
+                                            <button mat-raised-button class="btn-editor" (click)="EditConfigItems()">Edit</button>
+                                        </div>
+                                    </div>
+        
+                                    <form *ngIf="isEdit" method="post">
+                                        <div class="header" fxLayoutAlign="start center">
+                                            <h3 class="header_title">Social Configurations for ChatCamp</h3>
+                                        </div>
+                                        <div class="config-body edit-block" fxLayout="row">
+                                            <div fxLayout="column" class="social-confgs" fxLayoutGap="10px" fxFlex="100%">
+                                                <div class="form-group" fxLayout="column">
+                                                    <label>App Key:</label>
+                                                    <input class="form-control" id="host_name">
+                                                    <!-- <control-messages [control]="smtpupForm.controls.host_name"></control-messages> -->
+                                                </div>
+                                                <div class="form-group" fxLayout="column">
+                                                    <label>App Id:</label>
+                                                    <input class="form-control" id="from_name">
+                                                    <!-- <control-messages [control]="smtpupForm.controls.from_name"></control-messages> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="config_footer" fxLayoutAlign="end center">
+                                            <button mat-button class="btn-editor pull-left" (click)="cancelFileEdit()">Cancel</button>
+                                            <button mat-raised-button [hidden]="Ishide1" class="btn-editor" type="submit">{{btn_text}}</button>
+                                            <!-- <button mat-raised-button type="submit" class="btn-editor" >delete</button> -->
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+</div>
