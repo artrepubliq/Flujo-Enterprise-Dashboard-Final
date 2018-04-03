@@ -9,7 +9,6 @@ import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { GalleryImagesService } from './service/gallery-images.service';
-import { RoleGuardService } from './auth/role-guard.service';
 import { UseraccessServiceService } from './service/useraccess-service.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -227,21 +226,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               GalleryImagesService,
               FBService,
               ProblemTypeService,
-              RoleGuardService,
               UseraccessServiceService,
               AreaService,
               {provide: DateAdapter, useClass: DateFormat}
-              // AuthInterceptorService,
-              // {
-              // provide: AuthHttp,
-              // useFactory: authHttpServiceFactory,
-              // deps: [Http, RequestOptions]
-              // },
-              // {
-              //   provide: HTTP_INTERCEPTORS,
-              //   useClass: TokenInterceptor,
-              //   multi: true
-              // }
             ],
   bootstrap: [AppComponent]
 })
