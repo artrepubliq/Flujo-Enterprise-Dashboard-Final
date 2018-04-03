@@ -28,7 +28,7 @@ export class PnpComponent implements OnInit {
         'title' : ['', Validators.required],
         'privacy_policy' : ['', Validators.required],
         'client_id' : [null],
-        'id' : [null]
+        'privacypolicy_id' : [null]
       });
       this.getPrivacyData();
     }
@@ -38,7 +38,7 @@ export class PnpComponent implements OnInit {
 onSubmit = () => {
   this.spinnerService.show();
   this.pnpSubmitForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-  this.pnpSubmitForm.controls['id'].setValue(this.privacyDetails.id);
+  this.pnpSubmitForm.controls['privacypolicy_id'].setValue(this.privacyDetails[0].id);
   const formModel = this.pnpSubmitForm.value;
   this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_postprivacypolicy', formModel)
   .subscribe(
@@ -69,6 +69,7 @@ getPrivacyData = () => {
       this.isEdit = false;
       this.privacyDetails = data;
       this.setDefaultClientPrivacyData(this.privacyDetails);
+      this.spinnerService.hide();
     }, error => {
       console.log(error);
       this.loading = false;
@@ -82,7 +83,7 @@ setDefaultClientPrivacyData = (privacyData) => {
   if (privacyData) {
       this.pnpSubmitForm.controls['title'].setValue(privacyData[0].title);
       this.pnpSubmitForm.controls['privacy_policy'].setValue(privacyData[0].privacy_policy);
-      this.pnpSubmitForm.controls['id'].setValue(privacyData[0].id);
+      this.pnpSubmitForm.controls['privacypolicy_id'].setValue(privacyData[0].id);
       console.log(this.pnpSubmitForm.value);
   }
 
