@@ -78,7 +78,7 @@
       .dropdown-menu {
         width: 100%;
         border-radius: 0;
-        min-width: 255px;
+        min-width: 270px;
         left: auto;
         right: 0;
         .activity {
@@ -87,7 +87,7 @@
           display: inline-block;
           padding: 8px 15px;
           position: relative;
-          padding-left: 34%;
+          padding-left: 25%;
           color: #808080;
           i {
             position: absolute;
@@ -619,5 +619,30 @@
   }
   .active-indication {
     position: relative;
+  }
+}
+
+
+/* Access PopUp styles */
+.access_popup {
+  min-height: 30vh;
+  position: relative;
+  h3 {
+    font-size: 30px;
+    font-weight: 300;
+    color: #4a2565;
+  }
+  p {
+    font-size: 15px;
+    font-weight: normal;
+    font-style: italic;
+    text-align: left;
+    color: #c1c1c1;
+  }
+  .button_submit {
+    min-width: 70px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 }

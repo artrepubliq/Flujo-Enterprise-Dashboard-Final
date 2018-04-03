@@ -1,20 +1,31 @@
 <div class="database" fxLayout="column" fxLayoutGap="15px">
 
-  <div class="example-header" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-    <div>
-      <button class="button_submit">
-        Export as CSV
-      </button>
+  <div class="example-header" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="space-between center">
+    <div class="item_count">
+      <p>Total Items: {{dataCount}}</p>
     </div>
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="15px">
+      <div>
+        <button class="button_submit" (click)="generateCSV()">
+          Export as CSV
+        </button>
+      </div>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
   </div>
 
   <!-- Table -->
   <div class="database_table" [perfectScrollbar]="config">
     <div class="example-container mat-elevation-z8">
       <mat-table #table [dataSource]="dataSource">
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+          <mat-cell *matCellDef="let element; let i=index;"> {{i+1}} </mat-cell>
+        </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
@@ -42,15 +53,15 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <div class="sendMail-data form-group">
-      <form fxLayout="row" fxLayoutGap="15px">
+      <form fxLayout="row" fxLayoutGap="15px" [formGroup]="sendEmail" (submit)="feedbackCsvMailSubmit(feedbackCsvMail.value)">
         <div class="input_box p-rel">
-          <input formControlName="email" id="email" placeholder="Enter email">
+          <input formControlName="email" id="email" placeholder="Enter email" email="true">
           <!-- <div  class="form-error-msg">
             enter valid email
           </div> -->
         </div>
         <div>
-          <button mat-raised-button class="button_submit" (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)">Send As Email</button>
+          <button mat-raised-button class="button_submit" type="submit">Send As Email</button>
         </div>
       </form>
     </div>

@@ -25,7 +25,10 @@
           <form [formGroup]="loginForm" (submit)="onSubmit(loginForm.value)" class="w-100" fxLayout="column" method="POST">
             <div class="logIn_inputs" fxLayout="column" fxFlex="100%">
               <mat-form-field fxFlex>
-                <input matInput placeholder="User Name" id="email" formControlName="email">
+                <input matInput placeholder="Email" id="email" formControlName="email">
+                <!-- <div fxLayoutAlign="start" [hidden]="loginForm.controls.email.valid || loginForm.controls.email.pristine && !submitted" class="alert">
+                    Valid email is required
+              </div> -->
                 <span matPrefix>
                   <i class="fa fa-user">&nbsp;</i>
                 </span>

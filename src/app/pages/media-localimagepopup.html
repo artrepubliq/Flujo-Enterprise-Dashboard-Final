@@ -1,3 +1,20 @@
-<div *ngFor="let detail of data">
+<!-- <div *ngFor="let detail of data">
     <img src='data:image/png;base64,{{detail.image}}' alt="">
+</div> -->
+<div class="editor-popGallery">
+
+    <div class="row grid-gallery-popUp">
+        <div class="col-lg-3 col-md-4 col-xs-6 img-box" *ngFor="let detail of total_images,let i = index" [ngClass]="{'active' : detail.isActive}"
+            (click)="getLocalImageId(detail, i)">
+            <div class="img-block">
+                <img src='data:image/png;base64,{{detail.image}}' class="img-fluid" alt="Gallary Img">
+                <div class="bg-layer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right">
+        <button mat-button (click)="cancelDialog()">Cancel</button>
+        <button (click)="closeDialog()" class="button_submit">Save</button>
+    </div>
+
 </div>

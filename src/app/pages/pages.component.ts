@@ -10,17 +10,23 @@ import { IHttpResponse } from '../model/httpresponse.model';
 import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { GalleryImagesService } from '../service/gallery-images.service';
 import { mediaDetail } from '../model/feedback.model';
+import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { AdminComponent } from '../admin/admin.component';
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent implements OnInit, OnDestroy {
+    popUpImageData1: any;
+    popUpImageData: any;
+    filteredUserAccessData: any;
+    userAccessLevelObject: any;
     imagesOfgallery: mediaDetail[];
     childDetails: any;
     ttt: any;
     form: FormGroup;
-
+    highlightStatus: Array<boolean> = [];
     isEdit = false;
     isAddPage = false;
     isTableView = false;
@@ -39,9 +45,35 @@ export class PagesComponent implements OnInit, OnDestroy {
     @ViewChild('fileInput1') fileInput1: ElementRef;
     @ViewChild('fileInput2') fileInput2: ElementRef;
     constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
-        private alertService: AlertService, private galleryImagesService: GalleryImagesService, public dialog: MatDialog) {
+        private alertService: AlertService, private galleryImagesService: GalleryImagesService, public dialog: MatDialog,
+        private router: Router, public adminComponent: AdminComponent) {
         this.createForm();
         this.getPageDetails();
+        if (this.adminComponent.userAccessLevelData) {
+            console.log(this.adminComponent.userAccessLevelData[0].name);
+            this.userRestrict();
+        } else {
+            this.adminComponent.getUserAccessLevelsHttpClient()
+                .subscribe(
+                    resp => {
+                        console.log(resp);
+                        this.spinnerService.hide();
+                        _.each(resp, item => {
+                            if (item.user_id === localStorage.getItem('user_id')) {
+                                this.userAccessLevelObject = item.access_levels;
+                            } else {
+                                // this.userAccessLevelObject = null;
+                            }
+                        });
+                        this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+                        this.userRestrict();
+                    },
+                    error => {
+                        console.log(error);
+                        this.spinnerService.hide();
+                    }
+                );
+        }
     }
     ngOnInit() {
         setTimeout(function () {
@@ -57,6 +89,23 @@ export class PagesComponent implements OnInit, OnDestroy {
                     console.log(error);
                 }
             );
+    }
+    userRestrict() {
+        _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+            // tslint:disable-next-line:max-line-length
+            if (this.adminComponent.userAccessLevelData[iterate].name === 'Editor' && this.adminComponent.userAccessLevelData[iterate].enable) {
+                this.filteredUserAccessData = item;
+            } else {
+                // this.router.navigate(['/accessdenied']);
+                // console.log('else');
+            }
+        });
+        if (this.filteredUserAccessData) {
+            this.router.navigate(['admin/pages']);
+        } else {
+            this.router.navigate(['/accessdenied']);
+            console.log('else');
+        }
     }
     createForm = () => {
         this.form = this.formBuilder.group({
@@ -98,18 +147,29 @@ export class PagesComponent implements OnInit, OnDestroy {
             };
         }
     }
-    openDialog(): void {
+    openDialog(imageType): void {
         const dialogRef = this.dialog.open(MediaLocalImagePopupDialog, {
-          width: '800px',
-          height: '500px',
-          data: this.imagesOfgallery
+            width: '70vw',
+            height: '70vh',
+            data: { images: this.imagesOfgallery, image_Type: imageType }
         });
+        console.log(this.imagesOfgallery);
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
+            if (result) {
+                console.log(result);
+                if (result.imageType === 'backgroundImage') {
+                    this.popUpImageData = result.image;
+                } else {
+                    this.popUpImageData1 = result.image;
+                }
+            }
         });
-      }
+        this.highlightStatus = [false];
+    }
     onSubmit = (body) => {
         this.spinnerService.show();
+        this.form.get('component_image').setValue(this.popUpImageData1);
+        this.form.get('component_background_image').setValue(this.popUpImageData);
         const formModel = this.form.value;
         this.spinnerService.show();
         this.form.controls['client_id'].setValue(localStorage.getItem('client_id'));
@@ -172,32 +232,32 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.httpClient.get(AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
             .subscribe(
-            data => {
-                this.parentPageDetails = null;
-                this.pageDetails = null;
-                this.isEdit = false;
-                this.pageDetails = data;
-                this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
-                    return parentData.parent_id === '-1';
-                });
-                this.childDetails = _.filter(this.pageDetails, (parentData) => {
-                    return parentData.parent_id !== '-1';
-                });
-                this.spinnerService.hide();
-            },
-            error => {
-                console.log(error);
-                this.loading = false;
-                this.spinnerService.hide();
-            }
+                data => {
+                    this.parentPageDetails = null;
+                    this.pageDetails = null;
+                    this.isEdit = false;
+                    this.pageDetails = data;
+                    this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
+                        return parentData.parent_id === '-1';
+                    });
+                    this.childDetails = _.filter(this.pageDetails, (parentData) => {
+                        return parentData.parent_id !== '-1';
+                    });
+                    this.spinnerService.hide();
+                },
+                error => {
+                    console.log(error);
+                    this.loading = false;
+                    this.spinnerService.hide();
+                }
             );
     }
-getChild(childData) {
-     this.childDetails = _.filter(this.pageDetails, (parentData) => {
-        return parentData.parent_id === childData.id;
-    });
-    console.log(this.childDetails);
-}
+    getChild(childData) {
+        this.childDetails = _.filter(this.pageDetails, (parentData) => {
+            return parentData.parent_id === childData.id;
+        });
+        console.log(this.childDetails);
+    }
     // this method is used to set page detals to the form, if detalis exist
 
     setDefaultClientPageDetails = (pageData) => {
@@ -268,13 +328,39 @@ getChild(childData) {
     // tslint:disable-next-line:component-selector
     selector: 'media-localimagepopup.html',
     templateUrl: 'media-localimagepopup.html',
-  })
-  // tslint:disable-next-line:component-class-suffix
-  export class MediaLocalImagePopupDialog {
+    styleUrls: ['./pages.component.scss']
+})
+// tslint:disable-next-line:component-class-suffix
+export class MediaLocalImagePopupDialog {
+    isActive: boolean;
+    total_images: Array<mediaDetail>;
+    filteredLocalImages: object;
     constructor(
-      public dialogRef: MatDialogRef<MediaLocalImagePopupDialog>,
-      @Inject(MAT_DIALOG_DATA) public data: any) { }
-    onNoClick(): void {
-      this.dialogRef.close();
+        public dialogRef: MatDialogRef<MediaLocalImagePopupDialog>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+        dialogRef.disableClose = true;
+        //   _.each(this.data, index => {
+        //       console.log(this.data[index]);
+        //   });
+        this.total_images = data.images;
+        this.total_images.map(imageData => {
+            imageData.isActive = false;
+            // console.log(imageData);
+        });
     }
-  }
+    closeDialog(): void {
+        this.dialogRef.close(this.filteredLocalImages);
+    }
+    cancelDialog(): void {
+        this.dialogRef.close();
+    }
+    getLocalImageId(localImageData, index) {
+        this.total_images.map(imageData => {
+            imageData.isActive = false;
+            // console.log(imageData);
+        });
+        localImageData.isActive = true;
+        this.filteredLocalImages = { image: this.total_images[index].image, imageType: this.data.image_Type };
+        console.log(this.filteredLocalImages);
+    }
+}

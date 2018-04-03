@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-alerts';
+// import { Chart } from 'chart.js';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -8,14 +9,16 @@ import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { GalleryImagesService } from './service/gallery-images.service';
+import { RoleGuardService } from './auth/role-guard.service';
+import { UseraccessServiceService } from './service/useraccess-service.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PagesComponent } from './pages/pages.component'; // MediaLocalImagePopupDialog
+import { PagesComponent, MediaLocalImagePopupDialog } from './pages/pages.component';
 import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LogoComponent } from './logo/logo.component';
-import { AdminComponent } from './admin/admin.component';
+import { AdminComponent, EmptyAccessLevelDialog } from './admin/admin.component';
 import { CKEditorModule } from 'ngx-ckeditor';
 import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
@@ -26,9 +29,9 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
     MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
-    MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule, 
+    MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
     MatNativeDateModule, MatExpansionModule, DateAdapter,
-    MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule, 
+    MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule,
     MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
@@ -88,11 +91,17 @@ import { AreasComponent } from './areas/areas.component';
 import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
-import { ChartsAgePieComponent } from './charts-age-pie/charts-age-pie.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { ChartAgeDirective } from './chart-age.directive';
 import { DatabaseComponent } from './database/database.component';
-import { ChartsGenderComponent } from './charts-gender/charts-gender.component';
+import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.component';
+import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
+import { ChartsProblemCategoryComponent } from './directives//charts-problem-category/charts-problem-category.component';
+import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
+import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
+import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
+import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
+import { SmstemplateComponent } from './smstemplate/smstemplate.component';
+import { EmailTemplateComponent } from './email-template/email-template.component';
+import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -140,19 +149,26 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DeletefolderDialog,
     TncComponent,
     PnpComponent,
-
     HeaderurlsComponent,
     ProblemCategoryComponent,
     AreasComponent,
-    ChartsAgePieComponent,
-    ChartAgeDirective,
     DatabaseComponent,
-    ChartsGenderComponent
+    ChartsGenderComponent,
+    ChartsAssignComponent,
+    ChartsProblemCategoryComponent,
+    ChartsStatusComponent,
+    ChartsLoyalityComponent,
+    EmptyAccessLevelDialog,
+    AccessdeniedComponent,
+    ChartAgeComponent,
+    MediaLocalImagePopupDialog,
+    SmstemplateComponent,
+    EmailTemplateComponent,
+    ChooseplatformComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgxChartsModule,
     AppRoutingModule,
     HttpClientModule,
     CKEditorModule,
@@ -199,10 +215,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    NgxChartsModule
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog], // MediaLocalImagePopupDialog
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog],
   providers: [
               // AuthService,
               HttpService,
@@ -212,6 +227,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               GalleryImagesService,
               FBService,
               ProblemTypeService,
+              RoleGuardService,
+              UseraccessServiceService,
               AreaService,
               {provide: DateAdapter, useClass: DateFormat}
               // AuthInterceptorService,

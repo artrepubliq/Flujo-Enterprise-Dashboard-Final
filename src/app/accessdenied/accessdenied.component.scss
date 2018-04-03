@@ -1,0 +1,31 @@
+.access-denied{
+    background-color: #fafafa;
+    width: 100vw;
+    height: 100vh;
+    margin-top: -70px;
+.card{
+    min-width: 40vw;
+    min-height: 40vh;
+    border-radius: 10px;
+    padding: 8vh 5vw;
+    background-color: #ffffff;
+    box-shadow: 0px 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+    h3 {
+        font-size: 40px;
+        font-weight: 300;
+        color: #4a2565;
+        margin: 0;
+    }
+    p {
+        font-size: 15px;
+        font-style: italic;
+        color: #c1c1c1;
+        margin: 0;
+    }
+}
+    .img-fluid{
+        width: 100px;
+        height: 100px;
+        // margin: 0 auto;
+    }
+}

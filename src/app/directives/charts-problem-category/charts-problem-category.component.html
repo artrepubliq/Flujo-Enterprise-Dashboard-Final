@@ -1,0 +1,26 @@
+<div class="problems">
+
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <div class="" *ngFor="let problem of problem_category">
+
+      <mat-card class="example-card">
+        <mat-card-content>
+
+          <div fxLayout="column" fxLayoutGap="1rem">
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+              <div class="solved">{{problem.completed}}</div>
+              <div class="pending">{{problem.unresolved}}</div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="end center">
+              <div class="tproblems" fxFlex>{{problem.count}}</div>
+              <div class="category" fxFlex>{{problem.category | uppercase}}</div>
+
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <br>
+    </div>
+
+  </div>
+</div>
