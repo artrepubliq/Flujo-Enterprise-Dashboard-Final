@@ -25,6 +25,8 @@ export class SocialLinksComponent implements OnInit {
   socialItems: any;
   socialLinksForm: FormGroup;
   form_btntext = 'save';
+  successMessage: string;
+  deleteMessage: string;
   public isEdit = false;
 
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,

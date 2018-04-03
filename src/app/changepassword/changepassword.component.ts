@@ -29,6 +29,8 @@ export class ChangepasswordComponent implements OnInit {
   isMatch: boolean;
   changePasswordForm: any;
   changeApiDetails: IchangeDetails;
+  password: string;
+  confirm_password: string;
   constructor(private router: Router, private alertService: AlertService, private loginAuthService: LoginAuthService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient) {
     this.changePasswordForm = this.formBuilder.group({

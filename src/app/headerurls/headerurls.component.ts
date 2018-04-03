@@ -8,7 +8,7 @@ import {Location} from '@angular/common';
   styleUrls: ['./headerurls.component.scss']
 })
 export class HeaderurlsComponent implements OnInit {
-
+  isActive: boolean;
   constructor(
     private router: Router,
     public location: Location
