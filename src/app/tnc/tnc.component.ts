@@ -59,5 +59,6 @@ export class TncComponent implements OnInit {
       this.router.navigate(['/accessdenied']);
       console.log('else');
     }
+
 }
 }
