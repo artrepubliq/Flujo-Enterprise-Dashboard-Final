@@ -84,7 +84,7 @@ export class CreateModuleComponent implements OnInit {
                     this.alertService.warning(data.result);
                     // this.parsePostResponse(data);
                     this.spinnerService.hide();
-                }else {
+                } else {
                     this.getModuleDetails();
                     this.parsePostResponse(data);
                     this.spinnerService.hide();

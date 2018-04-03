@@ -1,11 +1,11 @@
-<ng4-loading-spinner></ng4-loading-spinner>
+<!-- <ng4-loading-spinner></ng4-loading-spinner>
 
 <div class="container smsContact page_padding">
     <ngx-alerts maxMessages="3" timeout="5000">
     </ngx-alerts>
   
   
-    <div fxLayout="row" class="p-rel">
+    <div fxLayout="row" class="p-rel" *ngIf="isEdit">
       <div class="page-header">
         Privacy & Policy
       </div>
@@ -33,3 +33,116 @@
       </div>
     </form>
   </div>
+ -->
+
+
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000">
+  <!-- <strong>{{successMessage }}</strong> -->
+</ngx-alerts>
+<div fxLayout="column" class="page_padding">
+  <!-- === Buttons ==== -->
+  <div class="addview-buttons">
+    <div class="page-header">
+      <span *ngIf="isEdit">Privacy & Policy</span>
+    </div>
+    <button mat-raised-button color="primary" (click)="viewPagesGrid()">
+      <i class="fa fa-th"></i>
+      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+    </button>
+    <button mat-raised-button color="primary" (click)="viewPages()">
+      <i class="fa fa-th-list"></i>
+      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+    </button>
+    <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Privacy Policy +</button>
+  </div>
+  <!-- <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i> -->
+
+  <!-- ===== Add Pages ======= -->
+  <div *ngIf="isEdit" class="add-pages">
+    <form [formGroup]="pnpSubmitForm" (submit)="onSubmit(pnpSubmitForm.value)" fxLayout="column" fxLayoutGap="45px">
+      <!-- Input PageDetails -->
+      <div fxLayout="row" fxLayoutGap="15px">
+        <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
+          <label for="title">Privacy Title</label>
+          <input fxFlex type="text" class="input-feild" id="title" placeholder="Privacy Title" formControlName="title">
+        </div>
+      </div>
+
+      <!-- Module Description Block -->
+      <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+        <label for="privacy_policy">Description</label>
+        <ck-editor fxFlex name="editor1" formControlName="privacy_policy" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
+      </div>
+      <!-- Action Buttons -->
+      <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
+        <button type="submit" [disabled]="pnpSubmitForm.invalid || loading" class="button_submit" mat-button>{{button_text}}
+          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+        </button>
+      </div>
+</form>
+  </div>
+  <!-- // ===== Add Pages End ======= -->
+
+
+  <!-- ====== Pages Table ======= -->
+  <div *ngIf="isTableView">
+    <div>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let privacyItem of privacyDetails">
+            <td>{{privacyItem.title}}</td>
+            <td [innerHtml]=privacyItem.privacy_policy></td>
+            <td>
+              <button (click)="editCompnent(privacyItem)" class="btn btn-success">EDIT</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <br/>
+    </div>
+  </div>
+  <!-- // ====== Pages Table End ======= -->
+
+
+  <!-- =========grid view parent====== -->
+
+  <div *ngIf="isGridView">
+
+    <div class="main-category">
+      <h6>Privacy Grid View</h6>
+    </div>
+    <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of privacyDetails">
+        <mat-card class="example-card">
+          <div id="pageview">
+            <!-- <img src=""  alt="pagescreen"/> -->
+            <!-- <img *ngIf="detail.module_background_image" class="img-responsive img-fluid page-screenshot" src="data:image/png;base64,{{detail.module_background_image}}"
+              alt="Photo of a Shiba Inu"> -->
+          </div>
+          <mat-card-content>
+            <div id="pageheader">
+              <div class="edit-title">
+                <h6 fxFlex="50%" id="page-title">{{detail.title}}</h6>
+                <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <br>
+        <br>
+      </div>
+    </div>
+
+    <!-- // =========grid view parents End====== -->
+  </div>
+</div>
