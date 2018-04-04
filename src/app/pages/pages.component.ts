@@ -13,20 +13,11 @@ import { mediaDetail } from '../model/feedback.model';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { AdminComponent } from '../admin/admin.component';
-import { ChooseplatformComponent } from '../chooseplatform/chooseplatform.component';
-import { EditorSelectionService } from '../service/editor-selection.service';
-import { Subject } from 'rxjs/Subject';
-import { EditorSelect } from '../model/editorselect.model';
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent implements OnInit, OnDestroy {
-    editorSelectedData: EditorSelect;
-    appEditor: boolean;
-    webEditor: boolean;
-    public unSubscribe = new Subject();
-    choosePlatform: ChooseplatformComponent;
     popUpImageData1: any;
     popUpImageData: any;
     filteredUserAccessData: any;
@@ -39,7 +30,6 @@ export class PagesComponent implements OnInit, OnDestroy {
     isEdit = false;
     isAddPage = false;
     isTableView = false;
-    isEditorHide = true;
     isGridView = true;
     loading = false;
     button_text = 'Save';
@@ -54,24 +44,19 @@ export class PagesComponent implements OnInit, OnDestroy {
     dummy: string;
     @ViewChild('fileInput1') fileInput1: ElementRef;
     @ViewChild('fileInput2') fileInput2: ElementRef;
-    constructor(private spinnerService: Ng4LoadingSpinnerService,
-        private formBuilder: FormBuilder, private httpClient: HttpClient,
-        private alertService: AlertService,
-        private galleryImagesService: GalleryImagesService,
-        public dialog: MatDialog,
-        private router: Router,
-        private editorSelectService: EditorSelectionService,
-        public adminComponent: AdminComponent) {
-        // this.choosePlatform = new ChooseplatformComponent(router, spinnerService);
+    constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
+        private alertService: AlertService, private galleryImagesService: GalleryImagesService, public dialog: MatDialog,
+        private router: Router, public adminComponent: AdminComponent) {
         this.createForm();
         this.getPageDetails();
-        // console.log(this.choosePlatform.routing);
         if (this.adminComponent.userAccessLevelData) {
+            console.log(this.adminComponent.userAccessLevelData[0].name);
             this.userRestrict();
         } else {
             this.adminComponent.getUserAccessLevelsHttpClient()
                 .subscribe(
                     resp => {
+                        console.log(resp);
                         this.spinnerService.hide();
                         _.each(resp, item => {
                             if (item.user_id === localStorage.getItem('user_id')) {
@@ -89,21 +74,8 @@ export class PagesComponent implements OnInit, OnDestroy {
                     }
                 );
         }
-        console.log(localStorage.getItem('editor_source'));
-        if (localStorage.getItem('editor_source') === 'editorWeb') {
-            this.webEditor = true;
-        }
-        if (localStorage.getItem('editor_source') === 'editorApp') {
-            this.appEditor = true;
-        }
-        if (localStorage.getItem('editor_source')) {
-            this.router.navigate(['admin/pages']);
-        } else {
-            this.router.navigate(['admin/chooseplatform']);
-        }
     }
     ngOnInit() {
-
         setTimeout(function () {
             this.spinnerService.hide();
         }.bind(this), 3000);
@@ -117,9 +89,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                     console.log(error);
                 }
             );
-
     }
-
     userRestrict() {
         _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
             // tslint:disable-next-line:max-line-length
@@ -144,7 +114,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             parent_id: null,
             web_description: ['', Validators.required],
             app_description: ['', Validators.required],
-            component_background_color: [''],
+            component_background_color: ['', ],
             component_order: ['', Validators.required],
             component_id: null,
             component_image: null,
@@ -352,8 +322,6 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (this.dialog) {
             this.dialog = null;
         }
-        this.unSubscribe.next();
-        this.unSubscribe.complete();
     }
 }
 @Component({

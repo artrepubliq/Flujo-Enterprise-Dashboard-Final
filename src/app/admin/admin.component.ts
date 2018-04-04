@@ -199,9 +199,6 @@ export class EmptyAccessLevelDialog {
   onNoClick(): void {
     this.dialogRef.close();
   }
-  closeDialog() {
-    this.dialogRef.close();
-  }
   logoutUser() {
     this.loginAuthService.logout();
     this.dialogRef.close();
