@@ -82,8 +82,8 @@ export class SocialManagementComponent implements OnInit {
       }
     });
     if (this.filteredUserAccessData.name) {
-      this.router.navigate(['admin/socialmanagement']);
-    } else {
+      this.router.navigate(['/socialmanagement']);
+    }else {
       this.router.navigate(['/accessdenied']);
       console.log('else');
     }

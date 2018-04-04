@@ -19,7 +19,13 @@ export class EmailserviceComponent implements OnInit {
   userAccessLevelObject: any;
   mailSendingForm: FormGroup;
   socialLinksForm: FormGroup;
+  successMessagebool: boolean;
   public loading: false;
+  successMessage: string;
+  deleteMessage: string;
+  submitted:boolean;
+  editorValue: string;
+  Ishide3: boolean;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   constructor(public loader: NgxSmartLoaderService, private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
      private httpService: HttpService, private alertService: AlertService, public adminComponent: AdminComponent,

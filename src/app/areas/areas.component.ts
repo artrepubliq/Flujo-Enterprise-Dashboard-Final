@@ -31,6 +31,7 @@ export class AreasComponent implements OnInit {
   newAreaData: IUpdateableData;
   areaData: Array<IAreaType>;
   areaForm: FormGroup;
+  config: any;
   constructor(
     private httpService: HttpService,
     private areaService: AreaService,
