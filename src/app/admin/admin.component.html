@@ -158,74 +158,7 @@
   <!-- Side Navigation -->
   <aside id="sidebar-wrapper" class="sidebar-menu ps" [ngClass]="{'sidebar-toggle':sidebarToggledButton}" [perfectScrollbar]="config">
     <ul class="nav flex-column">
-      <!-- Web App -->
-      <!-- <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
-        <a class="nav-link dropdown-toggle" (click)="dropdownOpen=!dropdownOpen">
-          <img src="assets/icons/web-icon-normal@2x.png" alt="web icon">
-          <span>Web</span>
-        </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" routerLink="./logo" routerLinkActive="active">Logo</a>
-          <ng4-loading-spinner> </ng4-loading-spinner>
-
-           <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Profile</a> -->
-      <!-- <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a> -->
-      <!-- <a class="dropdown-item" routerLink="./media" routerLinkActive="active">Media Management</a> -->
-      <!-- <a class="dropdown-item" routerLink="./reports" routerLinkActive="active">Reports</a> -->
-      <!-- <a class="dropdown-item" routerLink="./themeconfiguration" routerLinkActive="active">Theme Global Config</a> -->
-      <!-- <a class="dropdown-item" routerLink="./filerepository" routerLinkActive="active">Upload Files</a> -->
-
-      <!-- <li class="nav-item" [ngClass]="{'open':showDropdownMain1}">
-            <a class="nav-link subNav-link dropdown-toggle" (click)="showDropdownMain1=!showDropdownMain1">
-              <span>Pages</span>
-            </a>
-            <div class="dropdown-menu">
-              <li class="nav-item" [ngClass]="{'open':showMyCons}">
-                <a class="nav-link subNav-link dropdown-toggle" (click)="showMyCons=!showMyCons">
-                  <span>My Constituency</span>
-                </a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item">Constituency at a glance</a>
-                  <a class="dropdown-item">About warangal urban</a>
-                  <a class="dropdown-item">Navya Divya Bhavya Warangal</a>
-                  <a class="dropdown-item">Connectivity</a>
-                  <a class="dropdown-item">Recognitions</a>
-                  <a class="dropdown-item">Scope for devhvelopment</a>
-                  <a class="dropdown-item">Info for Investors</a>
-                </div>
-              </li>
-              <li class="nav-item" [ngClass]="{'open':showMyConcerns}">
-                <a class="nav-link subNav-link dropdown-toggle" (click)="showMyConcerns=!showMyConcerns">
-                  <span>My Concerns</span>
-                </a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item">Smart city</a>
-                  <a class="dropdown-item">Heritage conservation</a>
-                  <a class="dropdown-item">Cultural capital</a>
-                  <a class="dropdown-item">Tourism</a>
-                  <a class="dropdown-item">Employment</a>
-                  <a class="dropdown-item">Women empowerment &amp; safety</a>
-                  <a class="dropdown-item">Sustainable Development</a>
-                  <a class="dropdown-item">Environment</a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="dropdown-item">My Journey</a>
-              </li>
-            </div>
-          </li> 
-        </div>
-      </li> -->
-      <!-- <li class="nav-item" [ngClass]="{'open':dropdownOpenApp}">
-        <a class="nav-link dropdown-toggle" (click)="dropdownOpenApp=!dropdownOpenApp">
-          <img src="assets/icons/app-icon-normal@2x.png" alt="app icon">
-          <span>App</span>
-        </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item">Android</a>
-          <a class="dropdown-item">iOS</a>
-        </div>
-      </li> -->
+    
       <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[0]?.enable">
         <a class="nav-link editor-link" routerLink="./chooseplatform" routerLinkActive="active">
           <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">

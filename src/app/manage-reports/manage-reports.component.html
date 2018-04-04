@@ -6,9 +6,7 @@
 
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <h6 class="issues">Issues</h6>
-    <!-- <div fxLayoutAlign="center center">
-      <app-headerurls></app-headerurls>
-    </div> -->
+   
     <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center">
       <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
         <button (click)="sortByStatus('0')" [ngClass]="{'active':showReports.completedActive}" name="options" id="option1" autocomplete="off"
@@ -18,29 +16,17 @@
       </div>
       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
         <button (click)="exportManageReports()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
-        <!-- <app-search-compoenent
-      (searchTerm)="filterReportData($event)"
-      ></app-search-compoenent> -->
+      
         <mat-form-field>
           <input matInput placeholder="Search" [(ngModel)]="searchReport" (ngModelChange)="onChange($event)">
         </mat-form-field>
-        <!-- <div class=" text-center button-group btn-group-toggle" data-toggle="buttons">
-                  <label class="pull-right btn btn-outline-secondary  btn-view-grid">
-              <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
-          </label>
-                  <label class="pull-right btn btn-outline-secondary  btn-view-list">
-            <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
-          </label>
-              </div> -->
+       
         <div class="dropdown">
           <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Filter By
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <!-- <mat-form-field>
-                <mat-datepicker #picker></mat-datepicker>
-                <input type="hidden" [matDatepicker]="picker" placeholder="Choose a date">
-              </mat-form-field> -->
+             
               <li class="dropdown-item" (click)="picker.open()">Date</li>
               <li class="dropdown-item">Issue</li>
             </div>
@@ -50,7 +36,9 @@
     </div>
   </div>
   <br/>
-
+<div>
+  <span>Total count: {{filterReportProblemData.length}}</span>
+</div>
   <div class="manage_reports_table" [perfectScrollbar]="config">
     <div class="manage_reports_data">
       <mat-card fxLayout="column" class="card_box">
@@ -110,7 +98,7 @@
                       </p> -->
                       <input type="checkbox">
                       <b>
-                        <p class="name-feedback d-inline">{{report.name}}</p>
+                        <div class="name-feedback d-inline">{{report.name}}</div>
                       </b>
                     </span>
                   </div>
@@ -232,22 +220,7 @@
     </div>
   </div>
   <div class="feedback_footer" fxLayout="row" fxLayoutAlign="space-between ">
-    <!-- <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls> -->
-    <!--   <div class="sendMail-data">
-              <form action="" [formGroup]="reportCsvMail" fxLayout="row" fxLayoutGap="15px">
-                  <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
-                  <div [hidden]="reportCsvMail.controls.email.valid || (reportCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
-                      enter valid email
-                  </div>
-                  <button (click)="reportCsvMailSubmit(reportCsvMail.value)" class="btn btn-outline-secondary btn-sm btn-report">Send As Email</button>
-              </form>
-          </div> -->
-    <!-- <mat-paginator  *ngIf="filterReportProblemData" class="paginationn" #paginator
-    [length]="filterReportProblemData.length"
-    [pageIndex]="0"
-    [pageSize]="5"
-    [pageSizeOptions]="[5, 10, 25, 100]">
-    </mat-paginator> -->
+   
     <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>

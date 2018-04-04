@@ -31,6 +31,7 @@ export class ProblemCategoryComponent implements OnInit {
   updateProblem: boolean;
   problemForm: FormGroup;
   actionText: string;
+  config: any;
   constructor(
     private httpService: HttpService,
     private problemService: ProblemTypeService,

@@ -34,8 +34,11 @@ export class AdminComponent implements OnInit {
   activeUsers: Array<IloggedinUsers>;
   loggedinUsersList: Array<IloggedinUsers>;
   userList: Array<IloggedinUsers>;
+  sidebarToggledButton: boolean;
+  dropdownOpen: boolean;
   public name: string;
   createUserList: CreateUserComponentComponent;
+  config: any;
  loggedinIds: Array<string>;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,

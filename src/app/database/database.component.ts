@@ -23,8 +23,9 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
   sendEmail: FormGroup;
   dataCount: number;
   fields = ['ID', 'NAME', 'EMAIL', 'PHONE'];
-
-
+  config: any;
+  feedbackCsvMailSubmit: any;
+  feedbackCsvMail: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private http: HttpClient) {

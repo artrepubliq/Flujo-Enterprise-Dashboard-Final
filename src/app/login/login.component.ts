@@ -15,6 +15,8 @@ import { Keepalive } from '@ng-idle/keepalive';
 import { IcustomLoginModelDetails, IPostChatCampModel } from '../model/custom.login.model';
 import { error } from 'util';
 import { IHttpResponse } from '../model/httpresponse.model';
+import {Location} from '@angular/common';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -26,7 +28,8 @@ export class LoginComponent implements OnInit {
   loginForm: any;
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
-    private httpClient: HttpClient, private loginAuthService: LoginAuthService) {
+    private httpClient: HttpClient, private loginAuthService: LoginAuthService,
+    public location: Location) {
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
@@ -52,10 +55,12 @@ export class LoginComponent implements OnInit {
           this.loginForm.reset();
           this.spinnerService.hide();
           // this.loginAuthService.setLoggedInCustom(true);
+          console.log(data);
           this.loginAuthService._setSession(data);
-          if (data.can_chat === false) {
+          if (data.email_verified === '0') {
+            this.router.navigate(['/admin/changepassword']);
+          } else if (data.can_chat === false && data.email_verified === '1') {
            this.redirectUrlForChatCamp(data);
-
           }
           this.alertService.success('User logged in successfully');
         } else {
