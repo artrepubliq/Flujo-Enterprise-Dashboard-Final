@@ -3,3 +3,9 @@ export interface IPrivacyData {
     title: string;
     privacy_policy: string;
 }
+
+export interface ITermsData {
+    id: string;
+    title: string;
+    terms_conditions: string;
+}
