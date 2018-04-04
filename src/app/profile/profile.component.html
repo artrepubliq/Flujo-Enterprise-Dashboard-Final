@@ -13,14 +13,18 @@
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="profile_img">
           <div fxLayoutAlign="center center" class="logo-img">
-            <span *ngIf="!profileItems?.avatar"><img src="../assets/default_logo.png" class="img-fluid"></span>
+            <span *ngIf="!profileItems?.avatar">
+              <img src="../assets/default_logo.png" class="img-fluid">
+            </span>
             <img fxLayoutAlign="center center" *ngIf="profileItems?.avatar" class="figure img-fluid" src="data:image/png;base64,{{profileItems.avatar}}">
           </div>
           <div class="upload-logo">
             <input mat-raised-button type="file" id="avatar" accept=".jpg, .png, .jpeg" (change)="onFileChange($event)" #fileInput>
             <p *ngIf="!profileItems?.avatar" class="hover-upload">Upload Your Image</p>
             <p *ngIf="profileItems?.avatar" class="hover-upload">Update Your Image</p>
-            <button *ngIf="profileItems?.avatar" class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
+            <button *ngIf="profileItems?.avatar" class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()">
+              <i class="fa fa-times"></i>
+            </button>
             <div class="bg-layer"></div>
           </div>
         </div>
@@ -36,6 +40,10 @@
           <div fxLayout="column">
             <label>Mobile Number</label>
             <p>{{profileItems.mobile_number}}</p>
+          </div>
+          <div fxLayout="column">
+            <label>Email</label>
+            <p>{{profileItems.email}}</p>
           </div>
         </div>
       </div>
@@ -69,28 +77,32 @@
           <!-- Logo Image Upload -->
           <div class="profile_img">
             <div fxLayoutAlign="center center" class="logo-img">
-              <span *ngIf="!profileItems?.avatar"><img src="../assets/default_logo.png" class="img-fluid"></span>
+              <span *ngIf="!profileItems?.avatar">
+                <img src="../assets/default_logo.png" class="img-fluid">
+              </span>
               <img *ngIf="profileItems.avatar" src="data:image/png;base64,{{profileItems.avatar}}" alt="Logo" class="img-fluid">
             </div>
             <div class="upload-logo">
               <input mat-raised-button type="file" id="avatar" accept=".jpg, .png, .jpeg" (change)="onFileChange($event)" #fileInput>
               <p *ngIf="!profileItems?.avatar" class="hover-upload">Upload Your Image</p>
               <p *ngIf="profileItems?.avatar" class="hover-upload">Update Your Image</p>
-              <button *ngIf="profileItems?.avatar" class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
+              <button *ngIf="profileItems?.avatar" class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()">
+                <i class="fa fa-times"></i>
+              </button>
               <div class="bg-layer"></div>
             </div>
           </div>
           <!-- Logo File Details -->
-          <div class="logo-details">
+          <!-- <div class="logo-details">
             <p class="file_Name">flujo_logo.svg</p>
             <p class="file_Prop">Original : 48 px x 48 px</p>
             <p class="file_Prop">3 kb</p>
-          </div>
+          </div> -->
         </div>
         <div fxLayout="column" fxFlex="40" fxLayoutGap="25px">
           <div fxLayout="column">
             <label>Company Name</label>
-            <input type="text" id="company_name"  placeholder="company name" formControlName="company_name">
+            <input type="text" id="company_name" placeholder="company name" formControlName="company_name">
           </div>
           <div fxLayout="column">
             <label>Website URL</label>
@@ -100,6 +112,13 @@
             <label>Mobile Number</label>
             <input type="text" id="mobile_number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
               maxlength="10" placeholder="Mobile Number" formControlName="mobile_number">
+          </div>
+          <div fxLayout="column" class="p-rel">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="Email" formControlName="email">
+            <div fxLayoutAlign="start" [hidden]="form.controls.email.valid || form.controls.email.pristine && !submitted" class="form-error-msg">
+                Valid Email is required
+            </div>
           </div>
         </div>
       </div>

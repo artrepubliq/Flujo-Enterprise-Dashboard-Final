@@ -41,8 +41,7 @@ export class AdminComponent implements OnInit {
     public httpClient: HttpClient,
     private spinnerService: Ng4LoadingSpinnerService,
     public mScrollbarService: MalihuScrollbarService,
-    private dialog: MatDialog,
-    titleService: Title, router: Router, activatedRoute: ActivatedRoute) {
+    titleService: Title, private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog) {
 
       router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
@@ -108,17 +107,23 @@ export class AdminComponent implements OnInit {
           this.loggedinUsersList = data;
           this.StoredLoggedinIds();
           this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
+            this.isUserActive = false;
             return  activeUserData.id !== localStorage.getItem('id_token') ;
         });
         if (this.activeUsers) {
           _.each(this.activeUsers, (iteratee, index) => {
-            if (this.activeUsers[index].is_logged_in === '1') {
+            if (this.activeUsers[index].is_logged_in === '1' && localStorage.getItem('user_id')) {
               this.activeUsers[index].isUserActive = true;
+              // this.filteredAccessIds = this.activeUsers;
             }
+          });
+          this.activeUsers =  _.filter(this.activeUsers, (filteredactiveUserData) => {
+            return filteredactiveUserData.id !== localStorage.getItem('user_id');
           });
         }else {
            console.log('There are no active users');
         }
+        // console.log(this.activeUsers);
       },
       error => {
         console.log(error);
@@ -144,6 +149,7 @@ export class AdminComponent implements OnInit {
           _.each(data, item => {
             if (item.user_id === localStorage.getItem('user_id')) {
                 this.userAccessLevelObject = item.access_levels;
+                // console.log(this.userAccessLevelObject);
             }else {
               // this.userAccessLevelObject = null;
             }

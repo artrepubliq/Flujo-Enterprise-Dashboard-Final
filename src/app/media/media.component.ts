@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, SimpleChanges, Inject, HostLi
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { mediaDetail } from '../model/feedback.model';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
@@ -18,6 +18,11 @@ import { FileHolder } from 'angular2-image-upload';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 
+import {Observable} from 'rxjs/Observable';
+import {startWith} from 'rxjs/operators/startWith';
+import {map} from 'rxjs/operators/map';
+
+
 @Component({
   selector: 'app-media',
   templateUrl: './media.component.html',
@@ -25,8 +30,16 @@ import { Router } from '@angular/router';
 })
 
 export class MediaComponent implements OnInit {
+  albumTitleIDPopup: any;
+  optionCtrl: FormControl;
+  myGroup: FormGroup;
+  filteredAlbumTitlesPopup: Observable<any[]>;
+  sampleData = {};
+  imageDetail: any = [];
+  albumTitles: string;
+  albumTitlesPopup: any = [];
   uploadImagesForm: FormGroup;
-  toggleFileUploader: boolean = false;
+  toggleFileUploader = false;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   unUsedActiveButton: boolean;
@@ -124,6 +137,12 @@ export class MediaComponent implements OnInit {
     private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
     public adminComponent: AdminComponent, private router: Router) {
 
+      this.myGroup = new FormGroup({
+        AlbumName: new FormControl(),
+        Album: new FormControl(),
+        description: new FormControl()
+     });
+
     this.uploadImagesForm = this.formBuilder.group({
       image: [null],
       client_id: [null]
@@ -139,18 +158,16 @@ export class MediaComponent implements OnInit {
       order: ['', Validators.required]
     });
     if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
       this.userRestrict();
     } else {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
           resp => {
-            console.log(resp);
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                   this.userAccessLevelObject = item.access_levels;
-              }else {
+              } else {
                 // this.userAccessLevelObject = null;
               }
             });
@@ -182,19 +199,16 @@ export class MediaComponent implements OnInit {
       if (this.adminComponent.userAccessLevelData[iterate].name === 'Media Management' && this.adminComponent.userAccessLevelData[iterate].enable) {
         this.filteredUserAccessData = item;
       } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
+
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/media']);
-    }else {
+      this.router.navigate(['admin/media']);
+    } else {
       this.router.navigate(['/accessdenied']);
-      console.log('else');
     }
   }
   selectMedia(event) {
-    const imageDetail = [];
     this.ishide = false;
     if (event.target.files && event.target.files.length > 0) {
 
@@ -203,16 +217,16 @@ export class MediaComponent implements OnInit {
         const file = event.target.files[i];
         reader.readAsDataURL(file);
         reader.onload = () => {
-          imageDetail.push(reader.result.split(',')[1]);
-          // this.imagePreview = imageDetail;
-          // console.log(this.imagePreview);
-          // this.openFileDialog(imageDetail);
+          this.imageDetail.push(reader.result.split(',')[1]);
+          // const imagePreview = imageDetail;
+          console.log(this.imageDetail);
         };
       }
+      this.openFileDialog(this.imageDetail);
       try {
-        this.uploadImagesObject.image = imageDetail;
+        this.uploadImagesObject.image = this.imageDetail;
       } catch (e) {
-
+        console.log(e);
       }
     }
   }
@@ -223,17 +237,35 @@ export class MediaComponent implements OnInit {
   onUploadStateChanged(state: boolean) {
     console.log(JSON.stringify(state));
   }
-  // Popup for file uploading
-  // openFileDialog(imageDetail): void {
-  //   let dialogRef = this.dialog.open(FileSelectPopup, {
-  //     width: '80vw',
-  //     data: imageDetail,
-  //   });
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //   });
-  // }
+  filterAlbumTitlesPopup(option: string) {
+    // tslint:disable-next-line:no-shadowed-variable
+    return this.sampleData['options'].filter(option =>
+      option.toLowerCase().indexOf(option.toLowerCase()) === 0);
+  }
+
+  // Popup for file uploading
+  openFileDialog(imageDetail): void {
+
+    this.albumTitlesPopup = this.albumGallery;
+      this.sampleData['images'] = imageDetail;
+      this.sampleData['options'] = this.albumGallery;
+      // this.sampleData['id'] = this.albumTitleIDPopup;
+
+    const dialogRef = this.dialog.open(FileSelectPopup, {
+      width: '80vw',
+      data: this.sampleData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed 1');
+    });
+  }
+  getJson(x) {
+    const z = x.replace(/'/g, '"');
+    return JSON.parse(z);
+  }
+
   // this function used to upload the image or multiple images
   onUploadImages(body: any) {
     this.spinnerService.show();
@@ -328,7 +360,7 @@ export class MediaComponent implements OnInit {
   // to create new album with title form from the html
   CreateNewAlbumForm(body: any) {
     this.albumObject.client_id = AppConstants.CLIENT_ID;
-    this.albumObject.title = this.albumTitle;
+    this.albumObject.title = this.albumTitles;
     // this.albumObject.images = this.albumObject.images;
 
     // this.submitAlbumData.controls['images'].setValue(this.albumObject);
@@ -460,6 +492,7 @@ export class MediaComponent implements OnInit {
 
   openDialog(albumItem): void {
     this.albumObject = this.originalAlbumData;
+    console.log(this.albumObject);
     // this.albumItem = albumItem;
     // this.prepareAlbumGalleryIdsObject();
     if (albumItem) {
@@ -471,10 +504,11 @@ export class MediaComponent implements OnInit {
       const popupData = this.prepareAlbumBase64ImagesObject(filteredimagesArray, albumItem);
 
       const dialogRef = this.dialog.open(EditGalleryItems, {
-        data: popupData
-        // height: "400px",
-        // width:"600px"
+        data: popupData,
+        height: '400px',
+        width: '600px'
       });
+      // console.log(popupData);
       dialogRef.afterClosed().subscribe(result => {
 
         // prepare POST request object for updating the particular album details
@@ -709,14 +743,43 @@ export class DialogOverviewExampleDialog {
 })
 // tslint:disable-next-line:component-class-suffix
 export class FileSelectPopup {
-
+  stateCtrl: FormControl;
+  filteredStates: Observable<any[]>;
   constructor(
     public dialogRef: MatDialogRef<FileSelectPopup>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { dialogRef.disableClose = true; }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+
+      dialogRef.disableClose = true;
+      this.stateCtrl = new FormControl();
+      this.filteredStates = this.stateCtrl.valueChanges
+        .pipe(
+          startWith(''),
+          map(state => state ? this.filterStates(state) : this.data.options.slice())
+        );
+
+    }
+
+    filterStates(name: string) {
+      return this.data.options.filter(state =>
+        state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+    }
+
+    displayFn(project): string {
+      console.log(project);
+        return project ? project.title : project;
+  }
 
   onNoClick(): void {
     console.log(this.data);
     this.dialogRef.close();
   }
+  closeDialog(name, id, des) {
+    this.dialogRef.close();
+    console.log(this.data, id, des);
+    console.log(this.data.options);
+  }
 
+  showData(id) {
+    console.log(id);
+  }
 }

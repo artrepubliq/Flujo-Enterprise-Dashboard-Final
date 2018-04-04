@@ -1,12 +1,32 @@
 <ol>
-    <li>
-      <mat-form-field>
-        <input matInput [(ngModel)]="name" placeholder="What's your name?">
-      </mat-form-field>
-    </li>
-    <li *ngFor="let image of data">
-      <img src='data:image/png;base64,{{image}}'>
-    </li>
-    
-  </ol>
   
+  <li>
+    
+    <mat-form-field> 
+        <mat-select placeholder="Album Name" [(ngModel)]="SelectedAlbumID" (change)="showData(SelectedAlbumID)" >
+            <mat-option *ngFor="let option of data.options" [value]="option.id" >
+                <p>{{option.title}}</p>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" *ngIf="data.images?.length > 1">
+            <input matInput placeholder="State" aria-label="State" [matAutocomplete]="auto" [formControl]="stateCtrl" [(ngModel)]="selectedOption">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of data.options" [value]="option">
+                {{option.title}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+      <mat-form-field>
+          <textarea matInput placeholder="Description" [(ngModel)]="description" ></textarea>
+        </mat-form-field>
+
+  </li>
+  <li>
+
+  </li>
+  <li *ngFor="let image of data.images">
+    <img src='data:image/png;base64,{{image}}' width="100px" height="100px">
+  </li>
+  <button (click)="closeDialog(SelectedAlbumName,SelectedAlbumID,description)">Close</button>
+</ol>

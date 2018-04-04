@@ -74,7 +74,6 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   onValueChange() {
     // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
     // console.log(moment(this.minDate).format("YYYY-MM-DD"));
-
     this.minDate = moment(this.minDate).format('YYYY-MM-DD');
     this.maxDate = moment(this.maxDate).format('YYYY-MM-DD');
 
@@ -149,18 +148,15 @@ export class AnalyticsComponent implements OnInit, OnChanges {
         };
         // console.log(this.gender);
         // End of Gender related
-
         // Area related
         this.area = this.newData[3].area;
         // console.log(areaValue);
         // End of Area related
-
         // Age related
         this.ageData = this.newData[2].age;
         const range = _.pluck(this.ageData, 'name');
         const rangeValue = _.pluck(this.ageData, 'value');
         // End of Age related
-
         this.assign = this.newData[5].assign;
         this.spinnerService.hide();
         this.alertService.success('Updated');

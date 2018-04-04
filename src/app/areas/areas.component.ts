@@ -50,13 +50,11 @@ export class AreasComponent implements OnInit {
       'areaid': new FormControl(this.areaId),
     });
     if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
       this.userRestrict();
     } else {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
           resp => {
-            console.log(resp);
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
@@ -90,11 +88,10 @@ userRestrict() {
         // console.log('else');
       }
     });
-    if (this.filteredUserAccessData.name) {
-      this.router.navigate(['/area']);
+    if (this.filteredUserAccessData) {
+      this.router.navigate(['admin/area']);
     }else {
       this.router.navigate(['/accessdenied']);
-      console.log('else');
     }
 }
   public getAreaData(): void {
@@ -198,5 +195,4 @@ userRestrict() {
         }
       );
   }
-
 }

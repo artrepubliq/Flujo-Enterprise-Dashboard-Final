@@ -80,7 +80,6 @@ export class BiographyComponent implements OnInit {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
           resp => {
-            console.log(resp);
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
@@ -114,7 +113,7 @@ export class BiographyComponent implements OnInit {
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['/biography']);
+      this.router.navigate(['admin/biography']);
     }else {
       this.router.navigate(['/accessdenied']);
       console.log('else');
