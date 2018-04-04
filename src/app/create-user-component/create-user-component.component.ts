@@ -150,6 +150,7 @@ export class CreateUserComponentComponent implements OnInit {
   openAccessDialog(userItem): void {
     const dialogRef = this.dialog.open(AccessLevelPopup, {
       width: '45vw',
+      height: '70vh',
       data: userItem,
     });
     dialogRef.afterClosed().subscribe(result => {

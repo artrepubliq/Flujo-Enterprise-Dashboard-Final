@@ -566,3 +566,35 @@ control-messages,
 .table_padding {
   padding: 0 2vw 0 3vw;
 }
+
+.access-popUp {
+  .mat-slide-toggle-bar {
+    height: 15px;
+    background-color: #d1e0e3;
+    width: 30px;
+    border: 1px solid transparent;
+  }
+  .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: #fafafa;
+    border-color: #0cc0df;
+    box-shadow: 0px 0px 1px 0 #0cc0df;
+    .mat-slide-toggle-thumb-container {
+      left: -1.5px;
+    }
+  }
+  .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: #0cc0df;
+  }
+  .mat-slide-toggle-thumb-container {
+    width: 12px;
+    height: 12px;
+    top: 0;
+  }
+  .mat-slide-toggle-thumb {
+    width: 11px;
+    height: 11px;
+    margin-top: 1.5px;
+    margin-left: 1.5px;
+    box-shadow: none;
+  }
+}
