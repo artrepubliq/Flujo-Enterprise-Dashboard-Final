@@ -572,32 +572,38 @@ control-messages,
 .setup{
   text-align: center;
   margin: 0 auto;
-      ul.nav{
-          padding-left: 13rem;
+  .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+    display: none;
+  }
+  .mat-tab-body{
+    border-radius: 10px;
+  }
+  .mat-tab-header{
           margin-bottom: 6rem;
-          margin-top:2rem
+          margin-top:2rem;
+          border-bottom:none;
       }
-      ul li{
+      .mat-tab-label{
         border: solid 1.5px #f0f0f0;
       }
-      ul li.active{
+      .mat-tab-label-active,.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus{
         background-color: white;
       }
-      ul li:hover{
-        background-color: white;
-      }
-      ul li:first-child{
+      // .mat-tab-label:hover{
+      //   background-color: white;
+      // }
+      .mat-tab-label:first-child{
         border-right:none;
-        border-radius: 20px;
+        border-radius: 30px;
         border-top-right-radius: initial;       
         border-bottom-right-radius: initial;    
       }
-      ul li:nth-child(2){
+      .mat-tab-label:nth-child(2){
         border-right:none;
       }
-      ul li:last-child{
+      .mat-tab-label:last-child{
         border-left:none;
-        border-radius: 20px; 
+        border-radius: 30px; 
         border-top-left-radius: initial;       
         border-bottom-left-radius: initial;       
       }
