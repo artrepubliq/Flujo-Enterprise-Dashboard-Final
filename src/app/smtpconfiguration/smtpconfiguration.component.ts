@@ -17,6 +17,7 @@ export class SMTPConfigurationComponent implements OnInit {
   userAccessLevelObject: any;
   smtpUpdationForm: FormGroup;
   btn_text = 'save';
+  successMessage: string;
   smtpItems: any;
   public isEdit = false;
   constructor(private spinnerService: Ng4LoadingSpinnerService  , private formBuilder: FormBuilder,

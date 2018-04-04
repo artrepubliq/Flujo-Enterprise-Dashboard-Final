@@ -47,7 +47,8 @@ export class FilerepositoryComponent implements OnInit {
     repository_name: string;
     uploaded_file: any;
     foldersdata = [];
-
+    showInMb: boolean;
+    showInKb: boolean;
     // disabled = false;
     @Input() projectId: number;
     @Input() sectionId: number;
@@ -129,8 +130,8 @@ export class FilerepositoryComponent implements OnInit {
         formData.append('file_name', filedata.file_name);
         formData.append('client_id', filedata.client_id);
         formData.append('file_size', '' + filedata.file_path.size);
-        console.log(size);
-        console.log(this.total_size);
+        // console.log(size);
+        // console.log(this.total_size);
         // tslint:disable-next-line:radix
         console.log(size + parseFloat(this.total_size_in_mb));
         if ((size + parseFloat(this.total_size_in_mb)) >= 1024.00) {
@@ -350,7 +351,16 @@ export class FilerepositoryComponent implements OnInit {
                             this.repositories.forEach(allFiles => {
                                 this.allFiles.push(allFiles.files);
                             });
-                            console.log(this.total_size);
+                            if(parseFloat((this.total_size/1048576).toFixed(2)) >= 1.0) {
+                                this.showInMb = true;
+                                this.showInKb = false;
+                            } 
+                            else if(parseFloat((this.total_size/1048576).toFixed(2)) < 1.0){
+                                this.showInMb = false;
+                                this.showInKb = true;
+
+                            }
+                            // console.log(this.total_size);
                             // this.repositories = [];
                             this.filtered_repositories = [].concat.apply([], this.allFiles);
                             // console.log(this.allFiles);
@@ -389,7 +399,7 @@ export class FilerepositoryComponent implements OnInit {
     uploadFile() {
         this.toggleFileUploader = !this.toggleFileUploader;
     }
-    /* this is to sort by descending*/
+ 
     sortByFolderNameDesc = () => {
         this.repositories.reverse();
     }
@@ -407,7 +417,20 @@ export class FilerepositoryComponent implements OnInit {
         this.repositories[index].isActive = true;
         const files = repositories.filter(nerepositories => nerepositories.folder === folder_name);
         this.filtered_repositories = files[0].files;
-        // console.log(this.filtered_repositories);
+        this.ConvertUnits();
+    }
+    
+    ConvertUnits = () => {
+        _.each(this.filtered_repositories,(filtered_item:IFiles)=>{
+            if(parseFloat((filtered_item.file_size/1048576).toFixed(2)) >= 1.0) {
+                filtered_item.isShowMb  = true;
+                filtered_item.isShowKb  = false;
+            }
+            else if(parseFloat((filtered_item.file_size/1048576).toFixed(2)) < 1.0){
+                filtered_item.isShowMb  = false;
+                filtered_item.isShowKb  = true;
+            }
+        })
     }
     resetIsactive(repositories) {
         _.each(repositories, (iteratee, index) => {

@@ -1,17 +1,20 @@
 {
-  "name": "ng2auth",
+  "name": "Flujo",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "node server.js",
+    "build": "ng build — env=prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ng build --aot -prod"
   },
   "private": true,
   "dependencies": {
+    "@angular/cli": "^1.6.5",
+    "@angular/compiler-cli": "^5.0.0",
     "@angular-devkit/core": "0.4.8",
     "@angular/animations": "^5.1.2",
     "@angular/cdk": "^5.2.4",
@@ -73,6 +76,7 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~9.6.1",
     "codelyzer": "^4.0.1",
+    "enhanced-resolve": "^3.3.0",
     "jasmine-core": "~3.1.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~2.0.0",
@@ -84,6 +88,10 @@
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "~2.8.1"
+    "typescript": "^2.6.2"
+  },
+  "engines": {
+    "node": "8.11.0",
+    "npm": "3.10.10"
   }
 }

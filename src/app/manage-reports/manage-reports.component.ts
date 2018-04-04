@@ -54,7 +54,12 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     filteredusersListOptions: Observable<string[]>;
     filteredMoveToListOptions: Observable<string[]>;
     FilteredRemarksListOptions: Observable<string[]>;
+    searchReport: any;
+    config: any;
     arrows: IArrows;
+    picker: any;
+    p: number;
+
     private filterSubject: Subject<string> = new Subject<string>();
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
@@ -314,7 +319,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             this.arrows[arrow] = false;
         }
     }
-    sortByStatus = (reportStatus, statusName, ) => {
+    sortByStatus = (reportStatus) => {
         if (reportStatus === '0') {
             this.showReports.completedActive = true;
             this.showReports.inProgressActive = false;
