@@ -114,6 +114,7 @@ addPages = () => {
   this.isAddPage = true;
   this.isTableView = false;
   this.isGridView = false;
+  this.button_text = 'Save';
 }
 viewPages = () => {
   // this.getModuleDetails();
