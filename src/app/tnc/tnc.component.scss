@@ -1,55 +1,203 @@
-.example-container {
-    display: flex;
-    flex-direction: column;
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+button {
+  outline: none;
+}
+
+// input, input:focus {
+//     outline: none;
+//     box-shadow: none;
+// }
+.addview-buttons {
+  text-align: right;
+  padding: 20px 0;
+  float: right;
+  button {
+    margin-right: 15px;
+    background: none;
+    border: none;
+    color: #666666;
+    box-shadow: none;
   }
-  
-  .example-container>* {
+}
+
+img {
+  max-width: 100px;
+  max-height: 100px;
+  vertical-align: middle;
+}
+
+.table {
+  thead {
+    tr {
+      border-bottom: 1px solid #dee2e6;
+    }
+  }
+  td,
+  th,
+  button {
+    border: none;
+
+    font-size: 14px;
+    font-family: 'Roboto';
+    font-size: 14px;
+    font-weight: 500; // line-height: 1.43;
+    // text-align: left;
+    color: #666666;
+  }
+  button {
+    color: #fff;
+  }
+}
+
+// input {
+//     border-radius: 0;
+//     padding: 8px;
+//     font-size: 14px;
+//     color: #666666;
+// }
+.add-pages {
+  select {
+    height: 38px;
+    cursor: pointer;
+    outline: none; // margin-left: 15px;
+  } // .form-group {
+  //     input {
+  //         width: auto;
+  //         display: initial;
+  //         // margin-left: 15px;
+  //     }
+  // }
+}
+
+.example-card {
+  max-width: 400px;
+  padding: 0;
+  border-radius: 5px;
+  position: relative;
+}
+
+.grid-tile {
+  border-radius: 5px;
+}
+
+#pageview {
+  width: 100%;
+  height: 150px;
+  background-color: brown;
+  background-image: linear-gradient(49deg, #42dae0, #77f886);
+  background-position: center center;
+  background-size: contain;
+  border-radius: 5px 5px 0 0;
+  position: relative;
+  .page-screenshot {
+    position: absolute;
+    border-radius: 5px 5px 0 0;
+    max-width: 100%;
+    max-height: 100%;
     width: 100%;
   }
-  
-  .smsContact {
-    // width: 300px;
-    margin: 0 auto; // margin-top: 50px;
-    input,
-    textarea {
-      padding: 8px 15px;
-      outline: none;
-      width: 100%;
-      margin-bottom: 20px;
-      box-shadow: none;
+}
+
+#pageheader {
+  padding: 20px 10px 0;
+  .edit-title h6,
+  i {
+    display: inline;
+    opacity: 0.6;
+  }
+  .edit-title {
+    h6#page-title {
+      // max-width: 50%;
+      white-space: nowrap;
+      width: 5em;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .file-box {
-      box-shadow: none;
-      border: none;
-  
-    } // control-messages,
-    // .form-error-msg {
-    //   color: #E82C0C;
-    //   margin: 6px 0;
-    // }
   }
-  
-  
-  .button_submit {
-    width: 100px;
+}
+
+.button-row {
+  width: 100%;
+  padding: 25px 10px 25px 20px; // margin:10px auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  button {
+    margin: -10px;
+  } // .button-stack:hover button{
+  //     margin: initial;
+  //     z-index: 99;
+  // }
+  a {
+    margin-left: 15px;
+    opacity: 0.6;
   }
-  
-  .choose-button {
-    background: none;
-    border: 1px solid #666666 !important;
-    border-radius: 30px !important;
-    line-height: 30px;
-    font-size: 11px;
-    font-weight: 500;
-    text-align: center;
-    color: #666666;
-    position: absolute;
-    right: 0;
-    text-transform: uppercase;
-    box-shadow: none !important;
-    overflow: hidden;
+}
+
+.btn-addpage {
+  background: none;
+  border: 1px solid #666666 !important;
+  border-radius: 30px !important;
+  line-height: 30px;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  color: #666666;
+}
+
+.divider {
+  width: auto;
+  height: 1.5px;
+  background-color: #d8d8d8;
+  margin: 15px 0;
+}
+
+.main-category {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  color: #666666;
+}
+
+.parent-pages {
+  height: auto;
+  position: relative;
+}
+
+.child-pages {
+  // height: 35vh; 
+  position: relative;
+  .child-page {
+    white-space: nowrap;
+    display: inline;
   }
-  .p-rel {
-    position: relative;
+}
+
+.colorPickerInput {
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+  font-size: 8px;
+  text-align: center;
+  border: 0.5px solid #ccc;
+}
+
+// input[type="file"] {
+//     padding-left: 0;
+// }
+
+.page-header {
+    float: left;
+    display: inline-block;
+}
+
+.select_box {
+  height: 40px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  border: solid 1.5px #d8d8d8;
+  select {
+    border-color: transparent;
+    background-color: transparent;
+    height: auto;
   }
-  
+}
