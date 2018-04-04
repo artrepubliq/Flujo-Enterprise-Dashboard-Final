@@ -52,6 +52,7 @@ export class MediaComponent implements OnInit {
   public allAlbumImageIdsArray;
   public usedImageIdsArray;
   public unUsedImageIdsArray;
+  isshowAlbumGallery: boolean;
   uploadImagesObject: IUploadImages;
   dragAreaClass = 'dragarea';
   showHide: boolean;
@@ -219,19 +220,9 @@ export class MediaComponent implements OnInit {
   onUploadStateChanged(state: boolean) {
     console.log(JSON.stringify(state));
   }
-  // Popup for file uploading
-  // openFileDialog(imageDetail): void {
-  //   let dialogRef = this.dialog.open(FileSelectPopup, {
-  //     width: '80vw',
-  //     data: imageDetail,
-  //   });
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //   });
-  // }
   // this function used to upload the image or multiple images
-  onUploadImages(body: any) {
+  onUploadImages() {
     this.spinnerService.show();
 
     this.uploadImagesObject.client_id = AppConstants.CLIENT_ID;

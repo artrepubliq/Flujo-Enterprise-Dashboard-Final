@@ -9,7 +9,6 @@ import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { GalleryImagesService } from './service/gallery-images.service';
-import { RoleGuardService } from './auth/role-guard.service';
 import { UseraccessServiceService } from './service/useraccess-service.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -102,7 +101,8 @@ import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
-import { EditorSelectionService } from './service/editor-selection.service';
+import { EmailTemplateResolver } from './email-template/email-template.resolver';
+import { EmailTemplateService } from './email-template/email-template-service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -228,11 +228,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               GalleryImagesService,
               FBService,
               ProblemTypeService,
-              RoleGuardService,
               UseraccessServiceService,
               AreaService,
+
               {provide: DateAdapter, useClass: DateFormat},
-              EditorSelectionService
+              EmailTemplateResolver,
+              EmailTemplateService
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
@@ -244,6 +245,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               //   useClass: TokenInterceptor,
               //   multi: true
               // }
+
+              {provide: DateAdapter, useClass: DateFormat}
+
             ],
   bootstrap: [AppComponent]
 })

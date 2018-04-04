@@ -7,7 +7,8 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 })
 export class EditorComponent implements OnInit {
-
+  options: any;
+  content: any;
   constructor() { }
 
   ngOnInit() {
