@@ -502,7 +502,9 @@
 .dropdown-submenu:hover>.dropdown-menu {
     display: block;
 }
-
+.userpopup:hover>ul.dropdown-menu{
+  display: block;
+}
 .dropdown-submenu>a:after {
     display: block;
     content: " ";
@@ -516,7 +518,7 @@
     margin-top: 10px;
     margin-right: 10px;
 }
-ul.dropdown-menu.show:before {
+ul.dropdown-menu:before {
   display: block;
   content: " ";
   float: left;
