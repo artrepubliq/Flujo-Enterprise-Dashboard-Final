@@ -1,5 +1,5 @@
-
-<ng4-loading-spinner></ng4-loading-spinner>
+<ng4-loading-spinner>
+</ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="analytics_block" *ngIf="newData" fxLayout="column" fxLayoutGap="25px">
   <!-- Analytics Header -->
@@ -50,15 +50,15 @@
 <!-- ======= Charts Cards ======== -->
 <div fxLayout="column" fxLayoutGap="15px">
   <div fxLayout="row" fxLayoutGap="15px">
-    <!-- Chart - 1  -->
+    <!-- Gender Chart  -->
     <div fxFlex class="chart_card">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
         <h3 class="title">Gender</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-        <div >
-            <app-charts-gender [gender]='gender'></app-charts-gender>
+        <div>
+          <app-charts-gender [gender]='gender'></app-charts-gender>
         </div>
       </div>
       <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <!-- Chart - 2  -->
+    <!-- Assign Chart -->
     <div fxFlex class="chart_card">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
         <h3 class="title">Assign</h3>
@@ -78,24 +78,26 @@
       </div>
 
     </div>
-    <!-- Chart - 3  -->
-    <div fxFlex class="chart_card">
+    <!-- Age Chart  -->
+    <div fxFlex class="chart_card age_chart">
       <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
         <h3 class="title">Age</h3>
         <i class="fa fa-ellipsis-v"></i>
       </div>
       <div class="chart_body">
-          <div >
-            
-            <canvas id="ageChartCanvas">
+        <div>
 
-            </canvas>
-          </div>
-          
+          <canvas id="ageChartCanvas">
+
+          </canvas>
+        </div>
+
       </div>
-      <div class="chart_footer" *ngFor="let item of range">
-        
-
+      <div class="chart_footer" fxLayout="row" fxLayoutGap="25px" fxLayoutWrap="wrap">
+        <p fxFlex="50" class="chart_item age18">18 - 24 age <span class="pull-right">44.7%</span> </p>
+        <p fxFlex="50" class="chart_item age25">25 - 34 age <span class="pull-right">24.3%</span> </p>
+        <p fxFlex="50" class="chart_item age35">35 - 44 age <span class="pull-right">14.1%</span> </p>
+        <p fxFlex="50" class="chart_item age45">45 Above age <span class="pull-right">25.9%</span> </p>
       </div>
     </div>
   </div>

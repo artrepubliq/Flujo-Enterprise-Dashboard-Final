@@ -1,72 +1,83 @@
 // .ng-valid[required], .ng-valid.required  {
 //     border-left: 5px solid #42A948; /* green */
 //   }
-  
 // .ng-invalid:not(form)  {
 //     border-left: 5px solid #a94442; /* red */
 //   }
-
-.form-group{
-  position: relative !important; 
+.form-group {
+  position: relative !important;
 }
+
 div.alert {
   position: absolute;
   top: 60px;
   left: 0;
   padding-left: 0;
-  color:darken($color: #d60808, $amount: 0);
+  color: darken($color: #d60808, $amount: 0);
 }
-#createuserform .form-control{
+
+#createuserform .form-control {
   box-shadow: none !important;
 }
 
-.table-bordered{
+.table-bordered {
   background-color: rgb(255, 255, 255);
 }
-.table-bordered thead th, tbody td{
+
+.table-bordered thead th,
+tbody td {
   vertical-align: middle !important;
 }
-.table-bordered thead tr, tbody tr{
+
+.table-bordered thead tr,
+tbody tr {
   height: 70px;
 }
-.table-bordered th{
+
+.table-bordered th {
   font-size: 13px;
-font-weight: 500;
-color: #666666;
+  font-weight: 500;
+  color: #666666;
 }
-.table-bordered td{
+
+.table-bordered td {
   font-size: 14px;
-font-weight: 500;
-color: #333333;
+  font-weight: 500;
+  color: #333333;
 }
-.table-bordered th, .table-bordered td{
-  border-left:none;
-  border-right:none;
-  
+
+.table-bordered th,
+.table-bordered td {
+  border-left: none;
+  border-right: none;
 }
-.btn-stack{
-  button{
-  background: none;
-  border:none;
+
+.btn-stack {
+  button {
+    background: none;
+    border: none;
   }
   .btn:focus {
-      outline: 0;
-      box-shadow:none;
+    outline: 0;
+    box-shadow: none;
   }
-  button i{
-      font-family:FontAwesome !important;
-      opacity: 0.6;
+  button i {
+    font-family: FontAwesome !important;
+    opacity: 0.6;
   }
-  button i:hover{
+  button i:hover {
     opacity: 1;
+  }
 }
-}
-.form-header{
+
+.form-header {
   font-size: 30px;
   font-weight: 300;
   color: #666666;
 }
-#createuserform input, select {
+
+#createuserform input,
+select {
   height: 40px;
   border-radius: 0px !important;
   background-color: #ffffff;
@@ -83,15 +94,17 @@ color: #333333;
   width: 100%;
   outline: none;
 }
-#createuserform select{
+
+#createuserform select {
   border: none !important;
   height: 35px;
   position: absolute;
-  left:0;
+  left: 0;
   top: 0;
   max-width: 100% !important;
 }
-#createuserform div.select-wrap{
+
+#createuserform div.select-wrap {
   height: 40px;
   width: 100%;
   text-align: center;
@@ -101,13 +114,14 @@ color: #333333;
   background-color: #ffffff;
   border: solid 1.5px #d8d8d8;
 }
-#createuserform label{
+
+#createuserform label {
   font-size: 14px;
   color: #666666;
 }
 
-.btn-user{
-  border-radius:35px !important;
+.btn-user {
+  border-radius: 35px !important;
   vertical-align: middle;
   border: solid 1.5px #4a2565;
   font-family: Roboto;
@@ -116,14 +130,15 @@ color: #333333;
   font-weight: 500;
   color: #4a2565;
 }
-.btn-user:hover{
+
+.btn-user:hover {
   background-color: #4a2565;
   color: #fff;
   border-color: transparent;
 }
 
-button i{
-  font-family:FontAwesome !important;
+button i {
+  font-family: FontAwesome !important;
 }
 
 .profile-edit {
@@ -148,6 +163,7 @@ button i{
     box-shadow: 4px 3px 8px rgba(0, 0, 0, 0.5);
   }
 }
+
 .profile_block {
   height: 100%;
   /*   Logo_Header */
@@ -241,7 +257,7 @@ button i{
             cursor: pointer;
           }
           button.delete_logo:hover {
-            background-color:transparent;
+            background-color: transparent;
           }
         }
         .upload-logo:hover {
@@ -316,7 +332,7 @@ button i{
       .logoCtrl_button.cancel {
         position: absolute;
         left: 20px;
-        top:20px;
+        top: 20px;
       }
       .logoCtrl_button:hover {
         background-color: #4a2565;
@@ -339,6 +355,7 @@ button i{
     color: #c1c1c1; // Microsoft Edge
   }
 }
+
 .defaultavatar {
   position: relative;
   max-width: 300px;
@@ -384,38 +401,56 @@ button i{
   -webkit-transition: all 1s;
 }
 
-
 // ========= Access Level Pop Styles ======
-
 .access-popUp {
   position: relative;
-  padding-bottom: 50px;
+  .header {
+    margin: -24px;
+    padding: 18px;
+    border-bottom: 1.5px solid #f7f7f7;
+    h4 {
+      font-size: 15px;
+      font-weight: 500;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: #666666;
+      text-transform: uppercase;
+    }
+  }
+  .headings {
+    padding: 18px 0;
+    font-size: 13px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #666666;
+  }
+  .overflow_data {
+    height: calc(70vh - 180px);
+    position: relative;
+    .access-item {
+      min-height: 30px;
+    }
+  }
   .access_actions {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    button, .button_submit {
+    margin: -24px;
+    margin-top: 0;
+    padding: 18px;
+    border-top: 1.5px solid #f7f7f7;
+    button,
+    .button_submit {
       width: 100px;
     }
   }
-  form {
-    background-color: #ffffff;
-    box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    .headings {
-      border-bottom: 1.5px solid #f5f5f5;
-      margin-bottom: 20px;
-    }
-  }
-  .close-btn{
-    top:48px;
+  .close-btn {
+    position: absolute;
+    bottom: 0;
   }
 }
-.user_name {
-  padding-left: 33px;
 
-.overflow_data {
-  height: calc(100vh - 300px);
-  position: relative;
-}
-}
