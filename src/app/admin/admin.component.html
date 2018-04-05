@@ -2,12 +2,12 @@
 <nav class="navbar navbarTop" role="navigation">
   <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
     <div fxLayout="row" fxLayoutGap="0.1rem" fxLayoutAlign="start center">
-      <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
+      <a class="navbar-brand"  (click)="sidebarToggledButton=!sidebarToggledButton">
         <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
       </a>
-      <ul class="nav flex-column login-info">
-        <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+      <div class="nav flex-column login-info">
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
             <span>Art Republiq</span>
             <span class="active-indication">
@@ -17,27 +17,26 @@
               </span>
             </span>
           </a>
-          <div class="dropdown-menu">
-            <ng4-loading-spinner> </ng4-loading-spinner>
-            <li class="nav-item dropright" [ngClass]="{'open':dropdownOpen}">
-                <a class="dropdown-item subNav-link dropdown-toggle " (click)="dropdownOpen=!dropdownOpen">
+          <ul class="dropdown-menu"  role="menu" aria-labelledby="dropdownMenu">
+            <li class="dropdown-item dropdown-submenu"  >
+                <a class="" tabindex="-1" >
                   <span>Status</span>
                 </a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item">Away</a>
-                  <a class="dropdown-item">Idle</a>
-                  <a class="dropdown-item">Busy</a>
-                </div>
+                <ul class="second-Level dropdown-menu">
+                  <li class="dropdown-item"><a >Away</a></li> 
+                  <li class="dropdown-item"><a >Idle</a></li>
+                  <li class="dropdown-item"><a >Busy</a></li>
+                </ul>
             </li>
-            <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Profile & Account</a>
-            <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Preferences</a>
-            <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Manage Team</a>
-            <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Settings</a>
-            <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Help</a>
-            <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Signout</a>
-          </div>
-        </li>
-      </ul>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Profile & Account</a></li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Preferences</a></li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Manage Team</a></li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Settings</a></li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Help</a></li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Signout</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
   <div class="admin-website mr-auto">
