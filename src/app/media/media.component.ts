@@ -52,6 +52,7 @@ export class MediaComponent implements OnInit {
   public allAlbumImageIdsArray;
   public usedImageIdsArray;
   public unUsedImageIdsArray;
+  isshowAlbumGallery: boolean;
   uploadImagesObject: IUploadImages;
   dragAreaClass = 'dragarea';
   showHide: boolean;
@@ -148,7 +149,7 @@ export class MediaComponent implements OnInit {
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                   this.userAccessLevelObject = item.access_levels;
-              }else {
+              } else {
                 // this.userAccessLevelObject = null;
               }
             });
@@ -185,7 +186,7 @@ export class MediaComponent implements OnInit {
     });
     if (this.filteredUserAccessData) {
       this.router.navigate(['admin/media']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
     }
   }
@@ -219,19 +220,9 @@ export class MediaComponent implements OnInit {
   onUploadStateChanged(state: boolean) {
     console.log(JSON.stringify(state));
   }
-  // Popup for file uploading
-  // openFileDialog(imageDetail): void {
-  //   let dialogRef = this.dialog.open(FileSelectPopup, {
-  //     width: '80vw',
-  //     data: imageDetail,
-  //   });
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //   });
-  // }
   // this function used to upload the image or multiple images
-  onUploadImages(body: any) {
+  onUploadImages() {
     this.spinnerService.show();
 
     this.uploadImagesObject.client_id = AppConstants.CLIENT_ID;

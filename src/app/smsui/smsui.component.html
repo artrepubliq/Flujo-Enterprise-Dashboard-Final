@@ -58,28 +58,8 @@
       </div>
     </div> -->
     <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-      <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
-      <button type="submit" class="button_submit" (click)="smsContactFormSubmit(smsContactForm.value)" [disabled]="!smsContactForm.valid">Send</button>
+      <button type="button" mat-button  color="default">Cancel</button>
+      <button type="submit" class="button_submit" (click)="smsContactFormSubmit()" [disabled]="!smsContactForm.valid">Send</button>
     </div>
   </form>
 </div>
-
-
-
-
-
-
-<!-- //$api_url ='http://api-alerts.solutionsinfini.com/v3/?method=sms&api_key=Afef8b80a6450bc8c9750205e0d892578&to='.$mobile.'&sender='.$sender_id.'&message='.$sms_text;
-  //Envoking the API url and getting the response 
-  $otp_response = file_get_contents( $api_url);
-        
-  $json = json_decode($otp_response, true);     
-       
-  $otp_satus=$json['status']; 
-    
-  if($otp_satus == 'OK'){
-                        
-            echo json_encode($otp_satus);
-        }else {
-            echo json_encode($otp_satus);
-        } -->

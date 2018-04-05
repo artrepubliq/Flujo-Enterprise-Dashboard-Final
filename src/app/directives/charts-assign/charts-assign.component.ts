@@ -9,7 +9,7 @@ import * as _ from 'underscore';
 })
 export class ChartsAssignComponent implements OnChanges {
   @Input() assign: any;
-
+  assignChart: any;
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges) {

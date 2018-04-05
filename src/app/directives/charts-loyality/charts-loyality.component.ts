@@ -11,6 +11,7 @@ import {Chart} from 'chart.js'; // grabs bundled
 })
 export class ChartsLoyalityComponent implements OnInit, OnChanges {
   @Input() area: any;
+  areaChart: any;
   constructor() { }
 
   ngOnInit() {

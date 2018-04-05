@@ -7,23 +7,9 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="30px">
-      <!-- <div fxLayoutAlign="center center" class="text-center button-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-outline-secondary  btn-actissue">
-          <input type="radio" name="options" id="option1" autocomplete="off" checked> Active Issues
-        </label>
-        <label class="btn btn-outline-secondary btn-pastissue">
-          <input type="radio" name="options" id="option2" autocomplete="off"> Past Issues
-        </label>
-      </div> -->
+      
       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
-        <!-- <div  class=" text-center button-group btn-group-toggle" data-toggle="buttons">
-           <label class="pull-right btn btn-outline-secondary   btn-view-grid" >
-              <input type="radio"  name="options" id="view1" autocomplete="off" checked> <i class="fa fa-th"></i>
-           </label>
-           <label class="pull-right btn btn-outline-secondary   btn-view-list">
-             <input type="radio"  name="options" id="view2" autocomplete="off"> <i class="fa fa-th-list"></i>
-           </label>
-          </div> -->
+         
         <button (click)="exportChangermakereport()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
         <div class="dropdown" matSort (matSortChange)="sortData($event)">
           <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -45,7 +31,9 @@
     </div>
 
   </div>
-
+<div>
+  <div>Total count: {{changemakerData2.length}}</div>
+</div>
   <div class="changemaker_table" [perfectScrollbar]="config">
     <div class="change_data">
       <div *ngFor="let report of changemakerData2 | paginate: { itemsPerPage: 10, currentPage: p }" class="link-row" fxLayout.xs="column"
@@ -54,13 +42,10 @@
           <div fxLayout="row" fxLayoutGap="3rem">
             <div class="" fxFlex="20%" fxLayoutAlign="start center">
               <span fxLayoutGap="5px">
-                <!-- <p class="text-muted d-inline">
-                  <i class="fa fa-ellipsis-v"></i>
-                  <i class="fa fa-ellipsis-v"></i>
-                </p> -->
+               
                 <input class="d-inline" type="checkbox">
                 <b>
-                  <p class="d-inline">{{report.name}}</p>
+                  <div class="d-inline">{{report.name}}</div>
                 </b>
               </span>
             </div>
@@ -100,9 +85,7 @@
               <span>{{report.phone}}</span>
             </div>
             <div fxFlex="40%" fxLayoutAlign="start">
-              <!-- <span class="text-muted">
-                <i class="fa fa-paperclip"> </i> &nbsp;
-              </span> -->
+
               <span class="report-file-descr"> Now is the time for all good men to come to the aid of their party</span>
             </div>
           </div>
@@ -128,5 +111,4 @@
       [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
     </mat-paginator>
   </div>
-  <!-- <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls> -->
 </div>
