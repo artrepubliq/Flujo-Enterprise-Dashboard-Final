@@ -101,8 +101,11 @@ import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
+
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
+
+import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -165,7 +168,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MediaLocalImagePopupDialog,
     SmstemplateComponent,
     EmailTemplateComponent,
-    ChooseplatformComponent
+    ChooseplatformComponent,
+    SocialconfigurationComponent
   ],
   imports: [
     BrowserModule,

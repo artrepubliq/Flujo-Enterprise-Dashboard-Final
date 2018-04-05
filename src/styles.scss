@@ -569,6 +569,7 @@ control-messages,
   padding: 0 2vw 0 3vw;
 }
 
+
 .access-popUp {
   .mat-slide-toggle-bar {
     height: 15px;
@@ -639,3 +640,46 @@ control-messages,
   height: 380px !important;
   width: 330px !important;
 }
+
+/* ....///Social configuration*/
+
+.setup{
+  text-align: center;
+  margin: 0 auto;
+  .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+    display: none;
+  }
+  .mat-tab-body{
+    border-radius: 10px;
+  }
+  .mat-tab-header{
+          margin-bottom: 6rem;
+          margin-top:2rem;
+          border-bottom:none;
+      }
+      .mat-tab-label{
+        border: solid 1.5px #f0f0f0;
+      }
+      .mat-tab-label-active,.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus{
+        background-color: white;
+      }
+      // .mat-tab-label:hover{
+      //   background-color: white;
+      // }
+      .mat-tab-label:first-child{
+        border-right:none;
+        border-radius: 30px;
+        border-top-right-radius: initial;       
+        border-bottom-right-radius: initial;    
+      }
+      .mat-tab-label:nth-child(2){
+        border-right:none;
+      }
+      .mat-tab-label:last-child{
+        border-left:none;
+        border-radius: 30px; 
+        border-top-left-radius: initial;       
+        border-bottom-left-radius: initial;       
+      }
+}
+
