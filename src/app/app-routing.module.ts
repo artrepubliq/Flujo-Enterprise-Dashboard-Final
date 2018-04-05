@@ -39,6 +39,8 @@ import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
+import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -103,6 +105,9 @@ const routes: Routes = [
             data: { title: 'Email Template Configuration' }
           },
           { path: 'chooseplatform', component: ChooseplatformComponent, data: { title: 'Editor' } },
+
+          { path: 'socialconfiguration', component: SocialconfigurationComponent, data: {title: 'Social Configurations'} },
+
         ]
       }
     ]
