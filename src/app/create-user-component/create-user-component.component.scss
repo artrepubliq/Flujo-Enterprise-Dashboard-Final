@@ -434,6 +434,9 @@ button i {
   .overflow_data {
     height: calc(70vh - 180px);
     position: relative;
+    .access-item {
+      min-height: 30px;
+    }
   }
   .access_actions {
     margin: -24px;

@@ -23,9 +23,9 @@
                 </div>
             </div> -->
         </div>
-        <div class="overflow_data">
+        <div class="overflow_data" [perfectScrollbar]="config">
             <div fxLayout="column">
-                <div fxLayout="row" *ngFor="let accessdata of accessLevelData let i=index">
+                <div class="access-item" fxLayout="row" *ngFor="let accessdata of accessLevelData let i=index">
                     <div fxFlex>
                         {{accessdata.name}}
                     </div>

@@ -18,6 +18,7 @@ import { AdminComponent } from '../admin/admin.component';
   styleUrls: ['./sociallinks.component.scss']
 })
 export class SocialLinksComponent implements OnInit {
+  addNew: boolean;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   socialItemId: any;
@@ -27,7 +28,6 @@ export class SocialLinksComponent implements OnInit {
   form_btntext = 'save';
   successMessage: string;
   deleteMessage: string;
-  public isEdit = false;
 
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
     private alertService: AlertService, private router: Router, public adminComponent: AdminComponent) {
@@ -124,7 +124,6 @@ export class SocialLinksComponent implements OnInit {
   getSocialLinksData() {
 
     this.spinnerService.show();
-    this.isEdit = false;
     this.httpClient
       .get<ISocialLinks>(AppConstants.API_URL + 'flujo_client_getsociallinks/' + AppConstants.CLIENT_ID)
       .subscribe(
@@ -138,11 +137,7 @@ export class SocialLinksComponent implements OnInit {
             delete object.id;
           });
           console.log(this.socialItems);
-          if (this.socialItems[0].id) {
-            this.isEdit = false;
-          } else {
-            this.isEdit = true;
-          }
+          this.addNew = false;
         },
 
         err => {
@@ -152,14 +147,14 @@ export class SocialLinksComponent implements OnInit {
       );
 
   }
-  // function to view the social items
-  viewSocialLinks() {
-    this.isEdit = false;
-  }
+  
   // add new item
   addNewItem() {
-    this.isEdit = true;
+    this.addNew = true;
     this.setSocialFormToDefault();
+  }
+  cancelNew() {
+    this.addNew = false;
   }
   // sociallinks delete from db
   deleteSocialLinks(socialItem) {
@@ -193,10 +188,10 @@ export class SocialLinksComponent implements OnInit {
 
   }
   EditSocialLinks(socialData) {
-    // this.isEdit = true;
     console.log(socialData);
     socialData.editLink = true;
     this.socialItemId = socialData.id;
+    this.addNew = false;
     // localStorage.setItem('socialitem_id', socialData.id);
     // console.log(localStorage.getItem('socialitem_id'));
     // this.form_btntext = socialData.id ? 'Update' : 'Save';
