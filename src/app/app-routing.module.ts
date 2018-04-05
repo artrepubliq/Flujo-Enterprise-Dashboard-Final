@@ -38,6 +38,8 @@ import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
+import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
+
 
 const routes: Routes = [
   {
@@ -98,6 +100,7 @@ const routes: Routes = [
           { path: 'smsconfiguration', component: SmstemplateComponent, data: {title: 'Sms Template Configuration'} },
           { path: 'emailconfiguration', component: EmailTemplateComponent, data: {title: 'Email Template Configuration'} },
           { path: 'chooseplatform', component: ChooseplatformComponent, data: {title: 'Editor'} },
+          { path: 'socialconfiguration', component: SocialconfigurationComponent, data: {title: 'Social Configurations'} },
         ]
       }
     ]
