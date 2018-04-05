@@ -43,7 +43,7 @@ export class ProblemCategoryComponent implements OnInit {
   ) {
     this.updateProblem = false;
     this.selectProblem = true;
-    this.actionText = 'Add';
+    this.actionText = 'Add New +';
     this.problemId = '';
     this.isEdit = false;
     this.problemTypeNameNew = '';

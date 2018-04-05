@@ -399,7 +399,6 @@ export class FilerepositoryComponent implements OnInit {
     uploadFile() {
         this.toggleFileUploader = !this.toggleFileUploader;
     }
- 
     sortByFolderNameDesc = () => {
         this.repositories.reverse();
     }

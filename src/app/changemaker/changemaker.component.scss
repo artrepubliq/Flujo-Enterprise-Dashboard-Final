@@ -218,14 +218,14 @@ input{
     background: transparent;
 }
 .changemaker_table{
-    height: calc(100vh - 250px);
+    height: calc(100vh - 300px);
     position: relative;
     .link-row {
-        margin: 10px 5px;
+        margin: 4px 5px 10px 0;
     }
-    // .change_data{
-    //     padding:0 1rem;
-    // }
+    .change_data{
+        padding:0 10px;;
+    }
 }
 .feedback_footer .button_submit {
     width: auto;
