@@ -31,6 +31,7 @@ export class AreasComponent implements OnInit {
   newAreaData: IUpdateableData;
   areaData: Array<IAreaType>;
   areaForm: FormGroup;
+  config: any;
   constructor(
     private httpService: HttpService,
     private areaService: AreaService,
@@ -42,7 +43,7 @@ export class AreasComponent implements OnInit {
   ) {
     this.areaPincode = '';
     this.areaName = '';
-    this.actionText = 'Add';
+    this.actionText = 'Add New +';
     this.isEdit = false;
     this.areaForm = new FormGroup({
       'areatypenamenew': new FormControl(this.areaTypeNameNew, [Validators.required]),

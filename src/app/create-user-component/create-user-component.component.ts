@@ -29,6 +29,7 @@ export class CreateUserComponentComponent implements OnInit {
   public loading = false;
   public isEdit = true;
   button_text = 'save';
+  config: any;
   // model=new User(1,'','','','');
 
   PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
@@ -150,6 +151,7 @@ export class CreateUserComponentComponent implements OnInit {
   openAccessDialog(userItem): void {
     const dialogRef = this.dialog.open(AccessLevelPopup, {
       width: '45vw',
+      height: '70vh',
       data: userItem,
     });
     dialogRef.afterClosed().subscribe(result => {

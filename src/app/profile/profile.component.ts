@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
   profileData: IProfileData;
   ELEMENT_DATA: IProfileData;
   profileDetail: Array<object>;
+  successMessage: string;
   // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   @ViewChild('fileInput') fileInput: ElementRef;
 

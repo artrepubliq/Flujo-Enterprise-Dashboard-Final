@@ -13,6 +13,7 @@ import { IRepositories, IFiles, IResult } from '../model/repositories.model';
 import * as _ from 'underscore';
 import { FileHolder } from 'angular2-image-upload';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
+import { DeletefolderDialog } from '../filerepository/deletefolder.dialog';
 
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
@@ -46,7 +47,8 @@ export class FilerepositoryComponent implements OnInit {
     repository_name: string;
     uploaded_file: any;
     foldersdata = [];
-
+    showInMb: boolean;
+    showInKb: boolean;
     // disabled = false;
     @Input() projectId: number;
     @Input() sectionId: number;
@@ -62,9 +64,9 @@ export class FilerepositoryComponent implements OnInit {
         private spinnerService: Ng4LoadingSpinnerService,
         public dialog: MatDialog,
         public fileViewDialog: MatDialog,
+        public deleteFolderDialog: MatDialog,
         private alertService: AlertService,
         public adminComponent: AdminComponent,
-         public deleteFolderDialog: MatDialog,
         public router: Router) {
 
         this.FileUploadControl = this.formBuilder.group({
@@ -128,8 +130,8 @@ export class FilerepositoryComponent implements OnInit {
         formData.append('file_name', filedata.file_name);
         formData.append('client_id', filedata.client_id);
         formData.append('file_size', '' + filedata.file_path.size);
-        console.log(size);
-        console.log(this.total_size);
+        // console.log(size);
+        // console.log(this.total_size);
         // tslint:disable-next-line:radix
         console.log(size + parseFloat(this.total_size_in_mb));
         if ((size + parseFloat(this.total_size_in_mb)) >= 1024.00) {
@@ -349,7 +351,16 @@ export class FilerepositoryComponent implements OnInit {
                             this.repositories.forEach(allFiles => {
                                 this.allFiles.push(allFiles.files);
                             });
-                            console.log(this.total_size);
+                            if(parseFloat((this.total_size/1048576).toFixed(2)) >= 1.0) {
+                                this.showInMb = true;
+                                this.showInKb = false;
+                            } 
+                            else if(parseFloat((this.total_size/1048576).toFixed(2)) < 1.0){
+                                this.showInMb = false;
+                                this.showInKb = true;
+
+                            }
+                            // console.log(this.total_size);
                             // this.repositories = [];
                             this.filtered_repositories = [].concat.apply([], this.allFiles);
                             // console.log(this.allFiles);
@@ -388,7 +399,6 @@ export class FilerepositoryComponent implements OnInit {
     uploadFile() {
         this.toggleFileUploader = !this.toggleFileUploader;
     }
-    /* this is to sort by descending*/
     sortByFolderNameDesc = () => {
         this.repositories.reverse();
     }
@@ -406,7 +416,20 @@ export class FilerepositoryComponent implements OnInit {
         this.repositories[index].isActive = true;
         const files = repositories.filter(nerepositories => nerepositories.folder === folder_name);
         this.filtered_repositories = files[0].files;
-        // console.log(this.filtered_repositories);
+        this.ConvertUnits();
+    }
+    
+    ConvertUnits = () => {
+        _.each(this.filtered_repositories,(filtered_item:IFiles)=>{
+            if(parseFloat((filtered_item.file_size/1048576).toFixed(2)) >= 1.0) {
+                filtered_item.isShowMb  = true;
+                filtered_item.isShowKb  = false;
+            }
+            else if(parseFloat((filtered_item.file_size/1048576).toFixed(2)) < 1.0){
+                filtered_item.isShowMb  = false;
+                filtered_item.isShowKb  = true;
+            }
+        })
     }
     resetIsactive(repositories) {
         _.each(repositories, (iteratee, index) => {
@@ -426,6 +449,49 @@ export class FilerepositoryComponent implements OnInit {
                 },
                 error => {
                     this.alertService.success('File something went wrong successfully');
+                    console.log(error);
+                }
+            );
+    }
+
+    // this is to open dialog when clicked on delete folder icon
+    public deleteFolder(repositoryitem) {
+        console.log(repositoryitem);
+        if (repositoryitem.files.length === 0) {
+            // console.log(repositoryitem.files.length);
+            this.deleteFoldersAndFiles(repositoryitem.folder_id);
+        } else {
+            console.log(repositoryitem);
+            const delFolderdialog = this.deleteFolderDialog.open(DeletefolderDialog, {
+                width: '420px'
+            });
+
+            delFolderdialog.afterClosed().subscribe(result => {
+                console.log('The dialog was closed');
+
+                if (result === true) {
+                    this.deleteFoldersAndFiles(repositoryitem.folder_id);
+                } else {
+                    console.log('i cannot');
+                }
+            });
+        }
+    }
+
+    deleteFoldersAndFiles(folderId) {
+        console.log(folderId);
+        this.spinnerService.show();
+        this.httpClient.delete<Array<IRepositories>>(AppConstants.API_URL + 'flujo_client_deleterepositories/' + folderId)
+            .subscribe(
+                data => {
+                    this.spinnerService.hide();
+                    this.alertService.success('Folder deleted successfully');
+                    this.filtered_repositories = [];
+                    this.getFolders(AppConstants.CLIENT_ID);
+                },
+                error => {
+                    this.spinnerService.hide();
+                    this.alertService.warning('something went wrong');
                     console.log(error);
                 }
             );
@@ -547,5 +613,9 @@ export class FileViewerPopUp {
         this.file_path = 'http://' + this.data.file;
         this.file_name = this.data.file_name;
         this.file_extension = this.data.file_extension.toLowerCase();
+    }
+
+    public closeWindow(): void {
+        this.dialogRef.close();
     }
 }
