@@ -19,7 +19,6 @@ div.alert {
 #createuserform .form-control {
   box-shadow: none !important;
 }
-
 .table-bordered {
   background-color: rgb(255, 255, 255);
 }
@@ -34,13 +33,13 @@ tbody tr {
   height: 70px;
 }
 
-.table-bordered th {
+.table-bordered th, tr {
   font-size: 13px;
   font-weight: 500;
   color: #666666;
 }
 
-.table-bordered td {
+.table-bordered td:first-child {
   font-size: 14px;
   font-weight: 500;
   color: #333333;
@@ -51,11 +50,18 @@ tbody tr {
   border-left: none;
   border-right: none;
 }
-
+td.btn-usert{
+  text-align: center;
+  padding:0rem;
+  button{
+    margin: 0;
+  }
+}
 .btn-stack {
   button {
     background: none;
     border: none;
+    margin: 0;
   }
   .btn:focus {
     outline: 0;
@@ -77,9 +83,9 @@ tbody tr {
 }
 
 #createuserform input,
-select {
+ {
   height: 40px;
-  border-radius: 0px !important;
+  border-radius: 20px !important;
   background-color: #ffffff;
   border: solid 1.5px #d8d8d8;
   padding: 20px 10px;
@@ -97,11 +103,11 @@ select {
 
 #createuserform select {
   border: none !important;
-  height: 35px;
+  height: 34px;
   position: absolute;
-  left: 0;
-  top: 0;
-  max-width: 100% !important;
+  left: 10px;
+  top: 3px;
+  max-width: 95% !important;
 }
 
 #createuserform div.select-wrap {
@@ -110,7 +116,7 @@ select {
   text-align: center;
   position: relative;
   padding: 20px 10px;
-  border-radius: 0px !important;
+  border-radius: 20px !important;
   background-color: #ffffff;
   border: solid 1.5px #d8d8d8;
 }
@@ -267,43 +273,6 @@ button i {
           .bg-layer {
             display: block;
           }
-        }
-      }
-      .logo-details {
-        .file_Name {
-          font-size: 15px;
-          font-weight: 500;
-          text-align: left;
-          color: #666666;
-          margin-bottom: 15px;
-        }
-        .file_Prop {
-          font-size: 15px;
-          font-style: italic;
-          line-height: 1.6;
-          text-align: left;
-          color: #c1c1c1;
-          margin-bottom: 3px;
-        }
-      }
-      label {
-        font-size: 14px;
-        text-align: left;
-        color: #666666;
-      }
-      input {
-        outline: none;
-        padding: 13px 15px;
-        font-size: 14px;
-        text-align: left;
-        color: #c1c1c1;
-        border-radius: 2px;
-        background-color: #ffffff;
-        border: solid 1.5px #f7f7f7;
-      }
-      .logo-dimensions {
-        input {
-          width: 80px;
         }
       }
     }
