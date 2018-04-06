@@ -498,12 +498,17 @@
     top: 0;
     width: 50%;
 }
+.dropdown-submenu>ul.dropdown-menu:before{
+  display: none;
+}
 
 .dropdown-submenu:hover>.dropdown-menu {
     display: block;
+    box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15)
 }
 .userpopup:hover>ul.dropdown-menu{
   display: block;
+  box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15);
 }
 .dropdown-submenu>a:after {
     display: block;
