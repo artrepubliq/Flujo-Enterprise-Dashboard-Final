@@ -124,7 +124,7 @@ export class ProblemCategoryComponent implements OnInit {
     this.isEdit = true;
     this.actionText = 'Update';
     this.problemTypeNameNew = problem.problem_type;
-    this.problemTypeNameTeluguNew = problem.problem_telugu;
+    this.problemTypeNameTeluguNew = problem.problem_type_telugu;
     this.problemId = problem.id;
     this.problemForm.get('problemtypenamenew').setValue(this.problemTypeNameNew);
     this.problemForm.get('problemtypenametelugunew').setValue(this.problemTypeNameTeluguNew);
