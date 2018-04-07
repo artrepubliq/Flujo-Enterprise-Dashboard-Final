@@ -26,6 +26,8 @@ export class AreasComponent implements OnInit {
   areaId: string;
   areaTypeNameNew: string;
   areaPincodeNew: string;
+  areaTeluguName: string;
+  areaTelugu: string;
   areaName: string;
   areaPincode: string;
   newAreaData: IUpdateableData;
@@ -43,10 +45,13 @@ export class AreasComponent implements OnInit {
   ) {
     this.areaPincode = '';
     this.areaName = '';
+    this.areaTeluguName = '';
+    this.areaTelugu = '';
     this.actionText = 'Add New +';
     this.isEdit = false;
     this.areaForm = new FormGroup({
       'areatypenamenew': new FormControl(this.areaTypeNameNew, [Validators.required]),
+      'areateluguname': new FormControl(this.areaTeluguName, [Validators.required]),
       'areapincodenew': new FormControl(this.areaPincodeNew, [Validators.required, Validators.minLength(3), Validators.maxLength(6)]),
       'areaid': new FormControl(this.areaId),
     });
@@ -60,7 +65,7 @@ export class AreasComponent implements OnInit {
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                   this.userAccessLevelObject = item.access_levels;
-              }else {
+              } else {
                 // this.userAccessLevelObject = null;
               }
             });
@@ -91,7 +96,7 @@ userRestrict() {
     });
     if (this.filteredUserAccessData) {
       this.router.navigate(['admin/area']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
     }
 }
@@ -117,8 +122,10 @@ userRestrict() {
     this.areaName = area.area;
     this.areaId = area.id;
     this.areaPincode = area.pincode;
+    this.areaTelugu = area.area_telugu;
     this.areaForm.get('areatypenamenew').setValue(this.areaName);
     this.areaForm.get('areapincodenew').setValue(this.areaPincode);
+    this.areaForm.get('areateluguname').setValue(this.areaTelugu);
     this.areaForm.get('areaid').setValue(area.id);
   }
 
@@ -126,15 +133,18 @@ userRestrict() {
     this.isEdit = false;
     this.areaId = '';
     this.areaName = '';
+    this.areaTelugu = '';
     this.areaPincode = '';
     this.actionText = 'Add';
     this.areaForm.get('areatypenamenew').setValue('');
+    this.areaForm.get('areateluguname').setValue('');
     this.areaForm.get('areapincodenew').setValue('');
     this.areaForm.get('areapincode').setValue('');
   }
 
   public createNewArea() {
-    if (!this.areaForm.get('areatypenamenew').value || !this.areaForm.get('areapincodenew').value) {
+    if (!this.areaForm.get('areatypenamenew').value ||
+     !this.areaForm.get('areateluguname').value || !this.areaForm.get('areapincodenew').value) {
       return false;
     }
     console.log(this.areaForm.value);
@@ -143,6 +153,7 @@ userRestrict() {
       this.newAreaData = {
         client_id: AppConstants.CLIENT_ID,
         area: this.areaForm.get('areatypenamenew').value,
+        area_telugu: this.areaForm.get('areateluguname').value,
         pincode: this.areaForm.get('areapincodenew').value,
         reportarea_id: this.areaForm.get('areaid').value
       };
@@ -150,6 +161,7 @@ userRestrict() {
       this.newAreaData = {
         client_id: AppConstants.CLIENT_ID,
         area: this.areaForm.get('areatypenamenew').value,
+        area_telugu: this.areaForm.get('areateluguname').value,
         pincode: this.areaForm.get('areapincodenew').value,
       };
     }

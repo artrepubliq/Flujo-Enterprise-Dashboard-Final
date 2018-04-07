@@ -9,6 +9,7 @@
     <div class="input_fields input_box" fxFlex="70">
       <form [formGroup]="problemForm" fxLayout="row" fxLayoutGap="15px">
         <input type="text" class="input" id="addOrUpdate" placeholder="Problem type" [value]="problemTypeNameNew" formControlName="problemtypenamenew">
+        <input type="text" class="input" id="addOrUpdate" placeholder="Problem type in Telugu" [value]="problemTypeNameTeluguNew" formControlName="problemtypenametelugunew">
         <button class="button_submit" [disabled]="problemForm.invalid" (click)="createNewproblem()">{{actionText}}</button>
         <button class="button_submit cancel" [disabled]="problemForm.invalid" *ngIf="isEdit" (click)="backToSelect()">Cancel</button>
       </form>
@@ -16,11 +17,14 @@
   </div>
   <div class="view_items" fxLayout="column" fxLayoutGap="0px" [perfectScrollbar]="config">
       <div fxLayout="row"  class="view_item" fxLayoutGap="30px" fxLayoutAlign="start center">
-          <div class="d-inline code name-head" fxFlex="27">
-             &nbsp;&nbsp;&nbsp;&nbsp;<input fxFlex="5%" class="d-inline" type="checkbox">&nbsp;&nbsp;
+          <div class="d-inline code name-head" fxFlex="19%">
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input fxFlex="5%" class="d-inline" type="checkbox">&nbsp;&nbsp;
             <p class="d-inline"><b>Category</b></p>
           </div>
-          <div class="code" fxFlex="28">
+          <div class="code" fxFlex="19%">
+            <b>Category in Telugu</b>
+          </div>
+          <div class="code" fxFlex="20%">
             <b>Created By</b>
           </div>
           <div class="code" fxFlex="20">
@@ -28,7 +32,7 @@
           </div>
     </div>
     <div *ngFor="let problem of problemTypeData" class="view_item problem_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
-      <div class="name" fxFlex="30">
+      <div class="name" fxFlex="25%">
           <span class="text-muted d-inline">
               <i class="fa fa-ellipsis-v"></i>
               <i class="fa fa-ellipsis-v"></i>
@@ -36,15 +40,21 @@
         <input type="checkbox">&nbsp;&nbsp;
         {{problem.problem_type}}
       </div>
-      <div class="code" fxFlex="30">
+      <div class="code" fxFlex="25%">
+       {{problem.problem_type_telugu}}
+      </div>
+      <div class="code" fxFlex="35%">
         Santosh
       </div>
-      <div class="code" fxFlex="30">
+      <div class="code" fxFlex="15%">
         5th April 2018
       </div>
       <div fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
         <button (click)="updateProblemData(problem)" type="button" class="btn">
           <i class="fa fa-pencil"></i>
+        </button>
+        <button type="button" class="btn">
+          <i class="fa fa-eye"></i>
         </button>
         <button (click)="deleteProblem(problem)" type="button" class="btn">
           <i class="fa fa-trash"></i>
