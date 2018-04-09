@@ -10,6 +10,8 @@ export interface IResult {
     folder: string;
     folder_id: string;
     files: Array<IFiles>;
+    isShowMb: boolean;
+    isShowKb: boolean;
     isActive?: boolean;
     size?: number;
 }
@@ -22,4 +24,6 @@ export interface IFiles {
     file_size:  number;
     folder?: string;
     isActive?: boolean;
+    isShowMb: boolean;
+    isShowKb: boolean;
 }

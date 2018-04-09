@@ -2,12 +2,12 @@
 <nav class="navbar navbarTop" role="navigation">
   <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
     <div fxLayout="row" fxLayoutGap="0.1rem" fxLayoutAlign="start center">
-      <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
+      <a class="navbar-brand"  (click)="sidebarToggledButton=!sidebarToggledButton">
         <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
       </a>
-      <ul class="nav flex-column login-info">
-        <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+      <div class="nav flex-column login-info">
+        <div class="nav-item userpopup dropdown">
+          <a class="nav-link dropdown-toggle"  aria-haspopup="true" aria-expanded="false">
             <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
             <span>Art Republiq</span>
             <span class="active-indication">
@@ -17,12 +17,26 @@
               </span>
             </span>
           </a>
-          <div class="dropdown-menu">
-            <ng4-loading-spinner> </ng4-loading-spinner>
-            <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">View Profile</a>
-          </div>
-        </li>
-      </ul>
+          <ul class="dropdown-menu"  role="menu" aria-labelledby="dropdownMenu">
+            <li class="dropdown-item dropdown-submenu"  >
+                <a class="" tabindex="-1" >
+                  <span>Status</span>
+                </a>
+                <ul class="second-Level dropdown-menu">
+                  <li class="dropdown-item"><a >Away</a></li> 
+                  <li class="dropdown-item"><a >Idle</a></li>
+                  <li class="dropdown-item"><a >Busy</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Profile & Account</a></li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Preferences</a></li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Manage Team</a></li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Settings</a></li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Help</a></li>
+            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Signout</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
   <div class="admin-website mr-auto">
@@ -106,11 +120,11 @@
           <a routerLink="./emailconfiguration" routerLinkActive="active" class="activity">
             <i class="fa fa-edit"></i>Email Template Configuration</a>
         </li>
-        <!-- <li *ngIf="userAccessLevelData && userAccessLevelData[20]?.enable">
-          <a routerLink="./biography" routerLinkActive="active" class="activity">
-            <i class="fa fa-user-plus"></i>Biography</a>
+         <li >
+          <a routerLink="./socialconfiguration" routerLinkActive="active" class="activity">
+            <i class="fa fa-user-plus"></i>Social Configuration</a>
         </li>
-        <li *ngIf="userAccessLevelData && userAccessLevelData[21]?.enable">
+       <!-- <li *ngIf="userAccessLevelData && userAccessLevelData[21]?.enable">
           <a routerLink="./module" routerLinkActive="active" class="activity">
             <i class="fa fa-edit"></i>Create Module</a>
         </li> -->
@@ -158,76 +172,9 @@
   <!-- Side Navigation -->
   <aside id="sidebar-wrapper" class="sidebar-menu ps" [ngClass]="{'sidebar-toggle':sidebarToggledButton}" [perfectScrollbar]="config">
     <ul class="nav flex-column">
-      <!-- Web App -->
-      <!-- <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
-        <a class="nav-link dropdown-toggle" (click)="dropdownOpen=!dropdownOpen">
-          <img src="assets/icons/web-icon-normal@2x.png" alt="web icon">
-          <span>Web</span>
-        </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" routerLink="./logo" routerLinkActive="active">Logo</a>
-          <ng4-loading-spinner> </ng4-loading-spinner>
-
-           <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Profile</a> -->
-      <!-- <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a> -->
-      <!-- <a class="dropdown-item" routerLink="./media" routerLinkActive="active">Media Management</a> -->
-      <!-- <a class="dropdown-item" routerLink="./reports" routerLinkActive="active">Reports</a> -->
-      <!-- <a class="dropdown-item" routerLink="./themeconfiguration" routerLinkActive="active">Theme Global Config</a> -->
-      <!-- <a class="dropdown-item" routerLink="./filerepository" routerLinkActive="active">Upload Files</a> -->
-
-      <!-- <li class="nav-item" [ngClass]="{'open':showDropdownMain1}">
-            <a class="nav-link subNav-link dropdown-toggle" (click)="showDropdownMain1=!showDropdownMain1">
-              <span>Pages</span>
-            </a>
-            <div class="dropdown-menu">
-              <li class="nav-item" [ngClass]="{'open':showMyCons}">
-                <a class="nav-link subNav-link dropdown-toggle" (click)="showMyCons=!showMyCons">
-                  <span>My Constituency</span>
-                </a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item">Constituency at a glance</a>
-                  <a class="dropdown-item">About warangal urban</a>
-                  <a class="dropdown-item">Navya Divya Bhavya Warangal</a>
-                  <a class="dropdown-item">Connectivity</a>
-                  <a class="dropdown-item">Recognitions</a>
-                  <a class="dropdown-item">Scope for devhvelopment</a>
-                  <a class="dropdown-item">Info for Investors</a>
-                </div>
-              </li>
-              <li class="nav-item" [ngClass]="{'open':showMyConcerns}">
-                <a class="nav-link subNav-link dropdown-toggle" (click)="showMyConcerns=!showMyConcerns">
-                  <span>My Concerns</span>
-                </a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item">Smart city</a>
-                  <a class="dropdown-item">Heritage conservation</a>
-                  <a class="dropdown-item">Cultural capital</a>
-                  <a class="dropdown-item">Tourism</a>
-                  <a class="dropdown-item">Employment</a>
-                  <a class="dropdown-item">Women empowerment &amp; safety</a>
-                  <a class="dropdown-item">Sustainable Development</a>
-                  <a class="dropdown-item">Environment</a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="dropdown-item">My Journey</a>
-              </li>
-            </div>
-          </li> 
-        </div>
-      </li> -->
-      <!-- <li class="nav-item" [ngClass]="{'open':dropdownOpenApp}">
-        <a class="nav-link dropdown-toggle" (click)="dropdownOpenApp=!dropdownOpenApp">
-          <img src="assets/icons/app-icon-normal@2x.png" alt="app icon">
-          <span>App</span>
-        </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item">Android</a>
-          <a class="dropdown-item">iOS</a>
-        </div>
-      </li> -->
+    
       <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[0]?.enable">
-        <a class="nav-link editor-link" routerLink="./pages" routerLinkActive="active">
+        <a class="nav-link editor-link" routerLink="./chooseplatform" routerLinkActive="active">
           <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
           <img src="assets/icons/editor-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
           <!-- <i class="fa fa-ionic"></i> -->

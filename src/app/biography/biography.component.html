@@ -1,54 +1,64 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000">
 </ngx-alerts>
-<div class="container biography" fxLayoutAlign="center center">
-  <form action="" [formGroup]="biographySubmitForm" (submit)="onSubmit(biographySubmitForm.value)" class="card">
-    <div class="biography_header">
+<div class="flujo_card_block bio_graphy" fxLayoutAlign="center center">
+  <form action="" [formGroup]="biographySubmitForm" (submit)="onSubmit()" class="card_block">
+    <div class="card_header">
       <h3 class="header_title">Biography</h3>
     </div>
-    <div fxLayout="column" class="biography_form" fxLayoutGap="15px">
+    <div fxLayout="column" class="card_body" fxLayoutGap="15px">
       <!-- <div fxLayout="column" fxLayoutGap="10px">
         <label for="">Career Position</label>
         <input type="text" class="input" placeholder="Career Position" formControlName="career_position">
       </div> -->
-      <mat-form-field>
-        <input matInput type="text" placeholder="Career Position" formControlName="career_position">
-      </mat-form-field>
-      <div fxLayout="column" fxLayoutGap="10px">
-        <mat-form-field class="">
-          <input matInput [min]="minDate" formControlName="from_year" [max]="maxDate" [matDatepicker]="picker1" placeholder="From date"
-            (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker touchUi="true" startView="year" [startAt]="startDate" #picker1></mat-datepicker>
+      <div>
+        <mat-form-field fxFlex>
+          <input matInput type="text" placeholder="Career Position" formControlName="career_position">
         </mat-form-field>
       </div>
-      <div fxLayout="column" fxLayoutGap="10px">
-        <mat-form-field class="">
-          <input matInput [min]="minDate" formControlName="to_year" [max]="maxDate" [matDatepicker]="picker2" placeholder="To date"
-            (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
-          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker touchUi="true" startView="year" [startAt]="startDate2" #picker2></mat-datepicker>
-        </mat-form-field>
+      <div fxLayout="row" fxLayoutGap="20px">
+        <div fxLayout="column" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput [min]="minDate" formControlName="from_year" [max]="maxDate" [matDatepicker]="picker1" placeholder="From date"
+              (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" startView="year" [startAt]="startDate" #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div fxLayout="column" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput [min]="minDate" formControlName="to_year" [max]="maxDate" [matDatepicker]="picker2" placeholder="To date"
+              (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" startView="year" [startAt]="startDate2" #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
       </div>
       <!-- <div fxLayout="column" fxLayoutGap="10px">
         <label for="">Career Description</label>
         <input type="text" class="input" placeholder="Career Description" formControlName="career_description">
       </div> -->
-      <mat-form-field>
-        <input matInput type="text" placeholder="Career Description" formControlName="career_description">
-      </mat-form-field>
-      <div class="bio_colorPicker" fxFlex fxLayout="column" fxLayoutGap="12px">
-        <label for="background_color" class="input_title">Module Background Color</label>
-        <div fxFlex style="position:relative">
-          <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="biographySubmitForm.get('background_color').setValue($event)"
-            [(colorPicker)]="bgColor" formControlName="background_color" id="background_color" [style.background]="bgColor"
-            [style.color]="bgColor" [cpSaveClickOutside]="true" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
-          />
-          <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
+      <div>
+        <mat-form-field fxFlex>
+          <textarea matInput type="text" placeholder="Career Description" formControlName="career_description"></textarea>
+        </mat-form-field>
+      </div>
+      <div>
+        <div class="bio_colorPicker" fxLayout="column" fxLayoutGap="12px">
+          <label for="background_color" class="input_title">Module Background Color</label>
+          <div fxFlex style="position:relative">
+            <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="biographySubmitForm.get('background_color').setValue($event)"
+              [(colorPicker)]="bgColor" formControlName="background_color" id="background_color" [style.background]="bgColor"
+              [style.color]="bgColor" [cpSaveClickOutside]="true" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+            />
+            <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
+          </div>
         </div>
       </div>
-      <div fxLayoutAlign="end center">
-        <button mat-raised-button class="submit" type="submit" [disabled]="biographySubmitForm.invalid"> Submit</button>
+    </div>
+    <div class="card_footer" fxLayoutAlign="end center">
+      <div>
+        <button mat-raised-button class="button_submit" type="submit" [disabled]="biographySubmitForm.invalid">Save</button>
       </div>
     </div>
   </form>

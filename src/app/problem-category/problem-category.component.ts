@@ -31,6 +31,7 @@ export class ProblemCategoryComponent implements OnInit {
   updateProblem: boolean;
   problemForm: FormGroup;
   actionText: string;
+  config: any;
   constructor(
     private httpService: HttpService,
     private problemService: ProblemTypeService,
@@ -42,7 +43,7 @@ export class ProblemCategoryComponent implements OnInit {
   ) {
     this.updateProblem = false;
     this.selectProblem = true;
-    this.actionText = 'Add';
+    this.actionText = 'Add New +';
     this.problemId = '';
     this.isEdit = false;
     this.problemTypeNameNew = '';

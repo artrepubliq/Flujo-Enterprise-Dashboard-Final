@@ -18,9 +18,9 @@ import { FileHolder } from 'angular2-image-upload';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 
-import {Observable} from 'rxjs/Observable';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
+import { Observable } from 'rxjs/Observable';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
 
 
 @Component({
@@ -61,6 +61,7 @@ export class MediaComponent implements OnInit {
   public allAlbumImageIdsArray;
   public usedImageIdsArray;
   public unUsedImageIdsArray;
+  isshowAlbumGallery: boolean;
   uploadImagesObject: IUploadImages;
   dragAreaClass = 'dragarea';
   showHide: boolean;
@@ -133,11 +134,11 @@ export class MediaComponent implements OnInit {
     private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
     public adminComponent: AdminComponent, private router: Router) {
 
-      this.myGroup = new FormGroup({
-        AlbumName: new FormControl(),
-        Album: new FormControl(),
-        description: new FormControl()
-     });
+    this.myGroup = new FormGroup({
+      AlbumName: new FormControl(),
+      Album: new FormControl(),
+      description: new FormControl()
+    });
 
     this.uploadImagesForm = this.formBuilder.group({
       image: [null],
@@ -158,7 +159,7 @@ export class MediaComponent implements OnInit {
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
+                this.userAccessLevelObject = item.access_levels;
               }
             });
             this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
@@ -236,8 +237,8 @@ export class MediaComponent implements OnInit {
   // Popup for file uploading
   openFileDialog(imageDetail): void {
 
-      this.popupFileUploadData['images'] = imageDetail;
-      this.popupFileUploadData['options'] = this.albumGallery;
+    this.popupFileUploadData['images'] = imageDetail;
+    this.popupFileUploadData['options'] = this.albumGallery;
 
     const dialogRef = this.dialog.open(FileSelectPopup, {
       width: '80vw',
@@ -250,7 +251,7 @@ export class MediaComponent implements OnInit {
   }
 
   // this function used to upload the image or multiple images
-  onUploadImages(body: any) {
+  onUploadImages() {
     this.spinnerService.show();
 
     this.uploadImagesObject.client_id = AppConstants.CLIENT_ID;
@@ -280,32 +281,32 @@ export class MediaComponent implements OnInit {
 
       .get<Array<mediaDetail>>(AppConstants.API_URL + 'flujo_client_getgallery/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.mediaData = data;
-        this.spinnerService.hide();
-      },
+        data => {
+          this.mediaData = data;
+          this.spinnerService.hide();
+        },
 
-      err => {
-        this.spinnerService.hide();
-      }
+        err => {
+          this.spinnerService.hide();
+        }
       );
   }
   deleteMediaImage(image_id) {
     this.spinnerService.show();
     this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletegallery/' + image_id)
       .subscribe(
-      data => {
-        if (data) {
-          this.hightlightStatus = [false];
+        data => {
+          if (data) {
+            this.hightlightStatus = [false];
+            this.spinnerService.hide();
+            this.alertService.success('Image deleted Successfully');
+            this.getMediaGalleryData();
+          }
+        },
+        error => {
           this.spinnerService.hide();
-          this.alertService.success('Image deleted Successfully');
-          this.getMediaGalleryData();
-        }
-      },
-      error => {
-        this.spinnerService.hide();
-        console.log(error);
-      });
+          console.log(error);
+        });
 
   }
 
@@ -347,27 +348,27 @@ export class MediaComponent implements OnInit {
 
     this.httpClient.post(AppConstants.API_URL + 'flujo_client_postalbum', reqData)
       .subscribe(
-      data => {
+        data => {
 
-        if (data) {
+          if (data) {
 
-          this.resetsubmitAlbumData();
-          this.spinnerService.hide();
+            this.resetsubmitAlbumData();
+            this.spinnerService.hide();
 
-          this.parseReloadAlbumGalleryObject(data);
+            this.parseReloadAlbumGalleryObject(data);
 
-          this.hightlightStatus = [false];
-          this.alertService.success('Album created successfully.');
-        } else {
+            this.hightlightStatus = [false];
+            this.alertService.success('Album created successfully.');
+          } else {
+            this.spinnerService.hide();
+            this.alertService.danger('Something went wrong.please try again.');
+          }
+        },
+        error => {
           this.spinnerService.hide();
           this.alertService.danger('Something went wrong.please try again.');
-        }
-      },
-      error => {
-        this.spinnerService.hide();
-        this.alertService.danger('Something went wrong.please try again.');
-        console.log(error);
-      });
+          console.log(error);
+        });
   }
   // setting submitalbum data form reset to null
   resetsubmitAlbumData() {
@@ -386,17 +387,17 @@ export class MediaComponent implements OnInit {
     this.httpClient
       .get<Array<IGalleryObject>>(AppConstants.API_URL + 'flujo_client_getalbum/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.albumGallery = data;
-        this.spinnerService.hide();
+        data => {
+          this.albumGallery = data;
+          this.spinnerService.hide();
 
-        this.prepareAllAlbumImageIdsArray(data);
+          this.prepareAllAlbumImageIdsArray(data);
 
-      },
+        },
 
-      err => {
-        this.spinnerService.hide();
-      }
+        err => {
+          this.spinnerService.hide();
+        }
       );
   }
   // parsing the AlbumGallery object for getting the album ids.
@@ -419,16 +420,16 @@ export class MediaComponent implements OnInit {
       this.spinnerService.show();
       this.httpClient.post<IBase64Images>(AppConstants.API_URL + 'flujo_client_getgalleryintoalbum', albumImageIds)
         .subscribe(
-        data => {
+          data => {
 
-          this.albumGalleryItem = data;
+            this.albumGalleryItem = data;
 
-          this.spinnerService.hide();
-        },
+            this.spinnerService.hide();
+          },
 
-        err => {
-          this.spinnerService.hide();
-        });
+          err => {
+            this.spinnerService.hide();
+          });
     } else {
       console.log(albumid);
       _.each(this.albumGallery, (iteratee, index) => {
@@ -578,14 +579,14 @@ export class MediaComponent implements OnInit {
     this.spinnerService.show();
     this.httpClient.get<IGalleryObject>(AppConstants.API_URL + 'flujo_client_getgallery/' + this.originalAlbumData.id)
       .subscribe(
-      data => {
-        this.parseReloadAlbumGalleryObject(data[0]);
-        this.spinnerService.hide();
-      },
+        data => {
+          this.parseReloadAlbumGalleryObject(data[0]);
+          this.spinnerService.hide();
+        },
 
-      err => {
-        this.spinnerService.hide();
-      });
+        err => {
+          this.spinnerService.hide();
+        });
   }
   parseReloadAlbumGalleryObject(data) {
     if (data.client_id) {
@@ -704,23 +705,23 @@ export class FileSelectPopup {
     @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
     private alertService: AlertService) {
 
-      dialogRef.disableClose = true;
-      this.stateCtrl = new FormControl();
-      this.filteredStates = this.stateCtrl.valueChanges
-        .pipe(
-          startWith(''),
-          map(state => state ? this.filterStates(state) : state.slice())
-        );
-        console.log(this.filteredStates);
-    }
+    dialogRef.disableClose = true;
+    this.stateCtrl = new FormControl();
+    this.filteredStates = this.stateCtrl.valueChanges
+      .pipe(
+        startWith(''),
+        map(state => state ? this.filterStates(state) : state.slice())
+      );
+    console.log(this.filteredStates);
+  }
 
-    filterStates(name: string) {
-      return this.data.options.filter(state =>
-        state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
-    }
+  filterStates(name: string) {
+    return this.data.options.filter(state =>
+      state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  }
 
-    displayFn(project): string {
-        return project ? project.title : project;
+  displayFn(project): string {
+    return project ? project.title : project;
   }
 
   onNoClick(): void {
@@ -732,8 +733,10 @@ export class FileSelectPopup {
 
   saveFiles() {
     this.spinnerService.show();
-    this.sendData.id = this.selectedOption.id;
-    this.sendData.title = this.selectedOption.title;
+    if (this.data.images.length > 1) {
+      this.sendData.id = this.selectedOption.id;
+      this.sendData.title = this.selectedOption.title;
+    }
     this.sendData.description = this.description;
     this.sendData.images = this.data.images;
     this.sendData.client_id = AppConstants.CLIENT_ID;

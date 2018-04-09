@@ -10,7 +10,7 @@ import * as _ from 'underscore';
 // tslint:disable-next-line:component-class-suffix
 export class ChartsAssignDirective implements OnChanges {
   @Input() assign: any;
-
+  assignChart: any;
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges) {

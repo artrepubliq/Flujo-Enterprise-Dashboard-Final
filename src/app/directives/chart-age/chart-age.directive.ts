@@ -11,16 +11,8 @@ import * as _ from 'underscore';
 // tslint:disable-next-line:component-class-suffix
 export class ChartAgeDirective implements OnChanges {
   @Input() ageData: any;
-  // myDoughnutChart: any;
+  myAgeChart: any;
   constructor() { }
-
-  // ngOnInit = () => {
-  //   const range = _.pluck(this.ageData, 'name');
-  //   const rangeValue = _.pluck(this.ageData, 'value');
-  //   console.log(range, rangeValue);
-  //   this.displayChartData(range, rangeValue);
-  // }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['ageData']) {
       const range = _.pluck(this.ageData, 'name');

@@ -18,6 +18,7 @@ import { AdminComponent } from '../admin/admin.component';
   styleUrls: ['./sociallinks.component.scss']
 })
 export class SocialLinksComponent implements OnInit {
+  addNew: boolean;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   socialItemId: any;
@@ -25,7 +26,8 @@ export class SocialLinksComponent implements OnInit {
   socialItems: any;
   socialLinksForm: FormGroup;
   form_btntext = 'save';
-  public isEdit = false;
+  successMessage: string;
+  deleteMessage: string;
 
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
     private alertService: AlertService, private router: Router, public adminComponent: AdminComponent) {
@@ -49,8 +51,8 @@ export class SocialLinksComponent implements OnInit {
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              }else {
+                this.userAccessLevelObject = item.access_levels;
+              } else {
                 // this.userAccessLevelObject = null;
               }
             });
@@ -70,11 +72,11 @@ export class SocialLinksComponent implements OnInit {
     }.bind(this), 3000);
   }
   // this for restrict user on root access level
- userRestrict() {
-  _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-    // tslint:disable-next-line:max-line-length
-    if (this.adminComponent.userAccessLevelData[iterate].name === 'Social links update' && this.adminComponent.userAccessLevelData[iterate].enable) {
-      this.filteredUserAccessData = item;
+  userRestrict() {
+    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+      // tslint:disable-next-line:max-line-length
+      if (this.adminComponent.userAccessLevelData[iterate].name === 'Social links update' && this.adminComponent.userAccessLevelData[iterate].enable) {
+        this.filteredUserAccessData = item;
       } else {
         // this.router.navigate(['/accessdenied']);
         // console.log('else');
@@ -82,21 +84,21 @@ export class SocialLinksComponent implements OnInit {
     });
     if (this.filteredUserAccessData) {
       this.router.navigate(['admin/sociallinks']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
       console.log('else');
     }
-}
+  }
   socialLinksFormSubmit(body: any) {
     this.spinnerService.show();
-    if (this.form_btntext === 'Update') {
-      this.socialLinksForm.controls['socialitem_id'].setValue(this.socialItemId);
-    } else {
-      this.socialLinksForm.controls['socialitem_id'].setValue('null');
-    }
+    // if (this.form_btntext === 'Update') {
+    //   this.socialLinksForm.controls['socialitem_id'].setValue(this.socialItemId);
+    // } else {
+    //   this.socialLinksForm.controls['socialitem_id'].setValue('null');
+    // }
+    console.log(body);
 
-
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_postsociallinks', this.socialLinksForm.value)
+    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_postsociallinks', body)
 
 
       .subscribe(
@@ -107,6 +109,7 @@ export class SocialLinksComponent implements OnInit {
           } else {
             this.spinnerService.hide();
             this.getSocialLinksData();
+            this.socialLinksForm.reset();
             this.alertService.success('Social Links  request completed Successfully');
           }
         },
@@ -121,43 +124,45 @@ export class SocialLinksComponent implements OnInit {
   getSocialLinksData() {
 
     this.spinnerService.show();
-    this.isEdit = false;
     this.httpClient
       .get<ISocialLinks>(AppConstants.API_URL + 'flujo_client_getsociallinks/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.spinnerService.hide();
-        this.socialItems = data;
-        if (this.socialItems[0].id) {
-          this.isEdit = false;
+        data => {
+          this.spinnerService.hide();
+          this.socialItems = data;
+          this.socialItems.map(object => {
+            object.editLink = false;
+            // delete Employee.firstname;
+            object.socialitem_id = object.id;
+            delete object.id;
+          });
+          console.log(this.socialItems);
+          this.addNew = false;
+        },
 
-        } else {
-          this.isEdit = true;
+        err => {
+          this.spinnerService.hide();
+          console.log(err);
         }
-      },
-
-      err => {
-        this.spinnerService.hide();
-        console.log(err);
-      }
       );
 
   }
-  // function to view the social items
-  viewSocialLinks() {
-    this.isEdit = false;
-  }
+  
   // add new item
   addNewItem() {
-    this.isEdit = true;
+    this.addNew = true;
     this.setSocialFormToDefault();
+  }
+  cancelNew() {
+    this.addNew = false;
   }
   // sociallinks delete from db
   deleteSocialLinks(socialItem) {
+    console.log(socialItem);
     this.spinnerService.show();
-      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletesociallinks/' + socialItem.id)
-        .subscribe(
-          data => {
+    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletesociallinks/' + socialItem.socialitem_id)
+      .subscribe(
+        data => {
           if (data) {
             this.getSocialLinksData();
             this.alertService.success('Social Links deleted Successfully');
@@ -183,11 +188,25 @@ export class SocialLinksComponent implements OnInit {
 
   }
   EditSocialLinks(socialData) {
-    this.isEdit = true;
+    console.log(socialData);
+    socialData.editLink = true;
     this.socialItemId = socialData.id;
-    localStorage.setItem('socialitem_id', socialData.id);
-    console.log(localStorage.getItem('socialitem_id'));
-    this.form_btntext = socialData.id ? 'Update' : 'Save';
-    this.setDataToForm(socialData);
+    this.addNew = false;
+    // localStorage.setItem('socialitem_id', socialData.id);
+    // console.log(localStorage.getItem('socialitem_id'));
+    // this.form_btntext = socialData.id ? 'Update' : 'Save';
+    // this.setDataToForm(socialData);
+  }
+
+  cancelEdit(socialData) {
+    socialData.editLink = false;
+  }
+
+  updateLink(socialData) {
+    console.log(socialData);
+  }
+  modifyLink(event, socialData) {
+    socialData.socialitem_url = event.target.value;
+    console.log(event.target.value);
   }
 }

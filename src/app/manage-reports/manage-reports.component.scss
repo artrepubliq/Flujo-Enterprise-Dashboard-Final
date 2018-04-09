@@ -326,6 +326,7 @@ input{
 }
 .name-data{
     min-width: 10rem;
+    // padding-left: 20px;
 }
 .assign-issue{
     position: relative;
@@ -360,10 +361,10 @@ input{
     margin-left: auto; 
 }
 .manage_reports_table{
-    max-height: calc(100vh - 250px);
+    max-height: calc(100vh - 300px);
     position: relative;
     .manage_reports_data{
-        padding:10px;
+        padding:0 13px;
     }
 }
 .paginationn{

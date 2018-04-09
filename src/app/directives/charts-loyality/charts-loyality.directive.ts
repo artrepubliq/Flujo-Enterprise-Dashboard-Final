@@ -12,6 +12,7 @@ import {Chart} from 'chart.js'; // grabs bundled
 // tslint:disable-next-line:component-class-suffix
 export class ChartsLoyalityDirective implements OnInit, OnChanges {
   @Input() area: any;
+  areaChart: any;
   constructor() { }
 
   ngOnInit() {

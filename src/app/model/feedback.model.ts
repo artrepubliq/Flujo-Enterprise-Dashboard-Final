@@ -16,4 +16,9 @@ export interface IUserChangemaker {
 export interface mediaDetail {
     image: string|any;
     id: string;
+    isActive: boolean;
+}
+export interface SelectedImages {
+    image: string;
+    imageType: string;  
 }

@@ -34,9 +34,9 @@
             <tr class="btn-stack" *ngFor="let user of userDetails">
               <td class="user_name" scope="col" colspan="2">
                   <span fxLayoutGap="0.5rem" class="d-inline">
-                      <!-- <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p> -->
+                      <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
                       <input  type="checkbox">
-                      <b><p class="name-feedback d-inline">{{user.name}}</p></b>
+                      <p class="name-feedback d-inline">{{user.name}}</p>
                   </span> 
               </td>
               <!-- <td>{{item.datenow}}</td> -->
@@ -44,9 +44,9 @@
               <td>{{user.phone}}</td>
               <td *ngIf="user.role==1">Social Manager</td>
               <td *ngIf="user.role==2">Content Manager</td>
-              <td><button (click)="editCompnent(user)" type="button" class="btn"><i class="fa fa-pencil"></i></button></td>
-              <td><button type="button" class="btn" (click)="openAccessDialog(user)"><i class="fa fa-eye"></i></button></td>
-              <td><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
+              <td class="btn-usert"><button (click)="editCompnent(user)" type="button" class="btn"><i class="fa fa-pencil"></i></button></td>
+              <td class="btn-usert"><button type="button" class="btn" (click)="openAccessDialog(user)"><i class="fa fa-eye"></i></button></td>
+              <td class="btn-usert"><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
 
           </tr>
         </tbody>
@@ -172,7 +172,7 @@
       <!-- Save Button -->
       <div class="profile_footer" fxLayout="row" fxLayoutAlign="end center">
         <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
-        <div><button mat-button class="logoCtrl_button cancel" (click)="cancelUser()" >Cancel</button></div>
+        <div><button mat-button class="btn" (click)="cancelUser()" >Cancel</button></div>
         <div><button mat-button class="logoCtrl_button" type="submit" [disabled]="CreateUserForm.invalid || loading" mat-raised-button>{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button></div>

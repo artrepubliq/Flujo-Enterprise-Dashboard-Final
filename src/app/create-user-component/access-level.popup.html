@@ -1,7 +1,7 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <div class="access-popUp">
-    <div>
-        <h4 class="text-center">
+    <div class="header">
+        <h4>
             User Name: {{data.name}}
         </h4>
     </div>
@@ -11,120 +11,42 @@
             <div fxFlex>
                 Feature Type
             </div>
-            <div fxFlex>
-                Enable/Diasble
+            <div fxFlex="100px">
+                Access
             </div>
-            <div fxFlex fxLayout="row" fxLayoutGap="15px">
+            <!-- <div fxFlex fxLayout="row" fxLayoutGap="15px">
                 <div fxFlex>
                     Read
                 </div>
                 <div fxFlex>
                     Write
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="overflow_data" [perfectScrollbar]="config">
             <div fxLayout="column">
-                <div fxLayout="row" fxLayoutGap="15px" *ngFor="let accessdata of accessLevelData let i=index">
+                <div class="access-item" fxLayout="row" *ngFor="let accessdata of accessLevelData let i=index">
                     <div fxFlex>
                         {{accessdata.name}}
                     </div>
-                    <div fxFlex>
-                        <mat-slide-toggle [color]="color" [checked]="accessdata.enable" (change)="testChange($event,i,'enable',accessdata.feature_id,data.id)"></mat-slide-toggle>
+                    <div fxFlex="100px">
+                        <div>
+                            <mat-slide-toggle [color]="color" [checked]="accessdata.enable" (change)="testChange($event,i,'enable',accessdata.feature_id,data.id)"></mat-slide-toggle>
+                        </div>
                     </div>
-                    <div fxFlex fxLayout="row" fxLayoutGap="15px">
+                    <!-- <div fxFlex fxLayout="row" fxLayoutGap="15px">
                         <div fxFlex>
                             <mat-slide-toggle [color]="color" [checked]="accessdata.read" (change)="testChange($event,i,'read',accessdata.feature_id,data.id)"></mat-slide-toggle>
                         </div>
                         <div fxFlex>
                             <mat-slide-toggle [color]="color" [checked]="accessdata.write" (change)="testChange($event,i,'write',accessdata.feature_id,data.id)"></mat-slide-toggle>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-            <!-- <div fxLayout="row" fxLayoutGap="15px">
-                <div fxFlex>
-                    Team
-                </div>
-                <div fxFlex>
-                    <mat-slide-toggle></mat-slide-toggle>
-                </div>
-                <div fxFlex fxLayout="row" fxLayoutGap="15px">
-                    <div fxFlex>
-                        <mat-slide-toggle></mat-slide-toggle>
-                    </div>
-                    <div fxFlex>
-                        <mat-slide-toggle></mat-slide-toggle>
-                    </div>
-                </div>
-            </div>
-            <div fxLayout="row" fxLayoutGap="15px">
-                <div fxFlex>
-                    Flow
-                </div>
-                <div fxFlex>
-                    <mat-slide-toggle></mat-slide-toggle>
-                </div>
-                <div fxFlex fxLayout="row" fxLayoutGap="15px">
-                    <div fxFlex>
-                        <mat-slide-toggle></mat-slide-toggle>
-                    </div>
-                    <div fxFlex>
-                        <mat-slide-toggle></mat-slide-toggle>
-                    </div>
-                </div>
-            </div>
-            <div fxLayout="row" fxLayoutGap="15px">
-                <div fxFlex>
-                    Repository
-                </div>
-                <div fxFlex>
-                    <mat-slide-toggle></mat-slide-toggle>
-                </div>
-                <div fxFlex fxLayout="row" fxLayoutGap="15px">
-                    <div fxFlex>
-                        <mat-slide-toggle></mat-slide-toggle>
-                    </div>
-                    <div fxFlex>
-                        <mat-slide-toggle></mat-slide-toggle>
-                    </div>
-                </div>
-            </div>
-            <div fxLayout="row" fxLayoutGap="15px">
-                <div fxFlex>
-                    Email
-                </div>
-                <div fxFlex>
-                    <mat-slide-toggle></mat-slide-toggle>
-                </div>
-                <div fxFlex fxLayout="row" fxLayoutGap="15px">
-                    <div fxFlex>
-                        <mat-slide-toggle></mat-slide-toggle>
-                    </div>
-                    <div fxFlex>
-                        <mat-slide-toggle></mat-slide-toggle>
-                    </div>
-                </div>
-            </div>
-            <div fxLayout="row" fxLayoutGap="15px">
-                <div fxFlex>
-                    SMS
-                </div>
-                <div fxFlex>
-                    <mat-slide-toggle></mat-slide-toggle>
-                </div>
-                <div fxFlex fxLayout="row" fxLayoutGap="15px">
-                    <div fxFlex>
-                        <mat-slide-toggle></mat-slide-toggle>
-                    </div>
-                    <div fxFlex>
-                        <mat-slide-toggle></mat-slide-toggle>
-                    </div>
-                </div>
-            </div> -->
         </div>
         <div class="access_actions">
-            <button class="button_submit" type="submit">Save</button>
+            <button class="button_submit pull-right" type="submit">Save</button>
         </div>
     </form>
     <button mat-button (click)="closeDialog()" class="close-btn">Cancel</button>

@@ -45,7 +45,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   ageData: Array<Object>;
   assign: any;
   area: any;
-
+  range: any;
   // tslint:disable-next-line:member-ordering
   params = {
     client_id: AppConstants.CLIENT_ID,

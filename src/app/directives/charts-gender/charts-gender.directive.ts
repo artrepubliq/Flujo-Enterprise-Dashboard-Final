@@ -9,6 +9,7 @@ import * as Chart from 'chart.js';
 // tslint:disable-next-line:component-class-suffix
 export class ChartsGenderDirective implements OnInit, OnChanges {
   @Input() gender: any;
+  genderChart: any;
 
   constructor() { }
 

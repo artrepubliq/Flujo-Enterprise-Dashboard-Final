@@ -23,7 +23,6 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<ElementResult>();
   dataCount: number;
   fields = ['ID', 'NAME', 'EMAIL', 'PHONE'];
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private http: HttpClient,
