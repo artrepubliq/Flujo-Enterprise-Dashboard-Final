@@ -106,6 +106,7 @@ import { EmailTemplateResolver } from './email-template/email-template.resolver'
 import { EmailTemplateService } from './email-template/email-template-service';
 
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
+import { WhatsappComponent } from './whatsapp/whatsapp.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -169,7 +170,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
-    SocialconfigurationComponent
+    SocialconfigurationComponent,
+    WhatsappComponent
   ],
   imports: [
     BrowserModule,

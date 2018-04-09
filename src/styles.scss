@@ -649,6 +649,10 @@ control-messages,
   .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
     display: none;
   }
+  .mat-tab-body-wrapper {
+    box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+}
   .mat-tab-body{
     border-radius: 10px;
   }
