@@ -182,7 +182,6 @@ export class AdminComponent implements OnInit {
 
   sidebarToggleOpen(){
     this.sidebarToggledButton = true;
-    console.log('mouse enter to sidebar')
   }
   sidebarToggleClose() {
     this.sidebarToggledButton = false;
