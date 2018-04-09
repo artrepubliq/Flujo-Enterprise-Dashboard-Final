@@ -14,5 +14,6 @@ export interface IUpdateableData {
     area: string;
     client_id?: string;
     pincode: string;
+    area_telugu: string;
 }
 

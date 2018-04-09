@@ -39,6 +39,9 @@ import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
+import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
+import { WhatsappComponent } from './whatsapp/whatsapp.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -96,6 +99,7 @@ const routes: Routes = [
           { path: 'privacynpolicy', component: PnpComponent, data: { title: 'Privacy & Policy' } },
           { path: 'database', component: DatabaseComponent, data: { title: 'Database' } },
           { path: 'smsconfiguration', component: SmstemplateComponent, data: { title: 'Sms Template Configuration' } },
+          { path: 'whatsappflujo', component: WhatsappComponent, data: { title: 'Whatsapp messages' } },
           {
             path: 'emailconfiguration',
             component: EmailTemplateComponent,
@@ -104,6 +108,9 @@ const routes: Routes = [
             runGuardsAndResolvers: 'always'
           },
           { path: 'chooseplatform', component: ChooseplatformComponent, data: { title: 'Editor' } },
+
+          { path: 'socialconfiguration', component: SocialconfigurationComponent, data: {title: 'Social Configurations'} },
+
         ]
       }
     ]

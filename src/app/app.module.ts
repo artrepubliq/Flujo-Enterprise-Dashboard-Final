@@ -101,9 +101,12 @@ import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
+
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
-// import { SafeHtmlPipe } from './email-template/safe-html.pipe';
+
+import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
+import { WhatsappComponent } from './whatsapp/whatsapp.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -168,6 +171,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailTemplateComponent,
     ChooseplatformComponent,
     SafeHtmlPipe
+    SocialconfigurationComponent,
+    WhatsappComponent,
   ],
   imports: [
     BrowserModule,

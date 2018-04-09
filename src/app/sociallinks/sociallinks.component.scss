@@ -25,10 +25,16 @@
   border-radius: 5px;
   background-color: #ffffff;
   box-shadow: 0 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
-  padding: 15px 40px;
+  padding: 20px 40px;
   position: relative;
   input {
+    height: 40px;
+    padding: 12px 18px;
     border-radius: 20px;
+    background-color: #ffffff;
+    border: solid 1px #0cc0df;
+    box-shadow: 0px 0.5px 7.5px 0 #0cc0df;
+    width: 100%;
   }
   input.form-control {
     box-shadow: none;
@@ -55,15 +61,8 @@
       text-align: left;
       color: #919191;
       margin: 0;
-    }
-    input {
+      line-height: 40px;
       height: 40px;
-      padding: 12px 18px;
-      border-radius: 20px;
-      background-color: #ffffff;
-      border: solid 1px #0cc0df;
-      box-shadow: 0px 0.5px 7.5px 0 #0cc0df;
-      width: 100%;
     }
   }
 }
@@ -87,11 +86,12 @@
     border-radius: 50px;
     padding-bottom: 0;
     img {
-        max-width: 11px;
+      max-width: 11px;
+      vertical-align: initial;
     }
   }
   button.save {
-      border-color: #50d166;
+    border-color: #50d166;
   }
   button.cancel {
     border-color: #f13a30;
@@ -112,4 +112,22 @@
       margin-left: 15px;
     }
   }
+}
+
+.choose-button {
+  background: none;
+  border: 1px solid #666666 !important;
+  border-radius: 30px !important;
+  line-height: 30px;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  color: #666666;
+  text-transform: uppercase;
+  box-shadow: none !important;
+  overflow: hidden;
+  padding: initial;
+  padding-left: 20px;
+  padding-right: 20px;
+  float: right;
 }

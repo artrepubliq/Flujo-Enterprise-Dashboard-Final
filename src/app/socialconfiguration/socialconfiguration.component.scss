@@ -1,0 +1,83 @@
+
+.socialconfig_box{
+    height: 100%;
+    input{
+        border-radius:20px;
+        border: solid 1.5px #f7f7f7;
+        outline: none;
+        box-shadow: none;
+    }
+    .third-party-lib-keys{
+        min-width: 45vw;
+        // min-height: 480px;
+        max-height: 480px;
+        height: 100%;
+        border-radius: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+        .socialconfig_body{
+            .config-body{
+                width:90%;
+                text-align: start;                
+                .social-confgs{
+                    width:100%;
+                }
+                label {
+                    color: #666666;
+                  }
+                  p{
+                      color: #919191;
+                  } 
+                 
+            }
+            .edit-block{
+                padding: 22px;
+            }
+            .lib-keys{
+                font-family: Roboto;
+                .header{
+                    padding: 22px;
+                    border-bottom: 1px solid #f7f7f7;
+                    position: relative;
+                    width:100%;
+                    .header_title {
+                        font-family: 'Roboto';
+                        font-size: 15px;
+                        font-weight: 500;
+                        text-align: left;
+                        color: #666666;
+                        text-transform: uppercase;
+                    }
+                   
+                }   
+                .config_footer{
+                    padding: 20px;
+                    border-top: 1px solid #f7f7f7;
+                    position: relative;
+                    width: 100%;
+                    .pull-left{
+                        position: absolute;
+                        left:20px;
+                    }
+                }
+                .btn-editor{
+                    width: 100px;
+                    height: 40px;
+                    border-radius: 20px;
+                    background-color: transparent;
+                    border: solid 1.5px #4a2565;
+                    color:#4a2565;
+                    overflow: hidden;
+                }
+                .btn-editor:hover{
+                    color:white;
+                    background-color: #4a2565;
+
+                }
+            }
+           
+
+        }
+       
+    }
+}

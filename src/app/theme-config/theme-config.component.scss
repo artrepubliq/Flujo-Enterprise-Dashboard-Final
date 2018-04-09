@@ -50,7 +50,17 @@ select.from-cntrol {
 
 .btn-new {
   border-radius: 35px;
-  padding: 5px 18px;
+  padding: 5px 25px;
+  border: solid 1.5px #4a2565;
+  color: #4a2565;
+}
+.btn-new:focus{
+  box-shadow: none;
+}
+.btn-new:hover {
+  border-radius: 35px;
+  background-color: #4a2565;
+  color:white;
 }
 
 #ChildMenuOverColor,
