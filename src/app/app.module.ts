@@ -26,12 +26,14 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-import { MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
-    MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
-    MatNativeDateModule, MatExpansionModule, DateAdapter,
-    MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule,
-    MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
+import {
+  MatButtonModule, MatFormFieldModule, MatInputModule,
+  MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
+  MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
+  MatNativeDateModule, MatExpansionModule, DateAdapter,
+  MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatTabsModule,
+  MatCardModule, MatTooltipModule, MatAutocompleteModule
+} from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -61,7 +63,7 @@ import { AuthInterceptorService } from './auth/auth.interceptorservice';
 import { LoginAuthService } from './auth/login.auth.service';
 import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
+import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
@@ -76,7 +78,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FilerepositoryComponent, FileRepositoryPopup, FileViewerPopUp } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DocumentViewModule } from 'ngx-document-view';
@@ -170,7 +172,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
     SocialconfigurationComponent,
     WhatsappComponent,
   ],
@@ -225,37 +227,37 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog],
+    AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog],
   providers: [
-              // AuthService,
-              HttpService,
-              ValidationService,
-              NgxSmartLoaderService,
-              LoginAuthService,
-              GalleryImagesService,
-              FBService,
-              ProblemTypeService,
-              UseraccessServiceService,
-              AreaService,
+    // AuthService,
+    HttpService,
+    ValidationService,
+    NgxSmartLoaderService,
+    LoginAuthService,
+    GalleryImagesService,
+    FBService,
+    ProblemTypeService,
+    UseraccessServiceService,
+    AreaService,
 
-              {provide: DateAdapter, useClass: DateFormat},
-              EmailTemplateResolver,
-              EmailTemplateService,
-              // AuthInterceptorService,
-              // {
-              // provide: AuthHttp,
-              // useFactory: authHttpServiceFactory,
-              // deps: [Http, RequestOptions]
-              // },
-              // {
-              //   provide: HTTP_INTERCEPTORS,
-              //   useClass: TokenInterceptor,
-              //   multi: true
-              // }
+    { provide: DateAdapter, useClass: DateFormat },
+    EmailTemplateResolver,
+    EmailTemplateService,
+    // AuthInterceptorService,
+    // {
+    // provide: AuthHttp,
+    // useFactory: authHttpServiceFactory,
+    // deps: [Http, RequestOptions]
+    // },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: TokenInterceptor,
+    //   multi: true
+    // }
 
-              {provide: DateAdapter, useClass: DateFormat}
+    { provide: DateAdapter, useClass: DateFormat }
 
-            ],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
