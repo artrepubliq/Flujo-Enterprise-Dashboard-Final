@@ -40,6 +40,7 @@ import { EmailTemplateComponent } from './email-template/email-template.componen
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
+import { WhatsappComponent } from './whatsapp/whatsapp.component';
 
 const routes: Routes = [
   {
@@ -98,6 +99,7 @@ const routes: Routes = [
           { path: 'privacynpolicy', component: PnpComponent, data: { title: 'Privacy & Policy' } },
           { path: 'database', component: DatabaseComponent, data: { title: 'Database' } },
           { path: 'smsconfiguration', component: SmstemplateComponent, data: { title: 'Sms Template Configuration' } },
+          { path: 'whatsappflujo', component: WhatsappComponent, data: { title: 'Whatsapp messages' } },
           {
             path: 'emailconfiguration',
             component: EmailTemplateComponent,
