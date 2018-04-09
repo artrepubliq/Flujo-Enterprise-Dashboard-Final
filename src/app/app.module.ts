@@ -99,10 +99,11 @@ import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loy
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
-import { EmailTemplateComponent } from './email-template/email-template.component';
+import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
+// import { SafeHtmlPipe } from './email-template/safe-html.pipe';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -165,7 +166,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MediaLocalImagePopupDialog,
     SmstemplateComponent,
     EmailTemplateComponent,
-    ChooseplatformComponent
+    ChooseplatformComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,
@@ -233,7 +235,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
               {provide: DateAdapter, useClass: DateFormat},
               EmailTemplateResolver,
-              EmailTemplateService
+              EmailTemplateService,
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,

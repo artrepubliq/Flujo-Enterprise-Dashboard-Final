@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
 })
 
 export class FilerepositoryComponent implements OnInit {
-    toggleFileUploader= false;
+    toggleFileUploader = false;
     filteredUserAccessData: any;
     userAccessLevelObject: any;
     total_size: any;
@@ -86,7 +86,7 @@ export class FilerepositoryComponent implements OnInit {
                   _.each(resp, item => {
                     if (item.user_id === localStorage.getItem('user_id')) {
                         this.userAccessLevelObject = item.access_levels;
-                    }else {
+                    } else {
                       // this.userAccessLevelObject = null;
                     }
                   });
@@ -112,7 +112,7 @@ export class FilerepositoryComponent implements OnInit {
     });
     if (this.filteredUserAccessData) {
       this.router.navigate(['admin/filerepository']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
     }
       }
@@ -351,11 +351,10 @@ export class FilerepositoryComponent implements OnInit {
                             this.repositories.forEach(allFiles => {
                                 this.allFiles.push(allFiles.files);
                             });
-                            if(parseFloat((this.total_size/1048576).toFixed(2)) >= 1.0) {
+                            if (parseFloat((this.total_size / 1048576).toFixed(2)) >= 1.0) {
                                 this.showInMb = true;
                                 this.showInKb = false;
-                            } 
-                            else if(parseFloat((this.total_size/1048576).toFixed(2)) < 1.0){
+                            } else if (parseFloat((this.total_size / 1048576).toFixed(2)) < 1.0) {
                                 this.showInMb = false;
                                 this.showInKb = true;
 
@@ -419,14 +418,13 @@ export class FilerepositoryComponent implements OnInit {
         this.filtered_repositories = files[0].files;
         this.ConvertUnits();
     }
-    
+
     ConvertUnits = () => {
-        _.each(this.filtered_repositories,(filtered_item:IFiles)=>{
-            if(parseFloat((filtered_item.file_size/1048576).toFixed(2)) >= 1.0) {
+        _.each(this.filtered_repositories, (filtered_item: IFiles) => {
+            if (parseFloat((filtered_item.file_size / 1048576).toFixed(2)) >= 1.0) {
                 filtered_item.isShowMb  = true;
                 filtered_item.isShowKb  = false;
-            }
-            else if(parseFloat((filtered_item.file_size/1048576).toFixed(2)) < 1.0){
+            } else if (parseFloat((filtered_item.file_size / 1048576).toFixed(2)) < 1.0) {
                 filtered_item.isShowMb  = false;
                 filtered_item.isShowKb  = true;
             }
