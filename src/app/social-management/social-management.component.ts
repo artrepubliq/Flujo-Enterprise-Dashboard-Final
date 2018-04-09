@@ -26,35 +26,10 @@ export class SocialManagementComponent implements OnInit {
   access_token: any;
 
   constructor(private fb: FacebookService, private fbService: FBService, private router: Router,
-    public adminComponent: AdminComponent, private spinnerService: Ng4LoadingSpinnerService) {
+    private spinnerService: Ng4LoadingSpinnerService) {
     this.fbResponseData = <IFBFeedArray>{};
     this.fbResponseDataItems = [];
     fbService.FBInit();
-    if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            console.log(resp);
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              }else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
-    }
   }
   ngOnInit(): void {
 
@@ -70,24 +45,6 @@ export class SocialManagementComponent implements OnInit {
     //     console.log(e);
     //   });
   }
- // this for restrict user on root access level
- userRestrict() {
-  _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-    // tslint:disable-next-line:max-line-length
-    if (this.adminComponent.userAccessLevelData[iterate].name === 'Social' && this.adminComponent.userAccessLevelData[iterate].enable) {
-      this.filteredUserAccessData = item;
-      } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
-      }
-    });
-    if (this.filteredUserAccessData.name) {
-      this.router.navigate(['admin/socialmanagement']);
-    } else {
-      this.router.navigate(['/accessdenied']);
-      console.log('else');
-    }
-}
   fbLogin = () => {
     // login with options
     const options: LoginOptions = {

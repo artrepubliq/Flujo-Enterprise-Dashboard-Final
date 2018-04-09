@@ -47,7 +47,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup
-import { SmsuiComponent } from './smsui/smsui.component';
+import { SmsuiComponent, SmsTemplateSelectionDialog} from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -103,6 +103,8 @@ import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 import { EditorSelectionService } from './service/editor-selection.service';
+import { UseraccessComponent } from './useraccess/useraccess.component';
+import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -131,6 +133,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialManagementComponent,
     FilerepositoryComponent,
     ManageReportsComponent,
+    // UseraccessComponent,
     // directives
     EditGalleryItems,
     GalleryDirective,
@@ -165,7 +168,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MediaLocalImagePopupDialog,
     SmstemplateComponent,
     EmailTemplateComponent,
-    ChooseplatformComponent
+    ChooseplatformComponent,
+    SmsTemplateSelectionDialog
   ],
   imports: [
     BrowserModule,
@@ -218,7 +222,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog],
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, SmsTemplateSelectionDialog],
   providers: [
               // AuthService,
               HttpService,
@@ -232,7 +236,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               UseraccessServiceService,
               AreaService,
               {provide: DateAdapter, useClass: DateFormat},
-              EditorSelectionService
+              EditorSelectionService,
+              UseraccessComponent,
+              SmsTemplateSelectService
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,

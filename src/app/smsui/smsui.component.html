@@ -9,7 +9,7 @@
     <div class="page-header">
       SMS
     </div>
-    <button mat-raised-button class="choose-button">Choose Template +</button>
+    <button mat-raised-button class="choose-button" (click)="openDialog()" >Choose Template +</button>
   </div>
 
   <form role="form" class="admin-form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
@@ -46,7 +46,8 @@
     <div fxLayout="column" fxLayoutGap="13px" class="input_box">
       <label for="message">SMS Content</label>
       <div>
-        <textarea formControlName="message" id="message" placeholder="Message"></textarea>
+        <textarea formControlName="message" *ngIf="selectedSmsTemplateData" [ngModel]="selectedSmsTemplateData" id="message" placeholder="Message"></textarea>
+        <textarea *ngIf="!selectedSmsTemplateData" formControlName="message" id="message" placeholder="Message"></textarea>
         <control-messages [control]="smsContactForm.controls.message"></control-messages>
       </div>
     </div>
@@ -58,7 +59,7 @@
       </div>
     </div> -->
     <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-      <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
+      <button type="button" mat-button (click)="cancelSmsEdit()" color="deafault">Cancel</button>
       <button type="submit" class="button_submit" (click)="smsContactFormSubmit(smsContactForm.value)" [disabled]="!smsContactForm.valid">Send</button>
     </div>
   </form>

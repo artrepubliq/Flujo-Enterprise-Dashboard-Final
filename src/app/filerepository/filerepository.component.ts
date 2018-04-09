@@ -28,7 +28,7 @@ import { Router } from '@angular/router';
 })
 
 export class FilerepositoryComponent implements OnInit {
-    toggleFileUploader= false;
+    toggleFileUploader = false;
     filteredUserAccessData: any;
     userAccessLevelObject: any;
     total_size: any;
@@ -73,47 +73,7 @@ export class FilerepositoryComponent implements OnInit {
             'file_path': null,
             'file_size': null
         });
-        // this for restrict user on root access level
-        if (this.adminComponent.userAccessLevelData) {
-            this.userRestrict();
-          } else {
-            this.adminComponent.getUserAccessLevelsHttpClient()
-              .subscribe(
-                resp => {
-                  this.spinnerService.hide();
-                  _.each(resp, item => {
-                    if (item.user_id === localStorage.getItem('user_id')) {
-                        this.userAccessLevelObject = item.access_levels;
-                    }else {
-                      // this.userAccessLevelObject = null;
-                    }
-                  });
-                  this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-                  this.userRestrict();
-                },
-                error => {
-                  console.log(error);
-                  this.spinnerService.hide();
-                }
-              );
-          }
     }
-    // this for restrict user on root access level
-    userRestrict() {
-        _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-          // tslint:disable-next-line:max-line-length
-          if (this.adminComponent.userAccessLevelData[iterate].name === 'Drive' && this.adminComponent.userAccessLevelData[iterate].enable) {
-            this.filteredUserAccessData = item;
-      } else {
-
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/filerepository']);
-    }else {
-      this.router.navigate(['/accessdenied']);
-    }
-      }
     /* this is when we submit the form */
     onSubmit(filedata) {
         // const fileData = this.FileUploadControl.value;

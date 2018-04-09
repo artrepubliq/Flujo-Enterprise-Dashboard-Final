@@ -38,55 +38,12 @@ export class SocialLinksComponent implements OnInit {
     });
 
     this.getSocialLinksData();
-    if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            console.log(resp);
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              }else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
-    }
   }
   ngOnInit() {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
-  // this for restrict user on root access level
- userRestrict() {
-  _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-    // tslint:disable-next-line:max-line-length
-    if (this.adminComponent.userAccessLevelData[iterate].name === 'Social links update' && this.adminComponent.userAccessLevelData[iterate].enable) {
-      this.filteredUserAccessData = item;
-      } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/sociallinks']);
-    }else {
-      this.router.navigate(['/accessdenied']);
-      console.log('else');
-    }
-}
   socialLinksFormSubmit(body: any) {
     this.spinnerService.show();
     if (this.form_btntext === 'Update') {
