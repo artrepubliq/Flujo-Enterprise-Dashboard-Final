@@ -2,10 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import Chart from 'chart.js';
 @Component({
   selector: 'app-charts-status',
-  templateUrl: './charts-status.component.html',
-  styleUrls: ['./charts-status.component.scss']
+  templateUrl: './charts-status.directive.html',
+  styleUrls: ['./charts-status.directive.scss']
 })
-export class ChartsStatusComponent implements OnInit {
+// tslint:disable-next-line:component-class-suffix
+export class ChartsStatusDirective implements OnInit {
   @Input() status_reports: any;
   colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
     // color1 = 'warn';
