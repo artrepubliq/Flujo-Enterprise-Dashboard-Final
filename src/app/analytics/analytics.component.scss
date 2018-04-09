@@ -1,7 +1,12 @@
-.button-group button:focus,
-.active {
+.button-group button:focus, button:hover{
   // background: white !important;
   box-shadow: none !important;
+  background-color: #fff !important;
+  color: #999999; 
+}
+.active{
+  color: #666666 !important;
+  background-color: #fff;
 }
 
 .btn-start {
@@ -78,7 +83,7 @@
 .divide-line {
   margin-top: 5px;
   height: 1.5px;
-  background-color: #f5f5f5;
+  background-color: #efefef;
 }
 
 input {
