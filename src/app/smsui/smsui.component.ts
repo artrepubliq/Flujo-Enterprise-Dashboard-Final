@@ -28,6 +28,8 @@ export class SmsuiComponent implements OnInit {
   template = `<img src="../assets/icons/loader.gif" />`;
   smsContactForm: any;
   PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
+  submitted: boolean;
+  cancelFileEdit: boolean;
   constructor(private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient,
      private formBuilder: FormBuilder, private alertService: AlertService,
      public adminComponent: AdminComponent, private router: Router,

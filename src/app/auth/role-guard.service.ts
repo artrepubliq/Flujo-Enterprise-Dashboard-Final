@@ -21,7 +21,6 @@ export class RoleGuardService implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient,
     public loginAuthService: LoginAuthService, public router: Router, private userAccessData: UseraccessComponent) {
-this.login = new LoginComponent(router, alertService, formBuilder, spinnerService, httpClient, loginAuthService);
 
     // const ttt = this.userAccessData.getUserAccessLevelData().subscribe(
     //   data => {

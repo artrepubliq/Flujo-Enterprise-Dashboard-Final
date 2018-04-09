@@ -38,7 +38,8 @@ export class ReportanissueComponent implements OnInit {
   showEmailClick = false;
   showEmailClickReport = false;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
-
+  submitted: boolean;
+  
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
     private httpClient: HttpClient, private alertService: AlertService,
     private router: Router) {

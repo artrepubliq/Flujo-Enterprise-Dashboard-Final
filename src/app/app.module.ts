@@ -9,7 +9,6 @@ import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { GalleryImagesService } from './service/gallery-images.service';
-import { RoleGuardService } from './auth/role-guard.service';
 import { UseraccessServiceService } from './service/useraccess-service.service';
 // import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -100,11 +99,17 @@ import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loy
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
-import { EmailTemplateComponent } from './email-template/email-template.component';
+import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
+<<<<<<< HEAD
 import { EditorSelectionService } from './service/editor-selection.service';
 import { UseraccessComponent } from './useraccess/useraccess.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
+=======
+import { EmailTemplateResolver } from './email-template/email-template.resolver';
+import { EmailTemplateService } from './email-template/email-template-service';
+// import { SafeHtmlPipe } from './email-template/safe-html.pipe';
+>>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -169,7 +174,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
+<<<<<<< HEAD
     SmsTemplateSelectionDialog
+=======
+    SafeHtmlPipe
+>>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
   ],
   imports: [
     BrowserModule,
@@ -232,13 +241,18 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               GalleryImagesService,
               FBService,
               ProblemTypeService,
-              RoleGuardService,
               UseraccessServiceService,
               AreaService,
+
               {provide: DateAdapter, useClass: DateFormat},
+<<<<<<< HEAD
               EditorSelectionService,
               UseraccessComponent,
               SmsTemplateSelectService
+=======
+              EmailTemplateResolver,
+              EmailTemplateService,
+>>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
@@ -250,6 +264,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               //   useClass: TokenInterceptor,
               //   multi: true
               // }
+
+              {provide: DateAdapter, useClass: DateFormat}
+
             ],
   bootstrap: [AppComponent]
 })

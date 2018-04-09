@@ -83,10 +83,10 @@
       <p>{{socialitem?.socialitem_name}}</p>
     </div>
     <div fxFlex class="link-url" fxLayoutAlign="start center">
-      <p *ngIf="!isEdit">{{socialitem?.socialitem_url}}</p>
-      <input *ngIf="isEdit" type="text" id="socialitem_name" value="{{socialitem?.socialitem_url}}">
+      <p *ngIf="!socialitem.editLink">{{socialitem?.socialitem_url}}</p>
+      <input *ngIf="socialitem.editLink" (change)='modifyLink($event, socialitem)' type="text" id="socialitem_name" value="{{socialitem?.socialitem_url}}">
     </div>
-    <div *ngIf="!isEdit" class="linksAction-buttons" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
+    <div *ngIf="!socialitem.editLink" class="linksAction-buttons" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
       <button (click)="EditSocialLinks(socialitem)" type="button" class="btn">
         <i class="fa fa-pencil"></i>
       </button>
@@ -94,11 +94,11 @@
         <i class="fa fa-trash-o"></i>
       </button>
     </div>
-    <div *ngIf="isEdit" class="linksAction-buttons edit-mode" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
-      <button type="button" class="cancel">
+    <div *ngIf="socialitem.editLink" class="linksAction-buttons edit-mode" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
+      <button type="button" class="cancel" (click)="cancelEdit(socialitem)">
         <img src="assets/icons/cancel-icon-active@2x.png" alt="X" class="img-fluid">
       </button>
-      <button type="button" class="save">
+      <button type="button" class="save" (click)="socialLinksFormSubmit(socialitem)">
         <img src="assets/icons/save-icon-active@2x.png" alt="X" class="img-fluid">
       </button>
     </div>

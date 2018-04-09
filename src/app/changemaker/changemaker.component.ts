@@ -43,6 +43,9 @@ export class ChangemakerComponent implements OnInit {
   showEmailClickReport = false;
   displayedColumns = ['name', 'updated', 'email', 'phone', 'message', 'source'];
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+  config: any;
+  p: number;
+  submitted: boolean;
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder, private httpClient:

@@ -1,17 +1,11 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-
-
-
 <!-- File Uploader -->
 <div class="uploadFile_block" [ngClass]="{'ShowFileUploader': toggleFileUploader }">
   <div class="toggleShow_uploader">
     <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
       <form class="file_uploader" enctype="multipart/form-data">
         <div class="">
-          <!-- <a href="javascript:void(0)" (click)="file.click()">
-          Click to browse
-        </a> -->
           <div fxLayout="column" class="choose-block" fxLayoutAlign="center center">
             <div class="choose_files">
               <button>Choose</button>
@@ -30,7 +24,6 @@
   </div>
   <div class="show_upload">
     <h3 (click)="uploadFile()">
-      <!-- <i class="fa fa-chevron-down"></i> -->
       Upload
     </h3>
   </div>
@@ -44,8 +37,8 @@
   </h3>
   <div class="sort_controls" fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="30px">
     <!-- <div> -->
-    <p class="file_storage_details" *ngIf=" (total_size/1048576).toFixed(2) >= 1.0 ">{{ (total_size/1048576).toFixed(2)}} MB used of 1 GB</p>
-    <p class="file_storage_details" *ngIf=" (total_size/1048576).toFixed(2) < 1.0 ">{{ (total_size/1024).toFixed(2)}} KB used of 1 GB</p>
+    <p class="file_storage_details" *ngIf="showInMb ">{{ (total_size/1048576).toFixed(2)}} MB used of 1 GB</p>
+    <p class="file_storage_details" *ngIf="showInKb ">{{ (total_size/1024).toFixed(2)}} KB used of 1 GB</p>
     <!-- </div> -->
     <i class="fa fa-th-large"></i>
     <i class="fa fa-th"></i>
@@ -75,8 +68,8 @@
 <br>
 <br>
 <div>
-  <h3 class="title" *ngIf="filtered_repositories.length > 0">Files</h3>
-  <h3 *ngIf="!filtered_repositories.length > 0">No files available</h3>
+  <h3 class="title" *ngIf="filtered_repositories?.length > 0">Files</h3>
+  <h3 *ngIf="filtered_repositories?.length === 0">No files available</h3>
   <div class="row" *ngIf="filtered_repositories.length > 0 ">
     <div class="col-md-3" *ngFor="let filtered_item of filtered_repositories">
       <div class="file_block">
@@ -85,8 +78,8 @@
         </div>
         <div class="file_footer">
           <h3 class="title">{{filtered_item.file_name +"."+ filtered_item.file_extension}}</h3>
-          <p class="file_size" *ngIf=" (filtered_item.file_size/1048576).toFixed(2) >= 1.0 ">{{(filtered_item.file_size/1048576).toFixed(2)}} MB</p>
-          <p class="file_size" *ngIf=" (filtered_item.file_size/1048576).toFixed(2) < 1.0 ">{{(filtered_item.file_size/1024).toFixed(2)}} KB</p>
+          <p class="file_size" *ngIf="filtered_item.isShowMb ">{{(filtered_item.file_size/1048576).toFixed(2)}} MB</p>
+          <p class="file_size" *ngIf="filtered_item.isShowKb ">{{(filtered_item.file_size/1024).toFixed(2)}} KB</p>
         </div>
         <div class="file_actions">
           <div fxLayout="row" fxLayoutGap="15px">
@@ -95,9 +88,7 @@
             <i class="fa fa-trash action" (click)="deleteFile(filtered_item.id, filtered_repositories)"></i>
           </div>
         </div>
-        <!-- <div class="bg-layer"></div> -->
       </div>
     </div>
   </div>
 </div>
-<!-- <dialog-overview-example-dialog (getData)="myEvent($event)"></dialog-overview-example-dialog> -->

@@ -8,6 +8,7 @@ import * as Chart from 'chart.js';
 })
 export class ChartsGenderComponent implements OnInit, OnChanges {
   @Input() gender: any;
+  genderChart: any;
 
   constructor() { }
 

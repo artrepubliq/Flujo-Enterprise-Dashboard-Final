@@ -14,8 +14,6 @@ export class AppComponent {
 
   constructor(public dialog: MatDialog, private router: Router,
      private loginAuthService: LoginAuthService) {
-    // this.openDialog();
-
 }
 
   openDialog(): void {

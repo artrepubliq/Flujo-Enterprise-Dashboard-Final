@@ -131,6 +131,7 @@ export class CreateModuleComponent implements OnInit {
                         this.spinnerService.hide();
                     }
 
+
                 },
                 error => {
                     this.loading = false;

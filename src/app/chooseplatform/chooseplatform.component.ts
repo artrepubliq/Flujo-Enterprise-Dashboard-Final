@@ -1,7 +1,7 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { EditorSelectionService } from '../service/editor-selection.service';
+
 @Component({
   selector: 'app-chooseplatform',
   templateUrl: './chooseplatform.component.html',
@@ -9,22 +9,15 @@ import { EditorSelectionService } from '../service/editor-selection.service';
 })
 export class ChooseplatformComponent implements OnInit {
 
-  constructor(
-    private router: Router,
-    private spinnerService: Ng4LoadingSpinnerService,
-    public editorSelect: EditorSelectionService
-  ) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    setTimeout(function () {
+    setTimeout(function() {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
 
-  routing(editorType) {
-    this.editorSelect.onClick(editorType, true);
-    console.log(editorType);
-    localStorage.setItem('editor_source', editorType);
-    this.router.navigate(['admin/pages']);
+  routing () {
+    this.router.navigate(['admin/pages'])
   }
 }

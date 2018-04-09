@@ -18,6 +18,9 @@
     </div>
   </div>
   <div *ngIf="componentName === 'feedback'">
+    <div>
+      <p>Total Count: {{elementData.length}}</p>
+    </div>
     <div class="feedback_table" [perfectScrollbar]="config">
 
       <div class="feedback-data">

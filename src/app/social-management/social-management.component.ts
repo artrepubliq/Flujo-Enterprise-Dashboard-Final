@@ -45,6 +45,24 @@ export class SocialManagementComponent implements OnInit {
     //     console.log(e);
     //   });
   }
+ // this for restrict user on root access level
+ userRestrict() {
+  _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+    // tslint:disable-next-line:max-line-length
+    if (this.adminComponent.userAccessLevelData[iterate].name === 'Social' && this.adminComponent.userAccessLevelData[iterate].enable) {
+      this.filteredUserAccessData = item;
+      } else {
+        // this.router.navigate(['/accessdenied']);
+        // console.log('else');
+      }
+    });
+    if (this.filteredUserAccessData.name) {
+      this.router.navigate(['/socialmanagement']);
+    }else {
+      this.router.navigate(['/accessdenied']);
+      console.log('else');
+    }
+}
   fbLogin = () => {
     // login with options
     const options: LoginOptions = {
