@@ -1,51 +1,103 @@
-<!-- <ng4-loading-spinner></ng4-loading-spinner> -->
+<ng4-loading-spinner></ng4-loading-spinner>
 
 <div class="container tconfig page_padding">
-    <ngx-alerts maxMessages="3" timeout="5000">
-    </ngx-alerts>
-  
-  
-    <div fxLayout="row" class="p-rel">
-      <div class="page-header">
-        Email Template Configuration
-      </div>
+  <ngx-alerts maxMessages="3" timeout="5000">
+  </ngx-alerts>
+
+
+  <div fxLayout="row" class="p-rel">
+    <div class="page-header">
+      Email Template Configuration
     </div>
-  
-    <form role="form" [formGroup]="createEmailTemplateForm" class="admin-form" >
-      <div fxLayout="column" fxLayoutGap="13px">
-        <div fxLayout="row" fxLayoutGap="48px">
-          <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px" class="input_box">
-            <label>Choose a Template Category</label>
-            <div class="select-wrap">
-              <select formControlName="template_category" [value]="">
-                <option>Business</option>
-                <option>Events</option>
-                <option>Festival</option>
-                <option>Ocassions</option>
-              </select>
-            </div>
-            <div>
-              <label>Template Name</label>
-              <input type="text" formControlName="template_name" [value]="" placeholder="Enter template name">
-            </div>       
+    <div fxFlex>
+      <button (click)="addEmailTemplate()" class="d-inline pull-right btn btn-outline-secondary btn-user">
+        <span>Create Template </span>
+      </button>
+    </div>
+  </div>
+  <form role="form" *ngIf="isEdit" [formGroup]="createEmailTemplateForm" class="admin-form">
+    <div fxLayout="column" fxLayoutGap="13px">
+      <div fxLayout="row" fxLayoutGap="48px">
+
+        
+        <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px" class="input_box">
+          <!-- <label>Choose a Template Category</label> -->
+          <mat-form-field class="example-full-width">
+              <input matInput placeholder="Template Category" aria-label="State" [matAutocomplete]="auto" [formControl]="templateCategory">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let category of filteredOptions | async" [value]="category">
+                  <span>{{ category }}</span> 
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          <div>
+            <label>Template Name</label>
+            <input type="text" formControlName="template_name" [value]="" placeholder="Enter template name">
           </div>
-          <div fxFlex="50%" class="input_box">
-            <label>Template Preview</label>
-            <div class="template-preview">
-              <p [innerHTML]="template_html"></p>
-              <!-- <img src="https://i.pinimg.com/originals/78/fa/0e/78fa0e51be75ba1bf29ffb41517953b0.jpg" alt="preview template"/> -->
-            </div>
+        </div>
+        <div fxFlex="50%" class="input_box">
+          <label>Template Preview</label>
+          <div class="template-preview">
+            <div id="email_template" [innerHTML]="template_html1 | safeHtml"></div>
+            <!-- <img [src]="template_html1"> -->
+            <!-- <img src="https://i.pinimg.com/originals/78/fa/0e/78fa0e51be75ba1bf29ffb41517953b0.jpg" alt="preview template"/> -->
           </div>
-        </div><br/>
-        <div fxLayout="column" fxLayoutGap="13px" class="input_box">
-          <label>Edit Template</label>
-          <div class="input_box">
-              <ck-editor [config]="{startupMode : 'source'}" fxFlex id="editorContent" name="editorContent" [(ngModel)]="template_html" formControlName="template_html" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
-          </div>
-        </div><br/>
+          <!-- <button (click)="downloadImage()">Convert to Image</button> -->
+        </div>
       </div>
-      <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
+      <br/>
+      <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+        <label>Edit Template</label>
+        <div class="input_box">
+          <ck-editor fxFlex id="editorContent" name="editorContent" [(ngModel)]="template_html1" formControlName="template_html" skin="moono-lisa"
+            lang="en" [fullPage]="true"></ck-editor>
+        </div>
+      </div>
+      <br/>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between ">
+
+      <div>
+        <button type="button" (click)="cancelEditTemplate()" class="button_submit">Cancel</button>
+      </div>
+      <div>
         <button type="button" [disabled]="createEmailTemplateForm.invalid" (click)="submitTemplate()" class="button_submit">Submit</button>
       </div>
-    </form>
+    </div>
+  </form>
+</div>
+
+<div fxLayout="column" class="header-media" fxLayoutAlign=" center" *ngIf="!isEdit">
+  <h3 class="title m-0" fxFlex>
+    Templates
+  </h3>
+
+  <div class="row" *ngIf="allEmailTemplates.length > 0">
+
+    <div class="col-md-3 folder_block" *ngFor="let templates of uniqueEmailTemplates; let i = index">
+      <div class="floder_block" fxLayout="row" fxLayoutGap="15px" (click)="readTemplates(templates.template_category)">
+        <i class="fa fa-folder-o"></i>
+        <i class="fa fa-folder-open"></i>
+        <p class="floder_name">{{templates.template_category}}</p>
+      </div>
+    </div>
   </div>
+</div>
+<br>
+<br>
+<div class="row" *ngFor="let item of filteredThemes">
+  <div class="col-md-3" *ngIf="!isEdit">
+    <!-- <h3 class="title" *ngIf="filteredThemes?.length > 0"></h3> -->
+    <!-- <h3 *ngIf="filteredThemes?.length === 0"></h3> -->
+    <div class="file_block">
+      <div fxLayoutAlign="center center" class="file_icon">
+      </div>
+      <div class="file_footer">
+        <h3 class="title"></h3>
+        <p class="file_size">{{item.template_name}}</p>
+        <i class="fa fa-pencil" aria-hidden="true" (click)="editEmailTemplate(item)"></i>
+        <i class="fa fa-trash test" (click)="deleteEmailTemplate(item.id)"></i>
+      </div>
+    </div>
+  </div>
+</div>

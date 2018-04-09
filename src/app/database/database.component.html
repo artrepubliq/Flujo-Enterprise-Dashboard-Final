@@ -1,3 +1,5 @@
+
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="database" fxLayout="column" fxLayoutGap="15px">
 
   <div class="example-header" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="space-between center">
@@ -53,17 +55,17 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <div class="sendMail-data form-group">
-      <form fxLayout="row" fxLayoutGap="15px" [formGroup]="sendEmail" (submit)="feedbackCsvMailSubmit(feedbackCsvMail.value)">
+      <div fxLayout="row" fxLayoutGap="15px" >
         <div class="input_box p-rel">
-          <input formControlName="email" id="email" placeholder="Enter email" email="true">
+          <input id="email" placeholder="Enter email" [(ngModel)]="emailID">
           <!-- <div  class="form-error-msg">
             enter valid email
           </div> -->
         </div>
         <div>
-          <button mat-raised-button class="button_submit" type="submit">Send As Email</button>
+          <button mat-raised-button class="button_submit" (click)="postEmail(emailID)">Send As Email</button>
         </div>
-      </form>
+      </div>
     </div>
     <!-- Paginator  -->
     <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">

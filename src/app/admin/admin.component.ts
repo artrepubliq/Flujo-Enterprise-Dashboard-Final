@@ -151,6 +151,7 @@ export class AdminComponent implements OnInit {
           _.each(data, item => {
             if (item.user_id === localStorage.getItem('user_id')) {
                 this.userAccessLevelObject = item.access_levels;
+                // console.log(this.userAccessLevelObject);
             } else {
               // this.userAccessLevelObject = null;
             }
