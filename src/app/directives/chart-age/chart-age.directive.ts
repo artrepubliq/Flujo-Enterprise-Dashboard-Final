@@ -4,10 +4,12 @@ import * as _ from 'underscore';
 
 @Component({
   selector: 'app-chart-age',
-  templateUrl: './chart-age.component.html',
-  styleUrls: ['./chart-age.component.scss']
+  templateUrl: './chart-age.directive.html',
+  styleUrls: ['./chart-age.directive.scss']
 })
-export class ChartAgeComponent implements OnChanges {
+
+// tslint:disable-next-line:component-class-suffix
+export class ChartAgeDirective implements OnChanges {
   @Input() ageData: any;
   myAgeChart: any;
   constructor() { }

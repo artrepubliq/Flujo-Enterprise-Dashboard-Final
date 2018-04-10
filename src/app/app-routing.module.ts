@@ -104,7 +104,8 @@ const routes: Routes = [
             path: 'emailconfiguration',
             component: EmailTemplateComponent,
             resolve: { themedata: EmailTemplateResolver },
-            data: { title: 'Email Template Configuration' }
+            data: { title: 'Email Template Configuration' },
+            runGuardsAndResolvers: 'always'
           },
           { path: 'chooseplatform', component: ChooseplatformComponent, data: { title: 'Editor' } },
 

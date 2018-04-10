@@ -91,15 +91,15 @@ import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { DatabaseComponent } from './database/database.component';
-import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.component';
-import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
-import { ChartsProblemCategoryComponent } from './directives//charts-problem-category/charts-problem-category.component';
-import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
-import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
+import { ChartsGenderDirective } from './directives/charts-gender/charts-gender.directive';
+import { ChartsAssignDirective } from './directives/charts-assign/charts-assign.directive';
+import { ChartsProblemCategoryDirective } from './directives//charts-problem-category/charts-problem-category.directive';
+import { ChartsStatusDirective } from './directives/charts-status/charts-status.directive';
+import { ChartsLoyalityDirective } from './directives/charts-loyality/charts-loyality.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
-import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
+import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
-import { EmailTemplateComponent } from './email-template/email-template.component';
+import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
@@ -158,20 +158,21 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProblemCategoryComponent,
     AreasComponent,
     DatabaseComponent,
-    ChartsGenderComponent,
-    ChartsAssignComponent,
-    ChartsProblemCategoryComponent,
-    ChartsStatusComponent,
-    ChartsLoyalityComponent,
+    ChartsGenderDirective,
+    ChartsAssignDirective,
+    ChartsProblemCategoryDirective,
+    ChartsStatusDirective,
+    ChartsLoyalityDirective,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
-    ChartAgeComponent,
+    ChartAgeDirective,
     MediaLocalImagePopupDialog,
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
+    SafeHtmlPipe,
     SocialconfigurationComponent,
-    WhatsappComponent
+    WhatsappComponent,
   ],
   imports: [
     BrowserModule,
