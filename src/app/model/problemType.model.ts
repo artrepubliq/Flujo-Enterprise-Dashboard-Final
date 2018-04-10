@@ -12,6 +12,7 @@ export interface Iresult {
 export interface IUpdateableData {
     reportproblemtype_id?: string;
     problem_type: string;
+    problem_type_telugu: string;
     client_id?: string;
 }
 
