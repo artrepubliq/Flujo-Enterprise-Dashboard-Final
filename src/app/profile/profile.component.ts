@@ -64,7 +64,7 @@ export class ProfileComponent implements OnInit {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      if(file.size <= 600000){
+      if (file.size <= 600000) {
       reader.readAsDataURL(file);
       reader.onload = () => {
         // this.profileData.avatar = reader.result.split(',')[1];
@@ -101,11 +101,7 @@ export class ProfileComponent implements OnInit {
   onSubmit = (body) => {
     this.spinnerService.show();
     const formModel = this.form.value;
-    // if(!this.form.value.avatar){
-    //   formModel.avatar = "null"
-    // }
     formModel.client_id = localStorage.getItem('client_id');
-    this.spinnerService.show();
     this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postprofile', formModel)
     .subscribe(
         data => {

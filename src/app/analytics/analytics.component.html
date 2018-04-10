@@ -31,15 +31,17 @@
       </div>
     </div>
     <div fxFlex fxLayoutAlign="center center" class="button-group">
-        <button class="btn btn-outline-secondary btn-start" (click)="onToday()" [ngClass]="{'active': getBGColor('today')}" name="options" id="option1" autocomplete="off">Today</button>
-        <button class="btn btn-outline-secondary btn-options" (click)="onWeek()" [ngClass]="{'active': getBGColor('week')}" name="options" id="option2"  autocomplete="off"> Week</button>
-        <button class="btn btn-outline-secondary btn-options" (click)="onMonth()" [ngClass]="{'active': getBGColor('month')}" name="options" id="option3" autocomplete="off">
-          Month</button>
-        <button class="btn btn-outline-secondary btn-options" (click)="onQuarter()" [ngClass]="{'active': getBGColor('quarter')}" name="options" id="option4" autocomplete="off">
-          Quarter</button>
-        <button class="btn btn-outline-secondary btn-end" (click)="onYear()" [ngClass]="{'active': getBGColor('year')}" name="options" id="option5" autocomplete="off">
-          Year</button>
-      </div>
+
+      <button class="btn btn-outline-secondary btn-start" (click)="onToday()" [ngClass]="{'active': getBGColor('today')}" name="options" id="option1" autocomplete="off">Today</button>
+      <button class="btn btn-outline-secondary btn-options" (click)="onWeek()" [ngClass]="{'active': getBGColor('week')}" name="options" id="option2"  autocomplete="off"> Week</button>
+      <button class="btn btn-outline-secondary btn-options" (click)="onMonth()" [ngClass]="{'active': getBGColor('month')}" name="options" id="option3" autocomplete="off">
+        Month</button>
+      <button class="btn btn-outline-secondary btn-options" (click)="onQuarter()" [ngClass]="{'active': getBGColor('quarter')}" name="options" id="option4" autocomplete="off">
+        Quarter</button>
+      <button class="btn btn-outline-secondary btn-end" (click)="onYear()" [ngClass]="{'active': getBGColor('year')}" name="options" id="option5" autocomplete="off">
+        Year</button>
+    </div>
+
   </div>
   <!-- ..// Analytics Header -->
 
@@ -90,10 +92,10 @@
       </div>
       <div class="chart_body">
         <div>
-
           <canvas id="ageChartCanvas">
 
           </canvas>
+          <!-- <app-chart-age [ageData]="ageData"></app-chart-age> -->
         </div>
 
       </div>
