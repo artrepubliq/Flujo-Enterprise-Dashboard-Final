@@ -18,6 +18,8 @@ import { AdminComponent } from '../admin/admin.component';
     styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent implements OnInit, OnDestroy {
+    appEditor: boolean;
+    webEditor: boolean;
     popUpImageData1: any;
     popUpImageData: any;
     filteredUserAccessData: any;
@@ -73,6 +75,17 @@ export class PagesComponent implements OnInit, OnDestroy {
                         this.spinnerService.hide();
                     }
                 );
+        }
+        if (localStorage.getItem('editor_source') === 'editorWeb') {
+            this.webEditor = true;
+        }
+        if (localStorage.getItem('editor_source') === 'editorApp') {
+            this.appEditor = true;
+        }
+        if (localStorage.getItem('editor_source')) {
+            this.router.navigate(['admin/pages']);
+        } else {
+            this.router.navigate(['admin/chooseplatform']);
         }
     }
     ngOnInit() {

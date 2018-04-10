@@ -23,7 +23,9 @@ import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-import { EmailserviceComponent } from './emailservice/emailservice.component';
+import { EmailserviceComponent, EmailTemplateSelectionPopup } from './emailservice/emailservice.component';
+import { EmailTemplateResolver } from './email-template/email-template.resolver';
+import { EmailTemplateService } from './email-template/email-template-service';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
@@ -101,12 +103,18 @@ import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
+
+// import { EditorSelectionService } from './service/editor-selection.service';
+import { UseraccessComponent } from './useraccess/useraccess.component';
+import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
+
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent } from './whatsapp/whatsapp.component';
 import { UseraccessComponent } from './useraccess/useraccess.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
+
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -173,10 +181,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChooseplatformComponent,
 
     SmsTemplateSelectionDialog,
+    EmailTemplateSelectionPopup,
+    
+
+    SmsTemplateSelectionDialog,
 
     SafeHtmlPipe,
+
     SocialconfigurationComponent,
     WhatsappComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -229,7 +243,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, SmsTemplateSelectionDialog],
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, SmsTemplateSelectionDialog,
+     EmailTemplateSelectionPopup],
   providers: [
               // AuthService,
               HttpService,
@@ -243,8 +258,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               AreaService,
 
               {provide: DateAdapter, useClass: DateFormat},
+
+              // EditorSelectionService,
               UseraccessComponent,
               SmsTemplateSelectService,
+
+              EditorSelectionService,
+           
+              UseraccessComponent,
+              SmsTemplateSelectService,
+
               EmailTemplateResolver,
               EmailTemplateService,
               // AuthInterceptorService,
