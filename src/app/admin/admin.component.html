@@ -207,8 +207,8 @@
           <span>SMS</span>
         </a>
       </li>
-      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[3]?.enable">
-        <a class="nav-link" routerLink="./whatsappflujo" routerLinkActive="active">
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[3]?.enable" (click)="whatsapp()">
+        <a class="nav-link" routerLinkActive="active">
           <small><i class="fa fa-whatsapp normal_img fa-2x" aria-hidden="true"></i></small>
           <small><i class="fa fa-whatsapp active_img fa-2x" aria-hidden="true"></i></small>
           <!-- <img src="assets/icons/sms-color-nav-icon-normal@2x.png" class="normal_img" alt="social icon">

@@ -8,7 +8,7 @@ import Chart from 'chart.js';
 // tslint:disable-next-line:component-class-suffix
 export class ChartsStatusDirective implements OnInit {
   @Input() status_reports: any;
-  colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
+  colors = ['#ee2f6b', '#0cc0df', '#fecd0f', '#999999'];
     // color1 = 'warn';
     // color2 = 'primary';
     // color3 = 'accent';

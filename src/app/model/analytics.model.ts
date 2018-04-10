@@ -30,3 +30,11 @@ export interface Params {
     from_date: String,
     to_date: String
 }
+
+export interface CommonInterface {
+    error: boolean;
+    result: Array<any>;
+    access_token: string;
+    http_status_code: number;
+    custom_status_code: number;
+}
