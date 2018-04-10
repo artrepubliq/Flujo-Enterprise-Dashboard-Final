@@ -36,6 +36,7 @@ export class LogoComponent implements OnInit {
     private httpClient: HttpClient, private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
     this.createForm();
     this.getLogoDetails();
+
     // this for restrict user on root access level
     if (this.adminComponent.userAccessLevelData) {
       this.userRestrict();
@@ -66,6 +67,7 @@ export class LogoComponent implements OnInit {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
+
   // this for restrict user on root access level
   userRestrict() {
     _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
@@ -81,6 +83,7 @@ export class LogoComponent implements OnInit {
       this.router.navigate(['/accessdenied']);
     }
   }
+
   createForm = () => {
     this.form = this.formBuilder.group({
       logo_text: ['', Validators.required],

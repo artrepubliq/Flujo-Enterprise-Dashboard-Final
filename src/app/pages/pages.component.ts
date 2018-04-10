@@ -147,6 +147,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             };
         }
     }
+    /* This is popup for image selection */
     openDialog(imageType): void {
         const dialogRef = this.dialog.open(MediaLocalImagePopupDialog, {
             width: '70vw',
@@ -184,7 +185,6 @@ export class PagesComponent implements OnInit, OnDestroy {
                 data => {
                     if (data.error) {
                         this.alertService.warning(data.result);
-                        // this.parsePostResponse(data);
                         this.spinnerService.hide();
                     } else {
                         this.getPageDetails();
@@ -209,7 +209,6 @@ export class PagesComponent implements OnInit, OnDestroy {
         }
     }
     onDelete = (body) => {
-        // const formModel = this.form.value;
         this.spinnerService.show();
         const component_id = body.id;
         this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletecomponent/' + component_id)
@@ -298,7 +297,6 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.isGridView = true;
     }
     editCompnent = (componentItem) => {
-        // this.alertService.success('page updated successfull.');
         this.isEdit = true;
         this.isTableView = false;
         this.isGridView = false;
@@ -339,25 +337,22 @@ export class MediaLocalImagePopupDialog {
         public dialogRef: MatDialogRef<MediaLocalImagePopupDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         dialogRef.disableClose = true;
-        //   _.each(this.data, index => {
-        //       console.log(this.data[index]);
-        //   });
         this.total_images = data.images;
         this.total_images.map(imageData => {
             imageData.isActive = false;
-            // console.log(imageData);
         });
     }
+    /* Here we send the selected image string to form in page component */
     closeDialog(): void {
         this.dialogRef.close(this.filteredLocalImages);
     }
     cancelDialog(): void {
         this.dialogRef.close();
     }
+    /* This method is used to get selected image from popup in component image selection*/
     getLocalImageId(localImageData, index) {
         this.total_images.map(imageData => {
             imageData.isActive = false;
-            // console.log(imageData);
         });
         localImageData.isActive = true;
         this.filteredLocalImages = { image: this.total_images[index].image, imageType: this.data.image_Type };

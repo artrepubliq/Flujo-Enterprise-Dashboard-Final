@@ -62,6 +62,7 @@ export class FeedbackComponent implements OnInit {
     'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
    });
     this.getuserFeedbackData();
+
     if (this.adminComponent.userAccessLevelData) {
       this.userRestrict();
     } else {
@@ -85,12 +86,14 @@ export class FeedbackComponent implements OnInit {
           }
         );
     }
+
   }
   ngOnInit() {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
+
   userRestrict() {
     _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
       // tslint:disable-next-line:max-line-length
@@ -105,6 +108,7 @@ export class FeedbackComponent implements OnInit {
       this.router.navigate(['/accessdenied']);
     }
   }
+
   showFeedback() {
     this.isFeedbackReport = true;
     this.isReportData = false;
