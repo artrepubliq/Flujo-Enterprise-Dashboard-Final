@@ -101,15 +101,13 @@ import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
-<<<<<<< HEAD
+import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
+import { WhatsappComponent } from './whatsapp/whatsapp.component';
 import { EditorSelectionService } from './service/editor-selection.service';
 import { UseraccessComponent } from './useraccess/useraccess.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
-=======
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
-// import { SafeHtmlPipe } from './email-template/safe-html.pipe';
->>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -174,11 +172,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
-<<<<<<< HEAD
     SmsTemplateSelectionDialog
-=======
     SafeHtmlPipe
->>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
+    SocialconfigurationComponent,
+    WhatsappComponent,
   ],
   imports: [
     BrowserModule,
@@ -245,14 +242,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               AreaService,
 
               {provide: DateAdapter, useClass: DateFormat},
-<<<<<<< HEAD
               EditorSelectionService,
               UseraccessComponent,
               SmsTemplateSelectService
-=======
               EmailTemplateResolver,
               EmailTemplateService,
->>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
