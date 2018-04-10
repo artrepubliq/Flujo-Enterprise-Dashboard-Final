@@ -103,19 +103,18 @@ import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
-<<<<<<< HEAD
+
 // import { EditorSelectionService } from './service/editor-selection.service';
 import { UseraccessComponent } from './useraccess/useraccess.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
-=======
+
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent } from './whatsapp/whatsapp.component';
-import { EditorSelectionService } from './service/editor-selection.service';
 import { UseraccessComponent } from './useraccess/useraccess.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
->>>>>>> 7b39e800eb33c2bbf7509d6e3a4ae32145b1b2b9
+
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -180,16 +179,18 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
-<<<<<<< HEAD
+
     SmsTemplateSelectionDialog,
     EmailTemplateSelectionPopup,
-    SafeHtmlPipe
-=======
-    SmsTemplateSelectionDialog
-    SafeHtmlPipe
+    
+
+    SmsTemplateSelectionDialog,
+
+    SafeHtmlPipe,
+
     SocialconfigurationComponent,
     WhatsappComponent,
->>>>>>> 7b39e800eb33c2bbf7509d6e3a4ae32145b1b2b9
+
   ],
   imports: [
     BrowserModule,
@@ -257,15 +258,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               AreaService,
 
               {provide: DateAdapter, useClass: DateFormat},
-<<<<<<< HEAD
+
               // EditorSelectionService,
               UseraccessComponent,
               SmsTemplateSelectService,
-=======
+
               EditorSelectionService,
+           
               UseraccessComponent,
-              SmsTemplateSelectService
->>>>>>> 7b39e800eb33c2bbf7509d6e3a4ae32145b1b2b9
+              SmsTemplateSelectService,
+
               EmailTemplateResolver,
               EmailTemplateService,
               // AuthInterceptorService,

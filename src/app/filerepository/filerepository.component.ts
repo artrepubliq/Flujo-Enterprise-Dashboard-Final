@@ -39,7 +39,7 @@ export class FilerepositoryComponent implements OnInit {
     FileUploadControl: FormGroup;
     errors: Array<string> = [];
     clickedFile: boolean;
-    repositories: Array<IResult> ;
+    repositories: Array<IResult>;
     filtered_repositories: Array<IResult> = [];
     allFiles;
     dragAreaClass = 'dragarea';
@@ -49,6 +49,7 @@ export class FilerepositoryComponent implements OnInit {
     foldersdata = [];
     showInMb: boolean;
     showInKb: boolean;
+    file_path: Object;
     // disabled = false;
     @Input() projectId: number;
     @Input() sectionId: number;
@@ -78,44 +79,44 @@ export class FilerepositoryComponent implements OnInit {
         // this for restrict user on root access level
         if (this.adminComponent.userAccessLevelData) {
             this.userRestrict();
-          } else {
+        } else {
             this.adminComponent.getUserAccessLevelsHttpClient()
-              .subscribe(
-                resp => {
-                  this.spinnerService.hide();
-                  _.each(resp, item => {
-                    if (item.user_id === localStorage.getItem('user_id')) {
-                        this.userAccessLevelObject = item.access_levels;
-                    } else {
-                      // this.userAccessLevelObject = null;
+                .subscribe(
+                    resp => {
+                        this.spinnerService.hide();
+                        _.each(resp, item => {
+                            if (item.user_id === localStorage.getItem('user_id')) {
+                                this.userAccessLevelObject = item.access_levels;
+                            } else {
+                                // this.userAccessLevelObject = null;
+                            }
+                        });
+                        this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+                        this.userRestrict();
+                    },
+                    error => {
+                        console.log(error);
+                        this.spinnerService.hide();
                     }
-                  });
-                  this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-                  this.userRestrict();
-                },
-                error => {
-                  console.log(error);
-                  this.spinnerService.hide();
-                }
-              );
-          }
+                );
+        }
     }
     // this for restrict user on root access level
     userRestrict() {
         _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-          // tslint:disable-next-line:max-line-length
-          if (this.adminComponent.userAccessLevelData[iterate].name === 'Drive' && this.adminComponent.userAccessLevelData[iterate].enable) {
-            this.filteredUserAccessData = item;
-      } else {
+            // tslint:disable-next-line:max-line-length
+            if (this.adminComponent.userAccessLevelData[iterate].name === 'Drive' && this.adminComponent.userAccessLevelData[iterate].enable) {
+                this.filteredUserAccessData = item;
+            } else {
 
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/filerepository']);
-    } else {
-      this.router.navigate(['/accessdenied']);
+            }
+        });
+        if (this.filteredUserAccessData) {
+            this.router.navigate(['admin/filerepository']);
+        } else {
+            this.router.navigate(['/accessdenied']);
+        }
     }
-      }
     /* this is when we submit the form */
     onSubmit(filedata) {
         // const fileData = this.FileUploadControl.value;
@@ -179,6 +180,7 @@ export class FilerepositoryComponent implements OnInit {
             // console.log(this.foldersdata);
             this.foldersdata['file_path'] = files[0];
             this.openDialog(this.foldersdata);
+            event.target.value = null;
         }
     }
     onRemoved(file: FileHolder) {
@@ -393,7 +395,7 @@ export class FilerepositoryComponent implements OnInit {
     }
     /* this is for sorting folders */
     sortByFolderName = () => {
-        this.repositories =  _.sortBy(this.repositories, 'folder');
+        this.repositories = _.sortBy(this.repositories, 'folder');
     }
     uploadFile() {
         this.toggleFileUploader = !this.toggleFileUploader;
@@ -421,11 +423,11 @@ export class FilerepositoryComponent implements OnInit {
     ConvertUnits = () => {
         _.each(this.filtered_repositories, (filtered_item: IFiles) => {
             if (parseFloat((filtered_item.file_size / 1048576).toFixed(2)) >= 1.0) {
-                filtered_item.isShowMb  = true;
-                filtered_item.isShowKb  = false;
+                filtered_item.isShowMb = true;
+                filtered_item.isShowKb = false;
             } else if (parseFloat((filtered_item.file_size / 1048576).toFixed(2)) < 1.0) {
-                filtered_item.isShowMb  = false;
-                filtered_item.isShowKb  = true;
+                filtered_item.isShowMb = false;
+                filtered_item.isShowKb = true;
             }
         });
     }
@@ -505,6 +507,8 @@ export class FilerepositoryComponent implements OnInit {
 // tslint:disable-next-line:component-class-suffix
 export class FileRepositoryPopup {
 
+    isImage: boolean;
+    image_base64: string;
     fileUploadForm: FormGroup;
     dialogform: FormControl;
     foldername: Observable<any[]>;
@@ -531,6 +535,7 @@ export class FileRepositoryPopup {
         private alertService: AlertService,
         // private filerepositoryComponent: FilerepositoryComponent
     ) {
+        this.isImage = false;
         this.filteredOptions = this.myControl.valueChanges.pipe(
             startWith(''),
             map(val => this.filter(val))
@@ -539,6 +544,18 @@ export class FileRepositoryPopup {
         this.file_path = folderObject['file_path'];
         if (this.file_path) {
             this.display_file_name = this.file_path.name;
+            const ext = this.file_path.name.toUpperCase().split('.').pop() || this.file_path.name;
+            console.log(ext);
+            if ((ext === 'PNG') || (ext === 'JPEG') || (ext === 'JPG')) {
+                const reader = new FileReader();
+                reader.readAsDataURL(this.file_path);
+                reader.onload = () => {
+                    // console.log(reader.result.split(',')[1]);
+                    this.image_base64 = reader.result;
+                    console.log(this.image_base64);
+                    this.isImage = true;
+                };
+            }
         }
         delete folderObject['file_path'];
         this.options = folderObject;
@@ -548,7 +565,6 @@ export class FileRepositoryPopup {
             'file_path': null,
             'client_id': null
         });
-
         // console.log(this.options);
     }
 
@@ -588,6 +604,7 @@ export class FileRepositoryPopup {
     // tslint:disable-next-line:component-selector
     selector: 'fileviewer-dialog',
     templateUrl: 'fileviewer.popup.html',
+    styleUrls: ['./filerepository.component.scss']
 })
 // tslint:disable-next-line:component-class-suffix
 export class FileViewerPopUp {

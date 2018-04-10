@@ -13,6 +13,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
+  adminComponent: any;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   postis = 4;
