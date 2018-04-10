@@ -181,7 +181,7 @@ export class AdminComponent implements OnInit {
     return  this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
   }
 
-  sidebarToggleOpen(){
+  sidebarToggleOpen() {
     this.sidebarToggledButton = true;
   }
   sidebarToggleClose() {
