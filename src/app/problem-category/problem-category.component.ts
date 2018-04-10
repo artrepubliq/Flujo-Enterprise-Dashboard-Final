@@ -5,7 +5,6 @@ import { IproblemType, IUpdateableData } from '../model/problemType.model';
 import { ProblemTypeService } from '../service/problem-type.service';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
 import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -24,6 +23,8 @@ export class ProblemCategoryComponent implements OnInit {
   selectProblem: boolean;
   problemId: string;
   problemTypeNameNew: string;
+  problemTypeNameTeluguNew: string;
+  problemTypeNameTelugu: string;
   problemTypeName: string;
   updatableData: IUpdateableData;
   newProblemData: IUpdateableData;
@@ -43,13 +44,15 @@ export class ProblemCategoryComponent implements OnInit {
   ) {
     this.updateProblem = false;
     this.selectProblem = true;
-    this.actionText = 'Add';
+    this.actionText = 'Add New +';
     this.problemId = '';
     this.isEdit = false;
     this.problemTypeNameNew = '';
+    this.problemTypeNameTeluguNew = '';
     this.problemForm = new FormGroup({
       'problemid': new FormControl(this.problemId),
-      'problemtypenamenew': new FormControl(this.problemTypeNameNew, [Validators.required])
+      'problemtypenamenew': new FormControl(this.problemTypeNameNew, [Validators.required]),
+      'problemtypenametelugunew': new FormControl(this.problemTypeNameTeluguNew, [Validators.required])
     });
     if (this.adminComponent.userAccessLevelData) {
       console.log(this.adminComponent.userAccessLevelData[0].name);
@@ -63,7 +66,7 @@ export class ProblemCategoryComponent implements OnInit {
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                   this.userAccessLevelObject = item.access_levels;
-              }else {
+              } else {
                 // this.userAccessLevelObject = null;
               }
             });
@@ -94,7 +97,7 @@ export class ProblemCategoryComponent implements OnInit {
     });
     if (this.filteredUserAccessData) {
       this.router.navigate(['admin/problemcategory']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
       console.log('else');
     }
@@ -121,8 +124,10 @@ export class ProblemCategoryComponent implements OnInit {
     this.isEdit = true;
     this.actionText = 'Update';
     this.problemTypeNameNew = problem.problem_type;
+    this.problemTypeNameTeluguNew = problem.problem_type_telugu;
     this.problemId = problem.id;
     this.problemForm.get('problemtypenamenew').setValue(this.problemTypeNameNew);
+    this.problemForm.get('problemtypenametelugunew').setValue(this.problemTypeNameTeluguNew);
     this.problemForm.get('problemid').setValue(this.problemId);
     console.log(this.problemForm.value);
   }
@@ -131,8 +136,10 @@ export class ProblemCategoryComponent implements OnInit {
     this.isEdit = false;
     this.actionText = 'Add';
     this.problemTypeNameNew = '';
+    this.problemTypeNameTeluguNew = '';
     this.problemId = '';
     this.problemForm.get('problemtypenamenew').setValue('');
+    this.problemForm.get('problemtypenametelugunew').setValue('');
     this.problemForm.get('problemid').setValue('');
   }
 
@@ -145,12 +152,14 @@ export class ProblemCategoryComponent implements OnInit {
       this.newProblemData = {
         client_id: AppConstants.CLIENT_ID,
         problem_type: this.problemForm.get('problemtypenamenew').value,
+        problem_type_telugu: this.problemForm.get('problemtypenametelugunew').value,
         reportproblemtype_id: this.problemForm.get('problemid').value,
       };
     } else {
       this.newProblemData = {
         client_id: AppConstants.CLIENT_ID,
-        problem_type: this.problemForm.get('problemtypenamenew').value
+        problem_type: this.problemForm.get('problemtypenamenew').value,
+        problem_type_telugu: this.problemForm.get('problemtypenametelugunew').value
       };
     }
     console.log(this.problemForm.get('problemtypenamenew').value);
