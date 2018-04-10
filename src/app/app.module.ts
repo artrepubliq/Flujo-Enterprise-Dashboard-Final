@@ -23,7 +23,9 @@ import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-import { EmailserviceComponent } from './emailservice/emailservice.component';
+import { EmailserviceComponent, EmailTemplateSelectionPopup } from './emailservice/emailservice.component';
+import { EmailTemplateResolver } from './email-template/email-template.resolver';
+import { EmailTemplateService } from './email-template/email-template-service';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
@@ -101,15 +103,9 @@ import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
-<<<<<<< HEAD
-import { EditorSelectionService } from './service/editor-selection.service';
+// import { EditorSelectionService } from './service/editor-selection.service';
 import { UseraccessComponent } from './useraccess/useraccess.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
-=======
-import { EmailTemplateResolver } from './email-template/email-template.resolver';
-import { EmailTemplateService } from './email-template/email-template-service';
-// import { SafeHtmlPipe } from './email-template/safe-html.pipe';
->>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -174,11 +170,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
-<<<<<<< HEAD
-    SmsTemplateSelectionDialog
-=======
+    SmsTemplateSelectionDialog,
+    EmailTemplateSelectionPopup,
     SafeHtmlPipe
->>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
   ],
   imports: [
     BrowserModule,
@@ -231,7 +225,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, SmsTemplateSelectionDialog],
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, SmsTemplateSelectionDialog,
+     EmailTemplateSelectionPopup],
   providers: [
               // AuthService,
               HttpService,
@@ -245,14 +240,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               AreaService,
 
               {provide: DateAdapter, useClass: DateFormat},
-<<<<<<< HEAD
-              EditorSelectionService,
+              // EditorSelectionService,
               UseraccessComponent,
-              SmsTemplateSelectService
-=======
+              SmsTemplateSelectService,
               EmailTemplateResolver,
               EmailTemplateService,
->>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,

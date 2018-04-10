@@ -5,6 +5,7 @@ export interface EmailThemeConfig {
     template_category: string;
     template_html: string;
     template_name: string;
+    isActive: boolean;
 }
 
 export interface IPostEmailTemplate {

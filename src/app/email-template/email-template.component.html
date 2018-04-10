@@ -16,10 +16,9 @@
     </div>
   </div>
   <form role="form" *ngIf="isEdit" [formGroup]="createEmailTemplateForm" class="admin-form">
+      <!-- <img src="{{img}}" alt="preview template"/> -->
     <div fxLayout="column" fxLayoutGap="13px">
       <div fxLayout="row" fxLayoutGap="48px">
-
-        
         <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px" class="input_box">
           <!-- <label>Choose a Template Category</label> -->
           <mat-form-field class="example-full-width">
@@ -38,11 +37,14 @@
         <div fxFlex="50%" class="input_box">
           <label>Template Preview</label>
           <div class="template-preview">
-            <div id="email_template" [innerHTML]="template_html1 | safeHtml"></div>
-            <!-- <img [src]="template_html1"> -->
-            <!-- <img src="https://i.pinimg.com/originals/78/fa/0e/78fa0e51be75ba1bf29ffb41517953b0.jpg" alt="preview template"/> -->
+            <div id="capture" [innerHTML]="template_html1 | safeHtml"></div>
+            <!-- <div id="capture" style="padding: 10px; background: #f5da55">
+              <h4 style="color: #000; ">Hello world!</h4>
+          </div> -->
+            <canvas #capture width="200px" height="200px">
+            </canvas>
           </div>
-          <!-- <button (click)="downloadImage()">Convert to Image</button> -->
+          <button (click)="myClickFunction($event)">Convert to Image</button>
         </div>
       </div>
       <br/>

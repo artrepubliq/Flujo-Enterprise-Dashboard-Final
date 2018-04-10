@@ -18,6 +18,6 @@ export class ChooseplatformComponent implements OnInit {
   }
 
   routing () {
-    this.router.navigate(['admin/pages'])
+    this.router.navigate(['admin/pages']);
   }
 }
