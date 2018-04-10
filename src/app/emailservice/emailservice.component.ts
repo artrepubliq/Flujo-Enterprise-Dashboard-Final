@@ -23,7 +23,7 @@ export class EmailserviceComponent implements OnInit {
   public loading: false;
   successMessage: string;
   deleteMessage: string;
-  submitted:boolean;
+  submitted: boolean;
   editorValue: string;
   Ishide3: boolean;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
@@ -38,49 +38,12 @@ export class EmailserviceComponent implements OnInit {
       'check': [''],
       'client_id': null
     });
-    if (this.adminComponent.userAccessLevelData) {
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              }else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
-    }
    }
 
   ngOnInit() {
     setTimeout(function() {
       this.spinnerService.hide();
     }.bind(this), 3000);
-  }
-  userRestrict() {
-    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-      // tslint:disable-next-line:max-line-length
-      if (this.adminComponent.userAccessLevelData[iterate].name === 'Mail' && this.adminComponent.userAccessLevelData[iterate].enable) {
-        this.filteredUserAccessData = item;
-      } else {
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/email']);
-    }else {
-      this.router.navigate(['/accessdenied']);
-    }
   }
   // socialLinksFormSubmit(body: any) {
   //   console.log(this.socialLinksForm.value);

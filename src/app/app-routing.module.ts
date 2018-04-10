@@ -4,6 +4,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AdminComponent } from './admin/admin.component';
 import { CallbackComponent } from './callback.component';
 import { LoginComponent } from './login/login.component';
+import {RoleGuardService as RoleGuard} from './auth/role-guard.service';
 // import { PrivateDealsComponent } from './private-deals/private-deals.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';

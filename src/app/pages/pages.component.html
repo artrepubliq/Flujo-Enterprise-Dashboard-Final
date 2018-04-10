@@ -1,6 +1,5 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000">
-  <!-- <strong>{{successMessage }}</strong> -->
 </ngx-alerts>
 <div fxLayout="column" class="page_padding">
   <!-- === Buttons ==== -->
@@ -18,8 +17,6 @@
     </button>
     <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Page +</button>
   </div>
-  <!-- <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i> -->
-
   <!-- ===== Add Pages ======= -->
   <div *ngIf="isEdit" class="add-pages">
     <form [formGroup]="form" (submit)="onSubmit(form.value)" fxLayout="column" fxLayoutGap="45px">
@@ -60,11 +57,8 @@
         </div>
         <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_image" class="input_title">Component Image</label>
-          <!-- <input type="file" id="component_image" (change)="onComponentImageChange($event)" #fileInput1> -->
-          <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile(1)">clear file</button> -->
           <div class="file_inputs">
             <div class="choose_button">
-              <!-- <input type="file" class="file" id="component_image" (change)="onComponentImageChange($event)" #fileInput1 /> Choose file -->
               <input class="file" id="component_image" (click)="openDialog('componentImage')" #fileInput1 /> Choose file
               <label> No file selected</label>
             </div>
@@ -73,12 +67,8 @@
         </div>
         <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_background_image" class="input_title">Component Background Image</label>
-          <!-- <input type="file" id="component_background_image" (change)="onComponentBackgroundImageChange($event)" #fileInput2> -->
-
-          <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile(2)">clear file</button> -->
           <div class="file_inputs">
             <div class="choose_button">
-              <!-- <input type="file" class="file" id="component_background_image" (change)="onComponentBackgroundImageChange($event)" #fileInput2/> Choose file -->
               <input class="file" id="component_image" (click)="openDialog('backgroundImage')" #fileInput1 /> Choose file
               <label> No file selected</label>
             </div>
@@ -94,14 +84,12 @@
       <div class="input_box" fxLayout="column" fxLayoutGap="12px">
         <label for="web_description">Web Description</label>
         <ck-editor fxFlex name="editor1" formControlName="web_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
-        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
       </div>
 
       <!-- App Description Block -->
       <div class="input_box" fxLayout="column" fxLayoutGap="12px">
         <label for="app_description">App Description</label>
         <ck-editor fxFlex name="editor1" formControlName="app_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
-        <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
       </div>
 
       <!-- Action Buttons -->
@@ -118,6 +106,10 @@
 
 
   <!-- ====== Pages Table ======= -->
+<<<<<<< HEAD
+
+=======
+>>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
   <div *ngIf="isTableView">
     <div>
       <table class="table table-bordered table-hover">
