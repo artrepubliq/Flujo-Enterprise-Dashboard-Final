@@ -132,7 +132,7 @@ export class MediaComponent implements OnInit {
   public dragging: boolean;
   constructor(public dialog: MatDialog, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
-    public adminComponent: AdminComponent, private router: Router) {
+    private router: Router) {
 
     this.myGroup = new FormGroup({
       AlbumName: new FormControl(),
@@ -182,22 +182,6 @@ export class MediaComponent implements OnInit {
     }.bind(this), 3000);
     this.albumObject = <IGalleryObject>{};
     this.albumObject.images = [];
-  }
-  // this for restrict user on root access level
-  userRestrict() {
-    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-      // tslint:disable-next-line:max-line-length
-      if (this.adminComponent.userAccessLevelData[iterate].name === 'Media Management' && this.adminComponent.userAccessLevelData[iterate].enable) {
-        this.filteredUserAccessData = item;
-      } else {
-
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/media']);
-    } else {
-      this.router.navigate(['/accessdenied']);
-    }
   }
   selectMedia(event) {
     this.ishide = false;

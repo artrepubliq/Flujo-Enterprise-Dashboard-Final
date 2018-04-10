@@ -16,20 +16,21 @@
     </div>
   </div>
   <form role="form" *ngIf="isEdit" [formGroup]="createEmailTemplateForm" class="admin-form">
+      <!-- <img src="{{img}}" alt="preview template"/> -->
     <div fxLayout="column" fxLayoutGap="13px">
       <div fxLayout="row" fxLayoutGap="48px">
 
-        
+
         <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px" class="input_box">
           <!-- <label>Choose a Template Category</label> -->
           <mat-form-field class="example-full-width">
-              <input matInput placeholder="Template Category" aria-label="State" [matAutocomplete]="auto" [formControl]="templateCategory">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let category of filteredOptions | async" [value]="category">
-                  <span>{{ category }}</span> 
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
+            <input matInput placeholder="Template Category" aria-label="State" [matAutocomplete]="auto" [formControl]="templateCategory">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let category of filteredOptions | async" [value]="category">
+                <span>{{ category }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
           <div>
             <label>Template Name</label>
             <input type="text" formControlName="template_name" [value]="" placeholder="Enter template name">
@@ -37,12 +38,12 @@
         </div>
         <div fxFlex="50%" class="input_box">
           <label>Template Preview</label>
-          <div class="template-preview">
-            <div id="email_template" [innerHTML]="template_html1 | safeHtml"></div>
+          <div class="template-preview" id="email_template">
+            <div [innerHTML]="template_html1 | safeHtml"></div>
             <!-- <img [src]="template_html1"> -->
             <!-- <img src="https://i.pinimg.com/originals/78/fa/0e/78fa0e51be75ba1bf29ffb41517953b0.jpg" alt="preview template"/> -->
           </div>
-          <!-- <button (click)="downloadImage()">Convert to Image</button> -->
+
         </div>
       </div>
       <br/>
@@ -85,8 +86,8 @@
 </div>
 <br>
 <br>
-<div class="row" *ngFor="let item of filteredThemes">
-  <div class="col-md-3" *ngIf="!isEdit">
+<div class="row" *ngIf="!isEdit">
+  <div class="col-md-3" *ngFor="let item of filteredThemes">
     <!-- <h3 class="title" *ngIf="filteredThemes?.length > 0"></h3> -->
     <!-- <h3 *ngIf="filteredThemes?.length === 0"></h3> -->
     <div class="file_block">
@@ -95,8 +96,10 @@
       <div class="file_footer">
         <h3 class="title"></h3>
         <p class="file_size">{{item.template_name}}</p>
-        <i class="fa fa-pencil" aria-hidden="true" (click)="editEmailTemplate(item)"></i>
-        <i class="fa fa-trash test" (click)="deleteEmailTemplate(item.id)"></i>
+        <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end end">
+          <i class="fa fa-pencil" aria-hidden="true" (click)="editEmailTemplate(item)"></i>
+          <i class="fa fa-trash test" (click)="deleteEmailTemplate(item.id)"></i>
+        </div>
       </div>
     </div>
   </div>

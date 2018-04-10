@@ -427,7 +427,7 @@ export class FilerepositoryComponent implements OnInit {
                 filtered_item.isShowMb  = false;
                 filtered_item.isShowKb  = true;
             }
-        })
+        });
     }
     resetIsactive(repositories) {
         _.each(repositories, (iteratee, index) => {

@@ -26,7 +26,7 @@ export class SocialManagementComponent implements OnInit {
   access_token: any;
 
   constructor(private fb: FacebookService, private fbService: FBService, private router: Router,
-    public adminComponent: AdminComponent, private spinnerService: Ng4LoadingSpinnerService) {
+    private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {
     this.fbResponseData = <IFBFeedArray>{};
     this.fbResponseDataItems = [];
     fbService.FBInit();
@@ -41,8 +41,8 @@ export class SocialManagementComponent implements OnInit {
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              }else {
+                this.userAccessLevelObject = item.access_levels;
+              } else {
                 // this.userAccessLevelObject = null;
               }
             });
@@ -83,7 +83,7 @@ export class SocialManagementComponent implements OnInit {
     });
     if (this.filteredUserAccessData.name) {
       this.router.navigate(['/socialmanagement']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
       console.log('else');
     }
