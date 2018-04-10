@@ -170,7 +170,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
     SocialconfigurationComponent,
     WhatsappComponent,
   ],

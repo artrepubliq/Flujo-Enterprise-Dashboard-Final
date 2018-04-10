@@ -15,7 +15,7 @@ style="width:500px; height:500px;" frameborder="0"></iframe> -->
       <h3>{{file_name}}.{{file_extension}}</h3>
       <pdf-viewer [src]="file_path" [original-size]="false" style="display: block;"></pdf-viewer>
     </div>
-    <div *ngIf="(file_extension === 'png' || file_extension === 'jpeg' || file_extension === 'jpg')">
+    <div *ngIf="(file_extension === 'png' || file_extension === 'jpeg' || file_extension === 'jpg')" class="image_preview">
       <h3>{{file_name}}.{{file_extension}}</h3>
       <img src="{{file_path}}">
     </div>
