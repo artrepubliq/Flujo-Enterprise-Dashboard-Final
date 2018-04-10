@@ -6,10 +6,11 @@ import {Chart} from 'chart.js'; // grabs bundled
 
 @Component({
   selector: 'app-charts-loyality',
-  templateUrl: './charts-loyality.component.html',
-  styleUrls: ['./charts-loyality.component.scss']
+  templateUrl: './charts-loyality.directive.html',
+  styleUrls: ['./charts-loyality.directive.scss']
 })
-export class ChartsLoyalityComponent implements OnInit, OnChanges {
+// tslint:disable-next-line:component-class-suffix
+export class ChartsLoyalityDirective implements OnInit, OnChanges {
   @Input() area: any;
   areaChart: any;
   constructor() { }
