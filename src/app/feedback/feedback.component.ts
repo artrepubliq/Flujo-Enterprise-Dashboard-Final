@@ -61,9 +61,7 @@ export class FeedbackComponent implements OnInit {
    this.reportCsvMail = this.formBuilder.group({
     'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
    });
-    this.getChangemakerReportData();
     this.getuserFeedbackData();
-    this.getReportYourProblemData();
     if (this.adminComponent.userAccessLevelData) {
       this.userRestrict();
     } else {
@@ -74,7 +72,7 @@ export class FeedbackComponent implements OnInit {
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                   this.userAccessLevelObject = item.access_levels;
-              }else {
+              } else {
                 // this.userAccessLevelObject = null;
               }
             });
@@ -103,7 +101,7 @@ export class FeedbackComponent implements OnInit {
     });
     if (this.filteredUserAccessData) {
       this.router.navigate(['admin/feedback']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
     }
   }
@@ -123,46 +121,8 @@ export class FeedbackComponent implements OnInit {
     this.isFeedbackReport = false;
     // this.getReportYourProblemData();
   }
-  getChangemakerReportData() {
-    this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getallchangemaker')
-      .subscribe(
-      data => {
-        console.log(data);
-        this.changemakerData = data;
-        this.spinnerService.hide();
-      },
-      error => {
-        console.log(error);
-      });
-  }
 
-  exportChangermakereport() {
-    const csvColumnsList = ['id', 'name', 'email', 'phone', 'client_id', 'date_now'];
-    const csvColumnsMap = {
-      id: 'S.no',
-      name: 'Name',
-      email: 'Email',
-      phone: 'Phone',
-      client_id: 'Client Id',
-      date_now: 'Submited At'
-    };
-    const Data = [
-      {
-        id: this.changemakerData.id,
-        name: this.changemakerData.name,
-        email: this.changemakerData.email,
-        phone: this.changemakerData.phone,
-        date_now: this.changemakerData.datenow
-      },
-    ];
-    const exporter = CSVExportService.create({
-      columns: csvColumnsList,
-      headers: csvColumnsMap,
-      includeHeaders: true,
-    });
-    exporter.downloadCSV(this.changemakerData);
-  }
+
   getuserFeedbackData() {
     this.spinnerService.show();
     this.httpClient.get(AppConstants.API_URL + 'flujo_client_getfeedback/' + AppConstants.CLIENT_ID)
@@ -221,46 +181,6 @@ export class FeedbackComponent implements OnInit {
     exporter.downloadCSV(this.feedbackData);
   }
 
-  getReportYourProblemData() {
-    this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + '/flujo_client_getreportproblem/' + AppConstants.CLIENT_ID)
-      .subscribe(
-      data => {
-        console.log(data);
-        this.reportProblemData = data;
-        this.spinnerService.hide();
-      },
-      error => {
-        console.log(error);
-      });
-  }
-  exportReportProblemData() {
-    const csvColumnsList = ['id', 'name', 'email', 'phone', 'Problem', 'datenow'];
-    const csvColumnsMap = {
-      id: 'S.no',
-      name: 'Name',
-      email: 'Email',
-      phone: 'Phone',
-      Problem: 'Problem',
-      datenow: 'Submited At'
-    };
-    const Data = [
-      {
-        id: this.reportProblemData[0].id,
-        name: this.reportProblemData[0].name,
-        email: this.reportProblemData[0].email,
-        phone: this.reportProblemData[0].phone,
-        Problem: this.reportProblemData[0].Problem,
-        datenow: this.reportProblemData[0].datenow
-      },
-    ];
-    const exporter = CSVExportService.create({
-      columns: csvColumnsList,
-      headers: csvColumnsMap,
-      includeHeaders: true,
-    });
-    exporter.downloadCSV(this.reportProblemData);
-  }
   feedbackEmail() {
     this.showEmailClickFeedback = !this.showEmailClickFeedback;
   }
