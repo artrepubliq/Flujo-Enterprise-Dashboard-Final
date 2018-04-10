@@ -1,12 +1,16 @@
-.button-group button:focus, button:hover{
+.button-group button:focus, button:hover,button:active{
   // background: white !important;
   box-shadow: none !important;
   background-color: #fff !important;
   color: #999999; 
 }
-.button:focus,.active{
+.button-group .button:focus, button.active{
   color: #666666 !important;
-  background-color: #fff;
+  background-color: #fff !important;
+  border-left:none !important;
+}
+.btn-start.active{
+  border-left:1px solid #f0f0f0 !important;
 }
 .dates-range-box{
   position: relative;
