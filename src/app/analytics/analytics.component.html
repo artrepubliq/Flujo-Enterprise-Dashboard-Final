@@ -3,29 +3,35 @@
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="analytics_block" *ngIf="newData" fxLayout="column" fxLayoutGap="25px">
   <!-- Analytics Header -->
-  <div fxLayout="row">
-    <div fxLayout="row" fxFlex="40" fxLayoutGap="10px" fxLayoutAlign="start center">
-      <h6 class="analytics">Analytics</h6>
-      <!-- <input type="date"> -->
-      <div class="analytics_dates" fxLayout="row" fxFlex="300px">
-
-        <mat-form-field color="accent" fxFlex>
-          <mat-label>Min date</mat-label>
-          <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
-          <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field color="accent" fxFlex>
-          <mat-label>Max date</mat-label>
-          <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
-          <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
-        </mat-form-field>
-
+  <div fxLayout="row" fxFlex="100%" >
+    <div fxLayout="row" fxFlex="40" fxLayoutGap="15px" fxLayoutAlign="start center">
+      <div fxFlex="10" fxLayoutAlign="start">
+        <h6 class="analytics">Analytics</h6>
       </div>
-
+      <div class="dates-range-box" fxLayout="column">
+        <div (click)="ShowDatesRange = !ShowDatesRange" class="dates-pick">
+           <p>
+             <span><img src="./assets/calendar-icon.png">&nbsp;&nbsp;&nbsp;&nbsp;</span><span>25 Feb</span> - <span>3rd Mar</span> <span>2018</span>
+           </p>
+        </div>
+        <div *ngIf="ShowDatesRange" class="analytics_dates" fxLayout="row" fxLayoutAlign="start">
+          <mat-form-field color="accent" fxFlex>
+            <mat-label>Min date</mat-label>
+            <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
+            <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field color="accent" fxFlex>
+            <mat-label>Max date</mat-label>
+            <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
+            <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
     </div>
     <div fxFlex fxLayoutAlign="center center" class="button-group">
+
       <button class="btn btn-outline-secondary btn-start" (click)="onToday()" [ngClass]="{'active': getBGColor('today')}" name="options" id="option1" autocomplete="off">Today</button>
       <button class="btn btn-outline-secondary btn-options" (click)="onWeek()" [ngClass]="{'active': getBGColor('week')}" name="options" id="option2"  autocomplete="off"> Week</button>
       <button class="btn btn-outline-secondary btn-options" (click)="onMonth()" [ngClass]="{'active': getBGColor('month')}" name="options" id="option3" autocomplete="off">
@@ -35,6 +41,7 @@
       <button class="btn btn-outline-secondary btn-end" (click)="onYear()" [ngClass]="{'active': getBGColor('year')}" name="options" id="option5" autocomplete="off">
         Year</button>
     </div>
+
   </div>
   <!-- ..// Analytics Header -->
 
@@ -92,11 +99,11 @@
         </div>
 
       </div>
-      <div class="chart_footer" fxLayout="row" fxLayoutGap="25px" fxLayoutWrap="wrap">
-        <p fxFlex="50" class="chart_item age18">18 - 24 age <span class="pull-right">44.7%</span> </p>
-        <p fxFlex="50" class="chart_item age25">25 - 34 age <span class="pull-right">24.3%</span> </p>
-        <p fxFlex="50" class="chart_item age35">35 - 44 age <span class="pull-right">14.1%</span> </p>
-        <p fxFlex="50" class="chart_item age45">45 Above age <span class="pull-right">25.9%</span> </p>
+      <div class="chart_footer" fxLayout="row" fxLayoutWrap="wrap">
+        <p fxFlex="50" class="chart_item age18">18 - 24 age</p>
+        <p fxFlex="50" class="chart_item age25">25 - 34 age</p>
+        <p fxFlex="50" class="chart_item age35">35 - 44 age</p>
+        <p fxFlex="50" class="chart_item age45">45 Above age</p>
       </div>
     </div>
   </div>
