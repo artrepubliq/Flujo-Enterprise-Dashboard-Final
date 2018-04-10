@@ -81,13 +81,13 @@
       </div>
 
       <!-- Web Description Block -->
-      <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+      <div class="input_box" fxLayout="column" fxLayoutGap="12px" *ngIf="webEditor">
         <label for="web_description">Web Description</label>
         <ck-editor fxFlex name="editor1" formControlName="web_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
       </div>
 
       <!-- App Description Block -->
-      <div class="input_box" fxLayout="column" fxLayoutGap="12px">
+      <div class="input_box" fxLayout="column" fxLayoutGap="12px" *ngIf="appEditor">
         <label for="app_description">App Description</label>
         <ck-editor fxFlex name="editor1" formControlName="app_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
       </div>
@@ -106,10 +106,6 @@
 
 
   <!-- ====== Pages Table ======= -->
-<<<<<<< HEAD
-
-=======
->>>>>>> 83664e45938671f409a6ba04e50b9a260a813338
   <div *ngIf="isTableView">
     <div>
       <table class="table table-bordered table-hover">

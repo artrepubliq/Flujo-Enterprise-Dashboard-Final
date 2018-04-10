@@ -12,9 +12,14 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { EmailTemplateResolver } from './email-template.resolver';
+<<<<<<< HEAD
+import { CKEditorModule } from 'ngx-ckeditor';
+import * as html2canvas from 'html2canvas';
+=======
 import { PlatformLocation } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 
+>>>>>>> 7b39e800eb33c2bbf7509d6e3a4ae32145b1b2b9
 @Pipe({
   name: 'safeHtml'
 })
@@ -30,10 +35,17 @@ export class SafeHtmlPipe implements PipeTransform {
   templateUrl: './email-template.component.html',
   styleUrls: ['./email-template.component.scss']
 })
+<<<<<<< HEAD
+export class EmailTemplateComponent implements OnInit {
+  img: any;
+  test: any;
+  config: any;
+=======
 export class EmailTemplateComponent implements OnInit, OnDestroy {
+>>>>>>> 7b39e800eb33c2bbf7509d6e3a4ae32145b1b2b9
   tempate_categories: string[];
   dummy: any;
-  template_html1: SafeHtml;
+  template_html1: any;
   isView = true;
   isEdit = false;
   filteredThemes: IPostEmailTemplate[];
@@ -66,13 +78,47 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
     });
     this.tempate_categories = [];
     // console.log(this.template_html);
-
   }
 
   ngOnInit() {
     this.getEmailTemplateData();
   }
-
+  myClickFunction(event: any) {
+    // html2canvas(event.target)
+    //   .then((canvas) => {
+    //     const data = canvas.toDataURL('image/jpeg', 0.9);
+    //     const src = encodeURI(data);
+    //     document.getElementById('#capture').src = src;
+    //     document.getElementById('size').innerHTML = src.length + ' bytes';
+    //   })
+    //   .catch(err => {
+    //     console.log('error canvas', err);
+    //   });
+    html2canvas(document.querySelector('#capture')).then(canvas => {
+      document.body.appendChild(canvas);
+      this.img = canvas.toDataURL('image/png');
+      window.open(this.img);
+  });
+  // html2canvas(document.getElementById('capture'), {
+  //   onrendered: function (canvas) {
+  //     const data = canvas.toDataURL();
+  //     const docDefinition = {
+  //       content: [{
+  //         image: data,
+  //         fit: [520, 100000]
+  //       }]
+  //     };
+  //     pdfMake.createPdf(docDefinition).open();
+  //   }
+  // });
+//   html2canvas(document.getElementById('#capture'), {
+//     onrendered: function(canvas) {
+//     const img = canvas.toDataURL();
+//     window.open(img);
+//  }
+// });
+  console.log(this.test);
+  }
   public submitTemplate() {
     // this.createEmailTemplateForm.get('client_id').
     if (this.dummy) {

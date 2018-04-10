@@ -1,19 +1,16 @@
 <ng4-loading-spinner></ng4-loading-spinner>
-
-
 <div class="" ng-show="successMessagebool ">
   <ngx-alerts maxMessages="3" timeout="5000">
     <strong>{{successMessage }}</strong>
     <strong>{{deleteMessage}}</strong>
   </ngx-alerts>
 </div>
-
 <div class="page_padding">
   <div fxLayout="row" class="p-rel">
     <div class="page-header">
       Mailchimp
     </div>
-    <button mat-raised-button class="choose-button">Choose Template +</button>
+    <button mat-raised-button class="choose-button" (click)="templateSelectPopup()" >Choose Template +</button>
   </div>
 
   <form [formGroup]="mailSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
@@ -29,9 +26,9 @@
               </div>
             </div>
           </div>
-          <div fxLayoutAlign="center center" class="atRate">
+          <!-- <div fxLayoutAlign="center center" class="atRate">
             @
-          </div>
+          </div> -->
           <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
             <label>Select contacts from csv file </label>
             <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
@@ -45,9 +42,9 @@
               <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
             </div>
           </div>
-          <div fxLayoutAlign="center center" class="atRate">
+          <!-- <div fxLayoutAlign="center center" class="atRate">
             @
-          </div>
+          </div> -->
           <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
             <label>Select contacts from db</label>
             <input type="checkbox" formControlName="check">
@@ -60,9 +57,6 @@
             [fullPage]="true" [readonly]="false"></ck-editor>
           <control-messages [control]="mailSendingForm.controls.message"></control-messages>
         </div>
-
-
-
         <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center" class="p-rel">
           <button type="submit" [hidden]="Ishide3" class="button_submit preview_button" [disabled]="!mailSendingForm.valid">
             Preview

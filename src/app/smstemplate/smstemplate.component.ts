@@ -27,6 +27,10 @@ export class TemplateData {
 })
 export class SmstemplateComponent implements OnInit {
 
+
+
+  editTemplate( text ) {
+
   templateText1: any;
   isMain = true;
   smsTemplateData2: any;

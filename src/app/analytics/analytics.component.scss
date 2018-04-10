@@ -1,9 +1,13 @@
+
+
 .button-group button:focus, button:hover,button:active{
+
   // background: white !important;
   box-shadow: none !important;
   background-color: #fff !important;
   color: #999999; 
 }
+
 .button-group .button:focus, button.active{
   color: #666666 !important;
   background-color: #fff !important;
@@ -23,6 +27,7 @@
     top:0rem;
     left:13rem;
   }
+
 }
 .btn-start {
   border-radius: 25px 0 0 25px;
@@ -99,6 +104,7 @@
   margin-top: 6px;
   height: 1.5px;
   background-color: #efefef;
+
 }
 
 .dates-pick {
@@ -121,6 +127,7 @@
     color: #999999;
     margin-top: 12px ;
   }
+
 }
 
 input {
@@ -281,6 +288,7 @@ input {
     width: 100%;
     padding-bottom: 0;
   }
+
 
 
 
