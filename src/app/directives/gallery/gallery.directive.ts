@@ -22,17 +22,16 @@ export class GalleryDirective implements OnInit {
   private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
   private router: Router, public adminComponent: AdminComponent) {
   // constructor(private matDialog: MatDialog, private formBuilder: FormBuilder ){
-    this.mediaComponent = new MediaComponent(dialog , spinnerService, httpClient, formBuilder, alertService, adminComponent, router);
+    this.mediaComponent = new MediaComponent(dialog , spinnerService, httpClient, formBuilder, alertService, router);
   }
   @Input() albumBase64imagesArray: any;
   ngOnInit() {
   }
-  deleteGalleryItem(){
+  deleteGalleryItem() {
     console.log('closse dialog');
   }
-  openDialog(albumItem){
+  openDialog(albumItem) {
     this.mediaComponent.openDialog(albumItem);
-    console.log('test'+albumItem);
+    console.log('test' + albumItem);
   }
-  
 }

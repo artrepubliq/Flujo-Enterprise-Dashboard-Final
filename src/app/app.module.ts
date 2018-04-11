@@ -23,7 +23,9 @@ import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-import { EmailserviceComponent } from './emailservice/emailservice.component';
+import { EmailserviceComponent, EmailTemplateSelectionPopup } from './emailservice/emailservice.component';
+import { EmailTemplateResolver } from './email-template/email-template.resolver';
+import { EmailTemplateService } from './email-template/email-template-service';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import {
@@ -48,7 +50,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup
-import { SmsuiComponent } from './smsui/smsui.component';
+import { SmsuiComponent, SmsTemplateSelectionDialog} from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -104,11 +106,17 @@ import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 
-import { EmailTemplateResolver } from './email-template/email-template.resolver';
-import { EmailTemplateService } from './email-template/email-template-service';
+// import { EditorSelectionService } from './service/editor-selection.service';
+import { UseraccessComponent } from './useraccess/useraccess.component';
+import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
 
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent } from './whatsapp/whatsapp.component';
+import { UseraccessComponent } from './useraccess/useraccess.component';
+import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
+import { EmailTemplateResolver } from './email-template/email-template.resolver';
+import { EmailTemplateService } from './email-template/email-template-service';
+
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -137,6 +145,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialManagementComponent,
     FilerepositoryComponent,
     ManageReportsComponent,
+    // UseraccessComponent,
     // directives
     EditGalleryItems,
     GalleryDirective,
@@ -173,8 +182,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailTemplateComponent,
     ChooseplatformComponent,
     SafeHtmlPipe,
+    SmsTemplateSelectionDialog,
+    EmailTemplateSelectionPopup,
     SocialconfigurationComponent,
     WhatsappComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -227,7 +239,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-    AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog],
+    AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, EmailTemplateSelectionPopup, SmsTemplateSelectionDialog],
   providers: [
     // AuthService,
     HttpService,
@@ -239,7 +251,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProblemTypeService,
     UseraccessServiceService,
     AreaService,
-
     { provide: DateAdapter, useClass: DateFormat },
     EmailTemplateResolver,
     EmailTemplateService,
@@ -254,6 +265,30 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     //   useClass: TokenInterceptor,
     //   multi: true
     // }
+              {provide: DateAdapter, useClass: DateFormat},
+
+              // EditorSelectionService,
+              UseraccessComponent,
+              SmsTemplateSelectService,
+
+              EditorSelectionService,
+           
+              UseraccessComponent,
+              SmsTemplateSelectService,
+
+              EmailTemplateResolver,
+              EmailTemplateService,
+              // AuthInterceptorService,
+              // {
+              // provide: AuthHttp,
+              // useFactory: authHttpServiceFactory,
+              // deps: [Http, RequestOptions]
+              // },
+              // {
+              //   provide: HTTP_INTERCEPTORS,
+              //   useClass: TokenInterceptor,
+              //   multi: true
+              // }
 
     { provide: DateAdapter, useClass: DateFormat }
 

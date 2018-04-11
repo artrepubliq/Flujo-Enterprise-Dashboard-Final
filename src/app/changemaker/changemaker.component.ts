@@ -61,6 +61,7 @@ export class ChangemakerComponent implements OnInit {
     'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
    });
     this.getChangemakerReportData();
+
     if (this.adminComponent.userAccessLevelData) {
       this.userRestrict();
     } else {
@@ -71,7 +72,7 @@ export class ChangemakerComponent implements OnInit {
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                   this.userAccessLevelObject = item.access_levels;
-              }else {
+              } else {
                 // this.userAccessLevelObject = null;
               }
             });
@@ -84,12 +85,14 @@ export class ChangemakerComponent implements OnInit {
           }
         );
     }
+
   }
   ngOnInit() {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
+
   userRestrict() {
     _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
       // tslint:disable-next-line:max-line-length
@@ -100,13 +103,14 @@ export class ChangemakerComponent implements OnInit {
     });
     if (this.filteredUserAccessData) {
       this.router.navigate(['admin/changemakerreport']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
     }
   }
+
   getChangemakerReportData() {
     this.spinnerService.show();
-    this.httpClient.get<Array<Element>>(AppConstants.API_URL + 'flujo_client_getallchangemaker')
+    this.httpClient.get<Array<Element>>(AppConstants.API_URL + 'flujo_client_getchangemaker/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
         console.log(data);

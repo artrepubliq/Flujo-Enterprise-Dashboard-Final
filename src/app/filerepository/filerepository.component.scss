@@ -193,6 +193,9 @@
     border: 1.5px dashed #91d7ea;
     border-radius: 5px;
     position: relative;
+    img {
+      max-height: 80px;
+    }
     i {
       font-size: 80px;
     }
@@ -271,5 +274,10 @@
 .folder_block:hover {
   .trash-icon {
     display: block;
+  }
+}
+.image_preview {
+  img {
+    max-height: 500px;
   }
 }

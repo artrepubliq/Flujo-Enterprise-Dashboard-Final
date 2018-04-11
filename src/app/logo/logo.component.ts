@@ -36,6 +36,7 @@ export class LogoComponent implements OnInit {
     private httpClient: HttpClient, private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
     this.createForm();
     this.getLogoDetails();
+
     // this for restrict user on root access level
     if (this.adminComponent.userAccessLevelData) {
       this.userRestrict();
@@ -47,7 +48,7 @@ export class LogoComponent implements OnInit {
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                   this.userAccessLevelObject = item.access_levels;
-              }else {
+              } else {
                 // this.userAccessLevelObject = null;
               }
             });
@@ -66,6 +67,7 @@ export class LogoComponent implements OnInit {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
+
   // this for restrict user on root access level
   userRestrict() {
     _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
@@ -77,10 +79,11 @@ export class LogoComponent implements OnInit {
     });
     if (this.filteredUserAccessData) {
       this.router.navigate(['admin/logo']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
     }
   }
+
   createForm = () => {
     this.form = this.formBuilder.group({
       logo_text: ['', Validators.required],
@@ -116,7 +119,7 @@ export class LogoComponent implements OnInit {
         this.uploadLogoimageHttpRequest(uploadImage);
 
       };
-    }else {
+    } else {
       this.alertService.danger('File is too large');
       this.getLogoDetails();
     }
@@ -166,7 +169,7 @@ export class LogoComponent implements OnInit {
           this.loadingSave = false;
           this.getLogoDetails();
           this.spinnerService.hide();
-        }else {
+        } else {
           this.alertService.success('Logo details submitted successfully.');
           this.loadingSave = false;
           this.getLogoDetails();
