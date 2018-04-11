@@ -183,8 +183,17 @@ export class AdminComponent implements OnInit {
     return  this.httpClient.get<CommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
   }
 
+
   whatsapp() {
 this.router.navigate(['admin/whatsappflujo']);
+  }
+
+
+  sidebarToggleOpen() {
+    this.sidebarToggledButton = true;
+  }
+  sidebarToggleClose() {
+    this.sidebarToggledButton = false;
   }
 
 }

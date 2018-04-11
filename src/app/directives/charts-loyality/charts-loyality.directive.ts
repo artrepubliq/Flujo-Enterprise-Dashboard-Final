@@ -28,6 +28,14 @@ export class ChartsLoyalityDirective implements OnInit, OnChanges {
 
   // handle the chart data
   displayChartData(areaName, areaValue) {
+
+    var count = areaValue.length;
+    var colors = [];
+    var color = "#ee2f6b";
+    for( var i=0;i<count;i++) {
+        colors[i] = color;
+    }
+
     // Area Chart
     const areactx = document.getElementById('areaChartCanvas');
     const areaChart = new Chart(areactx, {
@@ -35,9 +43,13 @@ export class ChartsLoyalityDirective implements OnInit, OnChanges {
       'data': {
         datasets: [{
           data: areaValue,
+
           backgroundColor: [
             '#ee2f6b', '#ee2f6b', '#ee2f6b'
           ],
+
+          backgroundColor: colors ,
+
           barPercentage: [
             '10'
           ]

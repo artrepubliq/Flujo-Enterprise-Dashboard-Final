@@ -10,14 +10,14 @@ export interface IAccessLevelModel {
     user_id ?: string;
     order ?: string;
 }
-// export interface IAccesLevels {
-//     name:string;
-//     enable:boolean;
-//     read:boolean;
-//     write:boolean;
-//     values?:any;
-//     feature_id:number;
-// }
+export interface IAccesLevels {
+    name: string;
+    enable: boolean;
+    read: boolean;
+    write: boolean;
+    values?: any;
+    feature_id: number;
+}
 export interface IModuleDetails {
 module_id: string;
 module_background_color: string;

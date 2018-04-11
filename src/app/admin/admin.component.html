@@ -1,8 +1,8 @@
 <!-- TopNav -->
 <nav class="navbar navbarTop" role="navigation">
-  <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
+  <div class="navbar-header" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()" [ngClass]="{'navbar-header-toggle':!sidebarToggledButton}">
     <div fxLayout="row" fxLayoutGap="0.1rem" fxLayoutAlign="start center">
-      <a class="navbar-brand"  (click)="sidebarToggledButton=!sidebarToggledButton">
+      <a class="navbar-brand">
         <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
       </a>
       <div class="nav flex-column login-info">
@@ -76,7 +76,7 @@
         <!-- <i class="fa fa-ellipsis-v"></i> -->
         <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat">
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" [perfectScrollbar]="config">
         <li>
           <a class="activity">{{name}}</a>
         </li>
@@ -170,7 +170,7 @@
 <div id="wrapper" fxLayout="row" class="contentBody">
 
   <!-- Side Navigation -->
-  <aside id="sidebar-wrapper" class="sidebar-menu ps" [ngClass]="{'sidebar-toggle':sidebarToggledButton}" [perfectScrollbar]="config">
+  <aside id="sidebar-wrapper" class="sidebar-menu" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()" [ngClass]="{'sidebar-toggle':!sidebarToggledButton}" [perfectScrollbar]="config">
     <ul class="nav flex-column">
     
       <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[0]?.enable">
@@ -207,12 +207,13 @@
           <span>SMS</span>
         </a>
       </li>
-      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[3]?.enable" (click)="whatsapp()">
-        <a class="nav-link" routerLinkActive="active">
-          <small><i class="fa fa-whatsapp normal_img fa-2x" aria-hidden="true"></i></small>
-          <small><i class="fa fa-whatsapp active_img fa-2x" aria-hidden="true"></i></small>
-          <!-- <img src="assets/icons/sms-color-nav-icon-normal@2x.png" class="normal_img" alt="social icon">
-          <img src="assets/icons/sms-color-nav-icon-active@2x.png" class="active_img" alt="social icon"> -->
+
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[3]?.enable">
+        <a class="nav-link" routerLink="./whatsappflujo" routerLinkActive="active">
+          <!-- <small><i class="fa fa-whatsapp normal_img fa-2x" aria-hidden="true"></i></small>
+          <small><i class="fa fa-whatsapp active_img fa-2x" aria-hidden="true"></i></small> -->
+          <img src="assets/icons/sms-color-nav-icon-normal@2x.png" class="normal_img" alt="social icon">
+          <img src="assets/icons/sms-color-nav-icon-active@2x.png" class="active_img" alt="social icon">
           <span>WhatsApp</span>
         </a>
       </li>

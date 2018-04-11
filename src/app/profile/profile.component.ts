@@ -75,7 +75,7 @@ export class ProfileComponent implements OnInit {
            avatar: reader.result.split(',')[1] };
         this.uploadProfileImage(uploadImage);
       };
-    }else {
+    } else {
       this.alertService.danger('File is too large');
     }
     }
@@ -108,7 +108,7 @@ export class ProfileComponent implements OnInit {
           if (data.error) {
             this.alertService.warning(data.result);
             this.spinnerService.hide();
-          }else {
+          } else {
             this.parsePostResponse(data);
             this.alertService.success('Profile details submitted successfully.');
             // this.getProfileDetails();
@@ -229,7 +229,7 @@ export class ProfileComponent implements OnInit {
         this.loading = false;
         this.spinnerService.hide();
       this.alertService.danger('Required parameters missing.');
-    }else {
+    } else {
         // this.alertService.success('page operation successfull.');
         this.loading = false;
         this.spinnerService.hide();
