@@ -120,11 +120,34 @@ div.template-preview {
   cursor: pointer;
   margin-bottom: 30px;
   .file_icon {
-    height: calc(100% - 55.5px);
-    i {
+      // height: calc(100% - 55.5px);
+      box-shadow: none;
+      border: none;
+      position: relative !important;
+      // max-width: 175px;
+      width: 100%;
+      max-height: 126px;
+      height: 100%;
+      overflow: hidden;
+      padding: 0.1rem 5px;
+      margin: 0 auto;
+      text-align: center;
+      img {
+        // position: absolute;
+        width: auto;
+        height: auto;
+      }
+      div.preview-thumbnail{
+        position: absolute !important;
+        width:auto !important;
+        height: auto !important;
+        top: 0;
+        bottom: 0;
+      }
+      i{
       font-size: 80px;
+      }
     }
-  }
 }
 .file_footer {
   padding: 14px 20px;

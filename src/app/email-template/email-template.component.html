@@ -92,6 +92,8 @@
     <!-- <h3 *ngIf="filteredThemes?.length === 0"></h3> -->
     <div class="file_block">
       <div fxLayoutAlign="center center" class="file_icon">
+            <!-- <img width="auto" height="100%" src="https://i.pinimg.com/originals/78/fa/0e/78fa0e51be75ba1bf29ffb41517953b0.jpg" alt="preview template"/>         -->
+          <div class="preview-thumbnail" [innerHTML]="item.template_html | safeHtml"></div>
       </div>
       <div class="file_footer">
         <h3 class="title"></h3>
