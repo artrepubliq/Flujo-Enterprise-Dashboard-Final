@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-whatsapp',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WhatsappComponent implements OnInit {
 
-  constructor() { }
+  dropDownData: Object;
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.getDropDownList();
   }
 
+  getDropDownList() {
+    this.http.get('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_getsmstemplateconfig/1232')
+    .subscribe(
+      res => {
+        console.log(res);
+        this.dropDownData = res;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
 }

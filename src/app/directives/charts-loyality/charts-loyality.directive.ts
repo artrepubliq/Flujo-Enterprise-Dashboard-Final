@@ -6,10 +6,11 @@ import {Chart} from 'chart.js'; // grabs bundled
 
 @Component({
   selector: 'app-charts-loyality',
-  templateUrl: './charts-loyality.component.html',
-  styleUrls: ['./charts-loyality.component.scss']
+  templateUrl: './charts-loyality.directive.html',
+  styleUrls: ['./charts-loyality.directive.scss']
 })
-export class ChartsLoyalityComponent implements OnInit, OnChanges {
+// tslint:disable-next-line:component-class-suffix
+export class ChartsLoyalityDirective implements OnInit, OnChanges {
   @Input() area: any;
   areaChart: any;
   constructor() { }
@@ -27,6 +28,12 @@ export class ChartsLoyalityComponent implements OnInit, OnChanges {
 
   // handle the chart data
   displayChartData(areaName, areaValue) {
+    var count = areaValue.length;
+    var colors = [];
+    var color = "#ee2f6b";
+    for( var i=0;i<count;i++) {
+        colors[i] = color;
+    }
     // Area Chart
     const areactx = document.getElementById('areaChartCanvas');
     const areaChart = new Chart(areactx, {
@@ -34,9 +41,7 @@ export class ChartsLoyalityComponent implements OnInit, OnChanges {
       'data': {
         datasets: [{
           data: areaValue,
-          backgroundColor: [
-            '#ee2f6b', '#ee2f6b', '#ee2f6b'
-          ],
+          backgroundColor: colors ,
           barPercentage: [
             '10'
           ]

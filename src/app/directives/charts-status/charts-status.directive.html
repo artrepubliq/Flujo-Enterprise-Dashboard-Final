@@ -5,7 +5,7 @@
       <p class="completed">Completed</p>
       <div fxLayout="row" fxLayoutAlign="space-between start">
         <span [style.color]='colors[0]'>{{status.completed}}</span>
-
+        <span [style.color]='colors[3]'>{{status.total}}</span>
       </div>
       <br/>
       <section class="example-section">
@@ -17,7 +17,7 @@
       <p class="inprogress">Inprogress</p>
       <div fxLayout="row" fxLayoutAlign="space-between start">
         <span [style.color]='colors[1]'>{{status.in_progress}}</span>
-
+        <span [style.color]='colors[3]'>{{status.completed}}</span>
       </div>
       <br/>
       <section class="example-section">

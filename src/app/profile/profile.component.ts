@@ -101,11 +101,7 @@ export class ProfileComponent implements OnInit {
   onSubmit = (body) => {
     this.spinnerService.show();
     const formModel = this.form.value;
-    // if(!this.form.value.avatar){
-    //   formModel.avatar = "null"
-    // }
     formModel.client_id = localStorage.getItem('client_id');
-    this.spinnerService.show();
     this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postprofile', formModel)
     .subscribe(
         data => {

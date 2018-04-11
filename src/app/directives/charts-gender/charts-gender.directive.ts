@@ -3,10 +3,11 @@ import * as Chart from 'chart.js';
 
 @Component({
   selector: 'app-charts-gender',
-  templateUrl: './charts-gender.component.html',
-  styleUrls: ['./charts-gender.component.scss']
+  templateUrl: './charts-gender.directive.html',
+  styleUrls: ['./charts-gender.directive.scss']
 })
-export class ChartsGenderComponent implements OnInit, OnChanges {
+// tslint:disable-next-line:component-class-suffix
+export class ChartsGenderDirective implements OnInit, OnChanges {
   @Input() gender: any;
   genderChart: any;
 
