@@ -15,8 +15,14 @@ export class ChartAgeDirective implements OnChanges {
   constructor() { }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['ageData']) {
+
       const range = _.pluck(this.ageData, 'name');
       const rangeValue = _.pluck(this.ageData, 'value');
+
+      let range = _.pluck(this.ageData, 'name');
+      let rangeValue = _.pluck(this.ageData, 'value');
+      console.log('Age data');
+
       this.displayChartData(range, rangeValue);
     } else {
       console.log('Age dat not available');
@@ -24,6 +30,7 @@ export class ChartAgeDirective implements OnChanges {
   }
 
   displayChartData(range, rangeValue) {
+
     const agectx = document.getElementById('ageChartCanvas');
     const myAgeChart = new Chart(agectx, {
       'type': 'pie',
@@ -36,6 +43,28 @@ export class ChartAgeDirective implements OnChanges {
       }
     });
     console.log(myAgeChart + 'test on changes');
+
+    console.log("opening");
+    const agectx = document.getElementById('ageChartCanvas');
+        const ageChart = new Chart(agectx, {
+          'type': 'doughnut',
+          'data': {
+            datasets: [{
+              data: rangeValue,
+              backgroundColor: [
+                '#0cc0df', '#ee2f6b', '#fecd0f', '#452c59'
+              ]
+            }],
+            labels: range
+          },
+          'options': {
+            legend: {
+              display: false
+            }
+          }
+        });
+    console.log('test on changes');
+
     // console.log(this.myDoughnutChart);
   }
 

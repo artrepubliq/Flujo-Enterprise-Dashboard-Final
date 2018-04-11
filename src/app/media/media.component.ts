@@ -150,6 +150,7 @@ export class MediaComponent implements OnInit {
       description: ['', Validators.required],
       order: ['', Validators.required]
     });
+
     if (this.adminComponent.userAccessLevelData) {
       this.userRestrict();
     } else {
@@ -171,6 +172,7 @@ export class MediaComponent implements OnInit {
           }
         );
     }
+
   }
   ngOnInit() {
     this.uploadImagesObject = <IUploadImages>{};

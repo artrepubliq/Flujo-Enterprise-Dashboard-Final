@@ -158,6 +158,7 @@ export class AdminComponent implements OnInit {
           });
          if (this.userAccessLevelObject) {
           this.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+          console.log(this.userAccessLevelData);
          } else {
           this.openDialog();
          }
@@ -179,6 +180,19 @@ export class AdminComponent implements OnInit {
   }
   getUserAccessLevelsHttpClient() {
     return  this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
+  }
+
+
+  whatsapp() {
+this.router.navigate(['admin/whatsappflujo']);
+  }
+
+
+  sidebarToggleOpen() {
+    this.sidebarToggledButton = true;
+  }
+  sidebarToggleClose() {
+    this.sidebarToggledButton = false;
   }
 
 }

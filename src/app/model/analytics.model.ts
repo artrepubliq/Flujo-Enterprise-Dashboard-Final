@@ -1,9 +1,9 @@
 export interface ProblemType {
-    category: string,
-    count: number,
-    completed: number,
-    in_progress: number,
-    unresolved: number
+    category: string;
+    count: number;
+    completed: number;
+    in_progress: number;
+    unresolved: number;
 }
 
 export interface GenderDetails {
@@ -17,16 +17,27 @@ export interface AgeDetails {
 }
 
 export interface ReportStatus {
-    completed: number,
-    in_progress: number,
-    unresolved: number,
-    id: number,
-    name: String,
-    email: String
+    completed: number;
+    in_progress: number;
+    unresolved: number;
+    id: number;
+    name: String;
+    email: String;
 }
 
 export interface Params {
-    client_id: Number,
-    from_date: String,
-    to_date: String
+
+    client_id: Number;
+    from_date: String;
+    to_date: String;
 }
+
+export interface CommonInterface {
+    error: boolean;
+    result: Array<any>;
+    access_token: string;
+    http_status_code: number;
+    custom_status_code: number;
+
+}
+
