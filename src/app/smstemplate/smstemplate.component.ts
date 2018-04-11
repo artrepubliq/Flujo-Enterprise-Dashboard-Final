@@ -61,7 +61,6 @@ export class SmstemplateComponent implements OnInit {
       'smstemplateconfig_id': [null]
     });
   }
-
   editTemplate(text) {
     this.templateText = text;
   }

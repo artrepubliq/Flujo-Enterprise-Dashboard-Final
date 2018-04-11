@@ -99,7 +99,7 @@ import { ChartsProblemCategoryDirective } from './directives//charts-problem-cat
 import { ChartsStatusDirective } from './directives/charts-status/charts-status.directive';
 import { ChartsLoyalityDirective } from './directives/charts-loyality/charts-loyality.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
-import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
+// import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
@@ -167,7 +167,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsLoyalityDirective,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
-    ChartAgeDirective,
+    // ChartAgeDirective,
     MediaLocalImagePopupDialog,
     SmstemplateComponent,
     EmailTemplateComponent,

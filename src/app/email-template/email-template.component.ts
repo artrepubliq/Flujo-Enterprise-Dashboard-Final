@@ -12,9 +12,10 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { EmailTemplateResolver } from './email-template.resolver';
+import { CKEditorModule } from 'ngx-ckeditor';
+import * as html2canvas from 'html2canvas';
 import { PlatformLocation } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
-import * as html2canvas from 'html2canvas';
 @Pipe({
   name: 'safeHtml'
 })
@@ -32,6 +33,8 @@ export class SafeHtmlPipe implements PipeTransform {
 })
 export class EmailTemplateComponent implements OnInit, OnDestroy {
   img: any;
+  test: any;
+  config: any;
   tempate_categories: string[];
   dummy: any;
   template_html1: any;
