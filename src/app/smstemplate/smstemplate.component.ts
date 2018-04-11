@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
@@ -12,22 +11,12 @@ import { IHttpResponse } from '../model/httpresponse.model';
 import { AlertService } from 'ngx-alerts';
 import { ISmsTemplateData } from '../model/smsTemplateData';
 import * as _ from 'underscore';
-
-export class TemplateData {
-  id: number;
-  header: string;
-  message: string;
-  footer: string;
-}
-
 @Component({
   selector: 'app-smstemplate',
   templateUrl: './smstemplate.component.html',
   styleUrls: ['./smstemplate.component.scss']
 })
 export class SmstemplateComponent implements OnInit {
-
-
   templateText1: any;
   isMain = true;
   smsTemplateData2: any;
@@ -72,12 +61,7 @@ export class SmstemplateComponent implements OnInit {
       'smstemplateconfig_id': [null]
     });
   }
-
-
-
-  editTemplate( text ) {
-    console.log((this.templatestring));
-
+  editTemplate(text) {
     this.templateText = text;
   }
 

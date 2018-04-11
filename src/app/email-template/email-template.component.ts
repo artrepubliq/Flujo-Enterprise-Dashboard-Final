@@ -16,7 +16,6 @@ import { CKEditorModule } from 'ngx-ckeditor';
 import * as html2canvas from 'html2canvas';
 import { PlatformLocation } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
-
 @Pipe({
   name: 'safeHtml'
 })
@@ -70,50 +69,12 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
       'client_id': ['']
     });
     this.tempate_categories = [];
-    // console.log(this.template_html);
   }
 
   ngOnInit() {
     this.getEmailTemplateData();
   }
-  myClickFunction(event: any) {
-    // html2canvas(event.target)
-    //   .then((canvas) => {
-    //     const data = canvas.toDataURL('image/jpeg', 0.9);
-    //     const src = encodeURI(data);
-    //     document.getElementById('#capture').src = src;
-    //     document.getElementById('size').innerHTML = src.length + ' bytes';
-    //   })
-    //   .catch(err => {
-    //     console.log('error canvas', err);
-    //   });
-    html2canvas(document.querySelector('#capture')).then(canvas => {
-      document.body.appendChild(canvas);
-      this.img = canvas.toDataURL('image/png');
-      window.open(this.img);
-  });
-  // html2canvas(document.getElementById('capture'), {
-  //   onrendered: function (canvas) {
-  //     const data = canvas.toDataURL();
-  //     const docDefinition = {
-  //       content: [{
-  //         image: data,
-  //         fit: [520, 100000]
-  //       }]
-  //     };
-  //     pdfMake.createPdf(docDefinition).open();
-  //   }
-  // });
-//   html2canvas(document.getElementById('#capture'), {
-//     onrendered: function(canvas) {
-//     const img = canvas.toDataURL();
-//     window.open(img);
-//  }
-// });
-  console.log(this.test);
-  }
   public submitTemplate() {
-    // this.createEmailTemplateForm.get('client_id').
     if (this.dummy) {
       this.createEmailTemplateForm.controls['emailtemplateconfig_id'].setValue(this.dummy.id);
     }
@@ -130,7 +91,6 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
         console.log(result);
         if (result.error) {
           this.alertService.warning(result.result);
-          // console.log(data);
           this.spinnerService.hide();
         } else if (result.client_id) {
           const index = this.allEmailTemplates.findIndex(item => item.id === this.dummy.id);
@@ -144,7 +104,6 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
           this.createEmailTemplateForm.reset();
         } else {
           const id: any = result;
-          // tslint:disable-next-line:no-unused-expression
           this.allEmailTemplates.push({
             id: id,
             template_html: formModel.template_html,
@@ -162,7 +121,7 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
         }
       );
   }
-
+/*Getting of email template data from api using email service*/
   public getEmailTemplateData(): void {
     this.activatedRoute.data.subscribe(result => {
       this.spinnerService.hide();
@@ -184,10 +143,6 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
       });
   }
   public getFilteredEmailCategories() {
-    // this.filteredOptions = this.templateCategory.valueChanges.pipe(
-    //   startWith(''),
-    //   map(val => this.filter(val))
-    // );
     this.filteredOptions = this.templateCategory.valueChanges
       .pipe(
         startWith(''),
@@ -198,11 +153,6 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
   public filter(val: string): string[] {
     return this.tempate_categories.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0);
   }
-  // public modelChanged(event): void {
-  //   console.log(event.target.value);
-  //   this.template_html = event.target.value;
-  //   this.createEmailTemplateForm.controls['template_html'].setValue(this.template_html);
-  // }
   deleteEmailTemplate = (emailtemplateconfig_id) => {
     this.emailTemplateService.deleteEmailTemplateData(AppConstants.API_URL,
       'flujo_client_deleteemailtemplateconfig/', emailtemplateconfig_id)
@@ -210,7 +160,6 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
         console.log(result);
         if (result.error) {
           this.alertService.warning(result.result);
-          // console.log(data);
           this.spinnerService.hide();
         } else {
           this.alertService.success('Template delete successfully');
@@ -229,7 +178,6 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
       );
   }
   public readTemplates(theme_category): void {
-    // this.allEmailTemplates2 = this.allEmailTemplates;
     console.log(theme_category);
     this.filteredThemes = this.allEmailTemplates2.filter((filterTemplate) => filterTemplate.template_category === theme_category);
     console.log(this.filteredThemes);
