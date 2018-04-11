@@ -17,22 +17,6 @@ import * as _ from 'underscore';
   styleUrls: ['./smstemplate.component.scss']
 })
 export class SmstemplateComponent implements OnInit {
-
-  templatestring: string;
-  public templateText: string;
-  header: string;
-  message: string;
-  footer: string;
-
-  constructor() {
-    this.header = 'Good Friday';
-    this.message = 'On behalf of Up coming Good Friday, We truly wishes a Happy n Joyful day';
-    this.footer = '***From Flujo***';
-    this.templateText = '';
-    this.templatestring = this.header + this.message + this.footer;
-  }
-
-  editTemplate( text ) {
   templateText1: any;
   isMain = true;
   smsTemplateData2: any;

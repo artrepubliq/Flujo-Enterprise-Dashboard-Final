@@ -19,6 +19,7 @@ export interface IPostEmailTemplate {
     emailtemplateconfig_id?: string;
     id?: string;
     submitted_at?: string;
+    isActive?: boolean;
 }
 //  export interface IEmailTempInsertResponse {
 //     error?: string;
