@@ -112,7 +112,9 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
             template_name: formModel.template_name,
             template_category: formModel.template_category
           }) ;
-          console.log('im inserted newly');
+          this.uniqueEmailTemplates = _.uniq(this.allEmailTemplates, function (x) {
+            return x.template_category;
+          });
           this.spinnerService.hide();
           this.alertService.success('Template created successfully');
           this.createEmailTemplateForm.reset();
@@ -145,10 +147,6 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
       });
   }
   public getFilteredEmailCategories() {
-    // this.filteredOptions = this.templateCategory.valueChanges.pipe(
-    //   startWith(''),
-    //   map(val => this.filter(val))
-    // );
     this.filteredOptions = this.templateCategory.valueChanges
       .pipe(
         startWith(''),
@@ -159,11 +157,7 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
   public filter(val: string): string[] {
     return this.tempate_categories.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0);
   }
-  // public modelChanged(event): void {
-  //   console.log(event.target.value);
-  //   this.template_html = event.target.value;
-  //   this.createEmailTemplateForm.controls['template_html'].setValue(this.template_html);
-  // }
+
   deleteEmailTemplate = (emailtemplateconfig_id) => {
     this.emailTemplateService.deleteEmailTemplateData(AppConstants.API_URL,
       'flujo_client_deleteemailtemplateconfig/', emailtemplateconfig_id)
@@ -181,6 +175,9 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
           this.allEmailTemplates = this.allEmailTemplates.filter((object) => object.id !== emailtemplateconfig_id);
           this.allEmailTemplates2 = this.allEmailTemplates;
           this.filteredThemes = this.allEmailTemplates;
+          this.uniqueEmailTemplates = _.uniq(this.allEmailTemplates, function (x) {
+            return x.template_category;
+          });
           console.log(this.allEmailTemplates);
         }
       },
