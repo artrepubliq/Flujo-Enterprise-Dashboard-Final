@@ -99,22 +99,15 @@ import { ChartsProblemCategoryDirective } from './directives//charts-problem-cat
 import { ChartsStatusDirective } from './directives/charts-status/charts-status.directive';
 import { ChartsLoyalityDirective } from './directives/charts-loyality/charts-loyality.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
-import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
+// import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
-
-// import { EditorSelectionService } from './service/editor-selection.service';
-import { UseraccessComponent } from './useraccess/useraccess.component';
-import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
-
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent } from './whatsapp/whatsapp.component';
+import { EditorSelectionService } from './service/editor-selection.service';
 import { UseraccessComponent } from './useraccess/useraccess.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
-import { EmailTemplateResolver } from './email-template/email-template.resolver';
-import { EmailTemplateService } from './email-template/email-template-service';
-
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -174,23 +167,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsLoyalityDirective,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
-    ChartAgeDirective,
+    // ChartAgeDirective,
     MediaLocalImagePopupDialog,
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
-
     SmsTemplateSelectionDialog,
     EmailTemplateSelectionPopup,
-    
-
-    SmsTemplateSelectionDialog,
-
     SafeHtmlPipe,
-
-    SocialconfigurationComponent,
     WhatsappComponent,
-
+    SocialconfigurationComponent
   ],
   imports: [
     BrowserModule,
@@ -258,16 +244,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               AreaService,
 
               {provide: DateAdapter, useClass: DateFormat},
-
-              // EditorSelectionService,
-              UseraccessComponent,
-              SmsTemplateSelectService,
-
               EditorSelectionService,
-           
               UseraccessComponent,
               SmsTemplateSelectService,
-
               EmailTemplateResolver,
               EmailTemplateService,
               // AuthInterceptorService,
