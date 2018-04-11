@@ -115,6 +115,7 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
           this.uniqueEmailTemplates = _.uniq(this.allEmailTemplates, function (x) {
             return x.template_category;
           });
+          this.tempate_categories.push(formModel.template_category);
           this.spinnerService.hide();
           this.alertService.success('Template created successfully');
           this.createEmailTemplateForm.reset();
