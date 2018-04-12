@@ -220,7 +220,8 @@
     </div>
   </div>
   <div class="feedback_footer" fxLayout="row" fxLayoutAlign="space-between ">
-   
+      <!-- <mat-paginator #paginator *ngIf="filterReportProblemData" [length]="filterReportProblemData.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator> -->
     <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>
