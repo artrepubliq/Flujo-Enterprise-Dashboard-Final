@@ -5,7 +5,7 @@
   <!-- File Uploader -->
   <div class="uploadFile_block"  [ngClass]="{'ShowFileUploader': toggleFileUploader }">
     <div class="toggleShow_uploader">
-      <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap.lt-md="15px" fxLayoutGap="50px" class="uploader_block">
         <form class="file_uploader" enctype="multipart/form-data">
           <div class="">
             <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->

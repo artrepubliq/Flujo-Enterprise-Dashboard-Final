@@ -1,6 +1,6 @@
 <!-- TopNav -->
 <nav class="navbar navbarTop" role="navigation">
-  <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
+  <div class="navbar-header" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()" [ngClass]="{'navbar-header-toggle':!sidebarToggledButton}">
     <div fxLayout="row" fxLayoutGap="0.1rem" fxLayoutAlign="start center">
       <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
         <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
@@ -20,20 +20,38 @@
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
             <li class="dropdown-item dropdown-submenu">
               <a class="" tabindex="-1">
-                  <span>Status</span>
-                </a>
+                <span>Status</span>
+              </a>
               <ul class="second-Level dropdown-menu">
-                <li class="dropdown-item"><a>Away</a></li>
-                <li class="dropdown-item"><a>Idle</a></li>
-                <li class="dropdown-item"><a>Busy</a></li>
+                <li class="dropdown-item">
+                  <a>Away</a>
+                </li>
+                <li class="dropdown-item">
+                  <a>Idle</a>
+                </li>
+                <li class="dropdown-item">
+                  <a>Busy</a>
+                </li>
               </ul>
             </li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Profile & Account</a></li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Preferences</a></li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Manage Team</a></li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Settings</a></li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Help</a></li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Signout</a></li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Profile & Account</a>
+            </li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Preferences</a>
+            </li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Manage Team</a>
+            </li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Settings</a>
+            </li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Help</a>
+            </li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Signout</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -80,6 +98,7 @@
           <a class="activity" (click)="loginAuthService.logout()">
               <i class="fa fa-power-off"></i>Log Out</a>
         </li>
+
       </ul>
     </li>
   </ul>
@@ -91,7 +110,7 @@
 <div id="wrapper" fxLayout="row" class="contentBody">
 
   <!-- Side Navigation -->
-  <aside id="sidebar-wrapper" class="sidebar-menu ps" [ngClass]="{'sidebar-toggle':sidebarToggledButton}" [perfectScrollbar]="config">
+  <aside id="sidebar-wrapper" class="sidebar-menu ps" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()" [ngClass]="{'sidebar-toggle':!sidebarToggledButton}" [perfectScrollbar]="config">
     <ul class="nav flex-column">
       <div *ngFor="let item of editor; let i = index">
         <div *ngFor="let useraccesitem of userAccessLevelData">

@@ -1,7 +1,7 @@
 <div class="problems">
 
-  <div fxLayout="row" fxLayoutGap="1rem">
-    <div class="" *ngFor="let problem of problem_category">
+  <div fxLayout="row" fxLayoutGap="15px">
+    <div *ngFor="let problem of problem_category">
 
       <mat-card class="example-card">
         <mat-card-content>
@@ -13,14 +13,13 @@
             </div>
             <div fxLayout="column" fxLayoutAlign="end center">
               <div class="tproblems" fxFlex>{{problem.count}}</div>
-              <div class="category" fxFlex>{{problem.category | uppercase}}</div>
-
+              <div class="category" fxFlex>{{problem.category | titlecase}}</div>
             </div>
           </div>
+
         </mat-card-content>
       </mat-card>
-      <br>
-    </div>
 
+    </div>
   </div>
 </div>

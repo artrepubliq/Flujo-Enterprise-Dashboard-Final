@@ -1,20 +1,22 @@
 <form class="upload_popup" [formGroup]="fileUploadForm" fxLayout="row" (submit)="submitForm();" fxLayoutGap="30px">
-  <div class="file_choose" fxLayoutAlign="center center">
-    <i class="fa fa-file-o"></i>
-    <p><b>Selected file: </b> {{display_file_name}}</p>
+  <div fxFlex.lg="30%" fxFlex class="file_choose" fxLayoutAlign="center center">
+    <i class="fa fa-file-o" *ngIf="!isImage"></i>
+    <img [src]="image_base64" *ngIf="isImage">
+    <p>
+      <b>Selected file: </b> {{display_file_name}}</p>
   </div>
-  <div fxFlex="300px" fxLayout="column">
-    <!-- {{data | json}} -->
-    <div fxLayout="column" fxLayoutGap="12px">
-      <mat-form-field class="example-full-width">
+  <div fxFlex.lg="300px" fxFlex fxLayout="column" fxLayoutGap="20px">
+
+    <div class="custom_input_mat" fxLayout="column" fxLayoutGap="12px">
+      <p>File Name</p>
+      <mat-form-field class="select_dropdown">
         <input type="text" name="" id="" placeholder="File Name" matInput [formControl]="file_name_control" formControlName="file_name">
       </mat-form-field>
-      <!-- <mat-error *ngIf="file_name_err">Special characters not allowed</mat-error> -->
     </div>
 
-    <div fxLayout="column" fxLayoutGap="12px">
-      <!-- <form class="example-form"> -->
-      <mat-form-field class="example-full-width">
+    <div class="custom_input_mat" fxLayout="column" fxLayoutGap="12px">
+      <p>Folder Name</p>
+      <mat-form-field class="select_dropdown">
         <input type="text" placeholder="Folder name" formControlName="folder" aria-label="Number" matInput [formControl]="myControl"
           [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
@@ -23,8 +25,6 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <!-- <mat-error *ngIf="file_name_err">Special characters not allowed</mat-error> -->
-      <!-- </form> -->
     </div>
 
   </div>
@@ -33,5 +33,3 @@
     <button class="button_submit">Save</button>
   </div>
 </form>
-
-
