@@ -151,7 +151,6 @@ export class MediaComponent implements OnInit {
       description: ['', Validators.required],
       order: ['', Validators.required]
     });
-
     if (this.adminComponent.userAccessLevelData) {
       // this.userRestrict();
     } else {
@@ -173,7 +172,6 @@ export class MediaComponent implements OnInit {
           }
         );
     }
-
   }
   ngOnInit() {
     this.uploadImagesObject = <IUploadImages>{};
@@ -186,6 +184,7 @@ export class MediaComponent implements OnInit {
     this.albumObject = <IGalleryObject>{};
     this.albumObject.images = [];
   }
+  // this for restrict user on root access level
   userRestrict() {
     _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
       // tslint:disable-next-line:max-line-length
