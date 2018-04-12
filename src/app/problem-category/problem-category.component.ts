@@ -65,7 +65,7 @@ export class ProblemCategoryComponent implements OnInit {
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
+                this.userAccessLevelObject = item.access_levels;
               } else {
                 // this.userAccessLevelObject = null;
               }
@@ -107,14 +107,17 @@ export class ProblemCategoryComponent implements OnInit {
     this.problemService.getProblemData('/flujo_client_getreportproblemtype/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
+          if (data.custom_status_code === 100 && data.result.length > 0) {
+            this.problemTypeData = data.result;
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
+          }
           this.spinnerService.hide();
-          this.problemTypeData = data;
-          console.log(this.problemTypeData);
         },
         error => {
           console.log(error);
           this.spinnerService.hide();
-            this.alertService.warning('Something went wrong');
+          this.alertService.warning('Something went wrong');
         }
       );
   }
@@ -163,15 +166,18 @@ export class ProblemCategoryComponent implements OnInit {
       };
     }
     console.log(this.problemForm.get('problemtypenamenew').value);
+    this.newProblemData.created_by = localStorage.getItem('name');
     console.log(this.newProblemData);
     this.spinnerService.show();
     this.problemService.updateProblemType('flujo_client_postreportproblemtype', this.newProblemData)
       .subscribe(
         data => {
-          if (data.error) {
-            this.alertService.warning(data.result);
-          } else {
-            this.alertService.success('Problem Updated Successfully');
+          if (data.custom_status_code === 100) {
+            this.alertService.success('Problem updated successfully');
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
+          } else if (data.custom_status_code === 102) {
+            this.alertService.warning('Every thing is upto date!');
           }
           console.log(data);
           this.spinnerService.hide();
@@ -194,8 +200,12 @@ export class ProblemCategoryComponent implements OnInit {
     this.problemService.deleteProblem('flujo_client_deletereportproblemtype/', problem.id)
       .subscribe(
         data => {
+          if (data.custom_status_code === 100) {
+            this.alertService.success('Problem deleted successfully');
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
+          }
           this.spinnerService.hide();
-          this.alertService.success('Problem deleted successfully');
           this.getproblemData();
           this.problemForm.reset();
           this.isEdit = false;

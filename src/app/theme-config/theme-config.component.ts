@@ -7,6 +7,7 @@ import { AlertService } from 'ngx-alerts';
 import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { IThemeData } from '../model/themeData.model';
+import { CommonInterface } from '../model/commonInterface.model';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
@@ -29,7 +30,7 @@ export class ThemeConfigComponent implements OnInit {
   ChildMenuOverColor: any;
   selectedBodyFont: string;
   selectedTitleFont: string;
-  theme_id: number;
+  themeconfig_id: number;
 
   updatedThemeData: IThemeData;
 
@@ -70,31 +71,29 @@ export class ThemeConfigComponent implements OnInit {
       'gradient_title_color2': ['', Validators.required],
       'primary_menu_hover_color': ['', Validators.required],
       'child_menu_hover_color': ['', Validators.required],
-      'theme_id': [null]
+      'themeconfig_id': [null]
     });
   }
   /* this is for on submitting the form*/
   submitTheme() {
     // console.log(this.themeConfigForm.value);
-    this.themeConfigForm.controls['theme_id'].setValue(AppConstants.THEME_ID);
+    this.spinnerService.show();
+    this.themeConfigForm.controls['themeconfig_id'].setValue(AppConstants.THEME_ID);
     const themeData = this.themeConfigForm.value;
     themeData.client_id = AppConstants.CLIENT_ID;
     console.log(themeData);
-    this.spinnerService.show();
-    this.httpClient.post<IThemeData>(AppConstants.API_URL + 'flujo_client_posttexttheme', themeData)
+    this.httpClient.post<CommonInterface>(AppConstants.API_URL + 'flujo_client_postthemeconfig', themeData)
       .subscribe(
         data => {
-          if (data.error) {
-            this.alertService.warning(data.result);
-            console.log(data);
-            this.spinnerService.hide();
-          } else {
+          console.log(data);
+          if (data.custom_status_code === 100) {
             this.alertService.success('Theme details updated successfully');
-            this.spinnerService.hide();
-            // this.updatedThemeData = data;
-            // if(this.updatedThemeData.data[0].theme_id){
-            // }
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
+          } else if (data.custom_status_code === 102) {
+            this.alertService.warning('Every thing is upto date!');
           }
+          this.spinnerService.hide();
         },
         error => {
           // this.loading = false;
@@ -107,19 +106,18 @@ export class ThemeConfigComponent implements OnInit {
   /* this is to get theme details  from server*/
   getThemeDetails = () => {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + 'flujo_client_gettexttheme/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getthemeconfig/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           console.log(data);
-          if (data != null) {
-            this.spinnerService.hide();
-            this.setThemeDetails(data);
+          if (!data.error && (data.result.length > 0)) {
+            this.setThemeDetails(data.result);
           } else {
             this.alertService.success('No Data found');
-            this.spinnerService.hide();
           }
         },
         error => {
+          this.spinnerService.hide();
           console.log(error);
         }
       );
@@ -158,12 +156,11 @@ export class ThemeConfigComponent implements OnInit {
       // tslint:disable-next-line:radix
       this.fontSize = parseInt(themeData[0].theme_font_size);
 
-      this.themeConfigForm.controls['theme_id'].setValue(themeData[0].id);
-      this.theme_id = themeData[0].id;
+      this.themeConfigForm.controls['themeconfig_id'].setValue(themeData[0].id);
+      this.themeconfig_id = themeData[0].id;
 
       this.gradientColor = 'linear-gradient(130deg, ' + themeData[0].gradient_title_color1 + ', ' +
         themeData[0].gradient_title_color2 + ')';
-      // console.log(this.theme_id);
     }
   }
 
@@ -195,9 +192,6 @@ export class ThemeConfigComponent implements OnInit {
 
     this.themeConfigForm.controls['theme_font_size'].setValue(12);
     this.fontSize = 12;
-
-    // this.themeConfigForm.controls['theme_id'].setValue(themeData[0].id);
-    // this.theme_id = themeData[0].id;
   }
 
   // this is to set gradient color
@@ -213,6 +207,9 @@ export class ThemeConfigComponent implements OnInit {
     console.log(this.gradientColor);
   }
   ngOnInit() {
+    setTimeout(function () {
+      this.spinnerService.hide();
+    }.bind(this), 3000);
     this.getThemeDetails();
   }
 
