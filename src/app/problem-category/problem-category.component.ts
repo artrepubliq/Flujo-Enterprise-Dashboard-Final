@@ -202,7 +202,7 @@ export class ProblemCategoryComponent implements OnInit {
           this.actionText = 'Add';
         },
         error => {
-          this.alertService.success('File something went wrong successfully');
+          this.alertService.warning('something went wrong');
           console.log(error);
         }
       );
