@@ -7,7 +7,7 @@ import { AlertService } from 'ngx-alerts';
 import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { IThemeData } from '../model/themeData.model';
-import { CommonInterface } from '../model/commonInterface.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
@@ -82,7 +82,7 @@ export class ThemeConfigComponent implements OnInit {
     const themeData = this.themeConfigForm.value;
     themeData.client_id = AppConstants.CLIENT_ID;
     console.log(themeData);
-    this.httpClient.post<CommonInterface>(AppConstants.API_URL + 'flujo_client_postthemeconfig', themeData)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postthemeconfig', themeData)
       .subscribe(
         data => {
           console.log(data);
@@ -106,7 +106,7 @@ export class ThemeConfigComponent implements OnInit {
   /* this is to get theme details  from server*/
   getThemeDetails = () => {
     this.spinnerService.show();
-    this.httpClient.get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getthemeconfig/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getthemeconfig/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           console.log(data);

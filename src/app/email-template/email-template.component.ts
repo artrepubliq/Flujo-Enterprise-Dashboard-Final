@@ -1,4 +1,4 @@
-import { Component, OnInit, Pipe, PipeTransform, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -59,7 +59,6 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private platformLocation: PlatformLocation,
-    private ngZone: NgZone,
   ) {
     this.createEmailTemplateForm = this.formBuilder.group({
       'template_name': ['', Validators.required],
