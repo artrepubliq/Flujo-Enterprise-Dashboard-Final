@@ -110,7 +110,10 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
             template_name: formModel.template_name,
             template_category: formModel.template_category
           }) ;
-          console.log('im inserted newly');
+          this.uniqueEmailTemplates = _.uniq(this.allEmailTemplates, function (x) {
+            return x.template_category;
+          });
+          this.tempate_categories.push(formModel.template_category);
           this.spinnerService.hide();
           this.alertService.success('Template created successfully');
           this.createEmailTemplateForm.reset();
@@ -169,6 +172,9 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
           this.allEmailTemplates = this.allEmailTemplates.filter((object) => object.id !== emailtemplateconfig_id);
           this.allEmailTemplates2 = this.allEmailTemplates;
           this.filteredThemes = this.allEmailTemplates;
+          this.uniqueEmailTemplates = _.uniq(this.allEmailTemplates, function (x) {
+            return x.template_category;
+          });
           console.log(this.allEmailTemplates);
         }
       },
