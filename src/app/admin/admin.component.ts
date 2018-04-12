@@ -217,10 +217,6 @@ export class EmptyAccessLevelDialog {
     this.dialogRef.close();
   }
   logoutUser() {
-<<<<<<< HEAD
-=======
-    // this.loginAuthService.logout();
->>>>>>> 73e15f6ea724dd71edd31456e5e2104571108c53
     this.dialogRef.close();
   }
 }

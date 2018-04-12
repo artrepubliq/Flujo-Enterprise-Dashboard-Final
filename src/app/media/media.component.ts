@@ -130,16 +130,8 @@ export class MediaComponent implements OnInit {
 
   };
   public dragging: boolean;
-<<<<<<< HEAD
   constructor(public dialog: MatDialog, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
-=======
-  constructor(public dialog: MatDialog,
-    private spinnerService: Ng4LoadingSpinnerService,
-    private httpClient: HttpClient,
-    private formBuilder: FormBuilder,
-    private alertService: AlertService,
->>>>>>> 73e15f6ea724dd71edd31456e5e2104571108c53
     private router: Router,
     public adminComponent: AdminComponent) {
 
