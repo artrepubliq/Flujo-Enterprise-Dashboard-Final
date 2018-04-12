@@ -18,6 +18,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { IAccessLevelModel } from '../model/accessLevel.model';
 import { UseraccessServiceService } from '../service/useraccess-service.service';
+import { CommonInterface } from '../model/analytics.model';
 
 @Component({
   templateUrl: './admin.component.html',
@@ -181,7 +182,7 @@ export class AdminComponent implements OnInit {
     });
   }
   getUserAccessLevelsHttpClient() {
-    return  this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
+    return  this.httpClient.get<CommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
   }
 
   whatsapp() {
