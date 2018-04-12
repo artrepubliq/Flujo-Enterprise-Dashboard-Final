@@ -10,8 +10,8 @@ export class EmailTemplateService {
 
     constructor(private httpClient: HttpClient) { }
 
-    public getTemplateConfigData(request_url: string, client_id: string): Observable<IPostEmailTemplate> {
-        return this.httpClient.get<IPostEmailTemplate>(AppConstants.API_URL + request_url + client_id);
+    public getTemplateConfigData(request_url: string, client_id: string): Observable<IPostEmailTemplate[]> {
+        return this.httpClient.get<IPostEmailTemplate[]>(AppConstants.API_URL + request_url + client_id);
     }
 
     public postEmailTemplateData( post_data: string, request_url: string) {

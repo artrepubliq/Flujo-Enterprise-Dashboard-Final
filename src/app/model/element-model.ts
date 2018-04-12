@@ -8,5 +8,5 @@ export interface Element {
     phone: string;
     message: string;
     date_now: string;
-    lenght: string;
+    lenght?: string;
   }

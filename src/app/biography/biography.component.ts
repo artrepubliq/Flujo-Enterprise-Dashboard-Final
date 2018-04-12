@@ -12,6 +12,7 @@ import { MatDatepickerInputEvent, NativeDateAdapter, DateAdapter, MAT_DATE_FORMA
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { CommonInterface } from '../model/analytics.model';
 export class AppDateAdapter extends NativeDateAdapter {
 
   format(date: Date, displayFormat: Object): string {
@@ -83,7 +84,7 @@ export class BiographyComponent implements OnInit {
     this.spinnerService.show();
     this.biographySubmitForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.biographySubmitForm.value;
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postbiography', formModel)
+    this.httpClient.post<CommonInterface>(AppConstants.API_URL + 'flujo_client_postbiography', formModel)
       .subscribe(
         data => {
           if (!data.error) {

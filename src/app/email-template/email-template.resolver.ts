@@ -7,9 +7,9 @@ import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
 
 @Injectable()
 
-export class EmailTemplateResolver implements Resolve<Observable<IPostEmailTemplate>> {
+export class EmailTemplateResolver implements Resolve<Observable<IPostEmailTemplate[]>> {
     constructor(private emailTemplateService: EmailTemplateService) { }
-    resolve(route: ActivatedRouteSnapshot): Observable<IPostEmailTemplate> {
+    resolve(route: ActivatedRouteSnapshot): Observable<IPostEmailTemplate[]> {
         return this.emailTemplateService.getTemplateConfigData('/flujo_client_getemailtemplateconfig/', AppConstants.CLIENT_ID);
     }
 }

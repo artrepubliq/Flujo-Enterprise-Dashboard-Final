@@ -8,9 +8,11 @@ import { AppConstants } from '../app.constants';
 import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
-import {MatTableDataSource, MatSort, MatPaginator, SortDirection} from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, SortDirection } from '@angular/material';
 import { AdminComponent } from '../admin/admin.component';
 import * as _ from 'underscore';
+import { IcommentsLikesSummary } from '../model/fb-feed.model';
+import { CommonInterface } from '../model/analytics.model';
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
@@ -23,7 +25,7 @@ export class FeedbackComponent implements OnInit {
   @Input('matSortDirection')
   direction: SortDirection;
   componentName = 'feedback';
-  displayedColumns = ['name', 'updated',  'email', 'phone', 'message', ];
+  displayedColumns = ['name', 'updated', 'email', 'phone', 'message'];
   isActive = true;
   selected: string;
   checked: boolean;
@@ -52,15 +54,15 @@ export class FeedbackComponent implements OnInit {
     public router: Router,
     public adminComponent: AdminComponent
   ) {
-   this.feedbackCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
-   });
-   this.changeMakerCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
-   });
-   this.reportCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
-   });
+    this.feedbackCsvMail = this.formBuilder.group({
+      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
+    });
+    this.changeMakerCsvMail = this.formBuilder.group({
+      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
+    });
+    this.reportCsvMail = this.formBuilder.group({
+      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
+    });
     this.getuserFeedbackData();
 
     if (this.adminComponent.userAccessLevelData) {
@@ -72,7 +74,7 @@ export class FeedbackComponent implements OnInit {
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
+                this.userAccessLevelObject = item.access_levels;
               } else {
                 // this.userAccessLevelObject = null;
               }
@@ -86,7 +88,7 @@ export class FeedbackComponent implements OnInit {
           }
         );
     }
-
+    this.elementData = [];
   }
   ngOnInit() {
     setTimeout(function () {
@@ -129,19 +131,21 @@ export class FeedbackComponent implements OnInit {
 
   getuserFeedbackData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getfeedback/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getfeedback/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.feedbackData = data;
-        this.elementData = this.feedbackData;
-        this.spinnerService.hide();
-        this.dataSource = new MatTableDataSource(this.elementData);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      },
-      error => {
-        console.log(error);
-      });
+        data => {
+          if (data.result) {
+            this.feedbackData = data.result;
+            this.elementData = this.feedbackData;
+            this.spinnerService.hide();
+            this.dataSource = new MatTableDataSource(this.elementData);
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
+          }
+        },
+        error => {
+          console.log(error);
+        });
     // this.http
     //   .get<IUser>('http://flujo.in/dashboard/flujo.in_ajay/public/feedback-report')
     //   .subscribe(
@@ -200,15 +204,15 @@ export class FeedbackComponent implements OnInit {
 
     this.httpClient.post(AppConstants.API_URL + 'flujo_client_feedbackreportmailattachment', formModel)
       .subscribe(
-      data => {
-        this.feedbackCsvMail.reset();
-        this.alertService.info('Attachement sent succesfully');
-        this.spinnerService.hide();
-      },
-      error => {
-        this.spinnerService.hide();
-        this.alertService.danger('Email could not sent');
-      });
+        data => {
+          this.feedbackCsvMail.reset();
+          this.alertService.info('Attachement sent succesfully');
+          this.spinnerService.hide();
+        },
+        error => {
+          this.spinnerService.hide();
+          this.alertService.danger('Email could not sent');
+        });
   }
   changeMakerCsvMailSubmit = (body) => {
     this.spinnerService.show();
@@ -216,15 +220,15 @@ export class FeedbackComponent implements OnInit {
 
     this.httpClient.post(AppConstants.API_URL + 'flujo_client_changemakerreportmailattachment', formModel)
       .subscribe(
-      data => {
-        this.changeMakerCsvMail.reset();
-        this.alertService.info('Attachement sent succesfully');
-        this.spinnerService.hide();
-      },
-      error => {
-        this.spinnerService.hide();
-        this.alertService.danger('Email could not sent');
-      });
+        data => {
+          this.changeMakerCsvMail.reset();
+          this.alertService.info('Attachement sent succesfully');
+          this.spinnerService.hide();
+        },
+        error => {
+          this.spinnerService.hide();
+          this.alertService.danger('Email could not sent');
+        });
   }
   reportCsvMailSubmit = (body) => {
     this.spinnerService.show();
@@ -232,15 +236,15 @@ export class FeedbackComponent implements OnInit {
 
     this.httpClient.post(AppConstants.API_URL + 'flujo_client_reportproblemreportmailattachment', formModel)
       .subscribe(
-      data => {
-        this.reportCsvMail.reset();
-        this.alertService.info('Attachement sent succesfully');
-        this.spinnerService.hide();
-      },
-      error => {
-        this.spinnerService.hide();
-        this.alertService.danger('Email could not sent');
-      });
+        data => {
+          this.reportCsvMail.reset();
+          this.alertService.info('Attachement sent succesfully');
+          this.spinnerService.hide();
+        },
+        error => {
+          this.spinnerService.hide();
+          this.alertService.danger('Email could not sent');
+        });
   }
   /* change directive when clicked*/
   radioChange = (name) => {
