@@ -12,6 +12,7 @@ import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
+import { CommonInterface } from '../model/analytics.model';
 
 @Component({
   templateUrl: './sociallinks.component.html',
@@ -41,13 +42,11 @@ export class SocialLinksComponent implements OnInit {
 
     this.getSocialLinksData();
     if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
       this.userRestrict();
     } else {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
           resp => {
-            console.log(resp);
             this.spinnerService.hide();
             _.each(resp, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
@@ -91,12 +90,6 @@ export class SocialLinksComponent implements OnInit {
   }
   socialLinksFormSubmit(body: any) {
     this.spinnerService.show();
-    // if (this.form_btntext === 'Update') {
-    //   this.socialLinksForm.controls['socialitem_id'].setValue(this.socialItemId);
-    // } else {
-    //   this.socialLinksForm.controls['socialitem_id'].setValue('null');
-    // }
-    console.log(body);
 
     this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_postsociallinks', body)
 
@@ -125,11 +118,11 @@ export class SocialLinksComponent implements OnInit {
 
     this.spinnerService.show();
     this.httpClient
-      .get<ISocialLinks>(AppConstants.API_URL + 'flujo_client_getsociallinks/' + AppConstants.CLIENT_ID)
+      .get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getsociallinks/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           this.spinnerService.hide();
-          this.socialItems = data;
+          this.socialItems = data.result;
           this.socialItems.map(object => {
             object.editLink = false;
             // delete Employee.firstname;
@@ -147,7 +140,7 @@ export class SocialLinksComponent implements OnInit {
       );
 
   }
-  
+
   // add new item
   addNewItem() {
     this.addNew = true;

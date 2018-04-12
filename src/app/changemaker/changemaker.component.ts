@@ -14,6 +14,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { CommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-changemaker',
   templateUrl: './changemaker.component.html',
@@ -61,7 +62,7 @@ export class ChangemakerComponent implements OnInit {
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
     });
     this.getChangemakerReportData();
-
+    // this.changemakerData2.length = [];
     if (this.adminComponent.userAccessLevelData) {
       this.userRestrict();
     } else {
@@ -110,12 +111,12 @@ export class ChangemakerComponent implements OnInit {
 
   getChangemakerReportData() {
     this.spinnerService.show();
-    this.httpClient.get<Array<Element>>(AppConstants.API_URL + 'flujo_client_getchangemaker/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getchangemaker/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          console.log(data);
-          this.changemakerData = data;
-          this.changemakerData2 = data;
+          console.log(data.result);
+          this.changemakerData = data.result;
+          this.changemakerData2 = data.result;
           this.spinnerService.hide();
           this.dataSource = new MatTableDataSource(this.changemakerData);
           // this.changemakerData.paginator = this.paginator;
