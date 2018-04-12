@@ -132,7 +132,8 @@ export class MediaComponent implements OnInit {
   public dragging: boolean;
   constructor(public dialog: MatDialog, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
-    public adminComponent: AdminComponent, private router: Router) {
+    private router: Router,
+    public adminComponent: AdminComponent) {
 
     this.myGroup = new FormGroup({
       AlbumName: new FormControl(),
@@ -151,7 +152,7 @@ export class MediaComponent implements OnInit {
       order: ['', Validators.required]
     });
     if (this.adminComponent.userAccessLevelData) {
-      this.userRestrict();
+      // this.userRestrict();
     } else {
       this.adminComponent.getUserAccessLevelsHttpClient()
         .subscribe(
@@ -163,7 +164,7 @@ export class MediaComponent implements OnInit {
               }
             });
             this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
+            // this.userRestrict();
           },
           error => {
             console.log(error);
@@ -190,7 +191,6 @@ export class MediaComponent implements OnInit {
       if (this.adminComponent.userAccessLevelData[iterate].name === 'Media Management' && this.adminComponent.userAccessLevelData[iterate].enable) {
         this.filteredUserAccessData = item;
       } else {
-
       }
     });
     if (this.filteredUserAccessData) {

@@ -17,9 +17,6 @@ import * as _ from 'underscore';
   styleUrls: ['./smstemplate.component.scss']
 })
 export class SmstemplateComponent implements OnInit {
-
-
-  editTemplate( text ) {
   templateText1: any;
   isMain = true;
   smsTemplateData2: any;
