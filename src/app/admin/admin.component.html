@@ -7,7 +7,7 @@
       </a>
       <div class="nav flex-column login-info">
         <div class="nav-item userpopup dropdown">
-          <a class="nav-link dropdown-toggle"  aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">
             <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
             <span>Art Republiq</span>
             <span class="active-indication">
@@ -17,34 +17,52 @@
               </span>
             </span>
           </a>
-          <ul class="dropdown-menu"  role="menu" aria-labelledby="dropdownMenu">
-            <li class="dropdown-item dropdown-submenu"  >
-                <a class="" tabindex="-1" >
-                  <span>Status</span>
-                </a>
-                <ul class="second-Level dropdown-menu">
-                  <li class="dropdown-item"><a >Away</a></li> 
-                  <li class="dropdown-item"><a >Idle</a></li>
-                  <li class="dropdown-item"><a >Busy</a></li>
-                </ul>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+            <li class="dropdown-item dropdown-submenu">
+              <a class="" tabindex="-1">
+                <span>Status</span>
+              </a>
+              <ul class="second-Level dropdown-menu">
+                <li class="dropdown-item">
+                  <a>Away</a>
+                </li>
+                <li class="dropdown-item">
+                  <a>Idle</a>
+                </li>
+                <li class="dropdown-item">
+                  <a>Busy</a>
+                </li>
+              </ul>
             </li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Profile & Account</a></li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Preferences</a></li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Manage Team</a></li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Settings</a></li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Help</a></li>
-            <li class="dropdown-item"><a routerLink="./profile" routerLinkActive="active">Signout</a></li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Profile & Account</a>
+            </li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Preferences</a>
+            </li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Manage Team</a>
+            </li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Settings</a>
+            </li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Help</a>
+            </li>
+            <li class="dropdown-item">
+              <a routerLink="./profile" routerLinkActive="active">Signout</a>
+            </li>
           </ul>
         </div>
       </div>
     </div>
   </div>
   <div class="admin-website mr-auto">
-      <p class="title">
-        <span>DVB Website : </span>
-        <span class="page-title">{{CurrentPageName}}</span>
-      </p>
-    </div>
+    <p class="title">
+      <span>DVB Website : </span>
+      <span class="page-title">{{CurrentPageName}}</span>
+    </p>
+  </div>
   <ul class="nav top-nav">
     <li class="navbarItem">
       <a href="#notifications" class="nav-link">
@@ -112,59 +130,59 @@
         <li *ngIf="userAccessLevelData && userAccessLevelData[19]?.enable">
           <a routerLink="./module" routerLinkActive="active" class="activity">
             <i class="fa fa-edit"></i>Create Module</a>
-        <li>
-          <a routerLink="./smsconfiguration" routerLinkActive="active" class="activity">
-            <i class="fa fa-edit"></i>SMS Template Configuration</a>
-        </li>
-        <li>
-          <a routerLink="./emailconfiguration" routerLinkActive="active" class="activity">
-            <i class="fa fa-edit"></i>Email Template Configuration</a>
-        </li>
-         <li >
-          <a routerLink="./socialconfiguration" routerLinkActive="active" class="activity">
-            <i class="fa fa-user-plus"></i>Social Configuration</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" routerLink="./neweditor" routerLinkActive="active">
-          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
-          <span>New editor</span>
-        </a>
-      </li>
-       <!-- <li *ngIf="userAccessLevelData && userAccessLevelData[21]?.enable">
+          <li>
+            <a routerLink="./smsconfiguration" routerLinkActive="active" class="activity">
+              <i class="fa fa-edit"></i>SMS Template Configuration</a>
+          </li>
+          <li>
+            <a routerLink="./emailconfiguration" routerLinkActive="active" class="activity">
+              <i class="fa fa-edit"></i>Email Template Configuration</a>
+          </li>
+          <li>
+            <a routerLink="./socialconfiguration" routerLinkActive="active" class="activity">
+              <i class="fa fa-user-plus"></i>Social Configuration</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" routerLink="./neweditor" routerLinkActive="active">
+              <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+              <span>New editor</span>
+            </a>
+          </li> -->
+          <!-- <li *ngIf="userAccessLevelData && userAccessLevelData[21]?.enable">
           <a routerLink="./module" routerLinkActive="active" class="activity">
             <i class="fa fa-edit"></i>Create Module</a>
         </li> -->
-        <li *ngIf="userAccessLevelData && userAccessLevelData[22]?.enable">
-          <a routerLink="./termsnconditions" routerLinkActive="active" class="activity">
-            <i class="fa fa-file-o"></i>Terms & Conditions</a>
-        </li>
-        <li *ngIf="userAccessLevelData && userAccessLevelData[23]?.enable">
-          <a routerLink="./privacynpolicy" routerLinkActive="active" class="activity">
-            <i class="fa fa-file-text-o"></i>Privacy & Policy</a>
-        </li>
-
-        <li>
-          <a routerLink="./changepassword" routerLinkActive="active" class="activity">
-            <i class="fa fa-exchange"></i> Change Password</a>
-        </li>
-        <li *ngIf="userAccessLevelData && userAccessLevelData[24]?.enable">
-          <a routerLink="./problemcategory" routerLinkActive="active" class="activity">
-            <i class="fa fa-exchange"></i> Problem Category</a>
-        </li>
-        <li>
-          <li *ngIf="userAccessLevelData && userAccessLevelData[25]?.enable">
-            <a routerLink="./areacategory" routerLinkActive="active" class="activity">
-              <i class="fa fa-exchange"></i> Area Category</a>
+          <li *ngIf="userAccessLevelData && userAccessLevelData[22]?.enable">
+            <a routerLink="./termsnconditions" routerLinkActive="active" class="activity">
+              <i class="fa fa-file-o"></i>Terms & Conditions</a>
           </li>
-          <li *ngIf="userAccessLevelData && userAccessLevelData[26]?.enable">
-            <a href="#" class="activity">
-              <i class="fa fa-cog"></i> Settings</a>
+          <li *ngIf="userAccessLevelData && userAccessLevelData[23]?.enable">
+            <a routerLink="./privacynpolicy" routerLinkActive="active" class="activity">
+              <i class="fa fa-file-text-o"></i>Privacy & Policy</a>
+          </li>
+
+          <li>
+            <a routerLink="./changepassword" routerLinkActive="active" class="activity">
+              <i class="fa fa-exchange"></i> Change Password</a>
+          </li>
+          <li *ngIf="userAccessLevelData && userAccessLevelData[24]?.enable">
+            <a routerLink="./problemcategory" routerLinkActive="active" class="activity">
+              <i class="fa fa-exchange"></i> Problem Category</a>
           </li>
           <li>
-            <a class="activity" (click)="loginAuthService.logout()">
-              <i class="fa fa-power-off"></i>Log Out</a>
-          </li>
-          <!-- <li><a href="#"><i class="fa fa-fw fa-power-off"></i> Logout</a></li> -->
+            <li *ngIf="userAccessLevelData && userAccessLevelData[25]?.enable">
+              <a routerLink="./areacategory" routerLinkActive="active" class="activity">
+                <i class="fa fa-exchange"></i> Area Category</a>
+            </li>
+            <li *ngIf="userAccessLevelData && userAccessLevelData[26]?.enable">
+              <a href="#" class="activity">
+                <i class="fa fa-cog"></i> Settings</a>
+            </li>
+            <li>
+              <a class="activity" (click)="loginAuthService.logout()">
+                <i class="fa fa-power-off"></i>Log Out</a>
+            </li>
+            <!-- <li><a href="#"><i class="fa fa-fw fa-power-off"></i> Logout</a></li> -->
       </ul>
       </li>
   </ul>
@@ -176,10 +194,11 @@
 <div id="wrapper" fxLayout="row" class="contentBody">
 
   <!-- Side Navigation -->
-  <aside id="sidebar-wrapper" class="sidebar-menu" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()" [ngClass]="{'sidebar-toggle':!sidebarToggledButton}" [perfectScrollbar]="config">
+  <aside id="sidebar-wrapper" class="sidebar-menu" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()" [ngClass]="{'sidebar-toggle':!sidebarToggledButton}"
+    [perfectScrollbar]="config">
     <div>
       <ul class="nav flex-column">
-      
+
         <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[0]?.enable">
           <a class="nav-link editor-link" routerLink="./chooseplatform" routerLinkActive="active">
             <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
@@ -216,8 +235,8 @@
         </li>
         <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[3]?.enable">
           <a class="nav-link" routerLink="./whatsappflujo" routerLinkActive="active">
-            <small><i class="fa fa-whatsapp normal_img fa-2x" aria-hidden="true"></i></small>
-            <small><i class="fa fa-whatsapp active_img fa-2x" aria-hidden="true"></i></small>
+            <i class="fa fa-whatsapp normal_img fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-whatsapp active_img fa-2x" aria-hidden="true"></i>
             <!-- <img src="assets/icons/sms-color-nav-icon-normal@2x.png" class="normal_img" alt="social icon">
             <img src="assets/icons/sms-color-nav-icon-active@2x.png" class="active_img" alt="social icon"> -->
             <span>WhatsApp</span>
@@ -328,7 +347,7 @@
 
 
   <!-- Content Wrapper -->
-  <div fxFlex id="page-content-wrapper" [perfectScrollbar]="config" class="ps">
+  <div fxFlex id="page-content-wrapper" ngClass.lt-md="page-content_lt-md" [perfectScrollbar]="config" class="ps">
 
     <router-outlet></router-outlet>
 
