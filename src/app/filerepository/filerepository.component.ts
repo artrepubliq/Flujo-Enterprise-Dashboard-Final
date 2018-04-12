@@ -207,7 +207,7 @@ export class FilerepositoryComponent implements OnInit {
     /** this is dialog form for file and folder name*/
     openDialog(repositories): void {
         const dialogRef = this.dialog.open(FileRepositoryPopup, {
-            width: '50vw',
+            width: '70vw',
             data: repositories,
         });
         dialogRef.afterClosed().subscribe(result => {

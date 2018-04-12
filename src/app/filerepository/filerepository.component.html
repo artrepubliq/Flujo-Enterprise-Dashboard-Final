@@ -1,94 +1,100 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-<!-- File Uploader -->
-<div class="uploadFile_block" [ngClass]="{'ShowFileUploader': toggleFileUploader }">
-  <div class="toggleShow_uploader">
-    <div fxLayout="row" fxLayoutGap="50px" class="uploader_block">
-      <form class="file_uploader" enctype="multipart/form-data">
-        <div class="">
-          <div fxLayout="column" class="choose-block" fxLayoutAlign="center center">
-            <div class="choose_files">
-              <button>Choose</button>
-              <input type="file" #file [multiple]="(maxFiles == 1)" (change)="onFileChange($event)" id="file_path" />
+
+<div ngClass.lt-md="drive_lt-md">
+
+  <!-- File Uploader -->
+  <div class="uploadFile_block" [ngClass]="{'ShowFileUploader': toggleFileUploader }">
+    <div class="toggleShow_uploader">
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap.lt-md="15px" fxLayoutGap="50px" class="uploader_block">
+
+        <form class="file_uploader" enctype="multipart/form-data">
+          <div class="">
+            <div fxLayout="column" class="choose-block" fxLayoutAlign="center center">
+              <div class="choose_files">
+                <button>Choose</button>
+                <input type="file" #file [multiple]="(maxFiles == 1)" [value]="file_path" (change)="onFileChange($event)" id="file_path"
+                />
+              </div>
+              <p>or drag ‘n’ drop here</p>
             </div>
-            <p>or drag ‘n’ drop here</p>
           </div>
-        </div>
-      </form>
+        </form>
 
-      <div class="uploader_content" fxLayout="column" fxLayoutAlign="center start">
-        <h3>Feed me dude I’m hungry, will you?</h3>
-        <p>Shit man, What the f***!</p>
+        <div class="uploader_content" fxLayout="column" fxLayoutAlign="center start">
+          <h3>Feed me dude I’m hungry, will you?</h3>
+          <p>Shit man, What the ...!</p>
+        </div>
       </div>
     </div>
+    <div class="show_upload">
+      <h3 (click)="uploadFile()">
+        Upload
+      </h3>
+    </div>
   </div>
-  <div class="show_upload">
-    <h3 (click)="uploadFile()">
-      Upload
+  <!-- //.. File Uploader -->
+
+  <!-- Header Title -->
+  <div fxLayout="row" class="header-media" fxLayoutAlign=" center">
+    <h3 class="title m-0" fxFlex>
+      Folders
     </h3>
+    <div class="sort_controls" fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="30px">
+      <!-- <div> -->
+      <p class="file_storage_details" *ngIf="showInMb ">{{ (total_size/1048576).toFixed(2)}} MB used of 1 GB</p>
+      <p class="file_storage_details" *ngIf="showInKb ">{{ (total_size/1024).toFixed(2)}} KB used of 1 GB</p>
+      <!-- </div> -->
+      <i class="fa fa-th-large"></i>
+      <i class="fa fa-th"></i>
+      <mat-form-field class="select_dropdown">
+        <mat-select placeholder="Filter by">
+          <mat-option value="option1" (click)='sortByFolderName()'>A to Z</mat-option>
+          <mat-option value="option1" (click)='sortByFolderNameDesc()'>Z to A</mat-option>
+          <mat-option value="option3" (click)='sortBySize()'>File Size</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
-</div>
-<!-- //.. File Uploader -->
-
-<!-- Header Title -->
-<div fxLayout="row" class="header-media" fxLayoutAlign=" center">
-  <h3 class="title m-0" fxFlex>
-    Folders
-  </h3>
-  <div class="sort_controls" fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="30px">
-    <!-- <div> -->
-    <p class="file_storage_details" *ngIf="showInMb ">{{ (total_size/1048576).toFixed(2)}} MB used of 1 GB</p>
-    <p class="file_storage_details" *ngIf="showInKb ">{{ (total_size/1024).toFixed(2)}} KB used of 1 GB</p>
-    <!-- </div> -->
-    <i class="fa fa-th-large"></i>
-    <i class="fa fa-th"></i>
-    <mat-form-field>
-      <mat-select placeholder="Sort by Popularity">
-        <mat-option value="option1" (click)='sortByFolderName()'>A to Z</mat-option>
-        <mat-option value="option1" (click)='sortByFolderNameDesc()'>Z to A</mat-option>
-        <mat-option value="option3" (click)='sortBySize()'>File Size</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-</div>
-<!-- //.. Header Title -->
-<!-- Floders -->
-<div class="row" *ngIf="repositories.length > 0">
-  <div class="col-md-3 folder_block" *ngFor="let repositoryitem of repositories; let i = index">
-    <div class="floder_block" [ngClass]="{'active' : repositoryitem.isActive}" fxLayout="row" fxLayoutGap="15px" (click)="getDocuments(repositories, repositoryitem.folder, i)">
-      <i class="fa fa-folder-o"></i>
-      <i class="fa fa-folder-open"></i>
-      <p class="floder_name">{{repositoryitem.folder}}</p>
-      <div class="trash-icon">
-        <i class="fa fa-trash action" (click)="deleteFolder(repositoryitem)"></i>
+  <!-- //.. Header Title -->
+  <!-- Floders -->
+  <div class="row" *ngIf="repositories.length > 0">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12 folder_block" *ngFor="let repositoryitem of repositories; let i = index">
+      <div class="floder_block" [ngClass]="{'active' : repositoryitem.isActive}" fxLayout="row" fxLayoutGap="15px" (click)="getDocuments(repositories, repositoryitem.folder, i)">
+        <i class="fa fa-folder-o"></i>
+        <i class="fa fa-folder-open"></i>
+        <p class="floder_name">{{repositoryitem.folder}}</p>
+        <div class="trash-icon">
+          <i class="fa fa-trash action" (click)="deleteFolder(repositoryitem)"></i>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<br>
-<br>
-<div>
-  <h3 class="title" *ngIf="filtered_repositories?.length > 0">Files</h3>
-  <h3 *ngIf="filtered_repositories?.length === 0">No files available</h3>
-  <div class="row" *ngIf="filtered_repositories.length > 0 ">
-    <div class="col-md-3" *ngFor="let filtered_item of filtered_repositories">
-      <div class="file_block">
-        <div fxLayoutAlign="center center" class="file_icon" (click)="openViewDialog(filtered_item.file_path, filtered_item.file_extension, filtered_item.file_name)">
-          <i class="fa {{filtered_item.file_extension.toLowerCase()}}" aria-hidden="true"></i>
-        </div>
-        <div class="file_footer">
-          <h3 class="title">{{filtered_item.file_name +"."+ filtered_item.file_extension}}</h3>
-          <p class="file_size" *ngIf="filtered_item.isShowMb ">{{(filtered_item.file_size/1048576).toFixed(2)}} MB</p>
-          <p class="file_size" *ngIf="filtered_item.isShowKb ">{{(filtered_item.file_size/1024).toFixed(2)}} KB</p>
-        </div>
-        <div class="file_actions">
-          <div fxLayout="row" fxLayoutGap="15px">
-            <a href="http://{{filtered_item.file_path}}" download="{{filtered_item.file_name}}.{{filtered_item.file_extension}}" class="fa fa-download action">
-            </a>
-            <i class="fa fa-trash action" (click)="deleteFile(filtered_item.id, filtered_repositories)"></i>
+  <div class="divider_drive"></div>
+  <div>
+    <h3 class="title" *ngIf="filtered_repositories?.length > 0">Files</h3>
+    <h3 *ngIf="filtered_repositories?.length === 0">No files available</h3>
+    <div class="row" *ngIf="filtered_repositories.length > 0 ">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let filtered_item of filtered_repositories">
+        <div class="file_block">
+          <div fxLayoutAlign="center center" class="file_icon" (click)="openViewDialog(filtered_item.file_path, filtered_item.file_extension, filtered_item.file_name)">
+            <i class="fa {{filtered_item.file_extension.toLowerCase()}}" aria-hidden="true"></i>
+          </div>
+          <div class="file_footer">
+            <h3 class="title">{{filtered_item.file_name +"."+ filtered_item.file_extension}}</h3>
+            <p class="file_size" *ngIf="filtered_item.isShowMb ">{{(filtered_item.file_size/1048576).toFixed(2)}} MB</p>
+            <p class="file_size" *ngIf="filtered_item.isShowKb ">{{(filtered_item.file_size/1024).toFixed(2)}} KB</p>
+          </div>
+          <div class="file_actions">
+            <div fxLayout="row" fxLayoutGap="15px">
+              <a href="http://{{filtered_item.file_path}}" download="{{filtered_item.file_name}}.{{filtered_item.file_extension}}" class="fa fa-download action">
+              </a>
+              <i class="fa fa-trash action" (click)="deleteFile(filtered_item.id, filtered_repositories)"></i>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
 </div>
