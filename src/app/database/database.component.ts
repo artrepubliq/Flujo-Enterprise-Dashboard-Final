@@ -4,10 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { AppConstants } from '../app.constants';
 import { Element, ElementResult } from '../model/database.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, EmailValidator } from '@angular/forms';
 import { ElementData } from '@angular/core/src/view';
-import { Angular2Csv } from 'angular2-csv/Angular2-csv';
-import { AlertService } from 'ngx-alerts';
+import { Angular2Csv } from 'angular2-csv';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-database',
@@ -17,16 +18,27 @@ import { AlertService } from 'ngx-alerts';
 
 export class DatabaseComponent implements OnInit, AfterViewInit {
   dataURL: any;
+  userAccessDataModel: AccessDataModelComponent;
   ELEMENT_DATA: Array<ElementResult>;
   // tslint:disable-next-line:member-ordering
   displayedColumns = ['id', 'name', 'email', 'phone'];
   dataSource = new MatTableDataSource<ElementResult>();
+  sendEmail: FormGroup;
   dataCount: number;
   fields = ['ID', 'NAME', 'EMAIL', 'PHONE'];
+  config: any;
+  feedbackCsvMailSubmit: any;
+  feedbackCsvMail: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  constructor(private http: HttpClient,
-    private alertService: AlertService) {
+  feature_id = 10;
+  constructor(private http: HttpClient, private router: Router) {
+    this.sendEmail = new FormGroup({
+      email: new FormControl('email')
+    });
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(http, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/database');
+    }
   }
   ngOnInit() {
 
@@ -82,34 +94,6 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
     };
     const csv = new Angular2Csv(this.dataSource.data, 'My Report', options);
 
-  }
-
- postEmail(emailid: string) {
-   if (emailid) {
-      try {
-        console.log(emailid);
-        this.dataURL = `http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_emaildatabase/${emailid}`;
-        this.http.get(this.dataURL)
-          .subscribe((data) => {
-            console.log(data);
-            if (data['result'] === true) {
-              this.alertService.success('Email sent!');
-              console.log('Email sent!');
-            } else {
-              this.alertService.warning('Something went wrong');
-              console.log('Email could not be sent.');
-            }
-          }, (error) => {
-            this.alertService.warning('Something went wrong');
-            console.log(error);
-          });
-      } catch (error) {
-        this.alertService.warning('Something went wrong');
-        console.log(error);
-      }
-    } else {
-      this.alertService.warning('Email ID Required');
-    }
   }
 }
 

@@ -1,22 +1,14 @@
 export interface IAccessLevelModel {
     name: string;
-    enable: boolean;
+    enable: any;
     read: boolean;
     write: boolean;
     values?: any;
-    feature_id: number;
-    access_levels ?: string;
-    id?: number;
+    feature_id: any;
+    access_levels ?: any;
+    id?: any;
     user_id ?: string;
     order ?: string;
-}
-export interface IAccesLevels {
-    name: string;
-    enable: boolean;
-    read: boolean;
-    write: boolean;
-    values?: any;
-    feature_id: number;
 }
 export interface IModuleDetails {
 module_id: string;
@@ -26,3 +18,4 @@ module_description: string;
 client_id: string;
 module_name: string;
 }
+

@@ -14,5 +14,6 @@ export interface IUpdateableData {
     problem_type: string;
     problem_type_telugu: string;
     client_id?: string;
+    created_by?: string;
 }
 

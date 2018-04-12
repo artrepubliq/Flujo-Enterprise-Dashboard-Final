@@ -1,67 +1,50 @@
-<ng4-loading-spinner></ng4-loading-spinner>
+<!-- <ng4-loading-spinner></ng4-loading-spinner> -->
 
 <div class="container tconfig page_padding">
-  <ngx-alerts maxMessages="3" timeout="5000">
-  </ngx-alerts>
-
-
-  <div fxLayout="row" class="p-rel">
-    <div class="page-header">
-      Email Template Configuration
+    <ngx-alerts maxMessages="3" timeout="5000">
+    </ngx-alerts>
+  
+  
+    <div fxLayout="row" class="p-rel">
+      <div class="page-header">
+        Email Template Configuration
+      </div>
     </div>
-    <div fxFlex>
-      <button (click)="addEmailTemplate()" class="d-inline pull-right btn btn-outline-secondary btn-user">
-        <span>Create Template </span>
-      </button>
-    </div>
-  </div>
-  <form role="form" *ngIf="isEdit" [formGroup]="createEmailTemplateForm" class="admin-form">
-      <!-- <img src="{{img}}" alt="preview template"/> -->
-    <div fxLayout="column" fxLayoutGap="13px">
-      <div fxLayout="row" fxLayoutGap="48px">
-
-
-        <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px" class="input_box">
-          <!-- <label>Choose a Template Category</label> -->
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Template Category" aria-label="State" [matAutocomplete]="auto" [formControl]="templateCategory">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let category of filteredOptions | async" [value]="category">
-                <span>{{ category }}</span>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <div>
-            <label>Template Name</label>
-            <input type="text" formControlName="template_name" [value]="" placeholder="Enter template name">
+  
+    <form role="form" [formGroup]="createEmailTemplateForm" class="admin-form" >
+      <div fxLayout="column" fxLayoutGap="13px">
+        <div fxLayout="row" fxLayoutGap="48px">
+          <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px" class="input_box">
+            <label>Choose a Template Category</label>
+            <div class="select-wrap">
+              <select formControlName="template_category" [value]="">
+                <option>Business</option>
+                <option>Events</option>
+                <option>Festival</option>
+                <option>Ocassions</option>
+              </select>
+            </div>
+            <div>
+              <label>Template Name</label>
+              <input type="text" formControlName="template_name" [value]="" placeholder="Enter template name">
+            </div>       
           </div>
-        </div>
-        <div fxFlex="50%" class="input_box">
-          <label>Template Preview</label>
-          <div class="template-preview" id="email_template">
-            <div [innerHTML]="template_html1 | safeHtml"></div>
-            <!-- <img [src]="template_html1"> -->
-            <!-- <img src="https://i.pinimg.com/originals/78/fa/0e/78fa0e51be75ba1bf29ffb41517953b0.jpg" alt="preview template"/> -->
+          <div fxFlex="50%" class="input_box">
+            <label>Template Preview</label>
+            <div class="template-preview">
+              <p [innerHTML]="template_html"></p>
+              <!-- <img src="https://i.pinimg.com/originals/78/fa/0e/78fa0e51be75ba1bf29ffb41517953b0.jpg" alt="preview template"/> -->
+            </div>
           </div>
-
-        </div>
+        </div><br/>
+        <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+          <label>Edit Template</label>
+          <div class="input_box">
+              <ck-editor [config]="{startupMode : 'source'}" fxFlex id="editorContent" name="editorContent" [(ngModel)]="template_html" formControlName="template_html" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+          </div>
+        </div><br/>
       </div>
-      <br/>
-      <div fxLayout="column" fxLayoutGap="13px" class="input_box">
-        <label>Edit Template</label>
-        <div class="input_box">
-          <ck-editor fxFlex id="editorContent" name="editorContent" [(ngModel)]="template_html1" formControlName="template_html" skin="moono-lisa"
-            lang="en" [fullPage]="true"></ck-editor>
-        </div>
-      </div>
-      <br/>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between ">
-
-      <div>
-        <button type="button" (click)="cancelEditTemplate()" class="button_submit">Cancel</button>
-      </div>
-      <div>
+      <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
         <button type="button" [disabled]="createEmailTemplateForm.invalid" (click)="submitTemplate()" class="button_submit">Submit</button>
       </div>
     </div>

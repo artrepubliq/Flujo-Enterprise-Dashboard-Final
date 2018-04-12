@@ -3,13 +3,11 @@ import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular
 import { AppConstants } from '../app.constants';
 import { Observable } from 'rxjs/Observable';
 import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
-import { IHttpResponse } from '../model/httpresponse.model';
 
 @Injectable()
 export class EmailTemplateService {
 
     constructor(private httpClient: HttpClient) { }
-
     public getTemplateConfigData(request_url: string, client_id: string): Observable<IPostEmailTemplate[]> {
         return this.httpClient.get<IPostEmailTemplate[]>(AppConstants.API_URL + request_url + client_id);
     }

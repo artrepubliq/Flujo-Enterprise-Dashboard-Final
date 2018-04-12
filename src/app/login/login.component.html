@@ -1,34 +1,15 @@
-<!-- <h3 class="text-center">LOGIN PAGE </h3> -->
-
-<!-- <form [formGroup]="form" (submit)="onSubmit()">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Bob" formControlName="name">
-        </div>
-        <div class="form-group">
-            <label for="avatar">Avatar</label>
-            <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput>
-            <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button>
-        </div>
-        <button type="submit" [disabled]="form.invalid || loading" class="btn btn-success">Submit <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
-    </form> -->
     <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
     <div fxLayoutAlign="center center" class="loginfield" fxLayout>
       <div class="flujo-overlay"></div>
       <mat-card class="example-card p-0" fxLayout="column">
         <mat-card-header fxLayoutAlign="center center" fxLayout="column">
           <div mat-card-avatar class="example-header-image"></div>
-          <!-- <img src="assets/flujo-logo@3x.png" alt="adminlogo"> -->
-          <!-- <mat-card-title><h6 class="text-lowercase">Flujo Admin</h6></mat-card-title> -->
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutAlign="center center">
           <form [formGroup]="loginForm" (submit)="onSubmit(loginForm.value)" class="w-100" fxLayout="column" method="POST">
             <div class="logIn_inputs" fxLayout="column" fxFlex="100%">
               <mat-form-field fxFlex>
                 <input matInput placeholder="Email" id="email" formControlName="email">
-                <!-- <div fxLayoutAlign="start" [hidden]="loginForm.controls.email.valid || loginForm.controls.email.pristine && !submitted" class="alert">
-                    Valid email is required
-              </div> -->
                 <span matPrefix>
                   <i class="fa fa-user">&nbsp;</i>
                 </span>

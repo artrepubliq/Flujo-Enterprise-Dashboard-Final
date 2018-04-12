@@ -99,7 +99,7 @@
               class="form-control" id="ChildMenuOverColor" formControlName="child_menu_hover_color" (colorPickerChange)="themeConfigForm.get('child_menu_hover_color').setValue($event)"
             />
             <p class="hash-code">{{ChildMenuOverColor}}</p>
-            <input type="hidden" [value]="theme_id" id='theme_id' class="form-control" formControlName="theme_id">
+            <input type="hidden" [value]="themeconfig_id" id='themeconfig_id' class="form-control" formControlName="themeconfig_id">
           </div>
         </div>
       </div>
@@ -126,7 +126,7 @@
   </div>
   <div fxLayout="row" class="rounded-rectangle-2358"></div>
   <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">
-    <button class="pull-right btn" (click)="resetForm()">Cancel</button>
+    <!-- <button class="pull-right btn" (click)="resetForm()">Cancel</button> -->
     <button class="pull-right btn btn-outline-secondary btn-new" [disabled]="themeConfigForm.invalid" (click)="submitTheme()">Save</button>
   </div>
 </form>

@@ -1,206 +1,368 @@
-import { Component, OnInit, Inject, Injectable } from '@angular/core';
-// import { AuthService } from '../auth/auth.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
-import { LoginAuthService } from '../auth/login.auth.service';
-import { HttpClient } from '@angular/common/http';
-import * as _ from 'underscore';
-import { IHttpResponse } from '../model/httpresponse.model';
-import { AppConstants } from '../app.constants';
+<!-- TopNav -->
+<nav class="navbar navbarTop" role="navigation">
+  <div class="navbar-header" [ngClass]="{'navbar-header-toggle':sidebarToggledButton}">
+    <div fxLayout="row" fxLayoutGap="0.1rem" fxLayoutAlign="start center">
+      <a class="navbar-brand" (click)="sidebarToggledButton=!sidebarToggledButton">
+        <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
+      </a>
+      <ul class="nav flex-column login-info">
+        <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+            <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
+            <span>Art Republiq</span>
+            <span class="active-indication">
+              <span class="nickname">{{nickName}}</span>
+              <span class="active-info">
+                <sup>.</sup>
+              </span>
+            </span>
+          </a>
+          <div class="dropdown-menu">
+            <ng4-loading-spinner> </ng4-loading-spinner>
+            <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">View Profile</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="admin-website mr-auto">
+    <p class="title">
+      <span>DVB Website : </span>
+      <span class="page-title">CurrentPageName</span>
+    </p>
+  </div>
+  <ul class="nav top-nav">
+    <li class="navbarItem">
+      <a href="#notifications" class="nav-link">
 
-import {MatIconModule} from '@angular/material/icon';
+        <!-- <i class="fa fa-comment-o"></i> -->
+        <img src="assets/icons/chat-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+    </li>
+    <li class="navbarItem">
+      <a href="#notifications" class="nav-link">
 
-import { IloggedinUsers } from '../model/createUser.model';
-import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { CreateUserComponentComponent, AccessLevelPopup } from '../create-user-component/create-user-component.component';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { AlertService } from 'ngx-alerts';
-import { IAccessLevelModel } from '../model/accessLevel.model';
-import { UseraccessServiceService } from '../service/useraccess-service.service';
+        <!-- <i class="fa fa-question-circle"></i> -->
+        <img src="assets/icons/help-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+    </li>
+    <li class="navbarItem">
+      <a href="#notifications" class="nav-link">
+        <!-- <i class="fa fa-info-circle"></i> -->
+        <img src="assets/icons/info-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+    </li>
+    <li class="navbarItem dropdown admin-profile">
+      <a class="nav-link" data-toggle="dropdown">
+        <!-- <span class="user-logo">
+          <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
+        </span>
+        {{nickName}} -->
 
-@Component({
-  templateUrl: './admin.component.html',
-  styleUrls: ['../app.component.scss']
+        <!-- <i class="fa fa-ellipsis-v"></i> -->
+        <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat">
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a class="activity">{{nickName}}</a>
+        </li>
+        <li>
+          <a routerLink="./logo" routerLinkActive="active" class="activity">
+            <i class="fa fa-user"></i>Logo</a>
+        </li>
+        <li>
+          <a routerLink="./media" routerLinkActive="active" class="activity">
+            <i class="fa fa-folder-open-o"></i>Media Management</a>
+        </li>
+        <li>
+          <a routerLink="./themeconfiguration" routerLinkActive="active" class="activity">
+            <i class="fa fa-paint-brush"></i>Theme Global Config</a>
+        </li>
+        <li>
+          <a routerLink="./smtpconfiguration" routerLinkActive="active" class="activity">
+            <i class="fa fa-send-o"></i>SMTP</a>
+        </li>
+        <li>
+          <a routerLink="./user" routerLinkActive="active" class="activity">
+            <i class="fa fa-user-plus"></i>User Management</a>
+        </li>
+        <li>
+          <a routerLink="./sociallinks" routerLinkActive="active" class="activity">
+            <i class="fa fa-external-link"></i>Social links update</a>
+        </li>
+        <li>
 
-})
-export class AdminComponent implements OnInit {
-  userAccessData: any;
-  userAccessLevelData: IAccessLevelModel;
-  userAccessLevelObject: any;
-  filteredAccessIds: any;
-  isUserActive: boolean;
-  CurrentPageName: string;
-  activeUsers: Array<IloggedinUsers>;
-  loggedinUsersList: Array<IloggedinUsers>;
-  userList: Array<IloggedinUsers>;
-  public name: string;
-  createUserList: CreateUserComponentComponent;
- loggedinIds: Array<string>;
-  constructor(public loginAuthService: LoginAuthService,
-    public httpClient: HttpClient,
-    public mScrollbarService: MalihuScrollbarService,
-    titleService: Title, private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog,
-    private spinnerService: Ng4LoadingSpinnerService) {
+          <a routerLink="./biography" routerLinkActive="active" class="activity">
+            <i class="fa fa-user-plus"></i>Biography</a>
+        </li>
+        <li>
+          <a routerLink="./module" routerLinkActive="active" class="activity">
+            <i class="fa fa-edit"></i>Create Module</a>
+        </li>
+        <li>
+          <a routerLink="./biography" routerLinkActive="active" class="activity">
+            <i class="fa fa-user-plus"></i>Biography</a>
+        </li>
+        <li>
+          <a routerLink="./module" routerLinkActive="active" class="activity">
+            <i class="fa fa-edit"></i>Create Module</a>
+        </li>
+        <li>
+          <a routerLink="./termsnconditions" routerLinkActive="active" class="activity">
+            <i class="fa fa-file-o"></i>Terms & Conditions</a>
+        </li>
+        <li>
+          <a routerLink="./privacynpolicy" routerLinkActive="active" class="activity">
+            <i class="fa fa-file-text-o"></i>Privacy & Policy</a>
+        </li>
 
-      router.events.subscribe(event => {
-        if (event instanceof NavigationEnd) {
-          const title = this.getTitle(router.routerState, router.routerState.root).join('-');
-          if (title) {
-            // console.log('title', title);
-            this.CurrentPageName = title;
-            titleService.setTitle(title);
-          } else {
-            this.CurrentPageName = '';
-          }
-        }
-      });
-    this.getUserList();
-   this.getUserAccessLevelData();
-  }
-  ngOnInit(): void {
-    this.name = localStorage.getItem('name');
-    this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
-    this.isUserActive = false;
-    // console.log(this.userAccessService.getUserAccessLevelData());
-    this.getUserList();
-    setInterval(() => {
-      this.getUserList();
-    }, 5000);
-  }
+        <li>
+          <a routerLink="./changepassword" routerLinkActive="active" class="activity">
+            <i class="fa fa-exchange"></i> Change Password</a>
+        </li>
+        <li>
+          <a routerLink="./problemcategory" routerLinkActive="active" class="activity">
+            <i class="fa fa-exchange"></i> Problem Category</a>
+        </li>
+        <li>
+          <li>
+            <a routerLink="./areacategory" routerLinkActive="active" class="activity">
+              <i class="fa fa-exchange"></i> Area Category</a>
+          </li>
+          <li>
+            <a href="#" class="activity">
+              <i class="fa fa-cog"></i> Settings</a>
+          </li>
+          <li>
+            <a class="activity" (click)="loginAuthService.logout()">
+              <i class="fa fa-power-off"></i>Log Out</a>
+          </li>
+          <!-- <li><a href="#"><i class="fa fa-fw fa-power-off"></i> Logout</a></li> -->
+      </ul>
+      </li>
+  </ul>
+</nav>
+<!-- // Top Nav -->
 
-  ChatIO = (chatItem) => {
+<!-- Body Wrapper -->
 
-    // const  = [];
+<div id="wrapper" fxLayout="row" class="contentBody">
 
-    const window: any = Window;
+  <!-- Side Navigation -->
+  <aside id="sidebar-wrapper" class="sidebar-menu ps" [ngClass]="{'sidebar-toggle':sidebarToggledButton}" [perfectScrollbar]="config">
+    <ul class="nav flex-column">
+      <!-- Web App -->
+      <!-- <li class="nav-item" [ngClass]="{'open':dropdownOpen}">
+        <a class="nav-link dropdown-toggle" (click)="dropdownOpen=!dropdownOpen">
+          <img src="assets/icons/web-icon-normal@2x.png" alt="web icon">
+          <span>Web</span>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" routerLink="./logo" routerLinkActive="active">Logo</a>
+          <ng4-loading-spinner> </ng4-loading-spinner>
 
-    window.cc.GroupChannel.create('Team', this.loggedinIds, true, function(error, groupChannel) {
-     if (error == null) {
-       console.log('New Group Channel has been created', groupChannel);
-       window.ChatCampUI.startChat(groupChannel.id);
-      }
-    });
- }
-  viewPages() {
-    localStorage.setItem('page_item', 'viewpages');
-  }
-  addPages() {
-    localStorage.setItem('page_item', 'addpages');
-  }
+           <a class="dropdown-item" routerLink="./profile" routerLinkActive="active">Profile</a> -->
+      <!-- <a class="dropdown-item" routerLink="./pages" routerLinkActive="active">Add Pages</a> -->
+      <!-- <a class="dropdown-item" routerLink="./media" routerLinkActive="active">Media Management</a> -->
+      <!-- <a class="dropdown-item" routerLink="./reports" routerLinkActive="active">Reports</a> -->
+      <!-- <a class="dropdown-item" routerLink="./themeconfiguration" routerLinkActive="active">Theme Global Config</a> -->
+      <!-- <a class="dropdown-item" routerLink="./filerepository" routerLinkActive="active">Upload Files</a> -->
 
-  // getting logged in ids for chatcamp
-  StoredLoggedinIds = () => {
-    this.loggedinIds = [];
+      <!-- <li class="nav-item" [ngClass]="{'open':showDropdownMain1}">
+            <a class="nav-link subNav-link dropdown-toggle" (click)="showDropdownMain1=!showDropdownMain1">
+              <span>Pages</span>
+            </a>
+            <div class="dropdown-menu">
+              <li class="nav-item" [ngClass]="{'open':showMyCons}">
+                <a class="nav-link subNav-link dropdown-toggle" (click)="showMyCons=!showMyCons">
+                  <span>My Constituency</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item">Constituency at a glance</a>
+                  <a class="dropdown-item">About warangal urban</a>
+                  <a class="dropdown-item">Navya Divya Bhavya Warangal</a>
+                  <a class="dropdown-item">Connectivity</a>
+                  <a class="dropdown-item">Recognitions</a>
+                  <a class="dropdown-item">Scope for devhvelopment</a>
+                  <a class="dropdown-item">Info for Investors</a>
+                </div>
+              </li>
+              <li class="nav-item" [ngClass]="{'open':showMyConcerns}">
+                <a class="nav-link subNav-link dropdown-toggle" (click)="showMyConcerns=!showMyConcerns">
+                  <span>My Concerns</span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item">Smart city</a>
+                  <a class="dropdown-item">Heritage conservation</a>
+                  <a class="dropdown-item">Cultural capital</a>
+                  <a class="dropdown-item">Tourism</a>
+                  <a class="dropdown-item">Employment</a>
+                  <a class="dropdown-item">Women empowerment &amp; safety</a>
+                  <a class="dropdown-item">Sustainable Development</a>
+                  <a class="dropdown-item">Environment</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="dropdown-item">My Journey</a>
+              </li>
+            </div>
+          </li> 
+        </div>
+      </li> -->
+      <!-- <li class="nav-item" [ngClass]="{'open':dropdownOpenApp}">
+        <a class="nav-link dropdown-toggle" (click)="dropdownOpenApp=!dropdownOpenApp">
+          <img src="assets/icons/app-icon-normal@2x.png" alt="app icon">
+          <span>App</span>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item">Android</a>
+          <a class="dropdown-item">iOS</a>
+        </div>
+      </li> -->
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[0]?.enable">
+        <a class="nav-link editor-link" routerLink="./pages" routerLinkActive="active">
+          <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
+          <img src="assets/icons/editor-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
+          <!-- <i class="fa fa-ionic"></i> -->
+          <span>Editor</span>
+        </a>
+      </li>
+      <li class="divider-line"></li>
+      <!-- Communication Block -->
+      <li class="nav-title">Flow
+        <i class="fa fa-cog"></i>
+      </li>
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[1]?.enable">
+        <a class="nav-link" routerLink="./socialmanagement" routerLinkActive="active">
+          <img src="assets/icons/social-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
+          <img src="assets/icons/social-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
+          <span>Social</span>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[2]?.enable">
+        <a class="nav-link" routerLink="./email" routerLinkActive="active">
+          <img src="assets/icons/mail-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/mail-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Mail</span>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[3]?.enable">
+        <a class="nav-link" routerLink="./sms" routerLinkActive="active">
+          <img src="assets/icons/sms-color-nav-icon-normal@2x.png" class="normal_img" alt="social icon">
+          <img src="assets/icons/sms-color-nav-icon-active@2x.png" class="active_img" alt="social icon">
+          <span>SMS</span>
+        </a>
+      </li>
+      <li class="divider-line"></li>
 
-    _.each(this.loggedinUsersList, (loggedinUser: IloggedinUsers) => {
-      const loggedInId = loggedinUser.id;
-      this.loggedinIds.push(loggedInId);
-     });
-  }
+      <li class="nav-title">Nucleus
+        <i class="fa fa-cog"></i>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" routerLink="./reportanissue" routerLinkActive="active">
+          <img src="assets/icons/report-an-issue-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/report-an-issue-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Report An Issue</span>
+        </a>
+      </li> -->
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[4]?.enable">
+        <a class="nav-link" routerLink="./managereports" routerLinkActive="active">
+          <img src="assets/icons/report-an-issue-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/report-an-issue-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Manage Reports</span>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[5]?.enable">
+        <a class="nav-link" routerLink="./feedback" routerLinkActive="active">
+          <img src="assets/icons/feedback-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/feedback-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Feedback</span>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[6]?.enable">
+        <a class="nav-link" routerLink="./changemakerreport" routerLinkActive="active">
+          <img src="assets/icons/change-maker-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/change-maker-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Change Maker Report</span>
+        </a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" routerLink="./smtpconfiguration" routerLinkActive="active">
+          <img src="assets/icons/buffer-icon-normal@2x.png" alt="buffer icon">
+          <span>SMTP</span>
+        </a>
+      </li> -->
+      <!-- <li class="nav-item">
+        <a class="nav-link" routerLink="./user" routerLinkActive="active">
+          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <span>Create User</span>
+        </a>
+      </li> -->
+      <!-- <li class="nav-item">
+        <a class="nav-link" routerLink="./neweditor" routerLinkActive="active">
+          <img src="assets/icons/mail-chimp-icon-normal@2x.png" alt="mailChimp icon">
+          <span>New editor</span>
+        </a>
+      </li> -->
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[7]?.enable">
+        <a class="nav-link" routerLink="./surveys" routerLinkActive="active">
+          <img src="assets/icons/survey-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/survey-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Surveys</span>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[8]?.enable">
+        <a class="nav-link" routerLink="./analytics" routerLinkActive="active">
+          <img src="assets/icons/analytics-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/analytics-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Analytics</span>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[9]?.enable">
+        <a class="nav-link" routerLink="./database" routerLinkActive="active">
+          <img src="assets/icons/database-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/database-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
+          <span>Database</span>
+        </a>
+      </li>
+      <li class="divider-line"></li>
+      <li class="nav-item" *ngIf="userAccessLevelData && userAccessLevelData[10]?.enable">
+        <a class="nav-link" routerLink="./filerepository" routerLinkActive="active">
+          <img src="assets/icons/drive-color-nav-icon-normal@2x.png" class="normal_img" alt="mailChimp icon">
+          <img src="assets/icons/drive-color-nav-icon-active@2x.png" class="active_img" alt="mailChimp icon">
 
-  // getting users list who are logged in
-  getUserList = () => {
-    this.httpClient.get<Array<IloggedinUsers>>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID )
-    .subscribe(
-      data => {
-          this.loggedinUsersList = data;
-          this.StoredLoggedinIds();
-          this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
-            this.isUserActive = false;
-            return  activeUserData.id !== localStorage.getItem('id_token') ;
-        });
-        if (this.activeUsers) {
-          _.each(this.activeUsers, (iteratee, index) => {
-            if (this.activeUsers[index].is_logged_in === '1' && localStorage.getItem('user_id')) {
-              this.activeUsers[index].isUserActive = true;
-              // this.filteredAccessIds = this.activeUsers;
-            }
-          });
-          this.activeUsers =  _.filter(this.activeUsers, (filteredactiveUserData) => {
-            return filteredactiveUserData.id !== localStorage.getItem('user_id');
-          });
-        } else {
-           console.log('There are no active users');
-        }
-      },
-      error => {
-        console.log(error);
-      }
-      );
-  }
-  getTitle(state, parent) {
-    const data = [];
-    if (parent && parent.snapshot.data && parent.snapshot.data.title) {
-      data.push(parent.snapshot.data.title);
-    }
+          <span>Drive</span>
+        </a>
+      </li>
+      <li class="divider-line"></li>
 
-    if (state && parent) {
-      data.push(... this.getTitle(state, state.firstChild(parent)));
-    }
-    return data;
-  }
-  getUserAccessLevelData = () => {
-    this.spinnerService.show();
-    this.getUserAccessLevelsHttpClient()
-      .subscribe(
-        data => {
-          _.each(data, item => {
-            if (item.user_id === localStorage.getItem('user_id')) {
-                this.userAccessLevelObject = item.access_levels;
-            } else {
-              // this.userAccessLevelObject = null;
-            }
-          });
-         if (this.userAccessLevelObject) {
-          this.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-         } else {
-          this.openDialog();
-         }
-        },
-        error => {
-          console.log(error);
-          this.spinnerService.hide();
-        }
-      );
-  }
-  openDialog(): void {
-    const dialogRef = this.dialog.open(EmptyAccessLevelDialog, {
-      width: '40vw',
-    });
+      <!-- Team Chat -->
+      <li class="nav-title" *ngIf="userAccessLevelData && userAccessLevelData[11]?.enable">Your teams
+        <i class="fa fa-cog"></i>
+      </li>
+      <ul class="team-items">
+        <li *ngFor="let chatItem of activeUsers">
+          <a class="team-user" routerLinkActive="active">
+            <i class="team-user-icon user-logo">
+              <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
+            <span class="userStatus" (click)=ChatIO(chatItem) [ngClass]="{'active': chatItem.isUserActive}">{{chatItem.name}}</span>
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-  getUserAccessLevelsHttpClient() {
-    return  this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
-  }
+          </a>
+        </li>
 
-}
-@Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'emptyaccesslevelpopup',
-  templateUrl: 'emptyaccesslevelpopup-example.html',
-  styleUrls: ['../app.component.scss']
-})
-// tslint:disable-next-line:component-class-suffix
-export class EmptyAccessLevelDialog {
+      </ul>
+    </ul>
+  </aside>
+  <!-- // Side Navigation -->
 
-  constructor(
-    public dialogRef: MatDialogRef<EmptyAccessLevelDialog>, public loginAuthService: LoginAuthService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-      dialogRef.disableClose = true;
-     }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-  closeDialog() {
-    this.dialogRef.close();
-  }
-  logoutUser() {
-    this.loginAuthService.logout();
-    this.dialogRef.close();
-  }
-}
+  <!-- Content Wrapper -->
+  <div fxFlex id="page-content-wrapper" [perfectScrollbar]="config" class="ps">
+
+    <router-outlet></router-outlet>
+
+  </div>
+  <!-- // Content Wrapper -->
+
+</div>
+<!-- // Body Wrapper -->

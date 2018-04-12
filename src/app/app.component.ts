@@ -42,7 +42,8 @@ export class LogoutPopUpDialog {
 
   constructor(
     public dialogRef: MatDialogRef<LogoutPopUpDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    }
 
   onNoClick(): void {
     // this.dialogRef.close();

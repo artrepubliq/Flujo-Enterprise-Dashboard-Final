@@ -16,13 +16,14 @@ import { IcustomLoginModelDetails } from '../model/custom.login.model';
 import { PasswordValidation } from '../service/confirm-password';
 import { IchangeDetails } from '../model/change-password.model';
 import * as _ from 'underscore';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 @Component({
   selector: 'app-changepassword',
   templateUrl: './changepassword.component.html',
   styleUrls: ['./changepassword.component.scss']
 })
 export class ChangepasswordComponent implements OnInit {
-
+  feature_id = 23;
   userId: void;
   name: string;
   data: string;
@@ -31,6 +32,7 @@ export class ChangepasswordComponent implements OnInit {
   changeApiDetails: IchangeDetails;
   password: string;
   confirm_password: string;
+  userAccessDataModel: AccessDataModelComponent;
   constructor(private router: Router, private alertService: AlertService, private loginAuthService: LoginAuthService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient) {
     this.changePasswordForm = this.formBuilder.group({
@@ -40,6 +42,10 @@ export class ChangepasswordComponent implements OnInit {
       'admin_id': [null],
       user_id: [null]
     }, { validator: this.checkPasswords });
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/changepassword');
+    }
 
   }
   checkPasswords(group: FormGroup) {

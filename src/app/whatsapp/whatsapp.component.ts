@@ -8,14 +8,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
-
 @Component({
   selector: 'app-whatsapp',
   templateUrl: './whatsapp.component.html',
   styleUrls: ['./whatsapp.component.scss']
 })
 export class WhatsappComponent implements OnInit {
-
   whatsAppSendingForm: FormGroup;
   totalWhatsAppTemplateData: any;
   whatsAppTemplateData: ISmsTemplateData[];

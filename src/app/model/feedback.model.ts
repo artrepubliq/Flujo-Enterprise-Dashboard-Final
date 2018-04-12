@@ -20,5 +20,5 @@ export interface mediaDetail {
 }
 export interface SelectedImages {
     image: string;
-    imageType: string;  
+    imageType: string;
 }
