@@ -10,7 +10,10 @@ import { AppComponent } from '../app.component';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { IHttpResponse } from '../model/httpresponse.model';
-import { CommonInterface } from '../model/analytics.model';
+
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { Router } from '@angular/router';
+import { ICommonInterface } from '../model/commonInterface.model';
 
 @Component({
   selector: './app-profile',
@@ -34,14 +37,19 @@ export class ProfileComponent implements OnInit {
   ELEMENT_DATA: IProfileData;
   profileDetail: Array<object>;
   successMessage: string;
-  // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  feature_id = 31;
   @ViewChild('fileInput') fileInput: ElementRef;
-
+  userAccessDataModel: AccessDataModelComponent;
   constructor(private httpClient: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
-    private formBuilder: FormBuilder, private alertService: AlertService) {
+    private formBuilder: FormBuilder, private alertService: AlertService,
+    private router: Router) {
     this.createForm();
     localStorage.setItem('client_id', '1232');
     this.getProfileDetails();
+    // if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+    //   this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+    //   this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/profile');
+    // }
   }
   PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
@@ -87,7 +95,7 @@ export class ProfileComponent implements OnInit {
     this.spinnerService.show();
     this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     // const imageModel = this.form.value
-    this.httpClient.post<CommonInterface>(AppConstants.API_URL + 'flujo_client_postprofileimageupload', reqObject)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postprofileimageupload', reqObject)
       .subscribe(
         data => {
           if ((data.http_status_code = 200) && (!data.error)) {
@@ -106,6 +114,7 @@ export class ProfileComponent implements OnInit {
           this.spinnerService.hide();
           this.alertService.danger('Profile Image not uploaded');
         });
+
   }
   onSubmit = (body) => {
     this.spinnerService.show();
@@ -128,11 +137,11 @@ export class ProfileComponent implements OnInit {
             this.spinnerService.hide();
           }
         },
-        error => {
-          this.loading = false;
-          this.spinnerService.hide();
-          this.alertService.danger('Something went wrong.');
-        });
+      error => {
+        this.loading = false;
+        this.spinnerService.hide();
+        this.alertService.danger('Something went wrong.');
+      });
   }
 
   clearFile = () => {
@@ -145,8 +154,7 @@ export class ProfileComponent implements OnInit {
     const formModel = this.profileItems.avatar;
     this.spinnerService.show();
     this.loading = true;
-    // console.log(formModel);
-    this.httpClient.delete<CommonInterface>(AppConstants.API_URL + 'flujo_client_deleteprofile/' + AppConstants.CLIENT_ID)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleteprofile/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           if (data.custom_status_code = 100) {
@@ -171,7 +179,7 @@ export class ProfileComponent implements OnInit {
   getProfileDetails = () => {
     this.loading = true;
     this.spinnerService.show();
-    this.httpClient.get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getprofile/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getprofile/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           this.profileImageDetails = data.result;
@@ -197,20 +205,6 @@ export class ProfileComponent implements OnInit {
         }
       );
   }
-
-  // BindProfileData = (profileData) => {
-  //   this.profileData = profileData.result;
-  //   console.log(profileData);
-  // }
-  // this method is used to update profile detals to the form, if detalis exist
-  // EditProfileData(){
-  //     this.isEdit = true;
-  //     this.button_text = "Update";
-  //     this.profileImag = this.profileData.avatar;
-  //     this.form.controls['company_name'].setValue(this.profileData.company_name);
-  //     this.form.controls['website_url'].setValue(this.profileData.website_url);
-  //     this.form.controls['mobile_number'].setValue(this.profileData.mobile_number);
-  // }
   EditInfo = () => {
     this.isEdit = true;
   }

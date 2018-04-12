@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Inject } from '@angular/core';
+import { Component, OnChanges, OnInit, ElementRef, ViewChild, SimpleChanges, Inject } from '@angular/core';
 import { CKEditorModule } from 'ngx-ckeditor';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../service/httpClient.service';
@@ -9,7 +9,8 @@ import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
-import * as html2canvas from 'html2canvas';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { EmailTemplateService } from '../email-template/email-template-service';
 import { AppConstants } from '../app.constants';
@@ -21,9 +22,7 @@ import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
 })
 export class EmailserviceComponent implements OnInit {
   test: IPostEmailTemplate[];
-  dummy: any[];
   selectedEmailTemplateData: any;
-  img: any;
   emailTemplateHtml: any;
   allEmailTemplateData: IPostEmailTemplate[];
   filteredUserAccessData: any;
@@ -37,12 +36,16 @@ export class EmailserviceComponent implements OnInit {
   submitted: boolean;
   editorValue: string;
   Ishide3: boolean;
+  feature_id: number;
+  userAccessDataModel: AccessDataModelComponent;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+
   constructor(public loader: NgxSmartLoaderService, private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
     private httpService: HttpService, private alertService: AlertService, public adminComponent: AdminComponent,
     private router: Router,
-    public dialog: MatDialog,
+    public dialog: MatDialog, private httpClient: HttpClient,
     private emailTemplateService: EmailTemplateService) {
+      this.feature_id = 3;
     this.mailSendingForm = this.formBuilder.group({
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'subject': ['', Validators.required],
@@ -51,6 +54,10 @@ export class EmailserviceComponent implements OnInit {
       'check': [''],
       'client_id': null
     });
+    if (Number(localStorage.getItem('feature_id')) !== 3) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/email');
+    }
     this.getEmailTemplateData();
   }
 

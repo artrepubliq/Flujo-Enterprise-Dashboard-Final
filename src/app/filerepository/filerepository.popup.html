@@ -1,7 +1,6 @@
 <form class="upload_popup" [formGroup]="fileUploadForm" fxLayout="row" (submit)="submitForm();" fxLayoutGap="30px">
   <div class="file_choose" fxLayoutAlign="center center">
-    <i class="fa fa-file-o" *ngIf="!isImage" ></i>
-    <img [src]="image_base64" *ngIf="isImage" >
+    <i class="fa fa-file-o"></i>
     <p><b>Selected file: </b> {{display_file_name}}</p>
   </div>
   <div fxFlex="300px" fxLayout="column">

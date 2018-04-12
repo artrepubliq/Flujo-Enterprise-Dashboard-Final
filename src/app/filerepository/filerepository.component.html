@@ -9,7 +9,7 @@
           <div fxLayout="column" class="choose-block" fxLayoutAlign="center center">
             <div class="choose_files">
               <button>Choose</button>
-              <input type="file" #file [multiple]="(maxFiles == 1)" [value]="file_path" (change)="onFileChange($event)" id="file_path" />
+              <input type="file" #file [multiple]="(maxFiles == 1)" (change)="onFileChange($event)" id="file_path" />
             </div>
             <p>or drag ‘n’ drop here</p>
           </div>

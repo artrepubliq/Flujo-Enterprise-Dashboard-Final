@@ -7,7 +7,9 @@ import { IHttpResponse } from '../model/httpresponse.model';
 import { AppConstants } from '../app.constants';
 import { AppComponent } from '../app.component';
 import { ITermsData } from '../model/IPrivacyData';
-import { CommonInterface } from '../model/analytics.model';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { Router } from '@angular/router';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-tnc',
   templateUrl: './tnc.component.html',
@@ -21,10 +23,14 @@ export class TncComponent implements OnInit {
   isGridView = true;
   button_text = 'Save';
   isEdit: boolean;
+  feature_id = 21;
   termsDetails: ITermsData[];
   tncSubmitForm: FormGroup;
-  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
-    private alertService: AlertService) {
+  userAccessDataModel: AccessDataModelComponent;
+  constructor(private spinnerService: Ng4LoadingSpinnerService,
+    private formBuilder: FormBuilder, private httpClient: HttpClient,
+    private alertService: AlertService,
+    private router: Router) {
       this.tncSubmitForm = this.formBuilder.group({
         'title' : ['', Validators.required],
         'terms_conditions' : ['', Validators.required],
@@ -32,6 +38,10 @@ export class TncComponent implements OnInit {
         'termsconditions_id' : [null]
       });
       this.getTermsData();
+      if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+        this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+        this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/termsnconditions');
+      }
     }
 
   ngOnInit() {
@@ -46,7 +56,7 @@ onSubmit = () => {
     this.tncSubmitForm.controls['termsconditions_id'].setValue(this.termsDetails[0].id);
   }
   const formModel = this.tncSubmitForm.value;
-  this.httpClient.post<CommonInterface>(AppConstants.API_URL + '/flujo_client_posttermsconditions', formModel)
+  this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_posttermsconditions', formModel)
   .subscribe(
     data => {
       if (data.error) {
@@ -68,7 +78,7 @@ onSubmit = () => {
   );
 }
 getTermsData = () => {
-  this.httpClient.get<CommonInterface>(AppConstants.API_URL + '/flujo_client_gettermsconditions/' + AppConstants.CLIENT_ID)
+  this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_gettermsconditions/' + AppConstants.CLIENT_ID)
   .subscribe(
     data => {
       if (data.custom_status_code = 200) {
@@ -90,7 +100,7 @@ getTermsData = () => {
 }
 deleteCompnent = (body) => {
   this.spinnerService.show();
-  this.httpClient.delete<CommonInterface>(AppConstants.API_URL + 'flujo_client_deletetermsconditions/' + body.id)
+  this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletetermsconditions/' + body.id)
   .subscribe(
     data => {
       if ((data.custom_status_code = 100) && (data.result[0] === '1')) {

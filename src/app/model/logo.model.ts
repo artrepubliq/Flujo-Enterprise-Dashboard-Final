@@ -1,9 +1,5 @@
-// export class ILogo {
-//     id: number;
-//     avatar: string|any;
-// }
 
-export interface ILogo{
+export interface ILogo {
     client_id: number;
     theme_id: number;
     logo_url_path: string;

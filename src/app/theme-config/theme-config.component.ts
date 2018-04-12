@@ -7,10 +7,11 @@ import { AlertService } from 'ngx-alerts';
 import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { IThemeData } from '../model/themeData.model';
-import { CommonInterface } from '../model/commonInterface.model';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-theme-config',
   templateUrl: './theme-config.component.html',
@@ -30,10 +31,11 @@ export class ThemeConfigComponent implements OnInit {
   ChildMenuOverColor: any;
   selectedBodyFont: string;
   selectedTitleFont: string;
+  theme_id: number;
+  userAccessDataModel: AccessDataModelComponent;
   themeconfig_id: number;
-
   updatedThemeData: IThemeData;
-
+  feature_id = 15;
   TitleFontFamily: any = [
     { id: 1, name: 'Roboto' },
     { id: 2, name: 'Lato' },
@@ -73,7 +75,12 @@ export class ThemeConfigComponent implements OnInit {
       'child_menu_hover_color': ['', Validators.required],
       'themeconfig_id': [null]
     });
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/themeconfiguration');
+    }
   }
+
   /* this is for on submitting the form*/
   submitTheme() {
     // console.log(this.themeConfigForm.value);
@@ -82,7 +89,7 @@ export class ThemeConfigComponent implements OnInit {
     const themeData = this.themeConfigForm.value;
     themeData.client_id = AppConstants.CLIENT_ID;
     console.log(themeData);
-    this.httpClient.post<CommonInterface>(AppConstants.API_URL + 'flujo_client_postthemeconfig', themeData)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postthemeconfig', themeData)
       .subscribe(
         data => {
           console.log(data);
@@ -106,7 +113,7 @@ export class ThemeConfigComponent implements OnInit {
   /* this is to get theme details  from server*/
   getThemeDetails = () => {
     this.spinnerService.show();
-    this.httpClient.get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getthemeconfig/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getthemeconfig/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           console.log(data);
