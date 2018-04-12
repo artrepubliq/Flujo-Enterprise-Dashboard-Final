@@ -105,11 +105,17 @@ userRestrict() {
     this.areaService.getAreaData('/flujo_client_getreportarea/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
+          if (data.custom_status_code === 100 && data.result.length > 0) {
+            this.areaData = data.result;
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
+          }
           this.spinnerService.hide();
-          this.areaData = data;
+          // this.areaData = data;
           console.log(this.areaData);
         },
         error => {
+          this.spinnerService.hide();
           console.log(error);
         }
       );
@@ -170,10 +176,12 @@ userRestrict() {
       .subscribe(
         data => {
           console.log(data);
-          if (data.error) {
-            this.alertService.warning(data.result);
-          } else {
-            this.alertService.success('Area Updated Successfully');
+          if (data.custom_status_code === 100) {
+            this.alertService.success('Area updated successfully');
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
+          } else if (data.custom_status_code === 102) {
+            this.alertService.warning('Every thing is upto date!');
           }
           this.getAreaData();
           this.areaForm.reset();
@@ -195,8 +203,12 @@ userRestrict() {
     this.areaService.deleteArea('flujo_client_deletereportarea/', area.id)
       .subscribe(
         data => {
+          if (data.custom_status_code === 100) {
+            this.alertService.success('Area deleted successfully');
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
+          }
           this.spinnerService.hide();
-          this.alertService.success('Area deleted successfully');
           this.getAreaData();
           this.areaForm.reset();
           this.isEdit = false;

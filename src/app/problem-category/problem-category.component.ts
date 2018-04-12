@@ -172,12 +172,6 @@ export class ProblemCategoryComponent implements OnInit {
     this.problemService.updateProblemType('flujo_client_postreportproblemtype', this.newProblemData)
       .subscribe(
         data => {
-          console.log(data);
-          // if (data.error) {
-          //   this.alertService.warning(data.result);
-          // } else {
-          //   this.alertService.success('Problem Updated Successfully');
-          // }
           if (data.custom_status_code === 100) {
             this.alertService.success('Problem updated successfully');
           } else if (data.custom_status_code === 101) {
