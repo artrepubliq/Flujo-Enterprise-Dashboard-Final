@@ -14,6 +14,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 @Component({
   selector: 'app-changemaker',
   templateUrl: './changemaker.component.html',
@@ -22,6 +23,7 @@ import * as _ from 'underscore';
 
 export class ChangemakerComponent implements OnInit {
   filteredUserAccessData: any;
+  feature_id = 8;
   userAccessLevelObject: any;
   dataSource = new MatTableDataSource<Element>();
   @ViewChild(MatSort) sort: MatSort;
@@ -46,6 +48,7 @@ export class ChangemakerComponent implements OnInit {
   config: any;
   p: number;
   submitted: boolean;
+  userAccessDataModel: AccessDataModelComponent;
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder, private httpClient:
@@ -61,29 +64,10 @@ export class ChangemakerComponent implements OnInit {
     'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
    });
     this.getChangemakerReportData();
-    if (this.adminComponent.userAccessLevelData) {
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              }else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
-    }
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/changemakerreport');
+     }
   }
   ngOnInit() {
     setTimeout(function () {

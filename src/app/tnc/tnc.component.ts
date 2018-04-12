@@ -7,6 +7,8 @@ import { IHttpResponse } from '../model/httpresponse.model';
 import { AppConstants } from '../app.constants';
 import { AppComponent } from '../app.component';
 import { ITermsData } from '../model/IPrivacyData';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-tnc',
   templateUrl: './tnc.component.html',
@@ -20,10 +22,14 @@ export class TncComponent implements OnInit {
   isGridView = true;
   button_text = 'Save';
   isEdit: boolean;
+  feature_id = 21;
   termsDetails: ITermsData;
   tncSubmitForm: FormGroup;
-  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
-    private alertService: AlertService) {
+  userAccessDataModel: AccessDataModelComponent;
+  constructor(private spinnerService: Ng4LoadingSpinnerService,
+    private formBuilder: FormBuilder, private httpClient: HttpClient,
+    private alertService: AlertService,
+    private router: Router) {
       this.tncSubmitForm = this.formBuilder.group({
         'title' : ['', Validators.required],
         'terms_conditions' : ['', Validators.required],
@@ -31,6 +37,10 @@ export class TncComponent implements OnInit {
         'termsconditions_id' : [null]
       });
       this.getTermsData();
+      if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+        this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+        this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/termsnconditions');
+      }
     }
 
   ngOnInit() {

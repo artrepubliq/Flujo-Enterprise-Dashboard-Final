@@ -11,6 +11,8 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-problem-category',
   templateUrl: './problem-category.component.html',
@@ -33,6 +35,8 @@ export class ProblemCategoryComponent implements OnInit {
   problemForm: FormGroup;
   actionText: string;
   config: any;
+  feature_id = 24;
+  userAccessDataModel: AccessDataModelComponent;
   constructor(
     private httpService: HttpService,
     private problemService: ProblemTypeService,
@@ -40,7 +44,8 @@ export class ProblemCategoryComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private alertService: AlertService,
     public adminComponent: AdminComponent,
-    private router: Router
+    private router: Router,
+    private httpClient: HttpClient
   ) {
     this.updateProblem = false;
     this.selectProblem = true;
@@ -54,61 +59,23 @@ export class ProblemCategoryComponent implements OnInit {
       'problemtypenamenew': new FormControl(this.problemTypeNameNew, [Validators.required]),
       'problemtypenametelugunew': new FormControl(this.problemTypeNameTeluguNew, [Validators.required])
     });
-    if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            console.log(resp);
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              } else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/problemcategory');
     }
   }
 
   ngOnInit() {
     this.getproblemData();
   }
-  // this for restrict user on root access level
-  userRestrict() {
-    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-      // tslint:disable-next-line:max-line-length
-      if (this.adminComponent.userAccessLevelData[iterate].name === 'Problem Category' && this.adminComponent.userAccessLevelData[iterate].enable) {
-        this.filteredUserAccessData = item;
-      } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/problemcategory']);
-    } else {
-      this.router.navigate(['/accessdenied']);
-      console.log('else');
-    }
-  }
+
   public getproblemData(): void {
     this.spinnerService.show();
     this.problemService.getProblemData('/flujo_client_getreportproblemtype/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           this.spinnerService.hide();
-          this.problemTypeData = data;
+          // this.problemTypeData = data;
           console.log(this.problemTypeData);
         },
         error => {

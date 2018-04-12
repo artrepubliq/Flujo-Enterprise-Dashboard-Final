@@ -7,6 +7,8 @@ import { Element, ElementResult } from '../model/database.model';
 import { FormGroup, FormControl, EmailValidator } from '@angular/forms';
 import { ElementData } from '@angular/core/src/view';
 import { Angular2Csv } from 'angular2-csv';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-database',
@@ -16,6 +18,7 @@ import { Angular2Csv } from 'angular2-csv';
 
 export class DatabaseComponent implements OnInit, AfterViewInit {
   dataURL: any;
+  userAccessDataModel: AccessDataModelComponent;
   ELEMENT_DATA: Array<ElementResult>;
   // tslint:disable-next-line:member-ordering
   displayedColumns = ['id', 'name', 'email', 'phone'];
@@ -27,11 +30,15 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
   feedbackCsvMailSubmit: any;
   feedbackCsvMail: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  constructor(private http: HttpClient) {
+  feature_id = 10;
+  constructor(private http: HttpClient, private router: Router) {
     this.sendEmail = new FormGroup({
       email: new FormControl('email')
     });
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(http, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/database');
+    }
   }
   ngOnInit() {
 

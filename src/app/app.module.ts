@@ -9,8 +9,6 @@ import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { GalleryImagesService } from './service/gallery-images.service';
-import { UseraccessServiceService } from './service/useraccess-service.service';
-// import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesComponent, MediaLocalImagePopupDialog } from './pages/pages.component';
 import { HttpService } from './service/httpClient.service';
@@ -59,7 +57,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
 import { LoginAuthService } from './auth/login.auth.service';
-import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
@@ -71,7 +68,6 @@ import { FBService } from './service/fb.service';
 import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
 import { BiographyComponent } from './biography/biography.component';
 import { DateFormat } from './model/date.formatt';
-import { ReportanissueComponent } from './reportanissue/reportanissue.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FilerepositoryComponent, FileRepositoryPopup, FileViewerPopUp } from './filerepository/filerepository.component';
@@ -107,6 +103,7 @@ import { EmailTemplateService } from './email-template/email-template-service';
 
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent } from './whatsapp/whatsapp.component';
+import { AccessDataModelComponent } from './model/useraccess.data.model';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -130,7 +127,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmsuiComponent,
     CreateUserComponentComponent,
     ThemeConfigComponent,
-    EditorComponent,
     ViewGalleryComponent,
     SocialManagementComponent,
     FilerepositoryComponent,
@@ -146,7 +142,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AccessLevelPopup,
     FileRepositoryPopup,
     FileViewerPopUp,
-    ReportanissueComponent,
     FeedbackComponent,
     ChangemakerComponent,
     AnalyticsComponent,
@@ -171,7 +166,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailTemplateComponent,
     ChooseplatformComponent,
     SocialconfigurationComponent,
-    WhatsappComponent
+    WhatsappComponent,
+    AccessDataModelComponent
   ],
   imports: [
     BrowserModule,
@@ -234,9 +230,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               GalleryImagesService,
               FBService,
               ProblemTypeService,
-              UseraccessServiceService,
               AreaService,
-
               {provide: DateAdapter, useClass: DateFormat},
               EmailTemplateResolver,
               EmailTemplateService,

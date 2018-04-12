@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { AppConstants } from '../app.constants';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-socialconfiguration',
   templateUrl: './socialconfiguration.component.html',
@@ -14,16 +16,19 @@ export class SocialconfigurationComponent implements OnInit {
   TPKeyId: string;
   configKeysArray: ITPKeysConfig[];
   btn_text = 'save';
+  feature_id = 29;
   smtpItems: any;
   public isEdit = false;
   facebookform: FormGroup;
   twitterform: FormGroup;
   chatcampform: FormGroup;
   whatsappform: FormGroup;
+  userAccessDataModel: AccessDataModelComponent;
   constructor(private formBuilder: FormBuilder,
      private httpClient: HttpClient,
      private spinnerService: Ng4LoadingSpinnerService,
-     private alertService: AlertService) {
+     private alertService: AlertService,
+    private router: Router) {
     this.facebookform = this.formBuilder.group({
       fbappid: ['', Validators.required],
       fbappversion: ['', Validators.required]
@@ -44,7 +49,10 @@ export class SocialconfigurationComponent implements OnInit {
       whatsappclientsecret: ['', Validators.required],
       whatsappclientphonenumber: ['', Validators.required]
     });
-
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/socialconfiguration');
+    }
   }
 
   ngOnInit() {

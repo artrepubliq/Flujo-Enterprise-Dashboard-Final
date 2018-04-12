@@ -17,6 +17,7 @@ import * as _ from 'underscore';
 import { FileHolder } from 'angular2-image-upload';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
+import { AccessDataModelComponent } from "../model/useraccess.data.model";
 
 @Component({
   selector: 'app-media',
@@ -71,6 +72,7 @@ export class MediaComponent implements OnInit {
   albumBase64imagesArray: Array<IAlbumImageUpdate>;
   albumBase64imagesObject: IAlbumImageUpdate;
   popUpAlbumDataItem: IAlbumImageUpdate;
+  userAccessDataModel: AccessDataModelComponent;
   // image upload files styles
   customStyle = {
     selectButton: {
@@ -120,6 +122,7 @@ export class MediaComponent implements OnInit {
     },
 
   };
+  feature_id = 14;
   public dragging: boolean;
   constructor(public dialog: MatDialog, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
@@ -139,28 +142,9 @@ export class MediaComponent implements OnInit {
       description: ['', Validators.required],
       order: ['', Validators.required]
     });
-    if (this.adminComponent.userAccessLevelData) {
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              } else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/media');
     }
   }
   ngOnInit() {
@@ -174,22 +158,7 @@ export class MediaComponent implements OnInit {
     this.albumObject = <IGalleryObject>{};
     this.albumObject.images = [];
   }
-  // this for restrict user on root access level
-  userRestrict() {
-    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-      // tslint:disable-next-line:max-line-length
-      if (this.adminComponent.userAccessLevelData[iterate].name === 'Media Management' && this.adminComponent.userAccessLevelData[iterate].enable) {
-        this.filteredUserAccessData = item;
-      } else {
-
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/media']);
-    } else {
-      this.router.navigate(['/accessdenied']);
-    }
-  }
+ 
   selectMedia(event) {
     const imageDetail = [];
     this.ishide = false;

@@ -20,6 +20,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 @Component({
     templateUrl: './manage-reports.component.html',
     styleUrls: ['./manage-reports.component.scss']
@@ -59,7 +60,8 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     arrows: IArrows;
     picker: any;
     p: number;
-
+    feature_id = 5;
+    userAccessDataModel: AccessDataModelComponent;
     private filterSubject: Subject<string> = new Subject<string>();
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
@@ -77,28 +79,9 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.showReports.inProgressActive = false;
         this.filterSubject.debounceTime(300).distinctUntilChanged().subscribe( searchItem =>
         this.onChange2(searchItem));
-        if (this.adminComponent.userAccessLevelData) {
-            this.userRestrict();
-          } else {
-            this.adminComponent.getUserAccessLevelsHttpClient()
-              .subscribe(
-                resp => {
-                  this.spinnerService.hide();
-                  _.each(resp, item => {
-                    if (item.user_id === localStorage.getItem('user_id')) {
-                        this.userAccessLevelObject = item.access_levels;
-                    }else {
-                      // this.userAccessLevelObject = null;
-                    }
-                  });
-                  this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-                  this.userRestrict();
-                },
-                error => {
-                  console.log(error);
-                  this.spinnerService.hide();
-                }
-              );
+        if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+            this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+            this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/managereports');
           }
     }
     ngOnInit() {
@@ -122,22 +105,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     ngAfterViewInit() {
         this.spinnerService.hide();
     }
-    // this for restrict user on root access level
-  userRestrict() {
-    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-      // tslint:disable-next-line:max-line-length
-      if (this.adminComponent.userAccessLevelData[iterate].name === 'Report an issue' && this.adminComponent.userAccessLevelData[iterate].enable) {
-        this.filteredUserAccessData = item;
-      } else {
-
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/managereports']);
-    }else {
-      this.router.navigate(['/accessdenied']);
-    }
-  }
     // prepare auto complete options list
     prepareAutoCompleteOptionsList = (listData) => {
         if (listData) {

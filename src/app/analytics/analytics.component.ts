@@ -11,7 +11,8 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 import { AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-analytics',
   templateUrl: './analytics.component.html',
@@ -19,7 +20,8 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 })
 
 export class AnalyticsComponent implements OnInit, OnChanges {
-
+  pageTitle = 'Analytics';
+  feature_id = 6;
   isActive = true;
   // color = 'accent';
   colors = ['#ee2f6b', '#0cc0df', '#fecd0f'];
@@ -52,9 +54,14 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     from_date: this.minDate,
     to_date: this.maxDate
   };
-
+  userAccessDataModel: AccessDataModelComponent;
   constructor(public http: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
-    private alertService: AlertService) { }
+    private alertService: AlertService, private router: Router) {
+      if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+        this.userAccessDataModel = new AccessDataModelComponent(http, router);
+        this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/analytics');
+       }
+     }
 
   ngOnInit() {
     this.getData(this.params);

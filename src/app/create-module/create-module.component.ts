@@ -11,6 +11,7 @@ import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfi
 import { IModuleDetails } from '../model/accessLevel.model';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
+import { AccessDataModelComponent } from "../model/useraccess.data.model";
 
 @Component({
     // selector: 'app-create-module',
@@ -39,33 +40,14 @@ export class CreateModuleComponent implements OnInit {
     bgColor = '#3c3c3c';
     dummy: string;
     @ViewChild('fileInput') fileInput: ElementRef;
+    userAccessDataModel: AccessDataModelComponent;
+    feature_id = '20';
     constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
         private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
         this.createForm();
         this.getModuleDetails();
-        if (this.adminComponent.userAccessLevelData) {
-            this.userRestrict();
-          } else {
-            this.adminComponent.getUserAccessLevelsHttpClient()
-              .subscribe(
-                resp => {
-                  this.spinnerService.hide();
-                  _.each(resp, item => {
-                    if (item.user_id === localStorage.getItem('user_id')) {
-                        this.userAccessLevelObject = item.access_levels;
-                    }else {
-                      // this.userAccessLevelObject = null;
-                    }
-                  });
-                  this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-                  this.userRestrict();
-                },
-                error => {
-                  console.log(error);
-                  this.spinnerService.hide();
-                }
-              );
-          }
+        this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+        this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/module');
     }
     ngOnInit() {
         setTimeout(function () {

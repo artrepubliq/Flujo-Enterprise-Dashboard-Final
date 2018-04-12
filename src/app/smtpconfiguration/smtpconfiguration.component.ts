@@ -8,6 +8,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import * as _ from 'underscore';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 @Component({
   templateUrl: './smtpconfiguration.component.html',
   styleUrls: ['./smtpconfiguration.component.scss']
@@ -20,6 +21,8 @@ export class SMTPConfigurationComponent implements OnInit {
   successMessage: string;
   smtpItems: any;
   public isEdit = false;
+  feature_id = 16;
+  userAccessDataModel: AccessDataModelComponent;
   constructor(private spinnerService: Ng4LoadingSpinnerService  , private formBuilder: FormBuilder,
      private httpClient: HttpClient, private alertService: AlertService,
      private router: Router, public adminComponent: AdminComponent) {
@@ -32,49 +35,15 @@ export class SMTPConfigurationComponent implements OnInit {
       'client_id': null
     });
     this.getuserSMTPConfigData();
-    if (this.adminComponent.userAccessLevelData) {
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              }else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/smtpconfiguration');
     }
    }
    ngOnInit() {
     setTimeout(function() {
       this.spinnerService.hide();
     }.bind(this), 3000);
-  }
-   // this for restrict user on root access level
-   userRestrict() {
-    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-      // tslint:disable-next-line:max-line-length
-      if (this.adminComponent.userAccessLevelData[iterate].name === 'SMTP' && this.adminComponent.userAccessLevelData[iterate].enable) {
-        this.filteredUserAccessData = item;
-      } else {
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/smtpconfiguration']);
-    }else {
-      this.router.navigate(['/accessdenied']);
-    }
   }
 // smtp post data to server
   SmtpPost(body: any ) {

@@ -13,6 +13,7 @@ import { mediaDetail } from '../model/feedback.model';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { AdminComponent } from '../admin/admin.component';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
@@ -40,7 +41,8 @@ export class PagesComponent implements OnInit, OnDestroy {
     public app_description = '';
 
     bgColor = '#3c3c3c';
-
+    userAccessDataModel: AccessDataModelComponent;
+    feature_id = 1;
     dummy: string;
     @ViewChild('fileInput1') fileInput1: ElementRef;
     @ViewChild('fileInput2') fileInput2: ElementRef;
@@ -49,30 +51,9 @@ export class PagesComponent implements OnInit, OnDestroy {
         private router: Router, public adminComponent: AdminComponent) {
         this.createForm();
         this.getPageDetails();
-        if (this.adminComponent.userAccessLevelData) {
-            console.log(this.adminComponent.userAccessLevelData[0].name);
-            this.userRestrict();
-        } else {
-            this.adminComponent.getUserAccessLevelsHttpClient()
-                .subscribe(
-                    resp => {
-                        console.log(resp);
-                        this.spinnerService.hide();
-                        _.each(resp, item => {
-                            if (item.user_id === localStorage.getItem('user_id')) {
-                                this.userAccessLevelObject = item.access_levels;
-                            } else {
-                                // this.userAccessLevelObject = null;
-                            }
-                        });
-                        this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-                        this.userRestrict();
-                    },
-                    error => {
-                        console.log(error);
-                        this.spinnerService.hide();
-                    }
-                );
+        if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+            this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+            this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/pages');
         }
     }
     ngOnInit() {
@@ -81,31 +62,14 @@ export class PagesComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
         this.galleryImagesService.getGalleryImagesComponent('/flujo_client_getgallery/', AppConstants.CLIENT_ID)
             .subscribe(
-                data => {
-                    this.imagesOfgallery = data;
-                    console.log(this.imagesOfgallery);
-                },
-                error => {
-                    console.log(error);
-                }
-            );
-    }
-    userRestrict() {
-        _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-            // tslint:disable-next-line:max-line-length
-            if (this.adminComponent.userAccessLevelData[iterate].name === 'Editor' && this.adminComponent.userAccessLevelData[iterate].enable) {
-                this.filteredUserAccessData = item;
-            } else {
-                // this.router.navigate(['/accessdenied']);
-                // console.log('else');
+            data => {
+                this.imagesOfgallery = data;
+                console.log(this.imagesOfgallery);
+            },
+            error => {
+                console.log(error);
             }
-        });
-        if (this.filteredUserAccessData) {
-            this.router.navigate(['admin/pages']);
-        } else {
-            this.router.navigate(['/accessdenied']);
-            console.log('else');
-        }
+            );
     }
     createForm = () => {
         this.form = this.formBuilder.group({
@@ -114,7 +78,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             parent_id: null,
             web_description: ['', Validators.required],
             app_description: ['', Validators.required],
-            component_background_color: ['', ],
+            component_background_color: ['',],
             component_order: ['', Validators.required],
             component_id: null,
             component_image: null,
@@ -181,22 +145,22 @@ export class PagesComponent implements OnInit, OnDestroy {
         }
         this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postcomponent', this.form.value)
             .subscribe(
-                data => {
-                    if (data.error) {
-                        this.alertService.warning(data.result);
-                        // this.parsePostResponse(data);
-                        this.spinnerService.hide();
-                    } else {
-                        this.getPageDetails();
-                        this.parsePostResponse(data);
-                        this.spinnerService.hide();
-                    }
-
-                },
-                error => {
-                    this.loading = false;
+            data => {
+                if (data.error) {
+                    this.alertService.warning(data.result);
+                    // this.parsePostResponse(data);
                     this.spinnerService.hide();
-                });
+                } else {
+                    this.getPageDetails();
+                    this.parsePostResponse(data);
+                    this.spinnerService.hide();
+                }
+
+            },
+            error => {
+                this.loading = false;
+                this.spinnerService.hide();
+            });
     }
 
     clearFile = (id) => {
@@ -214,42 +178,42 @@ export class PagesComponent implements OnInit, OnDestroy {
         const component_id = body.id;
         this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletecomponent/' + component_id)
             .subscribe(
-                data => {
-                    this.getPageDetails();
-                    this.spinnerService.hide();
-                    this.pageDetails = null;
-                    console.log(data);
-                    this.loading = false;
-                    this.alertService.success('Page delete successfully');
-                },
-                error => {
-                    this.loading = false;
-                    this.spinnerService.hide();
-                    this.alertService.success('Something went wrong');
-                });
+            data => {
+                this.getPageDetails();
+                this.spinnerService.hide();
+                this.pageDetails = null;
+                console.log(data);
+                this.loading = false;
+                this.alertService.success('Page delete successfully');
+            },
+            error => {
+                this.loading = false;
+                this.spinnerService.hide();
+                this.alertService.success('Something went wrong');
+            });
     }
     getPageDetails = () => {
         this.spinnerService.show();
         this.httpClient.get(AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
             .subscribe(
-                data => {
-                    this.parentPageDetails = null;
-                    this.pageDetails = null;
-                    this.isEdit = false;
-                    this.pageDetails = data;
-                    this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
-                        return parentData.parent_id === '-1';
-                    });
-                    this.childDetails = _.filter(this.pageDetails, (parentData) => {
-                        return parentData.parent_id !== '-1';
-                    });
-                    this.spinnerService.hide();
-                },
-                error => {
-                    console.log(error);
-                    this.loading = false;
-                    this.spinnerService.hide();
-                }
+            data => {
+                this.parentPageDetails = null;
+                this.pageDetails = null;
+                this.isEdit = false;
+                this.pageDetails = data;
+                this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
+                    return parentData.parent_id === '-1';
+                });
+                this.childDetails = _.filter(this.pageDetails, (parentData) => {
+                    return parentData.parent_id !== '-1';
+                });
+                this.spinnerService.hide();
+            },
+            error => {
+                console.log(error);
+                this.loading = false;
+                this.spinnerService.hide();
+            }
             );
     }
     getChild(childData) {

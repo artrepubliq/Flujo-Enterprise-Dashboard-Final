@@ -21,6 +21,7 @@ import { map } from 'rxjs/operators/map';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 
 @Component({
     selector: 'app-filerepository',
@@ -49,14 +50,14 @@ export class FilerepositoryComponent implements OnInit {
     foldersdata = [];
     showInMb: boolean;
     showInKb: boolean;
-    // disabled = false;
+    userAccessDataModel: AccessDataModelComponent;
     @Input() projectId: number;
     @Input() sectionId: number;
     @Input() fileExt = 'JPG, PDF, PNG, JPEG, CSV, DOCX, DOC';
     @Input() maxFiles = 1;
     @Input() maxSize = 2; // 5MB
     @Output() uploadStatus = new EventEmitter();
-
+    feature_id= 11;
     constructor(
         private formBuilder: FormBuilder,
         private httpClient: HttpClient,
@@ -75,47 +76,12 @@ export class FilerepositoryComponent implements OnInit {
             'file_path': null,
             'file_size': null
         });
-        // this for restrict user on root access level
-        if (this.adminComponent.userAccessLevelData) {
-            this.userRestrict();
-          } else {
-            this.adminComponent.getUserAccessLevelsHttpClient()
-              .subscribe(
-                resp => {
-                  this.spinnerService.hide();
-                  _.each(resp, item => {
-                    if (item.user_id === localStorage.getItem('user_id')) {
-                        this.userAccessLevelObject = item.access_levels;
-                    }else {
-                      // this.userAccessLevelObject = null;
-                    }
-                  });
-                  this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-                  this.userRestrict();
-                },
-                error => {
-                  console.log(error);
-                  this.spinnerService.hide();
-                }
-              );
+        if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+            this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+            this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/feedback');
           }
-    }
-    // this for restrict user on root access level
-    userRestrict() {
-        _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-          // tslint:disable-next-line:max-line-length
-          if (this.adminComponent.userAccessLevelData[iterate].name === 'Drive' && this.adminComponent.userAccessLevelData[iterate].enable) {
-            this.filteredUserAccessData = item;
-      } else {
 
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/filerepository']);
-    }else {
-      this.router.navigate(['/accessdenied']);
     }
-      }
     /* this is when we submit the form */
     onSubmit(filedata) {
         // const fileData = this.FileUploadControl.value;
@@ -351,11 +317,10 @@ export class FilerepositoryComponent implements OnInit {
                             this.repositories.forEach(allFiles => {
                                 this.allFiles.push(allFiles.files);
                             });
-                            if(parseFloat((this.total_size/1048576).toFixed(2)) >= 1.0) {
+                            if (parseFloat((this.total_size / 1048576).toFixed(2)) >= 1.0) {
                                 this.showInMb = true;
                                 this.showInKb = false;
-                            } 
-                            else if(parseFloat((this.total_size/1048576).toFixed(2)) < 1.0){
+                            } else if (parseFloat((this.total_size / 1048576).toFixed(2)) < 1.0) {
                                 this.showInMb = false;
                                 this.showInKb = true;
 
@@ -418,18 +383,16 @@ export class FilerepositoryComponent implements OnInit {
         this.filtered_repositories = files[0].files;
         this.ConvertUnits();
     }
-    
     ConvertUnits = () => {
-        _.each(this.filtered_repositories,(filtered_item:IFiles)=>{
-            if(parseFloat((filtered_item.file_size/1048576).toFixed(2)) >= 1.0) {
+        _.each(this.filtered_repositories, (filtered_item: IFiles) => {
+            if (parseFloat((filtered_item.file_size / 1048576).toFixed(2)) >= 1.0) {
                 filtered_item.isShowMb  = true;
                 filtered_item.isShowKb  = false;
-            }
-            else if(parseFloat((filtered_item.file_size/1048576).toFixed(2)) < 1.0){
+            } else if (parseFloat((filtered_item.file_size / 1048576).toFixed(2)) < 1.0) {
                 filtered_item.isShowMb  = false;
                 filtered_item.isShowKb  = true;
             }
-        })
+        });
     }
     resetIsactive(repositories) {
         _.each(repositories, (iteratee, index) => {

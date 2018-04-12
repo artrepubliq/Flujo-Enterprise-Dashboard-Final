@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output  } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertModule, AlertService } from 'ngx-alerts';
@@ -9,9 +9,9 @@ import { HttpClient } from '@angular/common/http';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { ColorPickerModule, ColorPickerDirective } from 'ngx-color-picker';
 import { MatDatepickerInputEvent, NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 export class AppDateAdapter extends NativeDateAdapter {
 
   format(date: Date, displayFormat: Object): string {
@@ -62,8 +62,12 @@ export class BiographyComponent implements OnInit {
   startDate2 = new Date(1990, 1, 1);
   minDate = new Date(1990, 1, 1);
   maxDate = new Date(2019, 1, 1);
+  userAccessDataModel: AccessDataModelComponent;
+  feature_id = 19;
+  @Output() add = new EventEmitter();
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
-    private httpClient: HttpClient, private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
+    private httpClient: HttpClient,
+    private alertService: AlertService, private router: Router) {
     this.biographySubmitForm = this.formBuilder.group({
       'career_position': ['', Validators.required],
       'from_year': [null],
@@ -72,52 +76,13 @@ export class BiographyComponent implements OnInit {
       background_color: ['', ],
       'client_id': [null]
     });
-
-    if (this.adminComponent.userAccessLevelData) {
-      console.log(this.adminComponent.userAccessLevelData[0].name);
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              }else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
-    }
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/biography');
+     }
   }
 
   ngOnInit() {
-  }
-  userRestrict() {
-    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-      // tslint:disable-next-line:max-line-length
-      if (this.adminComponent.userAccessLevelData[iterate].name === 'Biography' && this.adminComponent.userAccessLevelData[iterate].enable) {
-        this.filteredUserAccessData = item;
-        console.log('huu');
-      } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/biography']);
-    }else {
-      this.router.navigate(['/accessdenied']);
-      console.log('else');
-    }
   }
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     this.events.push(`${type}: ${event.value}`);
