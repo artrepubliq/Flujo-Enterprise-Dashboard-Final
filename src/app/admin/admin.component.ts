@@ -215,7 +215,6 @@ export class EmptyAccessLevelDialog {
     this.dialogRef.close();
   }
   logoutUser() {
-    this.loginAuthService.logout();
     this.dialogRef.close();
   }
 }

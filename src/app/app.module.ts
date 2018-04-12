@@ -99,16 +99,14 @@ import { ChartsProblemCategoryDirective } from './directives//charts-problem-cat
 import { ChartsStatusDirective } from './directives/charts-status/charts-status.directive';
 import { ChartsLoyalityDirective } from './directives/charts-loyality/charts-loyality.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
-import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
-import { WhatsappComponent } from './whatsapp/whatsapp.component';
+import { WhatsappComponent, WhatsAppTemplatePopup } from './whatsapp/whatsapp.component';
 import { EditorSelectionService } from './service/editor-selection.service';
 import { UseraccessComponent } from './useraccess/useraccess.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
-
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -167,7 +165,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsLoyalityDirective,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
-    ChartAgeDirective,
     MediaLocalImagePopupDialog,
     SmstemplateComponent,
     EmailTemplateComponent,
@@ -176,7 +173,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailTemplateSelectionPopup,
     SafeHtmlPipe,
     WhatsappComponent,
-    SocialconfigurationComponent
+    SocialconfigurationComponent,
+    WhatsAppTemplatePopup
   ],
   imports: [
     BrowserModule,
@@ -230,7 +228,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
      AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, SmsTemplateSelectionDialog,
-     EmailTemplateSelectionPopup],
+     EmailTemplateSelectionPopup, WhatsAppTemplatePopup],
   providers: [
               // AuthService,
               HttpService,

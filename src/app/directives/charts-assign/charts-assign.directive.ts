@@ -38,36 +38,19 @@ export class ChartsAssignDirective implements OnChanges {
           data: assignCompleted,
           backgroundColor: [
             '#ee2f6b', '#ee2f6b', '#ee2f6b'
-
           ]
-
-          ],
-          label: 'Completed'
-
           },
           {
             data: assignInProgress,
             backgroundColor: [
-
               '#ee2f6b', '#ee2f6b', '#ee2f6b'
             ]
-
-              '#00f', '#00f', '#00f'
-            ],
-            label: 'In Progress'
-
           },
           {
             data: assignUnresolved,
             backgroundColor: [
-
               '#ee2f6b80', '#ee2f6b80', '#ee2f6b80'
             ]
-
-              '#0f0', '#0f0', '#0f0'
-            ],
-            label: 'Unresolved'
-
           }
         ],
         labels: assignEmail
