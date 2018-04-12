@@ -6,7 +6,6 @@ import { AppConstants } from '../app.constants';
 import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
 
 @Injectable()
-
 export class EmailTemplateResolver implements Resolve<Observable<IPostEmailTemplate[]>> {
     constructor(private emailTemplateService: EmailTemplateService) { }
     resolve(route: ActivatedRouteSnapshot): Observable<IPostEmailTemplate[]> {

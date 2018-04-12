@@ -55,25 +55,10 @@
   </div>
 
   <div fxLayout="row" *ngIf="isEdit">
-    <!-- <div fxFlex="50%">
-      <h6  class="form-header">Create User</h6>
-    </div> -->
     <div fxFlex>
         <button (click)="cancelUser()" class="pull-right btn btn-outline-secondary btn-user d-inline"><span><i class="fa fa-chevron-left d-inline"></i> View Users</span></button>
     </div>
   </div>
-      <!-- 
-           ////
-            <div fxLayout="row" fxLayoutGap="10px" class="form-group">
-              <label fxLayoutAlign="start" fxFlex="10" for="name">Password :</label>
-              <input fxFlex="50" type="password" class="form-control" id="password" formControlName="password"
-                required placeholder="Password">
-              <div [hidden]="CreateUserForm.controls.user_password.valid || CreateUserForm.controls.user_password.pristine && !submitted" class="alert">
-                Name is required
-              </div>
-            </div> 
-          ///////
-        -->
   <div class="profile_block" *ngIf="isEdit" fxLayoutAlign="center center">
   <div class="profile_logo">
     <!-- Logo Edit Block -->
@@ -81,20 +66,6 @@
       <!-- Header -->
       <div class="profile_header">
         <h3 class="header_title">User Properties</h3>
-        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
-          <i class="fa fa-ellipsis-v"></i>
-        </button>
-        <mat-menu #menu="matMenu" xPosition="before">
-          <button mat-menu-item>
-            <span>Redial</span>
-          </button>
-          <button mat-menu-item disabled>
-            <span>Check voicemail</span>
-          </button>
-          <button mat-menu-item>
-            <span>Disable alerts</span>
-          </button>
-        </mat-menu> -->
       </div>
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="" fxLayout="column" fxLayoutGap="20px">
@@ -112,12 +83,6 @@
               <div class="bg-layer"></div>
             </div>
           </div>
-          <!-- Logo File Details -->
-          <!-- <div class="logo-details">
-            <p class="file_Name">flujo_logo.svg</p>
-            <p class="file_Prop">Original : 48 px x 48 px</p>
-            <p class="file_Prop">3 kb</p>
-          </div> -->
         </div>
         <div fxLayout="column" fxLayoutGap="1rem" fxFlex="100%">
           <div fxLayout="column">
@@ -130,14 +95,6 @@
                     First Name is required
                 </div>
               </div>
-              <!-- <div fxLayout="column" class="form-group" hidden>
-                <div><label fxLayoutAlign="start" for="last_name">Last Name</label></div>
-                <div><input type="text" class="form-control" id="last_name" placeholder="Last Name" formControlName="last_name" oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');" ></div>
-                <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.last_name.valid || CreateUserForm.controls.last_name.pristine && !submitted" class="alert">
-                    Last Name is required
-                </div>
-              </div> -->
-            <!-- </div> -->
           </div>
           <div fxLayout="column" class="form-group">
             <div><label>Mobile Number</label></div>

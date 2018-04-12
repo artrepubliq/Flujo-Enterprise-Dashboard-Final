@@ -19,7 +19,7 @@ export class LoginAuthService implements OnInit {
     this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     if (Date.now() < this.expiresAt) {
       this.setLoggedInCustom(true);
-      } else {
+      }else {
         this.setLoggedInCustom(false);
       }
   }
