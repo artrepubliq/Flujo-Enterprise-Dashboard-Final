@@ -61,20 +61,6 @@ export class CreateUserComponentComponent implements OnInit {
 
   ngOnInit() {
   }
-  userRestrict() {
-    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-      // tslint:disable-next-line:max-line-length
-      if (this.adminComponent.userAccessLevelData[iterate].name === 'User Management' && this.adminComponent.userAccessLevelData[iterate].enable) {
-        this.filteredUserAccessData = item;
-      } else {
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/user']);
-    } else {
-      this.router.navigate(['/accessdenied']);
-    }
-  }
   onSubmit = (body) => {
     this.spinnerService.show();
     console.log(this.userDetails.id);

@@ -11,7 +11,7 @@ import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfi
 import { IModuleDetails } from '../model/accessLevel.model';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
-import { AccessDataModelComponent } from "../model/useraccess.data.model";
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 
 @Component({
     // selector: 'app-create-module',

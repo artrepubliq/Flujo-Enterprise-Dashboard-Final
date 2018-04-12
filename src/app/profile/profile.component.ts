@@ -10,8 +10,10 @@ import { AppComponent } from '../app.component';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { IHttpResponse } from '../model/httpresponse.model';
+
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
+import { ICommonInterface } from '../model/commonInterface.model';
 
 @Component({
   selector: './app-profile',
@@ -79,7 +81,7 @@ export class ProfileComponent implements OnInit {
           this.profileDetail.push(reader.result.split(',')[1]);
           // this.form.get('avatar').setValue(reader.result.split(',')[1]);
           const uploadImage = {
-            profile_id: this.profileImageDetails.id, client_id: this.profileImageDetails.client_id,
+            profile_id: this.profileImageDetails[0].id, client_id: this.profileImageDetails[0].client_id,
             avatar: reader.result.split(',')[1]
           };
           this.uploadProfileImage(uploadImage);
@@ -93,19 +95,26 @@ export class ProfileComponent implements OnInit {
     this.spinnerService.show();
     this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     // const imageModel = this.form.value
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postprofileimageupload', reqObject)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postprofileimageupload', reqObject)
       .subscribe(
-      data => {
-        this.profileImageDetails = reqObject.avatar;
-        this.alertService.success('Profile Image Uploaded successfully.');
-        this.loading = false;
-        this.spinnerService.hide();
-      },
-      error => {
-        this.loading = false;
-        this.spinnerService.hide();
-        this.alertService.danger('Profile Image not uploaded');
-      });
+        data => {
+          if ((data.http_status_code = 200) && (!data.error)) {
+            this.profileImageDetails = reqObject.avatar;
+            this.alertService.success('Profile Image Uploaded successfully.');
+            this.loading = false;
+            this.spinnerService.hide();
+          } else {
+            this.loading = false;
+            this.spinnerService.hide();
+            this.alertService.danger('Profile Image not uploaded');
+          }
+        },
+        error => {
+          this.loading = false;
+          this.spinnerService.hide();
+          this.alertService.danger('Profile Image not uploaded');
+        });
+
   }
   onSubmit = (body) => {
     this.spinnerService.show();
@@ -113,21 +122,21 @@ export class ProfileComponent implements OnInit {
     formModel.client_id = localStorage.getItem('client_id');
     this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postprofile', formModel)
       .subscribe(
-      data => {
-        if (data.error) {
-          this.alertService.warning(data.result);
-          this.spinnerService.hide();
-        } else {
-          this.parsePostResponse(data);
-          this.alertService.success('Profile details submitted successfully.');
-          // this.getProfileDetails();
-          // this.parsePostResponse(data);
-          // this.alertService.success('request Successfully submitted.');
-          this.getProfileDetails();
-          //  this.loading = false;
-          this.spinnerService.hide();
-        }
-      },
+        data => {
+          if (data.error) {
+            this.alertService.warning(data.result);
+            this.spinnerService.hide();
+          } else {
+            this.parsePostResponse(data);
+            this.alertService.success('Profile details submitted successfully.');
+            // this.getProfileDetails();
+            // this.parsePostResponse(data);
+            // this.alertService.success('request Successfully submitted.');
+            this.getProfileDetails();
+            //  this.loading = false;
+            this.spinnerService.hide();
+          }
+        },
       error => {
         this.loading = false;
         this.spinnerService.hide();
@@ -145,70 +154,73 @@ export class ProfileComponent implements OnInit {
     const formModel = this.profileItems.avatar;
     this.spinnerService.show();
     this.loading = true;
-    // console.log(formModel);
-    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteprofile/' + AppConstants.CLIENT_ID)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleteprofile/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.alertService.success('profile image deleted Successfully.');
-        this.form.reset();
-        this.getProfileDetails();
-        this.button_text = 'save';
-        // this.isHideDeletebtn = false;
-        this.spinnerService.hide();
-        console.log(data);
-        this.spinnerService.hide();
-      },
-      error => {
-        this.loading = false;
-        this.spinnerService.hide();
-      });
+        data => {
+          if (data.custom_status_code = 100) {
+            this.alertService.success('profile image deleted Successfully.');
+            this.form.reset();
+            this.getProfileDetails();
+            this.button_text = 'save';
+            // this.isHideDeletebtn = false;
+            this.spinnerService.hide();
+            console.log(data);
+            this.spinnerService.hide();
+          } else {
+            this.alertService.warning('Something went wrong');
+          }
+        },
+        error => {
+          this.loading = false;
+          this.spinnerService.hide();
+        });
   }
 
   getProfileDetails = () => {
     this.loading = true;
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getprofile/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getprofile/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.profileImageDetails = data;
-        // this.BindProfileData(data);
-        data ? this.isEdit = false : this.isEdit = true;
-        if (data != null) {
-          this.setDefaultClientProfileDetails(data);
-          this.spinnerService.hide();
-        } else {
-          this.button_text = 'save';
-          this.isHideDeletebtn = false;
-          data ? this.isEdit = false : this.isEdit = true;
-          this.alertService.success('No Data found');
+        data => {
+          this.profileImageDetails = data.result;
+          // this.BindProfileData(data);
+          data.result ? this.isEdit = false : this.isEdit = true;
+          if (data.result != null) {
+            this.setDefaultClientProfileDetails(this.profileImageDetails);
+            this.spinnerService.hide();
+          } else {
+            this.button_text = 'save';
+            this.isHideDeletebtn = false;
+            data.result ? this.isEdit = false : this.isEdit = true;
+            this.alertService.success('No Data found');
+            this.spinnerService.hide();
+          }
+          this.loading = false;
+          // this.isEdit = false;
+        },
+        error => {
+          console.log(error);
+          this.loading = false;
           this.spinnerService.hide();
         }
-        this.loading = false;
-        // this.isEdit = false;
-      },
-      error => {
-        console.log(error);
-        this.loading = false;
-        this.spinnerService.hide();
-      }
       );
   }
   EditInfo = () => {
     this.isEdit = true;
   }
   setDefaultClientProfileDetails = (profileData) => {
-
+    console.log(profileData);
     this.resultExist = profileData;
 
     if (profileData) {
       this.isHideDeletebtn = true;
       this.button_text = 'Update';
-      this.profileItems = profileData;
-      this.profileImage = profileData.avatar;
-      this.form.controls['company_name'].setValue(profileData.company_name);
-      this.form.controls['website_url'].setValue(profileData.website_url);
-      this.form.controls['email'].setValue(profileData.email);
-      this.form.controls['mobile_number'].setValue(profileData.mobile_number);
+      this.profileItems = profileData[0];
+      this.profileImage = profileData[0].avatar;
+      this.form.controls['company_name'].setValue(profileData[0].company_name);
+      this.form.controls['website_url'].setValue(profileData[0].website_url);
+      this.form.controls['email'].setValue(profileData[0].email);
+      this.form.controls['mobile_number'].setValue(profileData[0].mobile_number);
       // this.form.controls['slogan_text'].setValue(profileData.slogan_text);
       // this.form.controls['avatar'].setValue(profileData);
     }

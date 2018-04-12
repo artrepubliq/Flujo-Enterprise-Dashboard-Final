@@ -1,53 +1,126 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 
-<div class="container tconfig page_padding">
-    <ngx-alerts maxMessages="3" timeout="5000">
-    </ngx-alerts>
-  
-  
-    <div fxLayout="row" class="p-rel">
-      <div class="page-header">
-        SMS Template Configuration
+<div class="tconfig page_padding">
+  <ngx-alerts maxMessages="3" timeout="5000">
+  </ngx-alerts>
+  <div fxLayout="row" class="p-rel" fxLayoutAlign="space-between ">
+    <div class="page-header">
+      SMS Template Configuration
+    </div>
+    <div>
+      <div fxFlex>
+        <button (click)="addTemplate()" class="d-inline pull-right btn btn-outline-secondary btn-user float-right">
+          <span>Create Template
+            <i class="fa fa-chevron-right d-inline"></i>
+          </span>
+        </button>
       </div>
     </div>
-  
-    <form role="form" class="admin-form"   method="post" enctype="multipart/form-data">
-      <div fxLayout="column" fxLayoutGap="13px">
-        <div fxLayout="row" fxLayoutGap="48px">
-          <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px" class="input_box">
-            <label>Choose a Template Category</label>
-            <div class="select-wrap">
-              <select>
-                <option>Business</option>
-                <option>Events</option>
-                <option>Festival</option>
-                <option>Ocassions</option>
-              </select>
-            </div>
-            <div>
-              <label>Template Name</label>
-              <input type="text" placeholder="Enter template name">
-            </div>       
+  </div>
+  <div fxLayout="row" fxLayoutGap="20px">
+    <!-- Categories -->
+    <div *ngIf="!isEdit">
+      <div fxLayout="column">
+        <p>Template categories</p>
+        <div class="folder_block" *ngFor="let template_item of smsTemplateData2, let i = index">
+          <div class="floder_block" fxLayout="row" fxLayoutGap="15px" [ngClass]="{'active' : template_item.isActive}" (click)="getSMSTemplateDetails(template_item)">
+            <i class="fa fa-folder-open"></i>
+            <p class="floder_name">{{template_item.template_category}}</p>
           </div>
-          <div fxLayout="column" fxFlex="50%" class="input_box" fxLayoutGap="20px">
-            <label>Template Preview</label>
-            <div class="template-preview" (click)="editTemplate(templatestring)" >
-                <h5 [innerHTML]="heroine.header"></h5>
-                <p [innerHTML]="heroine.message"></p>
-                <span [innerHTML]="heroine.footer"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Template NAme and content -->
+    <div *ngIf="!isEdit" fxLayout="column" fxFlex>
+      <p *ngIf="isHide">Filtered templates</p>
+      <div *ngIf="isHide" fxFlex fxLayout="row" fxLayoutGap="15px" fxLayoutWrap="wrap">
+        <div fxFlex="32" class="file_block" *ngFor="let item of smsTemplateData1">
+          <div class="flie_content">
+            {{item.template_text}}
+          </div>
+          <div class="file_footer" *ngIf="smsTemplateData1" fxLayout="row" fxLayoutAlign="space-between center">
+            <h3 class="title">{{item.template_name}}</h3>
+            <div fxLayout="row">
+              <button mat-icon-button (click)="editSmsTemplate(item)">
+                <i class="fa fa-pencil-square-o"></i>
+              </button>
+              <button mat-icon-button (click)="deleteSmsTemplate(item.id)">
+                <i class="fa fa-trash-o"></i>
+              </button>
             </div>
           </div>
-        </div><br/>
-        <div fxLayout="column" fxLayoutGap="13px" class="input_box">
-          <label>Edit Template</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- All templates -->
+    <div fxLayout="column">
+      <p *ngIf="isMain">All templates</p>
+      <div *ngIf="!isEdit" fxFlex>
+        <div *ngIf="isMain" fxFlex fxLayout="row" fxLayoutGap="12px" fxLayoutWrap="wrap">
+          <div fxFlex="31" class="file_block" *ngFor="let item of smsTemplateData1">
+            <div class="flie_content">
+              {{item.template_text}}
+            </div>
+            <div class="file_footer" *ngIf="smsTemplateData1" fxLayout="row" fxLayoutAlign="space-between center">
+              <h3 class="title">{{item.template_name}}</h3>
+              <div fxLayout="row">
+                <button mat-icon-button (click)="editSmsTemplate(item)">
+                  <i class="fa fa-pencil-square-o"></i>
+                </button>
+                <button mat-icon-button (click)="deleteSmsTemplate(item.id)">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <form *ngIf="isEdit" [formGroup]="smsTemplateConfigurationForm" role="form" class="admin-form" method="post" enctype="multipart/form-data">
+    <div fxLayout="column" fxLayoutGap="13px">
+      <div fxLayout="row" fxLayoutGap="48px">
+        <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px">
+          <mat-form-field class="example-full-width">
+            <input type="text" placeholder="Choose a Template Category" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
           <div class="input_box">
-              <textarea id="message" placeholder="Message" [(ngModel)]="heroine.message" name="templateText" [value]="templateText">
-              </textarea>
+            <label>Template Name</label>
+            <input type="text" placeholder="Enter template name" formControlName="template_name">
           </div>
-        </div><br/>
+        </div>
+        <div fxLayout="column" fxFlex="50%" class="input_box" fxLayoutGap="20px">
+          <label>Template Preview</label>
+          <div class="template-preview" (click)="editTemplate(templatestring)">
+            <p [innerHTML]="templateText1"></p>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+        <label>Edit Template</label>
+        <div class="input_box">
+          <textarea id="message" formControlName="template_text" placeholder="Message" [(ngModel)]="templateText1">
+          </textarea>
+        </div>
+      </div>
+      <br/>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between ">
+      <div *ngIf="isEdit">
+        <button type="submit" class="button_submit" (click)="cancelEdit()">Cancel</button>
       </div>
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-        <button type="submit" class="button_submit">Submit</button>
+        <button type="submit" (click)="onSubmit(smsTemplateConfigurationForm.value)" class="button_submit">{{button_text}}</button>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>

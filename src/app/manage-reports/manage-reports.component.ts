@@ -83,20 +83,23 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
             this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/managereports');
           }
+        this.filterReportProblemData = [];
     }
     ngOnInit() {
-        this.spinnerService.show();
         this.prepareMoveToAutoCompleteOptionsList(this.moveToListOptions);
         this.prepareRemarksAutoCompleteOptionsList(this.RemarksListOptions);
+        this.spinnerService.show();
 
         this.getUserList()
             .subscribe(
                 data => {
                     this.loggedinUsersList = data;
                     this.prepareAutoCompleteOptionsList(this.loggedinUsersList);
+                    this.spinnerService.hide();
                 },
                 error => {
                     console.log(error);
+                    this.spinnerService.hide();
                 }
             );
 
@@ -232,9 +235,10 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                     this.reportProblemData = data;
                     this.reportProblemData2 = data;
                     this.filterReportProblemData = data;
-                    // console.log(data);
+                    this.spinnerService.hide();
                 },
                 error => {
+                    this.spinnerService.hide();
                     console.log(error);
                 }
             );

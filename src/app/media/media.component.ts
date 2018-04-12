@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, SimpleChanges, Inject, HostLi
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { mediaDetail } from '../model/feedback.model';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
@@ -17,7 +17,7 @@ import * as _ from 'underscore';
 import { FileHolder } from 'angular2-image-upload';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
-import { AccessDataModelComponent } from "../model/useraccess.data.model";
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 
 @Component({
   selector: 'app-media',
@@ -26,6 +26,7 @@ import { AccessDataModelComponent } from "../model/useraccess.data.model";
 })
 
 export class MediaComponent implements OnInit {
+  myGroup: FormGroup;
   uploadImagesForm: FormGroup;
   toggleFileUploader = false;
   filteredUserAccessData: any;
@@ -128,6 +129,12 @@ export class MediaComponent implements OnInit {
     private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
     public adminComponent: AdminComponent, private router: Router) {
 
+    this.myGroup = new FormGroup({
+      AlbumName: new FormControl(),
+      Album: new FormControl(),
+      description: new FormControl()
+    });
+
     this.uploadImagesForm = this.formBuilder.group({
       image: [null],
       client_id: [null]
@@ -158,7 +165,6 @@ export class MediaComponent implements OnInit {
     this.albumObject = <IGalleryObject>{};
     this.albumObject.images = [];
   }
- 
   selectMedia(event) {
     const imageDetail = [];
     this.ishide = false;
@@ -252,8 +258,6 @@ export class MediaComponent implements OnInit {
 
   // this functon is used for getting the image id to insert into the group of album
   getImageId(item_id: IGalleryObject) {
-    // this.albumObject = <IGalleryObject>{}
-    // this.albumObject.images = [];
     const item_index = _.findWhere(this.albumObject.images, {
       id: item_id.id
     });
@@ -267,29 +271,11 @@ export class MediaComponent implements OnInit {
       this.albumImage.description = null;
       this.albumObject.images.push(this.albumImage);
     }
-    // var item_index = _.without(this.albumObject.images, {id:item_id.id});
-    // console.log(item_index);
-
     this.albumImagesArraySize = _.size(this.albumObject.images);
-
-
-    // if (item_index != -1) {
-    //   this.albumObject.images.splice(item_index, 1);
-
-    // } else {
-    //   this.albumObject.images.push(this.albumImage);
-    //   console.log(this.albumObject);
-    // }
   }
-  // to create new album with title form from the html
   CreateNewAlbumForm(body: any) {
     this.albumObject.client_id = AppConstants.CLIENT_ID;
     this.albumObject.title = this.albumTitle;
-    // this.albumObject.images = this.albumObject.images;
-
-    // this.submitAlbumData.controls['images'].setValue(this.albumObject);
-    // this.submitAlbumData.controls['client_id'].setValue(localStorage.getItem("client_id"));
-    // let formModel = this.submitAlbumData.value;
     if (this.albumObject.title != null && this.albumImagesArraySize >= 2) {
       this.isAlbumObjectsPresentAlert = true;
       this.CreateNewAlbumHttpRequest(this.albumObject);
@@ -320,11 +306,6 @@ export class MediaComponent implements OnInit {
           this.alertService.danger('Something went wrong.please try again.');
         }
 
-
-        // if (this.tabindex) {
-        //   this.reloadAlbumByIds();
-        // }
-
       },
       error => {
         this.spinnerService.hide();
@@ -336,9 +317,6 @@ export class MediaComponent implements OnInit {
   resetsubmitAlbumData() {
     this.albumObject = null;
     this.albumTitle = null;
-    // this.submitAlbumData.controls['images'].setValue(null);
-    // this.submitAlbumData.controls['title'].setValue(null);
-    // this.submitAlbumData.controls['client_id'].setValue(null);
     this.albumObject = <IGalleryObject>{};
     this.albumObject.images = [];
 
@@ -354,8 +332,6 @@ export class MediaComponent implements OnInit {
       data => {
         this.albumGallery = data;
         this.spinnerService.hide();
-        // console.log(this.albumGallery[0].id);
-        // console.log(this.albumGallery);
         this.prepareAllAlbumImageIdsArray(data);
 
       },
@@ -585,8 +561,6 @@ export class MediaComponent implements OnInit {
         this.allAlbumImageIdsArray.push(item);
       });
     });
-    // this.UsedImages();
-    // this.UnUsedImages();
   }
   UsedImages = () => {
     this.usedActiveButton = true;

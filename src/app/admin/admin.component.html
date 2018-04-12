@@ -155,17 +155,17 @@
       <ul class="team-items">
         <li *ngFor="let chatItem of activeUsers">
           <a class="team-user" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
-            <span class="userStatus" (click)=ChatIO(chatItem) [ngClass]="{'active': chatItem.isUserActive}">{{chatItem.name}}</span>
+              <i class="team-user-icon user-logo">
+                <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
+              <span class="userStatus" (click)=ChatIO(chatItem) [ngClass]="{'active': chatItem.isUserActive}">{{chatItem.name}}</span>
 
-          </a>
+            </a>
         </li>
 
       </ul>
     </ul>
-  </aside>
-  <div fxFlex id="page-content-wrapper" [perfectScrollbar]="config" class="ps">
-    <router-outlet></router-outlet>
-  </div>
+
+</aside>
+<div fxFlex id="page-content-wrapper" [perfectScrollbar]="config" class="ps">
+  <router-outlet></router-outlet>
 </div>

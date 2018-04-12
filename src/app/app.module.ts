@@ -24,12 +24,14 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-import { MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
-    MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
-    MatNativeDateModule, MatExpansionModule, DateAdapter,
-    MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule,
-    MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
+import {
+  MatButtonModule, MatFormFieldModule, MatInputModule,
+  MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
+  MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
+  MatNativeDateModule, MatExpansionModule, DateAdapter,
+  MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatTabsModule,
+  MatCardModule, MatTooltipModule, MatAutocompleteModule
+} from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -58,7 +60,7 @@ import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
 import { LoginAuthService } from './auth/login.auth.service';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
+import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
@@ -72,7 +74,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FilerepositoryComponent, FileRepositoryPopup, FileViewerPopUp } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DocumentViewModule } from 'ngx-document-view';
@@ -93,18 +95,15 @@ import { ChartsProblemCategoryComponent } from './directives//charts-problem-cat
 import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
 import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
-import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
-
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
-
-import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
-import { WhatsappComponent } from './whatsapp/whatsapp.component';
 import { AccessDataModelComponent } from './model/useraccess.data.model';
-
+import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
+import { WhatsappComponent, WhatsAppTemplatePopup } from './whatsapp/whatsapp.component';
+import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -160,14 +159,17 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsLoyalityComponent,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
-    ChartAgeComponent,
     MediaLocalImagePopupDialog,
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
     SocialconfigurationComponent,
     WhatsappComponent,
-    AccessDataModelComponent
+    AccessDataModelComponent,
+
+    WhatsappComponent,
+    SocialconfigurationComponent,
+    WhatsAppTemplatePopup
   ],
   imports: [
     BrowserModule,
@@ -220,18 +222,20 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog],
+
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup],
   providers: [
-              // AuthService,
-              HttpService,
-              ValidationService,
-              NgxSmartLoaderService,
-              LoginAuthService,
-              GalleryImagesService,
-              FBService,
-              ProblemTypeService,
-              AreaService,
-              {provide: DateAdapter, useClass: DateFormat},
+    // AuthService,
+    HttpService,
+    ValidationService,
+    NgxSmartLoaderService,
+    LoginAuthService,
+    GalleryImagesService,
+    FBService,
+    ProblemTypeService,
+    AreaService,
+    { provide: DateAdapter, useClass: DateFormat },
+              SmsTemplateSelectService,
               EmailTemplateResolver,
               EmailTemplateService,
               // AuthInterceptorService,
@@ -246,9 +250,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               //   multi: true
               // }
 
-              {provide: DateAdapter, useClass: DateFormat}
+    { provide: DateAdapter, useClass: DateFormat }
 
-            ],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

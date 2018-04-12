@@ -9,6 +9,7 @@ import { AppComponent } from '../app.component';
 import { ITermsData } from '../model/IPrivacyData';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-tnc',
   templateUrl: './tnc.component.html',
@@ -23,7 +24,7 @@ export class TncComponent implements OnInit {
   button_text = 'Save';
   isEdit: boolean;
   feature_id = 21;
-  termsDetails: ITermsData;
+  termsDetails: ITermsData[];
   tncSubmitForm: FormGroup;
   userAccessDataModel: AccessDataModelComponent;
   constructor(private spinnerService: Ng4LoadingSpinnerService,
@@ -51,15 +52,15 @@ export class TncComponent implements OnInit {
 onSubmit = () => {
   this.spinnerService.show();
   this.tncSubmitForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-  if (this.termsDetails.id) {
+  if (this.termsDetails) {
     this.tncSubmitForm.controls['termsconditions_id'].setValue(this.termsDetails[0].id);
   }
   const formModel = this.tncSubmitForm.value;
-  this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_posttermsconditions', formModel)
+  this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_posttermsconditions', formModel)
   .subscribe(
     data => {
       if (data.error) {
-          this.alertService.warning(data.result);
+          this.alertService.warning('data not submitted');
           // this.parsePostResponse(data);
           this.spinnerService.hide();
       } else {
@@ -77,14 +78,19 @@ onSubmit = () => {
   );
 }
 getTermsData = () => {
-  this.httpClient.get<ITermsData>(AppConstants.API_URL + '/flujo_client_gettermsconditions/' + AppConstants.CLIENT_ID)
+  this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_gettermsconditions/' + AppConstants.CLIENT_ID)
   .subscribe(
     data => {
+      if (data.custom_status_code = 200) {
       this.termsDetails = null;
       this.isEdit = false;
-      this.termsDetails = data;
+      this.termsDetails = data.result;
+      console.log(this.termsDetails);
       this.setDefaultClientPrivacyData(this.termsDetails);
       this.spinnerService.hide();
+    } else {
+      this.alertService.warning('Someting went wrong');
+    }
     }, error => {
       console.log(error);
       this.loading = false;
@@ -94,12 +100,16 @@ getTermsData = () => {
 }
 deleteCompnent = (body) => {
   this.spinnerService.show();
-  this.httpClient.delete<IHttpResponse>(AppConstants.API_URL + 'flujo_client_deletetermsconditions/' + body.id)
+  this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletetermsconditions/' + body.id)
   .subscribe(
     data => {
+      if ((data.custom_status_code = 100) && (data.result[0] === '1')) {
       this.alertService.danger('Deleted Successfully');
       this.spinnerService.hide();
       this.getTermsData();
+    } else {
+      this.alertService.warning('Someting went wrong');
+    }
     },
     error => {
       this.spinnerService.hide();

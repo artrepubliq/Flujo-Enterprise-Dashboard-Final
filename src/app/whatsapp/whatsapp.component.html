@@ -1,52 +1,46 @@
 <!-- <ng4-loading-spinner></ng4-loading-spinner> -->
 
 <div class="container tconfig page_padding">
-    <ngx-alerts maxMessages="3" timeout="5000">
-    </ngx-alerts>
-  
-  
-    <div fxLayout="row">
-      <div class="page-header">
-        Whatsapp message Configuration
-      </div>
+  <ngx-alerts maxMessages="3" timeout="5000">
+  </ngx-alerts>
+
+
+  <div fxLayout="row" class="p-rel">
+    <div class="page-header">
+      Whatsapp message Configuration
     </div>
-  
-    <form role="form" class="admin-form"   method="post" enctype="multipart/form-data">
-      <div fxLayout="column" fxLayoutGap="13px">
-        <div fxLayout="row" fxLayoutGap="48px">
-          <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px" class="input_box">
-            <div class="form-group form-inline">
-              <label>Choose Contacts from DB</label>
-              <input class="form-control" type="checkbox"/>
-            </div>
-            
-            <label>Choose a SMS Template</label>
-            <div class="select-wrap">
-                <select>
-                  <option>Business</option>
-                  <option>Events</option>
-                  <option>Festival</option>
-                  <option>Ocassions</option>
-                </select>
-              </div>
-          </div>
-          <div fxLayout="column" fxFlex="50%" class="input_box" fxLayoutGap="20px">
-            <div>
-                <label>Send to Group</label>
-                <input type="checkbox" >
-              </div>  
-          </div>
-        </div><br/>
-        <div fxLayout="column" fxLayoutGap="13px" class="input_box">
-          <label>Enter the Message</label>
-          <div class="input_box">
-              <textarea id="message" placeholder="Message">
-              </textarea>
-          </div>
-        </div><br/>
-      </div>
-      <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-        <button type="submit" class="button_submit">Send</button>
-      </div>
-    </form>
+    <button mat-raised-button class="choose-button" (click)="templateSelectionPopup()">Choose Template +</button>
   </div>
+
+  <form role="form" [formGroup]="whatsAppSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
+    <div fxLayout="column" fxLayoutGap="13px">
+      <div fxLayout="row" fxLayoutGap="48px">
+        <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px" class="input_box">
+          <div class="form-group form-inline">
+            <label>Choose Contacts from DB</label>
+            <input class="form-control" formControlName="database" type="checkbox" #checkbox/>
+          </div>
+        </div>
+        <div fxLayout="column" fxFlex="50%" class="input_box" fxLayoutGap="20px">
+          <div>
+            <label>Send to Group</label>
+            <input formControlName="group" type="checkbox" #checkbox1>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+        <label>Enter the Message</label>
+        <div class="input_box">
+          <textarea formControlName="message" *ngIf="totalWhatsAppTemplateData" [ngModel]="totalWhatsAppTemplateData" id="message" placeholder="Message"></textarea>
+          <textarea *ngIf="!totalWhatsAppTemplateData" formControlName="message" id="message" placeholder="Message"></textarea>
+        </div>
+      </div>
+      <br/>
+    </div>
+    <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
+      <button type="submit" (click)="submitwhatsAppSendingForm(whatsAppSendingForm.value)" [disabled]="whatsAppSendingForm.invalid"
+        class="button_submit">Send</button>
+    </div>
+  </form>
+</div>

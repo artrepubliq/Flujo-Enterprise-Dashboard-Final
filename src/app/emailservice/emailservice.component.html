@@ -13,7 +13,7 @@
     <div class="page-header">
       Mailchimp
     </div>
-    <button mat-raised-button class="choose-button">Choose Template +</button>
+    <button mat-raised-button class="choose-button" (click)="templateSelectPopup()" >Choose Template +</button>
   </div>
 
   <form [formGroup]="mailSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
@@ -29,9 +29,6 @@
               </div>
             </div>
           </div>
-          <div fxLayoutAlign="center center" class="atRate">
-            @
-          </div>
           <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
             <label>Select contacts from csv file </label>
             <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
@@ -45,9 +42,6 @@
               <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
             </div>
           </div>
-          <div fxLayoutAlign="center center" class="atRate">
-            @
-          </div>
           <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
             <label>Select contacts from db</label>
             <input type="checkbox" formControlName="check">
@@ -56,7 +50,9 @@
         <!-- CKEditor -->
         <div class="input_box" fxLayout="column" fxLayoutGap="12px">
           <label>Message</label>
-          <ck-editor formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en"
+          <ck-editor *ngIf="selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="selectedEmailTemplateData" skin="moono-lisa" lang="en"
+            [fullPage]="true" [readonly]="false"></ck-editor>
+            <ck-editor *ngIf="!selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en"
             [fullPage]="true" [readonly]="false"></ck-editor>
           <control-messages [control]="mailSendingForm.controls.message"></control-messages>
         </div>

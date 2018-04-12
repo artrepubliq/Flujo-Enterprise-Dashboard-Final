@@ -1,4 +1,4 @@
-export interface IProfileData{
+export interface IProfileData {
 
     company_name: string;
     website_url: string;

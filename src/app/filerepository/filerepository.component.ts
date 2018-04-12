@@ -411,7 +411,7 @@ export class FilerepositoryComponent implements OnInit {
                     this.getFolders(AppConstants.CLIENT_ID);
                 },
                 error => {
-                    this.alertService.success('File something went wrong successfully');
+                    this.alertService.warning('something went wrong');
                     console.log(error);
                 }
             );

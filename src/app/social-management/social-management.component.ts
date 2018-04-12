@@ -25,8 +25,9 @@ export class SocialManagementComponent implements OnInit {
   isShowTwitter = false;
   access_token: any;
 
-  constructor(private fb: FacebookService, private fbService: FBService, private router: Router,
-    public adminComponent: AdminComponent, private spinnerService: Ng4LoadingSpinnerService) {
+  constructor(private fb: FacebookService,
+    private fbService: FBService, private router: Router,
+    private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {
     this.fbResponseData = <IFBFeedArray>{};
     this.fbResponseDataItems = [];
     fbService.FBInit();
