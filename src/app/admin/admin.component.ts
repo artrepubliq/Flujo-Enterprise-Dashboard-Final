@@ -43,7 +43,9 @@ export class AdminComponent implements OnInit {
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
     public mScrollbarService: MalihuScrollbarService,
-    titleService: Title, private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog,
+    titleService: Title, private router: Router,
+    activatedRoute: ActivatedRoute,
+    public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService) {
 
       router.events.subscribe(event => {
@@ -215,6 +217,10 @@ export class EmptyAccessLevelDialog {
     this.dialogRef.close();
   }
   logoutUser() {
+<<<<<<< HEAD
+=======
+    // this.loginAuthService.logout();
+>>>>>>> 73e15f6ea724dd71edd31456e5e2104571108c53
     this.dialogRef.close();
   }
 }
