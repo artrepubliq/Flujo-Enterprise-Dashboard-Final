@@ -11,6 +11,9 @@
       Mailchimp
     </div>
     <button mat-raised-button class="choose-button" (click)="templateSelectPopup()" >Choose Template +</button>
+    <!-- <div id="email_template"  hidden>
+      <div [innerHtml]="test | safeHtml"></div>
+    </div> -->
   </div>
 
   <form [formGroup]="mailSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
@@ -51,7 +54,9 @@
         <!-- CKEditor -->
         <div class="input_box" fxLayout="column" fxLayoutGap="12px">
           <label>Message</label>
-          <ck-editor formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en"
+          <ck-editor *ngIf="selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="selectedEmailTemplateData" skin="moono-lisa" lang="en"
+            [fullPage]="true" [readonly]="false"></ck-editor>
+            <ck-editor *ngIf="!selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en"
             [fullPage]="true" [readonly]="false"></ck-editor>
           <control-messages [control]="mailSendingForm.controls.message"></control-messages>
         </div>

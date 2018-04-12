@@ -22,7 +22,7 @@ export class GalleryDirective implements OnInit {
   private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
   private router: Router, public adminComponent: AdminComponent) {
   // constructor(private matDialog: MatDialog, private formBuilder: FormBuilder ){
-    this.mediaComponent = new MediaComponent(dialog , spinnerService, httpClient, formBuilder, alertService, adminComponent, router);
+    this.mediaComponent = new MediaComponent(dialog , spinnerService, httpClient, formBuilder, alertService, router, adminComponent);
   }
   @Input() albumBase64imagesArray: any;
   ngOnInit() {
@@ -34,4 +34,5 @@ export class GalleryDirective implements OnInit {
     this.mediaComponent.openDialog(albumItem);
     console.log('test' + albumItem);
   }
+
 }

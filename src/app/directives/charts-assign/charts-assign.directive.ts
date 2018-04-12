@@ -38,9 +38,6 @@ export class ChartsAssignDirective implements OnChanges {
           data: assignCompleted,
           backgroundColor: [
             '#ee2f6b', '#ee2f6b', '#ee2f6b'
-
-          ]
-
           ],
           label: 'Completed'
           },
