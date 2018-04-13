@@ -39,7 +39,6 @@ export class PagesComponent implements OnInit, OnDestroy {
     public pageDetails: object;
     public web_description = '';
     public app_description = '';
-
     bgColor = '#3c3c3c';
     userAccessDataModel: AccessDataModelComponent;
     feature_id = 1;
@@ -78,7 +77,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             parent_id: null,
             web_description: ['', Validators.required],
             app_description: ['', Validators.required],
-            component_background_color: ['',],
+            component_background_color: ['', ],
             component_order: ['', Validators.required],
             component_id: null,
             component_image: null,
