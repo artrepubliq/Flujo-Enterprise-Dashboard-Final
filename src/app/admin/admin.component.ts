@@ -42,6 +42,9 @@ export class AdminComponent implements OnInit {
   // Arrays for Side nav menu and admin menu
   // tslint:disable-next-line:max-line-length
   editor = [{ feature_id: 1, title: 'Editor', router: 'admin/chooseplatform', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false}];
+
+  // tslint:disable-next-line:max-line-length
+  drive = [{ feature_id: 11, title: 'Drive', router: 'admin/filerepository', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false}];
   // tslint:disable-next-line:max-line-length
   flow = [{ feature_id: 1, title: 'Social', router: 'admin/social_management', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png', isActive: false},
   { feature_id: 3, title: 'Mail', router: 'admin/email', activeicon: 'assets/icons/mail-color-nav-icon-active@2x.png', normalicon: 'assets/icons/mail-color-nav-icon-normal@2x.png', isActive: false},
@@ -74,7 +77,7 @@ export class AdminComponent implements OnInit {
     { feature_id: 24, title: 'Problem Category', router: 'admin/problemcategory'},
     { feature_id: 25, title: 'Area Category', router: 'admin/areacategory'},
     { feature_id: 27, title: 'SMS Template Configuration', router: 'admin/smsconfiguration'},
-    { feature_id: 28, title: 'Email Template Configuration', router: 'admin/emailconfiguration'},
+    { feature_id: 28, title: 'Email Template', router: 'admin/emailconfiguration'},
     { feature_id: 29, title: 'Social Configuration', router: 'admin/socialconfiguration'}
   ];
   accessDataModel: AccessDataModelComponent;
@@ -118,10 +121,13 @@ export class AdminComponent implements OnInit {
   navigatePage = (page, index, menuid) => {
     _.each(this.flow, (iteratee, i) => {this.flow[i].isActive = false; });
     _.each(this.nucleus, (iteratee, i) => {this.nucleus[i].isActive = false; });
+    _.each(this.drive, (iteratee, i) => {this.nucleus[i].isActive = false; });
     if (menuid === 'flow') {
       this.flow[index].isActive = true;
     } else if (menuid === 'nucleus') {
       this.nucleus[index].isActive = true;
+    } else if (menuid === 'drive') {
+      this.drive[index].isActive = true;
     }
     localStorage.setItem('feature_id', page.feature_id);
     this.CurrentPageName = page.title;
