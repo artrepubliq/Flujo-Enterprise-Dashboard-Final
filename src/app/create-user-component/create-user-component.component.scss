@@ -33,10 +33,15 @@ tbody tr {
   height: 70px;
 }
 
-.table-bordered th, tr {
+.table-bordered th {
   font-size: 13px;
   font-weight: 500;
   color: #666666;
+}
+.table-bordered tr {
+  font-size: 13px;
+  font-weight: 500;
+  color: #919191;
 }
 
 .table-bordered td:first-child {
