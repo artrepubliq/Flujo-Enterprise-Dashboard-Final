@@ -89,9 +89,9 @@
         </li>
         <div *ngFor="let item of adminMenu; let i = index">
           <div *ngFor="let useraccesitem of userAccessLevelData">
-            <li class="activity" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i)">
+            <a class="activity" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i)">
               <i class="fa fa-user"></i>{{item.title}}
-            </li>
+            </a>
           </div>
         </div>
         <li>
