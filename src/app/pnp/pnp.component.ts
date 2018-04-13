@@ -8,6 +8,8 @@ import { AppConstants } from '../app.constants';
 import { AppComponent } from '../app.component';
 import { IPrivacyData } from '../model/IPrivacyData';
 import { ICommonInterface } from '../model/commonInterface.model';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-pnp',
   templateUrl: './pnp.component.html',
@@ -23,16 +25,22 @@ export class PnpComponent implements OnInit {
   isEdit: boolean;
   privacyDetails: Array<IPrivacyData>;
   pnpSubmitForm: FormGroup;
-  constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
-    private alertService: AlertService) {
+  feature_id = 22;
+  userAccessDataModel: AccessDataModelComponent;
+  constructor(private spinnerService: Ng4LoadingSpinnerService,
+    private formBuilder: FormBuilder, private httpClient: HttpClient,
+    private alertService: AlertService, private router: Router) {
     this.pnpSubmitForm = this.formBuilder.group({
       'title': ['', Validators.required],
       'privacy_policy': ['', Validators.required],
       'client_id': [null],
       'privacypolicy_id': [null]
     });
-
     this.getPrivacyData();
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/privacynpolicy');
+    }
   }
 
   ngOnInit() {
@@ -159,6 +167,7 @@ export class PnpComponent implements OnInit {
     this.setDefaultClientPrivacyData(privacyItem);
   }
   parsePostResponse(response) {
+    this.alertService.success('Request Completed Successfully.');
     this.loading = false;
     this.pnpSubmitForm.reset();
     this.isEdit = false;

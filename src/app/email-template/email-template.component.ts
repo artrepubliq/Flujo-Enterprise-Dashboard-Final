@@ -1,6 +1,9 @@
-import { Component, OnInit, Pipe, PipeTransform, OnDestroy } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { HttpClient } from '@angular/common/http';
+// import { IPostEmailTemplate, EmailThemeConfig } from '../model/emailThemeConfig.model';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { EmailTemplateService } from './email-template-service';
 import { AlertService } from 'ngx-alerts';
@@ -13,7 +16,6 @@ import { map } from 'rxjs/operators/map';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { EmailTemplateResolver } from './email-template.resolver';
 import { CKEditorModule } from 'ngx-ckeditor';
-import * as html2canvas from 'html2canvas';
 import { PlatformLocation } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 @Pipe({
@@ -31,7 +33,9 @@ export class SafeHtmlPipe implements PipeTransform {
   templateUrl: './email-template.component.html',
   styleUrls: ['./email-template.component.scss']
 })
-export class EmailTemplateComponent implements OnInit, OnDestroy {
+export class EmailTemplateComponent implements OnInit {
+  filteredOptions: Observable<string[]>;
+  templateCategory: FormControl = new FormControl();
   img: any;
   test: any;
   config: any;
@@ -47,10 +51,11 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
   public editOrUpdate: boolean;
   public data: IPostEmailTemplate;
   public createEmailTemplateForm: any;
-  templateCategory: FormControl = new FormControl();
-  filteredOptions: Observable<string[]>;
-
+  public template_html: any;
+  userAccessDataModel: AccessDataModelComponent;
+  feature_id = 28;
   constructor(
+    private httpClient: HttpClient,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private emailTemplateService: EmailTemplateService,
@@ -60,13 +65,22 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private platformLocation: PlatformLocation,
   ) {
+    // client_id: string;
+    // template_name: string;
+    // template_category: string;
+    // template_html: string;
+    // emailtemplateconfig_id?: string;
     this.createEmailTemplateForm = this.formBuilder.group({
       'template_name': ['', Validators.required],
-      'template_category': [''],
-      'template_html': [''],
+      'template_category': ['', Validators.required],
+      'template_html': ['', Validators.required],
       'emailtemplateconfig_id': [''],
       'client_id': ['']
     });
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/emailconfiguration');
+    }
     this.tempate_categories = [];
   }
 
@@ -87,7 +101,6 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
     this.spinnerService.show();
     this.emailTemplateService.postEmailTemplateData(formModel, 'flujo_client_postemailtemplateconfig')
       .subscribe((result) => {
-        console.log(result);
         if (result.error) {
           this.alertService.warning(result.result);
           this.spinnerService.hide();
@@ -211,12 +224,9 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
     this.isView = false;
     this.setDefaultEmailTemplateDetails(emailTemplateData);
   }
-  cancelEditTemplate() {
-    console.log(this.allEmailTemplates);
-    this.isEdit = false;
-  }
-
-  ngOnDestroy() {
+  public modelChanged(event) {
+    console.log(event);
+    this.template_html = event;
   }
 
 }

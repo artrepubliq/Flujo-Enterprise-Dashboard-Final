@@ -5,7 +5,6 @@ import { AppConstants } from '../app.constants';
 import { Observable } from 'rxjs/Observable';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { ICommonInterface } from '../model/commonInterface.model';
-
 @Injectable()
 export class ProblemTypeService {
 

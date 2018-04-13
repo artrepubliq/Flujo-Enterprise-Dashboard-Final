@@ -1,6 +1,4 @@
-
 export interface IPostEmailTemplate {
-
     error?: string;
     result?: string;
     // data?: IPostEmailTemplate;
@@ -13,4 +11,3 @@ export interface IPostEmailTemplate {
     submitted_at?: string;
     isActive?: boolean;
 }
-

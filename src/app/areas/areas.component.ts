@@ -10,6 +10,8 @@ import { AppConstants } from '../app.constants';
 import * as _ from 'underscore';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-areas',
   templateUrl: './areas.component.html',
@@ -17,6 +19,7 @@ import { Router } from '@angular/router';
 })
 export class AreasComponent implements OnInit {
   isEdit: boolean;
+  feature_id = 25;
   actionText: string;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
@@ -34,6 +37,7 @@ export class AreasComponent implements OnInit {
   areaData: Array<IAreaType>;
   areaForm: FormGroup;
   config: any;
+  userAccessDataModel: AccessDataModelComponent;
   constructor(
     private httpService: HttpService,
     private areaService: AreaService,
@@ -41,7 +45,8 @@ export class AreasComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private alertService: AlertService,
     public adminComponent: AdminComponent,
-    private router: Router
+    private router: Router,
+    private httpClient: HttpClient
   ) {
     this.areaPincode = '';
     this.areaName = '';
@@ -55,50 +60,14 @@ export class AreasComponent implements OnInit {
       'areapincodenew': new FormControl(this.areaPincodeNew, [Validators.required, Validators.minLength(3), Validators.maxLength(6)]),
       'areaid': new FormControl(this.areaId),
     });
-    if (this.adminComponent.userAccessLevelData) {
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              } else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
-    }
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/areacategory');
+     }
   }
 
   ngOnInit() {
     this.getAreaData();
-  }
-  // this for restrict user on root access level
-userRestrict() {
-  _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-    // tslint:disable-next-line:max-line-length
-    if (this.adminComponent.userAccessLevelData[iterate].name === 'Area Category' && this.adminComponent.userAccessLevelData[iterate].enable) {
-      this.filteredUserAccessData = item;
-      } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/area']);
-    } else {
-      this.router.navigate(['/accessdenied']);
-    }
 }
   public getAreaData(): void {
     this.spinnerService.show();
