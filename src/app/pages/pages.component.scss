@@ -2,7 +2,77 @@
 button {
   outline: none;
 }
+// table stylessssss
+.table-bordered{
+  background-color: rgb(255, 255, 255);
+}
+.table-bordered thead th, tbody td{
+  vertical-align: middle !important;
+}
+.table-bordered thead tr, tbody tr{
+  height: 70px;
+}
+.table-bordered th{
+font-family: Roboto;
+font-size: 13px;
+font-weight: 500;
+color: #666666;
+// color: var(--brownish-grey);
+}
+.table-bordered td{
+  font-family: Roboto;
+font-size: 13px;
+color: #666666;
+}
+.table-bordered td .name-feedback{
+  font-family: Roboto;
+font-size: 14px;
+font-weight: 500;
+color: #333333;
+}
+.table-bordered th, .table-bordered td{
+  border-left:none;
+  border-right:none;
+  
+}
+.fb-first-field input, p{
+  margin:0 5px
+}
 
+.table-bordered input[type=checkbox]:checked{
+  background: #4a2565 !important;
+  transition: all 5s ease-in-out !important;
+}
+.btn-stack {
+  button {
+    background: none;
+    border: none;
+    margin: 0;
+  }
+}
+.btn:focus {
+  outline: 0;
+  box-shadow: none;
+}
+button i {
+  font-family: FontAwesome !important;
+  opacity: 0.6;
+}
+button i:hover {
+  opacity: 1;
+}
+td.btn-pages{
+  text-align: center;
+  padding:0rem;
+  button{
+    margin: 0;
+  }
+}
+.pages-total{
+  max-height: calc( 100vh - 200px);
+  position: relative;
+  // padding: 8px;
+}
 // input, input:focus {
 //     outline: none;
 //     box-shadow: none;
@@ -26,28 +96,28 @@ img {
   vertical-align: middle;
 }
 
-.table {
-  thead {
-    tr {
-      border-bottom: 1px solid #dee2e6;
-    }
-  }
-  td,
-  th,
-  button {
-    border: none;
+// .table {
+//   thead {
+//     tr {
+//       border-bottom: 1px solid #dee2e6;
+//     }
+//   }
+//   td,
+//   th,
+//   button {
+//     border: none;
 
-    font-size: 14px;
-    font-family: 'Roboto';
-    font-size: 14px;
-    font-weight: 500; // line-height: 1.43;
-    // text-align: left;
-    color: #666666;
-  }
-  button {
-    color: #fff;
-  }
-}
+//     font-size: 14px;
+//     font-family: 'Roboto';
+//     font-size: 14px;
+//     font-weight: 500; // line-height: 1.43;
+//     // text-align: left;
+//     color: #666666;
+//   }
+//   button {
+//     color: #fff;
+//   }
+// }
 
 // input {
 //     border-radius: 0;
