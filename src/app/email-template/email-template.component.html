@@ -47,45 +47,5 @@
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
         <button type="button" [disabled]="createEmailTemplateForm.invalid" (click)="submitTemplate()" class="button_submit">Submit</button>
       </div>
-    </div>
-  </form>
-</div>
-
-<div fxLayout="column" class="header-media" fxLayoutAlign=" center" *ngIf="!isEdit">
-  <h3 class="title m-0" fxFlex>
-    Templates
-  </h3>
-
-  <div class="row" *ngIf="allEmailTemplates.length > 0">
-
-    <div class="col-md-3 folder_block" *ngFor="let templates of uniqueEmailTemplates; let i = index">
-      <div class="floder_block" fxLayout="row" fxLayoutGap="15px" (click)="readTemplates(templates.template_category)">
-        <i class="fa fa-folder-o"></i>
-        <i class="fa fa-folder-open"></i>
-        <p class="floder_name">{{templates.template_category}}</p>
-      </div>
-    </div>
+    </form>
   </div>
-</div>
-<br>
-<br>
-<div class="row" *ngIf="!isEdit">
-  <div class="col-md-3" *ngFor="let item of filteredThemes">
-    <!-- <h3 class="title" *ngIf="filteredThemes?.length > 0"></h3> -->
-    <!-- <h3 *ngIf="filteredThemes?.length === 0"></h3> -->
-    <div class="file_block">
-      <div fxLayoutAlign="center center" class="file_icon">
-            <!-- <img width="auto" height="100%" src="https://i.pinimg.com/originals/78/fa/0e/78fa0e51be75ba1bf29ffb41517953b0.jpg" alt="preview template"/>         -->
-          <div class="preview-thumbnail" [innerHTML]="item.template_html | safeHtml"></div>
-      </div>
-      <div class="file_footer">
-        <h3 class="title"></h3>
-        <p class="file_size">{{item.template_name}}</p>
-        <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end end">
-          <i class="fa fa-pencil" aria-hidden="true" (click)="editEmailTemplate(item)"></i>
-          <i class="fa fa-trash test" (click)="deleteEmailTemplate(item.id)"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
