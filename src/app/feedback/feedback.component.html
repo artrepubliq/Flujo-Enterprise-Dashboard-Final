@@ -19,7 +19,7 @@
   </div>
   <div *ngIf="componentName === 'feedback'">
     <div>
-      <p>Total Count: {{elementData.length}}</p>
+      <p>Total Count: {{elementData?.length}}</p>
     </div>
     <div class="feedback_table" [perfectScrollbar]="config">
 
@@ -28,27 +28,27 @@
           <!-- Name Column -->
           <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-            <mat-cell *matCellDef="let elementData"> {{elementData.name}} </mat-cell>
+            <mat-cell *matCellDef="let elementData"> {{elementData?.name}} </mat-cell>
           </ng-container>
           <!-- Update column -->
           <ng-container matColumnDef="updated">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Updated </mat-header-cell>
-            <mat-cell *matCellDef="let elementData"> {{elementData.datenow}} </mat-cell>
+            <mat-cell *matCellDef="let elementData"> {{elementData?.datenow}} </mat-cell>
           </ng-container>
           <!-- Symbol Column -->
           <ng-container matColumnDef="email">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
-            <mat-cell *matCellDef="let elementData"> {{elementData.email}} </mat-cell>
+            <mat-cell *matCellDef="let elementData"> {{elementData?.email}} </mat-cell>
           </ng-container>
           <!-- Phone Column -->
           <ng-container matColumnDef="phone">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </mat-header-cell>
-            <mat-cell *matCellDef="let elementData"> {{elementData.phone}} </mat-cell>
+            <mat-cell *matCellDef="let elementData"> {{elementData?.phone}} </mat-cell>
           </ng-container>
           <!-- Weight Column -->
           <ng-container matColumnDef="message">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Message </mat-header-cell>
-            <mat-cell *matCellDef="let elementData"> {{elementData.message}} </mat-cell>
+            <mat-cell *matCellDef="let elementData"> {{elementData?.message}} </mat-cell>
           </ng-container>
 
 

@@ -186,7 +186,6 @@ export class FeedbackComponent implements OnInit {
     this.httpClient.get(AppConstants.API_URL + '/flujo_client_getreportproblem/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
-        console.log(data);
         this.reportProblemData = data;
         this.spinnerService.hide();
       },
@@ -280,8 +279,7 @@ export class FeedbackComponent implements OnInit {
   }
   /* change directive when clicked*/
   radioChange = (name) => {
-    console.log('hai');
-    console.log(name);
+
     this.componentName = name;
     this.isActive = !this.isActive;
     // this.router.navigate(['/admin/' + name]);
