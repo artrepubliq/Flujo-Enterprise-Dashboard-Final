@@ -97,7 +97,7 @@ export class BiographyComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postbiography', formModel)
       .subscribe(
         data => {
-          if (!data.error || data.access_token === AppConstants.ACCESS_TOKEN) {
+          if (!data.error && data.access_token === AppConstants.ACCESS_TOKEN) {
             this.spinnerService.hide();
             this.alertService.success('Biography data submitted successfully');
             this.biographySubmitForm.reset();

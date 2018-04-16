@@ -49,6 +49,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   assign: any;
   area: any;
   range: any;
+  selectedDataRange: any;
   // tslint:disable-next-line:member-ordering
   params = {
     client_id: AppConstants.CLIENT_ID,
@@ -89,6 +90,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     this.params.to_date = this.maxDate;
 
     this.getData(this.params);
+
   }
 
   onToday() {
@@ -99,6 +101,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     this.params.to_date = this.maxDate;
 
     this.getData(this.params);
+    this.selectedDataRange = 'today';
   }
 
   onWeek() {
@@ -109,6 +112,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     this.params.to_date = this.maxDate;
 
     this.getData(this.params);
+    this.selectedDataRange = 'week';
   }
 
   onMonth() {
@@ -117,6 +121,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     this.params.from_date = this.minDate;
     this.params.to_date = this.maxDate;
     this.getData(this.params);
+    this.selectedDataRange = 'month';
   }
 
   onQuarter () {
@@ -127,6 +132,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     this.params.to_date = this.maxDate;
 
     this.getData(this.params);
+    this.selectedDataRange = 'quarter';
   }
 
   onYear() {
@@ -137,18 +143,19 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     this.params.to_date = this.maxDate;
 
     this.getData(this.params);
+    this.selectedDataRange = 'year';
   }
 
   async getProblemsData(params) {
     // tslint:disable-next-line:max-line-length
-    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_postproblemtypereportanalytics', params)
+    await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postproblemtypereportanalytics', params)
       .subscribe(
         (data) => {
           console.log(data);
-          if (data['error']) {
-            console.log('Error getting problems data');
-          } else {
+          if (!data['error'] && AppConstants.CLIENT_ID === data.access_token) {
             this.problem_category = data['result'];
+          } else {
+            console.log('Error getting problems data');
           }
         },
         (error) => {
@@ -157,14 +164,14 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   }
 
   async getGenderData(params) {
-    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_postgenderreportanalytics', params)
+    await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postgenderreportanalytics', params)
       .subscribe(
         (data) => {
           console.log(data);
-          if (data['error']) {
-            console.log('Error getting Gender data');
-          } else {
+          if (!data['error'] && AppConstants.CLIENT_ID === data.access_token) {
             this.gender = data['result'][0];
+          } else {
+            console.log('Error getting gender data');
           }
         },
         (error) => {
@@ -173,15 +180,15 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   }
 
   async getAgeData(params) {
-    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_postagereportanalytics', params)
+    await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postagereportanalytics', params)
       .subscribe(
         (data) => {
           console.log(data);
-          if (data['error']) {
-            console.log('Error getting Age data');
-          } else {
+          if (!data['error'] && AppConstants.CLIENT_ID === data.access_token) {
             this.ageData = data['result'];
             this.ageChart();
+          } else {
+            console.log('Error getting age data');
           }
         },
         (error) => {
@@ -190,14 +197,14 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   }
 
   async getAreaData(params) {
-    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_postareareportanalytics', params)
+    await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postareareportanalytics', params)
       .subscribe(
         (data) => {
           console.log(data);
-          if (data['error']) {
-            console.log('Error getting Area data');
-          } else {
+          if (!data['error'] && AppConstants.CLIENT_ID === data.access_token) {
             this.area = data['result'];
+          } else {
+            console.log('Error getting area data');
           }
         },
         (error) => {
@@ -206,14 +213,14 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   }
 
   async getReportsData(params) {
-    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_poststatusreportanalytics', params)
+    await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_poststatusreportanalytics', params)
       .subscribe(
         (data) => {
           console.log(data);
-          if (data['error']) {
-            console.log('Error getting Status Reports data');
-          } else {
+          if (!data['error'] && AppConstants.CLIENT_ID === data.access_token) {
             this.status_reports = data['result'];
+          } else {
+            console.log('Error getting status reports data');
           }
         },
         (error) => {
@@ -222,14 +229,14 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   }
 
   async getAssignData(params) {
-    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_postassignreportanalytics', params)
+    await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postassignreportanalytics', params)
       .subscribe(
         (data) => {
           console.log(data);
-          if (data['error']) {
-            console.log('Error getting Assign data');
-          } else {
+          if (!data['error'] && AppConstants.CLIENT_ID === data.access_token) {
             this.assign = data['result'];
+          } else {
+            console.log('Error getting problems data');
           }
         },
         (error) => {
@@ -269,6 +276,15 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     this.getReportsData(params);
     this.getAssignData(params);
     this.spinnerService.hide();
+  }
+
+  // this will change the background color when date range buttons are clicked
+  getBGColor(givenRange: string) {
+    if (givenRange === this.selectedDataRange) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
