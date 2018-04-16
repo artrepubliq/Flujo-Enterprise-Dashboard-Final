@@ -12,7 +12,7 @@
             <span>Art Republiq</span>
             <span class="active-indication">
               <span class="nickname">{{name}}</span>
-            <span class="active-info">
+              <span class="active-info">
                 <sup>.</sup>
               </span>
             </span>
@@ -83,7 +83,7 @@
       <a class="nav-link" data-toggle="dropdown">
         <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat">
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" [perfectScrollbar]="config">
         <li>
           <a class="activity">{{name}}</a>
         </li>
@@ -96,7 +96,7 @@
         </div>
         <li>
           <a class="activity" (click)="loginAuthService.logout()">
-              <i class="fa fa-power-off"></i>Log Out</a>
+            <i class="fa fa-power-off"></i>Log Out</a>
         </li>
 
       </ul>
@@ -107,20 +107,21 @@
 
 <!-- Body Wrapper -->
 
-<div id="wrapper" fxLayout="row" class="contentBody">
+<div id="wrapper" ngClass.md="page-content_md" ngClass.lt-md="page-content_lt-md" ngClass.xs="page-content_XS" fxLayout="row" class="contentBody">
 
-  <!-- Side Navigation -->
-  <aside id="sidebar-wrapper" class="sidebar-menu ps" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()" [ngClass]="{'sidebar-toggle':!sidebarToggledButton}" [perfectScrollbar]="config">
+  <!-- Sidebar Wrapper -->
+  <aside id="sidebar-wrapper" class="sidebar-menu ps" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()"
+    [ngClass]="{'sidebar-toggle':!sidebarToggledButton}" [perfectScrollbar]="config">
     <ul class="nav flex-column">
       <div *ngFor="let item of editor; let i = index">
         <div *ngFor="let useraccesitem of userAccessLevelData">
           <li class="nav-item" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i)">
             <a class="nav-link editor-link" [ngClass]="{'active': item.isActive }">
-          <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
-          <img src="assets/icons/editor-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
-          <!-- <i class="fa fa-ionic"></i> -->
-          <span>{{item.title}}</span>
-        </a>
+              <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
+              <img src="assets/icons/editor-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
+              <!-- <i class="fa fa-ionic"></i> -->
+              <span>{{item.title}}</span>
+            </a>
           </li>
         </div>
       </div>
@@ -133,10 +134,10 @@
         <div *ngFor="let useraccesitem of userAccessLevelData">
           <li class="nav-item" *ngIf="useraccesitem.name === flowitem.title && useraccesitem.enable" (click)="navigatePage(flowitem, i, 'flow')">
             <a class="nav-link" [ngClass]="{'active': flowitem.isActive }">
-          <img src="{{flowitem.normalicon}}" class="normal_img" alt="buffer icon">
-          <img src="{{flowitem.activeicon}}" class="active_img" alt="buffer icon">
-          <span>{{flowitem.title}}</span>
-        </a>
+              <img src="{{flowitem.normalicon}}" class="normal_img" alt="buffer icon">
+              <img src="{{flowitem.activeicon}}" class="active_img" alt="buffer icon">
+              <span>{{flowitem.title}}</span>
+            </a>
           </li>
         </div>
       </div>
@@ -149,10 +150,10 @@
         <div *ngFor="let useraccesitem of userAccessLevelData">
           <li class="nav-item" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i, 'nucleus')">
             <a class="nav-link" [ngClass]="{'active': item.isActive }">
-            <img src="{{item.normalicon}}" class="normal_img" alt="buffer icon">
-            <img src="{{item.activeicon}}" class="active_img" alt="buffer icon">
-            <span>{{item.title}}</span>
-          </a>
+              <img src="{{item.normalicon}}" class="normal_img" alt="buffer icon">
+              <img src="{{item.activeicon}}" class="active_img" alt="buffer icon">
+              <span>{{item.title}}</span>
+            </a>
           </li>
         </div>
       </div>
@@ -174,17 +175,25 @@
       <ul class="team-items">
         <li *ngFor="let chatItem of activeUsers">
           <a class="team-user" routerLinkActive="active">
-              <i class="team-user-icon user-logo">
-                <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
-              <span class="userStatus" (click)=ChatIO(chatItem) [ngClass]="{'active': chatItem.isUserActive}">{{chatItem.name}}</span>
+            <i class="team-user-icon user-logo">
+              <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
+            <span class="userStatus" (click)=ChatIO(chatItem) [ngClass]="{'active': chatItem.isUserActive}">{{chatItem.name}}</span>
 
-            </a>
+          </a>
         </li>
 
       </ul>
     </ul>
 
-</aside>
-<div fxFlex id="page-content-wrapper" [perfectScrollbar]="config" class="ps">
-  <router-outlet></router-outlet>
+  </aside>
+  <!-- // Sidebar Wrapper -->
+
+  <!-- Content Body -->
+  <div fxFlex id="page-content-wrapper" [perfectScrollbar]="config">
+
+    <router-outlet></router-outlet>
+
+  </div>
+  <!-- // Content Body -->
+
 </div>

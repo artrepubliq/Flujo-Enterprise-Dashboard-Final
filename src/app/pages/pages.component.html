@@ -2,7 +2,7 @@
 <ngx-alerts maxMessages="3" timeout="5000">
   <!-- <strong>{{successMessage }}</strong> -->
 </ngx-alerts>
-<div fxLayout="column" class="page_padding">
+<div fxLayout="column" ngClass.lg="page_padding">
   <!-- === Buttons ==== -->
   <div class="addview-buttons">
     <div class="page-header">
@@ -47,8 +47,8 @@
       </div>
 
       <!-- Theme Inputs -->
-      <div fxLayout="row" fxLayoutGap="15px">
-        <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
           <label for="component_background_color" class="input_title">Background Color</label>
           <div fxFlex style="position:relative">
             <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)"
@@ -58,7 +58,7 @@
             <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
           </div>
         </div>
-        <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
+        <div class="col-md-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
           <label for="component_image" class="input_title">Component Image</label>
           <!-- <input type="file" id="component_image" (change)="onComponentImageChange($event)" #fileInput1> -->
           <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile(1)">clear file</button> -->
@@ -71,7 +71,7 @@
           </div>
 
         </div>
-        <div class="form-group" fxFlex fxLayout="column" fxLayoutGap="12px">
+        <div class="col-md-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
           <label for="component_background_image" class="input_title">Component Background Image</label>
           <!-- <input type="file" id="component_background_image" (change)="onComponentBackgroundImageChange($event)" #fileInput2> -->
 
@@ -84,7 +84,7 @@
             </div>
           </div>
         </div>
-        <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
+        <div class="col-md-3 col-sm-6 col-12" class="input_box" fxLayout="column" fxLayoutGap="12px">
           <label for="component_order">Page order</label>
           <input type="text" id="component_order" placeholder="Page Order" formControlName="component_order">
         </div>
@@ -112,7 +112,7 @@
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
       </div>
-</form>
+    </form>
   </div>
   <!-- // ===== Add Pages End ======= -->
 
