@@ -9,8 +9,6 @@ import { AppComponent, LogoutPopUpDialog } from './app.component';
 import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { GalleryImagesService } from './service/gallery-images.service';
-import { UseraccessServiceService } from './service/useraccess-service.service';
-// import { AuthService } from './auth/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesComponent, MediaLocalImagePopupDialog } from './pages/pages.component';
 import { HttpService } from './service/httpClient.service';
@@ -26,12 +24,14 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent, EmailTemplateSelectionPopup } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
-import { MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
-    MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
-    MatNativeDateModule, MatExpansionModule, DateAdapter,
-    MAT_DATE_FORMATS, MAT_DATE_LOCALE,  MatSelectModule, MatMenuModule, MatTabsModule,
-    MatCardModule, MatTooltipModule, MatAutocompleteModule } from '@angular/material';
+import {
+  MatButtonModule, MatFormFieldModule, MatInputModule,
+  MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
+  MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
+  MatNativeDateModule, MatExpansionModule, DateAdapter,
+  MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatTabsModule,
+  MatCardModule, MatTooltipModule, MatAutocompleteModule
+} from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -46,7 +46,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup
-import { SmsuiComponent, SmsTemplateSelectionDialog} from './smsui/smsui.component';
+import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -59,9 +59,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
 import { LoginAuthService } from './auth/login.auth.service';
-import { EditorComponent } from './editor/editor.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { ViewGalleryComponent} from './view-gallery/view-gallery.component';
+import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
 import { Router } from '@angular/router';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
@@ -71,12 +70,11 @@ import { FBService } from './service/fb.service';
 import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
 import { BiographyComponent } from './biography/biography.component';
 import { DateFormat } from './model/date.formatt';
-import { ReportanissueComponent } from './reportanissue/reportanissue.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
 import { FilerepositoryComponent, FileRepositoryPopup, FileViewerPopUp } from './filerepository/filerepository.component';
 import { ManageReportsComponent } from './manage-reports/manage-reports.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DocumentViewModule } from 'ngx-document-view';
@@ -91,27 +89,22 @@ import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { DatabaseComponent } from './database/database.component';
-import { ChartsGenderDirective } from './directives/charts-gender/charts-gender.directive';
-import { ChartsAssignDirective } from './directives/charts-assign/charts-assign.directive';
-import { ChartsProblemCategoryDirective } from './directives//charts-problem-category/charts-problem-category.directive';
-import { ChartsStatusDirective } from './directives/charts-status/charts-status.directive';
-import { ChartsLoyalityDirective } from './directives/charts-loyality/charts-loyality.directive';
+import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.component';
+import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
+import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
+import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
-// import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
-
-import { EditorSelectionService } from './service/editor-selection.service';
-
-import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
-import { WhatsappComponent } from './whatsapp/whatsapp.component';
-import { UseraccessComponent } from './useraccess/useraccess.component';
-import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
-
-
+import { AccessDataModelComponent } from './model/useraccess.data.model';
+import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
+import { WhatsappComponent, WhatsAppTemplatePopup } from './whatsapp/whatsapp.component';
+import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
+import { ChartsProblemCategoryDirective } from './directives/charts-problem-category/charts-problem-category.directive';
+import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -134,12 +127,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmsuiComponent,
     CreateUserComponentComponent,
     ThemeConfigComponent,
-    EditorComponent,
     ViewGalleryComponent,
     SocialManagementComponent,
     FilerepositoryComponent,
     ManageReportsComponent,
-    // UseraccessComponent,
     // directives
     EditGalleryItems,
     GalleryDirective,
@@ -151,7 +142,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AccessLevelPopup,
     FileRepositoryPopup,
     FileViewerPopUp,
-    ReportanissueComponent,
     FeedbackComponent,
     ChangemakerComponent,
     AnalyticsComponent,
@@ -163,28 +153,26 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProblemCategoryComponent,
     AreasComponent,
     DatabaseComponent,
-    ChartsGenderDirective,
-    ChartsAssignDirective,
-    ChartsProblemCategoryDirective,
-    ChartsStatusDirective,
-    ChartsLoyalityDirective,
+    ChartsGenderComponent,
+    ChartsAssignComponent,
+    ChartsStatusComponent,
+    ChartsLoyalityComponent,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
-    // ChartAgeDirective,
     MediaLocalImagePopupDialog,
     SmstemplateComponent,
     EmailTemplateComponent,
     ChooseplatformComponent,
-
-    SmsTemplateSelectionDialog,
-    EmailTemplateSelectionPopup,
-    SmsTemplateSelectionDialog,
-
-    SafeHtmlPipe,
-
     SocialconfigurationComponent,
     WhatsappComponent,
-
+    AccessDataModelComponent,
+    SafeHtmlPipe,
+    ChartsProblemCategoryDirective,
+    WhatsappComponent,
+    SocialconfigurationComponent,
+    WhatsAppTemplatePopup,
+    EmailTemplateSelectionPopup,
+    ChartAgeComponent
   ],
   imports: [
     BrowserModule,
@@ -236,9 +224,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatSortModule,
     MatPaginatorModule,
   ],
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, SmsTemplateSelectionDialog,
-     EmailTemplateSelectionPopup],
+  entryComponents: [EditGalleryItems, EmailTemplateSelectionPopup,
+    DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup,
+    FileRepositoryPopup, FileViewerPopUp,
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog,
+      MediaLocalImagePopupDialog, WhatsAppTemplatePopup],
   providers: [
               // AuthService,
               HttpService,
@@ -248,18 +238,22 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               GalleryImagesService,
               FBService,
               ProblemTypeService,
-              UseraccessServiceService,
               AreaService,
-
               {provide: DateAdapter, useClass: DateFormat},
-
-              UseraccessComponent,
+              SmsTemplateSelectService,
               SmsTemplateSelectService,
 
-              EditorSelectionService,
-              UseraccessComponent,
+    // AuthService,
+    HttpService,
+    ValidationService,
+    NgxSmartLoaderService,
+    LoginAuthService,
+    GalleryImagesService,
+    FBService,
+    ProblemTypeService,
+    AreaService,
+    { provide: DateAdapter, useClass: DateFormat },
               SmsTemplateSelectService,
-
               EmailTemplateResolver,
               EmailTemplateService,
               // AuthInterceptorService,
@@ -274,9 +268,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               //   multi: true
               // }
 
-              {provide: DateAdapter, useClass: DateFormat}
+    { provide: DateAdapter, useClass: DateFormat }
 
-            ],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

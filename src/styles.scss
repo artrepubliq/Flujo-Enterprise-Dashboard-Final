@@ -26,6 +26,9 @@ body {
   height: 100vh;
   overflow-y: hidden;
 }
+p{
+  font-family: 'Roboto', sans-serif;
+}
 
 a {
   cursor: pointer;
@@ -383,7 +386,7 @@ control-messages,
 
 // Custom Global Page-padding
 .page_padding {
-  padding: 3vh 6vw 15px 4vw;
+  padding: 3vh 2vw 15px 4vw;
 }
 
 // Mat Toggle custom style
@@ -545,23 +548,23 @@ control-messages,
   }
 }
 
-.toggleShow_uploader {
-  height: 0px;
-  overflow: hidden;
-  transition: 0.5s ease-in-out;
-  opacity: 0;
-}
+// .toggleShow_uploader {
+//   height: 0px;
+//   overflow: hidden;
+//   transition: 0.5s ease-in-out;
+//   opacity: 0;
+// }
 
-.ShowFileUploader {
-  .toggleShow_uploader {
-    height: 205px;
-    overflow: initial;
-    opacity: 1;
-  }
-  .show_upload {
-    margin-top: 0;
-  }
-}
+// .ShowFileUploader {
+//   .toggleShow_uploader {
+//     height: 205px;
+//     overflow: initial;
+//     opacity: 1;
+//   }
+//   .show_upload {
+//     margin-top: 0;
+//   }
+// }
 
 /* ..// Upload Hover Effect */
 
@@ -687,3 +690,48 @@ control-messages,
       }
 }
 
+/* Material Dropdown Custom */
+.select_dropdown {
+  .mat-form-field-flex {
+    border: 1.5px solid #f0f0f0;
+    padding: 7px 14px;
+    border-radius: 50px;
+    height: 40px;
+  }
+  .mat-form-field-infix {
+    border: none;
+  }
+  .mat-form-field-underline {
+    display: none;
+  }
+  .mat-form-field-label-wrapper {
+    display: none;
+  }
+  .mat-select-placeholder {
+    color: #999999 !important;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+}
+.custom_input_mat .select_dropdown{
+  .mat-form-field-flex {
+    border: 1.5px solid #f7f7f7;
+  } 
+}
+
+
+/* Reponsive below 959px */
+.profile_logo {
+  transition: ease-in-out 0.3s;
+}
+.page-content_lt-md {
+  .profile_logo {
+    width: 80vw;
+  }
+  .uploader_content {
+    min-width: auto;
+  }
+}

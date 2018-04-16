@@ -10,6 +10,8 @@ import { AppConstants } from '../app.constants';
 import * as _ from 'underscore';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-areas',
   templateUrl: './areas.component.html',
@@ -17,6 +19,7 @@ import { Router } from '@angular/router';
 })
 export class AreasComponent implements OnInit {
   isEdit: boolean;
+  feature_id = 25;
   actionText: string;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
@@ -34,6 +37,7 @@ export class AreasComponent implements OnInit {
   areaData: Array<IAreaType>;
   areaForm: FormGroup;
   config: any;
+  userAccessDataModel: AccessDataModelComponent;
   constructor(
     private httpService: HttpService,
     private areaService: AreaService,
@@ -41,7 +45,8 @@ export class AreasComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService,
     private alertService: AlertService,
     public adminComponent: AdminComponent,
-    private router: Router
+    private router: Router,
+    private httpClient: HttpClient
   ) {
     this.areaPincode = '';
     this.areaName = '';
@@ -55,29 +60,10 @@ export class AreasComponent implements OnInit {
       'areapincodenew': new FormControl(this.areaPincodeNew, [Validators.required, Validators.minLength(3), Validators.maxLength(6)]),
       'areaid': new FormControl(this.areaId),
     });
-    if (this.adminComponent.userAccessLevelData) {
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              } else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
-    }
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/areacategory');
+     }
   }
 
   ngOnInit() {
@@ -105,16 +91,17 @@ userRestrict() {
     this.areaService.getAreaData('/flujo_client_getreportarea/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          console.log(data);
-          if (data.error) {
-            console.log('Something went wrong while fetching data');
-          } else if ((data.error === false) && (data.access_token === AppConstants.ACCESS_TOKEN)) {
+          if (data.custom_status_code === 100 && data.result.length > 0) {
             this.areaData = data.result;
-            console.log(this.areaData);
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
           }
           this.spinnerService.hide();
+          // this.areaData = data;
+          console.log(this.areaData);
         },
         error => {
+          this.spinnerService.hide();
           console.log(error);
         }
       );
@@ -175,14 +162,12 @@ userRestrict() {
       .subscribe(
         data => {
           console.log(data);
-          if (data.error) {
-            this.alertService.warning('Required parameters are missing.');
-          } else {
-            if (data.custom_status_code === 100 && AppConstants.ACCESS_TOKEN === data.access_token) {
-              this.alertService.success('Area Updated Successfully');
-            } else {
-              this.alertService.warning('Everything is up-to-date');
-            }
+          if (data.custom_status_code === 100) {
+            this.alertService.success('Area updated successfully');
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
+          } else if (data.custom_status_code === 102) {
+            this.alertService.warning('Every thing is upto date!');
           }
           this.getAreaData();
           this.areaForm.reset();
@@ -204,6 +189,11 @@ userRestrict() {
     this.areaService.deleteArea('flujo_client_deletereportarea/', area.id)
       .subscribe(
         data => {
+          if (data.custom_status_code === 100) {
+            this.alertService.success('Area deleted successfully');
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
+          }
           this.spinnerService.hide();
           if (data.error) {
             this.alertService.warning('Something went wrong. Try again after sometime.');

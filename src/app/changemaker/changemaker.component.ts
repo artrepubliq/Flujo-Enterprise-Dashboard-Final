@@ -7,14 +7,16 @@ import CSVExportService from 'json2csvexporter';
 import { AppConstants } from '../app.constants';
 import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import {MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort} from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort } from '@angular/material';
 import { Element } from '../model/element-model';
 import { Observable } from 'rxjs/Observable';
 import { DataSource } from '@angular/cdk/collections';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
-import { CommonInterface } from '../model/analytics.model';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { ICommonInterface } from '../model/commonInterface.model';
+
 @Component({
   selector: 'app-changemaker',
   templateUrl: './changemaker.component.html',
@@ -23,6 +25,7 @@ import { CommonInterface } from '../model/analytics.model';
 
 export class ChangemakerComponent implements OnInit {
   filteredUserAccessData: any;
+  feature_id = 8;
   userAccessLevelObject: any;
   dataSource = new MatTableDataSource<Element>();
   @ViewChild(MatSort) sort: MatSort;
@@ -47,53 +50,32 @@ export class ChangemakerComponent implements OnInit {
   config: any;
   p: number;
   submitted: boolean;
+  userAccessDataModel: AccessDataModelComponent;
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder, private httpClient:
-    HttpClient, private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
+      HttpClient, private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
 
-   this.feedbackCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
-   });
-   this.changeMakerCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
-   });
-   this.reportCsvMail = this.formBuilder.group({
-    'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
-   });
+    this.feedbackCsvMail = this.formBuilder.group({
+      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
+    });
+    this.changeMakerCsvMail = this.formBuilder.group({
+      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
+    });
+    this.reportCsvMail = this.formBuilder.group({
+      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
+    });
     this.getChangemakerReportData();
-
-    if (this.adminComponent.userAccessLevelData) {
-      this.userRestrict();
-    } else {
-      this.adminComponent.getUserAccessLevelsHttpClient()
-        .subscribe(
-          resp => {
-            this.spinnerService.hide();
-            _.each(resp, item => {
-              if (item.user_id === localStorage.getItem('user_id')) {
-                  this.userAccessLevelObject = item.access_levels;
-              } else {
-                // this.userAccessLevelObject = null;
-              }
-            });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-            this.userRestrict();
-          },
-          error => {
-            console.log(error);
-            this.spinnerService.hide();
-          }
-        );
-    }
-
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/changemakerreport');
+     }
   }
   ngOnInit() {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
-
   userRestrict() {
     _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
       // tslint:disable-next-line:max-line-length
@@ -108,37 +90,34 @@ export class ChangemakerComponent implements OnInit {
       this.router.navigate(['/accessdenied']);
     }
   }
-
   getChangemakerReportData() {
     this.spinnerService.show();
-    this.httpClient.get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getchangemaker/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getchangemaker/' + AppConstants.CLIENT_ID)
+
       .subscribe(
-      data => {
-        if (data.error) {
-          console.log('Something went wrong while fetching data');
-        } else if ((data.error === false) && (data.access_token === AppConstants.ACCESS_TOKEN)) {
-          console.log(data);
+        data => {
+          console.log(data.result);
           this.changemakerData = data.result;
           this.changemakerData2 = data.result;
+          this.spinnerService.hide();
           this.dataSource = new MatTableDataSource(this.changemakerData);
-        // this.changemakerData.paginator = this.paginator;
-        this.changeMakerElementData = this.changemakerData;
-        console.log(this.changemakerData);
-        }
-        this.spinnerService.hide();
-      },
-      error => {
-        console.log(error);
-      });
+          // this.changemakerData.paginator = this.paginator;
+          this.changeMakerElementData = this.changemakerData;
+          console.log(this.changemakerData);
+          this.spinnerService.hide();
+        },
+        error => {
+          console.log(error);
+        });
   }
   public applyFilter(filterValue: string): void {
     console.log(filterValue);
     console.log(this.changemakerData);
     this.changemakerData2 = this.changemakerData.filter((item) =>
       (item.name.includes(filterValue) ||
-      (item.date_now.includes(filterValue)) ||
-      (item.email.includes(filterValue))
-    ));
+        (item.date_now.includes(filterValue)) ||
+        (item.email.includes(filterValue))
+      ));
   }
   sortData(sort: Sort) {
     const data = this.changeMakerElementData.slice();
@@ -188,15 +167,15 @@ export class ChangemakerComponent implements OnInit {
 
     this.httpClient.post(AppConstants.API_URL + 'flujo_client_changemakerreportmailattachment', formModel)
       .subscribe(
-      data => {
-        this.changeMakerCsvMail.reset();
-        this.alertService.info('Attachement sent succesfully');
-        this.spinnerService.hide();
-      },
-      error => {
-        this.spinnerService.hide();
-        this.alertService.danger('Email could not sent');
-      });
+        data => {
+          this.changeMakerCsvMail.reset();
+          this.alertService.info('Attachement sent succesfully');
+          this.spinnerService.hide();
+        },
+        error => {
+          this.spinnerService.hide();
+          this.alertService.danger('Email could not sent');
+        });
   }
 }
 function compare(a, b, isAsc) {

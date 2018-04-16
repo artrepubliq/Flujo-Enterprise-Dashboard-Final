@@ -1,7 +1,7 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 
-<div fxLayout="column" fxLayoutGap="30px" class="problem_type">
+<div fxLayout="column" fxLayoutGap="30px" class="problem_type page_padding">
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <div>
       <p class="areas-head">Problem Category</p>
@@ -17,11 +17,11 @@
   </div>
   <div class="view_items" fxLayout="column" fxLayoutGap="0px" [perfectScrollbar]="config">
       <div fxLayout="row"  class="view_item" fxLayoutGap="30px" fxLayoutAlign="start center">
-          <div class="d-inline code name-head" fxFlex="19%">
+          <div class="d-inline code name-head" fxFlex="20%">
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input fxFlex="5%" class="d-inline" type="checkbox">&nbsp;&nbsp;
             <p class="d-inline"><b>Category</b></p>
           </div>
-          <div class="code" fxFlex="19%">
+          <div class="code" fxFlex="21%">
             <b>Category in Telugu</b>
           </div>
           <div class="code" fxFlex="20%">
@@ -44,7 +44,7 @@
        {{problem.problem_type_telugu}}
       </div>
       <div class="code" fxFlex="35%">
-        Santosh
+        {{problem.created_by}}
       </div>
       <div class="code" fxFlex="15%">
         5th April 2018

@@ -6,11 +6,11 @@ import { AppConstants } from '../app.constants';
 import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class SmsTemplateSelectService {
-constructor (private htppClient: HttpClient
-            ) {
+    constructor(private htppClient: HttpClient
+    ) {
 
-}
-getSmsSelectData = (requestUrl: string, CLIENT_ID: string): Observable<any> => {
-return this.htppClient.get<IHttpResponse>(AppConstants.API_URL + requestUrl + CLIENT_ID);
-}
+    }
+    getSmsSelectData = (requestUrl: string, CLIENT_ID: string): Observable<any> => {
+        return this.htppClient.get<IHttpResponse>(AppConstants.API_URL + requestUrl + CLIENT_ID);
+    }
 }

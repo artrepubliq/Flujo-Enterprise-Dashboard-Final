@@ -1,9 +1,7 @@
 <ngx-alerts maxMessages="3" timeout="5000">
 </ngx-alerts>
 <ng4-loading-spinner></ng4-loading-spinner>
-
-<div class="" fxLayout="column" fxLayoutGap="13px">
-
+<div class="page_padding" fxLayout="column" fxLayoutGap="13px">
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <h6 class="issues">Issues</h6>
    
@@ -37,7 +35,7 @@
   </div>
   <br/>
 <div>
-  <span>Total count: {{filterReportProblemData.length}}</span>
+  <span>Total count: {{filterReportProblemData?.length}}</span>
 </div>
   <div class="manage_reports_table" [perfectScrollbar]="config">
     <div class="manage_reports_data">
@@ -220,7 +218,8 @@
     </div>
   </div>
   <div class="feedback_footer" fxLayout="row" fxLayoutAlign="space-between ">
-   
+      <!-- <mat-paginator #paginator *ngIf="filterReportProblemData" [length]="filterReportProblemData.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator> -->
     <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>

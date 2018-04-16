@@ -4,11 +4,10 @@ import * as _ from 'underscore';
 
 @Component({
   selector: 'app-charts-assign',
-  templateUrl: './charts-assign.directive.html',
-  styleUrls: ['./charts-assign.directive.scss']
+  templateUrl: './charts-assign.component.html',
+  styleUrls: ['./charts-assign.component.scss']
 })
-// tslint:disable-next-line:component-class-suffix
-export class ChartsAssignDirective implements OnChanges {
+export class ChartsAssignComponent implements OnChanges {
   @Input() assign: any;
   assignChart: any;
   constructor() { }
@@ -38,19 +37,22 @@ export class ChartsAssignDirective implements OnChanges {
           data: assignCompleted,
           backgroundColor: [
             '#ee2f6b', '#ee2f6b', '#ee2f6b'
-          ]
+          ],
+          label: 'Completed'
           },
           {
             data: assignInProgress,
             backgroundColor: [
-              '#ee2f6b', '#ee2f6b', '#ee2f6b'
-            ]
+              '#00f', '#00f', '#00f'
+            ],
+            label: 'In Progress'
           },
           {
             data: assignUnresolved,
             backgroundColor: [
-              '#ee2f6b80', '#ee2f6b80', '#ee2f6b80'
-            ]
+              '#0f0', '#0f0', '#0f0'
+            ],
+            label: 'Unresolved'
           }
         ],
         labels: assignEmail

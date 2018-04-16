@@ -1,5 +1,4 @@
-export class IchangeDetails{
-    error:string;
-    result:string;
-    
+export class IchangeDetails {
+    error: string;
+    result: string;
 }
