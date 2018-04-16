@@ -9,7 +9,6 @@ import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-u
 import { FileUploadModule } from 'ng2-file-upload';
 import { MatButtonModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpService } from '../service/httpClient.service';
-
 import { ValidationService } from '../service/validation.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';
@@ -49,6 +48,7 @@ export class SmsuiComponent implements OnInit {
       'file': [''],
       'client_id': []
     });
+    this.getSlectedTemplateData();
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/sms');
@@ -94,6 +94,7 @@ export class SmsuiComponent implements OnInit {
         this.smsTemplateSelectionData.map((smsData) => {
           smsData.isActive = false;
         });
+        console.log(this.smsTemplateSelectionData);
       }
     } catch (e) {
         console.log(e);

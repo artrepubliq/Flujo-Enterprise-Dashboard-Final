@@ -21,7 +21,7 @@ import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-import { EmailserviceComponent } from './emailservice/emailservice.component';
+import { EmailserviceComponent, EmailTemplateSelectionPopup } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import {
@@ -46,7 +46,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup
-import { SmsuiComponent } from './smsui/smsui.component';
+import { SmsuiComponent, SmsTemplateSelectionDialog } from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -104,6 +104,7 @@ import { AccessDataModelComponent } from './model/useraccess.data.model';
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent, WhatsAppTemplatePopup } from './whatsapp/whatsapp.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
+import { EditorSelectionService } from './service/editor-selection.service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -166,10 +167,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialconfigurationComponent,
     WhatsappComponent,
     AccessDataModelComponent,
-
     WhatsappComponent,
     SocialconfigurationComponent,
     WhatsAppTemplatePopup,
+    EmailTemplateSelectionPopup,
+    SmsTemplateSelectionDialog,
     SafeHtmlPipe
   ],
   imports: [
@@ -224,7 +226,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
 
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup],
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
+    EmailTemplateSelectionPopup, SmsTemplateSelectionDialog],
   providers: [
     // AuthService,
     HttpService,
@@ -239,6 +242,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               SmsTemplateSelectService,
               EmailTemplateResolver,
               EmailTemplateService,
+              EditorSelectionService,
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,

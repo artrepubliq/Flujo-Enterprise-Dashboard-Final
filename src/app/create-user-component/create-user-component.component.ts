@@ -269,6 +269,7 @@ export class AccessLevelPopup {
       { name: 'Social Configuration', feature_id: 29, enable: true, read: true, write: true, order: '29' },
       { name: 'Choose platform', feature_id: 30, enable: true, read: true, write: true, order: '30' },
       { name: 'profile', feature_id: 31, enable: true, read: true, write: true, order: '31' },
+      { name: 'WhatsApp', feature_id: 32, enable: true, read: true, write: true, order: '32' }
         ];
     return defaultData;
   }
@@ -303,7 +304,7 @@ export class AccessLevelPopup {
             // this.data.id will come from open access dialog and we are comparing selected id and server data id
             return item.user_id === this.data.id;
           });
-          if (this.filteredAccessIds.length > 0) {
+          if (this.filteredAccessIds.length > 0 && this.filteredAccessIds[0].access_levels) {
             this.accessLevelData = JSON.parse(this.filteredAccessIds[0].access_levels);
             this.spinnerService.hide();
           } else {

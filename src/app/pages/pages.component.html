@@ -98,7 +98,7 @@
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
         <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
 
-        <button type="submit" [disabled]="form.invalid || loading" class="button_submit" mat-button>{{button_text}}
+        <button type="submit"  class="button_submit" mat-button>{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
       </div>

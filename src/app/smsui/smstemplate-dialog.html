@@ -1,0 +1,18 @@
+<div class="sms_popup">
+    <h3 class="head">Select SMS Template</h3>
+    <div class="sms_body" fxLayout="row" fxLayoutGap="15px" fxLayoutWrap="wrap">
+        <div *ngFor="let item of data, let i = index" fxFlex="45%" class="sms_msg_item" [ngClass]="{'selected' : item.isActive}"
+            (click)="selectedSmsText(item, i)">
+            <p class="msg_title">
+                {{item.template_name}}
+            </p>
+            <h3 class="msg_content">
+                {{item.template_text}}
+            </h3>
+        </div>
+    </div>
+    <div class="pull-right">
+        <button mat-button (click)="cancelDialog()">Cancel</button>
+        <button (click)="closeDialog()" class="button_submit">Ok</button>
+    </div>
+</div>

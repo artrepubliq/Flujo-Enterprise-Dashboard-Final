@@ -1,32 +1,45 @@
-
 <div fxLayout="column" fxLayoutGap="2rem">
   <div fxFlex="100%" fxLayout="row" class="editor-head" fxLayoutAlign="center center">
-    <div><p>Design<span> .&nbsp; </span></p></div>
-    <div><p>Prototype<span> .&nbsp; </span></p></div>
-    <div><p>Share</p></div>
+    <div>
+      <p>Design
+        <span> .&nbsp; </span>
+      </p>
+    </div>
+    <div>
+      <p>Prototype
+        <span> .&nbsp; </span>
+      </p>
+    </div>
+    <div>
+      <p>Share</p>
+    </div>
   </div>
   <div class="editor-tag" fxLayout="row" fxLayoutAlign="center center">
     <p>Select Something</p>
   </div>
-  <div  class="editorselector_box" fxLayoutAlign="center center">
-    <div  class="editor-selection" fxLayoutAlign="center center">
-        <div class="editor_body" fxFlex="90">
-          <div  class="editors" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around center">
-              <div fxFlex="50" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-between center">
-                <img src="assets/website-illustration.png" alt="website illustration"><br/>
-                <label>Website</label>
-                <p>Lorem ipsum dolor sit amet consectetur elit adipisicing sed d</p>
-                <button (click)="routing()" mat-raised-button class="btn-editor">Create</button>
-              </div>
-              <div fxLayout="row" class="divider"></div>
-              <div fxFlex="50" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="space-between center">
-                <img src="assets/mobile-app-illustration.png" alt="mobile app illustration"><br/><br/>
-                <label>Mobile App</label>
-                <p>Lorem ipsum dolor sit amet consectetur elit adipisicing sed d</p>
-                <button  mat-raised-button class="btn-editor">Create</button>
-              </div>
+  <ng4-loading-spinner></ng4-loading-spinner>
+  <div class="editorselector_box" fxLayoutAlign="center center">
+    <div class="editor-selection" fxLayoutAlign="center center">
+      <div class="editor_body" fxFlex="90">
+        <div class="editors" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around center">
+          <div fxFlex="50" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-between center">
+            <img src="assets/website-illustration.png" alt="website illustration">
+            <br/>
+            <label>Website</label>
+            <p>Lorem ipsum dolor sit amet consectetur elit adipisicing sed d</p>
+            <button (click)="routing('editorWeb')" mat-raised-button class="btn-editor">Create</button>
+          </div>
+          <div fxLayout="row" class="divider"></div>
+          <div fxFlex="50" fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="space-between center">
+            <img src="assets/mobile-app-illustration.png" alt="mobile app illustration">
+            <br/>
+            <br/>
+            <label>Mobile App</label>
+            <p>Lorem ipsum dolor sit amet consectetur elit adipisicing sed d</p>
+            <button (click)="routing('editorApp')" mat-raised-button class="btn-editor">Create</button>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </div>
