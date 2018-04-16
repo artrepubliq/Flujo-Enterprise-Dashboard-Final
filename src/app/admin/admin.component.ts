@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, Inject, Injectable, EventEmitter } from '@angular/core';
 // import { AuthService } from '../auth/auth.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
+// import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'underscore';
@@ -83,7 +83,7 @@ export class AdminComponent implements OnInit {
   accessDataModel: AccessDataModelComponent;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
-    public mScrollbarService: MalihuScrollbarService,
+    // public mScrollbarService: MalihuScrollbarService,
     private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService) {
     this.accessDataModel = new AccessDataModelComponent(httpClient, router);
@@ -110,7 +110,7 @@ export class AdminComponent implements OnInit {
   }
   ngOnInit(): void {
     this.name = localStorage.getItem('name');
-    this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
+    // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     this.getUserList();
     setInterval(() => {
