@@ -47,34 +47,22 @@ export class CreateModuleComponent implements OnInit {
         private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
         this.createForm();
         this.getModuleDetails();
+        if (Number(localStorage.getItem('feature_id') !== this.feature_id)) {
         this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
         this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/module');
+    }
     }
     ngOnInit() {
         setTimeout(function () {
             this.spinnerService.hide();
         }.bind(this), 3000);
     }
-    userRestrict() {
-        _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-            // tslint:disable-next-line:max-line-length
-            if (this.adminComponent.userAccessLevelData[iterate].name === 'Biography' && this.adminComponent.userAccessLevelData[iterate].enable) {
-                this.filteredUserAccessData = item;
-            } else {
-            }
-        });
-        if (this.filteredUserAccessData) {
-            this.router.navigate(['admin/module']);
-        } else {
-            this.router.navigate(['/accessdenied']);
-        }
-    }
     createForm = () => {
         this.moduleForm = this.formBuilder.group({
             module_name: ['', Validators.required],
             module_title: ['', Validators.required],
             module_description: ['', Validators.required],
-            module_background_color: ['',],
+            module_background_color: [''],
             module_background_image: null,
             client_id: null,
             module_id: [null]

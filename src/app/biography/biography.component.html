@@ -4,29 +4,31 @@
 <div class="flujo_card_block bio_graphy" fxLayoutAlign="center center">
   <form action="" [formGroup]="biographySubmitForm" (submit)="onSubmit()" class="card_block">
     <div class="card_header">
-      <h3 class="header_title">{{pageTitle}}</h3>
+      <h3 class="header_title">Biography</h3>
     </div>
     <div fxLayout="column" class="card_body" fxLayoutGap="15px">
-      <!-- <div fxLayout="column" fxLayoutGap="10px">
-        <label for="">Career Position</label>
-        <input type="text" class="input" placeholder="Career Position" formControlName="career_position">
-      </div> -->
-      <div>
-        <mat-form-field fxFlex>
+
+      <div class="custom_input_mat" fxLayout="column" fxLayoutGap="12px">
+        <p>Position</p>
+        <mat-form-field class="select_dropdown" fxFlex>
           <input matInput type="text" placeholder="Career Position" formControlName="career_position">
         </mat-form-field>
       </div>
-      <div fxLayout="row" fxLayoutGap="20px">
-        <div fxLayout="column" fxLayoutGap="10px">
-          <mat-form-field>
+
+      <div class="custom_input_mat" fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex fxLayout="column" fxLayoutGap="12px">
+          <p>From</p>
+          <mat-form-field class="select_dropdown">
             <input matInput [min]="minDate" formControlName="from_year" [max]="maxDate" [matDatepicker]="picker1" placeholder="From date"
               (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker touchUi="true" startView="year" [startAt]="startDate" #picker1></mat-datepicker>
           </mat-form-field>
         </div>
-        <div fxLayout="column" fxLayoutGap="10px">
-          <mat-form-field>
+
+        <div fxFlex fxLayout="column" fxLayoutGap="12px">
+          <p>To</p>
+          <mat-form-field class="select_dropdown">
             <input matInput [min]="minDate" formControlName="to_year" [max]="maxDate" [matDatepicker]="picker2" placeholder="To date"
               (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
@@ -34,15 +36,14 @@
           </mat-form-field>
         </div>
       </div>
-      <!-- <div fxLayout="column" fxLayoutGap="10px">
-        <label for="">Career Description</label>
-        <input type="text" class="input" placeholder="Career Description" formControlName="career_description">
-      </div> -->
-      <div>
-        <mat-form-field fxFlex>
+
+      <div class="custom_input_mat" fxLayout="column" fxLayoutGap="12px">
+        <p>Career Description</p>
+        <mat-form-field class="select_dropdown textarea_mat_custom" fxFlex>
           <textarea matInput type="text" placeholder="Career Description" formControlName="career_description"></textarea>
         </mat-form-field>
       </div>
+
       <div>
         <div class="bio_colorPicker" fxLayout="column" fxLayoutGap="12px">
           <label for="background_color" class="input_title">Module Background Color</label>

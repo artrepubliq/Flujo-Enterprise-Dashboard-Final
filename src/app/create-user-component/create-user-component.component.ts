@@ -252,7 +252,7 @@ export class AccessLevelPopup {
       { name: 'Team', feature_id: 12, enable: true, read: true, write: true, order: '12' },
       { name: 'Logo', feature_id: 13, enable: true, read: true, write: true, order: '13' },
       { name: 'Media Management', feature_id: 14, enable: true, read: true, write: true, order: '14' },
-      { name: 'Theme Global Config', feature_id: 15, enable: true, read: true, write: true, order: '15' },
+      { name: 'Theme Global Configuration', feature_id: 15, enable: true, read: true, write: true, order: '15' },
       { name: 'SMTP', feature_id: 16, enable: true, read: true, write: true, order: '16' },
       { name: 'User Management', feature_id: 17, enable: true, read: true, write: true, order: '17' },
       { name: 'Social links update', feature_id: 18, enable: true, read: true, write: true, order: '18' },
@@ -265,10 +265,11 @@ export class AccessLevelPopup {
       { name: 'Area Category', feature_id: 25, enable: true, read: true, write: true, order: '25' },
       { name: 'Settings', feature_id: 26, enable: true, read: true, write: true, order: '26' },
       { name: 'SMS Template Configuration', feature_id: 27, enable: true, read: true, write: true, order: '27' },
-      { name: 'EMail template configuration', feature_id: 28, enable: true, read: true, write: true, order: '28' },
+      { name: 'Email Template', feature_id: 28, enable: true, read: true, write: true, order: '28' },
       { name: 'Social Configuration', feature_id: 29, enable: true, read: true, write: true, order: '29' },
       { name: 'Choose platform', feature_id: 30, enable: true, read: true, write: true, order: '30' },
       { name: 'profile', feature_id: 31, enable: true, read: true, write: true, order: '31' },
+      { name: 'WhatsApp', feature_id: 32, enable: true, read: true, write: true, order: '32' }
         ];
     return defaultData;
   }
@@ -303,7 +304,7 @@ export class AccessLevelPopup {
             // this.data.id will come from open access dialog and we are comparing selected id and server data id
             return item.user_id === this.data.id;
           });
-          if (this.filteredAccessIds.length > 0) {
+          if (this.filteredAccessIds.length > 0 && this.filteredAccessIds[0].access_levels) {
             this.accessLevelData = JSON.parse(this.filteredAccessIds[0].access_levels);
             this.spinnerService.hide();
           } else {

@@ -13,8 +13,6 @@ import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
-
-
 export class AppDateAdapter extends NativeDateAdapter {
 
   format(date: Date, displayFormat: Object): string {
@@ -76,7 +74,7 @@ export class BiographyComponent implements OnInit {
       'from_year': [null],
       'to_year': [null],
       'career_description': ['', Validators.required],
-      background_color: ['',],
+      background_color: [''],
       'client_id': [null]
     });
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {

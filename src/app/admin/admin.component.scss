@@ -81,6 +81,7 @@
         min-width: 270px;
         left: auto;
         right: 0;
+        max-height: calc(100vh - 80px);
         .activity {
           width: 100%;
           position: relative;
@@ -652,7 +653,7 @@
       font-size: 14px;
       color: #666666 !important;
       cursor: pointer;
-      padding: 8px 8px 8px 7%;
+      padding: 8px 75% 8px 7%;
     }
     li.dropdown-item:hover {
       color: white !important;

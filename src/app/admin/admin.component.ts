@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, Inject, Injectable, EventEmitter } from '@angular/core';
 // import { AuthService } from '../auth/auth.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
+// import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'underscore';
@@ -31,7 +31,7 @@ export class AdminComponent implements OnInit {
   userAccessLevelObject: any;
   filteredAccessIds: any;
   isUserActive: boolean;
-  CurrentPageName: string;
+  CurrentPageName = 'Profile';
   activeUsers: Array<IloggedinUsers>;
   loggedinUsersList: Array<IloggedinUsers>;
   userList: Array<IloggedinUsers>;
@@ -44,6 +44,9 @@ export class AdminComponent implements OnInit {
   // Arrays for Side nav menu and admin menu
   // tslint:disable-next-line:max-line-length
   editor = [{ feature_id: 1, title: 'Editor', router: 'admin/chooseplatform', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false}];
+
+  // tslint:disable-next-line:max-line-length
+  drive = [{ feature_id: 11, title: 'Drive', router: 'admin/filerepository', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false}];
   // tslint:disable-next-line:max-line-length
   flow = [{ feature_id: 1, title: 'Social', router: 'admin/social_management', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png', isActive: false},
   // tslint:disable-next-line:max-line-length
@@ -51,7 +54,7 @@ export class AdminComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'SMS', router: 'admin/sms', activeicon: 'assets/icons/sms-color-nav-icon-active@2x.png', normalicon: 'assets/icons/sms-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'WhatsApp', router: 'admin/whatsappflujo', activeicon: 'assets/icons/sms-color-nav-icon-active@2x.png', normalicon: 'assets/icons/sms-color-nav-icon-normal@2x.png' , isActive: false}
+  { feature_id: 32, title: 'WhatsApp', router: 'admin/whatsappflujo', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png' , isActive: false}
   ];
   // tslint:disable-next-line:max-line-length
   nucleus = [{ feature_id: 1, title: 'Manage Reports', router: 'admin/managereports', activeicon: 'assets/icons/report-an-issue-color-nav-icon-active@2x.png', normalicon: 'assets/icons/report-an-issue-color-nav-icon-normal@2x.png', isActive: false},
@@ -62,7 +65,9 @@ export class AdminComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'Surveys', router: 'admin/surveys', activeicon: 'assets/icons/survey-color-nav-icon-active@2x.png', normalicon: 'assets/icons/survey-color-nav-icon-normal@2x.png' , isActive: false},
   // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Database', router: 'admin/database', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png' , isActive: false}
+  { feature_id: 1, title: 'Database', router: 'admin/database', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png' , isActive: false},
+  // tslint:disable-next-line:max-line-length
+  { feature_id: 1, title: 'Analytics', router: 'admin/analytics', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png' , isActive: false}
   ];
   adminMenu = [
     { feature_id: 13, title: 'Logo', router: 'admin/logo'},
@@ -79,13 +84,13 @@ export class AdminComponent implements OnInit {
     { feature_id: 24, title: 'Problem Category', router: 'admin/problemcategory'},
     { feature_id: 25, title: 'Area Category', router: 'admin/areacategory'},
     { feature_id: 27, title: 'SMS Template Configuration', router: 'admin/smsconfiguration'},
-    { feature_id: 28, title: 'Email Template Configuration', router: 'admin/emailconfiguration'},
+    { feature_id: 28, title: 'Email Template', router: 'admin/emailconfiguration'},
     { feature_id: 29, title: 'Social Configuration', router: 'admin/socialconfiguration'}
   ];
   accessDataModel: AccessDataModelComponent;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
-    public mScrollbarService: MalihuScrollbarService,
+    // public mScrollbarService: MalihuScrollbarService,
     private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService) {
     this.accessDataModel = new AccessDataModelComponent(httpClient, router);
@@ -112,7 +117,7 @@ export class AdminComponent implements OnInit {
   }
   ngOnInit(): void {
     this.name = localStorage.getItem('name');
-    this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
+    // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     this.getUserList();
     setInterval(() => {
@@ -123,10 +128,13 @@ export class AdminComponent implements OnInit {
   navigatePage = (page, index, menuid) => {
     _.each(this.flow, (iteratee, i) => {this.flow[i].isActive = false; });
     _.each(this.nucleus, (iteratee, i) => {this.nucleus[i].isActive = false; });
+    _.each(this.drive, (iteratee, i) => {this.nucleus[i].isActive = false; });
     if (menuid === 'flow') {
       this.flow[index].isActive = true;
     } else if (menuid === 'nucleus') {
       this.nucleus[index].isActive = true;
+    } else if (menuid === 'drive') {
+      this.drive[index].isActive = true;
     }
     localStorage.setItem('feature_id', page.feature_id);
     this.CurrentPageName = page.title;

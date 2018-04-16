@@ -2,7 +2,7 @@
 export interface ILogo {
     client_id: number;
     theme_id: number;
-    logo_url_path: string;
+    logo_image: string;
     logo_text?: string;
     logo_caption?: string;
     logo_height?: number;
