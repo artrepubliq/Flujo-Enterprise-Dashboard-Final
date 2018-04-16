@@ -24,8 +24,6 @@ import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailserviceComponent, EmailTemplateSelectionPopup } from './emailservice/emailservice.component';
-import { EmailTemplateResolver } from './email-template/email-template.resolver';
-import { EmailTemplateService } from './email-template/email-template-service';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import { MatButtonModule, MatFormFieldModule, MatInputModule,
@@ -99,14 +97,12 @@ import { ChartsProblemCategoryDirective } from './directives//charts-problem-cat
 import { ChartsStatusDirective } from './directives/charts-status/charts-status.directive';
 import { ChartsLoyalityDirective } from './directives/charts-loyality/charts-loyality.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
-import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
+// import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 
-// import { EditorSelectionService } from './service/editor-selection.service';
-import { UseraccessComponent } from './useraccess/useraccess.component';
-import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
+import { EditorSelectionService } from './service/editor-selection.service';
 
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent } from './whatsapp/whatsapp.component';
@@ -174,7 +170,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsLoyalityDirective,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
-    ChartAgeDirective,
+    // ChartAgeDirective,
     MediaLocalImagePopupDialog,
     SmstemplateComponent,
     EmailTemplateComponent,
@@ -182,8 +178,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
     SmsTemplateSelectionDialog,
     EmailTemplateSelectionPopup,
-    
-
     SmsTemplateSelectionDialog,
 
     SafeHtmlPipe,
@@ -259,12 +253,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
               {provide: DateAdapter, useClass: DateFormat},
 
-              // EditorSelectionService,
               UseraccessComponent,
               SmsTemplateSelectService,
 
               EditorSelectionService,
-           
               UseraccessComponent,
               SmsTemplateSelectService,
 

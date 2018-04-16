@@ -95,7 +95,7 @@ userRestrict() {
       }
     });
     if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/area']);
+      this.router.navigate(['admin/areacategory']);
     } else {
       this.router.navigate(['/accessdenied']);
     }
@@ -105,9 +105,14 @@ userRestrict() {
     this.areaService.getAreaData('/flujo_client_getreportarea/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
+          console.log(data);
+          if (data.error) {
+            console.log('Something went wrong while fetching data');
+          } else if ((data.error === false) && (data.access_token === AppConstants.ACCESS_TOKEN)) {
+            this.areaData = data.result;
+            console.log(this.areaData);
+          }
           this.spinnerService.hide();
-          this.areaData = data;
-          console.log(this.areaData);
         },
         error => {
           console.log(error);
@@ -171,9 +176,13 @@ userRestrict() {
         data => {
           console.log(data);
           if (data.error) {
-            this.alertService.warning(data.result);
+            this.alertService.warning('Required parameters are missing.');
           } else {
-            this.alertService.success('Area Updated Successfully');
+            if (data.custom_status_code === 100 && AppConstants.ACCESS_TOKEN === data.access_token) {
+              this.alertService.success('Area Updated Successfully');
+            } else {
+              this.alertService.warning('Everything is up-to-date');
+            }
           }
           this.getAreaData();
           this.areaForm.reset();
@@ -196,14 +205,18 @@ userRestrict() {
       .subscribe(
         data => {
           this.spinnerService.hide();
-          this.alertService.success('Area deleted successfully');
+          if (data.error) {
+            this.alertService.warning('Something went wrong. Try again after sometime.');
+          } else if ((data.error === false) && AppConstants.ACCESS_TOKEN === data.access_token) {
+              this.alertService.success('Area Deleted Successfully');
+          }
           this.getAreaData();
           this.areaForm.reset();
           this.isEdit = false;
           this.actionText = 'Add';
         },
         error => {
-          this.alertService.success('File something went wrong successfully');
+          this.alertService.warning('Something went wrong.');
           console.log(error);
         }
       );

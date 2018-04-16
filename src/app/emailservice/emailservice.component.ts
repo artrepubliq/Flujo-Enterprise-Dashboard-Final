@@ -12,7 +12,7 @@ import * as _ from 'underscore';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { EmailTemplateService } from '../email-template/email-template-service';
 import { AppConstants } from '../app.constants';
-import { EmailThemeConfig } from '../model/emailThemeConfig.model';
+import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
 @Component({
   selector: 'app-emailservice',
   templateUrl: './emailservice.component.html',
@@ -20,7 +20,7 @@ import { EmailThemeConfig } from '../model/emailThemeConfig.model';
 })
 export class EmailserviceComponent implements OnInit {
   emailTemplateHtml: any;
-  allEmailTemplateData: Array<EmailThemeConfig>;
+  allEmailTemplateData: IPostEmailTemplate[];
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   mailSendingForm: FormGroup;

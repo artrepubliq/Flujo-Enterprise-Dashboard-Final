@@ -108,8 +108,12 @@ export class ProblemCategoryComponent implements OnInit {
       .subscribe(
         data => {
           this.spinnerService.hide();
-          this.problemTypeData = data;
-          console.log(this.problemTypeData);
+          if (data.error) {
+            console.log('Something went wrong while fetching data');
+          } else if ((data.error === false) || (data.access_token === AppConstants.ACCESS_TOKEN)) {
+            this.problemTypeData = data.result;
+            console.log(this.problemTypeData);
+          }
         },
         error => {
           console.log(error);
@@ -169,9 +173,13 @@ export class ProblemCategoryComponent implements OnInit {
       .subscribe(
         data => {
           if (data.error) {
-            this.alertService.warning(data.result);
+            this.alertService.warning('Required parameters are missing.');
           } else {
-            this.alertService.success('Problem Updated Successfully');
+            if (data.custom_status_code === 100 && AppConstants.ACCESS_TOKEN === data.access_token) {
+              this.alertService.success('Problem data Updated Successfully');
+            } else {
+              this.alertService.warning('Everything is up-to-date');
+            }
           }
           console.log(data);
           this.spinnerService.hide();
@@ -194,8 +202,12 @@ export class ProblemCategoryComponent implements OnInit {
     this.problemService.deleteProblem('flujo_client_deletereportproblemtype/', problem.id)
       .subscribe(
         data => {
+          if (data.error) {
+            this.alertService.warning('Something went wrong. Try again after sometime.');
+          } else if ((data.error === false) && AppConstants.ACCESS_TOKEN === data.access_token) {
+              this.alertService.success('Problem data Deleted Successfully');
+          }
           this.spinnerService.hide();
-          this.alertService.success('Problem deleted successfully');
           this.getproblemData();
           this.problemForm.reset();
           this.isEdit = false;

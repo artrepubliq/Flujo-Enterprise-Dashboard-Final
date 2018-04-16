@@ -14,6 +14,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { CommonInterface } from '../model/analytics.model';
 @Component({
   selector: 'app-changemaker',
   templateUrl: './changemaker.component.html',
@@ -110,17 +111,20 @@ export class ChangemakerComponent implements OnInit {
 
   getChangemakerReportData() {
     this.spinnerService.show();
-    this.httpClient.get<Array<Element>>(AppConstants.API_URL + 'flujo_client_getchangemaker/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getchangemaker/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
-        console.log(data);
-        this.changemakerData = data;
-        this.changemakerData2 = data;
-        this.spinnerService.hide();
-        this.dataSource = new MatTableDataSource(this.changemakerData);
+        if (data.error) {
+          console.log('Something went wrong while fetching data');
+        } else if ((data.error === false) && (data.access_token === AppConstants.ACCESS_TOKEN)) {
+          console.log(data);
+          this.changemakerData = data.result;
+          this.changemakerData2 = data.result;
+          this.dataSource = new MatTableDataSource(this.changemakerData);
         // this.changemakerData.paginator = this.paginator;
         this.changeMakerElementData = this.changemakerData;
         console.log(this.changemakerData);
+        }
         this.spinnerService.hide();
       },
       error => {

@@ -47,9 +47,6 @@ export class ChartsLoyalityDirective implements OnInit, OnChanges {
           backgroundColor: [
             '#ee2f6b', '#ee2f6b', '#ee2f6b'
           ],
-
-          backgroundColor: colors ,
-
           barPercentage: [
             '10'
           ]
