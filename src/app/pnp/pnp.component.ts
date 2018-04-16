@@ -69,16 +69,6 @@ export class PnpComponent implements OnInit {
           }
           this.parsePostResponse(data);
           this.spinnerService.hide();
-          // if (data.error) {
-          //   this.alertService.warning(data.result);
-          //   // this.parsePostResponse(data);
-          //   this.spinnerService.hide();
-          // } else {
-          //   this.getPrivacyData();
-          //   this.parsePostResponse(data);
-          //   this.spinnerService.hide();
-          // }
-
         },
         err => {
           console.log(err);

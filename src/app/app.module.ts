@@ -96,7 +96,7 @@ import { ChartsStatusComponent } from './directives/charts-status/charts-status.
 import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
-import { EmailTemplateComponent } from './email-template/email-template.component';
+import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
@@ -169,7 +169,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
     WhatsappComponent,
     SocialconfigurationComponent,
-    WhatsAppTemplatePopup
+    WhatsAppTemplatePopup,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,

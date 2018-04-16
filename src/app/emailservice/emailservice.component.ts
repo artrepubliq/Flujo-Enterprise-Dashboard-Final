@@ -97,7 +97,7 @@ export class EmailserviceComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          this.allEmailTemplateData = data;
+          this.allEmailTemplateData = data.result;
           this.allEmailTemplateData.map((templateData) => {
             templateData.isActive = false;
           });
