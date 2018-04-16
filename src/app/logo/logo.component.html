@@ -48,7 +48,7 @@
       </div>
       <div class="profile_footer" fxLayoutAlign="end center">
         <!-- <button mat-raised-button class="logoCtrl_button" (click)="editLogo()">Edit Logo</button> -->
-        <button mat-raised-button class="logoCtrl_button" (click)="EditInfo()">Edit</button>
+        <button mat-raised-button class="button_submit" (click)="EditInfo()">Edit</button>
       </div>
     </div>
     <!-- //.. Logo View Block -->
@@ -111,8 +111,8 @@
       <!-- Save Button -->
       <div class="profile_footer" fxLayoutAlign="end center">
         <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
-        <button mat-button class="btn" (click)="cancelFileEdit()">Cancel</button>
-        <button mat-button class="logoCtrl_button" [disabled]="form.invalid || loadingSave">Save</button>
+        <button mat-button class="button_cancel" (click)="cancelFileEdit()">Cancel</button>
+        <button mat-button class="button_submit" [disabled]="form.invalid || loadingSave">Save</button>
         <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loadingSave">Delete</button> -->
       </div>
     </form>
