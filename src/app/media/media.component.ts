@@ -165,6 +165,22 @@ export class MediaComponent implements OnInit {
     this.albumObject = <IGalleryObject>{};
     this.albumObject.images = [];
   }
+  userRestrict() {
+    _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+      // tslint:disable-next-line:max-line-length
+      if (this.adminComponent.userAccessLevelData[iterate].name === 'Media Management' && this.adminComponent.userAccessLevelData[iterate].enable) {
+        this.filteredUserAccessData = item;
+        } else {
+          // this.router.navigate(['/accessdenied']);
+          // console.log('else');
+        }
+      });
+      if (this.filteredUserAccessData) {
+        this.router.navigate(['admin/media']);
+      } else {
+        this.router.navigate(['/accessdenied']);
+      }
+  }
   selectMedia(event) {
     const imageDetail = [];
     this.ishide = false;

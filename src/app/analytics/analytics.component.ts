@@ -13,6 +13,7 @@ import { AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-analytics',
   templateUrl: './analytics.component.html',
@@ -138,38 +139,109 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     this.getData(this.params);
   }
 
-  getData(params) {
-    this.spinnerService.show();
-    // console.log(JSON.stringify(params));
-    this.http.post<Observable<any[]>>('http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_postreportanalytics', params)
-    .subscribe(
-      response => {
-        // console.log(JSON.stringify(response));
-        this.newData = response;
-        this.problem_category = response[0].problem_category;
-        this.status_reports = this.newData[4].report_status;
-        // Gender related
-        this.gender = {
-          male: this.newData[1].gender[0].male,
-          female: this.newData[1].gender[0].female
-        };
-        // console.log(this.gender);
-        // End of Gender related
-        // Area related
-        this.area = this.newData[3].area;
-        // console.log(areaValue);
-        // End of Area related
-        // Age related
-        this.ageData = this.newData[2].age;
-        const range = _.pluck(this.ageData, 'name');
-        const rangeValue = _.pluck(this.ageData, 'value');
-        // End of Age related
-        this.assign = this.newData[5].assign;
-        this.spinnerService.hide();
-        this.alertService.success('Updated');
+  async getProblemsData(params) {
+    // tslint:disable-next-line:max-line-length
+    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_postproblemtypereportanalytics', params)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          if (data['error']) {
+            console.log('Error getting problems data');
+          } else {
+            this.problem_category = data['result'];
+          }
+        },
+        (error) => {
+          console.log(error);
+        });
+  }
 
+  async getGenderData(params) {
+    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_postgenderreportanalytics', params)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          if (data['error']) {
+            console.log('Error getting Gender data');
+          } else {
+            this.gender = data['result'][0];
+          }
+        },
+        (error) => {
+          console.log(error);
+        });
+  }
 
-        const agectx = document.getElementById('ageChartCanvas');
+  async getAgeData(params) {
+    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_postagereportanalytics', params)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          if (data['error']) {
+            console.log('Error getting Age data');
+          } else {
+            this.ageData = data['result'];
+            this.ageChart();
+          }
+        },
+        (error) => {
+          console.log(error);
+        });
+  }
+
+  async getAreaData(params) {
+    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_postareareportanalytics', params)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          if (data['error']) {
+            console.log('Error getting Area data');
+          } else {
+            this.area = data['result'];
+          }
+        },
+        (error) => {
+          console.log(error);
+        });
+  }
+
+  async getReportsData(params) {
+    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_poststatusreportanalytics', params)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          if (data['error']) {
+            console.log('Error getting Status Reports data');
+          } else {
+            this.status_reports = data['result'];
+          }
+        },
+        (error) => {
+          console.log(error);
+        });
+  }
+
+  async getAssignData(params) {
+    await this.http.post<Observable<ICommonInterface>>(AppConstants.API_URL + 'flujo_client_postassignreportanalytics', params)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          if (data['error']) {
+            console.log('Error getting Assign data');
+          } else {
+            this.assign = data['result'];
+          }
+        },
+        (error) => {
+          console.log(error);
+        });
+  }
+
+  ageChart() {
+
+    const range = _.pluck(this.ageData, 'name');
+    const rangeValue = _.pluck(this.ageData, 'value');
+    const agectx = document.getElementById('ageChartCanvas');
         const ageChart = new Chart(agectx, {
           'type': 'doughnut',
           'data': {
@@ -187,11 +259,16 @@ export class AnalyticsComponent implements OnInit, OnChanges {
             }
           }
         });
-      },
-      error => {
-        this.spinnerService.hide();
-        this.alertService.warning('Something went wrong');
-        console.log(error);
-      });
   }
+
+  getData(params) {
+    this.getProblemsData(params);
+    this.getGenderData(params);
+    this.getAgeData(params);
+    this.getAreaData(params);
+    this.getReportsData(params);
+    this.getAssignData(params);
+    this.spinnerService.hide();
+  }
+
 }

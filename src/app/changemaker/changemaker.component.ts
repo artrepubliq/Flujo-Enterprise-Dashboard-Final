@@ -86,7 +86,7 @@ export class ChangemakerComponent implements OnInit {
     });
     if (this.filteredUserAccessData) {
       this.router.navigate(['admin/changemakerreport']);
-    }else {
+    } else {
       this.router.navigate(['/accessdenied']);
     }
   }
