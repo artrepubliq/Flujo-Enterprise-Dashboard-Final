@@ -9,6 +9,9 @@ import { ElementData } from '@angular/core/src/view';
 import { Angular2Csv } from 'angular2-csv';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
+import { ICommonInterface } from '../model/commonInterface.model';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { AlertService } from 'ngx-alerts';
 
 @Component({
   selector: 'app-database',
@@ -23,18 +26,17 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line:member-ordering
   displayedColumns = ['id', 'name', 'email', 'phone'];
   dataSource = new MatTableDataSource<ElementResult>();
-  sendEmail: FormGroup;
   dataCount: number;
   fields = ['ID', 'NAME', 'EMAIL', 'PHONE'];
   config: any;
   feedbackCsvMailSubmit: any;
   feedbackCsvMail: any;
+  postEmailValue: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   feature_id = 10;
-  constructor(private http: HttpClient, private router: Router) {
-    this.sendEmail = new FormGroup({
-      email: new FormControl('email')
-    });
+  // tslint:disable-next-line:max-line-length
+  constructor(private http: HttpClient, private router: Router, private spinnerService: Ng4LoadingSpinnerService, private alertService: AlertService) {
+
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
       this.userAccessDataModel = new AccessDataModelComponent(http, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/database');
@@ -54,30 +56,33 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  // get data from database
   async getData() {
     try {
       this.dataURL = `http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_getdata/${AppConstants.CLIENT_ID}`;
-      this.http.get<Array<ElementResult>>(this.dataURL)
+      this.http.get<ICommonInterface>(this.dataURL)
         .subscribe((data) => {
-          // console.log(data);
-          if (data) {
-            this.dataSource.data = data;
-            this.dataCount = data.length;
+          this.spinnerService.hide();
+          if (!data.error || data.access_token === AppConstants.ACCESS_TOKEN) {
+            this.dataSource.data = data.result;
+            this.dataCount = data.result.length;
+          } else {
+            this.alertService.warning('Something went wrong.');
           }
-        }, (error) => {
-          console.log(error);
         });
     } catch (error) {
       console.log(error);
     }
   }
 
+  // applies filter
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
 
+  // generate csv and download
   generateCSV() {
     const options = {
       fieldSeparator: ',',
@@ -94,6 +99,41 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
     };
     const csv = new Angular2Csv(this.dataSource.data, 'My Report', options);
 
+  }
+
+  // validate and send email
+  sendEmail() {
+    console.log(this.postEmailValue);
+    // validate email or show error
+    if (this.validateEmail(this.postEmailValue)) {
+      console.log('Got valid email id');
+      console.log(this.postEmailValue);
+      this.dataURL = AppConstants.API_URL + '/flujo_client_emaildatabase/' + this.postEmailValue;
+      console.log(this.dataURL);
+      this.http.get<ICommonInterface>(this.dataURL)
+        .subscribe((data) => {
+          console.log(data);
+          if (!data.error || data.access_token === AppConstants.ACCESS_TOKEN) {
+            this.alertService.success('Email sent!');
+          } else {
+            this.alertService.warning('Something went wrong');
+          }
+        },
+          (error) => {
+            this.alertService.warning('Something went wrong');
+          });
+    } else {
+      console.log('Enter valid email id');
+      this.alertService.warning('Enter valid Email ID');
+    }
+  }
+
+  validateEmail(email: string) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

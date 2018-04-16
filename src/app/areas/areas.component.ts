@@ -68,6 +68,23 @@ export class AreasComponent implements OnInit {
 
   ngOnInit() {
     this.getAreaData();
+  }
+  // this for restrict user on root access level
+userRestrict() {
+  _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
+    // tslint:disable-next-line:max-line-length
+    if (this.adminComponent.userAccessLevelData[iterate].name === 'Area Category' && this.adminComponent.userAccessLevelData[iterate].enable) {
+      this.filteredUserAccessData = item;
+      } else {
+        // this.router.navigate(['/accessdenied']);
+        // console.log('else');
+      }
+    });
+    if (this.filteredUserAccessData) {
+      this.router.navigate(['admin/areacategory']);
+    } else {
+      this.router.navigate(['/accessdenied']);
+    }
 }
   public getAreaData(): void {
     this.spinnerService.show();
@@ -178,13 +195,18 @@ export class AreasComponent implements OnInit {
             this.alertService.warning('Required parameters are missing!');
           }
           this.spinnerService.hide();
+          if (data.error) {
+            this.alertService.warning('Something went wrong. Try again after sometime.');
+          } else if ((data.error === false) && AppConstants.ACCESS_TOKEN === data.access_token) {
+              this.alertService.success('Area Deleted Successfully');
+          }
           this.getAreaData();
           this.areaForm.reset();
           this.isEdit = false;
           this.actionText = 'Add';
         },
         error => {
-          this.alertService.success('File something went wrong successfully');
+          this.alertService.warning('Something went wrong.');
           console.log(error);
         }
       );
