@@ -21,7 +21,7 @@ import { ValidationService } from './service/validation.service';
 import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-import { EmailserviceComponent } from './emailservice/emailservice.component';
+import { EmailserviceComponent, EmailTemplateSelectionPopup } from './emailservice/emailservice.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import {
@@ -91,12 +91,11 @@ import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { DatabaseComponent } from './database/database.component';
 import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.component';
 import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
-import { ChartsProblemCategoryComponent } from './directives//charts-problem-category/charts-problem-category.component';
 import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
 import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
-import { EmailTemplateComponent } from './email-template/email-template.component';
+import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
@@ -104,6 +103,8 @@ import { AccessDataModelComponent } from './model/useraccess.data.model';
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent, WhatsAppTemplatePopup } from './whatsapp/whatsapp.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
+import { ChartsProblemCategoryDirective } from './directives/charts-problem-category/charts-problem-category.directive';
+import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -154,7 +155,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DatabaseComponent,
     ChartsGenderComponent,
     ChartsAssignComponent,
-    ChartsProblemCategoryComponent,
     ChartsStatusComponent,
     ChartsLoyalityComponent,
     EmptyAccessLevelDialog,
@@ -166,10 +166,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialconfigurationComponent,
     WhatsappComponent,
     AccessDataModelComponent,
-
+    SafeHtmlPipe,
+    ChartsProblemCategoryDirective,
     WhatsappComponent,
     SocialconfigurationComponent,
-    WhatsAppTemplatePopup
+    WhatsAppTemplatePopup,
+    EmailTemplateSelectionPopup,
+    ChartAgeComponent
   ],
   imports: [
     BrowserModule,
@@ -221,9 +224,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatSortModule,
     MatPaginatorModule,
   ],
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup],
+  entryComponents: [EditGalleryItems, EmailTemplateSelectionPopup,
+    DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup,
+    FileRepositoryPopup, FileViewerPopUp,
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog,
+      MediaLocalImagePopupDialog, WhatsAppTemplatePopup],
   providers: [
     // AuthService,
     HttpService,

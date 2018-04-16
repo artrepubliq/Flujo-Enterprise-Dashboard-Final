@@ -44,9 +44,6 @@ export class AccessDataModelComponent {
             _.each(data, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                 this.userAccessLevelObject = item.access_levels;
-              } else {
-                // this.userAccessLevelObject = null;
-                console.log('no accesslevels for this user in');
               }
             });
             if (this.userAccessLevelObject) {
@@ -54,7 +51,7 @@ export class AccessDataModelComponent {
              this.setAccesslevelsToObject(accesslevels, feature_id, routURL);
             } else {
             //   this.openDialog();
-                console.log('no accesslevels data found for this loged in user');
+            this.router.navigate(['accessdenied']);
             }
           },
           error => {

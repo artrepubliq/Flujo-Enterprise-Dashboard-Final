@@ -3,7 +3,9 @@
     max-width: 200px;
     width: 100%;
   }
-  
+  .padding-wrap{
+      padding: 0 3rem;
+  }
   .example-full-width {
     width: 100%;
   }
@@ -375,11 +377,6 @@ button.active {
     background-color: #4a2565 !important;
     color: #fff !important;
 }
-
-
-
-
-
 
 .group_btns {
     button {
