@@ -2,10 +2,11 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import Chart from 'chart.js';
 @Component({
   selector: 'app-charts-status',
-  templateUrl: './charts-status.component.html',
-  styleUrls: ['./charts-status.component.scss']
+  templateUrl: './charts-status.directive.html',
+  styleUrls: ['./charts-status.directive.scss']
 })
-export class ChartsStatusComponent implements OnInit, OnChanges {
+// tslint:disable-next-line:component-class-suffix
+export class ChartsStatusDirective implements OnInit, OnChanges {
   progressBarUnresolved: number;
   progressBarInProgress: number;
   progressBarCompleted: number;
