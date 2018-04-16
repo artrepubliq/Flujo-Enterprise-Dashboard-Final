@@ -33,6 +33,8 @@ export class ChartsLoyalityComponent implements OnInit, OnChanges {
     for ( let i = 0; i < count; i++) {
         colors[i] = color;
     }
+    console.log(_.max(areaValue));
+    const barRange = Math.ceil(Math.max(areaValue) / areaValue.length);
 
     // Area Chart
     const areactx = document.getElementById('areaChartCanvas');
@@ -56,7 +58,7 @@ export class ChartsLoyalityComponent implements OnInit, OnChanges {
           yAxes: [{
               ticks: {
                 beginAtZero: true,
-                  stepSize: 1
+                  stepSize: barRange
               }
           }]
       }
