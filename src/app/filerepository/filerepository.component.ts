@@ -21,6 +21,7 @@ import { map } from 'rxjs/operators/map';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
+import { ICommonInterface } from '../model/commonInterface.model';
 
 @Component({
     selector: 'app-filerepository',
@@ -69,7 +70,6 @@ export class FilerepositoryComponent implements OnInit {
         private alertService: AlertService,
         public adminComponent: AdminComponent,
         public router: Router) {
-
         this.FileUploadControl = this.formBuilder.group({
             'file_name': ['', Validators.required],
             'folder': ['', Validators.required],
@@ -139,21 +139,32 @@ export class FilerepositoryComponent implements OnInit {
             this.spinnerService.hide();
             this.alertService.warning('You have exceeded your limit 1 GB');
         } else {
-            this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
+            this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
                 .subscribe(
                     data => {
-                        // console.log(data);
-                        if (data.error) {
-                            this.alertService.warning(data.result);
-                            // console.log(data);
-                            this.spinnerService.hide();
-                        } else {
-                            this.alertService.success('File uploaded successfully');
-                            this.spinnerService.hide();
-                            this.foldersdata = [];
-                            // console.log(data);
-                            this.getFolders(AppConstants.CLIENT_ID);
+                        if (AppConstants.ACCESS_TOKEN === data.access_token) {
+                            if (data.custom_status_code === 100 && data.result.length > 0) {
+                                this.alertService.success('File uploaded successfully');
+                                this.foldersdata = [];
+                                console.log(data);
+                                this.getFolders(AppConstants.CLIENT_ID);
+                            } else if (data.custom_status_code === 101) {
+                                this.alertService.warning('Required parameters are missing!');
+                            } else if (data.custom_status_code === 102) {
+                                this.alertService.warning('Every thing is upto date!');
+                            }
                         }
+                        this.spinnerService.hide();
+                        // if (data.error) {
+                        //     this.alertService.warning(data.result);
+                        //     // console.log(data);
+                        //     this.spinnerService.hide();
+                        // } else {
+                        //     this.alertService.success('File uploaded successfully');
+                        //     this.foldersdata = [];
+                        //     // console.log(data);
+                        //     this.getFolders(AppConstants.CLIENT_ID);
+                        // }
                     },
                     error => {
                         console.log(error);
@@ -338,39 +349,43 @@ export class FilerepositoryComponent implements OnInit {
     }
     /* this is to get Folders by client id*/
     getFolders(client_id) {
+        this.showInKb = false;
+        this.showInMb = false;
         // console.log(client_id);
         this.spinnerService.show();
-        this.httpClient.get<IRepositories>(AppConstants.API_URL + 'flujo_client_getfilerepository/' + client_id)
+        this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getfilerepository/' + client_id)
             .subscribe(
                 data => {
                     try {
-                        if (data.result && data.size) {
-                            this.allFiles = [];
-                            this.repositories = data.result;
-                            // console.log(this.repositories);
-                            this.total_size = data.size;
-                            this.total_size_in_mb = (this.total_size / 1048576).toFixed(2);
-                            this.repositories.forEach(allFiles => {
-                                this.allFiles.push(allFiles.files);
-                            });
-                            if (parseFloat((this.total_size / 1048576).toFixed(2)) >= 1.0) {
-                                this.showInMb = true;
-                                this.showInKb = false;
-                            } else if (parseFloat((this.total_size / 1048576).toFixed(2)) < 1.0) {
-                                this.showInMb = false;
-                                this.showInKb = true;
+                        if (data.custom_status_code === 100 && data.access_token === AppConstants.ACCESS_TOKEN) {
+                            if (data.result[1].result && data.result[0].size) {
+                                this.allFiles = [];
+                                this.repositories = data.result[1].result;
+                                // console.log(this.repositories);
+                                this.total_size = data.result[0].size;
+                                this.total_size_in_mb = (this.total_size / 1048576).toFixed(2);
+                                this.repositories.forEach(allFiles => {
+                                    this.allFiles.push(allFiles.files);
+                                });
+                                if (parseFloat((this.total_size / 1048576).toFixed(2)) >= 1.0) {
+                                    this.showInMb = true;
+                                    this.showInKb = false;
+                                } else if (parseFloat((this.total_size / 1048576).toFixed(2)) < 1.0) {
+                                    this.showInMb = false;
+                                    this.showInKb = true;
 
+                                }
+                                // console.log(this.total_size);
+                                // this.repositories = [];
+                                this.filtered_repositories = [].concat.apply([], this.allFiles);
+                                // console.log(this.allFiles);
+                                this.getFileSizes();
+                            } else {
+                                console.log(data);
+                                this.repositories = [];
                             }
-                            // console.log(this.total_size);
-                            // this.repositories = [];
-                            this.filtered_repositories = [].concat.apply([], this.allFiles);
-                            // console.log(this.allFiles);
-                            this.getFileSizes();
-                        } else {
-                            console.log(data);
-                            this.repositories = [];
+                            this.spinnerService.hide();
                         }
-                        this.spinnerService.hide();
                     } catch (error) {
                         console.log(error);
                         this.spinnerService.hide();
@@ -439,13 +454,24 @@ export class FilerepositoryComponent implements OnInit {
     /* this is for deleting the documents*/
     deleteFile(id, repositories) {
         this.spinnerService.show();
-        this.httpClient.delete<Array<IRepositories>>(AppConstants.API_URL + 'flujo_client_deletefilerepository/' + id)
+        this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletefilerepository/' + id)
             .subscribe(
                 data => {
+                    if (AppConstants.ACCESS_TOKEN === data.access_token) {
+                        if (data.custom_status_code === 100) {
+                            this.alertService.success('File deleted successfully');
+                            this.filtered_repositories = [];
+                            this.getFolders(AppConstants.CLIENT_ID);
+                        } else if (data.custom_status_code === 101) {
+                            this.alertService.warning('Required parameters are missing!');
+                        } else if (data.custom_status_code === 102) {
+                            this.alertService.warning('Every thing is upto date!');
+                        }
+                    }
                     this.spinnerService.hide();
-                    this.alertService.success('File deleted successfully');
-                    this.filtered_repositories = [];
-                    this.getFolders(AppConstants.CLIENT_ID);
+                    // this.alertService.success('File deleted successfully');
+                    // this.filtered_repositories = [];
+                    // this.getFolders(AppConstants.CLIENT_ID);
                 },
                 error => {
                     this.alertService.warning('something went wrong');
@@ -481,13 +507,24 @@ export class FilerepositoryComponent implements OnInit {
     deleteFoldersAndFiles(folderId) {
         console.log(folderId);
         this.spinnerService.show();
-        this.httpClient.delete<Array<IRepositories>>(AppConstants.API_URL + 'flujo_client_deleterepositories/' + folderId)
+        this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleterepositories/' + folderId)
             .subscribe(
                 data => {
+                    if (AppConstants.ACCESS_TOKEN === data.access_token) {
+                        if (data.custom_status_code === 100) {
+                            this.alertService.success('Folder deleted successfully');
+                            this.filtered_repositories = [];
+                            this.getFolders(AppConstants.CLIENT_ID);
+                        } else if (data.custom_status_code === 101) {
+                            this.alertService.warning('Required parameters are missing!');
+                        } else if (data.custom_status_code === 102) {
+                            this.alertService.warning('Every thing is upto date!');
+                        }
+                    }
                     this.spinnerService.hide();
-                    this.alertService.success('Folder deleted successfully');
-                    this.filtered_repositories = [];
-                    this.getFolders(AppConstants.CLIENT_ID);
+                    // this.alertService.success('Folder deleted successfully');
+                    // this.filtered_repositories = [];
+                    // this.getFolders(AppConstants.CLIENT_ID);
                 },
                 error => {
                     this.spinnerService.hide();

@@ -90,10 +90,10 @@ import { TncComponent } from './tnc/tnc.component';
 import { PnpComponent } from './pnp/pnp.component';
 import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { DatabaseComponent } from './database/database.component';
-import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.component';
-import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
-import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
-import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
+import { ChartsGenderDirective } from './directives/charts-gender/charts-gender.directive';
+import { ChartsAssignDirective } from './directives/charts-assign/charts-assign.directive';
+import { ChartsStatusDirective } from './directives/charts-status/charts-status.directive';
+import { ChartsLoyalityDirective } from './directives/charts-loyality/charts-loyality.directive';
 import { ChartsProblemCategoryDirective } from './directives//charts-problem-category/charts-problem-category.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
@@ -105,6 +105,8 @@ import { AccessDataModelComponent } from './model/useraccess.data.model';
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent, WhatsAppTemplatePopup } from './whatsapp/whatsapp.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
+import { ChartsProblemCategoryDirective } from './directives/charts-problem-category/charts-problem-category.directive';
+import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { EditorSelectionService } from './service/editor-selection.service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -154,10 +156,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProblemCategoryComponent,
     AreasComponent,
     DatabaseComponent,
-    ChartsGenderComponent,
-    ChartsAssignComponent,
-    ChartsStatusComponent,
-    ChartsLoyalityComponent,
+    ChartsGenderDirective,
+    ChartsAssignDirective,
+    ChartsStatusDirective,
+    ChartsLoyalityDirective,
     ChartsProblemCategoryDirective,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
@@ -172,6 +174,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialconfigurationComponent,
     WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup,
+    ChartAgeDirective
     SmsTemplateSelectionDialog,
     SafeHtmlPipe
   ],

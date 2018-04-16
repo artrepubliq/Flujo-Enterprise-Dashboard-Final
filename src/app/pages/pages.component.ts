@@ -42,7 +42,6 @@ export class PagesComponent implements OnInit, OnDestroy {
     public pageDetails: object;
     public web_description = '';
     public app_description = '';
-
     bgColor = '#3c3c3c';
     userAccessDataModel: AccessDataModelComponent;
     feature_id = 1;
