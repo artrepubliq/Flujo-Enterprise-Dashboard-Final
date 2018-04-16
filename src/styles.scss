@@ -809,3 +809,25 @@ control-messages,
     width: auto;
   }
 }
+.dates-range-box{
+  div.cdk-overlay-pane{
+    top: 87.125px !important;
+    left: 228.891px !important;
+    pointer-events: auto;
+    // position: absolute;
+  }
+}
+.date-input-span{
+  position: relative;
+  .mat-form-field,.date-input1{
+    opacity:0;
+    width:0;
+    position: absolute; 
+    top:-12px;
+    left:-26px;
+    cursor: pointer !important;      
+  }
+  .mat-input-underline .mat-form-field-underline,.mat-input-flex, .mat-form-field-flex{
+    display: none;
+  }
+}
