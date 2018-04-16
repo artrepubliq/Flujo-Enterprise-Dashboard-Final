@@ -4,14 +4,18 @@ import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators/map';
-import { ITemplateData } from '../model/TemplateData';
 import { HttpClient } from '@angular/common/http';
 import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { AlertService } from 'ngx-alerts';
 import { ISmsTemplateData } from '../model/smsTemplateData';
 import * as _ from 'underscore';
+<<<<<<< HEAD
 import { ICommonInterface } from '../model/commonInterface.model';
+=======
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { Router } from '@angular/router';
+>>>>>>> 79d9c6dcf71a9a442a487b849b6c0389138cd56d
 @Component({
   selector: 'app-smstemplate',
   templateUrl: './smstemplate.component.html',
@@ -20,6 +24,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
 export class SmstemplateComponent implements OnInit {
   templateText1: any;
   isMain = true;
+  feature_id = 27;
   smsTemplateData2: any;
   templateCategory: any;
   ttt: any;
@@ -29,12 +34,6 @@ export class SmstemplateComponent implements OnInit {
   isView: boolean;
   isEdit: boolean;
   smsTemplateConfigurationForm: FormGroup;
-  templateData: ITemplateData = {
-    id: 1,
-    header: '',
-    message: '',
-    footer: ''
-  };
   myControl: FormControl = new FormControl();
   templatestring: string;
   public templateText: string;
@@ -45,13 +44,12 @@ export class SmstemplateComponent implements OnInit {
   options = [];
   smsfilteredData: any;
   filteredOptions: Observable<string[]>;
+  userAccessDataModel: AccessDataModelComponent;
   constructor(private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
-    private alertService: AlertService) {
-    this.header = this.templateData.header;
-    this.message = this.templateData.message;
-    this.footer = this.templateData.footer;
+    private alertService: AlertService,
+    private router: Router) {
     this.templateText = '';
     this.templatestring = this.header + this.message + this.footer;
     this.smsTemplateConfigurationForm = this.formBuilder.group({
@@ -61,18 +59,20 @@ export class SmstemplateComponent implements OnInit {
       'client_id': [null],
       'smstemplateconfig_id': [null]
     });
+      if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+    this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+    this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/smsconfiguration');
+  }
   }
   editTemplate(text) {
     this.templateText = text;
   }
-
   ngOnInit() {
     this.getSMSTemplateConfigurationData();
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 1000);
   }
-
   filter(val: string): string[] {
     return this.options.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0);
   }
@@ -86,28 +86,29 @@ export class SmstemplateComponent implements OnInit {
     const formModel = this.smsTemplateConfigurationForm.value;
     this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postsmstemplateconfig', formModel)
       .subscribe(
-        data => {
-          if (!data.error) {
-            this.alertService.success('template data submitted successfully');
-            this.spinnerService.hide();
-            this.smsTemplateConfigurationForm.reset();
-            this.getSMSTemplateConfigurationData();
-          } else {
-            this.alertService.warning(data.result);
-            this.spinnerService.hide();
-          }
+      data => {
+        if (!data.error) {
+          this.alertService.success('template data submitted successfully');
           this.spinnerService.hide();
-        },
-        error => {
-          console.log(error);
+          this.smsTemplateConfigurationForm.reset();
+          this.getSMSTemplateConfigurationData();
+        } else {
+          this.alertService.warning(data.result);
           this.spinnerService.hide();
         }
+        this.spinnerService.hide();
+      },
+      error => {
+        console.log(error);
+        this.spinnerService.hide();
+      }
       );
   }
   getSMSTemplateConfigurationData = () => {
     this.spinnerService.show();
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getsmstemplateconfig/' + AppConstants.CLIENT_ID)
       .subscribe(
+<<<<<<< HEAD
         data => {
           if ((data.custom_status_code  = 100) && (!data.error)) {
           this.smsTemplateData2 = _.unique(data.result, (item) => {
@@ -125,26 +126,43 @@ export class SmstemplateComponent implements OnInit {
         }, error => {
           console.log(error);
         }
+=======
+      data => {
+        this.smsTemplateData2 = _.unique(data, (item) => {
+          return item.template_category;
+        });
+        this.smsTemplateData = data;
+        this.smsTemplateData1 = data;
+        this.smsTemplateData2.map((smsData) => {
+          // console.log(smsData);
+          smsData.isActive = false;
+          this.options.push(smsData.template_category);
+          this.getFilteredSmsData();
+        });
+      }, error => {
+        console.log(error);
+      }
+>>>>>>> 79d9c6dcf71a9a442a487b849b6c0389138cd56d
       );
   }
   deleteSmsTemplate = (item) => {
     this.spinnerService.show();
     this.httpClient.delete<IHttpResponse>(AppConstants.API_URL + '/flujo_client_deletesmstemplateconfig/' + item)
       .subscribe(
-        data => {
-          if (!data.error) {
-            this.alertService.warning('Deleted successfully');
-            this.spinnerService.hide();
-            this.getSMSTemplateDetails(this.smsTemplateData1);
-            this.getSMSTemplateConfigurationData();
-          }
+      data => {
+        if (!data.error) {
+          this.alertService.warning('Deleted successfully');
           this.spinnerService.hide();
-        },
-        error => {
-          console.log(error);
-          this.spinnerService.hide();
-          this.alertService.danger('Something went wrong');
+          this.getSMSTemplateDetails(this.smsTemplateData1);
+          this.getSMSTemplateConfigurationData();
         }
+        this.spinnerService.hide();
+      },
+      error => {
+        console.log(error);
+        this.spinnerService.hide();
+        this.alertService.danger('Something went wrong');
+      }
       );
   }
   getFilteredSmsData() {

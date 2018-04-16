@@ -3,16 +3,18 @@
 </ngx-alerts>
 <div fxLayout="column" class="page_padding">
   <!-- === Buttons ==== -->
-  <div class="addview-buttons">
+  <div  class="addview-buttons">
     <div class="page-header">
       <span *ngIf="isEdit">New page creation </span>
     </div>
-    <button mat-raised-button color="primary" (click)="viewPagesGrid()">
-      <i class="fa fa-th"></i>
+    <button  color="primary" (click)="viewPagesGrid()">
+      <!-- <i class="fa fa-th"></i> -->
+      <img src="./assets/grid-view-icon-active.png"/>
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
-    <button mat-raised-button color="primary" (click)="viewPages()">
-      <i class="fa fa-th-list"></i>
+    <button  color="primary" (click)="viewPages()">
+      <!-- <i class="fa fa-th-list"></i> -->
+      <img src="./assets/list-view-icon-normal.png"/>      
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
     <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Page +</button>
@@ -161,9 +163,17 @@
     <div class="main-category">
       <h6>Main Category</h6>
     </div>
-    <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of parentPageDetails">
+    <div fxLayout="row" fxLayoutGap="15px" class="main-pages" [perfectScrollbar]="config">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 main-page" *ngFor="let detail of parentPageDetails">
         <mat-card class="example-card" (click)="getChild(detail)">
+          <div fxLayout="row" fxLayoutAlign="space-between center" class="page-controls" >
+            <div fxFlex="50">
+              <img  src="./assets/card-selection-icon-normal.png">
+            </div>
+            <div fxFlex="50" fxLayoutAlign="end center" >
+              <img  class="pull-right" src="./assets/card-more-icon-normal.png">
+            </div>
+          </div>
           <div id="pageview">
             <!-- <img src=""  alt="pagescreen"/> -->
             <img *ngIf="detail.component_image" class="img-responsive img-fluid page-screenshot" src="data:image/png;base64,{{detail.component_image}}"
@@ -201,12 +211,14 @@
       <div class="main-category">
         <h6>Sub Category</h6>
       </div>
-      <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
+      <div fxLayout="row" fxLayoutGap="15px" class="child-pages" [perfectScrollbar]="config">
         <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page scrollable-content" *ngFor="let detail of childDetails">
           <mat-card class="example-card">
             <div id="pageview">
               <!-- <img src=""  alt="pagescreen"/> -->
-              <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="Photo of a Shiba Inu"> -->
+              <img *ngIf="detail.component_image" class="img-responsive img-fluid page-screenshot" src="data:image/png;base64,{{detail.component_image}}"
+                alt="Photo of a Shiba Inu">
+              <!-- <img mat-card-image src="data:image/png;base64,{{page_item.component_image}}" alt="page related photo"> -->
             </div>
             <mat-card-content>
               <div id="pageheader">
@@ -218,18 +230,28 @@
             </mat-card-content>
             <mat-card-actions>
               <!-- <div class="button-row">
-                    <div clsss="button-stack">
-                      <button mat-mini-fab color="primary"></button>
-                      <button mat-mini-fab color="accent"></button>
-                      <button mat-mini-fab color="warn"></button>
-                      <a color="blue">+2 more</a>
-                      <a class="pull-right"><i class="fa fa-clock-o"></i></a>
-                    </div>
-                  </div> -->
+                          <div clsss="button-stack">
+                            <button mat-mini-fab color="primary"></button>
+                            <button mat-mini-fab color="accent"></button>
+                            <button mat-mini-fab color="warn"></button>
+                            <a color="blue">+2 more</a>
+                            <a class="pull-right"><i class="fa fa-clock-o"></i></a>
+                          </div>
+                        </div> -->
             </mat-card-actions>
           </mat-card>
           <br>
           <br>
+        </div>
+        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page">
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px" class="add-child-page">
+              <div class="text-center" fxLayout="column" fxLayoutAlign="center center" >
+                  <div class="addapageicon text-center">
+                    <img src="./assets/page-icon-normal.png">
+                  </div>
+                  <p class="addapage">Add Page</p>
+              </div>
+          </div>
         </div>
       </div>
 

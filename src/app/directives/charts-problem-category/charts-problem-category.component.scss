@@ -1,0 +1,37 @@
+.problems {
+  font-family: Roboto;
+  line-height: normal;
+  position: relative;
+  .problem {
+    white-space: nowrap;
+    display: inline;
+  }
+  .tproblems {
+    font-size: 45px;
+    font-weight: 300;
+    color: #666666;
+  }
+  .category {
+    font-size: 13px;
+    font-weight: 500;
+    color: #999999;
+  }
+  .solved {
+    font-size: 13px;
+    font-weight: 500;
+    color: #50d166;
+  }
+  .pending {
+    font-size: 13px;
+    font-weight: 500;
+    color: #f13a30;
+  }
+  .example-card {
+    width: 175px;
+    height: 150px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px;
+  }
+}

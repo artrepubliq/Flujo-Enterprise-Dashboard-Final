@@ -14,14 +14,6 @@
             <div fxFlex="100px">
                 Access
             </div>
-            <!-- <div fxFlex fxLayout="row" fxLayoutGap="15px">
-                <div fxFlex>
-                    Read
-                </div>
-                <div fxFlex>
-                    Write
-                </div>
-            </div> -->
         </div>
         <div class="overflow_data" [perfectScrollbar]="config">
             <div fxLayout="column">
@@ -34,14 +26,6 @@
                             <mat-slide-toggle [color]="color" [checked]="accessdata.enable" (change)="testChange($event,i,'enable',accessdata.feature_id,data.id)"></mat-slide-toggle>
                         </div>
                     </div>
-                    <!-- <div fxFlex fxLayout="row" fxLayoutGap="15px">
-                        <div fxFlex>
-                            <mat-slide-toggle [color]="color" [checked]="accessdata.read" (change)="testChange($event,i,'read',accessdata.feature_id,data.id)"></mat-slide-toggle>
-                        </div>
-                        <div fxFlex>
-                            <mat-slide-toggle [color]="color" [checked]="accessdata.write" (change)="testChange($event,i,'write',accessdata.feature_id,data.id)"></mat-slide-toggle>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>

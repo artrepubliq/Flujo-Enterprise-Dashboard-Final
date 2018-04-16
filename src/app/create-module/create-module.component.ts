@@ -11,6 +11,8 @@ import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfi
 import { IModuleDetails } from '../model/accessLevel.model';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 
 @Component({
     // selector: 'app-create-module',
@@ -39,33 +41,14 @@ export class CreateModuleComponent implements OnInit {
     bgColor = '#3c3c3c';
     dummy: string;
     @ViewChild('fileInput') fileInput: ElementRef;
+    userAccessDataModel: AccessDataModelComponent;
+    feature_id = '20';
     constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
         private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
         this.createForm();
         this.getModuleDetails();
-        if (this.adminComponent.userAccessLevelData) {
-            this.userRestrict();
-          } else {
-            this.adminComponent.getUserAccessLevelsHttpClient()
-              .subscribe(
-                resp => {
-                  this.spinnerService.hide();
-                  _.each(resp, item => {
-                    if (item.user_id === localStorage.getItem('user_id')) {
-                        this.userAccessLevelObject = item.access_levels;
-                    }else {
-                      // this.userAccessLevelObject = null;
-                    }
-                  });
-                  this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-                  this.userRestrict();
-                },
-                error => {
-                  console.log(error);
-                  this.spinnerService.hide();
-                }
-              );
-          }
+        this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+        this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/module');
     }
     ngOnInit() {
         setTimeout(function () {
@@ -91,7 +74,7 @@ export class CreateModuleComponent implements OnInit {
             module_name: ['', Validators.required],
             module_title: ['', Validators.required],
             module_description: ['', Validators.required],
-            module_background_color: ['', ],
+            module_background_color: ['',],
             module_background_image: null,
             client_id: null,
             module_id: [null]
@@ -118,18 +101,28 @@ export class CreateModuleComponent implements OnInit {
         if (!body.module_id) {
             this.moduleForm.controls['module_id'].setValue('null');
         }
-        this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postmodule', this.moduleForm.value)
+        this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postmodule', this.moduleForm.value)
             .subscribe(
                 data => {
-                    if (data.error) {
-                        this.alertService.warning(data.result);
-                        // this.parsePostResponse(data);
-                        this.spinnerService.hide();
-                    } else {
-                        this.getModuleDetails();
-                        this.parsePostResponse(data);
-                        this.spinnerService.hide();
+                    if (AppConstants.ACCESS_TOKEN === data.access_token) {
+                        if (data.custom_status_code === 100) {
+                            this.alertService.success('Data updated successfully');
+                            this.parsePostResponse(data);
+                        } else if (data.custom_status_code === 101) {
+                            this.alertService.warning('Required parameters are missing!');
+                        } else if (data.custom_status_code === 102) {
+                            this.alertService.warning('Every thing is upto date!');
+                        }
                     }
+                    // if (data.error) {
+                    //     this.alertService.warning(data.result);
+                    //     // this.parsePostResponse(data);
+                    //     this.spinnerService.hide();
+                    // } else {
+                    //     this.getModuleDetails();
+                    //     this.parsePostResponse(data);
+                    //     this.spinnerService.hide();
+                    // }
 
 
                 },
@@ -146,15 +139,20 @@ export class CreateModuleComponent implements OnInit {
     onDelete = (body) => {
         const formModel = body.id;
         this.spinnerService.show();
-        this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletemodule/' + formModel)
+        this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletemodule/' + formModel)
             .subscribe(
                 data => {
+                    this.moduleDetails = null;
+                    if (AppConstants.ACCESS_TOKEN === data.access_token) {
+                        if (data.custom_status_code === 100) {
+                            this.alertService.success('Data deleted successfully');
+                        } else if (data.custom_status_code === 101) {
+                            this.alertService.warning('Required parameters are missing!');
+                        }
+                    }
                     this.getModuleDetails();
                     this.spinnerService.hide();
-                    this.moduleDetails = null;
-                    console.log(data);
                     this.loading = false;
-                    this.alertService.success('Page delete successfully');
                 },
                 error => {
                     this.loading = false;
@@ -164,13 +162,18 @@ export class CreateModuleComponent implements OnInit {
     }
     getModuleDetails = () => {
         this.spinnerService.show();
-        this.httpClient.get<IModuleDetails>(AppConstants.API_URL + 'flujo_client_getmodule/' + AppConstants.CLIENT_ID)
+        this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getmodule/' + AppConstants.CLIENT_ID)
             .subscribe(
                 data => {
                     this.moduleDetails = null;
+                    if (AppConstants.ACCESS_TOKEN === data.access_token) {
+                        if (data.custom_status_code === 100 && data.result.length > 0) {
+                            this.moduleDetails = data.result;
+                        } else if (data.custom_status_code === 101) {
+
+                        }
+                    }
                     this.isEdit = false;
-                    this.moduleDetails = data;
-                    console.log(this.moduleDetails);
                     this.spinnerService.hide();
                 },
                 error => {

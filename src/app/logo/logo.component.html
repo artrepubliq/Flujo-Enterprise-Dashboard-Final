@@ -1,6 +1,6 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000">
-  </ngx-alerts>
+</ngx-alerts>
 <div class="profile_block" fxLayoutAlign="center center">
   <div class="profile_logo">
     <!-- Logo View Block -->
@@ -54,20 +54,6 @@
     <!-- //.. Logo View Block -->
 
     <!-- Logo Edit Block -->
-    <!-- <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-icon">
-      <i class="fa fa-ellipsis-v"></i>
-    </button>
-    <mat-menu #menu="matMenu" xPosition="before">
-      <button mat-menu-item>
-        <span>Redial</span>
-      </button>
-      <button mat-menu-item disabled>
-        <span>Check voicemail</span>
-      </button>
-      <button mat-menu-item>
-        <span>Disable alerts</span>
-      </button>
-    </mat-menu> -->
     <form *ngIf="isEdit" [formGroup]="form" (submit)="onSubmit(form.value)">
       <!-- Header -->
       <div class="profile_header">
@@ -125,7 +111,7 @@
       <!-- Save Button -->
       <div class="profile_footer" fxLayoutAlign="end center">
         <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
-        <button mat-button class="logoCtrl_button cancel" (click)="cancelFileEdit()">Cancel</button>
+        <button mat-button class="btn" (click)="cancelFileEdit()">Cancel</button>
         <button mat-button class="logoCtrl_button" [disabled]="form.invalid || loadingSave">Save</button>
         <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loadingSave">Delete</button> -->
       </div>

@@ -15,7 +15,8 @@ import { Keepalive } from '@ng-idle/keepalive';
 import { IcustomLoginModelDetails, IPostChatCampModel } from '../model/custom.login.model';
 import { error } from 'util';
 import { IHttpResponse } from '../model/httpresponse.model';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 
 @Component({
   selector: 'app-login',
@@ -24,12 +25,14 @@ import {Location} from '@angular/common';
 })
 export class LoginComponent implements OnInit {
   chatCampUrlData: any;
+  accessDataModel: AccessDataModelComponent;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   loginForm: any;
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private loginAuthService: LoginAuthService,
     public location: Location) {
+      this.accessDataModel = new AccessDataModelComponent(httpClient, router);
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
@@ -58,9 +61,11 @@ export class LoginComponent implements OnInit {
           console.log(data);
           this.loginAuthService._setSession(data);
           if (data.email_verified === '0') {
-            this.router.navigate(['/admin/changepassword']);
+            const feature_id = 23;
+            // this.router.navigate(['/admin/changepassword']);
+            this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
           } else if (data.can_chat === false && data.email_verified === '1') {
-           this.redirectUrlForChatCamp(data);
+            this.redirectUrlForChatCamp(data);
           }
           this.alertService.success('User logged in successfully');
         } else {
@@ -75,13 +80,13 @@ export class LoginComponent implements OnInit {
     chatCampPostObject.chatcamp_accesstoken = data.chatcamp_accesstoken;
     chatCampPostObject.user_id = data.user_id;
     this.httpClient.post<IcustomLoginModelDetails>(AppConstants.API_URL + 'flujo_client_postchatservice', chatCampPostObject)
-    .subscribe(
+      .subscribe(
       chatResponse => {
         console.log(chatResponse);
       },
       chatError => {
         console.log(chatError);
       }
-    );
+      );
   }
 }

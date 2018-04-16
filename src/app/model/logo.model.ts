@@ -1,7 +1,3 @@
-// export class ILogo {
-//     id: number;
-//     avatar: string|any;
-// }
 
 export interface ILogo {
     client_id: number;

@@ -1,4 +1,4 @@
-export interface CommonInterface {
+export interface ICommonInterface {
     error: boolean;
     result: Array<any>;
     access_token: string;

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, SimpleChanges, Inject } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ElementRef, ViewChild, SimpleChanges, Inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,14 +7,16 @@ import { mediaDetail } from '../model/feedback.model';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MatButtonModule, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatButtonModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpService } from '../service/httpClient.service';
+
 import { ValidationService } from '../service/validation.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AppConstants } from '../app.constants';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { SmsTemplateSelectService } from './sms-template-select-service';
 import { ISmsTemplateData } from '../model/smsTemplateData';
 @Component({
@@ -24,16 +26,22 @@ import { ISmsTemplateData } from '../model/smsTemplateData';
 })
 export class SmsuiComponent implements OnInit {
   selectedSmsTemplateData: any;
-  smsTemplateSelectionData: ISmsTemplateData[];
+  smsTemplateSelectionData: any;
+  @Input() title: any;
+  filteredUserAccessData: any;
+  userAccessLevelObject: any;
   template = `<img src="../assets/icons/loader.gif" />`;
   smsContactForm: any;
   PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
   submitted: boolean;
   cancelFileEdit: boolean;
+  userAccessDataModel: AccessDataModelComponent;
+  feature_id = 4;
   constructor(private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient,
      private formBuilder: FormBuilder, private alertService: AlertService,
      public adminComponent: AdminComponent, private router: Router,
-     public dialog: MatDialog, private smsSelectionService: SmsTemplateSelectService) {
+    public smsSelectionService: SmsTemplateSelectService,
+    public dialog: MatDialog) {
     this.smsContactForm = this.formBuilder.group({
       'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'message': ['', [Validators.required, Validators.minLength(10)]],
@@ -41,14 +49,16 @@ export class SmsuiComponent implements OnInit {
       'file': [''],
       'client_id': []
     });
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/sms');
+    }
    }
   ngOnInit() {
-    this.getSlectedTemplateData();
     setTimeout(function() {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
-  /* Sending the sms data to api */
   smsContactFormSubmit() {
     this.spinnerService.show();
     console.log(this.smsContactForm.value);

@@ -1,6 +1,9 @@
-import { Component, OnInit, Pipe, PipeTransform, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
+import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { HttpClient } from '@angular/common/http';
+// import { IPostEmailTemplate, EmailThemeConfig } from '../model/emailThemeConfig.model';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { EmailTemplateService } from './email-template-service';
 import { AlertService } from 'ngx-alerts';
@@ -13,7 +16,6 @@ import { map } from 'rxjs/operators/map';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { EmailTemplateResolver } from './email-template.resolver';
 import { CKEditorModule } from 'ngx-ckeditor';
-import * as html2canvas from 'html2canvas';
 import { PlatformLocation } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 @Pipe({
@@ -31,7 +33,9 @@ export class SafeHtmlPipe implements PipeTransform {
   templateUrl: './email-template.component.html',
   styleUrls: ['./email-template.component.scss']
 })
-export class EmailTemplateComponent implements OnInit, OnDestroy {
+export class EmailTemplateComponent implements OnInit {
+  filteredOptions: Observable<string[]>;
+  templateCategory: FormControl = new FormControl();
   img: any;
   test: any;
   config: any;
@@ -47,10 +51,11 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
   public editOrUpdate: boolean;
   public data: IPostEmailTemplate;
   public createEmailTemplateForm: any;
-  templateCategory: FormControl = new FormControl();
-  filteredOptions: Observable<string[]>;
-
+  public template_html: any;
+  userAccessDataModel: AccessDataModelComponent;
+  feature_id = 28;
   constructor(
+    private httpClient: HttpClient,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private emailTemplateService: EmailTemplateService,
@@ -59,15 +64,23 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private platformLocation: PlatformLocation,
-    private ngZone: NgZone,
   ) {
+    // client_id: string;
+    // template_name: string;
+    // template_category: string;
+    // template_html: string;
+    // emailtemplateconfig_id?: string;
     this.createEmailTemplateForm = this.formBuilder.group({
       'template_name': ['', Validators.required],
       'template_category': [''],
-      'template_html': [''],
+      'template_html': ['', Validators.required],
       'emailtemplateconfig_id': [''],
       'client_id': ['']
     });
+    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/emailconfiguration');
+    }
     this.tempate_categories = [];
   }
 
@@ -88,35 +101,45 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
     this.spinnerService.show();
     this.emailTemplateService.postEmailTemplateData(formModel, 'flujo_client_postemailtemplateconfig')
       .subscribe((result) => {
-        console.log(result);
-        if (result.error) {
-          this.alertService.warning(result.result);
-          this.spinnerService.hide();
-        } else if (result.client_id) {
-          const index = this.allEmailTemplates.findIndex(item => item.id === this.dummy.id);
-          if (index !== undefined) {
-            this.allEmailTemplates[index].template_category = this.templateCategory.value;
-            this.allEmailTemplates[index].template_html = this.createEmailTemplateForm.value.template_html;
-            this.allEmailTemplates[index].template_name = this.createEmailTemplateForm.value.template_name;
+        if (AppConstants.ACCESS_TOKEN === result.access_token) {
+          //   if (data.custom_status_code === 100 && data.result.length > 0) {
+          // if (data.custom_status_code === 100) {
+          //   this.alertService.success('Data updated successfully');
+          //   this.getPrivacyData();
+          // } else if (data.custom_status_code === 101) {
+          //   this.alertService.warning('Required parameters are missing!');
+          // } else if (data.custom_status_code === 102) {
+          //   this.alertService.warning('Every thing is upto date!');
+          // }
+          if (result.custom_status_code === 101 && result.result.length === 0) {
+            this.alertService.warning('Required parameters are missing');
+            this.spinnerService.hide();
+          } else if ((result.custom_status_code === 100) && (typeof(result.result) === 'object')) {
+            const index = this.allEmailTemplates.findIndex(item => item.id === this.dummy.id);
+            if (index !== undefined) {
+              this.allEmailTemplates[index].template_category = this.templateCategory.value;
+              this.allEmailTemplates[index].template_html = this.createEmailTemplateForm.value.template_html;
+              this.allEmailTemplates[index].template_name = this.createEmailTemplateForm.value.template_name;
+            }
+            this.alertService.success('Template saved successfully');
+            this.spinnerService.hide();
+            this.createEmailTemplateForm.reset();
+          } else if ((result.custom_status_code === 100) && (typeof(result.result) === 'string')) {
+            const id = result.result;
+            this.allEmailTemplates.push({
+              id: id,
+              template_html: formModel.template_html,
+              template_name: formModel.template_name,
+              template_category: formModel.template_category
+            });
+            this.uniqueEmailTemplates = _.uniq(this.allEmailTemplates, function (x) {
+              return x.template_category;
+            });
+            this.tempate_categories.push(formModel.template_category);
+            this.spinnerService.hide();
+            this.alertService.success('Template created successfully');
+            this.createEmailTemplateForm.reset();
           }
-          this.alertService.success('Template saved successfully');
-          this.spinnerService.hide();
-          this.createEmailTemplateForm.reset();
-        } else {
-          const id: any = result;
-          this.allEmailTemplates.push({
-            id: id,
-            template_html: formModel.template_html,
-            template_name: formModel.template_name,
-            template_category: formModel.template_category
-          }) ;
-          this.uniqueEmailTemplates = _.uniq(this.allEmailTemplates, function (x) {
-            return x.template_category;
-          });
-          this.tempate_categories.push(formModel.template_category);
-          this.spinnerService.hide();
-          this.alertService.success('Template created successfully');
-          this.createEmailTemplateForm.reset();
         }
       },
         error => {
@@ -124,21 +147,33 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
         }
       );
   }
-/*Getting of email template data from api using email service*/
+  /*Getting of email template data from api using email service*/
   public getEmailTemplateData(): void {
     this.activatedRoute.data.subscribe(result => {
       this.spinnerService.hide();
       this.editOrUpdate = false;
-      this.allEmailTemplates = result.themedata;
-      this.allEmailTemplates2 = result.themedata;
-      this.uniqueEmailTemplates = _.uniq(result.themedata, function (x) {
-        return x.template_category;
-      });
-      this.uniqueEmailTemplates.map((themeObject) => {
-        this.tempate_categories.push(themeObject.template_category);
-        this.getFilteredEmailCategories();
-      });
-      this.filteredThemes = this.allEmailTemplates;
+      // if (data.custom_status_code === 100) {
+      //   this.alertService.success('Data updated successfully');
+      //   this.getPrivacyData();
+      // } else if (data.custom_status_code === 101) {
+      //   this.alertService.warning('Required parameters are missing!');
+      // } else if (data.custom_status_code === 102) {
+      //   this.alertService.warning('Every thing is upto date!');
+      // }
+      if (AppConstants.ACCESS_TOKEN === result.themedata.access_token) {
+        if (result.themedata.custom_status_code === 100 && result.themedata.result.length > 0) {
+          this.allEmailTemplates = result.themedata.result;
+          this.allEmailTemplates2 = result.themedata.result;
+          this.uniqueEmailTemplates = _.uniq(result.themedata.result, function (x) {
+            return x.template_category;
+          });
+          this.uniqueEmailTemplates.map((themeObject) => {
+            this.tempate_categories.push(themeObject.template_category);
+            this.getFilteredEmailCategories();
+          });
+          this.filteredThemes = this.allEmailTemplates;
+        }
+      }
       // console.log(this.allEmailTemplates);
     },
       error => {
@@ -212,12 +247,13 @@ export class EmailTemplateComponent implements OnInit, OnDestroy {
     this.isView = false;
     this.setDefaultEmailTemplateDetails(emailTemplateData);
   }
+  public modelChanged(event) {
+    console.log(event);
+    this.template_html = event;
+  }
+
   cancelEditTemplate() {
     console.log(this.allEmailTemplates);
     this.isEdit = false;
   }
-
-  ngOnDestroy() {
-  }
-
 }

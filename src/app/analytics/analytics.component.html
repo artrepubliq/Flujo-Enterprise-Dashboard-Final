@@ -1,132 +1,149 @@
 <ng4-loading-spinner>
 </ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-<div class="analytics_block" *ngIf="newData" fxLayout="column" fxLayoutGap="25px">
-  <!-- Analytics Header -->
-  <div fxLayout="row" fxFlex="100%" >
-    <div fxLayout="row" fxFlex="40" fxLayoutGap="15px" fxLayoutAlign="start center">
-      <div fxFlex="10" fxLayoutAlign="start">
-        <h6 class="analytics">Analytics</h6>
-      </div>
-      <div class="dates-range-box" fxLayout="column">
-        <div (click)="ShowDatesRange = !ShowDatesRange" class="dates-pick">
-           <p>
-             <span><img src="./assets/calendar-icon.png">&nbsp;&nbsp;&nbsp;&nbsp;</span><span>25 Feb</span> - <span>3rd Mar</span> <span>2018</span>
-           </p>
+
+
+<div fxLayout="column" fxLayoutGap="15px" ngClass.xl="analytics-XL">
+
+  <!-- ===== Problem Cards ==== -->
+  <div class="analytics_block" *ngIf="newData" fxLayout="column" fxLayoutGap="25px">
+    <!-- Analytics Header -->
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="30px" fxFlex="100%">
+      <div fxLayout="row" fxFlex="40" fxLayoutGap="15px" fxLayoutAlign="start center">
+        <div fxFlex="10" fxLayoutAlign="start">
+          <h6 class="analytics">Analytics</h6>
         </div>
-        <div *ngIf="ShowDatesRange" class="analytics_dates" fxLayout="row" fxLayoutAlign="start">
-          <mat-form-field color="accent" fxFlex>
-            <mat-label>Min date</mat-label>
-            <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
-            <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
-          </mat-form-field>
-          <mat-form-field color="accent" fxFlex>
-            <mat-label>Max date</mat-label>
-            <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
-            <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-    <div fxFlex fxLayoutAlign="center center" class="button-group">
-
-      <button class="btn btn-outline-secondary btn-start" (click)="onToday()" [ngClass]="{'active': getBGColor('today')}" name="options" id="option1" autocomplete="off">Today</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="onWeek()" [ngClass]="{'active': getBGColor('week')}" name="options" id="option2"  autocomplete="off"> Week</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="onMonth()" [ngClass]="{'active': getBGColor('month')}" name="options" id="option3" autocomplete="off">
-        Month</button>
-      <button class="btn btn-outline-secondary btn-options" (click)="onQuarter()" [ngClass]="{'active': getBGColor('quarter')}" name="options" id="option4" autocomplete="off">
-        Quarter</button>
-      <button class="btn btn-outline-secondary btn-end" (click)="onYear()" [ngClass]="{'active': getBGColor('year')}" name="options" id="option5" autocomplete="off">
-        Year</button>
-    </div>
-
-  </div>
-  <!-- ..// Analytics Header -->
-
-  <div class="divide-line"></div>
-  <div class="problem-header">
-    <h6>Problem Category</h6>
-  </div>
-  <app-charts-problem-category [problem_category]="problem_category"></app-charts-problem-category>
-</div>
-<!-- ..// Problem Cards -->
-
-<!-- ======= Charts Cards ======== -->
-<div fxLayout="column" fxLayoutGap="15px">
-  <div fxLayout="row" fxLayoutGap="15px">
-    <!-- Gender Chart  -->
-    <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3 class="title">Gender</h3>
-        <i class="fa fa-ellipsis-v"></i>
-      </div>
-      <div class="chart_body">
-        <div>
-          <app-charts-gender [gender]='gender'></app-charts-gender>
+        <div class="dates-range-box" fxLayout="column">
+          <div (click)="ShowDatesRange = !ShowDatesRange" class="dates-pick">
+            <p>
+              <span>
+                <img src="./assets/calendar-icon.png">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span>25 Feb</span> -
+              <span>3rd Mar</span>
+              <span>2018</span>
+            </p>
+          </div>
+          <div *ngIf="ShowDatesRange" class="analytics_dates" fxLayout="row" fxLayoutAlign="start">
+            <mat-form-field color="accent" fxFlex>
+              <mat-label>Min date</mat-label>
+              <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
+              <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field color="accent" fxFlex>
+              <mat-label>Max date</mat-label>
+              <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
+              <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
+            </mat-form-field>
+          </div>
         </div>
       </div>
-      <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
-        <h3 class="chart_item fmale">Female</h3>
-        <h3 class="chart_item male">Male</h3>
+      <div fxFlex fxLayoutAlign="center center" class="button-group">
+
+        <button class="btn btn-outline-secondary btn-start" (click)="onToday()" [ngClass]="{'active': getBGColor('today')}" name="options"
+          id="option1" autocomplete="off">Today</button>
+        <button class="btn btn-outline-secondary btn-options" (click)="onWeek()" [ngClass]="{'active': getBGColor('week')}" name="options"
+          id="option2" autocomplete="off"> Week</button>
+        <button class="btn btn-outline-secondary btn-options" (click)="onMonth()" [ngClass]="{'active': getBGColor('month')}" name="options"
+          id="option3" autocomplete="off">
+          Month</button>
+        <button class="btn btn-outline-secondary btn-options" (click)="onQuarter()" [ngClass]="{'active': getBGColor('quarter')}"
+          name="options" id="option4" autocomplete="off">
+          Quarter</button>
+        <button class="btn btn-outline-secondary btn-end" (click)="onYear()" [ngClass]="{'active': getBGColor('year')}" name="options"
+          id="option5" autocomplete="off">
+          Year</button>
+
       </div>
+
     </div>
+    <!-- ..// Analytics Header -->
 
-    <!-- Assign Chart -->
-    <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3 class="title">Assign</h3>
-        <i class="fa fa-ellipsis-v"></i>
-      </div>
-      <div class="chart_body">
-        <app-charts-assign [assign]='assign'></app-charts-assign>
-      </div>
-
+    <div class="divide-line"></div>
+    <div class="problem-header">
+      <h6>Problem Category</h6>
     </div>
-    <!-- Age Chart  -->
-    <div fxFlex class="chart_card age_chart">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
-        <h3 class="title">Age</h3>
-        <i class="fa fa-ellipsis-v"></i>
-      </div>
-      <div class="chart_body">
-        <div>
-          <canvas id="ageChartCanvas">
+    <app-charts-problem-category [problem_category]="problem_category"></app-charts-problem-category>
+  </div>
+  <!-- ..// Problem Cards -->
 
-          </canvas>
-          <!-- <app-chart-age [ageData]="ageData"></app-chart-age> -->
+  <!-- ======= Charts Cards ======== -->
+  <div fxLayout="column" ngClass.lt-md="charts_lt-md" fxLayoutGap="15px">
+    <div fxLayout="row" ngClass.md="charts_md-scroll" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="30px">
+      <!-- Gender Chart  -->
+      <div fxFlex class="chart_card">
+        <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+          <h3 class="title">Gender</h3>
+          <i class="fa fa-ellipsis-v"></i>
+        </div>
+        <div class="chart_body">
+          <div>
+            <app-charts-gender [gender]='gender'></app-charts-gender>
+          </div>
+        </div>
+        <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
+          <h3 class="chart_item fmale">Female</h3>
+          <h3 class="chart_item male">Male</h3>
+        </div>
+      </div>
+
+      <!-- Assign Chart -->
+      <div fxFlex class="chart_card">
+        <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+          <h3 class="title">Assign</h3>
+          <i class="fa fa-ellipsis-v"></i>
+        </div>
+        <div class="chart_body">
+          <app-charts-assign [assign]='assign'></app-charts-assign>
         </div>
 
       </div>
-      <div class="chart_footer" fxLayout="row" fxLayoutWrap="wrap">
-        <p fxFlex="50" class="chart_item age18">18 - 24 age</p>
-        <p fxFlex="50" class="chart_item age25">25 - 34 age</p>
-        <p fxFlex="50" class="chart_item age35">35 - 44 age</p>
-        <p fxFlex="50" class="chart_item age45">45 Above age</p>
+      <!-- Age Chart  -->
+      <div fxFlex class="chart_card age_chart">
+        <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
+          <h3 class="title">Age</h3>
+          <i class="fa fa-ellipsis-v"></i>
+        </div>
+        <div class="chart_body">
+          <div>
+            <canvas id="ageChartCanvas">
+
+            </canvas>
+            <!-- <app-chart-age [ageData]="ageData"></app-chart-age> -->
+          </div>
+
+        </div>
+        <div class="chart_footer" fxLayout="row" fxLayoutWrap="wrap">
+          <p fxFlex="50" class="chart_item age18">18 - 24 age</p>
+          <p fxFlex="50" class="chart_item age25">25 - 34 age</p>
+          <p fxFlex="50" class="chart_item age35">35 - 44 age</p>
+          <p fxFlex="50" class="chart_item age45">45 Above age</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rect_card" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="30px">
+      <div fxFlex class="chart_card">
+        <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
+          <h3 class="title">Status</h3>
+          <i class="fa fa-ellipsis-v"></i>
+        </div>
+
+        <div class="chart_body">
+          <app-charts-status [status_reports]="status_reports"></app-charts-status>
+        </div>
+      </div>
+      <div fxFlex class="chart_card">
+        <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
+          <h3 class="title">Locality</h3>
+          <i class="fa fa-ellipsis-v"></i>
+        </div>
+        <div class="chart_body">
+          <app-charts-loyality [area]="area"></app-charts-loyality>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="rect_card" fxLayout="row" fxLayoutGap="15px">
-    <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
-        <h3 class="title">Status</h3>
-        <i class="fa fa-ellipsis-v"></i>
-      </div>
-
-      <div class="chart_body">
-        <app-charts-status [status_reports]="status_reports"></app-charts-status>
-      </div>
-    </div>
-    <div fxFlex class="chart_card">
-      <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
-        <h3 class="title">Locality</h3>
-        <i class="fa fa-ellipsis-v"></i>
-      </div>
-      <div class="chart_body">
-        <app-charts-loyality [area]="area"></app-charts-loyality>
-      </div>
-    </div>
-  </div>
 </div>
