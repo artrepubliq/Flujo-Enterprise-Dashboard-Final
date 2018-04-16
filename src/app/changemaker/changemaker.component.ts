@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
-
 @Component({
   selector: 'app-changemaker',
   templateUrl: './changemaker.component.html',
@@ -93,7 +92,6 @@ export class ChangemakerComponent implements OnInit {
   getChangemakerReportData() {
     this.spinnerService.show();
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getchangemaker/' + AppConstants.CLIENT_ID)
-
       .subscribe(
         data => {
           console.log(data.result);

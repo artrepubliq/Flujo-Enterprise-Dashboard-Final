@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-whatsapp',
   templateUrl: './whatsapp.component.html',
@@ -39,15 +40,15 @@ export class WhatsappComponent implements OnInit {
     this.spinnerService.show();
     this.whatsAppSendingForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.whatsAppSendingForm.value;
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_sendwhatsapp', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_sendwhatsapp', formModel)
     .subscribe(
       data => {
         if (!data.error) {
           this.spinnerService.hide();
-          this.alertService.info(data.result);
+          this.alertService.info('Message has been sent successfully');
           this.whatsAppSendingForm.reset();
         } else {
-          this.alertService.danger(data.result);
+          this.alertService.danger('Message not sent');
         }
       }
     );
@@ -56,10 +57,12 @@ export class WhatsappComponent implements OnInit {
     this.smsSelectTemplateService.getSmsSelectData('/flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
       .subscribe(
         result => {
-          this.whatsAppTemplateData = result;
+          if ((result.custom_status_code = 100) && (!result.error)) {
+          this.whatsAppTemplateData = result.result;
           this.whatsAppTemplateData.map((templateData) => {
             templateData.isActive = false;
           });
+        }
         }, error => {
           console.log(error);
         }

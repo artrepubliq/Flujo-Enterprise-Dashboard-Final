@@ -62,43 +62,28 @@ export class AreasComponent implements OnInit {
     });
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/areacategory');
-     }
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/areacategory');
+    }
   }
 
   ngOnInit() {
     this.getAreaData();
   }
-  // this for restrict user on root access level
-userRestrict() {
-  _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-    // tslint:disable-next-line:max-line-length
-    if (this.adminComponent.userAccessLevelData[iterate].name === 'Area Category' && this.adminComponent.userAccessLevelData[iterate].enable) {
-      this.filteredUserAccessData = item;
-      } else {
-        // this.router.navigate(['/accessdenied']);
-        // console.log('else');
-      }
-    });
-    if (this.filteredUserAccessData) {
-      this.router.navigate(['admin/areacategory']);
-    } else {
-      this.router.navigate(['/accessdenied']);
-    }
-}
   public getAreaData(): void {
     this.spinnerService.show();
     this.areaService.getAreaData('/flujo_client_getreportarea/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.custom_status_code === 100 && data.result.length > 0) {
-            this.areaData = data.result;
-          } else if (data.custom_status_code === 101) {
-            this.alertService.warning('Required parameters are missing!');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100 && data.result.length > 0) {
+              this.areaData = data.result;
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            }
+            this.spinnerService.hide();
+            // this.areaData = data;
+            console.log(this.areaData);
           }
-          this.spinnerService.hide();
-          // this.areaData = data;
-          console.log(this.areaData);
         },
         error => {
           this.spinnerService.hide();
@@ -136,7 +121,7 @@ userRestrict() {
 
   public createNewArea() {
     if (!this.areaForm.get('areatypenamenew').value ||
-     !this.areaForm.get('areateluguname').value || !this.areaForm.get('areapincodenew').value) {
+      !this.areaForm.get('areateluguname').value || !this.areaForm.get('areapincodenew').value) {
       return false;
     }
     console.log(this.areaForm.value);
@@ -162,18 +147,20 @@ userRestrict() {
       .subscribe(
         data => {
           console.log(data);
-          if (data.custom_status_code === 100) {
-            this.alertService.success('Area updated successfully');
-          } else if (data.custom_status_code === 101) {
-            this.alertService.warning('Required parameters are missing!');
-          } else if (data.custom_status_code === 102) {
-            this.alertService.warning('Every thing is upto date!');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Area updated successfully');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            } else if (data.custom_status_code === 102) {
+              this.alertService.warning('Every thing is upto date!');
+            }
+            this.getAreaData();
+            this.areaForm.reset();
+            this.spinnerService.hide();
+            this.isEdit = false;
+            this.actionText = 'Add';
           }
-          this.getAreaData();
-          this.areaForm.reset();
-          this.spinnerService.hide();
-          this.isEdit = false;
-          this.actionText = 'Add';
         },
         error => {
           this.spinnerService.hide();
@@ -189,21 +176,18 @@ userRestrict() {
     this.areaService.deleteArea('flujo_client_deletereportarea/', area.id)
       .subscribe(
         data => {
-          if (data.custom_status_code === 100) {
-            this.alertService.success('Area deleted successfully');
-          } else if (data.custom_status_code === 101) {
-            this.alertService.warning('Required parameters are missing!');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Area deleted successfully');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            }
+            this.spinnerService.hide();
+            this.getAreaData();
+            this.areaForm.reset();
+            this.isEdit = false;
+            this.actionText = 'Add';
           }
-          this.spinnerService.hide();
-          if (data.error) {
-            this.alertService.warning('Something went wrong. Try again after sometime.');
-          } else if ((data.error === false) && AppConstants.ACCESS_TOKEN === data.access_token) {
-              this.alertService.success('Area Deleted Successfully');
-          }
-          this.getAreaData();
-          this.areaForm.reset();
-          this.isEdit = false;
-          this.actionText = 'Add';
         },
         error => {
           this.alertService.warning('Something went wrong.');

@@ -19,7 +19,7 @@ export class LoginAuthService implements OnInit {
     this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     if (Date.now() < this.expiresAt) {
       this.setLoggedInCustom(true);
-      }else {
+      } else {
         this.setLoggedInCustom(false);
       }
   }
@@ -51,7 +51,7 @@ export class LoginAuthService implements OnInit {
     localStorage.setItem('email', authResult.email);
     localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('name', authResult.name);
-    localStorage.setItem('expires_at', JSON.stringify(expTime));
+    localStorage.setItem('editor_source', JSON.stringify(expTime));
     // this.router.navigateByUrl('/');
     this.router.navigate(['/admin']);
     // window.location.reload();
@@ -81,6 +81,7 @@ export class LoginAuthService implements OnInit {
   localStorage.removeItem('name');
   localStorage.removeItem('expires_at');
   localStorage.removeItem('email');
+  localStorage.removeItem('editor_source');
   this.setLoggedInCustom(false);
   }
   get authenticated(): boolean {

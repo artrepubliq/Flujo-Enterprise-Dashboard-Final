@@ -6,10 +6,11 @@ import {Chart} from 'chart.js'; // grabs bundled
 
 @Component({
   selector: 'app-charts-loyality',
-  templateUrl: './charts-loyality.component.html',
-  styleUrls: ['./charts-loyality.component.scss']
+  templateUrl: './charts-loyality.directive.html',
+  styleUrls: ['./charts-loyality.directive.scss']
 })
-export class ChartsLoyalityComponent implements OnInit, OnChanges {
+// tslint:disable-next-line:component-class-suffix
+export class ChartsLoyalityDirective implements OnInit, OnChanges {
   @Input() area: any;
   areaChart: any;
   constructor() { }
@@ -33,6 +34,9 @@ export class ChartsLoyalityComponent implements OnInit, OnChanges {
     for ( let i = 0; i < count; i++) {
         colors[i] = color;
     }
+    console.log(_.max(areaValue));
+    const barRange = Math.ceil(Math.max(areaValue) / areaValue.length);
+
     // Area Chart
     const areactx = document.getElementById('areaChartCanvas');
     const areaChart = new Chart(areactx, {
@@ -55,7 +59,7 @@ export class ChartsLoyalityComponent implements OnInit, OnChanges {
           yAxes: [{
               ticks: {
                 beginAtZero: true,
-                  stepSize: 1
+                  stepSize: barRange
               }
           }]
       }

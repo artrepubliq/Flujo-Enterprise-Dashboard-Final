@@ -7,6 +7,7 @@ import { IHttpResponse } from '../model/httpresponse.model';
 import { AppConstants } from '../app.constants';
 import { AppComponent } from '../app.component';
 import { IPrivacyData } from '../model/IPrivacyData';
+import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
 @Component({
@@ -22,7 +23,7 @@ export class PnpComponent implements OnInit {
   isGridView = true;
   button_text = 'Save';
   isEdit: boolean;
-  privacyDetails: IPrivacyData;
+  privacyDetails: Array<IPrivacyData>;
   pnpSubmitForm: FormGroup;
   feature_id = 22;
   userAccessDataModel: AccessDataModelComponent;
@@ -50,60 +51,76 @@ export class PnpComponent implements OnInit {
   onSubmit = () => {
     this.spinnerService.show();
     this.pnpSubmitForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    if (this.privacyDetails.id) {
+    if (this.privacyDetails) {
       this.pnpSubmitForm.controls['privacypolicy_id'].setValue(this.privacyDetails[0].id);
     }
     const formModel = this.pnpSubmitForm.value;
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_postprivacypolicy', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postprivacypolicy', formModel)
       .subscribe(
-      data => {
-        if (data.error) {
-          this.alertService.warning(data.result);
-          // this.parsePostResponse(data);
-          this.spinnerService.hide();
-        } else {
-          this.getPrivacyData();
+        data => {
+          console.log(data);
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Data updated successfully');
+              this.getPrivacyData();
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            } else if (data.custom_status_code === 102) {
+              this.alertService.warning('Every thing is upto date!');
+            }
+          }
           this.parsePostResponse(data);
           this.spinnerService.hide();
+        },
+        err => {
+          console.log(err);
+          this.spinnerService.hide();
+          this.alertService.danger('Data not Submitted');
         }
-
-      },
-      err => {
-        console.log(err);
-        this.spinnerService.hide();
-        this.alertService.danger('Data not Submitted');
-      }
       );
   }
   getPrivacyData = () => {
-    this.httpClient.get<IPrivacyData>(AppConstants.API_URL + '/flujo_client_getprivacypolicy/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getprivacypolicy/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.privacyDetails = null;
-        this.isEdit = false;
-        this.privacyDetails = data;
-        this.setDefaultClientPrivacyData(this.privacyDetails);
-        this.spinnerService.hide();
-      }, error => {
-        console.log(error);
-        this.loading = false;
-        this.spinnerService.hide();
-      }
+        data => {
+          this.privacyDetails = null;
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100 && data.result.length > 0) {
+              this.privacyDetails = data.result;
+              this.setDefaultClientPrivacyData(this.privacyDetails);
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            }
+          }
+          this.isEdit = false;
+          this.spinnerService.hide();
+        }, error => {
+          console.log(error);
+          this.loading = false;
+          this.spinnerService.hide();
+        }
       );
   }
   deleteCompnent = (body) => {
     this.spinnerService.show();
-    this.httpClient.delete<IHttpResponse>(AppConstants.API_URL + 'flujo_client_deleteprivacypolicy/' + body)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleteprivacypolicy/' + body)
       .subscribe(
-      data => {
-        this.alertService.danger('deleted successfully');
-        this.spinnerService.hide();
-        this.getPrivacyData();
-      },
-      error => {
-        this.spinnerService.hide();
-        console.log(error);
-      }
+        data => {
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Data deleted successfully');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            }
+          }
+          // this.alertService.danger('deleted successfully');
+          this.spinnerService.hide();
+          this.getPrivacyData();
+        },
+        error => {
+          this.spinnerService.hide();
+          console.log(error);
+        }
       );
   }
   // this method is used to update page detals to the form, if detalis exist

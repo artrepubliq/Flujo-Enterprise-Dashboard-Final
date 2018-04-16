@@ -53,11 +53,26 @@ button.button_submit {
   margin-left: 10px;
   height: 40px;
   box-shadow: none !important;
+  min-width: 100px;
+}
+
+button.button_cancel {
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #666666;
+  border-radius: 20px !important;
+  height: 40px;
+  min-width: 100px;
 }
 
 button.button_submit:hover {
   background-color: #4a2565;
-  color: #fff;
+  color: #ffffff !important;
   border-color: transparent;
 }
 

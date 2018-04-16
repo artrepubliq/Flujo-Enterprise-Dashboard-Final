@@ -14,11 +14,14 @@ import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { AdminComponent } from '../admin/admin.component';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent implements OnInit, OnDestroy {
+    appEditor: boolean;
+    webEditor: boolean;
     popUpImageData1: any;
     popUpImageData: any;
     filteredUserAccessData: any;
@@ -54,6 +57,17 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
             this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/pages');
         }
+        if (localStorage.getItem('editor_source') === 'editorWeb') {
+            this.webEditor = true;
+        }
+        if (localStorage.getItem('editor_source') === 'editorApp') {
+            this.appEditor = true;
+        }
+        if (localStorage.getItem('editor_source')) {
+            this.router.navigate(['admin/pages']);
+        } else {
+            this.router.navigate(['admin/chooseplatform']);
+        }
     }
     ngOnInit() {
         setTimeout(function () {
@@ -77,7 +91,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             parent_id: null,
             web_description: ['', Validators.required],
             app_description: ['', Validators.required],
-            component_background_color: ['', ],
+            component_background_color: [''],
             component_order: ['', Validators.required],
             component_id: null,
             component_image: null,
@@ -193,13 +207,14 @@ export class PagesComponent implements OnInit, OnDestroy {
     }
     getPageDetails = () => {
         this.spinnerService.show();
-        this.httpClient.get(AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
+        this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
             .subscribe(
             data => {
+                if ((data.access_token = AppConstants.ACCESS_TOKEN) && (data.custom_status_code = 100)) {
                 this.parentPageDetails = null;
                 this.pageDetails = null;
                 this.isEdit = false;
-                this.pageDetails = data;
+                this.pageDetails = data.result;
                 this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
                     return parentData.parent_id === '-1';
                 });
@@ -207,6 +222,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                     return parentData.parent_id !== '-1';
                 });
                 this.spinnerService.hide();
+            }
             },
             error => {
                 console.log(error);
