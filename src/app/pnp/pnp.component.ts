@@ -59,13 +59,15 @@ export class PnpComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          if (data.custom_status_code === 100) {
-            this.alertService.success('Data updated successfully');
-            this.getPrivacyData();
-          } else if (data.custom_status_code === 101) {
-            this.alertService.warning('Required parameters are missing!');
-          } else if (data.custom_status_code === 102) {
-            this.alertService.warning('Every thing is upto date!');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Data updated successfully');
+              this.getPrivacyData();
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            } else if (data.custom_status_code === 102) {
+              this.alertService.warning('Every thing is upto date!');
+            }
           }
           this.parsePostResponse(data);
           this.spinnerService.hide();
@@ -82,11 +84,13 @@ export class PnpComponent implements OnInit {
       .subscribe(
         data => {
           this.privacyDetails = null;
-          if (data.custom_status_code === 100 && data.result.length > 0) {
-            this.privacyDetails = data.result;
-            this.setDefaultClientPrivacyData(this.privacyDetails);
-          } else if (data.custom_status_code === 101) {
-            this.alertService.warning('Required parameters are missing!');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100 && data.result.length > 0) {
+              this.privacyDetails = data.result;
+              this.setDefaultClientPrivacyData(this.privacyDetails);
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            }
           }
           this.isEdit = false;
           this.spinnerService.hide();
@@ -102,10 +106,12 @@ export class PnpComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleteprivacypolicy/' + body)
       .subscribe(
         data => {
-          if (data.custom_status_code === 100) {
-            this.alertService.success('Data deleted successfully');
-          } else if (data.custom_status_code === 101) {
-            this.alertService.warning('Required parameters are missing!');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Data deleted successfully');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            }
           }
           // this.alertService.danger('deleted successfully');
           this.spinnerService.hide();

@@ -89,15 +89,17 @@ export class TncComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_gettermsconditions/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.custom_status_code = 200) {
-            this.termsDetails = null;
-            this.isEdit = false;
-            this.termsDetails = data.result;
-            console.log(this.termsDetails);
-            this.setDefaultClientPrivacyData(this.termsDetails);
-            this.spinnerService.hide();
-          } else {
-            this.alertService.warning('Someting went wrong');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code = 200) {
+              this.termsDetails = null;
+              this.isEdit = false;
+              this.termsDetails = data.result;
+              console.log(this.termsDetails);
+              this.setDefaultClientPrivacyData(this.termsDetails);
+              this.spinnerService.hide();
+            } else {
+              this.alertService.warning('Someting went wrong');
+            }
           }
         }, error => {
           console.log(error);
@@ -111,10 +113,12 @@ export class TncComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletetermsconditions/' + body.id)
       .subscribe(
         data => {
-          if (data.custom_status_code === 100) {
-            this.alertService.success('Data deleted successfully');
-          } else if (data.custom_status_code === 101) {
-            this.alertService.warning('Required parameters are missing!');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Data deleted successfully');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            }
           }
           // thi
           // if ((data.custom_status_code = 100) && (data.result[0] === '1')) {
