@@ -190,7 +190,7 @@ export class AreasComponent implements OnInit {
           }
         },
         error => {
-          this.alertService.success('File something went wrong successfully');
+          this.alertService.warning('Something went wrong.');
           console.log(error);
         }
       );
