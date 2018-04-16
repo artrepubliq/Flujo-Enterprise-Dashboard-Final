@@ -10,6 +10,7 @@ import { IHttpResponse } from '../model/httpresponse.model';
 import * as _ from 'underscore';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
+import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 @Component({
   templateUrl: './logo.component.html',
@@ -69,21 +70,21 @@ export class LogoComponent implements OnInit {
       if (file.size <= 600000) {
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.logoItems.logo_url_path = reader.result.split(',')[1];
+        this.logoItems.logo_image = reader.result.split(',')[1];
         this.logoDetail.push(reader.result.split(',')[1]);
         // this.form.get('avatar').setValue(reader.result.split(',')[1]);
-        console.log(reader.result.split(',')[1]);
+        // console.log(reader.result.split(',')[1]);
         let uploadImage;
         if (this.logoImageDetails) {
           uploadImage = { logo_id: this.logoImageDetails.id, client_id: this.logoImageDetails.client_id,
-            image: reader.result.split(',')[1] };
+            logo_image: reader.result.split(',')[1] };
         } else {
-           uploadImage = { logo_id: null, client_id: AppConstants.CLIENT_ID, image: reader.result.split(',')[1] };
+           uploadImage = { logo_id: null, client_id: AppConstants.CLIENT_ID, logo_image: reader.result.split(',')[1] };
         }
         this.uploadLogoimageHttpRequest(uploadImage);
 
       };
-    }else {
+    } else {
       this.alertService.danger('File is too large');
       this.getLogoDetails();
     }
@@ -94,16 +95,21 @@ export class LogoComponent implements OnInit {
   uploadLogoimageHttpRequest(reqObject) {
 
     this.spinnerService.show();
-    this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     // const imageModel = this.form.value
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postlogoupload', reqObject)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postlogoupload', reqObject)
       .subscribe(
       data => {
-        this.logoImage = reqObject.image;
+        if (data.http_status_code = 200) {
+        // this.logoImage = reqObject.logo_image;
         this.alertService.success('Logo submitted successfully.');
         this.loadingSave = false;
         this.getLogoDetails();
         this.spinnerService.hide();
+      } else {
+        this.alertService.success('Logo not submitted successfully.');
+        this.spinnerService.hide();
+        this.getLogoDetails();
+      }
       },
       error => {
         this.loadingSave = false;
@@ -112,28 +118,20 @@ export class LogoComponent implements OnInit {
   }
 
   onSubmit = (body) => {
-    // if(!this.logoDetail){
-    //   this.logoDetail= [];
-    //   // this.logoDetail = <Array<ILogo>>{};
-    //   this.logoDetail.push({hasLogo: false});
-    // }
-
     this.spinnerService.show();
-    // this.logoDetail;
     this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    // this.form.controls['avatar'].setValue(this.form.controls['avatar'].get('avatar'));
     const formModel = this.form.value;
     this.loadingSave = true;
 
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postlogo', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postlogo', formModel)
       .subscribe(
       data => {
         if (data.error) {
-          this.alertService.warning(data.result);
+          this.alertService.warning('Logo image not uploaded');
           this.loadingSave = false;
           this.getLogoDetails();
           this.spinnerService.hide();
-        }else {
+        } else {
           this.alertService.success('Logo details submitted successfully.');
           this.loadingSave = false;
           this.getLogoDetails();
@@ -152,7 +150,7 @@ export class LogoComponent implements OnInit {
   }
   onDelete = (body) => {
     this.spinnerService.show();
-    const formModel = this.logoImageDetails.logo_url_path;
+    const formModel = this.logoImage;
     this.loadingDelete = true;
     this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletelogo/' + AppConstants.CLIENT_ID)
       .subscribe(
@@ -172,14 +170,14 @@ export class LogoComponent implements OnInit {
   getLogoDetails = () => {
     this.loadingSave = true;
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getlogo/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogo/' + AppConstants.CLIENT_ID)
         .subscribe(
           data => {
-            this.logoImageDetails = data;
+            this.logoImageDetails = data.result;
             data ? this.isEdit = false : this.isEdit = true;
             console.log(data);
             if (data != null) {
-            this.setDefaultClientLogoDetails(data);
+            this.setDefaultClientLogoDetails(this.logoImageDetails);
              this.isHide = true;
              this.spinnerService.hide();
             } else {
@@ -212,15 +210,13 @@ export class LogoComponent implements OnInit {
     if (logoData) {
       this.isHideDeletebtn = true;
       this.button_text = 'Update';
-      this.decodedString = logoData.logo_url_path;
+      this.decodedString = logoData.logo_image;
       this.logoItems = logoData;
-      this.logoImage = logoData.logo_url_path;
+      this.logoImage = logoData.logo_image;
       this.form.controls['logo_text'].setValue(logoData.logo_text);
       this.form.controls['logo_caption'].setValue(logoData.logo_caption);
       this.form.controls['logo_height'].setValue(logoData.logo_height);
       this.form.controls['logo_width'].setValue(logoData.logo_width);
-      // this.form.controls['slogan_text'].setValue(logoData.slogan_text);
-      // this.form.controls['avatar'].setValue(logoData);
     }
 
   }
