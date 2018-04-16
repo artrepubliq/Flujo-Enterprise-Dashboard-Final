@@ -105,7 +105,6 @@ import { AccessDataModelComponent } from './model/useraccess.data.model';
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent, WhatsAppTemplatePopup } from './whatsapp/whatsapp.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
-import { ChartsProblemCategoryDirective } from './directives/charts-problem-category/charts-problem-category.directive';
 import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { EditorSelectionService } from './service/editor-selection.service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -174,7 +173,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialconfigurationComponent,
     WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup,
-    ChartAgeDirective
+    ChartAgeDirective,
     SmsTemplateSelectionDialog,
     SafeHtmlPipe
   ],
