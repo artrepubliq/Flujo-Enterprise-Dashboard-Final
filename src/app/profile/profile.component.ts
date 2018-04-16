@@ -10,7 +10,6 @@ import { AppComponent } from '../app.component';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { IHttpResponse } from '../model/httpresponse.model';
-
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
@@ -23,7 +22,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
 export class ProfileComponent implements OnInit {
   profileImage: any;
   profileItems: any;
-  profileImageDetails: any;
+  profileImageDetails?: any;
   form: FormGroup;
   loading = false;
   button_text = 'save';
@@ -60,7 +59,6 @@ export class ProfileComponent implements OnInit {
       mobile_number: ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       client_id: localStorage.getItem('client_id'),
       email: ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
-      // avatar: null
     });
   }
   ngOnInit() {
@@ -76,14 +74,14 @@ export class ProfileComponent implements OnInit {
       if (file.size <= 600000) {
         reader.readAsDataURL(file);
         reader.onload = () => {
-          // this.profileData.avatar = reader.result.split(',')[1];
           this.profileItems.avatar = reader.result.split(',')[1];
-          this.profileDetail.push(reader.result.split(',')[1]);
-          // this.form.get('avatar').setValue(reader.result.split(',')[1]);
-          const uploadImage = {
-            profile_id: this.profileImageDetails[0].id, client_id: this.profileImageDetails[0].client_id,
-            avatar: reader.result.split(',')[1]
-          };
+          let uploadImage;
+          if (this.profileImageDetails) {
+            uploadImage = {profile_id: this.profileImageDetails[0].id, client_id: this.profileImageDetails[0].client_id,
+            avatar: reader.result.split(',')[1]};
+          } else {
+            uploadImage = {profile_id: null, client_id: AppConstants.CLIENT_ID, avatar: reader.result.split(',')[1] };
+          }
           this.uploadProfileImage(uploadImage);
         };
       } else {
@@ -93,13 +91,11 @@ export class ProfileComponent implements OnInit {
   }
   uploadProfileImage = (reqObject) => {
     this.spinnerService.show();
-    this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    // const imageModel = this.form.value
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postprofileimageupload', reqObject)
       .subscribe(
         data => {
           if ((data.http_status_code = 200) && (!data.error)) {
-            this.profileImageDetails = reqObject.avatar;
+            // this.profileImageDetails = reqObject.avatar;
             this.alertService.success('Profile Image Uploaded successfully.');
             this.loading = false;
             this.spinnerService.hide();
@@ -129,11 +125,7 @@ export class ProfileComponent implements OnInit {
           } else {
             this.parsePostResponse(data);
             this.alertService.success('Profile details submitted successfully.');
-            // this.getProfileDetails();
-            // this.parsePostResponse(data);
-            // this.alertService.success('request Successfully submitted.');
             this.getProfileDetails();
-            //  this.loading = false;
             this.spinnerService.hide();
           }
         },
@@ -196,7 +188,6 @@ export class ProfileComponent implements OnInit {
             this.spinnerService.hide();
           }
           this.loading = false;
-          // this.isEdit = false;
         },
         error => {
           console.log(error);
@@ -237,7 +228,6 @@ export class ProfileComponent implements OnInit {
       this.spinnerService.hide();
       this.alertService.danger('Required parameters missing.');
     } else {
-      // this.alertService.success('page operation successfull.');
       this.loading = false;
       this.spinnerService.hide();
       this.form.reset();

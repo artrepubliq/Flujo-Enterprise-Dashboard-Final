@@ -14,22 +14,22 @@
         <div *ngIf="smtpItems" class="smtp-confgs" fxLayout="column" fxLayoutGap="20px" fxFlex="90">
           <div fxLayout="column">
             <label>Host name</label>
-            <p>{{smtpItems.host_name}}</p>
+            <p>{{smtpItems[0].host_name}}</p>
             <hr>
           </div>
           <div fxLayout="column">
             <label>From name</label>
-            <p>{{smtpItems.from_name}}</p>
+            <p>{{smtpItems[0].from_name}}</p>
             <hr>
           </div>
           <div fxLayout="column">
             <label>From Email</label>
-            <p>{{smtpItems.from_email}}</p>
+            <p>{{smtpItems[0].from_email}}</p>
             <hr>
           </div>
           <div fxLayout="column">
             <label>User name</label>
-            <p>{{smtpItems.user_name}}</p>
+            <p>{{smtpItems[0].user_name}}</p>
             <hr>
           </div>
           <!-- <div fxLayout="column" class="hidden">

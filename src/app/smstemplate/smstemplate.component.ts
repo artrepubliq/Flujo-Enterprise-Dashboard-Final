@@ -10,6 +10,7 @@ import { IHttpResponse } from '../model/httpresponse.model';
 import { AlertService } from 'ngx-alerts';
 import { ISmsTemplateData } from '../model/smsTemplateData';
 import * as _ from 'underscore';
+import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
 @Component({
@@ -100,25 +101,27 @@ export class SmstemplateComponent implements OnInit {
       }
       );
   }
-  getSMSTemplateConfigurationData = (): void => {
+  getSMSTemplateConfigurationData = () => {
     this.spinnerService.show();
-    this.httpClient.get<ISmsTemplateData[]>(AppConstants.API_URL + '/flujo_client_getsmstemplateconfig/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getsmstemplateconfig/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.smsTemplateData2 = _.unique(data, (item) => {
-          return item.template_category;
-        });
-        this.smsTemplateData = data;
-        this.smsTemplateData1 = data;
-        this.smsTemplateData2.map((smsData) => {
-          // console.log(smsData);
-          smsData.isActive = false;
-          this.options.push(smsData.template_category);
-          this.getFilteredSmsData();
-        });
-      }, error => {
-        console.log(error);
-      }
+        data => {
+          if ((data.custom_status_code  = 100) && (!data.error)) {
+          this.smsTemplateData2 = _.unique(data.result, (item) => {
+            return item.template_category;
+          });
+          this.smsTemplateData = data.result;
+          this.smsTemplateData1 = data.result;
+          this.smsTemplateData2.map((smsData) => {
+            // console.log(smsData);
+            smsData.isActive = false;
+            this.options.push(smsData.template_category);
+            this.getFilteredSmsData();
+          });
+        }
+        }, error => {
+          console.log(error);
+        }
       );
   }
   deleteSmsTemplate = (item) => {

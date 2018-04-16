@@ -72,7 +72,7 @@ export class EmailTemplateComponent implements OnInit {
     // emailtemplateconfig_id?: string;
     this.createEmailTemplateForm = this.formBuilder.group({
       'template_name': ['', Validators.required],
-      'template_category': ['', Validators.required],
+      'template_category': [''],
       'template_html': ['', Validators.required],
       'emailtemplateconfig_id': [''],
       'client_id': ['']
@@ -101,34 +101,45 @@ export class EmailTemplateComponent implements OnInit {
     this.spinnerService.show();
     this.emailTemplateService.postEmailTemplateData(formModel, 'flujo_client_postemailtemplateconfig')
       .subscribe((result) => {
-        if (result.error) {
-          this.alertService.warning(result.result);
-          this.spinnerService.hide();
-        } else if (result.client_id) {
-          const index = this.allEmailTemplates.findIndex(item => item.id === this.dummy.id);
-          if (index !== undefined) {
-            this.allEmailTemplates[index].template_category = this.templateCategory.value;
-            this.allEmailTemplates[index].template_html = this.createEmailTemplateForm.value.template_html;
-            this.allEmailTemplates[index].template_name = this.createEmailTemplateForm.value.template_name;
+        if (AppConstants.ACCESS_TOKEN === result.access_token) {
+          //   if (data.custom_status_code === 100 && data.result.length > 0) {
+          // if (data.custom_status_code === 100) {
+          //   this.alertService.success('Data updated successfully');
+          //   this.getPrivacyData();
+          // } else if (data.custom_status_code === 101) {
+          //   this.alertService.warning('Required parameters are missing!');
+          // } else if (data.custom_status_code === 102) {
+          //   this.alertService.warning('Every thing is upto date!');
+          // }
+          if (result.custom_status_code === 101 && result.result.length === 0) {
+            this.alertService.warning('Required parameters are missing');
+            this.spinnerService.hide();
+          } else if ((result.custom_status_code === 100) && (typeof(result.result) === 'object')) {
+            const index = this.allEmailTemplates.findIndex(item => item.id === this.dummy.id);
+            if (index !== undefined) {
+              this.allEmailTemplates[index].template_category = this.templateCategory.value;
+              this.allEmailTemplates[index].template_html = this.createEmailTemplateForm.value.template_html;
+              this.allEmailTemplates[index].template_name = this.createEmailTemplateForm.value.template_name;
+            }
+            this.alertService.success('Template saved successfully');
+            this.spinnerService.hide();
+            this.createEmailTemplateForm.reset();
+          } else if ((result.custom_status_code === 100) && (typeof(result.result) === 'string')) {
+            const id = result.result;
+            this.allEmailTemplates.push({
+              id: id,
+              template_html: formModel.template_html,
+              template_name: formModel.template_name,
+              template_category: formModel.template_category
+            });
+            this.uniqueEmailTemplates = _.uniq(this.allEmailTemplates, function (x) {
+              return x.template_category;
+            });
+            this.tempate_categories.push(formModel.template_category);
+            this.spinnerService.hide();
+            this.alertService.success('Template created successfully');
+            this.createEmailTemplateForm.reset();
           }
-          this.alertService.success('Template saved successfully');
-          this.spinnerService.hide();
-          this.createEmailTemplateForm.reset();
-        } else {
-          const id: any = result;
-          this.allEmailTemplates.push({
-            id: id,
-            template_html: formModel.template_html,
-            template_name: formModel.template_name,
-            template_category: formModel.template_category
-          }) ;
-          this.uniqueEmailTemplates = _.uniq(this.allEmailTemplates, function (x) {
-            return x.template_category;
-          });
-          this.tempate_categories.push(formModel.template_category);
-          this.spinnerService.hide();
-          this.alertService.success('Template created successfully');
-          this.createEmailTemplateForm.reset();
         }
       },
         error => {
@@ -136,21 +147,33 @@ export class EmailTemplateComponent implements OnInit {
         }
       );
   }
-/*Getting of email template data from api using email service*/
+  /*Getting of email template data from api using email service*/
   public getEmailTemplateData(): void {
     this.activatedRoute.data.subscribe(result => {
       this.spinnerService.hide();
       this.editOrUpdate = false;
-      this.allEmailTemplates = result.themedata;
-      this.allEmailTemplates2 = result.themedata;
-      this.uniqueEmailTemplates = _.uniq(result.themedata, function (x) {
-        return x.template_category;
-      });
-      this.uniqueEmailTemplates.map((themeObject) => {
-        this.tempate_categories.push(themeObject.template_category);
-        this.getFilteredEmailCategories();
-      });
-      this.filteredThemes = this.allEmailTemplates;
+      // if (data.custom_status_code === 100) {
+      //   this.alertService.success('Data updated successfully');
+      //   this.getPrivacyData();
+      // } else if (data.custom_status_code === 101) {
+      //   this.alertService.warning('Required parameters are missing!');
+      // } else if (data.custom_status_code === 102) {
+      //   this.alertService.warning('Every thing is upto date!');
+      // }
+      if (AppConstants.ACCESS_TOKEN === result.themedata.access_token) {
+        if (result.themedata.custom_status_code === 100 && result.themedata.result.length > 0) {
+          this.allEmailTemplates = result.themedata.result;
+          this.allEmailTemplates2 = result.themedata.result;
+          this.uniqueEmailTemplates = _.uniq(result.themedata.result, function (x) {
+            return x.template_category;
+          });
+          this.uniqueEmailTemplates.map((themeObject) => {
+            this.tempate_categories.push(themeObject.template_category);
+            this.getFilteredEmailCategories();
+          });
+          this.filteredThemes = this.allEmailTemplates;
+        }
+      }
       // console.log(this.allEmailTemplates);
     },
       error => {
@@ -229,4 +252,8 @@ export class EmailTemplateComponent implements OnInit {
     this.template_html = event;
   }
 
+  cancelEditTemplate() {
+    console.log(this.allEmailTemplates);
+    this.isEdit = false;
+  }
 }

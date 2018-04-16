@@ -15,7 +15,9 @@ import { CreateUserComponentComponent, AccessLevelPopup } from '../create-user-c
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { IAccessLevelModel } from '../model/accessLevel.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
+
 
 @Component({
   templateUrl: './admin.component.html',
@@ -52,7 +54,7 @@ export class AdminComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'SMS', router: 'admin/sms', activeicon: 'assets/icons/sms-color-nav-icon-active@2x.png', normalicon: 'assets/icons/sms-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'WhatsApp', router: 'admin/whatsappflujo', activeicon: 'assets/icons/sms-color-nav-icon-active@2x.png', normalicon: 'assets/icons/sms-color-nav-icon-normal@2x.png' , isActive: false}
+  { feature_id: 32, title: 'WhatsApp', router: 'admin/whatsappflujo', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png' , isActive: false}
   ];
   // tslint:disable-next-line:max-line-length
   nucleus = [{ feature_id: 1, title: 'Manage Reports', router: 'admin/managereports', activeicon: 'assets/icons/report-an-issue-color-nav-icon-active@2x.png', normalicon: 'assets/icons/report-an-issue-color-nav-icon-normal@2x.png', isActive: false},
@@ -209,6 +211,9 @@ export class AdminComponent implements OnInit {
     });
   }
   getUserAccessLevelsHttpClient() {
+
+    // return  this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
+
     return this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
   }
   sidebarToggleOpen() {

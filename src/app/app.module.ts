@@ -47,7 +47,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup
-import { SmsuiComponent } from './smsui/smsui.component';
+import { SmsuiComponent, SmsTemplateSelectionDialog } from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -94,6 +94,7 @@ import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.
 import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
 import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
 import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
+import { ChartsProblemCategoryDirective } from './directives//charts-problem-category/charts-problem-category.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
@@ -104,8 +105,7 @@ import { AccessDataModelComponent } from './model/useraccess.data.model';
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent, WhatsAppTemplatePopup } from './whatsapp/whatsapp.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
-import { ChartsProblemCategoryDirective } from './directives/charts-problem-category/charts-problem-category.directive';
-import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
+import { EditorSelectionService } from './service/editor-selection.service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -158,6 +158,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsAssignComponent,
     ChartsStatusComponent,
     ChartsLoyalityComponent,
+    ChartsProblemCategoryDirective,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
     MediaLocalImagePopupDialog,
@@ -167,13 +168,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialconfigurationComponent,
     WhatsappComponent,
     AccessDataModelComponent,
-    SafeHtmlPipe,
-    ChartsProblemCategoryDirective,
     WhatsappComponent,
     SocialconfigurationComponent,
     WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup,
-    ChartAgeComponent
+    SmsTemplateSelectionDialog,
+    SafeHtmlPipe
   ],
   imports: [
     RouterModule.forRoot([], { useHash: true }),
@@ -226,11 +226,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatSortModule,
     MatPaginatorModule,
   ],
-  entryComponents: [EditGalleryItems, EmailTemplateSelectionPopup,
-    DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup,
-    FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog,
-      MediaLocalImagePopupDialog, WhatsAppTemplatePopup],
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
+
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
+    EmailTemplateSelectionPopup, SmsTemplateSelectionDialog],
   providers: [
               // AuthService,
               HttpService,
@@ -259,6 +258,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               SmsTemplateSelectService,
               EmailTemplateResolver,
               EmailTemplateService,
+              EditorSelectionService,
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
