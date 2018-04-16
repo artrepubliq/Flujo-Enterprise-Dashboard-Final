@@ -5,8 +5,6 @@ import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { IAreaType } from '../model/area.model';
 import { ICommonInterface } from '../model/commonInterface.model';
-
-
 @Injectable()
 export class AreaService {
 
