@@ -29,7 +29,7 @@ export class AdminComponent implements OnInit {
   userAccessLevelObject: any;
   filteredAccessIds: any;
   isUserActive: boolean;
-  CurrentPageName: string;
+  CurrentPageName = 'Profile';
   activeUsers: Array<IloggedinUsers>;
   loggedinUsersList: Array<IloggedinUsers>;
   userList: Array<IloggedinUsers>;
@@ -47,19 +47,24 @@ export class AdminComponent implements OnInit {
   drive = [{ feature_id: 11, title: 'Drive', router: 'admin/filerepository', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false}];
   // tslint:disable-next-line:max-line-length
   flow = [{ feature_id: 1, title: 'Social', router: 'admin/social_management', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png', isActive: false},
+  // tslint:disable-next-line:max-line-length
   { feature_id: 3, title: 'Mail', router: 'admin/email', activeicon: 'assets/icons/mail-color-nav-icon-active@2x.png', normalicon: 'assets/icons/mail-color-nav-icon-normal@2x.png', isActive: false},
   // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'SMS', router: 'admin/sms', activeicon: 'assets/icons/sms-color-nav-icon-active@2x.png', normalicon: 'assets/icons/sms-color-nav-icon-normal@2x.png', isActive: false },
+  // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'WhatsApp', router: 'admin/whatsappflujo', activeicon: 'assets/icons/sms-color-nav-icon-active@2x.png', normalicon: 'assets/icons/sms-color-nav-icon-normal@2x.png' , isActive: false}
   ];
   // tslint:disable-next-line:max-line-length
   nucleus = [{ feature_id: 1, title: 'Manage Reports', router: 'admin/managereports', activeicon: 'assets/icons/report-an-issue-color-nav-icon-active@2x.png', normalicon: 'assets/icons/report-an-issue-color-nav-icon-normal@2x.png', isActive: false},
+  // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'Feedback', router: 'admin/feedback', activeicon: 'assets/icons/feedback-color-nav-icon-active@2x.png', normalicon: 'assets/icons/feedback-color-nav-icon-normal@2x.png', isActive: false},
   // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'Change Maker Report', router: 'admin/changemakerreport', activeicon: 'assets/icons/change-maker-color-nav-icon-active@2x.png', normalicon: 'assets/icons/change-maker-color-nav-icon-normal@2x.png', isActive: false },
+  // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'Surveys', router: 'admin/surveys', activeicon: 'assets/icons/survey-color-nav-icon-active@2x.png', normalicon: 'assets/icons/survey-color-nav-icon-normal@2x.png' , isActive: false},
   // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'Database', router: 'admin/database', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png' , isActive: false},
+  // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'Analytics', router: 'admin/analytics', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png' , isActive: false}
   ];
   adminMenu = [
