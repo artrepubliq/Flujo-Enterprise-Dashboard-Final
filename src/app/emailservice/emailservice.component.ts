@@ -21,6 +21,7 @@ import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
   styleUrls: ['./emailservice.component.scss']
 })
 export class EmailserviceComponent implements OnInit {
+  isOpen = false;
   test: IPostEmailTemplate[];
   selectedEmailTemplateData: any;
   emailTemplateHtml: any;
@@ -93,16 +94,25 @@ export class EmailserviceComponent implements OnInit {
   }
   /*Getting of email template data from api using emailTemplateService*/
   getEmailTemplateData = (): void => {
+    this.spinnerService.show();
     this.emailTemplateService.getTemplateConfigData('/flujo_client_getemailtemplateconfig/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
+          this.spinnerService.hide();
           console.log(data);
+          this.isOpen = true;
           this.allEmailTemplateData = data.result;
           this.allEmailTemplateData.map((templateData) => {
             templateData.isActive = false;
           });
+        },
+        error => {
+          this.spinnerService.hide();
         }
       );
+  }
+  cancelMail = () => {
+    this.mailSendingForm.reset();
   }
   /* Popup of choose template */
   templateSelectPopup(): void {

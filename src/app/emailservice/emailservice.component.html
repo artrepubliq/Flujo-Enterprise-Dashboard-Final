@@ -13,7 +13,7 @@
     <div class="page-header">
       Mailchimp
     </div>
-    <button mat-raised-button class="choose-button" (click)="templateSelectPopup()" >Choose Template +</button>
+    <button mat-raised-button class="choose-button" *ngIf="isOpen" (click)="templateSelectPopup()" >Choose Template +</button>
   </div>
 
   <form [formGroup]="mailSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
@@ -60,7 +60,7 @@
           <button type="submit" [hidden]="Ishide3" class="button_submit preview_button" [disabled]="!mailSendingForm.valid">
             Preview
           </button>
-          <button type="button" mat-button color="deafault">Cancel</button>
+          <button type="button" mat-button color="deafault" (click)="cancelMail()" >Cancel</button>
           <button type="submit" [hidden]="Ishide3" class="button_submit" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
             Send
           </button>

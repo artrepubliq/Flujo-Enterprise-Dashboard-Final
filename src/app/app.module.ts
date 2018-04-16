@@ -94,6 +94,7 @@ import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.
 import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
 import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
 import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
+import { ChartsProblemCategoryDirective } from './directives//charts-problem-category/charts-problem-category.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
@@ -157,6 +158,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsAssignComponent,
     ChartsStatusComponent,
     ChartsLoyalityComponent,
+    ChartsProblemCategoryDirective,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
     MediaLocalImagePopupDialog,
