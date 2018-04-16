@@ -11,6 +11,7 @@ import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { CommonInterface } from '../model/analytics.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 
 @Component({
   selector: './app-profile',
@@ -20,7 +21,7 @@ import { CommonInterface } from '../model/analytics.model';
 export class ProfileComponent implements OnInit {
   profileImage: any;
   profileItems: any;
-  profileImageDetails: any;
+  profileImageDetails?: any;
   form: FormGroup;
   loading = false;
   button_text = 'save';
@@ -70,12 +71,15 @@ export class ProfileComponent implements OnInit {
         reader.onload = () => {
           // this.profileData.avatar = reader.result.split(',')[1];
           this.profileItems.avatar = reader.result.split(',')[1];
-          this.profileDetail.push(reader.result.split(',')[1]);
+          // this.profileDetail.push(reader.result.split(',')[1]);
           // this.form.get('avatar').setValue(reader.result.split(',')[1]);
-          const uploadImage = {
-            profile_id: this.profileImageDetails[0].id, client_id: this.profileImageDetails[0].client_id,
-            avatar: reader.result.split(',')[1]
-          };
+          let uploadImage;
+          if (this.profileImageDetails) {
+            uploadImage = {profile_id: this.profileImageDetails[0].id, client_id: this.profileImageDetails[0].client_id,
+            avatar: reader.result.split(',')[1]};
+          } else {
+            uploadImage = {profile_id: null, client_id: AppConstants.CLIENT_ID, avatar: reader.result.split(',')[1] };
+          }
           this.uploadProfileImage(uploadImage);
         };
       } else {
@@ -87,11 +91,11 @@ export class ProfileComponent implements OnInit {
     this.spinnerService.show();
     this.form.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     // const imageModel = this.form.value
-    this.httpClient.post<CommonInterface>(AppConstants.API_URL + 'flujo_client_postprofileimageupload', reqObject)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postprofileimageupload', reqObject)
       .subscribe(
         data => {
           if ((data.http_status_code = 200) && (!data.error)) {
-            this.profileImageDetails = reqObject.avatar;
+            // this.profileImageDetails = reqObject.avatar;
             this.alertService.success('Profile Image Uploaded successfully.');
             this.loading = false;
             this.spinnerService.hide();
@@ -146,7 +150,7 @@ export class ProfileComponent implements OnInit {
     this.spinnerService.show();
     this.loading = true;
     // console.log(formModel);
-    this.httpClient.delete<CommonInterface>(AppConstants.API_URL + 'flujo_client_deleteprofile/' + AppConstants.CLIENT_ID)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleteprofile/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           if (data.custom_status_code = 100) {
@@ -171,7 +175,7 @@ export class ProfileComponent implements OnInit {
   getProfileDetails = () => {
     this.loading = true;
     this.spinnerService.show();
-    this.httpClient.get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getprofile/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getprofile/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           this.profileImageDetails = data.result;

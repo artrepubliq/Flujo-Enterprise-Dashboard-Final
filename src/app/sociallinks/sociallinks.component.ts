@@ -12,7 +12,7 @@ import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
-import { CommonInterface } from '../model/analytics.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 
 @Component({
   templateUrl: './sociallinks.component.html',
@@ -91,14 +91,14 @@ export class SocialLinksComponent implements OnInit {
   socialLinksFormSubmit(body: any) {
     this.spinnerService.show();
 
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_postsociallinks', body)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_postsociallinks', body)
 
 
       .subscribe(
         res => {
           if (res.error) {
             this.spinnerService.hide();
-            this.alertService.warning(res.result);
+            this.alertService.warning('Social Links  request not completed Successfully');
           } else {
             this.spinnerService.hide();
             this.getSocialLinksData();
@@ -118,7 +118,7 @@ export class SocialLinksComponent implements OnInit {
 
     this.spinnerService.show();
     this.httpClient
-      .get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getsociallinks/' + AppConstants.CLIENT_ID)
+      .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getsociallinks/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           this.spinnerService.hide();

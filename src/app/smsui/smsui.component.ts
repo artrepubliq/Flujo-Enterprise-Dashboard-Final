@@ -78,13 +78,17 @@ export class SmsuiComponent implements OnInit {
     this.smsSelectionService.getSmsSelectData('/flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
     .subscribe(
       data => {
-        this.smsTemplateSelectionData = data;
+        try {
+        if ((!data.error) && (data.custom_status_code = 100)) {
+        this.smsTemplateSelectionData = data.result;
         this.smsTemplateSelectionData.map((smsData) => {
           smsData.isActive = false;
         });
-      }, err => {
-        console.log(err);
       }
+    } catch (e) {
+        console.log(e);
+      }
+    }
     );
   }
   /* Pop up for template selection */
@@ -120,7 +124,9 @@ export class SmsTemplateSelectionDialog {
 totalSmsTemplateData: ISmsTemplateData[];
   constructor(
     public dialogRef: MatDialogRef<SmsTemplateSelectionDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      dialogRef.disableClose = true;
+    }
 
   onNoClick(): void {
     this.dialogRef.close();

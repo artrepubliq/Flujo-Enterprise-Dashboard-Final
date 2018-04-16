@@ -12,7 +12,7 @@ import { MatTableDataSource, MatSort, MatPaginator, SortDirection } from '@angul
 import { AdminComponent } from '../admin/admin.component';
 import * as _ from 'underscore';
 import { IcommentsLikesSummary } from '../model/fb-feed.model';
-import { CommonInterface } from '../model/analytics.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
@@ -131,7 +131,7 @@ export class FeedbackComponent implements OnInit {
 
   getuserFeedbackData() {
     this.spinnerService.show();
-    this.httpClient.get<CommonInterface>(AppConstants.API_URL + 'flujo_client_getfeedback/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getfeedback/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           if (data.result) {
