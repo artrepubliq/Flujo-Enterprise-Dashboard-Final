@@ -74,14 +74,14 @@ export class SocialLinksComponent implements OnInit {
   socialLinksFormSubmit(body: any) {
     this.spinnerService.show();
 
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + '/flujo_client_postsociallinks', body)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_postsociallinks', body)
 
 
       .subscribe(
         res => {
           if (res.error) {
             this.spinnerService.hide();
-            this.alertService.warning(res.result);
+            this.alertService.warning('Social Links  request not completed Successfully');
           } else {
             this.spinnerService.hide();
             this.getSocialLinksData();

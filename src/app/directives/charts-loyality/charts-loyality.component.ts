@@ -33,6 +33,7 @@ export class ChartsLoyalityComponent implements OnInit, OnChanges {
     for ( let i = 0; i < count; i++) {
         colors[i] = color;
     }
+
     // Area Chart
     const areactx = document.getElementById('areaChartCanvas');
     const areaChart = new Chart(areactx, {

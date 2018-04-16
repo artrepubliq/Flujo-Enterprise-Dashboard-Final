@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-alerts';
+import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 // import { Chart } from 'chart.js';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +47,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup
-import { SmsuiComponent } from './smsui/smsui.component';
+import { SmsuiComponent, SmsTemplateSelectionDialog } from './smsui/smsui.component';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -61,7 +62,7 @@ import { AuthInterceptorService } from './auth/auth.interceptorservice';
 import { LoginAuthService } from './auth/login.auth.service';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { SocialManagementComponent } from './social-management/social-management.component';
@@ -93,6 +94,7 @@ import { ChartsGenderComponent } from './directives/charts-gender/charts-gender.
 import { ChartsAssignComponent } from './directives/charts-assign/charts-assign.component';
 import { ChartsStatusComponent } from './directives/charts-status/charts-status.component';
 import { ChartsLoyalityComponent } from './directives/charts-loyality/charts-loyality.component';
+import { ChartsProblemCategoryDirective } from './directives//charts-problem-category/charts-problem-category.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 import { SmstemplateComponent } from './smstemplate/smstemplate.component';
 import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
@@ -103,8 +105,7 @@ import { AccessDataModelComponent } from './model/useraccess.data.model';
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent, WhatsAppTemplatePopup } from './whatsapp/whatsapp.component';
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
-import { ChartsProblemCategoryDirective } from './directives/charts-problem-category/charts-problem-category.directive';
-import { ChartAgeComponent } from './directives/chart-age/chart-age.component';
+import { EditorSelectionService } from './service/editor-selection.service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -157,6 +158,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsAssignComponent,
     ChartsStatusComponent,
     ChartsLoyalityComponent,
+    ChartsProblemCategoryDirective,
     EmptyAccessLevelDialog,
     AccessdeniedComponent,
     MediaLocalImagePopupDialog,
@@ -166,15 +168,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialconfigurationComponent,
     WhatsappComponent,
     AccessDataModelComponent,
-    SafeHtmlPipe,
-    ChartsProblemCategoryDirective,
     WhatsappComponent,
     SocialconfigurationComponent,
     WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup,
-    ChartAgeComponent
+    SmsTemplateSelectionDialog,
+    SafeHtmlPipe
   ],
   imports: [
+    RouterModule.forRoot([], { useHash: true }),
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -224,12 +226,24 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatSortModule,
     MatPaginatorModule,
   ],
-  entryComponents: [EditGalleryItems, EmailTemplateSelectionPopup,
-    DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup,
-    FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog,
-      MediaLocalImagePopupDialog, WhatsAppTemplatePopup],
+  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
+
+     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
+    EmailTemplateSelectionPopup, SmsTemplateSelectionDialog],
   providers: [
+              // AuthService,
+              HttpService,
+              ValidationService,
+              NgxSmartLoaderService,
+              LoginAuthService,
+              GalleryImagesService,
+              FBService,
+              ProblemTypeService,
+              AreaService,
+              {provide: DateAdapter, useClass: DateFormat},
+              SmsTemplateSelectService,
+              SmsTemplateSelectService,
+
     // AuthService,
     HttpService,
     ValidationService,
@@ -240,9 +254,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProblemTypeService,
     AreaService,
     { provide: DateAdapter, useClass: DateFormat },
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
               SmsTemplateSelectService,
               EmailTemplateResolver,
               EmailTemplateService,
+              EditorSelectionService,
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,

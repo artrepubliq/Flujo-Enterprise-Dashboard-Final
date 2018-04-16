@@ -53,17 +53,17 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <div class="sendMail-data form-group">
-      <form fxLayout="row" fxLayoutGap="15px" [formGroup]="sendEmail" (submit)="feedbackCsvMailSubmit(feedbackCsvMail.value)">
+      <div fxLayout="row" fxLayoutGap="15px" >
         <div class="input_box p-rel">
-          <input formControlName="email" id="email" placeholder="Enter email" email="true">
+          <input id="email" placeholder="Enter email" email="true" [(ngModel)]="postEmailValue">
           <!-- <div  class="form-error-msg">
             enter valid email
           </div> -->
         </div>
         <div>
-          <button mat-raised-button class="button_submit" type="submit">Send As Email</button>
+          <button mat-raised-button class="button_submit" (click)="sendEmail()">Send As Email</button>
         </div>
-      </form>
+      </div>
     </div>
     <!-- Paginator  -->
     <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
