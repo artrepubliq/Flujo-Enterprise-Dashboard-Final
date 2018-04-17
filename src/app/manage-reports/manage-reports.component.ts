@@ -94,7 +94,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.getUserList()
             .subscribe(
                 data => {
-                    this.loggedinUsersList = data;
+                    this.loggedinUsersList = data.result;
                     this.prepareAutoCompleteOptionsList(this.loggedinUsersList);
                     this.spinnerService.hide();
                 },
@@ -276,7 +276,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     // this function is used for getting all the users from the database
     getUserList = () => {
         // tslint:disable-next-line:max-line-length
-        return this.httpClient.get<Array<ICreateUserDetails>>(AppConstants.API_URL + 'flujo_client_getcreateuser/' + AppConstants.CLIENT_ID);
+        return this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getcreateuser/' + AppConstants.CLIENT_ID);
     }
 
     exportManageReports() {
