@@ -1,4 +1,5 @@
 export class AppConstants {
+    /** server */
     // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo.in_api_client/'; }
     /*Staging*/
     public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/'; }

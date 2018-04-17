@@ -17,6 +17,7 @@ import { error } from 'util';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { Location } from '@angular/common';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private loginAuthService: LoginAuthService,
     public location: Location) {
-      this.accessDataModel = new AccessDataModelComponent(httpClient, router);
+    this.accessDataModel = new AccessDataModelComponent(httpClient, router);
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
@@ -51,28 +52,52 @@ export class LoginComponent implements OnInit {
   onSubmit = (body) => {
     this.spinnerService.show();
     const formModel = this.loginForm.value;
-    this.httpClient.post<IcustomLoginModelDetails>(AppConstants.API_URL + 'flujo_client_login', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
       .subscribe(
-      data => {
-        if (data.status) {
-          this.loginForm.reset();
-          this.spinnerService.hide();
-          // this.loginAuthService.setLoggedInCustom(true);
+        data => {
           console.log(data);
-          this.loginAuthService._setSession(data);
-          if (data.email_verified === '0') {
-            const feature_id = 23;
-            // this.router.navigate(['/admin/changepassword']);
-            this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
-          } else if (data.can_chat === false && data.email_verified === '1') {
-            this.redirectUrlForChatCamp(data);
+          const loginData: IcustomLoginModelDetails[] = data.result;
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.loginForm.reset();
+              // this.spinnerService.hide();
+              // this.loginAuthService.setLoggedInCustom(true);
+              console.log(data);
+              this.loginAuthService._setSession(data.result);
+              if (loginData[0].email_verified === '0') {
+                const feature_id = 23;
+                // this.router.navigate(['/admin/changepassword']);
+                this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
+              } else if (loginData[0].can_chat === false && loginData[0].email_verified === '1') {
+                this.redirectUrlForChatCamp(loginData[0]);
+              }
+              this.alertService.success('User logged in successfully');
+            } else if (data.custom_status_code === 140) {
+              this.alertService.danger('Not a valid user!');
+            } else {
+              this.spinnerService.hide();
+              this.alertService.danger('Please enter valid details');
+            }
           }
-          this.alertService.success('User logged in successfully');
-        } else {
-          this.spinnerService.hide();
-          this.alertService.danger('Please enter valid details');
-        }
-      });
+          // if (data.status) {
+          //   this.loginForm.reset();
+          //   this.spinnerService.hide();
+          //   // this.loginAuthService.setLoggedInCustom(true);
+          //   console.log(data);
+          //   this.loginAuthService._setSession(data);
+          //   if (data.email_verified === '0') {
+          //     const feature_id = 23;
+          //     // this.router.navigate(['/admin/changepassword']);
+          //     this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
+          //   } else if (data.can_chat === false && data.email_verified === '1') {
+          //     this.redirectUrlForChatCamp(data);
+          //   }
+          //   this.alertService.success('User logged in successfully');
+          // } else {
+          //   this.spinnerService.hide();
+          //   this.alertService.danger('Please enter valid details');
+          // }
+        });
   }
   redirectUrlForChatCamp = (data: IcustomLoginModelDetails) => {
     let chatCampPostObject: IPostChatCampModel;
@@ -81,12 +106,12 @@ export class LoginComponent implements OnInit {
     chatCampPostObject.user_id = data.user_id;
     this.httpClient.post<IcustomLoginModelDetails>(AppConstants.API_URL + 'flujo_client_postchatservice', chatCampPostObject)
       .subscribe(
-      chatResponse => {
-        console.log(chatResponse);
-      },
-      chatError => {
-        console.log(chatError);
-      }
+        chatResponse => {
+          console.log(chatResponse);
+        },
+        chatError => {
+          console.log(chatError);
+        }
       );
   }
 }
