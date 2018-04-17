@@ -67,11 +67,19 @@ export class CreateUserComponentComponent implements OnInit {
     // console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.CreateUserForm.value;
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
       .subscribe(
         data => {
           this.CreateUserForm.reset();
-          this.parsePostResponse(data);
+          if ( data.result && typeof(data.result)) {
+            this.alertService.success('User added succesfully');
+            this.CreateUserForm.reset();
+            this.isEdit = false;
+            this.button_text = 'save';
+            this.getUsersList();
+          } else {
+            this.parsePostResponse(data);
+          }
           // this.alertService.info('User added succesfully');
           this.spinnerService.hide();
         },
@@ -85,14 +93,20 @@ export class CreateUserComponentComponent implements OnInit {
     this.spinnerService.show();
     const user_id = body.id;
     // this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletecreateuser/' + user_id)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletecreateuser/' + user_id)
       .subscribe(
         data => {
-          this.getUsersList();
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('User deleted successfully');
+              this.getUsersList();
+              this.loading = false;
+            } else if (data.custom_status_code === 102) {
+              this.alertService.warning('Required parameters are missing!!!');
+            }
+          }
           this.spinnerService.hide();
           console.log(data);
-          this.loading = false;
-          this.alertService.warning('User delete successfully');
         },
         error => {
           this.loading = false;
@@ -169,14 +183,14 @@ export class CreateUserComponentComponent implements OnInit {
       if (data.custom_status_code === 102) {
         this.alertService.warning('Everything is Up-to-date!!!');
       } else if (data.custom_status_code === 100) {
-        this.alertService.success('User details updated successfully!!!');
+        this.alertService.success('User updated successfully!!!');
         this.CreateUserForm.reset();
-        this.getUsersList();
         this.isEdit = false;
         this.button_text = 'save';
+        this.getUsersList();
       } else if (data.custom_status_code === 101) {
         this.alertService.warning('Required Parameters are Missing!!!');
-      } else if ( data.custom_status_code === 105) {
+      } else if (data.custom_status_code === 105) {
         this.alertService.warning('Email Already Exists!!!');
       }
     } else {
@@ -308,9 +322,18 @@ export class AccessLevelPopup {
       .subscribe(
         data => {
           // this.alertService.success('User access levels updated successfully');
-          this.spinnerService.hide();
-          this.getAccessLevelData();
-          this.closeDialog();
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('User access levels updated successfully!!!');
+            } else if (data.custom_status_code === 102) {
+              this.alertService.warning('Everything is Up-to-date!!!');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required Parameters are Missing!!!');
+            }
+            this.spinnerService.hide();
+            this.getAccessLevelData();
+            this.closeDialog();
+          }
         },
         error => {
           this.spinnerService.hide();
@@ -320,24 +343,31 @@ export class AccessLevelPopup {
   // Getting of user access data if data is not present default checkbox method will call
   getAccessLevelData = () => {
     this.spinnerService.show();
-    this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           console.log(data);
-          if (data.length > 0) {
-            this.filteredAccessIds = _.filter(data, (item) => {
-              // this.data.id will come from open access dialog and we are comparing selected id and server data id
-              return item.user_id === this.data.id;
-            });
-            if (this.filteredAccessIds.length > 0 && this.filteredAccessIds[0].access_levels) {
-              this.accessLevelData = JSON.parse(this.filteredAccessIds[0].access_levels);
-              this.spinnerService.hide();
+          console.log(this.data);
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.result.length > 0 && data.custom_status_code === 100) {
+              this.filteredAccessIds = _.filter(data.result, (item) => {
+                // this.data.id will come from open access dialog and we are comparing selected id and server data id
+                return item.user_id === this.data.id;
+              });
+              if (this.filteredAccessIds.length > 0 && this.filteredAccessIds[0].access_levels) {
+                // this.accessLevelData = JSON.parse(this.filteredAccessIds[0].access_levels);
+                this.accessLevelData = this.filteredAccessIds[0].access_levels;
+                this.spinnerService.hide();
+              } else {
+                this.accessLevelData = this.checkBoxNames();
+                this.spinnerService.hide();
+              }
+            } else if (data.result.length === 0 && data.custom_status_code === 101) {
+              this.accessLevelData = this.checkBoxNames();
+              this.alertService.warning('Required Parameters are Missing!!!');
             } else {
               this.accessLevelData = this.checkBoxNames();
-              this.spinnerService.hide();
             }
-          } else {
-            this.accessLevelData = this.checkBoxNames();
             this.spinnerService.hide();
           }
         },
