@@ -70,18 +70,19 @@ export class ChangepasswordComponent implements OnInit {
     this.httpClient.post<IchangeDetails>(AppConstants.API_URL + 'flujo_client_updatepasswordcreateuser', formModel)
       .subscribe(
       data => {
-        if (!data.error) {
-          this.changePasswordForm.reset();
-          this.alertService.success('Password was changed succesfully');
-          this.spinnerService.hide();
-          _.delay(de => {
-            this.router.navigate(['/login']);
-          }, 1000);
-        } else {
-          this.spinnerService.hide();
-          this.changePasswordForm.reset();
-          this.alertService.danger('Password was not changed');
-        }
+        console.log(data);
+        // if (!data.error) {
+        //   this.changePasswordForm.reset();
+        //   this.alertService.success('Password was changed succesfully');
+        //   this.spinnerService.hide();
+        //   _.delay(de => {
+        //     this.router.navigate(['/login']);
+        //   }, 1000);
+        // } else {
+        //   this.spinnerService.hide();
+        //   this.changePasswordForm.reset();
+        //   this.alertService.danger('Password was not changed');
+        // }
       },
       error => {
         this.spinnerService.hide();

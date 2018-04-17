@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ITPKeysConfig } from '../model/tirdparty-keysconfig.model';
+import { ITPKeysConfig, ISocialKeys } from '../model/tirdparty-keysconfig.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AppConstants } from '../app.constants';
@@ -8,7 +8,7 @@ import { AlertService } from 'ngx-alerts';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
-import { ISocialKeys } from '../model/socialKeys.model';
+// import { ISocialKeys } from '../model/socialKeys.model';
 
 @Component({
   selector: 'app-socialconfiguration',
