@@ -21,6 +21,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
     templateUrl: './manage-reports.component.html',
     styleUrls: ['./manage-reports.component.scss']
@@ -175,14 +176,26 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             const result = user.name === this.reportAssignedToUserName;
             if (result) {
                 this.postAssignedUsersObject.email_to_send = this.loggedinUsersList[index].email;
+                console.log(this.postAssignedUsersObject.email_to_send);
             }
         });
-        this.httpClient.post<Object>(AppConstants.API_URL + 'flujo_client_postreportassigned', this.postAssignedUsersObject)
+        console.log(this.postAssignedUsersObject);
+        this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postreportassigned', this.postAssignedUsersObject)
             .subscribe(
                 resp => {
-                    this.alertService.success('Your request updated successfully.');
-                    this.spinnerService.hide();
-                    this.usersListControl = new FormControl();
+                    console.log(resp);
+                    if (!resp.error && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                        this.alertService.success('Your request updated successfully.');
+                        this.spinnerService.hide();
+                        this.usersListControl = new FormControl();
+                      } else if (resp.custom_status_code === 101 && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                        this.alertService.danger('Required parameters are missing');
+                        this.spinnerService.hide();
+                      } else {
+                        this.spinnerService.hide();
+                        this.alertService.danger('Somthing went wrong.');
+                        console.log('something went wrong');
+                      }
                 },
                 error => {
                     this.alertService.danger('Somthing went wrong. please try again.');
@@ -202,14 +215,25 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             this.postMoveToRemarksObject.updated_by = localStorage.getItem('user_id');
             this.postMoveToRemarksObject.email_to_send = report.email;
             this.postMoveToRemarksObject.send_reportstatus_phone = report.phone;
-            this.postMoveToRemarksObject.description = report.problem;
-            this.httpClient.post<Object>(AppConstants.API_URL + 'flujo_client_updatereportproblem', this.postMoveToRemarksObject)
+            this.postMoveToRemarksObject.description = ''; // report.problem
+            console.log(this.postMoveToRemarksObject);
+            this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_updatereportproblem', this.postMoveToRemarksObject)
                 .subscribe(
                     resp => {
-                        this.alertService.success('Your request updated successfully.');
+                        console.log(resp);
+                        if (!resp.error && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                            this.alertService.success('Your request updated successfully.');
                         this.spinnerService.hide();
                         this.moveToListControl = new FormControl();
                         this.remarksListControl = new FormControl();
+                          }  else if (resp.custom_status_code === 101 && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                            this.alertService.danger('Required parameters are missing');
+                            this.spinnerService.hide();
+                          } else {
+                            this.spinnerService.hide();
+                            this.alertService.danger('Somthing went wrong.');
+                            console.log('something went wrong');
+                          }
                     },
                     error => {
                         this.alertService.danger('Somthing went wrong. please try again.');
@@ -226,16 +250,22 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.postMoveToRemarksObject.report_remarks = null;
         this.postMoveToRemarksObject.report_status = null;
         this.postMoveToRemarksObject.updated_by = null;
+        this.postMoveToRemarksObject.description = null;
     }
     // this function is used for getting reports data from the server
     getAllReports = () => {
-        this.httpClient.get(AppConstants.API_URL + 'flujo_client_getreportproblem/' + AppConstants.CLIENT_ID)
+        this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getreportproblem/' + AppConstants.CLIENT_ID)
             .subscribe(
                 data => {
-                    this.reportProblemData = data;
-                    this.reportProblemData2 = data;
-                    this.filterReportProblemData = data;
+                    if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
+                        this.reportProblemData = data.result;
+                    this.reportProblemData2 = data.result;
+                    this.filterReportProblemData = data.result;
                     this.spinnerService.hide();
+                      } else {
+                        this.spinnerService.hide();
+                        console.log('something went wrong');
+                      }
                 },
                 error => {
                     this.spinnerService.hide();
