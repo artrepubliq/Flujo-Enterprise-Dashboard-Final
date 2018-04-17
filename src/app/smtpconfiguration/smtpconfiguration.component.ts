@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import * as _ from 'underscore';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   templateUrl: './smtpconfiguration.component.html',
   styleUrls: ['./smtpconfiguration.component.scss']
@@ -49,10 +50,10 @@ export class SMTPConfigurationComponent implements OnInit {
   SmtpPost(body: any ) {
     this.spinnerService.show();
     this.smtpUpdationForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.post(AppConstants.API_URL + '/flujo_client_postsmtpconfiguration', this.smtpUpdationForm.value)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_postsmtpconfiguration', this.smtpUpdationForm.value)
     .subscribe(
       res => {
-        if (res) {
+        if ((res.access_token = AppConstants.ACCESS_TOKEN) && (!res.error)) {
           this.spinnerService.hide();
           this.getuserSMTPConfigData();
           this.alertService.success('SMTP Config Successfully');
@@ -70,15 +71,15 @@ export class SMTPConfigurationComponent implements OnInit {
 
   getuserSMTPConfigData() {
     this.spinnerService.show();
-    this.httpClient.get(AppConstants.API_URL + 'flujo_client_getsmtpconfiguration/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getsmtpconfiguration/' + AppConstants.CLIENT_ID)
     .subscribe(
       data => {
-        data ? this.isEdit = false : this.isEdit = true;
+        data.result ? this.isEdit = false : this.isEdit = true;
 
-        if (data) {
+        if ((data.access_token = AppConstants.ACCESS_TOKEN) && (!data.error)) {
           this.spinnerService.hide();
-         this.smtpItems = data;
-        }else {
+         this.smtpItems = data.result;
+        } else {
 
           this.spinnerService.hide();
           this.alertService.danger('No data found with this client.');
@@ -92,11 +93,11 @@ export class SMTPConfigurationComponent implements OnInit {
   }
   deleteSMTP() {
     this.spinnerService.show();
-    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletesmtpconfiguration/' + AppConstants.CLIENT_ID)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletesmtpconfiguration/' + AppConstants.CLIENT_ID)
     .subscribe(
       data => {
         this.btn_text = 'save';
-        if (data) {
+        if ((data.access_token = AppConstants.ACCESS_TOKEN) && (!data.error)) {
           this.spinnerService.hide();
          this.smtpUpdationForm.reset();
          this.alertService.success('Social Links  deleted Successfully');
@@ -110,12 +111,12 @@ export class SMTPConfigurationComponent implements OnInit {
       });
   }
   setSMTPDataFormDefault(smtpData) {
-    this.smtpUpdationForm.controls['host_name'].setValue(smtpData.host_name);
-    this.smtpUpdationForm.controls['from_name'].setValue(smtpData.from_name);
-    this.smtpUpdationForm.controls['from_email'].setValue(smtpData.from_email);
-    this.smtpUpdationForm.controls['user_name'].setValue(smtpData.user_name);
-    this.smtpUpdationForm.controls['password'].setValue(smtpData.password);
-    this.smtpUpdationForm.controls['client_id'].setValue(smtpData.client_id);
+    this.smtpUpdationForm.controls['host_name'].setValue(smtpData[0].host_name);
+    this.smtpUpdationForm.controls['from_name'].setValue(smtpData[0].from_name);
+    this.smtpUpdationForm.controls['from_email'].setValue(smtpData[0].from_email);
+    this.smtpUpdationForm.controls['user_name'].setValue(smtpData[0].user_name);
+    this.smtpUpdationForm.controls['password'].setValue(smtpData[0].password);
+    this.smtpUpdationForm.controls['client_id'].setValue(smtpData[0].client_id);
   }
   EditSMTPLinks(socialData) {
     this.isEdit = true;
