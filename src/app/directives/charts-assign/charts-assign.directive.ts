@@ -28,6 +28,26 @@ export class ChartsAssignDirective implements OnChanges {
 
   // handle the chart data
   displayChartData(assignCompleted, assignInProgress, assignUnresolved, assignEmail) {
+
+    const assignCompletedcount = assignCompleted.length;
+    const assignCompletedcolors = [];
+    const assignCompletedcolor = '#ee2f6b';
+    for ( let i = 0; i < assignCompletedcount; i++) {
+      assignCompletedcolors[i] = assignCompletedcolor;
+    }
+    const assignInProgresscount = assignCompleted.length;
+    const assignInProgresscolors = [];
+    const assignInProgresscolor = '#0cc0df';
+    for ( let i = 0; i < assignInProgresscount; i++) {
+      assignInProgresscolors[i] = assignInProgresscolor;
+    }
+    const assignUnresolvedcount = assignCompleted.length;
+    const assignUnresolvedcolors = [];
+    const assignUnresolvedcolor = '#452c59';
+    for ( let i = 0; i < assignUnresolvedcount; i++) {
+      assignUnresolvedcolors[i] = assignUnresolvedcolor;
+    }
+
     // Assign Chart
     const assignctx = document.getElementById('assignChartCanvas');
     const assignChart = new Chart(assignctx, {
@@ -36,23 +56,17 @@ export class ChartsAssignDirective implements OnChanges {
         datasets: [
           {
           data: assignCompleted,
-          backgroundColor: [
-            '#ee2f6b', '#ee2f6b', '#ee2f6b'
-          ],
+          backgroundColor: assignCompletedcolors,
           label: 'Completed'
           },
           {
             data: assignInProgress,
-            backgroundColor: [
-              '#00f', '#00f', '#00f'
-            ],
+            backgroundColor: assignInProgresscolors,
             label: 'In Progress'
           },
           {
             data: assignUnresolved,
-            backgroundColor: [
-              '#0f0', '#0f0', '#0f0'
-            ],
+            backgroundColor: assignUnresolvedcolors,
             label: 'Unresolved'
           }
         ],

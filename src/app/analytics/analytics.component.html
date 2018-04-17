@@ -76,9 +76,7 @@
           <i class="fa fa-ellipsis-v"></i>
         </div>
         <div class="chart_body">
-          <div>
             <app-charts-gender [gender]='gender'></app-charts-gender>
-          </div>
         </div>
         <div class="chart_footer" fxLayout="row" fxLayoutGap="30px">
           <h3 class="chart_item fmale">Female</h3>
@@ -104,13 +102,8 @@
           <i class="fa fa-ellipsis-v"></i>
         </div>
         <div class="chart_body">
-          <div>
-            <canvas id="ageChartCanvas">
-
-            </canvas>
+            <canvas id="ageChartCanvas"></canvas>
             <!-- <app-chart-age [ageData]="ageData"></app-chart-age> -->
-          </div>
-
         </div>
         <div class="chart_footer" fxLayout="row" fxLayoutWrap="wrap">
           <p fxFlex="50" class="chart_item age18">18 - 24 age</p>
