@@ -93,12 +93,14 @@ export class ThemeConfigComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          if (data.custom_status_code === 100) {
-            this.alertService.success('Theme details updated successfully');
-          } else if (data.custom_status_code === 101) {
-            this.alertService.warning('Required parameters are missing!');
-          } else if (data.custom_status_code === 102) {
-            this.alertService.warning('Every thing is upto date!');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Theme details updated successfully');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            } else if (data.custom_status_code === 102) {
+              this.alertService.warning('Every thing is upto date!');
+            }
           }
           this.spinnerService.hide();
         },
@@ -117,10 +119,12 @@ export class ThemeConfigComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          if (!data.error && (data.result.length > 0)) {
-            this.setThemeDetails(data.result);
-          } else {
-            this.alertService.success('No Data found');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (!data.error && (data.result.length > 0) && (data.custom_status_code === 100)) {
+              this.setThemeDetails(data.result);
+            } else {
+              this.alertService.success('No Data found');
+            }
           }
         },
         error => {

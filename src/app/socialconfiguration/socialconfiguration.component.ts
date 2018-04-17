@@ -7,6 +7,9 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
+import { ICommonInterface } from '../model/commonInterface.model';
+import { ISocialKeys } from '../model/socialKeys.model';
+
 @Component({
   selector: 'app-socialconfiguration',
   templateUrl: './socialconfiguration.component.html',
@@ -25,9 +28,9 @@ export class SocialconfigurationComponent implements OnInit {
   whatsappform: FormGroup;
   userAccessDataModel: AccessDataModelComponent;
   constructor(private formBuilder: FormBuilder,
-     private httpClient: HttpClient,
-     private spinnerService: Ng4LoadingSpinnerService,
-     private alertService: AlertService,
+    private httpClient: HttpClient,
+    private spinnerService: Ng4LoadingSpinnerService,
+    private alertService: AlertService,
     private router: Router) {
     this.facebookform = this.formBuilder.group({
       fbappid: ['', Validators.required],
@@ -58,6 +61,7 @@ export class SocialconfigurationComponent implements OnInit {
   ngOnInit() {
     this.TPKeyId = null;
     this.getConfigureKeysData();
+    console.log('asdfd');
   }
 
   // Fb keys form submit to server
@@ -105,9 +109,18 @@ export class SocialconfigurationComponent implements OnInit {
     keysConfigPostData.source_name = sourccename;
     keysConfigPostData.thirdparty_id = this.TPKeyId;
     keysConfigPostData.source_keys = formData;
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postthirdparty', keysConfigPostData).subscribe(
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postthirdparty', keysConfigPostData).subscribe(
       resp => {
-        this.alertService.success('Updated successfully.');
+        if (AppConstants.ACCESS_TOKEN === resp.access_token) {
+          if (resp.custom_status_code === 100) {
+            this.alertService.success('Updated successfully.');
+          } else if (resp.custom_status_code === 101) {
+            this.alertService.warning('Required Parameters are Missing!!!');
+          } else if (resp.custom_status_code === 102) {
+            this.alertService.warning('Everything is Up-to-date!!!');
+          }
+        }
+        // this.alertService.success('Updated successfully.');
         this.spinnerService.hide();
       },
       err => {
@@ -120,13 +133,17 @@ export class SocialconfigurationComponent implements OnInit {
   // get third party configured keys data from server
   getConfigureKeysData = () => {
     this.spinnerService.show();
-    this.httpClient.get<Array<ITPKeysConfig>>(AppConstants.API_URL + 'flujo_client_getthirdparty/' + AppConstants.CLIENT_ID).subscribe(
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getthirdparty/' + AppConstants.CLIENT_ID).subscribe(
       resp => {
+        console.log(resp);
         this.spinnerService.hide();
-        if (resp) {
-          this.configKeysArray = resp;
-          this.parseJsonDataToForm(resp[0]);
-        } else {
+        if (AppConstants.ACCESS_TOKEN === resp.access_token) {
+          if (resp.custom_status_code === 100 && resp.result.length > 0) {
+            this.configKeysArray = resp.result;
+            this.parseJsonDataToForm(resp.result[0]);
+          } else if (resp.custom_status_code === 101) {
+            this.alertService.warning('Something went wrong');
+          }
         }
       },
       err => {
@@ -139,27 +156,27 @@ export class SocialconfigurationComponent implements OnInit {
   parseJsonDataToForm = (configData: ITPKeysConfig) => {
     try {
       this.TPKeyId = configData.id;
-      const parsedKeysData = JSON.parse(configData.source_keys);
+      const parsedKeysData: ISocialKeys = configData.source_keys;
       switch (configData.source_name) {
         case 'facebook':
           this.facebookform.controls['fbappid'].setValue(parsedKeysData.fbappid);
           this.facebookform.controls['fbappversion'].setValue(parsedKeysData.fbappversion);
           break;
         case 'twitter':
-        this.twitterform.controls['twconsumerkey'].setValue(parsedKeysData.twconsumerkey);
-        this.twitterform.controls['twconsumersecret'].setValue(parsedKeysData.twconsumersecret);
-        this.twitterform.controls['twaccesstoken'].setValue(parsedKeysData.twaccesstoken);
-        this.twitterform.controls['twaccesssecret'].setValue(parsedKeysData.twaccesssecret);
+          this.twitterform.controls['twconsumerkey'].setValue(parsedKeysData.twconsumerkey);
+          this.twitterform.controls['twconsumersecret'].setValue(parsedKeysData.twconsumersecret);
+          this.twitterform.controls['twaccesstoken'].setValue(parsedKeysData.twaccesstoken);
+          this.twitterform.controls['twaccesssecret'].setValue(parsedKeysData.twaccesssecret);
           break;
         case 'whatsapp':
-        this.whatsappform.controls['whatsappinstaceid'].setValue(parsedKeysData.whatsappinstaceid);
-        this.whatsappform.controls['whatsappclientid'].setValue(parsedKeysData.whatsappclientid);
-        this.whatsappform.controls['whatsappclientsecret'].setValue(parsedKeysData.whatsappclientsecret);
-        this.whatsappform.controls['whatsappclientphonenumber'].setValue(parsedKeysData.whatsappclientphonenumber);
+          this.whatsappform.controls['whatsappinstaceid'].setValue(parsedKeysData.whatsappinstaceid);
+          this.whatsappform.controls['whatsappclientid'].setValue(parsedKeysData.whatsappclientid);
+          this.whatsappform.controls['whatsappclientsecret'].setValue(parsedKeysData.whatsappclientsecret);
+          this.whatsappform.controls['whatsappclientphonenumber'].setValue(parsedKeysData.whatsappclientphonenumber);
           break;
         case 'chatcamp':
-        this.chatcampform.controls['ccappid'].setValue(parsedKeysData.ccappid);
-        this.chatcampform.controls['ccappkey'].setValue(parsedKeysData.ccappkey);
+          this.chatcampform.controls['ccappid'].setValue(parsedKeysData.ccappid);
+          this.chatcampform.controls['ccappkey'].setValue(parsedKeysData.ccappkey);
           break;
       }
     } catch (error) {
