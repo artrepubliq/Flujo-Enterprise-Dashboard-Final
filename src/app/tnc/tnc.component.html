@@ -17,7 +17,7 @@
       <i class="fa fa-th-list"></i>
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
-    <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Terms & Conditions +</button>
+    <button *ngIf="!isEdit" class="choose_button" mat-raised-button color="primary" (click)="addPages()">Create Terms & Conditions +</button>
   </div>
 
   <!-- ===== Add Pages ======= -->
@@ -39,7 +39,7 @@
       </div>
       <!-- Action Buttons -->
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-        <button (click)="cancelFileEdit()" class="button_submit" mat-button>Cancel
+        <button (click)="cancelFileEdit()" class="button_cancel" mat-button>Cancel
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
         <button type="submit" [disabled]="tncSubmitForm.invalid || loading" class="button_submit" mat-button>{{button_text}}

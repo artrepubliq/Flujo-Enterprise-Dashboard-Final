@@ -4,7 +4,7 @@
 
   <div class="page_padding" fxLayout="column" *ngIf="!isEdit" fxLayoutGap="20px">
     <div fxFlex>
-        <button  (click)="addUsers()" class="d-inline pull-right btn btn-outline-secondary btn-user"><span>Create User <i class="fa fa-chevron-right d-inline"></i></span></button>
+        <button  (click)="addUsers()" class="choose_button"><span>Create User <i class="fa fa-chevron-right d-inline"></i></span></button>
     </div>
 
     <div class="col-md-12">
@@ -56,7 +56,7 @@
 
   <div fxLayout="row" *ngIf="isEdit">
     <div fxFlex>
-        <button (click)="cancelUser()" class="pull-right btn btn-outline-secondary btn-user d-inline"><span><i class="fa fa-chevron-left d-inline"></i> View Users</span></button>
+        <button (click)="cancelUser()" class="choose_button"><span><i class="fa fa-chevron-left d-inline"></i> View Users</span></button>
     </div>
   </div>
   <div class="profile_block" *ngIf="isEdit" fxLayoutAlign="center center">
@@ -129,8 +129,8 @@
       <!-- Save Button -->
       <div class="profile_footer" fxLayout="row" fxLayoutAlign="end center">
         <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
-        <div><button mat-button class="btn" (click)="cancelUser()" >Cancel</button></div>
-        <div><button mat-button class="logoCtrl_button" type="submit" [disabled]="CreateUserForm.invalid || loading" mat-raised-button>{{button_text}}
+        <div><button mat-button class="button_cancel" (click)="cancelUser()" >Cancel</button></div>
+        <div><button mat-button class="button_submit" type="submit" [disabled]="CreateUserForm.invalid || loading">{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button></div>
         <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loading">Delete</button> -->

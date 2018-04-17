@@ -1,18 +1,18 @@
 <div class="sms_popup" fxLayout="column">
-        <h3 class="head">Select Email Template</h3>
-        <div class="sms_body" fxLayout="row" fxLayoutGap="15px" fxLayoutWrap="wrap" [perfectScrollbar]="config">
-            <div *ngFor="let item of data, let i = index" fxFlex="45%" class="sms_msg_item" [ngClass]="{'selected' : item.isActive}"
-                (click)="selectedEmailData(item, i)">
-                <p class="msg_title">
-                    {{item.template_name}}
-                </p>
-                <div class="msg_content" [innerHTML]="item.template_html | safeHtml"></div>
-            </div>
-        </div>
-        <div fxLayoutAlign="end ">
-            <div>
-                <button mat-button (click)="cancelDialog()">Cancel</button>
-                <button (click)="closeDialog()" class="button_submit">Ok</button>
-            </div>
-        </div>
+  <h3 class="head">Select Email Template</h3>
+  <div class="sms_body" fxLayout="row" fxLayoutGap="15px" fxLayoutWrap="wrap" [perfectScrollbar]="config">
+    <div *ngFor="let item of data, let i = index" fxFlex="45%" class="sms_msg_item" [ngClass]="{'selected' : item.isActive}"
+      (click)="selectedEmailData(item, i)">
+      <p class="msg_title">
+        {{item.template_name}}
+      </p>
+      <div class="msg_content" [innerHTML]="item.template_html | safeHtml"></div>
     </div>
+  </div>
+  <div fxLayoutAlign="end ">
+    <div>
+      <button mat-button class="button_cancel" (click)="cancelDialog()">Cancel</button>
+      <button (click)="closeDialog()" class="button_submit">Ok</button>
+    </div>
+  </div>
+</div>

@@ -12,7 +12,7 @@
           <input type="text" class="input" placeholder="Enter Area name in Telugu" [value]="areaTelugu" formControlName="areateluguname">
           <input type="number" placeholder="Area pincode" [value]="areaPincode" formControlName="areapincodenew">
           <button class="button_submit" [disabled]="areaForm.invalid" (click)="createNewArea()">{{actionText}}</button>
-          <button class="button_submit cancel" [disabled]="areaForm.invalid" *ngIf="isEdit" (click)="backToSelect()">Cancel</button>
+          <button class="button_cancel" [disabled]="areaForm.invalid" *ngIf="isEdit" (click)="backToSelect()">Cancel</button>
         </form>
       </div>
   </div>

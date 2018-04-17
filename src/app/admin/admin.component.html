@@ -97,12 +97,12 @@
       </a>
       <ul class="dropdown-menu" [perfectScrollbar]="config">
         <li>
-          <a class="activity">{{name}}</a>
+          <a class="activity"><i class="fa fa-user"></i>{{name}}</a>
         </li>
         <div *ngFor="let item of adminMenu; let i = index">
           <div *ngFor="let useraccesitem of userAccessLevelData">
             <a class="activity" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i)">
-              <i class="fa fa-user"></i>{{item.title}}
+              {{item.title}}
             </a>
           </div>
         </div>

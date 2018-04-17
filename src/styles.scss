@@ -9,7 +9,7 @@
   margin: 0;
 }
 
-.p-rel {
+.p-rel{
   position: relative;
 }
 
@@ -54,6 +54,8 @@ button.button_submit {
   height: 40px;
   box-shadow: none !important;
   min-width: 100px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 button.button_cancel {
@@ -68,6 +70,9 @@ button.button_cancel {
   border-radius: 20px !important;
   height: 40px;
   min-width: 100px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border: none;
 }
 
 button.button_submit:hover {
@@ -76,12 +81,40 @@ button.button_submit:hover {
   border-color: transparent;
 }
 
+button.button_cancel:hover {
+  background: transparent !important;
+  .mat-button-focus-overlay {
+    opacity: 0;
+  }
+}
+
 button:disabled {
-  // opacity: 0.5;
   cursor: not-allowed !important;
 }
 
-/* ..// Button Styles */
+/* Choose/Addnew/Export Buttons Styles */
+
+.choose_button,
+.mat-button.choose_button {
+  background: none;
+  border: 1px solid #666666 !important;
+  border-radius: 30px !important;
+  line-height: 30px;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  color: #666666;
+  text-transform: uppercase;
+  box-shadow: none !important;
+  overflow: hidden;
+  padding: initial;
+  padding-left: 20px;
+  padding-right: 20px;
+  float: right;
+  line-height: 30px !important;
+}
+
+/*   ==========  ..// Button Styles =========== */
 
 .user-logo {
   display: inline-block;
@@ -243,6 +276,19 @@ input[type="file"] {
 }
 
 .input_box {
+  ::placeholder {
+    color: #c1c1c1;
+    opacity: 1;
+    /* Firefox */
+  }
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #c1c1c1;
+  }
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #c1c1c1;
+  }
   label {
     font-size: 14px;
     font-weight: normal;
@@ -266,7 +312,7 @@ input[type="file"] {
     line-height: normal;
     letter-spacing: normal;
     text-align: left;
-    color: #c1c1c1;
+    color: #666666;
     width: 100%;
     outline: none;
   }
@@ -298,7 +344,7 @@ input[type="file"] {
 
 .file_inputs {
   position: relative;
-  .choose_button,
+  .input_choose_button,
   input.file {
     z-index: 2;
     border-radius: 20px;
@@ -809,25 +855,29 @@ control-messages,
     width: auto;
   }
 }
-.dates-range-box{
-  div.cdk-overlay-pane{
+
+.dates-range-box {
+  div.cdk-overlay-pane {
     top: 87.125px !important;
     left: 228.891px !important;
-    pointer-events: auto;
-    // position: absolute;
+    pointer-events: auto; // position: absolute;
   }
 }
-.date-input-span{
+
+.date-input-span {
   position: relative;
-  .mat-form-field,.date-input1{
-    opacity:0;
-    width:0;
-    position: absolute; 
-    top:-12px;
-    left:-26px;
-    cursor: pointer !important;      
+  .mat-form-field,
+  .date-input1 {
+    opacity: 0;
+    width: 0;
+    position: absolute;
+    top: -12px;
+    left: -26px;
+    cursor: pointer !important;
   }
-  .mat-input-underline .mat-form-field-underline,.mat-input-flex, .mat-form-field-flex{
+  .mat-input-underline .mat-form-field-underline,
+  .mat-input-flex,
+  .mat-form-field-flex {
     display: none;
   }
 }
