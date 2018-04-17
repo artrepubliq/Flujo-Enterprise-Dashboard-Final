@@ -8,6 +8,8 @@ import { AlertService } from 'ngx-alerts';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
+import { ISocialKeys } from '../model/socialKeys.model';
+
 @Component({
   selector: 'app-socialconfiguration',
   templateUrl: './socialconfiguration.component.html',
@@ -113,9 +115,9 @@ export class SocialconfigurationComponent implements OnInit {
           if (resp.custom_status_code === 100) {
             this.alertService.success('Updated successfully.');
           } else if (resp.custom_status_code === 101) {
-
+            this.alertService.warning('Required Parameters are Missing!!!');
           } else if (resp.custom_status_code === 102) {
-
+            this.alertService.warning('Everything is Up-to-date!!!');
           }
         }
         // this.alertService.success('Updated successfully.');
@@ -140,16 +142,9 @@ export class SocialconfigurationComponent implements OnInit {
             this.configKeysArray = resp.result;
             this.parseJsonDataToForm(resp.result[0]);
           } else if (resp.custom_status_code === 101) {
-
-          } else if (resp.custom_status_code === 102) {
-
+            this.alertService.warning('Something went wrong');
           }
         }
-        // if (resp) {
-        //   this.configKeysArray = resp;
-        //   this.parseJsonDataToForm(resp[0]);
-        // } else {
-        // }
       },
       err => {
         this.spinnerService.hide();
@@ -161,7 +156,7 @@ export class SocialconfigurationComponent implements OnInit {
   parseJsonDataToForm = (configData: ITPKeysConfig) => {
     try {
       this.TPKeyId = configData.id;
-      const parsedKeysData = JSON.parse(configData.source_keys);
+      const parsedKeysData: ISocialKeys = configData.source_keys;
       switch (configData.source_name) {
         case 'facebook':
           this.facebookform.controls['fbappid'].setValue(parsedKeysData.fbappid);
