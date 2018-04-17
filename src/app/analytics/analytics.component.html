@@ -23,30 +23,16 @@
                 <mat-form-field class="date-input1"  class="example-full-width">
                   <input fxHide matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
                   <mat-datepicker  #minDatePicker></mat-datepicker>
-                </mat-form-field>-
-                <!-- <button mat-raised-button (click)="picker.open()">Open</button> -->
-              </span>
+                </mat-form-field>
+              </span>-
               <span class="date-input-span" (click)="maxDatePicker.open()">{{maxDate}}
                   <mat-form-field [ngStyle]="{'marginLeft': '-85px'}" class="date-input2" class="example-full-width">
                       <input fxHide matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
                       <mat-datepicker #maxDatePicker></mat-datepicker>
                   </mat-form-field>
               </span>
-              <!-- <span>2018</span> -->
             </p>
             <div class="analytics_dates" fxLayout="row" fxLayoutAlign="start">
-              <!-- <mat-form-field *ngIf="ShowDatesRange1" color="accent" fxFlex>
-                  <mat-label>Min date</mat-label>
-                  <input matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
-                  <mat-datepicker-toggle matSuffix [for]="minDatePicker"></mat-datepicker-toggle>
-                  <mat-datepicker #minDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
-                </mat-form-field> -->
-              <!-- <mat-form-field *ngIf="ShowDatesRange2" color="accent" fxFlex>
-                <mat-label>Max date</mat-label>
-                <input matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
-                <mat-datepicker-toggle matSuffix [for]="maxDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #maxDatePicker [touchUi]="touch" [disabled]="datepickerDisabled"></mat-datepicker>
-              </mat-form-field> -->
             </div>
           </div>
 
