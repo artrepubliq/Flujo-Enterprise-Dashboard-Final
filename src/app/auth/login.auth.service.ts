@@ -51,7 +51,7 @@ export class LoginAuthService implements OnInit {
     localStorage.setItem('email', authResult.email);
     localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('name', authResult.name);
-    localStorage.setItem('editor_source', JSON.stringify(expTime));
+    localStorage.setItem('expires_at', String(expTime));
     // this.router.navigateByUrl('/');
     this.router.navigate(['/admin']);
     // window.location.reload();
