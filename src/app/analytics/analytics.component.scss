@@ -28,15 +28,18 @@ button.active {
     position: absolute;
     top: 0rem;
     left: 0.5rem;
+    .date-input-span:hover{
+      cursor: pointer !important; 
+      color:#333333; 
+    }
     .date-input-span{
       position: relative;
+
       .date-input2{
         opacity:0;
         width:0;
         position: absolute; 
-        top:-12px;
-        left:-80px !important;
-        cursor: pointer !important;      
+        top:-12px;   
       }
     }
   }

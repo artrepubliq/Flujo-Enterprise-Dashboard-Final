@@ -33,7 +33,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   yearView: boolean;
   inputDisabled: boolean;
   datepickerDisabled: boolean;
-  minDate: any = moment('1990-01-01').format('YYYY-MM-DD');
+  minDate: any = moment('2018-01-01').format('YYYY-MM-DD');
   maxDate: any = moment(new Date()).format('YYYY-MM-DD');
   startAt: Date;
   date: Date;
