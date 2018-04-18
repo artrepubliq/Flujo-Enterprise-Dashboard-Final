@@ -42,14 +42,12 @@
       <mat-card fxLayout="column" class="card_box">
         <div class="reports-header" fxFlex="100%" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
           <div fxFlex="150px" class="name-field">
-            <span fxFlex="100%" fxLayoutAlign="start center" class="fb-first-field cursor-p">&nbsp;&nbsp;&nbsp;&nbsp;
-              <input fxFlex="5%" class="d-inline" type="checkbox">
-              <b>
-                <p fxFlex="100%" class="d-inline" (click)="sortArray('name', 'name_arrow')">Name&nbsp;
+            <span fxFlex="100%" fxLayoutAlign="start center" fxLayoutGap="10px" class="fb-first-field cursor-p">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-checkbox (change)="selectAll()" [(ngModel)]="checked" fxFlex="15px" class="d-inline" type="checkbox"></mat-checkbox>&nbsp;
+                <p class="name-feedback" fxFlex="100%" class="d-inline" (click)="sortArray('name', 'name_arrow')">Name&nbsp;
                   <i *ngIf="!arrows.name_arrow" class="fa fa-angle-down d-inline"></i>
                   <i *ngIf="arrows.name_arrow" class="fa fa-angle-up d-inline"></i>
                 </p>
-              </b>
             </span>
           </div>
           <div fxFlex="200px" (click)="sortArray('submitted_at', 'submitted_at_arrow')">
@@ -89,15 +87,13 @@
               <div fxLayout="column" fxFlex="100%">
                 <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
                   <div fxFlex="150px" class="name-data">
-                    <span fxLayout="row" fxFlex="100%" fxLayoutAlign="start center" class="d-inline">
+                    <span fxLayout="row" fxFlex="100%" fxLayoutGap="10px" fxLayoutAlign="start center" class="d-inline">
                       <p class="text-muted d-inline">
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </p>
-                      <input type="checkbox">&nbsp;
-                      <b>
-                        <div class="name-feedback d-inline">{{report.name}}</div>
-                      </b>
+                      <mat-checkbox [(ngModel)]="report.selected" class="Check-box-normal" (click)="$event.stopPropagation();" type="checkbox"></mat-checkbox>&nbsp;
+                        <p class="name-feedback d-inline">{{report.name}}</p>
                     </span>
                   </div>
                   <div fxFlex="200px">

@@ -29,6 +29,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
 })
 
 export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy {
+    checked: false;
     filteredUserAccessData: any;
     userAccessLevelObject: any;
     showReports: IshowReports;
@@ -355,4 +356,9 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     public ngOnDestroy(): void {
         this.filterSubject.complete();
     }
+      selectAll() {
+        for (let i = 0; i < this.filterReportProblemData.length; i++) {
+          this.filterReportProblemData[i].selected = this.checked;
+        }
+      }
 }
