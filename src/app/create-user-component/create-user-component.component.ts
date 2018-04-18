@@ -71,13 +71,13 @@ export class CreateUserComponentComponent implements OnInit {
       .subscribe(
         data => {
           this.CreateUserForm.reset();
-          if ( data.result && typeof(data.result)) {
-            this.alertService.success('User added succesfully');
-            this.CreateUserForm.reset();
-            this.isEdit = false;
-            this.button_text = 'save';
-            this.getUsersList();
-          } else {
+          if (data.result) {
+            // this.alertService.success('User added succesfully');
+            // this.CreateUserForm.reset();
+            // this.isEdit = false;
+            // this.button_text = 'save';
+            // this.getUsersList();
+            // } else {
             this.parsePostResponse(data);
           }
           // this.alertService.info('User added succesfully');
@@ -182,8 +182,14 @@ export class CreateUserComponentComponent implements OnInit {
     if (AppConstants.ACCESS_TOKEN === data.access_token) {
       if (data.custom_status_code === 102) {
         this.alertService.warning('Everything is Up-to-date!!!');
-      } else if (data.custom_status_code === 100) {
+      } else if (data.custom_status_code === 100 && (typeof (data.result) === 'object')) {
         this.alertService.success('User updated successfully!!!');
+        this.CreateUserForm.reset();
+        this.isEdit = false;
+        this.button_text = 'save';
+        this.getUsersList();
+      } else if (data.custom_status_code === 100 && (typeof (data.result) === 'string')) {
+        this.alertService.success('User created successfully!!!');
         this.CreateUserForm.reset();
         this.isEdit = false;
         this.button_text = 'save';
