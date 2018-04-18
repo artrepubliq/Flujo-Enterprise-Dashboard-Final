@@ -294,29 +294,6 @@ button i {
         text-align: left;
         color: #c1c1c1;
       }
-      .logoCtrl_button {
-        font-size: 14px;
-        font-weight: 500;
-        text-align: center;
-        color: #4a2565;
-        border-radius: 20px;
-        border: solid 1.5px #4a2565;
-        margin-left: 10px;
-      }
-      .logoCtrl_button.cancel {
-        position: absolute;
-        left: 20px;
-        top: 20px;
-      }
-      .logoCtrl_button:hover {
-        background-color: #4a2565;
-        color: #fff;
-        border-color: transparent;
-      }
-      .logoCtrl_button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
     }
   }
   ::placeholder {
@@ -421,10 +398,6 @@ button i {
     .button_submit {
       width: 100px;
     }
-  }
-  .close-btn {
-    position: absolute;
-    bottom: 0;
   }
 }
 

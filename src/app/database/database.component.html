@@ -6,13 +6,15 @@
     </div>
     <div fxLayout="row" fxLayoutGap="15px">
       <div>
-        <button class="button_submit" (click)="generateCSV()">
+        <button class="choose_button" (click)="generateCSV()">
           Export as CSV
         </button>
       </div>
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
+      <div class="custom_input_mat">
+        <mat-form-field class="select_dropdown">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+      </div>
     </div>
   </div>
 
@@ -61,7 +63,7 @@
           </div> -->
         </div>
         <div>
-          <button mat-raised-button class="button_submit" (click)="sendEmail()">Send As Email</button>
+          <button mat-button class="button_submit" (click)="sendEmail()">Send As Email</button>
         </div>
       </div>
     </div>

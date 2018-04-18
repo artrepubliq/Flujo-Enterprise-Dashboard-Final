@@ -9,7 +9,7 @@
     </div>
     <div>
       <div fxFlex>
-        <button (click)="addTemplate()" class="d-inline pull-right btn btn-outline-secondary btn-user float-right">
+        <button (click)="addTemplate()" class="choose_button">
           <span>Create Template
             <i class="fa fa-chevron-right d-inline"></i>
           </span>
@@ -116,7 +116,7 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between ">
       <div *ngIf="isEdit">
-        <button type="submit" class="button_submit" (click)="cancelEdit()">Cancel</button>
+        <button type="submit" class="button_cancel" (click)="cancelEdit()">Cancel</button>
       </div>
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
         <button type="submit" (click)="onSubmit(smsTemplateConfigurationForm.value)" class="button_submit">{{button_text}}</button>

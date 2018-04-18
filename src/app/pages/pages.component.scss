@@ -227,16 +227,16 @@ img {
   }
 }
 
-.btn-addpage {
-  background: none;
-  border: 1px solid #666666 !important;
-  border-radius: 30px !important;
-  line-height: 30px;
-  font-size: 11px;
-  font-weight: 500;
-  text-align: center;
-  color: #666666;
-}
+// .btn-addpage {
+//   background: none;
+//   border: 1px solid #666666 !important;
+//   border-radius: 30px !important;
+//   line-height: 30px;
+//   font-size: 11px;
+//   font-weight: 500;
+//   text-align: center;
+//   color: #666666;
+// }
 
 .divider {
   width: auto;
@@ -441,4 +441,9 @@ img {
   .button_submit {
     min-width: 100px;
   }
+}
+
+
+.input_box input {
+  border-color: #d8d8d8;
 }

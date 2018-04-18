@@ -17,13 +17,13 @@
       <img src="./assets/list-view-icon-normal.png"/>      
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
-    <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Page +</button>
+    <button *ngIf="!isEdit" class="choose_button" mat-button color="primary" (click)="addPages()">Create Page +</button>
   </div>
   <!-- ===== Add Pages ======= -->
   <div *ngIf="isEdit" class="add-pages">
-    <form [formGroup]="form" (submit)="onSubmit(form.value)" fxLayout="column" fxLayoutGap="45px">
+    <form [formGroup]="form" (submit)="onSubmit(form.value)" fxLayout="column" fxLayout.xs="column" fxLayoutGap="45px" fxLayoutGap.xs="0px">
       <!-- Input PageDetails -->
-      <div fxLayout="row" fxLayoutGap="15px">
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px" fxLayoutGap.xs="30px" ngClass.xs="d-block">
         <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_name">Page Title</label>
           <input fxFlex type="text" class="input-feild" id="component_name" placeholder="page title" formControlName="component_name">
@@ -47,7 +47,7 @@
 
       <!-- Theme Inputs -->
       <div class="row">
-        <div class="col-md-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
+        <div class="col-lg-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
           <label for="component_background_color" class="input_title">Background Color</label>
           <div fxFlex style="position:relative">
             <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)"
@@ -57,26 +57,26 @@
             <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
+        <div class="col-lg-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
           <label for="component_image" class="input_title">Component Image</label>
           <div class="file_inputs">
-            <div class="choose_button">
+            <div class="input_choose_button">
               <input class="file" id="component_image" (click)="openDialog('componentImage')" #fileInput1 /> Choose file
               <label> No file selected</label>
             </div>
           </div>
 
         </div>
-        <div class="col-md-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
+        <div class="col-lg-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
           <label for="component_background_image" class="input_title">Component Background Image</label>
           <div class="file_inputs">
-            <div class="choose_button">
+            <div class="input_choose_button">
               <input class="file" id="component_image" (click)="openDialog('backgroundImage')" #fileInput1 /> Choose file
               <label> No file selected</label>
             </div>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6 col-12" class="input_box" fxLayout="column" fxLayoutGap="12px">
+        <div class="col-lg-3 col-sm-6 col-12 input_box" fxLayout="column" fxLayoutGap="12px">
           <label for="component_order">Page order</label>
           <input type="text" id="component_order" placeholder="Page Order" formControlName="component_order">
         </div>
@@ -96,9 +96,9 @@
 
       <!-- Action Buttons -->
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-        <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
+        <button type="button" mat-button class="button_cancel" (click)="cancelFileEdit()">Cancel</button>
 
-        <button type="submit"  class="button_submit" mat-button>{{button_text}}
+        <button type="submit" class="button_submit" mat-button>{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
       </div>

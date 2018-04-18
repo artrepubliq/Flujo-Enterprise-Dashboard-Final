@@ -11,7 +11,7 @@
       Email Template Configuration
     </div>
     <div fxFlex>
-      <button (click)="addEmailTemplate()" class="d-inline pull-right btn btn-outline-secondary btn-user">
+      <button (click)="addEmailTemplate()" class="choose_button">
         <span>Create Template </span>
       </button>
     </div>
@@ -60,7 +60,7 @@
     <div fxLayout="row" fxLayoutAlign="space-between ">
 
       <div>
-        <button type="button" (click)="cancelEditTemplate()" class="button_submit">Cancel</button>
+        <button type="button" (click)="cancelEditTemplate()" class="button_cancel">Cancel</button>
       </div>
       <div>
         <button type="button" [disabled]="createEmailTemplateForm.invalid" (click)="submitTemplate()" class="button_submit">Submit</button>
