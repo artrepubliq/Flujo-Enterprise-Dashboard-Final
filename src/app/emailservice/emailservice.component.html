@@ -9,11 +9,13 @@
 </div>
 
 <div class="page_padding">
-  <div fxLayout="row" class="p-rel">
-    <div class="page-header">
+  <div fxLayout="row">
+    <div fxFlex class="page-header">
       Mailchimp
     </div>
-    <button mat-raised-button class="choose-button" *ngIf="isOpen" (click)="templateSelectPopup()" >Choose Template +</button>
+    <div fxFlex fxLayoutAlign="end center">
+      <button mat-button class="choose_button" *ngIf="isOpen" (click)="templateSelectPopup()" >Choose Template +</button>
+    </div>
   </div>
 
   <form [formGroup]="mailSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
@@ -60,7 +62,7 @@
           <button type="submit" [hidden]="Ishide3" class="button_submit preview_button" [disabled]="!mailSendingForm.valid">
             Preview
           </button>
-          <button type="button" mat-button color="deafault" (click)="cancelMail()" >Cancel</button>
+          <button type="button" mat-button class="button_cancel" color="deafault" (click)="cancelMail()" >Cancel</button>
           <button type="submit" [hidden]="Ishide3" class="button_submit" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
             Send
           </button>

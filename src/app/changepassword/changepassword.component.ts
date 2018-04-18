@@ -88,4 +88,7 @@ export class ChangepasswordComponent implements OnInit {
         this.alertService.danger('Password was not changed');
       });
   }
+  cancelChangePassword = () => {
+    this.changePasswordForm.reset();
+  }
 }

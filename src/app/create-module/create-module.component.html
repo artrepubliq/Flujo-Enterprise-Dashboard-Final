@@ -15,7 +15,7 @@
       <i class="fa fa-th-list"></i>
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
-    <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Module +</button>
+    <button *ngIf="!isEdit" class="choose_button" mat-raised-button color="primary" (click)="addPages()">Create Module +</button>
   </div>
   <!-- <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i> -->
 
@@ -52,7 +52,7 @@
 
           <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile(2)">clear file</button> -->
           <div class="file_inputs">
-            <div class="choose_button">
+            <div class="input_choose_button">
               <input type="file" class="file" id="module_background_image" (change)="onModuleBackgroundImageChange($event)" #fileInput/> Choose file
               <label> No file selected</label>
             </div>
@@ -68,7 +68,7 @@
       </div>
       <!-- Action Buttons -->
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-        <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
+        <button type="button" mat-button class="button_cancel" (click)="cancelFileEdit()" color="deafault">Cancel</button>
 
         <button type="submit" [disabled]="moduleForm.invalid || loading" class="button_submit" mat-button>{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>

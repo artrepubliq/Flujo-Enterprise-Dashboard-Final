@@ -13,19 +13,19 @@ button {
   height: 70px;
 }
 .table-bordered th{
-font-family: Roboto;
+font-family: 'Roboto';
 font-size: 13px;
 font-weight: 500;
 color: #666666;
 // color: var(--brownish-grey);
 }
 .table-bordered td{
-  font-family: Roboto;
+  font-family: 'Roboto';
 font-size: 13px;
 color: #666666;
 }
 .table-bordered td .name-feedback{
-  font-family: Roboto;
+  font-family: 'Roboto';
 font-size: 14px;
 font-weight: 500;
 color: #333333;
@@ -83,7 +83,7 @@ td.btn-pages{
 // }
 .addview-buttons {
   text-align: right;
-  padding: 20px 0;
+  padding: 15px 0;
   float: right;
   button {
     margin-right: 15px;
@@ -91,6 +91,9 @@ td.btn-pages{
     border: none;
     color: #666666;
     box-shadow: none;
+  }
+  img {
+    max-height: 18.5px;
   }
 }
 
@@ -143,6 +146,7 @@ img {
   // }
 }
 .main-pages{
+  margin-left: -15px;
   .main-page{
     max-width: 270px !important;
     .mat-card-actions{
@@ -231,16 +235,16 @@ img {
   }
 }
 
-.btn-addpage {
-  background: none;
-  border: 1px solid #666666 !important;
-  border-radius: 30px !important;
-  line-height: 30px;
-  font-size: 11px;
-  font-weight: 500;
-  text-align: center;
-  color: #666666;
-}
+// .btn-addpage {
+//   background: none;
+//   border: 1px solid #666666 !important;
+//   border-radius: 30px !important;
+//   line-height: 30px;
+//   font-size: 11px;
+//   font-weight: 500;
+//   text-align: center;
+//   color: #666666;
+// }
 
 .divider {
   width: auto;
@@ -250,10 +254,9 @@ img {
 }
 
 .main-category {
-  font-family: Roboto;
+  font-family: 'Roboto';
   font-size: 15px;
   font-weight: 500;
-  margin-bottom: 2rem;
   color: #666666;
 }
 
@@ -263,7 +266,7 @@ img {
 }
 
 .child-pages {
-  // height: 35vh; 
+  margin-left: -15px;
   position: relative;
   .child-page {
     white-space: nowrap;
@@ -343,15 +346,6 @@ img {
   font-size: 8px;
   text-align: center;
   border: 0.5px solid #ccc;
-}
-
-// input[type="file"] {
-//     padding-left: 0;
-// }
-
-.page-header {
-    float: left;
-    // display: inline-block;
 }
 
 .select_box {
@@ -445,4 +439,9 @@ img {
   .button_submit {
     min-width: 100px;
   }
+}
+
+
+.input_box input {
+  border-color: #d8d8d8;
 }
