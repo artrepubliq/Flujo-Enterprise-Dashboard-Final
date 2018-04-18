@@ -13,7 +13,7 @@
           In progress</button>
       </div>
       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
-        <button (click)="exportManageReports()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
+        <button (click)="exportManageReports()" class="choose_button">Export as CSV</button>
       
         <mat-form-field>
           <input matInput placeholder="Search" [(ngModel)]="searchReport" (ngModelChange)="onChange($event)">
