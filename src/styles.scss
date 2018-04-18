@@ -9,7 +9,7 @@
   margin: 0;
 }
 
-.p-rel{
+.p-rel {
   position: relative;
 }
 
@@ -57,6 +57,7 @@ button.button_submit {
   padding-left: 25px;
   padding-right: 25px;
   transition: 0.3s ease-in-out;
+  font-family: 'Roboto';
 }
 
 button.button_cancel {
@@ -74,6 +75,7 @@ button.button_cancel {
   padding-left: 12px;
   padding-right: 12px;
   border: none;
+  font-family: 'Roboto';
 }
 
 button.button_submit:hover {
@@ -98,6 +100,7 @@ button:disabled {
 .choose_button,
 .mat-button.choose_button {
   background: none;
+  font-family: 'Roboto';
   border: 1px solid #666666 !important;
   border-radius: 30px !important;
   line-height: 30px;
@@ -113,6 +116,12 @@ button:disabled {
   padding-right: 20px;
   float: right;
   line-height: 30px !important;
+  .add_icon {
+    margin-left: 8px;
+    img {
+      max-height: 8.5px;
+    }
+  }
 }
 
 /*   ==========  ..// Button Styles =========== */
@@ -317,10 +326,6 @@ input[type="file"] {
     width: 100%;
     outline: none;
   }
-  input:focus {
-    border-color: #d8d8d8;
-    outline: none;
-  }
   select {
     background-color: #ffffff;
     font-size: 14px;
@@ -333,6 +338,11 @@ input[type="file"] {
     font-size: 14px;
     color: #c1c1c1;
     min-height: 240px;
+  }
+  input:focus, textarea:focus {
+    border-color: #0cc0df;
+    box-shadow: 0px 0.5px 7.5px 0 #0cc0df;
+    outline: none;
   }
 }
 
@@ -394,8 +404,7 @@ input[type="file"] {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #666666;
-  // margin-bottom: 30px;
+  color: #666666; // margin-bottom: 30px;
 }
 
 .cke_chrome {
@@ -405,11 +414,6 @@ input[type="file"] {
   .cke_top {
     background: #ffffff !important;
   }
-}
-
-.atRate {
-  font-size: 14px;
-  color: #c1c1c1;
 }
 
 // Error Feild Box
@@ -687,7 +691,7 @@ control-messages,
     background-color: #ffffff;
     box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15);
     .card_header {
-      padding: 22px;
+      padding: 22px 25px;
       border-bottom: 1px solid #f7f7f7;
       position: relative;
       .header_title {
@@ -700,10 +704,10 @@ control-messages,
       }
     }
     .card_body {
-      padding: 20px;
+      padding: 25px;
     }
     .card_footer {
-      padding: 20px;
+      padding: 25px;
       border-top: 1px solid #f7f7f7;
       position: relative;
     }
@@ -767,7 +771,8 @@ control-messages,
 .select_dropdown {
   .mat-form-field-flex {
     border: 1.5px solid #f0f0f0;
-    padding: 7px 14px;
+    padding: 7px 20px;
+    padding-top: 5px;
     border-radius: 50px;
     height: 40px;
   }
@@ -789,7 +794,12 @@ control-messages,
     padding-bottom: 0;
   }
 }
-
+.select_dropdown.mat-focused {
+  .mat-form-field-flex {
+    border-color: #0cc0df;
+    box-shadow: 0px 0.5px 7.5px 0 #0cc0df;
+  }
+}
 /* Custom Material input */
 
 .custom_input_mat {

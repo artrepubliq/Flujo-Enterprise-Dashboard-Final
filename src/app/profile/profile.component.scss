@@ -122,7 +122,7 @@
       .profile_img {
         width: 220px;
         height: 220px;
-        border: 1px solid #cdcdcd;
+        border: 1.5px solid #cdcdcd;
         border-radius: 5px;
         position: relative;
         .logo-img {
@@ -211,21 +211,6 @@
           margin-bottom: 3px;
         }
       }
-      label {
-        font-size: 14px;
-        text-align: left;
-        color: #666666;
-      }
-      input {
-        outline: none;
-        padding: 13px 15px;
-        font-size: 14px;
-        text-align: left;
-        color: #c1c1c1;
-        border-radius: 20px;
-        background-color: #ffffff;
-        border: solid 1.5px #f7f7f7;
-      }
       .logo-dimensions {
         input {
           width: 80px;
@@ -245,15 +230,6 @@
         color: #c1c1c1;
       }
     }
-  }
-  ::placeholder {
-    color: #c1c1c1; // Firefox 
-  }
-  :-ms-input-placeholder {
-    color: #c1c1c1; // Internet Explorer 10-11
-  }
-  ::-ms-input-placeholder {
-    color: #c1c1c1; // Microsoft Edge
   }
 }
 

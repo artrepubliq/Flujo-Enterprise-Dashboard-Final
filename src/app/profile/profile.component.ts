@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit {
     //   this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/profile');
     // }
   }
-  PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
+  PHONE_REGEXP = /^([0]|\+91)?[6789]\d{9}$/;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   createForm = () => {
     this.form = this.formBuilder.group({
