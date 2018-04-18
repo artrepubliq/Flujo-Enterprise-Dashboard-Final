@@ -54,8 +54,9 @@ button.button_submit {
   height: 40px;
   box-shadow: none !important;
   min-width: 100px;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 25px;
+  padding-right: 25px;
+  transition: 0.3s ease-in-out;
 }
 
 button.button_cancel {
@@ -394,7 +395,7 @@ input[type="file"] {
   letter-spacing: normal;
   text-align: left;
   color: #666666;
-  margin-bottom: 30px;
+  // margin-bottom: 30px;
 }
 
 .cke_chrome {

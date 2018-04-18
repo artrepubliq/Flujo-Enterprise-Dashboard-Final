@@ -4,7 +4,7 @@
 <div class="page_padding" fxLayout="column" fxLayoutGap="13px">
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <h6 class="issues">Issues</h6>
-   
+
     <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center">
       <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
         <button (click)="sortByStatus('0')" [ngClass]="{'active':showReports.completedActive}" name="options" id="option1" autocomplete="off"
@@ -13,13 +13,15 @@
           In progress</button>
       </div>
       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
-        <button (click)="exportManageReports()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
-      
-        <mat-form-field>
-          <input matInput placeholder="Search" [(ngModel)]="searchReport" (ngModelChange)="onChange($event)">
-        </mat-form-field>
-       
-        <div class="dropdown">
+        <button (click)="exportManageReports()" class="choose_button">Export as CSV</button>
+
+        <div class="custom_input_mat">
+          <mat-form-field class="select_dropdown">
+            <input matInput placeholder="Search" [(ngModel)]="searchReport" (ngModelChange)="onChange($event)">
+          </mat-form-field>
+        </div>
+
+        <!-- <div class="dropdown">
           <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Filter By
@@ -29,14 +31,26 @@
               <li class="dropdown-item">Issue</li>
             </div>
           </ul>
-        </div>
+        </div> -->
+        <!-- <div>
+          <mat-form-field class="select_dropdown">
+            <mat-select placeholder="Filter By">
+              <mat-option (click)="picker.open()">
+                Date
+              </mat-option>
+              <mat-option>
+                Issue
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
       </div>
     </div>
   </div>
   <br/>
-<div>
-  <span>Total count: {{filterReportProblemData?.length}}</span>
-</div>
+  <div>
+    <span>Total count: {{filterReportProblemData?.length}}</span>
+  </div>
   <div class="manage_reports_table" [perfectScrollbar]="config">
     <div class="manage_reports_data">
       <mat-card fxLayout="column" class="card_box">
@@ -218,7 +232,7 @@
     </div>
   </div>
   <div class="feedback_footer" fxLayout="row" fxLayoutAlign="space-between ">
-      <!-- <mat-paginator #paginator *ngIf="filterReportProblemData" [length]="filterReportProblemData.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+    <!-- <mat-paginator #paginator *ngIf="filterReportProblemData" [length]="filterReportProblemData.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
         </mat-paginator> -->
     <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
   </div>
