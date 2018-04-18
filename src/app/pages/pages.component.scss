@@ -72,6 +72,10 @@ td.btn-pages{
   max-height: calc( 100vh - 200px);
   position: relative;
   // padding: 8px;
+  .pages-data{
+    min-width: 800px;
+    overflow: auto;
+  }
 }
 // input, input:focus {
 //     outline: none;

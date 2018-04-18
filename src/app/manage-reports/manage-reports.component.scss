@@ -208,6 +208,15 @@ p.name-feedback{
     width: 1.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
 }
 .table-bordered{
     background-color: rgb(255, 255, 255);
@@ -241,6 +250,7 @@ p.name-feedback{
     background: #4a2565 !important;
     transition: all 5s ease-in-out !important;
 }
+
 .btn-dropdown{
     background: none !important;
     border: none !important;
@@ -294,6 +304,25 @@ input{
     -webkit-box-shadow:0 0 12px 1px #0cc0df !important;
     border:1px solid #0cc0df !important;
 }
+.problem-box.mat-expanded.mat-expansion-panel-spacing{
+   margin-top: 0;
+}
+.problem-box{
+    .text-muted{
+        width: 8px;
+        height: 12px;
+        // object-fit: contain;
+        // font-family: Ionicons;
+        font-size: 18px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        // letter-spacing: 1.8px;
+        text-align: center;
+        color: #c1c1c1;
+    }
+}
 .mat-expansion-panel-header{
     padding:5px 26px;
     height: 65px !important;
@@ -302,6 +331,9 @@ input{
 .reports-header,.reports-data{
     padding: 25px 0;
     width:100%;
+}
+.reports-header{
+    border-bottom:1.5px solid #f5f5f5 !important;
 }
 
 .divider{
@@ -367,6 +399,8 @@ input{
     position: relative;
     .manage_reports_data{
         padding:0 13px;
+        min-width: 1200px;
+        overflow: auto;
     }
 }
 .paginationn{

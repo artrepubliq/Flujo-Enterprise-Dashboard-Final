@@ -31,7 +31,7 @@ import {
   MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
   MatNativeDateModule, MatExpansionModule, DateAdapter,
   MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatTabsModule,
-  MatCardModule, MatTooltipModule, MatAutocompleteModule
+  MatCardModule, MatTooltipModule, MatCheckboxModule, MatAutocompleteModule
 } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
@@ -197,6 +197,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatCheckboxModule,
     MatAutocompleteModule,
     MatMenuModule,
     ColorPickerModule,
