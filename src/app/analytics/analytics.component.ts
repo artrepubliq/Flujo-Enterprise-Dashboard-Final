@@ -251,6 +251,9 @@ export class AnalyticsComponent implements OnInit, OnChanges {
               data: rangeValue,
               backgroundColor: [
                 '#0cc0df', '#ee2f6b', '#fecd0f', '#452c59'
+              ],
+              borderColor: [
+                '#0cc0df', '#ee2f6b', '#fecd0f', '#452c59'
               ]
             }],
             labels: range

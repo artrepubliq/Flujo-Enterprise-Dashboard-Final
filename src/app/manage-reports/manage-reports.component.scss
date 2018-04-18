@@ -367,6 +367,8 @@ input{
     position: relative;
     .manage_reports_data{
         padding:0 13px;
+        min-width: 1200px;
+        overflow: auto;
     }
 }
 .paginationn{

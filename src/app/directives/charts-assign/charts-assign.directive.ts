@@ -77,10 +77,11 @@ export class ChartsAssignDirective implements OnChanges {
           display: false
         },
         scales: {
+          xAxes: [{
+              stacked: true
+          }],
           yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
+              stacked: true
           }]
       }
       }

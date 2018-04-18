@@ -40,8 +40,8 @@
   <div class="manage_reports_table" [perfectScrollbar]="config">
     <div class="manage_reports_data">
       <mat-card fxLayout="column" class="card_box">
-        <div class="reports-header" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
-          <div fxFlex="10.7%" class="name-field">
+        <div class="reports-header" fxFlex="100%" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+          <div fxFlex="150px" class="name-field">
             <span fxFlex="100%" fxLayoutAlign="start center" class="fb-first-field cursor-p">&nbsp;&nbsp;&nbsp;&nbsp;
               <input fxFlex="5%" class="d-inline" type="checkbox">
               <b>
@@ -52,31 +52,31 @@
               </b>
             </span>
           </div>
-          <div fxFlex="11%" (click)="sortArray('submitted_at', 'submitted_at_arrow')">
+          <div fxFlex="200px" (click)="sortArray('submitted_at', 'submitted_at_arrow')">
             <span class="d-inline cursor-p">Updated &nbsp;
               <i *ngIf="!arrows.submitted_at_arrow" class="fa fa-angle-down"></i>
               <i *ngIf="arrows.submitted_at_arrow" class="fa fa-angle-up"></i>
             </span>
           </div>
-          <div fxFlex="11%">
+          <div fxFlex="200px">
             <span class="d-inline cursor-d">Email </span>
           </div>
-          <div fxFlex="11%">
+          <div fxFlex="150px">
             <span class="d-inline cursor-d">Phone Number</span>
           </div>
-          <div fxFlex="7%" (click)="sortArray('gender', 'gender_arrow')">
+          <div fxFlex="100px" (click)="sortArray('gender', 'gender_arrow')">
             <span class="d-inline cursor-p">Gender&nbsp;
               <i *ngIf="!arrows.gender_arrow" class="fa fa-angle-down"></i>
               <i *ngIf="arrows.gender_arrow" class="fa fa-angle-up"></i>
             </span>
           </div>
-          <div fxFlex="5%" (click)="sortArray('age', 'age_arrow')">
+          <div fxFlex="100px" (click)="sortArray('age', 'age_arrow')">
             <span class="d-inline cursor-p">Age &nbsp;
               <i *ngIf="!arrows.age_arrow" class="fa fa-angle-down"></i>
               <i *ngIf="arrows.age_arrow" class="fa fa-angle-up"></i>
             </span>
           </div>
-          <div fxFlex="30%" (click)="sortArray('area', 'area_arrow')">
+          <div fxFlex (click)="sortArray('area', 'area_arrow')">
             <span class="d-inline cursor-p">Locality &nbsp;
               <i *ngIf="!arrows.area_arrow" class="fa fa-angle-down"></i>
               <i *ngIf="arrows.area_arrow" class="fa fa-angle-up"></i>
@@ -87,8 +87,8 @@
           <mat-expansion-panel class="problem-box" *ngFor="let report of filterReportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
             <mat-expansion-panel-header>
               <div fxLayout="column" fxFlex="100%">
-                <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
-                  <div fxFlex="10.7%" class="name-data">
+                <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+                  <div fxFlex="150px" class="name-data">
                     <span fxLayout="row" fxFlex="100%" fxLayoutAlign="start center" class="d-inline">
                       <p class="text-muted d-inline">
                         <i class="fa fa-ellipsis-v"></i>
@@ -100,22 +100,22 @@
                       </b>
                     </span>
                   </div>
-                  <div fxFlex="12%">
+                  <div fxFlex="200px">
                     <span fxFlex="100%" class="d-inline">{{report.submitted_at}}</span>
                   </div>
-                  <div fxFlex="12%">
+                  <div fxFlex="200px">
                     <span class="d-inline">{{report.email}}</span>
                   </div>
-                  <div fxFlex="11%">
+                  <div fxFlex="150px">
                     <span class="d-inline">{{report.phone}}</span>
                   </div>
-                  <div fxFlex="7%">
+                  <div fxFlex="100px">
                     <span class="d-inline">{{report.gender}} </span>
                   </div>
-                  <div fxFlex="6%">
+                  <div fxFlex="100px">
                     <span class="d-inline"> {{report.age}}</span>
                   </div>
-                  <div fxFlex="30%">
+                  <div fxFlex>
                     <span class="d-inline">{{report.area}}</span>
                   </div>
                 </div>

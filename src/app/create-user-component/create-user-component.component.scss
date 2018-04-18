@@ -15,7 +15,12 @@ div.alert {
   padding-left: 0;
   color: darken($color: #d60808, $amount: 0);
 }
-
+.create-user-table{
+  .create-user-data{
+    min-width: 800px;
+    overflow: auto;
+  }
+}
 #createuserform .form-control {
   box-shadow: none !important;
 }
