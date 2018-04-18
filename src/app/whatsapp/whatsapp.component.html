@@ -9,7 +9,9 @@
     <div class="page-header">
       Whatsapp message Configuration
     </div>
-    <button mat-raised-button class="choose-button" (click)="templateSelectionPopup()">Choose Template +</button>
+    <div fxFlex fxLayoutAlign="end center">
+      <button class="choose_button" (click)="templateSelectionPopup()">Choose Template +</button>
+    </div>
   </div>
 
   <form role="form" [formGroup]="whatsAppSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
@@ -32,15 +34,15 @@
       <div fxLayout="column" fxLayoutGap="13px" class="input_box">
         <label>Enter the Message</label>
         <div class="input_box">
-          <textarea formControlName="message" *ngIf="totalWhatsAppTemplateData" [ngModel]="totalWhatsAppTemplateData" id="message" placeholder="Message"></textarea>
+          <textarea formControlName="message" *ngIf="totalWhatsAppTemplateData" [ngModel]="totalWhatsAppTemplateData" id="message"
+            placeholder="Message"></textarea>
           <textarea *ngIf="!totalWhatsAppTemplateData" formControlName="message" id="message" placeholder="Message"></textarea>
         </div>
       </div>
       <br/>
     </div>
     <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-      <button type="submit" (click)="submitwhatsAppSendingForm()" [disabled]="whatsAppSendingForm.invalid"
-        class="button_submit">Send</button>
+      <button type="submit" (click)="submitwhatsAppSendingForm()" [disabled]="whatsAppSendingForm.invalid" class="button_submit">Send</button>
     </div>
   </form>
 </div>

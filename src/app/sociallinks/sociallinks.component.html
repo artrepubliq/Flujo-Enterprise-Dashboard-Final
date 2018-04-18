@@ -8,12 +8,12 @@
 
 
 <div class="page_padding" fxLayout="column" fxLayoutGap="15px">
-  <div fxLayout="row" class="p-rel" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="center center">
     <div fxFlex>
       <h6 class="social">Social</h6>
     </div>
     <div fxFlex>
-      <button (click)="addNewItem()" mat-button class="choose-button">Add New Link +</button>
+      <button (click)="addNewItem()" class="choose_button">Add New Link <span>+</span></button>
     </div>
   </div>
   <div *ngIf="addNew">
