@@ -3,21 +3,23 @@
 </ngx-alerts>
 <div fxLayout="column" ngClass.lg="page_padding">
   <!-- === Buttons ==== -->
-  <div  class="addview-buttons">
-    <div class="page-header">
-      <span *ngIf="isEdit">New page creation </span>
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="addview-buttons">
+    <div *ngIf="isEdit" class="page-header">
+      <span>New page creation </span>
     </div>
-    <button  color="primary" (click)="viewPagesGrid()">
-      <!-- <i class="fa fa-th"></i> -->
-      <img src="./assets/grid-view-icon-active.png"/>
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-    <button  color="primary" (click)="viewPages()">
-      <!-- <i class="fa fa-th-list"></i> -->
-      <img src="./assets/list-view-icon-normal.png"/>      
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-    <button *ngIf="!isEdit" class="choose_button" mat-button color="primary" (click)="addPages()">Create Page +</button>
+    <div *ngIf="isGridView" class="main-category">
+      <h6>Main Category</h6>
+    </div>
+    <div></div>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <button (click)="viewPagesGrid()">
+        <img src="./assets/grid-view-icon-active.png" />
+      </button>
+      <button (click)="viewPages()">
+        <img src="./assets/list-view-icon-normal.png" />
+      </button>
+      <button *ngIf="!isEdit" class="choose_button" mat-button color="primary" (click)="addPages()">Create Page +</button>
+    </div>
   </div>
   <!-- ===== Add Pages ======= -->
   <div *ngIf="isEdit" class="add-pages">
@@ -141,20 +143,20 @@
             <td>{{page_item.parent_id}}</td>
 
             <td class="btn-pages btn-stack">
-              <button (click)="editCompnent(page_item)"  type="button" class="btn">
-                  <i class="fa fa-pencil"></i>
+              <button (click)="editCompnent(page_item)" type="button" class="btn">
+                <i class="fa fa-pencil"></i>
               </button>
             </td>
             <td class="btn-pages btn-stack">
-              <button (click)="onDelete(page_item)"  type="button" class="btn">
-                  <i class="fa fa-trash"></i>
+              <button (click)="onDelete(page_item)" type="button" class="btn">
+                <i class="fa fa-trash"></i>
               </button>
             </td>
           </tr>
 
         </tbody>
       </table>
-    
+
     </div>
   </div>
 
@@ -166,18 +168,18 @@
 
   <div *ngIf="isGridView">
 
-    <div class="main-category">
+    <!-- <div class="main-category">
       <h6>Main Category</h6>
-    </div>
+    </div> -->
     <div fxLayout="row" fxLayoutGap="15px" class="main-pages" [perfectScrollbar]="config">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 main-page" *ngFor="let detail of parentPageDetails">
         <mat-card class="example-card" (click)="getChild(detail)">
-          <div fxLayout="row" fxLayoutAlign="space-between center" class="page-controls" >
+          <div fxLayout="row" fxLayoutAlign="space-between center" class="page-controls">
             <div fxFlex="50">
-              <img  src="./assets/card-selection-icon-normal.png">
+              <img src="./assets/card-selection-icon-normal.png">
             </div>
-            <div fxFlex="50" fxLayoutAlign="end center" >
-              <img  class="pull-right" src="./assets/card-more-icon-normal.png">
+            <div fxFlex="50" fxLayoutAlign="end center">
+              <img class="pull-right" src="./assets/card-more-icon-normal.png">
             </div>
           </div>
           <div id="pageview">
@@ -251,12 +253,12 @@
         </div>
         <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page">
           <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px" class="add-child-page">
-              <div class="text-center" fxLayout="column" fxLayoutAlign="center center" >
-                  <div class="addapageicon text-center">
-                    <img src="./assets/page-icon-normal.png">
-                  </div>
-                  <p class="addapage">Add Page</p>
+            <div class="text-center" fxLayout="column" fxLayoutAlign="center center">
+              <div class="addapageicon text-center">
+                <img src="./assets/page-icon-normal.png">
               </div>
+              <p class="addapage">Add Page</p>
+            </div>
           </div>
         </div>
       </div>
