@@ -41,10 +41,13 @@
     <div fxLayout="column" fxLayoutGap="13px" class="input_box">
       <label for="inputPassword1">Get contacts from csv file</label>
       <div>
-        <input type="file" formControlName="file" class="form-control file-box">
+        <span (click)="downLoadPhoneCsvFormat($event)">Download Csv Format</span>
+        <input type="file" id="file" (change)="getContactsFromCsv($event)" class="form-control file-box" #fileInput>
       </div>
     </div>
-
+    <div fxLayout="column" fxLayoutGap="13px" class="input_box" *ngIf="errorPhoneContacts.length > 0">
+      <p>You hace error at column {{errorPhoneContacts}}</p>
+    </div>
     <div fxLayout="column" fxLayoutGap="13px" class="input_box">
       <label for="message">SMS Content</label>
       <div>

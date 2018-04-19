@@ -6,6 +6,7 @@ import { AppConstants } from '../app.constants';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
+import { ICommonInterface } from './commonInterface.model';
 @Component({
     template: ``
 })
@@ -38,17 +39,16 @@ export class AccessDataModelComponent {
         return this.userAccessLevels;
     }
     getUserAccessLevelDataHttp = (feature_id, routURL): any => {
-        this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
+        this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
           .subscribe(
           data => {
-            _.each(data, item => {
+            _.each(data.result, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                 this.userAccessLevelObject = item.access_levels;
               }
             });
             if (this.userAccessLevelObject) {
-             const accesslevels = JSON.parse(this.userAccessLevelObject);
-             this.setAccesslevelsToObject(accesslevels, feature_id, routURL);
+             this.setAccesslevelsToObject(this.userAccessLevelObject, feature_id, routURL);
             } else {
             //   this.openDialog();
             this.router.navigate(['accessdenied']);

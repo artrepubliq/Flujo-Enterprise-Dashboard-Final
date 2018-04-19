@@ -15,6 +15,7 @@ import { Injectable } from '@angular/core';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Injectable()
 @Component({
   selector: 'app-create-user-component',
@@ -25,7 +26,7 @@ export class CreateUserComponentComponent implements OnInit {
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   isAddUser: boolean;
-  userDetails: ICreateUserDetails;
+  userDetails: ICreateUserDetails[];
   CreateUserForm: any;
   public loading = false;
   public isEdit = true;
@@ -54,8 +55,8 @@ export class CreateUserComponentComponent implements OnInit {
     });
     this.getUsersList();
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-     this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-    this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/user');
+      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/user');
     }
   }
 
@@ -63,58 +64,78 @@ export class CreateUserComponentComponent implements OnInit {
   }
   onSubmit = (body) => {
     this.spinnerService.show();
-    console.log(this.userDetails.id);
+    // console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.CreateUserForm.value;
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
       .subscribe(
-      data => {
-        this.CreateUserForm.reset();
-        this.parsePostResponse(data);
-        // this.alertService.info('User added succesfully');
-        this.spinnerService.hide();
-      },
-      error => {
-        this.spinnerService.hide();
-        this.alertService.danger('User not added');
-      });
+        data => {
+          this.CreateUserForm.reset();
+          if ( data.result && typeof(data.result)) {
+            this.alertService.success('User added succesfully');
+            this.CreateUserForm.reset();
+            this.isEdit = false;
+            this.button_text = 'save';
+            this.getUsersList();
+          } else {
+            this.parsePostResponse(data);
+          }
+          // this.alertService.info('User added succesfully');
+          this.spinnerService.hide();
+        },
+        error => {
+          this.spinnerService.hide();
+          this.alertService.danger('User not added');
+        });
   }
   onDelete = (body) => {
     // const formModel = this.form.value;
     this.spinnerService.show();
     const user_id = body.id;
     // this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletecreateuser/' + user_id)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletecreateuser/' + user_id)
       .subscribe(
-      data => {
-        this.getUsersList();
-        this.spinnerService.hide();
-        console.log(data);
-        this.loading = false;
-        this.alertService.warning('User delete successfully');
-      },
-      error => {
-        this.loading = false;
-        this.spinnerService.hide();
-        this.alertService.danger('Something went wrong');
-      });
+        data => {
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('User deleted successfully');
+              this.getUsersList();
+              this.loading = false;
+            } else if (data.custom_status_code === 102) {
+              this.alertService.warning('Required parameters are missing!!!');
+            }
+          }
+          this.spinnerService.hide();
+          console.log(data);
+        },
+        error => {
+          this.loading = false;
+          this.spinnerService.hide();
+          this.alertService.danger('Something went wrong');
+        });
   }
 
   getUsersList() {
     this.spinnerService.show();
-    this.httpClient.get<ICreateUserDetails>(AppConstants.API_URL + '/flujo_client_getcreateuser/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getcreateuser/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        data ? this.isEdit = false : this.isEdit = true;
-        console.log(data);
-        this.userDetails = data;
-        console.log(this.userDetails);
-        this.spinnerService.hide();
-      },
-      error => {
-        console.log(error);
-        this.spinnerService.hide();
-      }
+        data => {
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100 && data.result.length > 0) {
+              data.result ? this.isEdit = false : this.isEdit = true;
+              console.log(data);
+              this.userDetails = data.result;
+              console.log(this.userDetails);
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required Parameters are Missing!!!');
+            }
+          }
+          this.spinnerService.hide();
+        },
+        error => {
+          console.log(error);
+          this.spinnerService.hide();
+        }
       );
   }
   openAccessDialog(userItem): void {
@@ -157,18 +178,35 @@ export class CreateUserComponentComponent implements OnInit {
     this.setDefaultClientUserDetails(userItem);
     console.log(userItem);
   }
-  parsePostResponse(response) {
-
-    if (response.result) {
-      this.alertService.danger('Email ID already existed');
+  parsePostResponse(data) {
+    if (AppConstants.ACCESS_TOKEN === data.access_token) {
+      if (data.custom_status_code === 102) {
+        this.alertService.warning('Everything is Up-to-date!!!');
+      } else if (data.custom_status_code === 100) {
+        this.alertService.success('User updated successfully!!!');
+        this.CreateUserForm.reset();
+        this.isEdit = false;
+        this.button_text = 'save';
+        this.getUsersList();
+      } else if (data.custom_status_code === 101) {
+        this.alertService.warning('Required Parameters are Missing!!!');
+      } else if (data.custom_status_code === 105) {
+        this.alertService.warning('Email Already Exists!!!');
+      }
     } else {
-      this.alertService.info('User data submitted successfully.');
-      this.CreateUserForm.reset();
-      this.getUsersList();
-      this.isEdit = false;
-      this.button_text = 'save';
-
+      this.alertService.warning('You are not authorized person for this action');
     }
+
+    // if (response.result) {
+    //   this.alertService.danger('Email ID already existed');
+    // } else {
+    //   this.alertService.info('User data submitted successfully.');
+    //   this.CreateUserForm.reset();
+    //   this.getUsersList();
+    //   this.isEdit = false;
+    //   this.button_text = 'save';
+
+    // }
   }
 
   cancelUser() {
@@ -270,7 +308,7 @@ export class AccessLevelPopup {
       { name: 'Choose platform', feature_id: 30, enable: true, read: true, write: true, order: '30' },
       { name: 'profile', feature_id: 31, enable: true, read: true, write: true, order: '31' },
       { name: 'WhatsApp', feature_id: 32, enable: true, read: true, write: true, order: '32' }
-        ];
+    ];
     return defaultData;
   }
   // Posting of user access level data to api
@@ -280,46 +318,63 @@ export class AccessLevelPopup {
     this.accessLevelsFormSubmit.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     this.accessLevelsFormSubmit.controls['user_id'].setValue(this.data.id);
     const formModel = this.accessLevelsFormSubmit.value;
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postuseraccess', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postuseraccess', formModel)
       .subscribe(
-      data => {
-        this.alertService.success('User access levels updated successfully');
-        this.spinnerService.hide();
-        this.getAccessLevelData();
-        this.closeDialog();
-      },
-      error => {
-        this.spinnerService.hide();
-        this.alertService.danger('User access levels not updated');
-      });
+        data => {
+          // this.alertService.success('User access levels updated successfully');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('User access levels updated successfully!!!');
+            } else if (data.custom_status_code === 102) {
+              this.alertService.warning('Everything is Up-to-date!!!');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required Parameters are Missing!!!');
+            }
+            this.spinnerService.hide();
+            this.getAccessLevelData();
+            this.closeDialog();
+          }
+        },
+        error => {
+          this.spinnerService.hide();
+          this.alertService.danger('User access levels not updated');
+        });
   }
   // Getting of user access data if data is not present default checkbox method will call
   getAccessLevelData = () => {
     this.spinnerService.show();
-    this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        if (data.length > 0) {
-          this.filteredAccessIds = _.filter(data, (item) => {
-            // this.data.id will come from open access dialog and we are comparing selected id and server data id
-            return item.user_id === this.data.id;
-          });
-          if (this.filteredAccessIds.length > 0 && this.filteredAccessIds[0].access_levels) {
-            this.accessLevelData = JSON.parse(this.filteredAccessIds[0].access_levels);
-            this.spinnerService.hide();
-          } else {
-            this.accessLevelData = this.checkBoxNames();
+        data => {
+          console.log(data);
+          console.log(this.data);
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.result.length > 0 && data.custom_status_code === 100) {
+              this.filteredAccessIds = _.filter(data.result, (item) => {
+                // this.data.id will come from open access dialog and we are comparing selected id and server data id
+                return item.user_id === this.data.id;
+              });
+              if (this.filteredAccessIds.length > 0 && this.filteredAccessIds[0].access_levels) {
+                // this.accessLevelData = JSON.parse(this.filteredAccessIds[0].access_levels);
+                this.accessLevelData = this.filteredAccessIds[0].access_levels;
+                this.spinnerService.hide();
+              } else {
+                this.accessLevelData = this.checkBoxNames();
+                this.spinnerService.hide();
+              }
+            } else if (data.result.length === 0 && data.custom_status_code === 101) {
+              this.accessLevelData = this.checkBoxNames();
+              this.alertService.warning('Required Parameters are Missing!!!');
+            } else {
+              this.accessLevelData = this.checkBoxNames();
+            }
             this.spinnerService.hide();
           }
-        } else {
-          this.accessLevelData = this.checkBoxNames();
+        },
+        error => {
+          console.log(error);
           this.spinnerService.hide();
         }
-      },
-      error => {
-        console.log(error);
-        this.spinnerService.hide();
-      }
       );
   }
 }

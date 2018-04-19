@@ -90,7 +90,7 @@ export class TncComponent implements OnInit {
       .subscribe(
         data => {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code = 200) {
+            if (data.custom_status_code === 100) {
               this.termsDetails = null;
               this.isEdit = false;
               this.termsDetails = data.result;

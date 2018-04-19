@@ -35,9 +35,19 @@
               </div>
             </div>
           </div>
-          <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
-            <label>Select contacts from csv file </label>
-            <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
+          <div fxFlex>
+            <div class="input_box p-rel" fxLayout="column" fxLayoutGap="12px">
+              <label>Select contacts from csv file </label>
+              <!-- <input type="file" id="file" (change)="onFileChange($event)" #fileInput> -->
+              <span (click)="downLoadCsvFormat($event)">Download Csv Format</span>
+              <input type="file" (change)="getEmailCsvContacts($event)" #file>
+              <div class="error_box">
+                <div fxLayout="column" fxLayoutGap="13px" class="input_box" *ngIf="errorEmailContacts.length > 0">
+                  You have error at column
+                  <p *ngFor="let item of errorEmailContacts">{{item}}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div fxLayout="row" fxLayoutGap="48px">
