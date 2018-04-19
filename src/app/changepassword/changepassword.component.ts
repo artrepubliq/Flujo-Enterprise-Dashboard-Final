@@ -17,6 +17,7 @@ import { PasswordValidation } from '../service/confirm-password';
 import { IchangeDetails } from '../model/change-password.model';
 import * as _ from 'underscore';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-changepassword',
   templateUrl: './changepassword.component.html',
@@ -44,7 +45,7 @@ export class ChangepasswordComponent implements OnInit {
     }, { validator: this.checkPasswords });
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/changepassword');
+      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/changepassword');
     }
 
   }
@@ -67,26 +68,33 @@ export class ChangepasswordComponent implements OnInit {
     this.changePasswordForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
     this.changePasswordForm.controls['user_id'].setValue(localStorage.getItem('user_id'));
     const formModel = this.changePasswordForm.value;
-    this.httpClient.post<IchangeDetails>(AppConstants.API_URL + 'flujo_client_updatepasswordcreateuser', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_updatepasswordcreateuser', formModel)
       .subscribe(
-      data => {
-        if (!data.error) {
+        data => {
+          console.log(data);
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 102) {
+              this.alertService.warning('Everything is Up-to-date!!!');
+            } else if (data.custom_status_code === 100) {
+              this.alertService.success('Password updated successfully!!!');
+              _.delay(de => {
+                this.router.navigate(['/login']);
+              }, 1000);
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required Parameters are Missing!!!');
+            } else if ( data.custom_status_code === 119) {
+              this.alertService.warning('Old password is incorrect!!!');
+            }
+          } else {
+            this.alertService.warning('You are not authorized person for this action');
+          }
           this.changePasswordForm.reset();
-          this.alertService.success('Password was changed succesfully');
           this.spinnerService.hide();
-          _.delay(de => {
-            this.router.navigate(['/login']);
-          }, 1000);
-        } else {
+        },
+        error => {
           this.spinnerService.hide();
-          this.changePasswordForm.reset();
           this.alertService.danger('Password was not changed');
-        }
-      },
-      error => {
-        this.spinnerService.hide();
-        this.alertService.danger('Password was not changed');
-      });
+        });
   }
   cancelChangePassword = () => {
     this.changePasswordForm.reset();

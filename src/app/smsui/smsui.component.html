@@ -4,10 +4,11 @@
 
 <div class="container smsContact page_padding" fxLayout="column" fxLayoutGap="30px">
 
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <div class="page-header">
+  <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign="space-between center">
+    <div fxFlex class="page-header">
       SMS
     </div>
+    <button class="choose_button" (click)="downLoadPhoneCsvFormat($event)">Download Csv Format</button>
     <div>
       <button class="choose_button" (click)="openDialog()">Choose Template
         <span class="add_icon">
@@ -38,13 +39,28 @@
       </div>
     </div>
 
-    <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+    <div fxLayout="column" fxLayoutGap="13px" class="input_box p-rel">
       <label for="inputPassword1">Get contacts from csv file</label>
       <div>
-        <input type="file" formControlName="file" class="form-control file-box">
+        <!-- <span (click)="downLoadPhoneCsvFormat($event)">Download Csv Format</span> -->
+        <input type="file" id="file" accept=".csv" (change)="getContactsFromCsv($event)" class="form-control file-box" #file>
       </div>
+      <div class="error_box" *ngIf="errorInFormat">
+          <div fxLayout="column" fxLayoutGap="13px">
+            <h3> You have error at column</h3>
+            <div fxLayout="row" fxLayoutAlign="center " fxLayoutGap="15px" fxLayoutWrap="wrap">
+              <p *ngFor="let item of errorPhoneContacts">{{item}},</p>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutGap="10px">
+            <button class="button_submit" (click)="rectify()" >Rectify</button>
+            <button class="button_submit" (click)="continue()" >Continue</button>
+          </div>
+        </div>
     </div>
-
+    <!-- <div fxLayout="column" fxLayoutGap="13px" class="input_box" *ngIf="errorPhoneContacts.length > 0">
+      <p>You hace error at column {{errorPhoneContacts}}</p>
+    </div> -->
     <div fxLayout="column" fxLayoutGap="13px" class="input_box">
       <label for="message">SMS Content</label>
       <div>

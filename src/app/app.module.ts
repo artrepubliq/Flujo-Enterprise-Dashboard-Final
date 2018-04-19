@@ -31,7 +31,7 @@ import {
   MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
   MatNativeDateModule, MatExpansionModule, DateAdapter,
   MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatTabsModule,
-  MatCardModule, MatTooltipModule, MatCheckboxModule, MatAutocompleteModule
+  MatCardModule, MatTooltipModule, MatCheckboxModule, MatAutocompleteModule, MatSnackBarModule
 } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
@@ -48,6 +48,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { MediaComponent, DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup
 import { SmsuiComponent, SmsTemplateSelectionDialog } from './smsui/smsui.component';
+import { MessageArchivedComponent } from '../app/directives/snackbar-sms-email/snackbar-email-sms';
 import { CreateUserComponentComponent, AccessLevelPopup } from './create-user-component/create-user-component.component';
 import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -107,6 +108,7 @@ import { WhatsappComponent, WhatsAppTemplatePopup } from './whatsapp/whatsapp.co
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
 import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { EditorSelectionService } from './service/editor-selection.service';
+import { PapaParseModule } from 'ngx-papaparse';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -175,6 +177,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailTemplateSelectionPopup,
     ChartAgeDirective,
     SmsTemplateSelectionDialog,
+    MessageArchivedComponent,
     SafeHtmlPipe
   ],
   imports: [
@@ -228,11 +231,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatSnackBarModule,
+    PapaParseModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
 
      AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
-    EmailTemplateSelectionPopup, SmsTemplateSelectionDialog],
+    EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent],
   providers: [
               // AuthService,
               HttpService,
