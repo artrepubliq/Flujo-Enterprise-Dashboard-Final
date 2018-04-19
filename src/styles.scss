@@ -467,6 +467,9 @@ control-messages,
 .page_padding {
   padding: 3vh 2vw 15px 4vw;
 }
+.page_padding-2 {
+  padding: 25px 8% 30px 5%;
+}
 
 // Mat Toggle custom style
 .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
@@ -922,7 +925,11 @@ control-messages,
     }
   }
 }
-
+.header-media {
+  .sort_controls .mat-select-arrow {
+    color: #999999;
+  }
+}
 
 /* Reponsive 960px - 1279px */
 
@@ -981,8 +988,8 @@ control-messages,
     cursor: pointer !important;      
   }
   .mat-input-underline .mat-form-field-underline,.mat-input-flex, .mat-form-field-flex{
-
     display: none;
+  }
 }
 
 
