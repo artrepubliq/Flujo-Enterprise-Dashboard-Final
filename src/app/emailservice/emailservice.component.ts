@@ -25,6 +25,7 @@ import { MessageArchivedComponent } from '../directives/snackbar-sms-email/snack
   styleUrls: ['./emailservice.component.scss']
 })
 export class EmailserviceComponent implements OnInit {
+  errorInFormat: boolean;
   emailContactsArray: ICsvData[];
   filteredEmailContacts = [];
   errorEmailContacts = [];
@@ -45,6 +46,7 @@ export class EmailserviceComponent implements OnInit {
   editorValue: string;
   Ishide3: boolean;
   feature_id: number;
+  @ViewChild('file') file: ElementRef;
   userAccessDataModel: AccessDataModelComponent;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
 
@@ -159,7 +161,14 @@ export class EmailserviceComponent implements OnInit {
             this.filteredEmailContacts.push(item);
           } else {
             this.errorEmailContacts.push(index);
+            this.errorInFormat = true;
           }
+        } else {
+          event.target.value = null;
+          const snackBarRef = this.snackBar.open('The uploaded format not follwoing our standards', '', {
+            duration: 3000,
+            extraClasses: ['alert-snackbar']
+          });
         }
       });
       console.log(this.errorEmailContacts);
@@ -179,6 +188,14 @@ export class EmailserviceComponent implements OnInit {
       });
     });
     // return this.emailContactsArray;
+  }
+  continue() {
+    this.errorInFormat = false;
+  }
+  rectify () {
+    this.errorInFormat = false;
+    // event.target.value = null;
+    this.file.nativeElement.value = null;
   }
   downLoadCsvFormat = () => {
     const csvFormatData = [

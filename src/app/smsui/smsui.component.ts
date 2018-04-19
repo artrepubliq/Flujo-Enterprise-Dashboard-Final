@@ -23,17 +23,20 @@ import CSVExportService from 'json2csvexporter';
 import { ICsvData } from '../model/emailThemeConfig.model';
 import { isNumber } from 'util';
 import { MessageArchivedComponent } from '../directives/snackbar-sms-email/snackbar-email-sms';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-smsui',
   templateUrl: './smsui.component.html',
   styleUrls: ['./smsui.component.scss']
 })
 export class SmsuiComponent implements OnInit {
+  errorInFormat = false;
   errorPhoneContacts = [];
   filteredPhoneContacts = [];
   phoneContactsArray: ICsvData[];
   selectedSmsTemplateData: any;
   smsTemplateSelectionData: any;
+  @ViewChild('file') file: ElementRef;
   @Input() title: any;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
@@ -75,17 +78,20 @@ export class SmsuiComponent implements OnInit {
     this.spinnerService.show();
     console.log(this.smsContactForm.value);
     this.smsContactForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_sendsms', this.smsContactForm.value)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_sendsmsdbcsv', this.smsContactForm.value)
       .subscribe(
         data => {
           this.spinnerService.hide();
-          if (data) {
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+          if ((!data.error) && (data.custom_status_code = 100)) {
             this.alertService.success('Message has been sent successfully');
             this.smsContactForm.reset();
-          } else {
-            this.alertService.danger('Message not sent');
+            this.file.nativeElement.value = null;
+          } else if (data.custom_status_code = 101) {
+            this.alertService.danger('Required parameters are missing');
             this.smsContactForm.reset();
           }
+        }
         },
         error => {
           this.spinnerService.hide();
@@ -101,6 +107,7 @@ export class SmsuiComponent implements OnInit {
       .subscribe(
         data => {
           try {
+            if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code = 100)) {
               this.smsTemplateSelectionData = data.result;
               this.smsTemplateSelectionData.map((smsData) => {
@@ -108,6 +115,7 @@ export class SmsuiComponent implements OnInit {
               });
               console.log(this.smsTemplateSelectionData);
             }
+          }
           } catch (e) {
             console.log(e);
           }
@@ -148,15 +156,21 @@ export class SmsuiComponent implements OnInit {
             this.filteredPhoneContacts.push(item);
           } else {
             this.errorPhoneContacts.push(index);
+            this.errorInFormat = true;
           }
+        } else {
+          console.log('the uploaded format not follwoing our standards');
+          const snackBarRef = this.snackBar.open('The uploaded format not follwoing our standards', '', {
+            duration: 3000,
+            extraClasses: ['alert-snackbar']
+          });
         }
       });
     }
     if (this.errorPhoneContacts.length > 0) {
-      event.target.value = null;
+      this.errorInFormat = true;
     }
     this.smsContactForm.get('file').setValue(this.filteredPhoneContacts);
-    event.target.value = null;
   }
   getCsvData(csvPhonelData): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -168,6 +182,13 @@ export class SmsuiComponent implements OnInit {
       });
     });
     // return this.emailContactsArray;
+  }
+  continue() {
+    this.errorInFormat = false;
+  }
+  rectify () {
+    this.errorInFormat = false;
+    this.file.nativeElement.value = null;
   }
   downLoadPhoneCsvFormat = () => {
     const csvPhoneFormatData = [
