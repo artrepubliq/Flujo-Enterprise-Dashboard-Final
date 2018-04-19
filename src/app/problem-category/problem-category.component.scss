@@ -29,6 +29,10 @@
   box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
   position: relative;
   max-height: calc( 100vh - 200px);
+  .problem-category-data{
+    min-width: 1200px;
+    overflow: auto;
+  }
   .view_item {
     background-color: #ffffff;
     padding: 20px;

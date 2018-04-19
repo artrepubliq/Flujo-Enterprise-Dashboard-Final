@@ -64,7 +64,7 @@
           <!-- Logo Image Upload -->
           <div class="profile_img">
             <div fxLayoutAlign="center center" class="logo-img">
-              <span *ngIf="logoImage"><img src="../assets/default_logo.png" class="img-fluid"></span>
+              <span *ngIf="!logoImage"><img src="../assets/default_logo.png" class="img-fluid"></span>
               <img *ngIf="logoImage" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoImage}}">
             </div> 
             <div class="upload-logo">

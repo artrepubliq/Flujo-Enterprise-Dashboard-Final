@@ -11,16 +11,24 @@ import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { HttpClient } from '@angular/common/http';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { EmailTemplateService } from '../email-template/email-template-service';
 import { AppConstants } from '../app.constants';
-import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
+import { IPostEmailTemplate, ICsvData } from '../model/emailThemeConfig.model';
+import { PapaParseService } from 'ngx-papaparse';
+import CSVExportService from 'json2csvexporter';
+import { ICommonInterface } from '../model/commonInterface.model';
+import { MessageArchivedComponent } from '../directives/snackbar-sms-email/snackbar-email-sms';
 @Component({
   selector: 'app-emailservice',
   templateUrl: './emailservice.component.html',
   styleUrls: ['./emailservice.component.scss']
 })
 export class EmailserviceComponent implements OnInit {
+  errorInFormat: boolean;
+  emailContactsArray: ICsvData[];
+  filteredEmailContacts = [];
+  errorEmailContacts = [];
   isOpen = false;
   test: IPostEmailTemplate[];
   selectedEmailTemplateData: any;
@@ -38,6 +46,7 @@ export class EmailserviceComponent implements OnInit {
   editorValue: string;
   Ishide3: boolean;
   feature_id: number;
+  @ViewChild('file') file: ElementRef;
   userAccessDataModel: AccessDataModelComponent;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
 
@@ -45,8 +54,10 @@ export class EmailserviceComponent implements OnInit {
     private httpService: HttpService, private alertService: AlertService, public adminComponent: AdminComponent,
     private router: Router,
     public dialog: MatDialog, private httpClient: HttpClient,
-    private emailTemplateService: EmailTemplateService) {
-      this.feature_id = 3;
+    private emailTemplateService: EmailTemplateService,
+    private papa: PapaParseService,
+    public snackBar: MatSnackBar) {
+    this.feature_id = 3;
     this.mailSendingForm = this.formBuilder.group({
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'subject': ['', Validators.required],
@@ -60,6 +71,8 @@ export class EmailserviceComponent implements OnInit {
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/email');
     }
     this.getEmailTemplateData();
+    this.emailContactsArray = [];
+    this.errorEmailContacts = [];
   }
 
   ngOnInit() {
@@ -67,19 +80,20 @@ export class EmailserviceComponent implements OnInit {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
-  onFileChange(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.mailSendingForm.get('file').setValue(file);
-    }
-  }
+  // onFileChange(event) {
+  //   if (event.target.files.length > 0) {
+  //     const file = event.target.files[0];
+  //     this.mailSendingForm.get('file').setValue(file);
+  //   }
+  // }
   mailSendingFormSubmit(body: any) {
     this.spinnerService.show();
     console.log(this.mailSendingForm.value);
-    this.httpService.create(this.mailSendingForm.value, '/flujo_client_emailcsvdb')
+    this.mailSendingForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_sendemaildbcsv', this.mailSendingForm.value)
       .subscribe(
         data => {
-          if (data) {
+          if (!data.error) {
             this.alertService.success('Email has been sent ');
             this.mailSendingForm.reset();
             this.spinnerService.hide();
@@ -129,6 +143,68 @@ export class EmailserviceComponent implements OnInit {
         console.log('no template was selected');
       }
     });
+  }
+  async getEmailCsvContacts(event) {
+    this.emailContactsArray = [];
+    this.filteredEmailContacts = [];
+    this.errorEmailContacts = [];
+    const fileReader = new FileReader;
+    const file = event.target.files[0];
+    const csvEmailData = file;
+    this.emailContactsArray = await this.getCsvData(csvEmailData);
+    console.log(this.emailContactsArray);
+    console.log(this.emailContactsArray);
+    if (this.emailContactsArray.length > 0) {
+      this.emailContactsArray.map((item, index) => {
+        if (item.Email) {
+          if (item.Email !== '' && item.Email.match(this.EMAIL_REGEXP) != null) {
+            this.filteredEmailContacts.push(item);
+          } else {
+            this.errorEmailContacts.push(index);
+            this.errorInFormat = true;
+          }
+        } else {
+          event.target.value = null;
+          const snackBarRef = this.snackBar.open('The uploaded format not follwoing our standards', '', {
+            duration: 3000,
+            extraClasses: ['alert-snackbar']
+          });
+        }
+      });
+      console.log(this.errorEmailContacts);
+      console.log(this.filteredEmailContacts);
+    }
+    this.mailSendingForm.get('file').setValue(this.filteredEmailContacts);
+  }
+  getCsvData(csvEmailData): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.papa.parse(csvEmailData, {
+        header: true,
+        complete: (results) => {
+          // this.emailContactsArray = results.data;
+          // console.log(results.data);
+          resolve(results.data);
+        }
+      });
+    });
+    // return this.emailContactsArray;
+  }
+  continue() {
+    this.errorInFormat = false;
+  }
+  rectify () {
+    this.errorInFormat = false;
+    // event.target.value = null;
+    this.file.nativeElement.value = null;
+  }
+  downLoadCsvFormat = () => {
+    const csvFormatData = [
+      { Name: 'Test', Email: 'test@flujo.in' },
+      { Name: 'Test', Email: 'test1@flujo.in' },
+      { Name: 'Test', Email: 'test1@flujo.in' }
+    ];
+    const exporter = CSVExportService.create();
+    exporter.downloadCSV(csvFormatData, 'My Report');
   }
 }
 @Component({

@@ -124,50 +124,52 @@
   <!-- ====== Pages Table ======= -->
   <div *ngIf="isTableView">
     <div class="pages-total" [perfectScrollbar]="config">
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <!-- <th scope="col">Page Id</th> -->
-            <th scope="col">Page Name</th>
-            <!-- <th scope="col">Page Description </th> -->
-            <th scope="col">Page Image</th>
-            <th scope="col">Page bg Image</th>
-            <th scope="col">Page Order</th>
-            <th scope="col">Page parent id</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let page_item of pageDetails">
-            <!-- <th scope="row">{{page_item.id}}</th> -->
-            <td>{{page_item.component_name}}</td>
-            <!-- <td>{{page_item.component_description}}</td> -->
-            <td>
-              <span *ngIf="!page_item.component_image">no image</span>
-              <img *ngIf="page_item.component_image" class="figure" src="data:image/png;base64,{{page_item.component_image}}">
-            </td>
-            <td>
-              <span *ngIf="!page_item.component_background_image">no image</span>
-              <img *ngIf="page_item.component_background_image" class="figure" src="data:image/png;base64,{{page_item.component_background_image}}">
-            </td>
-            <td>{{page_item.component_order}}</td>
-            <td>{{page_item.parent_id}}</td>
-
-            <td class="btn-pages btn-stack">
-              <button (click)="editCompnent(page_item)" type="button" class="btn">
-                <i class="fa fa-pencil"></i>
-              </button>
-            </td>
-            <td class="btn-pages btn-stack">
-              <button (click)="onDelete(page_item)" type="button" class="btn">
-                <i class="fa fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-
-        </tbody>
-      </table>
+      <div class="pages-data">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <!-- <th scope="col">Page Id</th> -->
+              <th scope="col">Page Name</th>
+              <!-- <th scope="col">Page Description </th> -->
+              <th scope="col">Page Image</th>
+              <th scope="col">Page bg Image</th>
+              <th scope="col">Page Order</th>
+              <th scope="col">Page parent id</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let page_item of pageDetails">
+              <!-- <th scope="row">{{page_item.id}}</th> -->
+              <td>{{page_item.component_name}}</td>
+              <!-- <td>{{page_item.component_description}}</td> -->
+              <td>
+                <span *ngIf="!page_item.component_image">no image</span>
+                <img *ngIf="page_item.component_image" class="figure" src="data:image/png;base64,{{page_item.component_image}}">
+              </td>
+              <td>
+                <span *ngIf="!page_item.component_background_image">no image</span>
+                <img *ngIf="page_item.component_background_image" class="figure" src="data:image/png;base64,{{page_item.component_background_image}}">
+              </td>
+              <td>{{page_item.component_order}}</td>
+              <td>{{page_item.parent_id}}</td>
+  
+              <td class="btn-pages btn-stack">
+                <button (click)="editCompnent(page_item)"  type="button" class="btn">
+                    <i class="fa fa-pencil"></i>
+                </button>
+              </td>
+              <td class="btn-pages btn-stack">
+                <button (click)="onDelete(page_item)"  type="button" class="btn">
+                    <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+  
+          </tbody>
+        </table>
+      </div>
 
     </div>
   </div>

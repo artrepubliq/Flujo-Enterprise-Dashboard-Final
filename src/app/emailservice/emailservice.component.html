@@ -9,10 +9,11 @@
 </div>
 
 <div class="page_padding" fxLayout="column" fxLayoutGap="30px">
-  <div fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign="space-between center">
     <div fxFlex class="page-header">
       Mailchimp
     </div>
+    <button class="choose_button" (click)="downLoadCsvFormat($event)">Download Csv</button>
     <div>
       <button class="choose_button" *ngIf="isOpen" (click)="templateSelectPopup()">Choose Template
         <span class="add_icon">
@@ -35,9 +36,25 @@
               </div>
             </div>
           </div>
-          <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
-            <label>Select contacts from csv file </label>
-            <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
+          <div fxFlex>
+            <div class="input_box p-rel" fxLayout="column" fxLayoutGap="12px">
+              <label>Select contacts from csv file </label>
+              <!-- <input type="file" id="file" (change)="onFileChange($event)" #fileInput> -->
+              <!-- <span (click)="downLoadCsvFormat($event)">Download Csv Format</span> -->
+              <input type="file" accept=".csv" (change)="getEmailCsvContacts($event)" #file>
+              <div class="error_box" *ngIf="errorInFormat">
+                <div fxLayout="column" fxLayoutGap="13px">
+                  <h3> You have error at column</h3>
+                  <div fxLayout="row" fxLayoutAlign="center " fxLayoutGap="15px" fxLayoutWrap="wrap">
+                    <p *ngFor="let item of errorEmailContacts">{{item}},</p>
+                  </div>
+                </div>
+                <div fxLayout="row" fxLayoutGap="10px">
+                  <button class="button_submit" (click)="rectify()">Rectify</button>
+                  <button class="button_submit" (click)="continue()">Continue</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div fxLayout="row" fxLayoutGap="48px">

@@ -140,12 +140,14 @@ export class ProblemCategoryComponent implements OnInit {
     this.problemService.updateProblemType('flujo_client_postreportproblemtype', this.newProblemData)
       .subscribe(
         data => {
-          if (data.custom_status_code === 100) {
-            this.alertService.success('Problem updated successfully');
-          } else if (data.custom_status_code === 101) {
-            this.alertService.warning('Required parameters are missing!');
-          } else if (data.custom_status_code === 102) {
-            this.alertService.warning('Every thing is upto date!');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Problem updated successfully');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            } else if (data.custom_status_code === 102) {
+              this.alertService.warning('Every thing is upto date!');
+            }
           }
           console.log(data);
           this.spinnerService.hide();
@@ -168,10 +170,12 @@ export class ProblemCategoryComponent implements OnInit {
     this.problemService.deleteProblem('flujo_client_deletereportproblemtype/', problem.id)
       .subscribe(
         data => {
-          if (data.custom_status_code === 100) {
-            this.alertService.success('Problem deleted successfully');
-          } else if (data.custom_status_code === 101) {
-            this.alertService.warning('Required parameters are missing!');
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Problem deleted successfully');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            }
           }
           this.spinnerService.hide();
           this.getproblemData();

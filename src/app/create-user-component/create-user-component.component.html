@@ -8,51 +8,71 @@
     </div>
 
     <div class="col-md-12">
-
-        <table class="table table-hover table-bordered">
-          <thead>
-            <tr>
-              <th scope="col" colspan="2">
+      <div class="create-user-table" [perfectScrollbar]="config">
+        <div class="create-user-data">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th scope="col" colspan="2">
                   <span fxLayoutGap="0.5rem" class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <input class="d-inline" type="checkbox" >
-                      <b>
-                        <p class="d-inline">Name &nbsp;&nbsp; <i class="fa fa-angle-down"></i></p>
-                      </b>
-                    </span> 
-              </th>
-
-            <th scope="col">Email</th>
-            <th scope="col">Phone Number</th>
-            <th scope="col">Role</th>
-
-            <th></th>
-            <th></th>
-            <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="btn-stack" *ngFor="let user of userDetails">
-              <td class="user_name" scope="col" colspan="2">
+                    <input class="d-inline" type="checkbox">
+                    <b>
+                      <p class="d-inline">Name &nbsp;&nbsp;
+                        <i class="fa fa-angle-down"></i>
+                      </p>
+                    </b>
+                  </span>
+                </th>
+    
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Role</th>
+    
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="btn-stack" *ngFor="let user of userDetails">
+                <td class="user_name" scope="col" colspan="2">
                   <span fxLayoutGap="0.5rem" class="d-inline">
-                      <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
-                      <input  type="checkbox">
-                      <p class="name-feedback d-inline">{{user.name}}</p>
-                  </span> 
-              </td>
-              <!-- <td>{{item.datenow}}</td> -->
-              <td>{{user.email}}</td>
-              <td>{{user.phone}}</td>
-              <td *ngIf="user.role==1">Social Manager</td>
-              <td *ngIf="user.role==2">Content Manager</td>
-              <td class="btn-usert"><button (click)="editCompnent(user)" type="button" class="btn"><i class="fa fa-pencil"></i></button></td>
-              <td class="btn-usert"><button type="button" class="btn" (click)="openAccessDialog(user)"><i class="fa fa-eye"></i></button></td>
-              <td class="btn-usert"><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
-
-          </tr>
-        </tbody>
-      </table>
+                    <p class="text-muted d-inline">
+                      <i class="fa fa-ellipsis-v"></i>&nbsp;
+                      <i class="fa fa-ellipsis-v"></i>
+                    </p>
+                    <input type="checkbox">
+                    <p class="name-feedback d-inline">{{user.name}}</p>
+                  </span>
+                </td>
+                <!-- <td>{{item.datenow}}</td> -->
+                <td>{{user.email}}</td>
+                <td>{{user.phone}}</td>
+                <td *ngIf="user.role==1">Social Manager</td>
+                <td *ngIf="user.role==2">Content Manager</td>
+                <td class="btn-usert">
+                  <button (click)="editCompnent(user)" type="button" class="btn">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                </td>
+                <td class="btn-usert">
+                  <button type="button" class="btn" (click)="openAccessDialog(user)">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                </td>
+                <td class="btn-usert">
+                  <button (click)="onDelete(user)" type="button" class="btn">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+    
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
+    </div>
 
   <div fxLayout="row" *ngIf="isEdit">
     <div fxFlex>

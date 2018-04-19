@@ -17,41 +17,43 @@
       </div>
   </div>
   <div class="view_items" fxLayout="column" fxLayoutGap="0px" [perfectScrollbar]="config">
-   <div fxLayout="row"  class="view_item" fxLayoutGap="30px" fxLayoutAlign="start center">
-     <div class="d-inline name name-head" fxFlex="30">
-        &nbsp;&nbsp;&nbsp; <input fxFlex="5" class="d-inline" type="checkbox">&nbsp;&nbsp;
-       <p class="d-inline">Area</p>
-     </div>
-     <div class="name code" fxFlex="31">
-       Area in Telugu
-     </div>
-     <div class="name code" fxFlex="80px">
-       Pincode
-     </div>
-   </div>
-    <div *ngFor="let area of areaData" class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
-      <div class="name" fxFlex="31">
-        <span class="text-muted d-inline">
-              <i class="fa fa-ellipsis-v"></i>
-              <i class="fa fa-ellipsis-v"></i>
-        </span>&nbsp;&nbsp;
-        <input type="checkbox">&nbsp;&nbsp;
-        {{area.area}}
+    <div class="area-data">
+      <div fxLayout="row"  class="view_item" fxLayoutGap="30px" fxLayoutAlign="start center">
+        <div class="d-inline name name-head" fxFlex="30">
+           &nbsp;&nbsp;&nbsp; <input fxFlex="5" class="d-inline" type="checkbox">&nbsp;&nbsp;
+          <p class="d-inline">Area</p>
+        </div>
+        <div class="name code" fxFlex="31">
+          Area in Telugu
+        </div>
+        <div class="name code" fxFlex="80px">
+          Pincode
+        </div>
       </div>
-      <div class="code" fxFlex="31">
-        {{area.area_telugu}}
-      </div>
-      <div class="code" fxFlex="80px">
-        {{area.pincode}}
-      </div>
-      <div fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
-        <button  (click)="updateAreaData(area)" type="button" class="btn">
-          <i class="fa fa-pencil"></i>
-        </button>
-        <button (click)="deletearea(area)" type="button" class="btn">
-          <i class="fa fa-trash"></i>
-        </button>
-      </div>
+       <div *ngFor="let area of areaData" class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
+         <div class="name" fxFlex="31">
+           <span class="text-muted d-inline">
+                 <i class="fa fa-ellipsis-v"></i>
+                 <i class="fa fa-ellipsis-v"></i>
+           </span>&nbsp;&nbsp;
+           <input type="checkbox">&nbsp;&nbsp;
+           {{area.area}}
+         </div>
+         <div class="code" fxFlex="31">
+           {{area.area_telugu}}
+         </div>
+         <div class="code" fxFlex="80px">
+           {{area.pincode}}
+         </div>
+         <div fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
+           <button  (click)="updateAreaData(area)" type="button" class="btn">
+             <i class="fa fa-pencil"></i>
+           </button>
+           <button (click)="deletearea(area)" type="button" class="btn">
+             <i class="fa fa-trash"></i>
+           </button>
+         </div>
+       </div>
     </div>
   </div>
 </div>
