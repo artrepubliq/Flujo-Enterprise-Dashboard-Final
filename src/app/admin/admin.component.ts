@@ -173,10 +173,10 @@ export class AdminComponent implements OnInit {
 
   // getting users list who are logged in
   getUserList = () => {
-    this.httpClient.get<Array<IloggedinUsers>>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
-        this.loggedinUsersList = data;
+        this.loggedinUsersList = data.result;
         this.StoredLoggedinIds();
         this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
           this.isUserActive = false;

@@ -130,3 +130,12 @@ button {
   max-height: calc(100% - 200px);
   position: relative;
 }
+
+.error_box {
+  border: 1px solid red;
+  position: absolute;
+  right: 0;
+  top: 0;
+  min-width: 200px;
+  min-height: 100px;
+}

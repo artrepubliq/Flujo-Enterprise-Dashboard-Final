@@ -11,3 +11,8 @@ export interface IPostEmailTemplate {
     submitted_at?: string;
     isActive?: boolean;
 }
+export interface ICsvData {
+    Email: string;
+    Name: string;
+    Phone: string;
+}
