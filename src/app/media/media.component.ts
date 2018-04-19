@@ -21,6 +21,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
+import { ICommonInterface } from '../model/commonInterface.model';
 
 
 @Component({
@@ -255,16 +256,21 @@ export class MediaComponent implements OnInit {
     this.spinnerService.show();
 
     this.uploadImagesObject.client_id = AppConstants.CLIENT_ID;
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postgallery', this.uploadImagesObject).subscribe(
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postgallery', this.uploadImagesObject).subscribe(
       res => {
-        this.uploadImagesObject = <IUploadImages>{};
-        this.successMessagebool = true;
-        this.spinnerService.hide();
+        if (res.access_token === AppConstants.ACCESS_TOKEN) {
+          if ((!res.error) && (res.custom_status_code = 100)) {
+          this.uploadImagesObject = <IUploadImages>{};
+          this.successMessagebool = true;
+          this.spinnerService.hide();
 
-        this.successMessagebool = true;
-        this.alertService.success('Images uploaded successfully');
-        this.getMediaGalleryData();
-
+          this.successMessagebool = true;
+          this.alertService.success('Images uploaded successfully');
+          this.getMediaGalleryData();
+        } else if ((res.error) && (res.custom_status_code = 101)) {
+          this.alertService.warning('Required parameters are missing');
+        }
+        }
       },
       (err: HttpErrorResponse) => {
         this.spinnerService.hide();
@@ -279,10 +285,10 @@ export class MediaComponent implements OnInit {
     this.spinnerService.show();
     this.httpClient
 
-      .get<Array<mediaDetail>>(AppConstants.API_URL + 'flujo_client_getgallery/' + AppConstants.CLIENT_ID)
+      .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgallery/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          this.mediaData = data;
+          this.mediaData = data.result;
           this.spinnerService.hide();
         },
 
@@ -293,14 +299,18 @@ export class MediaComponent implements OnInit {
   }
   deleteMediaImage(image_id) {
     this.spinnerService.show();
-    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletegallery/' + image_id)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletegallery/' + image_id)
       .subscribe(
         data => {
-          if (data) {
-            this.hightlightStatus = [false];
-            this.spinnerService.hide();
-            this.alertService.success('Image deleted Successfully');
-            this.getMediaGalleryData();
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+            if ((!data.error) && (data.custom_status_code = 100)) {
+              this.hightlightStatus = [false];
+              this.spinnerService.hide();
+              this.alertService.success('Image deleted Successfully');
+              this.getMediaGalleryData();
+            } else if ((data.error) && (data.custom_status_code = 101)) {
+              this.alertService.warning('Required parameters are missing');
+            }
           }
         },
         error => {
@@ -332,7 +342,7 @@ export class MediaComponent implements OnInit {
   // to create new album with title form from the html
   CreateNewAlbumForm(body: any) {
     this.albumObject.client_id = AppConstants.CLIENT_ID;
-    this.albumObject.title = this.albumTitles;
+    this.albumObject.title = this.albumTitle;
 
     if (this.albumObject.title != null && this.albumImagesArraySize >= 2) {
       this.isAlbumObjectsPresentAlert = true;
@@ -346,20 +356,20 @@ export class MediaComponent implements OnInit {
   CreateNewAlbumHttpRequest(reqData) {
     this.spinnerService.show();
 
-    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postalbum', reqData)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postalbum', reqData)
       .subscribe(
         data => {
 
-          if (data) {
+          if ((!data.error) && (data.custom_status_code = 100)) {
 
             this.resetsubmitAlbumData();
             this.spinnerService.hide();
 
-            this.parseReloadAlbumGalleryObject(data);
+            this.parseReloadAlbumGalleryObject(data.result);
 
             this.hightlightStatus = [false];
             this.alertService.success('Album created successfully.');
-          } else {
+          } else if ((data.error) && (data.custom_status_code = 101)) {
             this.spinnerService.hide();
             this.alertService.danger('Something went wrong.please try again.');
           }
@@ -385,14 +395,19 @@ export class MediaComponent implements OnInit {
 
     this.spinnerService.show();
     this.httpClient
-      .get<Array<IGalleryObject>>(AppConstants.API_URL + 'flujo_client_getalbum/' + AppConstants.CLIENT_ID)
+      .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getalbum/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          this.albumGallery = data;
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+            if ((!data.error) && (data.custom_status_code = 100)) {
+          this.albumGallery = data.result;
           this.spinnerService.hide();
 
-          this.prepareAllAlbumImageIdsArray(data);
-
+          this.prepareAllAlbumImageIdsArray(data.result);
+        } else if ((data.error) && (data.custom_status_code = 101) ) {
+          this.alertService.danger('Required parameters are missing.');
+        }
+        }
         },
 
         err => {
@@ -418,11 +433,11 @@ export class MediaComponent implements OnInit {
 
     if (albumImageIds.length > 0) {
       this.spinnerService.show();
-      this.httpClient.post<IBase64Images>(AppConstants.API_URL + 'flujo_client_getgalleryintoalbum', albumImageIds)
+      this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgalleryintoalbum', albumImageIds)
         .subscribe(
           data => {
 
-            this.albumGalleryItem = data;
+            this.albumGalleryItem = data.result;
 
             this.spinnerService.hide();
           },

@@ -134,6 +134,12 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div fxLayout="column" class="form-group">
+              <div><label>Email</label></div>
+              <div><input fxFlex="100%" type="Email" formControlName="email" class="form-control"  id="email" placeholder="Email" required></div>
+              <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert">
+                  Valid Email is required
             <div fxLayout="column" class="input_box">
               <div>
                 <label>Mobile Number</label>
