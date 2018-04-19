@@ -347,3 +347,16 @@ input {
     margin-top: 0px;
   }
 }
+.sort_controls {
+  img {
+    max-width: 20px;
+  }
+  .sort_view {
+    cursor: pointer;
+  }
+}
+
+.input_custom {
+  border-radius: 20px;
+  height: 40px;
+}

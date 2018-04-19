@@ -368,6 +368,7 @@ input[type="file"] {
     text-align: center;
     position: relative;
     width: 110px;
+    cursor: pointer;
     label {
       font-size: 14px;
       color: #c1c1c1;
@@ -795,8 +796,58 @@ control-messages,
 }
 
 /* Material Dropdown Custom */
-
+.select_dropdown_mat {
+  border: 1.5px solid #d8d8d8;
+  height: 40px;
+  padding: 9px 20px;
+  border-radius: 20px;
+  background: #fff;
+  .mat-select-arrow {
+    color: #c1c1c1;
+  }
+  .mat-select-placeholder {
+    font-family: 'Roboto';
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #c1c1c1;
+  }
+}
+.mat-select-panel {
+  border-radius: 5px;
+  box-shadow: 0px 1.5px 18px 0 rgba(0, 0, 0, 0.15) !important;
+  background-color: #ffffff;
+  border: solid 1.5px #d8d8d8;
+  .mat-select-content {
+    padding: 10px;
+  }
+  .mat-option {
+    height: 40px;
+    border-radius: 5px;
+    font-family: 'Roboto';
+    font-size: 14px !important;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 2.57;
+    letter-spacing: normal;
+    text-align: left;
+    color: #666666;
+    height: 40px !important;
+  }
+  .mat-option.mat-active, .mat-option:hover{
+    background-color: #52306b !important;
+    color: #ffffff !important;
+  }
+}
 .select_dropdown {
+  .mat-select-arrow {
+    color: #c1c1c1;
+  }
   .mat-form-field-flex {
     border: 1.5px solid #f0f0f0;
     padding: 7px 20px;
@@ -849,6 +900,29 @@ control-messages,
     }
   }
 }
+.sort_controls {
+  .mat-select-arrow {
+    color: #666666;
+  }
+  .select_dropdown_mat {
+    max-width: 190px;
+    border-color: #666666;
+    height: 30px;
+    padding: 5px 20px;
+    .mat-select-placeholder {
+      font-family: 'Roboto';
+      font-size: 11px;
+      font-weight: 500;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: #919191;
+    }
+  }
+}
+
 
 /* Reponsive 960px - 1279px */
 
@@ -909,7 +983,6 @@ control-messages,
   .mat-input-underline .mat-form-field-underline,.mat-input-flex, .mat-form-field-flex{
 
     display: none;
-  }
 }
 
 
