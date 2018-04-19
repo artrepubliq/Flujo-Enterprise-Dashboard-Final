@@ -9,7 +9,7 @@ button {
 // }
 .addview-buttons {
   text-align: right;
-  padding: 20px 0;
+  padding-bottom: 20px;
   float: right;
   button {
     margin-right: 15px;
@@ -154,7 +154,6 @@ img {
   font-family: Roboto;
   font-size: 15px;
   font-weight: 500;
-  margin-bottom: 2rem;
   color: #666666;
 }
 
@@ -199,5 +198,11 @@ img {
     border-color: transparent;
     background-color: transparent;
     height: auto;
+  }
+}
+
+.page_viewButton {
+  img {
+    max-height: 18.5px;
   }
 }
