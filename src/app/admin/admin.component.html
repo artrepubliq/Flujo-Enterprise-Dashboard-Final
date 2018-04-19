@@ -69,57 +69,61 @@
       </div>
     </div>
   </div>
-  <div class="admin-website mr-auto">
-    <p class="title">
-      <span>DVB Website : </span>
-      <span class="page-title">{{CurrentPageName}}</span>
-    </p>
-  </div>
-  <ul class="nav top-nav">
-    <li class="navbarItem">
-      <a href="#notifications" class="nav-link">
-        <img src="assets/icons/chat-icon-normal@2x.png" class="img-fluid" alt="chat">
-      </a>
-    </li>
-    <li class="navbarItem">
-      <a href="#notifications" class="nav-link">
-        <img src="assets/icons/help-icon-normal@2x.png" class="img-fluid" alt="chat">
-      </a>
-    </li>
-    <li class="navbarItem">
-      <a href="#notifications" class="nav-link">
-        <img src="assets/icons/info-icon-normal@2x.png" class="img-fluid" alt="chat">
-      </a>
-    </li>
-    <li class="navbarItem dropdown admin-profile">
-      <a class="nav-link" data-toggle="dropdown">
-        <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat">
-      </a>
-      <ul class="dropdown-menu" [perfectScrollbar]="config">
-        <li>
-          <a class="activity">{{name}}</a>
-        </li>
-        <div *ngFor="let item of adminMenu; let i = index">
-          <div *ngFor="let useraccesitem of userAccessLevelData">
-            <a class="activity" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i)">
-              <i class="fa fa-user"></i>{{item.title}}
-            </a>
+  <div class="navbar-content" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="admin-website mr-auto">
+      <p class="title">
+        <span>DVB Website : </span>
+        <span class="page-title">{{CurrentPageName}}</span>
+      </p>
+    </div>
+    <ul class="nav top-nav">
+      <li class="navbarItem">
+        <a href="#notifications" class="nav-link">
+          <img src="assets/icons/chat-icon-normal@2x.png" class="img-fluid" alt="chat">
+        </a>
+      </li>
+      <li class="navbarItem">
+        <a href="#notifications" class="nav-link">
+          <img src="assets/icons/help-icon-normal@2x.png" class="img-fluid" alt="chat">
+        </a>
+      </li>
+      <li class="navbarItem">
+        <a href="#notifications" class="nav-link">
+          <img src="assets/icons/info-icon-normal@2x.png" class="img-fluid" alt="chat">
+        </a>
+      </li>
+      <li class="navbarItem dropdown admin-profile">
+        <a class="nav-link" data-toggle="dropdown">
+          <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat">
+        </a>
+        <ul class="dropdown-menu" [perfectScrollbar]="config">
+          <li>
+            <a class="activity">
+              <i class="fa fa-user"></i>{{name}}</a>
+          </li>
+          <div *ngFor="let item of adminMenu; let i = index">
+            <div *ngFor="let useraccesitem of userAccessLevelData">
+              <a class="activity" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i)">
+                {{item.title}}
+              </a>
+            </div>
           </div>
-        </div>
-        <li>
-          <a class="activity" (click)="loginAuthService.logout()">
-            <i class="fa fa-power-off"></i>Log Out</a>
-        </li>
+          <li>
+            <a class="activity" (click)="loginAuthService.logout()">
+              <i class="fa fa-power-off"></i>Log Out</a>
+          </li>
 
-      </ul>
-    </li>
-  </ul>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </nav>
 <!-- // Top Nav -->
 
 <!-- Body Wrapper -->
 
-<div id="wrapper" ngClass.md="page-content_md" ngClass.lt-md="page-content_lt-md" ngClass.xs="page-content_XS" fxLayout="row" class="contentBody">
+<div id="wrapper" ngClass.md="page-content_md" ngClass.lt-md="page-content_lt-md" ngClass.xs="page-content_XS" fxLayout="row"
+  class="contentBody">
 
   <!-- Sidebar Wrapper -->
   <aside id="sidebar-wrapper" class="sidebar-menu ps" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()"
@@ -174,10 +178,10 @@
         <div *ngFor="let useraccesitem of userAccessLevelData">
           <li class="nav-item" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i, 'drive')">
             <a class="nav-link editor-link" [ngClass]="{'active': item.isActive }">
-          <img src="assets/icons/drive-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
-          <img src="assets/icons/drive-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
-          <span>{{item.title}}</span>
-        </a>
+              <img src="assets/icons/drive-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
+              <img src="assets/icons/drive-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
+              <span>{{item.title}}</span>
+            </a>
           </li>
         </div>
       </div>

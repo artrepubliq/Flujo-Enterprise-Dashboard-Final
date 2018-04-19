@@ -11,17 +11,18 @@
         <input type="text" class="input" id="addOrUpdate" placeholder="Problem type" [value]="problemTypeNameNew" formControlName="problemtypenamenew">
         <input type="text" class="input" id="addOrUpdate" placeholder="Problem type in Telugu" [value]="problemTypeNameTeluguNew" formControlName="problemtypenametelugunew">
         <button class="button_submit" [disabled]="problemForm.invalid" (click)="createNewproblem()">{{actionText}}</button>
-        <button class="button_submit cancel" [disabled]="problemForm.invalid" *ngIf="isEdit" (click)="backToSelect()">Cancel</button>
+        <button class="button_cancel" [disabled]="problemForm.invalid" *ngIf="isEdit" (click)="backToSelect()">Cancel</button>
       </form>
     </div>
   </div>
   <div class="view_items" fxLayout="column" fxLayoutGap="0px" [perfectScrollbar]="config">
+    <div class="problem-category-data">
       <div fxLayout="row"  class="view_item" fxLayoutGap="30px" fxLayoutAlign="start center">
           <div class="d-inline code name-head" fxFlex="20%">
              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input fxFlex="5%" class="d-inline" type="checkbox">&nbsp;&nbsp;
             <p class="d-inline"><b>Category</b></p>
           </div>
-          <div class="code" fxFlex="21%">
+          <div class="code" fxFlex="20%">
             <b>Category in Telugu</b>
           </div>
           <div class="code" fxFlex="20%">
@@ -60,6 +61,7 @@
           <i class="fa fa-trash"></i>
         </button>
       </div>
+    </div>
     </div>
   </div>
 </div>

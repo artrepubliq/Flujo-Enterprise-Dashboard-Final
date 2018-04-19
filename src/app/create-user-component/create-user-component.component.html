@@ -4,59 +4,79 @@
 
   <div class="page_padding" fxLayout="column" *ngIf="!isEdit" fxLayoutGap="20px">
     <div fxFlex>
-        <button  (click)="addUsers()" class="d-inline pull-right btn btn-outline-secondary btn-user"><span>Create User <i class="fa fa-chevron-right d-inline"></i></span></button>
+        <button  (click)="addUsers()" class="choose_button">Create User </button>
     </div>
 
     <div class="col-md-12">
-
-        <table class="table table-hover table-bordered">
-          <thead>
-            <tr>
-              <th scope="col" colspan="2">
+      <div class="create-user-table" [perfectScrollbar]="config">
+        <div class="create-user-data">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th scope="col" colspan="2">
                   <span fxLayoutGap="0.5rem" class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <input class="d-inline" type="checkbox" >
-                      <b>
-                        <p class="d-inline">Name &nbsp;&nbsp; <i class="fa fa-angle-down"></i></p>
-                      </b>
-                    </span> 
-              </th>
-
-            <th scope="col">Email</th>
-            <th scope="col">Phone Number</th>
-            <th scope="col">Role</th>
-
-            <th></th>
-            <th></th>
-            <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="btn-stack" *ngFor="let user of userDetails">
-              <td class="user_name" scope="col" colspan="2">
+                    <input class="d-inline" type="checkbox">
+                    <b>
+                      <p class="d-inline">Name &nbsp;&nbsp;
+                        <i class="fa fa-angle-down"></i>
+                      </p>
+                    </b>
+                  </span>
+                </th>
+    
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Role</th>
+    
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="btn-stack" *ngFor="let user of userDetails">
+                <td class="user_name" scope="col" colspan="2">
                   <span fxLayoutGap="0.5rem" class="d-inline">
-                      <p class="text-muted d-inline"><i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i></p>
-                      <input  type="checkbox">
-                      <p class="name-feedback d-inline">{{user.name}}</p>
-                  </span> 
-              </td>
-              <!-- <td>{{item.datenow}}</td> -->
-              <td>{{user.email}}</td>
-              <td>{{user.phone}}</td>
-              <td *ngIf="user.role==1">Social Manager</td>
-              <td *ngIf="user.role==2">Content Manager</td>
-              <td class="btn-usert"><button (click)="editCompnent(user)" type="button" class="btn"><i class="fa fa-pencil"></i></button></td>
-              <td class="btn-usert"><button type="button" class="btn" (click)="openAccessDialog(user)"><i class="fa fa-eye"></i></button></td>
-              <td class="btn-usert"><button (click)="onDelete(user)" type="button" class="btn"><i class="fa fa-trash"></i></button></td>
-
-          </tr>
-        </tbody>
-      </table>
+                    <p class="text-muted d-inline">
+                      <i class="fa fa-ellipsis-v"></i>&nbsp;
+                      <i class="fa fa-ellipsis-v"></i>
+                    </p>
+                    <input type="checkbox">
+                    <p class="name-feedback d-inline">{{user.name}}</p>
+                  </span>
+                </td>
+                <!-- <td>{{item.datenow}}</td> -->
+                <td>{{user.email}}</td>
+                <td>{{user.phone}}</td>
+                <td *ngIf="user.role==1">Social Manager</td>
+                <td *ngIf="user.role==2">Content Manager</td>
+                <td class="btn-usert">
+                  <button (click)="editCompnent(user)" type="button" class="btn">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                </td>
+                <td class="btn-usert">
+                  <button type="button" class="btn" (click)="openAccessDialog(user)">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                </td>
+                <td class="btn-usert">
+                  <button (click)="onDelete(user)" type="button" class="btn">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+    
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
+    </div>
 
   <div fxLayout="row" *ngIf="isEdit">
     <div fxFlex>
-        <button (click)="cancelUser()" class="pull-right btn btn-outline-secondary btn-user d-inline"><span><i class="fa fa-chevron-left d-inline"></i> View Users</span></button>
+        <button (click)="cancelUser()" class="choose_button">View Users</button>
     </div>
   </div>
   <div class="profile_block" *ngIf="isEdit" fxLayoutAlign="center center">
@@ -106,7 +126,7 @@
           </div>
           <div fxLayout="column" class="form-group">
               <div><label>Email</label></div>
-              <div><input fxFlex="100%" type="Email" formControlName="email" class="form-control" id="email" placeholder="Email" required></div>
+              <div><input fxFlex="100%" type="Email" formControlName="email" class="form-control" maxlength="10" id="email" placeholder="Email" required></div>
               <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert">
                   Valid Email is required
               </div>
@@ -129,8 +149,8 @@
       <!-- Save Button -->
       <div class="profile_footer" fxLayout="row" fxLayoutAlign="end center">
         <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
-        <div><button mat-button class="btn" (click)="cancelUser()" >Cancel</button></div>
-        <div><button mat-button class="logoCtrl_button" type="submit" [disabled]="CreateUserForm.invalid || loading" mat-raised-button>{{button_text}}
+        <div><button mat-button class="button_cancel" (click)="cancelUser()" >Cancel</button></div>
+        <div><button mat-button class="button_submit" type="submit" [disabled]="CreateUserForm.invalid || loading">{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button></div>
         <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loading">Delete</button> -->

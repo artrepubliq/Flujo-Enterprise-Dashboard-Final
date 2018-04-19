@@ -8,12 +8,18 @@
   </ngx-alerts>
 </div>
 
-<div class="page_padding">
-  <div fxLayout="row" class="p-rel">
-    <div class="page-header">
+<div class="page_padding" fxLayout="column" fxLayoutGap="30px">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex class="page-header">
       Mailchimp
     </div>
-    <button mat-raised-button class="choose-button" *ngIf="isOpen" (click)="templateSelectPopup()">Choose Template +</button>
+    <div>
+      <button class="choose_button" *ngIf="isOpen" (click)="templateSelectPopup()">Choose Template
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
+    </div>
   </div>
 
   <form [formGroup]="mailSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
@@ -52,7 +58,7 @@
               <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
             </div>
           </div>
-          <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <div fxFlex class="" fxLayout="column" fxLayoutGap="12px">
             <label>Select contacts from db</label>
             <input type="checkbox" formControlName="check">
           </div>
@@ -70,7 +76,7 @@
           <button type="submit" [hidden]="Ishide3" class="button_submit preview_button" [disabled]="!mailSendingForm.valid">
             Preview
           </button>
-          <button type="button" mat-button color="deafault" (click)="cancelMail()">Cancel</button>
+          <button type="button" mat-button class="button_cancel" (click)="cancelMail()">Cancel</button>
           <button type="submit" [hidden]="Ishide3" class="button_submit" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
             Send
           </button>

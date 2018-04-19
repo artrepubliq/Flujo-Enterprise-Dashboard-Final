@@ -39,7 +39,7 @@ export class SmsuiComponent implements OnInit {
   userAccessLevelObject: any;
   template = `<img src="../assets/icons/loader.gif" />`;
   smsContactForm: any;
-  PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
+  PHONE_REGEXP = /^([0]|\+91)?[6789]\d{9}$/;
   submitted: boolean;
   cancelFileEdit: boolean;
   userAccessDataModel: AccessDataModelComponent;

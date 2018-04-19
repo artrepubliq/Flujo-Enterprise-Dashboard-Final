@@ -3,19 +3,27 @@
 </ngx-alerts>
 <div fxLayout="column" class="page_padding">
   <!-- === Buttons ==== -->
-  <div class="addview-buttons">
-    <div class="page-header">
-      <span *ngIf="isEdit">New module creation </span>
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="addview-buttons">
+    <div *ngIf="isEdit" class="page-header">
+      New module creation
     </div>
-    <button mat-raised-button color="primary" (click)="viewPagesGrid()">
-      <i class="fa fa-th"></i>
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-    <button mat-raised-button color="primary" (click)="viewPages()">
-      <i class="fa fa-th-list"></i>
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-    <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Module +</button>
+    <div *ngIf="isGridView" class="main-category">
+      Module Grid View
+    </div>
+    <div></div>
+    <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign="end center">
+      <button class="page_viewButton" (click)="viewPagesGrid()">
+        <img src="./assets/grid-view-icon-active.png" />
+      </button>
+      <button class="page_viewButton" (click)="viewPages()">
+        <img src="./assets/list-view-icon-normal.png" />
+      </button>
+      <button *ngIf="!isEdit" class="choose_button" (click)="addPages()">Create Module
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
+    </div>
   </div>
   <!-- <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i> -->
 
@@ -52,7 +60,7 @@
 
           <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile(2)">clear file</button> -->
           <div class="file_inputs">
-            <div class="choose_button">
+            <div class="input_choose_button">
               <input type="file" class="file" id="module_background_image" (change)="onModuleBackgroundImageChange($event)" #fileInput/> Choose file
               <label> No file selected</label>
             </div>
@@ -68,13 +76,13 @@
       </div>
       <!-- Action Buttons -->
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-        <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
+        <button type="button" mat-button class="button_cancel" (click)="cancelFileEdit()" color="deafault">Cancel</button>
 
         <button type="submit" [disabled]="moduleForm.invalid || loading" class="button_submit" mat-button>{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
       </div>
-</form>
+    </form>
   </div>
   <!-- // ===== Add Pages End ======= -->
 
@@ -125,9 +133,9 @@
 
   <div *ngIf="isGridView">
 
-    <div class="main-category">
+    <!-- <div class="main-category">
       <h6>Module Grid View</h6>
-    </div>
+    </div> -->
     <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of moduleDetails">
         <mat-card class="example-card">
