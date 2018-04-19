@@ -59,7 +59,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
   // get data from database
   async getData() {
     try {
-      this.dataURL = `http://www.flujo.in/dashboard/flujo.in_api_client/flujo_client_getdata/${AppConstants.CLIENT_ID}`;
+      this.dataURL = AppConstants.API_URL + `/flujo_client_getdata/${AppConstants.CLIENT_ID}`;
       this.http.get<ICommonInterface>(this.dataURL)
         .subscribe((data) => {
           this.spinnerService.hide();

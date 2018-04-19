@@ -71,7 +71,8 @@ export class CreateUserComponentComponent implements OnInit {
       .subscribe(
         data => {
           this.CreateUserForm.reset();
-          if ( data.result && typeof(data.result)) {
+          if (data.access_token = AppConstants.ACCESS_TOKEN) {
+          if ( !data.error && (data.custom_status_code = 100)) {
             this.alertService.success('User added succesfully');
             this.CreateUserForm.reset();
             this.isEdit = false;
@@ -80,6 +81,7 @@ export class CreateUserComponentComponent implements OnInit {
           } else {
             this.parsePostResponse(data);
           }
+        }
           // this.alertService.info('User added succesfully');
           this.spinnerService.hide();
         },

@@ -96,7 +96,7 @@ export class BiographyComponent implements OnInit {
       .subscribe(
         data => {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 100) {
+            if ((!data.error) && (data.custom_status_code === 100)) {
               this.alertService.success('Biography data submitted successfully');
               this.biographySubmitForm.reset();
             } else if (data.custom_status_code === 101) {
