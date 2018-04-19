@@ -99,21 +99,21 @@
             <p class="file_Prop">3 kb</p>
           </div> -->
         </div>
-        <div fxLayout="column" fxFlex="40" fxLayoutGap="25px">
-          <div fxLayout="column">
+        <div fxLayout="column" fxFlex fxFlex.lg="52" fxLayoutGap="25px">
+          <div class="input_box" fxLayout="column">
             <label>Company Name</label>
             <input type="text" id="company_name" placeholder="company name" formControlName="company_name">
           </div>
-          <div fxLayout="column">
+          <div class="input_box" fxLayout="column">
             <label>Website URL</label>
             <input type="text" id="website_url" placeholder="website URL" formControlName="website_url">
           </div>
-          <div fxLayout="column">
+          <div class="input_box" fxLayout="column">
             <label>Mobile Number</label>
             <input type="text" id="mobile_number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
               maxlength="10" placeholder="Mobile Number" formControlName="mobile_number">
           </div>
-          <div fxLayout="column" class="p-rel">
+          <div class="input_box p-rel" fxLayout="column">
             <label>Email</label>
             <input type="email" id="email" placeholder="Email" formControlName="email">
             <div fxLayoutAlign="start" [hidden]="form.controls.email.valid || form.controls.email.pristine && !submitted" class="form-error-msg">

@@ -1,10 +1,8 @@
-<!-- ========= Social Links Edit Block ====== -->
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="3000">
   <strong>{{successMessage }}</strong>
   <strong>{{deleteMessage}}</strong>
 </ngx-alerts>
-<!-- ========= Social Links View Block ====== -->
 
 
 <div class="page_padding" fxLayout="column" fxLayoutGap="15px">
@@ -13,20 +11,21 @@
       <h6 class="social">Social</h6>
     </div>
     <div fxFlex>
-      <button (click)="addNewItem()" class="choose_button">Add New Link <span>+</span></button>
+      <button (click)="addNewItem()" class="choose_button">Add New Link <span class="add_icon">  <img src="../../assets/icons/create-icon-normal@3x.png" alt="+"></span></button>
     </div>
   </div>
+  <!-- Add New Link -->
   <div *ngIf="addNew">
     <form [formGroup]="socialLinksForm" method="post" enctype="multipart/form-data">
       <div class="form-group">
-        <div class="link-row" fxLayout="row" fxLayoutGap="35px" fxLayoutAlign="center center">
+        <div class="link-row input_box" fxLayout="row" fxLayoutGap="35px" fxLayoutAlign="center center">
           <div fxFlex="20%" fxLayoutAlign="end center">
             <input type="text" formControlName="socialitem_name" id="socialitem_name" placeholder="Social Platform Name">
-            <control-messages [control]="socialLinksForm.controls.socialitem_name"></control-messages>
+            <!-- <control-messages [control]="socialLinksForm.controls.socialitem_name"></control-messages> -->
           </div>
           <div fxFlex="50%" fxLayoutAlign="end end">
             <input type="text" formControlName="socialitem_url" id="socilaitem_url" placeholder="Add User Id Here">
-            <control-messages [control]="socialLinksForm.controls.socialitem_url"></control-messages>
+            <!-- <control-messages [control]="socialLinksForm.controls.socialitem_url"></control-messages> -->
           </div>
           <div class="linksAction-buttons edit-mode" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
             <button type="button" class="cancel" (click)="cancelNew(socialitem)">
@@ -36,17 +35,13 @@
               <img src="assets/icons/save-icon-active@2x.png" alt="X" class="img-fluid">
             </button>
           </div>
-          <!-- <div class="btn-stack" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
-            <button type="submit" [hidden]="Ishide3" class="btn" (click)="socialLinksFormSubmit(socialLinksForm.value)" [disabled]="!socialLinksForm.valid">{{form_btntext}}
-              <i class="fa fa-save"></i>
-            </button>
-          </div> -->
         </div>
       </div>
     </form>
   </div>
-  <div *ngFor="let socialitem of socialItems" class="link-row" fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between center">
-    <div class="link_name" fxFlex="180px" fxLayoutAlign="start center">
+  <!-- View/Edit Links -->
+  <div *ngFor="let socialitem of socialItems" class="link-row input_box" fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="link_name" fxFlex="180px" fxFlex.lt-md="120px" fxLayoutAlign="start center">
       <p>{{socialitem?.socialitem_name}}</p>
     </div>
     <div fxFlex class="link-url" fxLayoutAlign="start center">

@@ -73,21 +73,27 @@ export class SocialLinksComponent implements OnInit {
   }
   socialLinksFormSubmit(body: any) {
     this.spinnerService.show();
-
+    body.client_id = AppConstants.CLIENT_ID;
+    this.socialLinksForm.get('client_id').setValue(AppConstants.CLIENT_ID);
+    console.log(this.socialLinksForm.value);
+    console.log(body);
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_postsociallinks', body)
 
 
       .subscribe(
         res => {
-          if (res.error) {
-            this.spinnerService.hide();
-            this.alertService.warning('Social Links  request not completed Successfully');
-          } else {
-            this.spinnerService.hide();
-            this.getSocialLinksData();
-            this.socialLinksForm.reset();
-            this.alertService.success('Social Links  request completed Successfully');
+          if (AppConstants.ACCESS_TOKEN === res.access_token) {
+            if (res.custom_status_code === 100) {
+              this.alertService.success('Social Links updated successfully');
+            } else if (res.custom_status_code === 102) {
+              this.alertService.warning('Everything is upto date');
+            } else if (res.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missig');
+            }
           }
+          this.getSocialLinksData();
+          this.socialLinksForm.reset();
+          this.spinnerService.hide();
         },
         err => {
           this.spinnerService.hide();
@@ -104,16 +110,21 @@ export class SocialLinksComponent implements OnInit {
       .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getsociallinks/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          this.spinnerService.hide();
-          this.socialItems = data.result;
-          this.socialItems.map(object => {
-            object.editLink = false;
-            // delete Employee.firstname;
-            object.socialitem_id = object.id;
-            delete object.id;
-          });
-          console.log(this.socialItems);
-          this.addNew = false;
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.spinnerService.hide();
+              this.socialItems = data.result;
+              this.socialItems.map(object => {
+                object.editLink = false;
+                // delete Employee.firstname;
+                object.socialitem_id = object.id;
+                delete object.id;
+              });
+              this.addNew = false;
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!!');
+            }
+          }
         },
 
         err => {
@@ -136,14 +147,20 @@ export class SocialLinksComponent implements OnInit {
   deleteSocialLinks(socialItem) {
     console.log(socialItem);
     this.spinnerService.show();
-    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletesociallinks/' + socialItem.socialitem_id)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletesociallinks/' + socialItem.socialitem_id)
       .subscribe(
         data => {
-          if (data) {
-            this.getSocialLinksData();
-            this.alertService.success('Social Links deleted Successfully');
-            this.spinnerService.hide();
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Social Links deleted Successfully');
+            } else if (data.custom_status_code === 102) {
+              this.alertService.warning('Everything is upto date');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missig');
+            }
           }
+          this.spinnerService.hide();
+          this.getSocialLinksData();
         },
         error => {
           console.log(error);

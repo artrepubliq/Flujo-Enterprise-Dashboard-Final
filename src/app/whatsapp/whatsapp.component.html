@@ -1,16 +1,20 @@
 <!-- <ng4-loading-spinner></ng4-loading-spinner> -->
 
-<div class="container tconfig page_padding">
-  <ngx-alerts maxMessages="3" timeout="5000">
-  </ngx-alerts>
+<ngx-alerts maxMessages="3" timeout="5000">
+</ngx-alerts>
 
+<div class="container tconfig page_padding" fxLayout="column" fxLayoutGap="30px">
 
-  <div fxLayout="row" class="p-rel">
+  <div fxLayout="row" class="p-rel" fxLayoutAlign="space-between center">
     <div class="page-header">
       Whatsapp message Configuration
     </div>
-    <div fxFlex fxLayoutAlign="end center">
-      <button class="choose_button" (click)="templateSelectionPopup()">Choose Template +</button>
+    <div>
+      <button class="choose_button" (click)="templateSelectionPopup()">Choose Template
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
     </div>
   </div>
 

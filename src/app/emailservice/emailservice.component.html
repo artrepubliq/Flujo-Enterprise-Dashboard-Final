@@ -8,13 +8,17 @@
   </ngx-alerts>
 </div>
 
-<div class="page_padding">
-  <div fxLayout="row">
+<div class="page_padding" fxLayout="column" fxLayoutGap="30px">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
     <div fxFlex class="page-header">
       Mailchimp
     </div>
-    <div fxFlex fxLayoutAlign="end center">
-      <button mat-button class="choose_button" *ngIf="isOpen" (click)="templateSelectPopup()" >Choose Template +</button>
+    <div>
+      <button class="choose_button" *ngIf="isOpen" (click)="templateSelectPopup()">Choose Template
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
     </div>
   </div>
 
@@ -44,7 +48,7 @@
               <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
             </div>
           </div>
-          <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <div fxFlex class="" fxLayout="column" fxLayoutGap="12px">
             <label>Select contacts from db</label>
             <input type="checkbox" formControlName="check">
           </div>
@@ -52,17 +56,17 @@
         <!-- CKEditor -->
         <div class="input_box" fxLayout="column" fxLayoutGap="12px">
           <label>Message</label>
-          <ck-editor *ngIf="selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="selectedEmailTemplateData" skin="moono-lisa" lang="en"
-            [fullPage]="true" [readonly]="false"></ck-editor>
-            <ck-editor *ngIf="!selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en"
-            [fullPage]="true" [readonly]="false"></ck-editor>
+          <ck-editor *ngIf="selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="selectedEmailTemplateData"
+            skin="moono-lisa" lang="en" [fullPage]="true" [readonly]="false"></ck-editor>
+          <ck-editor *ngIf="!selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue"
+            skin="moono-lisa" lang="en" [fullPage]="true" [readonly]="false"></ck-editor>
           <control-messages [control]="mailSendingForm.controls.message"></control-messages>
         </div>
         <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center" class="p-rel">
           <button type="submit" [hidden]="Ishide3" class="button_submit preview_button" [disabled]="!mailSendingForm.valid">
             Preview
           </button>
-          <button type="button" mat-button class="button_cancel" color="deafault" (click)="cancelMail()" >Cancel</button>
+          <button type="button" mat-button class="button_cancel" (click)="cancelMail()">Cancel</button>
           <button type="submit" [hidden]="Ishide3" class="button_submit" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
             Send
           </button>

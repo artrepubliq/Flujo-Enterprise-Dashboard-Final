@@ -78,24 +78,24 @@
           </div>
           <!-- Logo File Details -->
           <div class="logo-details">
-            <p class="file_Name">flujo_logo.svg</p>
+            <!-- <p class="file_Name">flujo_logo.svg</p> -->
             <p class="file_Prop">Original : {{logoItems?.logo_width}} px x {{logoItems?.logo_height}} px</p>
           </div>
         </div>
-        <div fxLayout="column" fxFlex="40" fxLayoutGap="25px">
+        <div fxLayout="column" fxFlex fxFlex.lg="52" fxLayoutGap="25px">
           <!-- Logo Text-->
-          <div fxLayout="column">
+          <div class="input_box" fxLayout="column">
             <label>Logo Text</label>
             <input type="text" formControlName="logo_text" id="logo_text" placeholder="Enter Logo Text">
           </div>
           <!-- Logo Alt Text -->
-          <div fxLayout="column">
+          <div class="input_box" fxLayout="column">
             <label>Logo Caption</label>
             <input type="text" placeholder="Enter Alt Text" id="logo_caption" formControlName="logo_caption">
           </div>
           <!-- Logo Width & Height -->
-          <div fxLayout="row" class="logo-dimensions" fxLayoutGap="15px">
-            <div fxLayout="column">
+          <div fxLayout="row" class="logo-dimensions input_box" fxLayoutGap="15px">
+            <div  fxLayout="column">
               <label>Width</label>
               <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width"
                 placeholder="Logo width" formControlName="logo_width">

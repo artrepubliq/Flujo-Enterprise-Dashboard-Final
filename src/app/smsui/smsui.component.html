@@ -1,16 +1,19 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000">
+</ngx-alerts>
 
-<div class="container smsContact page_padding">
-  <ng4-loading-spinner></ng4-loading-spinner>
-  <ngx-alerts maxMessages="3" timeout="5000">
-  </ngx-alerts>
+<div class="container smsContact page_padding" fxLayout="column" fxLayoutGap="30px">
 
-
-  <div fxLayout="row">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
     <div class="page-header">
       SMS
     </div>
-    <div fxFlex fxLayoutAlign="end center">
-      <button mat-raised-button class="choose_button" (click)="openDialog()" >Choose Template +</button>
+    <div>
+      <button class="choose_button" (click)="openDialog()">Choose Template
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
     </div>
   </div>
 
@@ -20,15 +23,12 @@
         <label for="phone">Mobile Number</label>
         <div>
 
-          <input type="text" formControlName="phone" oninput="this.value = this.value.replace(/[^0-9.,]/g, '').replace(/(\..*)\./g, '$1');"
+          <input type="text" formControlName="phone" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.,]/g, '').replace(/(\..*)\./g, '$1');"
             id="phone" placeholder="Add Number(s)">
           <div [hidden]="smsContactForm.controls.phone.valid || (smsContactForm.controls.phone.pristine && !submitted)" class="form-error-msg">
             enter valid phone number
           </div>
         </div>
-      </div>
-      <div fxLayoutAlign="center center" class="atRate">
-        @
       </div>
       <div fxFlex fxLayout="column" fxLayoutGap="13px" class="input_box">
         <label for="checkbox">Get contacts from db</label>

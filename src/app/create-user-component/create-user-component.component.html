@@ -4,7 +4,7 @@
 
   <div class="page_padding" fxLayout="column" *ngIf="!isEdit" fxLayoutGap="20px">
     <div fxFlex>
-        <button  (click)="addUsers()" class="choose_button"><span>Create User <i class="fa fa-chevron-right d-inline"></i></span></button>
+        <button  (click)="addUsers()" class="choose_button">Create User </button>
     </div>
 
     <div class="col-md-12">
@@ -76,7 +76,7 @@
 
   <div fxLayout="row" *ngIf="isEdit">
     <div fxFlex>
-        <button (click)="cancelUser()" class="choose_button"><span><i class="fa fa-chevron-left d-inline"></i> View Users</span></button>
+        <button (click)="cancelUser()" class="choose_button">View Users</button>
     </div>
   </div>
   <div class="profile_block" *ngIf="isEdit" fxLayoutAlign="center center">
@@ -126,7 +126,7 @@
           </div>
           <div fxLayout="column" class="form-group">
               <div><label>Email</label></div>
-              <div><input fxFlex="100%" type="Email" formControlName="email" class="form-control" id="email" placeholder="Email" required></div>
+              <div><input fxFlex="100%" type="Email" formControlName="email" class="form-control" maxlength="10" id="email" placeholder="Email" required></div>
               <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert">
                   Valid Email is required
               </div>

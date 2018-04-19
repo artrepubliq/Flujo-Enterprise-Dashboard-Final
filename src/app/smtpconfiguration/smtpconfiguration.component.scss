@@ -1,126 +1,42 @@
-// .view-block {
-//   .link-item h3 {
-//     width: 100px;
-//     font-size: 16px;
-//   }
-//   button {
-//     padding: 8px;
-//     max-width: 130px;
-//     color: #fff;
-//     background: #4a2665;
-//     outline: none;
-//     cursor: pointer;
-//     border: none;
-//     letter-spacing: 0.1em;
-//     transition: 0.3s ease-in-out;
-//   }
-//   button:hover {
-//     box-shadow: 4px 3px 8px rgba(0, 0, 0, 0.5);
-//   }
-// }
-
-
-// .edit-block {
-//     .form-input-block {
-//         margin-bottom: 15px;
-//         label {
-//             min-width: 100px;
-//         }
-//         .form-control {
-//             box-shadow: none;
-//             outline: none;
-//             width: auto;
-//             min-width: 60%;
-//             display: initial;
-//             margin-left: 15px;
-//         }
-//     }
-//     control-messages {
-//         display: inherit;
-//         font-size: 12px;
-//         color: red;
-//     }
-//     button {
-//         min-width: 130px;
-//         padding: 8px;
-//         border-radius: 0;
-//         border: none;
-//         margin-right: 15px;
-//     }
-// }
-
-.smtp_box{
-    height: 100%;
-    .smtp-config-view{
-        min-width: 45vw;
-        min-height: 400px;
-        border-radius: 2px;
-        background-color: #ffffff;
-        box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15);
-        .smtp_header {
-            padding: 22px;
-            border-bottom: 1px solid #f7f7f7;
-            position: relative;
-            .header_title {
-                font-family: 'Roboto';
-                font-size: 15px;
-                font-weight: 500;
-                text-align: left;
-                color: #666666;
-                text-transform: uppercase;
-            }
-        }
-        .smtp_body{
-            padding: 20px;
-            label {
-                font-size: 14px;
-                text-align: left;
-                color: #666666;
-              }
-              p{
-                  margin-bottom: 0.5rem;
-              }
-              input {
-                outline: none;
-                padding: 10px 15px;
-                font-size: 14px;
-                text-align: left;
-                color: #c1c1c1;
-                border-radius: 30px;
-                background-color: #ffffff;
-                border: solid 1.5px #f7f7f7;
-              }
-              .form-group {
-                margin-bottom: 15px;
-                label {
-                  min-width: 150px;
-                }
-                .form-control {
-                  box-shadow: none;
-                  outline: none;
-                  width: auto;
-                  display: initial;
-                  margin-left: 15px;
-                }
-              }
-              hr{
-                border: 1.5px solid #f7f7f755;
-                padding: 0;
-                margin: 0;
-              }
-              .input:focus,input:active{
-                  box-shadow: none;
-                  outline: none;
-              }
-        }
-        .smtp_footer{
-            padding: 20px;
-            border-top: 1px solid #f7f7f7;
-            position: relative;
-            .pull-left{
-                position: absolute;
-                left:20px;
-            }
-        }
+.smtp_box {
+  height: 100%;
+  .smtp-config-view {
+    min-width: 38vw;
+    min-height: 400px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    box-shadow: 0 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+    .smtp_header {
+      padding: 23px 25px;
+      border-bottom: 1px solid #f7f7f7;
+      position: relative;
+      .header_title {
+        font-family: 'Roboto';
+        font-size: 15px;
+        font-weight: 500;
+        text-align: left;
+        color: #666666;
+        text-transform: uppercase;
+      }
     }
+    .smtp_body {
+      padding: 25px;
+      p {
+        margin-bottom: 0.5rem;
+      }
+      hr {
+        border: 1.5px solid #f7f7f755;
+        padding: 0;
+        margin: 0;
+      }
+      .input_box label {
+        margin-bottom: 12px;
+      }
+    }
+    .smtp_footer {
+      padding: 25px;
+      border-top: 1px solid #f7f7f7;
+      position: relative;
+    }
+  }
 }
