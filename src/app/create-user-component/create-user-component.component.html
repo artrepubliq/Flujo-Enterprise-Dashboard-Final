@@ -1,12 +1,22 @@
-
-<ng4-loading-spinner></ng4-loading-spinner>
+<ng4-loading-spinner>
+</ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 
-  <div class="page_padding" fxLayout="column" *ngIf="!isEdit" fxLayoutGap="20px">
-    <div fxFlex>
+<div class="page_padding" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="end center" class="addview-buttons">
+    <button *ngIf="!isEdit" class="choose_button" (click)="addUsers()">Create User
+      <span class="add_icon">
+        <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+      </span>
+    </button>
+    <button class="btn page_viewButton" (click)="cancelUser()">
+      <img src="./assets/list-view-icon-normal.png" />
+    </button>
+  </div>
+  <div fxLayout="column" *ngIf="!isEdit" fxLayoutGap="20px">
+    <!-- <div fxFlex>
         <button  (click)="addUsers()" class="choose_button">Create User </button>
-    </div>
-
+    </div> -->
     <div class="col-md-12">
       <div class="create-user-table" [perfectScrollbar]="config">
         <div class="create-user-data">
@@ -23,11 +33,11 @@
                     </b>
                   </span>
                 </th>
-    
+
                 <th scope="col">Email</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Role</th>
-    
+
                 <th></th>
                 <th></th>
                 <th></th>
@@ -65,101 +75,125 @@
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>
-    
+
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    </div>
-
+  </div>
   <div fxLayout="row" *ngIf="isEdit">
-    <div fxFlex>
+    <!-- <div fxFlex>
         <button (click)="cancelUser()" class="choose_button">View Users</button>
-    </div>
+    </div> -->
   </div>
   <div class="profile_block" *ngIf="isEdit" fxLayoutAlign="center center">
-  <div class="profile_logo">
-    <!-- Logo Edit Block -->
-    <form id="createuserform" [formGroup]="CreateUserForm" (submit)="onSubmit(CreateUserForm.value)">
-      <!-- Header -->
-      <div class="profile_header">
-        <h3 class="header_title">User Properties</h3>
-      </div>
-      <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
-        <div class="" fxLayout="column" fxLayoutGap="20px">
-          <!-- Logo Image Upload -->
-          <div class="profile_img">
-            <div fxLayoutAlign="center center" class="logo-img">
-              <span *ngIf=""><img src="../assets/default_logo.png" class="img-fluid"></span>
-              <img *ngIf="" src="data:image/png;base64,{{profileItems.avatar}}" alt="Logo" class="img-fluid">
-            </div>
-            <div class="upload-logo">
-              <input mat-raised-button type="file" id="avatar" accept=".jpg, .png, .jpeg" (change)="onFileChange($event)" #fileInput>
-              <p *ngIf="" class="hover-upload">Upload Your Image</p>
-              <p *ngIf="" class="hover-upload">Update Your Image</p>
-              <button *ngIf="" class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
-              <div class="bg-layer"></div>
+    <div class="profile_logo">
+      <!-- Logo Edit Block -->
+      <form id="createuserform" [formGroup]="CreateUserForm" (submit)="onSubmit(CreateUserForm.value)">
+        <!-- Header -->
+        <div class="profile_header">
+          <h3 class="header_title">User Properties</h3>
+        </div>
+        <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
+          <div class="" fxLayout="column" fxLayoutGap="20px">
+            <!-- Logo Image Upload -->
+            <div class="profile_img">
+              <div fxLayoutAlign="center center" class="logo-img">
+                <span *ngIf="">
+                  <img src="../assets/default_logo.png" class="img-fluid">
+                </span>
+                <img *ngIf="" src="data:image/png;base64,{{profileItems.avatar}}" alt="Logo" class="img-fluid">
+              </div>
+              <div class="upload-logo">
+                <input mat-raised-button type="file" id="avatar" accept=".jpg, .png, .jpeg" (change)="onFileChange($event)" #fileInput>
+                <p *ngIf="" class="hover-upload">Upload Your Image</p>
+                <p *ngIf="" class="hover-upload">Update Your Image</p>
+                <button *ngIf="" class="delete_logo" matTooltip="Delete Profile Pic" matTooltipPosition="right" (click)="onDelete()">
+                  <i class="fa fa-times"></i>
+                </button>
+                <div class="bg-layer"></div>
+              </div>
             </div>
           </div>
-        </div>
-        <div fxLayout="column" fxLayoutGap="1rem" fxFlex="100%">
-          <div fxLayout="column">
-            <!-- <div fxLayout="row" fxLayoutGap="0.5rem"> -->
+          <div fxLayout="column" fxLayoutGap="1rem" fxFlex="100%">
+            <div fxLayout="column">
+              <!-- <div fxLayout="row" fxLayoutGap="0.5rem"> -->
               <div fxLayout="column" class="form-group">
 
-                <div><label fxLayoutAlign="start" for="name">First Name</label></div>
-                <div><input fxFlex="100%" type="text" class="form-control" id="name" formControlName="name" placeholder="First Name"  required oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');" ></div>
-                <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted" class="alert">
-                    First Name is required
+                <div>
+                  <label fxLayoutAlign="start" for="name">First Name</label>
+                </div>
+                <div>
+                  <input fxFlex="100%" type="text" class="form-control" id="name" formControlName="name" placeholder="First Name"
+                    required oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');">
+                </div>
+                <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted"
+                  class="alert">
+                  First Name is required
                 </div>
               </div>
-          </div>
-          <div fxLayout="column" class="form-group">
-            <div><label>Mobile Number</label></div>
-            <div><input fxFlex="100%" type="tel" class="form-control" maxlength="10" formControlName="phone" id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-              maxlength="10" placeholder="Phone Number" required></div>
-            <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted" class="alert">
-                  Valid Phone number is required
+            </div>
+            <div fxLayout="column" class="form-group">
+              <div>
+                <label>Mobile Number</label>
+              </div>
+              <div>
+                <input fxFlex="100%" type="tel" class="form-control" maxlength="10" formControlName="phone" id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                  maxlength="10" placeholder="Phone Number" required>
+              </div>
+              <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted"
+                class="alert">
+                Valid Phone number is required
+              </div>
+            </div>
+            <div fxLayout="column" class="form-group">
+              <div>
+                <label>Email</label>
+              </div>
+              <div>
+                <input fxFlex="100%" type="Email" formControlName="email" class="form-control" maxlength="10" id="email" placeholder="Email"
+                  required>
+              </div>
+              <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted"
+                class="alert">
+                Valid Email is required
+              </div>
+            </div>
+            <div fxLayout="column" class="form-group">
+              <div>
+                <label>Role</label>
+              </div>
+              <div fxFlex="50" class="select-wrap">
+                <select fxFlex="100%" formControlName="role" class="form-control" required id="role">
+                  <option value="" selected>Select Role</option>
+                  <option value="1">Social Manager</option>
+                  <option value="2">Content Manager</option>
+                </select>
+              </div>
+              <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.role.valid || CreateUserForm.controls.role.pristine && !submitted"
+                class="alert">
+                Role is required
+              </div>
             </div>
           </div>
-          <div fxLayout="column" class="form-group">
-              <div><label>Email</label></div>
-              <div><input fxFlex="100%" type="Email" formControlName="email" class="form-control" maxlength="10" id="email" placeholder="Email" required></div>
-              <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted" class="alert">
-                  Valid Email is required
-              </div>
-          </div>
-          <div fxLayout="column" class="form-group">
-              <div><label>Role</label></div>
-              <div fxFlex="50" class="select-wrap">
-                  <select fxFlex="100%" formControlName="role" class="form-control" required id="role">
-                    <option value="" selected>Select Role</option>
-                    <option value="1">Social Manager</option>
-                    <option value="2">Content Manager</option>
-                  </select>
-              </div>
-              <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.role.valid || CreateUserForm.controls.role.pristine && !submitted" class="alert">
-                  Role is required
-              </div>
-          </div>
         </div>
-      </div>
-      <!-- Save Button -->
-      <div class="profile_footer" fxLayout="row" fxLayoutAlign="end center">
-        <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
-        <div><button mat-button class="button_cancel" (click)="cancelUser()" >Cancel</button></div>
-        <div><button mat-button class="button_submit" type="submit" [disabled]="CreateUserForm.invalid || loading">{{button_text}}
-          <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-        </button></div>
-        <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loading">Delete</button> -->
-      </div>
-    </form>
-    <!-- //.. Logo Edit Block -->
+        <!-- Save Button -->
+        <div class="profile_footer" fxLayout="row" fxLayoutAlign="end center">
+          <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
+          <div>
+            <button mat-button class="button_cancel" (click)="cancelUser()">Cancel</button>
+          </div>
+          <div>
+            <button mat-button class="button_submit" type="submit" [disabled]="CreateUserForm.invalid || loading">{{button_text}}
+              <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+            </button>
+          </div>
+          <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loading">Delete</button> -->
+        </div>
+      </form>
+      <!-- //.. Logo Edit Block -->
+    </div>
   </div>
 </div>
-
-
-
-

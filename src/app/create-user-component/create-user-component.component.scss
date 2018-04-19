@@ -7,7 +7,21 @@
 .form-group {
   position: relative !important;
 }
-
+.addview-buttons {
+  text-align: right;
+  padding: 15px 0;
+  float: right;
+  button {
+    margin-right: 15px;
+    background: none;
+    border: none;
+    color: #666666;
+    box-shadow: none;
+  }
+  .page_viewButton img {
+    max-height: 18.5px;
+  }
+}
 div.alert {
   position: absolute;
   top: 60px;
