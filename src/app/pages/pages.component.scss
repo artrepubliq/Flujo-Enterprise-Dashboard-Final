@@ -438,6 +438,11 @@ img {
 }
 
 
-.input_box input {
-  border-color: #d8d8d8;
+.input_box {
+  input {
+    border-color: #d8d8d8;
+  } 
+  input:focus {
+    border-color: #0cc0df;
+  }
 }

@@ -18,7 +18,11 @@
       <button class="page_viewButton" (click)="viewPages()">
         <img src="./assets/list-view-icon-normal.png" />
       </button>
-      <button *ngIf="!isEdit" class="choose_button" (click)="addPages()">Create Page <span class="add_icon">  <img src="../../assets/icons/create-icon-normal@3x.png" alt="+"></span></button>
+      <button *ngIf="!isEdit" class="choose_button" (click)="addPages()">Create Page
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
     </div>
   </div>
   <!-- ===== Add Pages ======= -->
@@ -28,21 +32,29 @@
       <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px" fxLayoutGap.xs="30px" ngClass.xs="d-block">
         <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_name">Page Title</label>
-          <input fxFlex type="text" class="input-feild" id="component_name" placeholder="page title" formControlName="component_name">
+          <input fxFlex type="text" class="input-feild" id="component_name" placeholder="Page title" formControlName="component_name">
         </div>
         <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_menu_name">Page Menu Title</label>
-          <input fxFlex type="text" class="input-feild" id="component_menuname" placeholder="page menu title" formControlName="component_menuname">
+          <input fxFlex type="text" class="input-feild" id="component_menuname" placeholder="Page menu title" formControlName="component_menuname">
         </div>
         <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="parent_id">Page Parent</label>
 
-          <div class="select_box">
+          <!-- <div class="select_box">
             <select fxFlex formControlName="parent_id" class="selectpicker" id="parent_id">
               <option *ngFor="let parent of parentPageDetails" [value]="parent.id">
                 {{parent.id}}-{{parent.component_name}}
               </option>
             </select>
+          </div> -->
+
+          <div class="select_dropdown_mat">
+            <mat-select placeholder="Select" formControlName="parent_id" id="parent_id" [(ngModel)]="selectedValue" name="food">
+              <mat-option *ngFor="let parent of parentPageDetails" [value]="parent.id">
+                  {{parent.id}}-{{parent.component_name}}
+              </mat-option>
+            </mat-select>
           </div>
         </div>
       </div>
