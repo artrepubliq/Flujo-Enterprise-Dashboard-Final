@@ -99,10 +99,36 @@
 }
 
 .error_box {
-  border: 1px solid red;
+  // border: 1px solid #ee286b;
+  box-shadow: 0px 1.5px 18px 0 rgba(238, 40, 107, 0.15);
   position: absolute;
   right: 0;
   top: 0;
-  min-width: 200px;
-  min-height: 100px;
+  padding: 15px 25px;
+  background: #ffffff;
+  z-index: 2;
+  border-radius: 5px;
+  h3 {
+    font-family: 'Roboto';
+    font-size: 15px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-align: center;
+    color: #666666;
+    margin: 0;
+  }
+  p {
+    font-family: 'Roboto';
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    // text-align: center;
+    color: #ee286b;
+  }
 }
