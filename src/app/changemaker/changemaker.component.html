@@ -7,10 +7,10 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="30px">
-      
+
       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
-         
-        <button (click)="exportChangermakereport()" class="btn btn-outline-secondary btn-sm btn-report pull-right">Export as CSV</button>
+
+        <button (click)="exportChangermakereport()" class="choose_button">Export as CSV</button>        
         <div class="dropdown" matSort (matSortChange)="sortData($event)">
           <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
@@ -22,29 +22,28 @@
             </div>
           </ul>
         </div>
-        <div class="example-header">
+        <!-- <div class="example-header">
           <mat-form-field>
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
           </mat-form-field>
-        </div>
+        </div> -->
       </div>
     </div>
 
   </div>
-<div>
+  <div>
 
-  <div *ngIf="changemakerData2">Total count: {{changemakerData2.length}}</div>
+    <div *ngIf="changemakerData2">Total count: {{changemakerData2.length}}</div>
 
-</div>
+  </div>
   <div class="changemaker_table" [perfectScrollbar]="config">
     <div class="change_data">
-      <div *ngFor="let report of changemakerData2" class="link-row" fxLayout.xs="column"
-        fxLayout="row">
+      <div *ngFor="let report of changemakerData2" class="link-row" fxLayout.xs="column" fxLayout="row">
         <div class="problem-box" fxFlex fxLayout="column" fxLayoutGap="15px">
           <div fxLayout="row" fxLayoutGap="3rem">
             <div class="" fxFlex="20%" fxLayoutAlign="start center">
               <span fxLayoutGap="5px">
-               
+
                 <input class="d-inline" type="checkbox">
                 <b>
                   <div class="d-inline">{{report.name}}</div>
@@ -98,19 +97,19 @@
   <div class="feedback_footer" fxLayout="row" fxLayoutAlign="space-between ">
     <div class="sendMail-data">
       <div class="sendMail-data">
-        <form action="" [formGroup]="changeMakerCsvMail" fxLayout="row" fxLayoutGap="15px">
-          <input class="form-control" formControlName="email" id="email" placeholder="Enter email">
+        <form action="" class="input_box" [formGroup]="changeMakerCsvMail" fxLayout="row" fxLayoutGap="15px">
+          <input formControlName="email" id="email" placeholder="Enter email">
           <div [hidden]="changeMakerCsvMail.controls.email.valid || (changeMakerCsvMail.controls.email.pristine && !submitted)" class="form-error-msg">
             enter valid email
           </div>
           <div>
-            <button mat-raised-button class="button_submit" (click)="changeMakerCsvMailSubmit(changeMakerCsvMail.value)" [disabled]="changeMakerCsvMail.invalid">Send As Email</button>
+            <button class="button_submit" (click)="changeMakerCsvMailSubmit(changeMakerCsvMail.value)" [disabled]="changeMakerCsvMail.invalid">Send As Email</button>
           </div>
         </form>
       </div>
     </div>
-    <mat-paginator *ngIf="changemakerData2" [length]="changemakerData2.length" class="paginationn" #paginator
-      [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+    <mat-paginator *ngIf="changemakerData2" [length]="changemakerData2.length" class="paginationn" #paginator [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25, 100]">
     </mat-paginator>
   </div>
 </div>

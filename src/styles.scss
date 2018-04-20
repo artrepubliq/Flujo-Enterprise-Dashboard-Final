@@ -916,10 +916,11 @@ control-messages,
     color: #666666;
   }
   .select_dropdown_mat {
-    max-width: 190px;
+    max-width: 173px;
     border-color: #666666;
     height: 30px;
     padding: 5px 20px;
+    padding-right: 16px;
     .mat-select-placeholder {
       font-family: 'Roboto';
       font-size: 11px;
