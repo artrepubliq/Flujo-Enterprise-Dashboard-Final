@@ -981,8 +981,8 @@ control-messages,
     cursor: pointer !important;      
   }
   .mat-input-underline .mat-form-field-underline,.mat-input-flex, .mat-form-field-flex{
-
     display: none;
+  }
 }
 
 
@@ -997,5 +997,5 @@ control-messages,
 }
 .alert-snackbar {
   background: #000;
-  color: #ee2f6b
+  color: #ee2f6b;
 }

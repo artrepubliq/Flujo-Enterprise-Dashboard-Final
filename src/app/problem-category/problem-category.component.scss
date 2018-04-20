@@ -32,6 +32,13 @@
   .problem-category-data{
     min-width: 1200px;
     overflow: auto;
+  .pc-checkbox{
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 2px !important;
+    background-color: #ffffff !important;
+    border: solid 1px #d8d8d8 !important;
+    }
   }
   .view_item {
     background-color: #ffffff;
