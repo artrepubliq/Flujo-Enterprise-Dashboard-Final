@@ -19,7 +19,7 @@
     <div class="problem-category-data">
       <div fxLayout="row"  class="view_item" fxLayoutGap="30px" fxLayoutAlign="start center">
           <div class="d-inline code name-head" fxFlex="20%">
-             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input fxFlex="5%" class="d-inline" type="checkbox">&nbsp;&nbsp;
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input (change)="selectAll()" [(ngModel)]="checked" class="d-inline pc-checkbox" type="checkbox">&nbsp;&nbsp;
             <p class="d-inline"><b>Category</b></p>
           </div>
           <div class="code" fxFlex="20%">
@@ -38,8 +38,8 @@
               <i class="fa fa-ellipsis-v"></i>
               <i class="fa fa-ellipsis-v"></i>
         </span>&nbsp;&nbsp;
-        <input type="checkbox">&nbsp;&nbsp;
-        {{problem.problem_type}}
+        <input [(ngModel)]="problem.selected" class="d-inline pc-checkbox" type="checkbox">&nbsp;&nbsp;
+        <p class="d-inline">{{problem.problem_type}}</p>
       </div>
       <div class="code" fxFlex="25%">
        {{problem.problem_type_telugu}}

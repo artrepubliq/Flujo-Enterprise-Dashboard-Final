@@ -20,14 +20,13 @@ button.active {
 
 .dates-range-box {
   position: relative;
-  left: 5rem;
   bottom: 0;
   height: 40px;
   margin-bottom: 0;
   .analytics_dates {
     position: absolute;
-    top: 0rem;
-    left: 0.5rem;
+    top: 1px;
+    left: 18px;
     .date-input-span:hover{
       cursor: pointer !important; 
       color:#333333; 
@@ -224,7 +223,7 @@ input {
 
 .rect_card {
   .chart_card {
-    height: 310px; // max-width: 555px;
+    // height: 310px; // max-width: 555px;
   }
   .chart_body {
     height: calc(100% - 62px); // vertical-align: middle;

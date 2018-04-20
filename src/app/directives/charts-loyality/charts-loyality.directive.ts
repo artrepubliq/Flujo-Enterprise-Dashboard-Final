@@ -47,21 +47,34 @@ export class ChartsLoyalityDirective implements OnInit, OnChanges {
           backgroundColor: colors ,
           barPercentage: [
             '10'
-          ]
+          ],
         }],
-        labels: areaName
+        labels: areaName,
       },
       'options': {
+        scaleLabel: false,
         legend: {
           display: false
         },
         scales: {
           yAxes: [{
-              ticks: {
+            gridLines: {
+              display: false
+            },
+            ticks: {
                 beginAtZero: true,
-                  stepSize: barRange
-              }
-          }]
+                stepSize: barRange
+            }
+          }],
+          xAxes: [{
+            gridLines: {
+              display: false
+            },
+            barPercentage: 0.3,
+            ticks: {
+              display: false
+            }
+          }],
       }
       }
     });

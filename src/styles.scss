@@ -345,6 +345,14 @@ input[type="file"] {
     outline: none;
   }
 }
+.input_box.page_input {
+  input {
+    border-color: #d8d8d8;
+  } 
+  input:focus {
+    border-color: #0cc0df;
+  }
+}
 
 .input_title {
   font-size: 14px;
@@ -984,7 +992,7 @@ control-messages,
     width:0;
     position: absolute; 
     top:-12px;
-    left:-28px;
+    left:-40px;
     cursor: pointer !important;      
   }
   .mat-input-underline .mat-form-field-underline,.mat-input-flex, .mat-form-field-flex{
