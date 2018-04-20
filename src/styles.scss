@@ -345,6 +345,14 @@ input[type="file"] {
     outline: none;
   }
 }
+.input_box.page_input {
+  input {
+    border-color: #d8d8d8;
+  } 
+  input:focus {
+    border-color: #0cc0df;
+  }
+}
 
 .input_title {
   font-size: 14px;
@@ -466,6 +474,9 @@ control-messages,
 // Custom Global Page-padding
 .page_padding {
   padding: 3vh 2vw 15px 4vw;
+}
+.page_padding-2 {
+  padding: 25px 8% 30px 5%;
 }
 
 // Mat Toggle custom style
@@ -922,7 +933,11 @@ control-messages,
     }
   }
 }
-
+.header-media {
+  .sort_controls .mat-select-arrow {
+    color: #999999;
+  }
+}
 
 /* Reponsive 960px - 1279px */
 
@@ -997,5 +1012,5 @@ control-messages,
 }
 .alert-snackbar {
   background: #000;
-  color: #ee2f6b;
+  color: #ee2f6b
 }

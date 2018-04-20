@@ -2,7 +2,7 @@
 <ngx-alerts maxMessages="3" timeout="5000">
 </ngx-alerts>
 
-<div class="container smsContact page_padding" fxLayout="column" fxLayoutGap="30px">
+<div class="smsContact page_padding-2" fxLayout="column" fxLayoutGap="30px">
 
   <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign="space-between center">
     <div fxFlex class="page-header">
@@ -20,7 +20,7 @@
 
   <form role="form" class="admin-form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
     <div fxLayout="row" fxLayoutGap="48px">
-      <div fxFlex fxLayout="column" fxLayoutGap="13px" class="input_box">
+      <div fxFlex fxLayout="column" fxLayoutGap="13px" class="input_box page_input">
         <label for="phone">Mobile Number</label>
         <div>
 
@@ -61,7 +61,7 @@
     <!-- <div fxLayout="column" fxLayoutGap="13px" class="input_box" *ngIf="errorPhoneContacts.length > 0">
       <p>You hace error at column {{errorPhoneContacts}}</p>
     </div> -->
-    <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+    <div fxLayout="column" fxLayoutGap="13px" class="input_box page_input">
       <label for="message">SMS Content</label>
       <div>
         <textarea formControlName="message" *ngIf="selectedSmsTemplateData" [ngModel]="selectedSmsTemplateData" id="message" placeholder="Message"></textarea>

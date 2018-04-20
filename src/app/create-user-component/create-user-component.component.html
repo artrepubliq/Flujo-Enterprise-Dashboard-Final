@@ -15,8 +15,8 @@
   </div>
   <div fxLayout="column" *ngIf="!isEdit" fxLayoutGap="20px">
     <!-- <div fxFlex>
-        <button  (click)="addUsers()" class="choose_button">Create User </button>
-    </div> -->
+          <button  (click)="addUsers()" class="choose_button">Create User </button>
+      </div> -->
     <div class="col-md-12">
       <div class="create-user-table" [perfectScrollbar]="config">
         <div class="create-user-data">
@@ -85,10 +85,10 @@
   </div>
   <div fxLayout="row" *ngIf="isEdit">
     <!-- <div fxFlex>
-        <button (click)="cancelUser()" class="choose_button">View Users</button>
-    </div> -->
+          <button (click)="cancelUser()" class="choose_button">View Users</button>
+      </div> -->
   </div>
-  <div class="profile_block" *ngIf="isEdit" fxLayoutAlign="center center">
+  <div class="profile_block" *ngIf="isEdit" ngClass.lt-md="user_width" fxLayoutAlign="center center">
     <div class="profile_logo">
       <!-- Logo Edit Block -->
       <form id="createuserform" [formGroup]="CreateUserForm" (submit)="onSubmit(CreateUserForm.value)">
@@ -117,17 +117,16 @@
               </div>
             </div>
           </div>
-          <div fxLayout="column" fxLayoutGap="1rem" fxFlex="100%">
+          <div fxLayout="column" fxLayoutGap="25px" fxFlex="100%">
             <div fxLayout="column">
               <!-- <div fxLayout="row" fxLayoutGap="0.5rem"> -->
-              <div fxLayout="column" class="form-group">
+              <div fxLayout="column" class="input_box">
 
                 <div>
                   <label fxLayoutAlign="start" for="name">First Name</label>
                 </div>
                 <div>
-                  <input fxFlex="100%" type="text" class="form-control" id="name" formControlName="name" placeholder="First Name"
-                    required oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');">
+                  <input fxFlex="100%" type="text" id="name" formControlName="name" placeholder="First Name" required oninput="this.value=this.value.replace(/[^a-z-A-Z,' ']/g,'');">
                 </div>
                 <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.name.valid || CreateUserForm.controls.name.pristine && !submitted"
                   class="alert">
@@ -135,12 +134,12 @@
                 </div>
               </div>
             </div>
-            <div fxLayout="column" class="form-group">
+            <div fxLayout="column" class="input_box">
               <div>
                 <label>Mobile Number</label>
               </div>
               <div>
-                <input fxFlex="100%" type="tel" class="form-control" maxlength="10" formControlName="phone" id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                <input fxFlex="100%" type="tel" maxlength="10" formControlName="phone" id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                   maxlength="10" placeholder="Phone Number" required>
               </div>
               <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.phone.valid || CreateUserForm.controls.phone.pristine && !submitted"
@@ -148,29 +147,34 @@
                 Valid Phone number is required
               </div>
             </div>
-            <div fxLayout="column" class="form-group">
+            <div fxLayout="column" class="input_box">
               <div>
                 <label>Email</label>
               </div>
               <div>
-                <input fxFlex="100%" type="Email" formControlName="email" class="form-control" maxlength="10" id="email" placeholder="Email"
-                  required>
+                <input fxFlex="100%" type="Email" formControlName="email" id="email" placeholder="Email" required>
               </div>
               <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.email.valid || CreateUserForm.controls.email.pristine && !submitted"
                 class="alert">
                 Valid Email is required
               </div>
             </div>
-            <div fxLayout="column" class="form-group">
+            <div fxLayout="column" class="input_box">
               <div>
                 <label>Role</label>
               </div>
-              <div fxFlex="50" class="select-wrap">
-                <select fxFlex="100%" formControlName="role" class="form-control" required id="role">
-                  <option value="" selected>Select Role</option>
-                  <option value="1">Social Manager</option>
-                  <option value="2">Content Manager</option>
-                </select>
+              <!-- <div class="select-wrap">
+                  <select fxFlex="100%" formControlName="role" required id="role">
+                    <option value="" selected>Select Role</option>
+                    <option value="1">Social Manager</option>
+                    <option value="2">Content Manager</option>
+                  </select>
+                </div> -->
+              <div class="select_dropdown_mat">
+                <mat-select formControlName="role" required id="role" placeholder="Select Role">
+                  <mat-option value="1">Social Manager</mat-option>
+                  <mat-option value="2">Content Manager</mat-option>
+                </mat-select>
               </div>
               <div fxLayoutAlign="start" [hidden]="CreateUserForm.controls.role.valid || CreateUserForm.controls.role.pristine && !submitted"
                 class="alert">
