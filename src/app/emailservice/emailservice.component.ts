@@ -93,7 +93,7 @@ export class EmailserviceComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_sendemaildbcsv', this.mailSendingForm.value)
       .subscribe(
         data => {
-          if (!data.error) {
+          if (!data.error && (data.custom_status_code = 100)) {
             this.alertService.success('Email has been sent ');
             this.mailSendingForm.reset();
             this.spinnerService.hide();
