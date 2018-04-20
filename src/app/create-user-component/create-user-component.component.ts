@@ -23,10 +23,11 @@ import { ICommonInterface } from '../model/commonInterface.model';
   styleUrls: ['./create-user-component.component.scss']
 })
 export class CreateUserComponentComponent implements OnInit {
+  checked: false;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   isAddUser: boolean;
-  userDetails: ICreateUserDetails[];
+  userDetails: any;
   CreateUserForm: any;
   public loading = false;
   public isEdit = true;
@@ -216,7 +217,11 @@ export class CreateUserComponentComponent implements OnInit {
 
     // }
   }
-
+  selectAll() {
+    for (let i = 0; i < this.userDetails.length; i++) {
+      this.userDetails[i].selected = this.checked;
+    }
+  }
   cancelUser() {
     this.isEdit = false;
   }

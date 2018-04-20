@@ -52,26 +52,24 @@ export class LoginAuthService implements OnInit {
     localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('name', authResult.name);
     localStorage.setItem('expires_at', String(expTime));
-    // this.router.navigateByUrl('/');
     this.router.navigate(['/admin']);
-    // window.location.reload();
     this.setLoggedInCustom(true);
   }
   getCustomLoginStatus() {
     return this.customLoggedIn;
   }
 
-  logout() {
-    if (this.customLoggedIn) {
+  logout(status) {
+    if (!status) {
+      this.router.navigate(['/login']);
       this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.user_id)
       .subscribe(
         data => {
         },
         error => {
         });
-      this.router.navigate(['/login']);
+        this.clearLocalStorage();
     }
-  this.clearLocalStorage();
   }
   clearLocalStorage = () => {
   // Remove tokens and profile and update login status subject

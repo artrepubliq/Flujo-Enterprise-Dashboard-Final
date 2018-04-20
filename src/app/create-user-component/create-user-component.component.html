@@ -25,12 +25,10 @@
               <tr>
                 <th scope="col" colspan="2">
                   <span fxLayoutGap="0.5rem" class="fb-first-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input class="d-inline" type="checkbox">
-                    <b>
+                    <input (change)="selectAll()" [(ngModel)]="checked" class="d-inline pc-checkbox" type="checkbox">
                       <p class="d-inline">Name &nbsp;&nbsp;
                         <i class="fa fa-angle-down"></i>
                       </p>
-                    </b>
                   </span>
                 </th>
 
@@ -48,10 +46,10 @@
                 <td class="user_name" scope="col" colspan="2">
                   <span fxLayoutGap="0.5rem" class="d-inline">
                     <p class="text-muted d-inline">
-                      <i class="fa fa-ellipsis-v"></i>&nbsp;
+                      <i class="fa fa-ellipsis-v"></i>
                       <i class="fa fa-ellipsis-v"></i>
                     </p>
-                    <input type="checkbox">
+                    <input [(ngModel)]="user.selected" class="pc-checkbox" type="checkbox">
                     <p class="name-feedback d-inline">{{user.name}}</p>
                   </span>
                 </td>
@@ -75,7 +73,6 @@
                     <i class="fa fa-trash"></i>
                   </button>
                 </td>
-
               </tr>
             </tbody>
           </table>

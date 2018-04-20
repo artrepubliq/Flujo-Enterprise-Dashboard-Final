@@ -5,7 +5,7 @@
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <h6 class="issues">Issues</h6>
 
-    <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center">
+    <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center" fxLayoutWrap="wrap">
       <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
         <button (click)="sortByStatus('0')" [ngClass]="{'active':showReports.completedActive}" name="options" id="option1" autocomplete="off"
           checked> Completed </button>
