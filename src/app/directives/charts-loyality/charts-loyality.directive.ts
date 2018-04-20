@@ -49,19 +49,31 @@ export class ChartsLoyalityDirective implements OnInit, OnChanges {
             '10'
           ]
         }],
-        labels: areaName
+        labels: areaName,
       },
       'options': {
+        scaleLabel: false,
         legend: {
           display: false
         },
         scales: {
           yAxes: [{
-              ticks: {
+            gridLines: {
+              display: false
+            },
+            ticks: {
                 beginAtZero: true,
-                  stepSize: barRange
-              }
-          }]
+                stepSize: barRange
+            }
+          }],
+          xAxes: [{
+            gridLines: {
+              display: false
+            },
+            ticks: {
+              display: false
+            }
+          }],
       }
       }
     });
