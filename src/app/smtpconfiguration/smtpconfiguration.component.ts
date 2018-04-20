@@ -57,9 +57,9 @@ export class SMTPConfigurationComponent implements OnInit {
           this.spinnerService.hide();
           this.getuserSMTPConfigData();
           this.alertService.success('SMTP Config Successfully');
-        } else {
+        } else if ((res.error) && (res.custom_status_code = 102)) {
           this.spinnerService.hide();
-          this.alertService.danger('No modifications found');
+          this.alertService.danger('Everything is upto date');
         }
       },
       err => {

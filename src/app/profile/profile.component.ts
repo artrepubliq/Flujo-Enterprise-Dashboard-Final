@@ -77,10 +77,12 @@ export class ProfileComponent implements OnInit {
           this.profileItems.avatar = reader.result.split(',')[1];
           let uploadImage;
           if (this.profileImageDetails) {
-            uploadImage = {profile_id: this.profileImageDetails[0].id, client_id: this.profileImageDetails[0].client_id,
-            avatar: reader.result.split(',')[1]};
+            uploadImage = {
+              profile_id: this.profileImageDetails[0].id, client_id: this.profileImageDetails[0].client_id,
+              avatar: reader.result.split(',')[1]
+            };
           } else {
-            uploadImage = {profile_id: null, client_id: AppConstants.CLIENT_ID, avatar: reader.result.split(',')[1] };
+            uploadImage = { profile_id: null, client_id: AppConstants.CLIENT_ID, avatar: reader.result.split(',')[1] };
           }
           this.uploadProfileImage(uploadImage);
         };
@@ -116,24 +118,28 @@ export class ProfileComponent implements OnInit {
     this.spinnerService.show();
     const formModel = this.form.value;
     formModel.client_id = localStorage.getItem('client_id');
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postprofile', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postprofile', formModel)
       .subscribe(
         data => {
-          if (data.error) {
-            this.alertService.warning(data.result);
-            this.spinnerService.hide();
-          } else {
-            this.parsePostResponse(data);
-            this.alertService.success('Profile details submitted successfully.');
-            this.getProfileDetails();
-            this.spinnerService.hide();
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+            if ((data.error) && (data.custom_status_code = 101)) {
+              this.alertService.warning('Required parameters are missing');
+              this.spinnerService.hide();
+            } else if ((!data.error) && (data.custom_status_code = 100)) {
+              this.parsePostResponse(data);
+              this.alertService.success('Profile details submitted successfully.');
+              this.getProfileDetails();
+              this.spinnerService.hide();
+            } else if ((data.error) && (data.custom_status_code = 102)) {
+              this.alertService.info('Everything is upto date');
+            }
           }
         },
-      error => {
-        this.loading = false;
-        this.spinnerService.hide();
-        this.alertService.danger('Something went wrong.');
-      });
+        error => {
+          this.loading = false;
+          this.spinnerService.hide();
+          this.alertService.danger('Something went wrong.');
+        });
   }
 
   clearFile = () => {
@@ -149,17 +155,21 @@ export class ProfileComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleteprofile/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.custom_status_code = 100) {
-            this.alertService.success('profile image deleted Successfully.');
-            this.form.reset();
-            this.getProfileDetails();
-            this.button_text = 'save';
-            // this.isHideDeletebtn = false;
-            this.spinnerService.hide();
-            console.log(data);
-            this.spinnerService.hide();
-          } else {
-            this.alertService.warning('Something went wrong');
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+            if ((!data.error) && (data.custom_status_code = 100)) {
+              this.alertService.success('profile image deleted Successfully.');
+              this.form.reset();
+              this.getProfileDetails();
+              this.button_text = 'save';
+              // this.isHideDeletebtn = false;
+              this.spinnerService.hide();
+              console.log(data);
+              this.spinnerService.hide();
+            } else if ((data.error) && (data.custom_status_code = 102)) {
+              this.alertService.info('Everything is upto date');
+            } else if ((data.error) && (data.custom_status_code = 101)) {
+              this.alertService.info('Required parameters are missing');
+            }
           }
         },
         error => {
@@ -174,20 +184,23 @@ export class ProfileComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getprofile/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          this.profileImageDetails = data.result;
-          // this.BindProfileData(data);
-          data.result ? this.isEdit = false : this.isEdit = true;
-          if (data.result != null) {
-            this.setDefaultClientProfileDetails(this.profileImageDetails);
-            this.spinnerService.hide();
-          } else {
-            this.button_text = 'save';
-            this.isHideDeletebtn = false;
-            data.result ? this.isEdit = false : this.isEdit = true;
-            this.alertService.success('No Data found');
-            this.spinnerService.hide();
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+            if ((!data.error) && (data.custom_status_code = 100)) {
+              this.profileImageDetails = data.result;
+              data.result ? this.isEdit = false : this.isEdit = true;
+              if (data.result != null) {
+                this.setDefaultClientProfileDetails(this.profileImageDetails);
+                this.spinnerService.hide();
+              } else {
+                this.button_text = 'save';
+                this.isHideDeletebtn = false;
+                data.result ? this.isEdit = false : this.isEdit = true;
+                this.alertService.success('No Data found');
+                this.spinnerService.hide();
+              }
+              this.loading = false;
+            }
           }
-          this.loading = false;
         },
         error => {
           console.log(error);
