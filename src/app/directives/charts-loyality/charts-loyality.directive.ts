@@ -47,7 +47,7 @@ export class ChartsLoyalityDirective implements OnInit, OnChanges {
           backgroundColor: colors ,
           barPercentage: [
             '10'
-          ]
+          ],
         }],
         labels: areaName,
       },
@@ -70,6 +70,7 @@ export class ChartsLoyalityDirective implements OnInit, OnChanges {
             gridLines: {
               display: false
             },
+            barPercentage: 0.3,
             ticks: {
               display: false
             }
