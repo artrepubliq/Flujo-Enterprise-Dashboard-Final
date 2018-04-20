@@ -1,8 +1,11 @@
+
+
 <div class="container">
   <div class="row">
       
     <div class="col scrollContent">
       <div>
+          <a (click)="getDebugToken()" class="btn btn-primary">Login with facebook</a>
           <a *ngIf="!isFbLogedin" (click)="fbLogin()" class="btn btn-primary">Login with facebook</a>
         <div *ngIf="fbResponseDataItems">
           <div class="card" *ngFor="let fbItem of fbResponseDataItems">

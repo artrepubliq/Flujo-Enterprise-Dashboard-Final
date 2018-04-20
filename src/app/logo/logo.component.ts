@@ -68,26 +68,28 @@ export class LogoComponent implements OnInit {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       if (file.size <= 600000) {
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.logoItems.logo_image = reader.result.split(',')[1];
-        this.logoDetail.push(reader.result.split(',')[1]);
-        // this.form.get('avatar').setValue(reader.result.split(',')[1]);
-        // console.log(reader.result.split(',')[1]);
-        let uploadImage;
-        if (this.logoImageDetails) {
-          uploadImage = { logo_id: this.logoImageDetails.id, client_id: this.logoImageDetails.client_id,
-            logo_image: reader.result.split(',')[1] };
-        } else {
-           uploadImage = { logo_id: null, client_id: AppConstants.CLIENT_ID, logo_image: reader.result.split(',')[1] };
-        }
-        this.uploadLogoimageHttpRequest(uploadImage);
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.logoItems.logo_image = reader.result.split(',')[1];
+          this.logoDetail.push(reader.result.split(',')[1]);
+          // this.form.get('avatar').setValue(reader.result.split(',')[1]);
+          // console.log(reader.result.split(',')[1]);
+          let uploadImage;
+          if (this.logoImageDetails) {
+            uploadImage = {
+              logo_id: this.logoImageDetails.id, client_id: this.logoImageDetails.client_id,
+              logo_image: reader.result.split(',')[1]
+            };
+          } else {
+            uploadImage = { logo_id: null, client_id: AppConstants.CLIENT_ID, logo_image: reader.result.split(',')[1] };
+          }
+          this.uploadLogoimageHttpRequest(uploadImage);
 
-      };
-    } else {
-      this.alertService.danger('File is too large');
-      this.getLogoDetails();
-    }
+        };
+      } else {
+        this.alertService.danger('File is too large');
+        this.getLogoDetails();
+      }
     }
   }
 
@@ -98,23 +100,27 @@ export class LogoComponent implements OnInit {
     // const imageModel = this.form.value
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postlogoupload', reqObject)
       .subscribe(
-      data => {
-        if (data.http_status_code = 200) {
-        // this.logoImage = reqObject.logo_image;
-        this.alertService.success('Logo submitted successfully.');
-        this.loadingSave = false;
-        this.getLogoDetails();
-        this.spinnerService.hide();
-      } else {
-        this.alertService.success('Logo not submitted successfully.');
-        this.spinnerService.hide();
-        this.getLogoDetails();
-      }
-      },
-      error => {
-        this.loadingSave = false;
-        this.spinnerService.hide();
-      });
+        data => {
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+            if ((!data.error) && (data.http_status_code = 200)) {
+              // this.logoImage = reqObject.logo_image;
+              this.alertService.success('Logo submitted successfully.');
+              this.loadingSave = false;
+              this.getLogoDetails();
+              this.spinnerService.hide();
+            } else {
+              this.alertService.success('Logo not submitted successfully.');
+              this.spinnerService.hide();
+              this.getLogoDetails();
+            }
+          } else {
+            this.alertService.info('something went wrong');
+          }
+        },
+        error => {
+          this.loadingSave = false;
+          this.spinnerService.hide();
+        });
   }
 
   onSubmit = (body) => {
@@ -125,23 +131,25 @@ export class LogoComponent implements OnInit {
 
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postlogo', formModel)
       .subscribe(
-      data => {
-        if (data.error) {
-          this.alertService.warning('Logo image not uploaded');
+        data => {
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+            if (data.error && (data.custom_status_code = 101)) {
+              this.alertService.warning('Logo image not uploaded');
+              this.loadingSave = false;
+              this.getLogoDetails();
+              this.spinnerService.hide();
+            } else if ((!data.error) && (data.custom_status_code = 100)) {
+              this.alertService.success('Logo details submitted successfully.');
+              this.loadingSave = false;
+              this.getLogoDetails();
+              this.spinnerService.hide();
+            }
+          }
+        },
+        error => {
           this.loadingSave = false;
-          this.getLogoDetails();
           this.spinnerService.hide();
-        } else {
-          this.alertService.success('Logo details submitted successfully.');
-          this.loadingSave = false;
-          this.getLogoDetails();
-          this.spinnerService.hide();
-        }
-      },
-      error => {
-        this.loadingSave = false;
-        this.spinnerService.hide();
-      });
+        });
   }
 
   clearFile = () => {
@@ -154,48 +162,48 @@ export class LogoComponent implements OnInit {
     this.loadingDelete = true;
     this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletelogo/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.alertService.success('Logo deleted Successfully');
-        this.getLogoDetails();
-        this.isEdit = true;
-        this.loadingDelete = false;
-        this.form.reset();
-        this.spinnerService.hide();
-      },
-      error => {
-        this.loadingDelete = false;
-        this.spinnerService.hide();
-      });
+        data => {
+          this.alertService.success('Logo deleted Successfully');
+          this.getLogoDetails();
+          this.isEdit = true;
+          this.loadingDelete = false;
+          this.form.reset();
+          this.spinnerService.hide();
+        },
+        error => {
+          this.loadingDelete = false;
+          this.spinnerService.hide();
+        });
   }
   getLogoDetails = () => {
     this.loadingSave = true;
     this.spinnerService.show();
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogo/' + AppConstants.CLIENT_ID)
-        .subscribe(
-          data => {
-            this.logoImageDetails = data.result;
-            data ? this.isEdit = false : this.isEdit = true;
-            console.log(data);
-            if (data != null) {
+      .subscribe(
+        data => {
+          this.logoImageDetails = data.result;
+          data ? this.isEdit = false : this.isEdit = true;
+          console.log(data);
+          if (data != null) {
             this.setDefaultClientLogoDetails(this.logoImageDetails);
-             this.isHide = true;
-             this.spinnerService.hide();
-            } else {
-              this.button_text = 'save';
-              this.isHideDeletebtn = false;
-              data ? this.isEdit = false : this.isEdit = true;
-              this.alertService.success('No Data found');
-              this.isHide = false;
-              this.spinnerService.hide();
-            }
-             this.loadingSave = false;
-            // this.isEdit = false;
-          },
-          error => {
-            console.log(error);
-            this.loadingSave = false;
+            this.isHide = true;
+            this.spinnerService.hide();
+          } else {
+            this.button_text = 'save';
+            this.isHideDeletebtn = false;
+            data ? this.isEdit = false : this.isEdit = true;
+            this.alertService.success('No Data found');
+            this.isHide = false;
+            this.spinnerService.hide();
           }
-        );
+          this.loadingSave = false;
+          // this.isEdit = false;
+        },
+        error => {
+          console.log(error);
+          this.loadingSave = false;
+        }
+      );
   }
   EditInfo = () => {
     this.isEdit = true;
@@ -224,5 +232,5 @@ export class LogoComponent implements OnInit {
   cancelFileEdit() {
     this.setDefaultClientLogoDetails(this.logoImageDetails);
     this.isEdit = false;
-    }
   }
+}

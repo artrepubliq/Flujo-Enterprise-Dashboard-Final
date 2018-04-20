@@ -407,11 +407,6 @@ input{
     background: transparent;
 }
 
-button.active {
-    background-color: #4a2565 !important;
-    color: #fff !important;
-}
-
 .group_btns {
     button {
         padding: 12px 23px;
@@ -422,6 +417,10 @@ button.active {
         color: #999999;
         border: 1.5px solid #f0f0f0;
         border-right: none;
+        background-color: transparent;
+    }
+    button.active {
+        background-color: #ffffff;
     }
     button:first-child {
         border-top-left-radius: 20px;

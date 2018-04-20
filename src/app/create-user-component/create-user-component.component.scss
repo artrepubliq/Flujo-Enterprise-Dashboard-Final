@@ -24,10 +24,10 @@
 }
 div.alert {
   position: absolute;
-  top: 60px;
+  top: 100%;
   left: 0;
-  padding-left: 0;
-  color: darken($color: #d60808, $amount: 0);
+  padding: 0;
+  color: #ee286b;
 }
 .create-user-table{
   .create-user-data{
@@ -115,67 +115,6 @@ td.btn-usert{
   color: #666666;
 }
 
-#createuserform input,
- {
-  height: 40px;
-  border-radius: 20px !important;
-  background-color: #ffffff;
-  border: solid 1.5px #d8d8d8;
-  padding: 20px 10px;
-  font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #c1c1c1;
-  width: 100%;
-  outline: none;
-}
-
-#createuserform select {
-  border: none !important;
-  height: 34px;
-  position: absolute;
-  left: 10px;
-  top: 3px;
-  max-width: 95% !important;
-}
-
-#createuserform div.select-wrap {
-  height: 40px;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  padding: 20px 10px;
-  border-radius: 20px !important;
-  background-color: #ffffff;
-  border: solid 1.5px #d8d8d8;
-}
-
-#createuserform label {
-  font-size: 14px;
-  color: #666666;
-}
-
-.btn-user {
-  border-radius: 35px !important;
-  vertical-align: middle;
-  border: solid 1.5px #4a2565;
-  font-family: Roboto;
-  font-size: 14px;
-  padding: 4px 10px;
-  font-weight: 500;
-  color: #4a2565;
-}
-
-.btn-user:hover {
-  background-color: #4a2565;
-  color: #fff;
-  border-color: transparent;
-}
-
 button i {
   font-family: FontAwesome !important;
 }
@@ -205,6 +144,8 @@ button i {
 
 .profile_block {
   height: 100%;
+  max-width: 52vw;
+  margin: 0 auto;
   /*   Logo_Header */
   .profile_logo {
     min-width: 45vw;
@@ -324,15 +265,6 @@ button i {
       }
     }
   }
-  ::placeholder {
-    color: #c1c1c1; // Firefox 
-  }
-  :-ms-input-placeholder {
-    color: #c1c1c1; // Internet Explorer 10-11
-  }
-  ::-ms-input-placeholder {
-    color: #c1c1c1; // Microsoft Edge
-  }
 }
 
 .defaultavatar {
@@ -429,3 +361,15 @@ button i {
   }
 }
 
+.input_box {
+  position: relative;
+  input {
+    border-color: #d8d8d8;
+  }
+  input:focus {
+    border-color: #0cc0df;
+  }
+}
+.user_width {
+  max-width: 80vw;
+}

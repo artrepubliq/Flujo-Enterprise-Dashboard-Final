@@ -392,6 +392,7 @@ export class FilerepositoryComponent implements OnInit {
                     }
                 },
                 error => {
+                    this.spinnerService.hide();
                     console.log(error);
                 }
             );
