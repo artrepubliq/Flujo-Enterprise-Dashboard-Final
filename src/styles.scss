@@ -345,6 +345,14 @@ input[type="file"] {
     outline: none;
   }
 }
+.input_box.page_input {
+  input {
+    border-color: #d8d8d8;
+  } 
+  input:focus {
+    border-color: #0cc0df;
+  }
+}
 
 .input_title {
   font-size: 14px;
@@ -1005,5 +1013,4 @@ control-messages,
 .alert-snackbar {
   background: #000;
   color: #ee2f6b
-}
 }
