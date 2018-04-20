@@ -13,19 +13,19 @@ button {
   height: 70px;
 }
 .table-bordered th{
-font-family: Roboto;
+font-family: 'Roboto';
 font-size: 13px;
 font-weight: 500;
 color: #666666;
 // color: var(--brownish-grey);
 }
 .table-bordered td{
-  font-family: Roboto;
+  font-family: 'Roboto';
 font-size: 13px;
 color: #666666;
 }
 .table-bordered td .name-feedback{
-  font-family: Roboto;
+  font-family: 'Roboto';
 font-size: 14px;
 font-weight: 500;
 color: #333333;
@@ -72,6 +72,10 @@ td.btn-pages{
   max-height: calc( 100vh - 200px);
   position: relative;
   // padding: 8px;
+  .pages-data{
+    min-width: 800px;
+    overflow: auto;
+  }
 }
 // input, input:focus {
 //     outline: none;
@@ -79,7 +83,7 @@ td.btn-pages{
 // }
 .addview-buttons {
   text-align: right;
-  padding: 20px 0;
+  padding: 15px 0;
   float: right;
   button {
     margin-right: 15px;
@@ -87,6 +91,9 @@ td.btn-pages{
     border: none;
     color: #666666;
     box-shadow: none;
+  }
+  .page_viewButton img {
+    max-height: 18.5px;
   }
 }
 
@@ -139,6 +146,7 @@ img {
   // }
 }
 .main-pages{
+  margin-left: -15px;
   .main-page{
     max-width: 270px !important;
     .mat-card-actions{
@@ -227,16 +235,16 @@ img {
   }
 }
 
-.btn-addpage {
-  background: none;
-  border: 1px solid #666666 !important;
-  border-radius: 30px !important;
-  line-height: 30px;
-  font-size: 11px;
-  font-weight: 500;
-  text-align: center;
-  color: #666666;
-}
+// .btn-addpage {
+//   background: none;
+//   border: 1px solid #666666 !important;
+//   border-radius: 30px !important;
+//   line-height: 30px;
+//   font-size: 11px;
+//   font-weight: 500;
+//   text-align: center;
+//   color: #666666;
+// }
 
 .divider {
   width: auto;
@@ -246,10 +254,9 @@ img {
 }
 
 .main-category {
-  font-family: Roboto;
+  font-family: 'Roboto';
   font-size: 15px;
   font-weight: 500;
-  margin-bottom: 2rem;
   color: #666666;
 }
 
@@ -259,7 +266,7 @@ img {
 }
 
 .child-pages {
-  // height: 35vh; 
+  margin-left: -15px;
   position: relative;
   .child-page {
     white-space: nowrap;
@@ -301,6 +308,7 @@ img {
     width: 175px;
     height: 196px;
     border-radius: 5px;
+    margin: 8px 0;
     background-color: #ffffff;
     box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
     margin-right:2px;
@@ -339,15 +347,6 @@ img {
   font-size: 8px;
   text-align: center;
   border: 0.5px solid #ccc;
-}
-
-// input[type="file"] {
-//     padding-left: 0;
-// }
-
-.page-header {
-    float: left;
-    // display: inline-block;
 }
 
 .select_box {
@@ -440,5 +439,14 @@ img {
 .editor-popGallery {
   .button_submit {
     min-width: 100px;
+  }
+}
+
+.input_box {
+  input {
+    border-color: #d8d8d8;
+  } 
+  input:focus {
+    border-color: #0cc0df;
   }
 }

@@ -96,7 +96,7 @@ export class AdminComponent implements OnInit {
     this.getUserList();
     this.getUserAccessLevelsHttpClient().subscribe(
       resp => {
-        _.each(resp, item => {
+        _.each(resp.result, item => {
           if (item.user_id === localStorage.getItem('user_id')) {
             this.userAccessLevelObject = item.access_levels;
           } else {
@@ -104,7 +104,8 @@ export class AdminComponent implements OnInit {
           }
         });
         if (this.userAccessLevelObject) {
-            this.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+          console.log(this.userAccessLevelObject);
+            this.userAccessLevelData = this.userAccessLevelObject;
             this.accessDataModel.setUserAccessLevels(this.userAccessLevelData, this.feature_id, 'admin');
          } else {
            this.openDialog();
@@ -174,10 +175,10 @@ export class AdminComponent implements OnInit {
 
   // getting users list who are logged in
   getUserList = () => {
-    this.httpClient.get<Array<IloggedinUsers>>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
       .subscribe(
       data => {
-        this.loggedinUsersList = data;
+        this.loggedinUsersList = data.result;
         this.StoredLoggedinIds();
         this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
           this.isUserActive = false;
@@ -216,7 +217,7 @@ export class AdminComponent implements OnInit {
 
     // return  this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
 
-    return this.httpClient.get<Array<IAccessLevelModel>>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
+    return this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
   }
   sidebarToggleOpen() {
     this.sidebarToggledButton = true;

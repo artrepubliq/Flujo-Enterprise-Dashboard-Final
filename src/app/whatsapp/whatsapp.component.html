@@ -1,15 +1,21 @@
 <!-- <ng4-loading-spinner></ng4-loading-spinner> -->
 
-<div class="container tconfig page_padding">
-  <ngx-alerts maxMessages="3" timeout="5000">
-  </ngx-alerts>
+<ngx-alerts maxMessages="3" timeout="5000">
+</ngx-alerts>
 
+<div class="tconfig page_padding-2" fxLayout="column" fxLayoutGap="30px">
 
-  <div fxLayout="row" class="p-rel">
+  <div fxLayout="row" class="p-rel" fxLayoutAlign="space-between center">
     <div class="page-header">
       Whatsapp message Configuration
     </div>
-    <button mat-raised-button class="choose-button" (click)="templateSelectionPopup()">Choose Template +</button>
+    <div>
+      <button class="choose_button" (click)="templateSelectionPopup()">Choose Template
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
+    </div>
   </div>
 
   <form role="form" [formGroup]="whatsAppSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
@@ -32,15 +38,15 @@
       <div fxLayout="column" fxLayoutGap="13px" class="input_box">
         <label>Enter the Message</label>
         <div class="input_box">
-          <textarea formControlName="message" *ngIf="totalWhatsAppTemplateData" [ngModel]="totalWhatsAppTemplateData" id="message" placeholder="Message"></textarea>
+          <textarea formControlName="message" *ngIf="totalWhatsAppTemplateData" [ngModel]="totalWhatsAppTemplateData" id="message"
+            placeholder="Message"></textarea>
           <textarea *ngIf="!totalWhatsAppTemplateData" formControlName="message" id="message" placeholder="Message"></textarea>
         </div>
       </div>
       <br/>
     </div>
     <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-      <button type="submit" (click)="submitwhatsAppSendingForm()" [disabled]="whatsAppSendingForm.invalid"
-        class="button_submit">Send</button>
+      <button type="submit" (click)="submitwhatsAppSendingForm()" [disabled]="whatsAppSendingForm.invalid" class="button_submit">Send</button>
     </div>
   </form>
 </div>

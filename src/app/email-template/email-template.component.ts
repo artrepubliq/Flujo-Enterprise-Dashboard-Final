@@ -114,7 +114,7 @@ export class EmailTemplateComponent implements OnInit {
           if (result.custom_status_code === 101 && result.result.length === 0) {
             this.alertService.warning('Required parameters are missing');
             this.spinnerService.hide();
-          } else if ((result.custom_status_code === 100) && (typeof(result.result) === 'object')) {
+          } else if ((result.custom_status_code === 100) && (typeof (result.result) === 'object')  && this.dummy != null) {
             const index = this.allEmailTemplates.findIndex(item => item.id === this.dummy.id);
             if (index !== undefined) {
               this.allEmailTemplates[index].template_category = this.templateCategory.value;
@@ -124,8 +124,8 @@ export class EmailTemplateComponent implements OnInit {
             this.alertService.success('Template saved successfully');
             this.spinnerService.hide();
             this.createEmailTemplateForm.reset();
-          } else if ((result.custom_status_code === 100) && (typeof(result.result) === 'string')) {
-            const id = result.result;
+          } else if ((result.custom_status_code === 100) && (typeof (result.result[0]) === 'string')) {
+            const id = result.result[0];
             this.allEmailTemplates.push({
               id: id,
               template_html: formModel.template_html,
@@ -141,6 +141,8 @@ export class EmailTemplateComponent implements OnInit {
             this.createEmailTemplateForm.reset();
           }
         }
+        this.spinnerService.hide();
+        this.createEmailTemplateForm.reset();
       },
         error => {
           console.log(error);

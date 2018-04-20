@@ -52,7 +52,7 @@ export class AreasComponent implements OnInit {
     this.areaName = '';
     this.areaTeluguName = '';
     this.areaTelugu = '';
-    this.actionText = 'Add New +';
+    this.actionText = 'Add New';
     this.isEdit = false;
     this.areaForm = new FormGroup({
       'areatypenamenew': new FormControl(this.areaTypeNameNew, [Validators.required]),

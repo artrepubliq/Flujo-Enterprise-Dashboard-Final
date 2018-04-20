@@ -8,19 +8,26 @@
   </ngx-alerts>
 </div>
 
-<div class="page_padding">
-  <div fxLayout="row" class="p-rel">
-    <div class="page-header">
+<div class="page_padding-2" fxLayout="column" fxLayoutGap="30px">
+  <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign="space-between center">
+    <div fxFlex class="page-header">
       Mailchimp
     </div>
-    <button mat-raised-button class="choose-button" *ngIf="isOpen" (click)="templateSelectPopup()" >Choose Template +</button>
+    <button class="choose_button" (click)="downLoadCsvFormat($event)">Download Csv</button>
+    <div>
+      <button class="choose_button" *ngIf="isOpen" (click)="templateSelectPopup()">Choose Template
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
+    </div>
   </div>
 
   <form [formGroup]="mailSendingForm" class="admin-form" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <div fxLayout="column" fxLayoutGap="25px">
         <div fxLayout="row" fxLayoutGap="48px">
-          <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <div fxFlex class="input_box page_input" fxLayout="column" fxLayoutGap="12px">
             <label>To Address</label>
             <div class="input_error_feild">
               <input formControlName="email" id="email" placeholder="Type E-mail address">
@@ -29,20 +36,36 @@
               </div>
             </div>
           </div>
-          <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
-            <label>Select contacts from csv file </label>
-            <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
+          <div fxFlex>
+            <div class="input_box p-rel" fxLayout="column" fxLayoutGap="12px">
+              <label>Select contacts from csv file </label>
+              <!-- <input type="file" id="file" (change)="onFileChange($event)" #fileInput> -->
+              <!-- <span (click)="downLoadCsvFormat($event)">Download Csv Format</span> -->
+              <input type="file" accept=".csv" (change)="getEmailCsvContacts($event)" #file>
+              <div class="error_box" *ngIf="errorInFormat">
+                <div fxLayout="column" fxLayoutGap="13px">
+                  <h3> You have error at column</h3>
+                  <div fxLayout="row" fxLayoutAlign="center " fxLayoutGap="15px" fxLayoutWrap="wrap">
+                    <p *ngFor="let item of errorEmailContacts">{{item}},</p>
+                  </div>
+                </div>
+                <div fxLayout="row" fxLayoutGap="10px">
+                  <button class="button_submit" (click)="rectify()">Rectify</button>
+                  <button class="button_submit" (click)="continue()">Continue</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div fxLayout="row" fxLayoutGap="48px">
-          <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <div fxFlex class="input_box page_input" fxLayout="column" fxLayoutGap="12px">
             <label>Subject</label>
             <div class="input_error_feild">
               <input formControlName="subject" id="subject" placeholder="Enter your subject">
               <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
             </div>
           </div>
-          <div fxFlex class="input_box" fxLayout="column" fxLayoutGap="12px">
+          <div fxFlex class="" fxLayout="column" fxLayoutGap="12px">
             <label>Select contacts from db</label>
             <input type="checkbox" formControlName="check">
           </div>
@@ -50,17 +73,17 @@
         <!-- CKEditor -->
         <div class="input_box" fxLayout="column" fxLayoutGap="12px">
           <label>Message</label>
-          <ck-editor *ngIf="selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="selectedEmailTemplateData" skin="moono-lisa" lang="en"
-            [fullPage]="true" [readonly]="false"></ck-editor>
-            <ck-editor *ngIf="!selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue" skin="moono-lisa" lang="en"
-            [fullPage]="true" [readonly]="false"></ck-editor>
+          <ck-editor *ngIf="selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="selectedEmailTemplateData"
+            skin="moono-lisa" lang="en" [fullPage]="true" [readonly]="false"></ck-editor>
+          <ck-editor *ngIf="!selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue"
+            skin="moono-lisa" lang="en" [fullPage]="true" [readonly]="false"></ck-editor>
           <control-messages [control]="mailSendingForm.controls.message"></control-messages>
         </div>
         <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center" class="p-rel">
           <button type="submit" [hidden]="Ishide3" class="button_submit preview_button" [disabled]="!mailSendingForm.valid">
             Preview
           </button>
-          <button type="button" mat-button color="deafault" (click)="cancelMail()" >Cancel</button>
+          <button type="button" mat-button class="button_cancel" (click)="cancelMail()">Cancel</button>
           <button type="submit" [hidden]="Ishide3" class="button_submit" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
             Send
           </button>

@@ -90,15 +90,17 @@ export class TncComponent implements OnInit {
       .subscribe(
         data => {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code = 200) {
+            if (data.custom_status_code === 100) {
               this.termsDetails = null;
               this.isEdit = false;
               this.termsDetails = data.result;
               console.log(this.termsDetails);
               this.setDefaultClientPrivacyData(this.termsDetails);
               this.spinnerService.hide();
-            } else {
-              this.alertService.warning('Someting went wrong');
+            } else if ((data.error) && (data.custom_status_code = 102)) {
+              this.alertService.warning('Everything is upto date');
+            } else if ((data.error) && (data.custom_status_code = 101)) {
+              this.alertService.warning('Required parameters are missing');
             }
           }
         }, error => {

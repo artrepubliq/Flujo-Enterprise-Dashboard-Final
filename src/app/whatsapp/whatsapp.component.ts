@@ -41,28 +41,36 @@ export class WhatsappComponent implements OnInit {
     this.whatsAppSendingForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.whatsAppSendingForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_sendwhatsapp', formModel)
-    .subscribe(
-      data => {
-        if (!data.error) {
-          this.spinnerService.hide();
-          this.alertService.info('Message has been sent successfully');
-          this.whatsAppSendingForm.reset();
-        } else {
-          this.alertService.danger('Message not sent');
+      .subscribe(
+        data => {
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+            if (!data.error && (data.custom_status_code = 100)) {
+              this.spinnerService.hide();
+              this.alertService.info('Message has been sent successfully');
+              this.whatsAppSendingForm.reset();
+            } else if ((data.error) && (data.custom_status_code = 101)) {
+              this.alertService.danger('Required parameters are missing');
+            }
+          }
         }
-      }
-    );
+      );
   }
   getWhatsAppSmsTemplateData = () => {
     this.smsSelectTemplateService.getSmsSelectData('/flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
       .subscribe(
         result => {
-          if ((result.custom_status_code = 100) && (!result.error)) {
-          this.whatsAppTemplateData = result.result;
-          this.whatsAppTemplateData.map((templateData) => {
-            templateData.isActive = false;
-          });
-        }
+          if (result.access_token === AppConstants.ACCESS_TOKEN) {
+            if ((result.custom_status_code = 100) && (!result.error)) {
+              this.whatsAppTemplateData = result.result;
+              this.whatsAppTemplateData.map((templateData) => {
+                templateData.isActive = false;
+              });
+            } else if ((result.error) && (result.custom_status_code = 101)) {
+              this.alertService.info('Required parameters are missing');
+            }
+          } else {
+            this.alertService.info('Something went wromg');
+          }
         }, error => {
           console.log(error);
         }

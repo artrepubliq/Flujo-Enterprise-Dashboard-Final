@@ -29,6 +29,17 @@
   box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
   position: relative;
   max-height: calc( 100vh - 200px);
+  .problem-category-data{
+    min-width: 1200px;
+    overflow: auto;
+  .pc-checkbox{
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 2px !important;
+    background-color: #ffffff !important;
+    border: solid 1px #d8d8d8 !important;
+    }
+  }
   .view_item {
     background-color: #ffffff;
     padding: 20px;
