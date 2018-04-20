@@ -43,53 +43,54 @@ export class AdminComponent implements OnInit {
   loggedinIds: Array<string>;
   // Arrays for Side nav menu and admin menu
   // tslint:disable-next-line:max-line-length
-  editor = [{ feature_id: 1, title: 'Editor', router: 'admin/chooseplatform', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false}];
+  editor = [{ feature_id: 1, title: 'Editor', router: 'admin/chooseplatform', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
 
   // tslint:disable-next-line:max-line-length
-  drive = [{ feature_id: 11, title: 'Drive', router: 'admin/filerepository', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false}];
+  drive = [{ feature_id: 11, title: 'Drive', router: 'admin/filerepository', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
   // tslint:disable-next-line:max-line-length
-  flow = [{ feature_id: 1, title: 'Social', router: 'admin/social_management', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png', isActive: false},
+  flow = [{ feature_id: 1, title: 'Social', router: 'admin/social_management', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
-  { feature_id: 3, title: 'Mail', router: 'admin/email', activeicon: 'assets/icons/mail-color-nav-icon-active@2x.png', normalicon: 'assets/icons/mail-color-nav-icon-normal@2x.png', isActive: false},
+  { feature_id: 3, title: 'Mail', router: 'admin/email', activeicon: 'assets/icons/mail-color-nav-icon-active@2x.png', normalicon: 'assets/icons/mail-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'SMS', router: 'admin/sms', activeicon: 'assets/icons/sms-color-nav-icon-active@2x.png', normalicon: 'assets/icons/sms-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
-  { feature_id: 32, title: 'WhatsApp', router: 'admin/whatsappflujo', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png' , isActive: false}
+  { feature_id: 32, title: 'WhatsApp', router: 'admin/whatsappflujo', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png', isActive: false }
   ];
   // tslint:disable-next-line:max-line-length
-  nucleus = [{ feature_id: 1, title: 'Manage Reports', router: 'admin/managereports', activeicon: 'assets/icons/report-an-issue-color-nav-icon-active@2x.png', normalicon: 'assets/icons/report-an-issue-color-nav-icon-normal@2x.png', isActive: false},
+  nucleus = [{ feature_id: 1, title: 'Manage Reports', router: 'admin/managereports', activeicon: 'assets/icons/report-an-issue-color-nav-icon-active@2x.png', normalicon: 'assets/icons/report-an-issue-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Feedback', router: 'admin/feedback', activeicon: 'assets/icons/feedback-color-nav-icon-active@2x.png', normalicon: 'assets/icons/feedback-color-nav-icon-normal@2x.png', isActive: false},
+  { feature_id: 1, title: 'Feedback', router: 'admin/feedback', activeicon: 'assets/icons/feedback-color-nav-icon-active@2x.png', normalicon: 'assets/icons/feedback-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'Change Maker Report', router: 'admin/changemakerreport', activeicon: 'assets/icons/change-maker-color-nav-icon-active@2x.png', normalicon: 'assets/icons/change-maker-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Surveys', router: 'admin/surveys', activeicon: 'assets/icons/survey-color-nav-icon-active@2x.png', normalicon: 'assets/icons/survey-color-nav-icon-normal@2x.png' , isActive: false},
+  { feature_id: 1, title: 'Surveys', router: 'admin/surveys', activeicon: 'assets/icons/survey-color-nav-icon-active@2x.png', normalicon: 'assets/icons/survey-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Database', router: 'admin/database', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png' , isActive: false},
+  { feature_id: 1, title: 'Database', router: 'admin/database', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Analytics', router: 'admin/analytics', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png' , isActive: false}
+  { feature_id: 1, title: 'Analytics', router: 'admin/analytics', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png', isActive: false }
   ];
   adminMenu = [
-    { feature_id: 13, title: 'Logo', router: 'admin/logo'},
-    { feature_id: 14, title: 'Media Management', router: 'admin/media'},
-    { feature_id: 15, title: 'Theme Global Configuration', router: 'admin/themeconfiguration'},
-    { feature_id: 16, title: 'SMTP', router: 'admin/smtpconfiguration'},
-    { feature_id: 17, title: 'User Management', router: 'admin/user'},
-    { feature_id: 18, title: 'Social links update', router: 'admin/sociallinks'},
-    { feature_id: 19, title: 'Biography', router: 'admin/biography'},
-    { feature_id: 20, title: 'Create Module', router: 'admin/module'},
-    { feature_id: 21, title: 'Terms & Conditions', router: 'admin/termsnconditions'},
-    { feature_id: 22, title: 'Privacy & Policy', router: 'admin/privacynpolicy'},
-    { feature_id: 23, title: 'Change Password', router: 'admin/changepassword'},
-    { feature_id: 24, title: 'Problem Category', router: 'admin/problemcategory'},
-    { feature_id: 25, title: 'Area Category', router: 'admin/areacategory'},
-    { feature_id: 27, title: 'SMS Template Configuration', router: 'admin/smsconfiguration'},
-    { feature_id: 28, title: 'Email Template', router: 'admin/emailconfiguration'},
-    { feature_id: 29, title: 'Social Configuration', router: 'admin/socialconfiguration'}
+    { feature_id: 13, title: 'Logo', router: 'admin/logo' },
+    { feature_id: 14, title: 'Media Management', router: 'admin/media' },
+    { feature_id: 15, title: 'Theme Global Configuration', router: 'admin/themeconfiguration' },
+    { feature_id: 16, title: 'SMTP', router: 'admin/smtpconfiguration' },
+    { feature_id: 17, title: 'User Management', router: 'admin/user' },
+    { feature_id: 18, title: 'Social links update', router: 'admin/sociallinks' },
+    { feature_id: 19, title: 'Biography', router: 'admin/biography' },
+    { feature_id: 20, title: 'Create Module', router: 'admin/module' },
+    { feature_id: 21, title: 'Terms & Conditions', router: 'admin/termsnconditions' },
+    { feature_id: 22, title: 'Privacy & Policy', router: 'admin/privacynpolicy' },
+    { feature_id: 23, title: 'Change Password', router: 'admin/changepassword' },
+    { feature_id: 24, title: 'Problem Category', router: 'admin/problemcategory' },
+    { feature_id: 25, title: 'Area Category', router: 'admin/areacategory' },
+    { feature_id: 27, title: 'SMS Template Configuration', router: 'admin/smsconfiguration' },
+    { feature_id: 28, title: 'Email Template', router: 'admin/emailconfiguration' },
+    { feature_id: 29, title: 'Social Configuration', router: 'admin/socialconfiguration' }
   ];
   accessDataModel: AccessDataModelComponent;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
+    private titleService: Title,
     private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService) {
     this.accessDataModel = new AccessDataModelComponent(httpClient, router);
@@ -105,16 +106,36 @@ export class AdminComponent implements OnInit {
         });
         if (this.userAccessLevelObject) {
           console.log(this.userAccessLevelObject);
-            this.userAccessLevelData = this.userAccessLevelObject;
-            this.accessDataModel.setUserAccessLevels(this.userAccessLevelData, this.feature_id, 'admin');
-         } else {
-           this.openDialog();
-         }
+          this.userAccessLevelData = this.userAccessLevelObject;
+          this.accessDataModel.setUserAccessLevels(this.userAccessLevelData, this.feature_id, 'admin');
+        } else {
+          this.openDialog();
+        }
       }, err => {
         console.log(err);
       }
     );
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const title = this.getTitle(router.routerState, router.routerState.root).join('-');
+        console.log('title', title);
+        titleService.setTitle(title);
+        this.CurrentPageName = title;
+      }
+    });
   }
+  public getTitle(state, parent): any[] {
+    const data = [];
+    if (parent && parent.snapshot.data && parent.snapshot.data.title) {
+      data.push(parent.snapshot.data.title);
+    }
+
+    if (state && parent) {
+      data.push(... this.getTitle(state, state.firstChild(parent)));
+    }
+    return data;
+  }
+
   ngOnInit(): void {
     this.name = localStorage.getItem('name');
     // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
@@ -129,9 +150,9 @@ export class AdminComponent implements OnInit {
   }
   // page navigations
   navigatePage = (page, index, menuid) => {
-    _.each(this.flow, (iteratee, i) => {this.flow[i].isActive = false; });
-    _.each(this.nucleus, (iteratee, i) => {this.nucleus[i].isActive = false; });
-    _.each(this.drive, (iteratee, i) => {this.nucleus[i].isActive = false; });
+    _.each(this.flow, (iteratee, i) => { this.flow[i].isActive = false; });
+    _.each(this.nucleus, (iteratee, i) => { this.nucleus[i].isActive = false; });
+    _.each(this.drive, (iteratee, i) => { this.nucleus[i].isActive = false; });
     if (menuid === 'flow') {
       this.flow[index].isActive = true;
     } else if (menuid === 'nucleus') {
@@ -140,7 +161,7 @@ export class AdminComponent implements OnInit {
       this.drive[index].isActive = true;
     }
     localStorage.setItem('feature_id', page.feature_id);
-    this.CurrentPageName = page.title;
+    // this.CurrentPageName = page.title;
     this.accessDataModel.setUserAccessLevels(this.userAccessLevelData, page.feature_id, page.router);
   }
   ChatIO = (chatItem) => {
@@ -177,30 +198,30 @@ export class AdminComponent implements OnInit {
   getUserList = () => {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.loggedinUsersList = data.result;
-        this.StoredLoggedinIds();
-        this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
-          this.isUserActive = false;
-          return activeUserData.id !== localStorage.getItem('id_token');
-        });
-        if (this.activeUsers) {
-          _.each(this.activeUsers, (iteratee, index) => {
-            if (this.activeUsers[index].is_logged_in === '1' && localStorage.getItem('user_id')) {
-              this.activeUsers[index].isUserActive = true;
-              // this.filteredAccessIds = this.activeUsers;
-            }
+        data => {
+          this.loggedinUsersList = data.result;
+          this.StoredLoggedinIds();
+          this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
+            this.isUserActive = false;
+            return activeUserData.id !== localStorage.getItem('id_token');
           });
-          this.activeUsers = _.filter(this.activeUsers, (filteredactiveUserData) => {
-            return filteredactiveUserData.id !== localStorage.getItem('user_id');
-          });
-        } else {
-          console.log('There are no active users');
+          if (this.activeUsers) {
+            _.each(this.activeUsers, (iteratee, index) => {
+              if (this.activeUsers[index].is_logged_in === '1' && localStorage.getItem('user_id')) {
+                this.activeUsers[index].isUserActive = true;
+                // this.filteredAccessIds = this.activeUsers;
+              }
+            });
+            this.activeUsers = _.filter(this.activeUsers, (filteredactiveUserData) => {
+              return filteredactiveUserData.id !== localStorage.getItem('user_id');
+            });
+          } else {
+            console.log('There are no active users');
+          }
+        },
+        error => {
+          console.log(error);
         }
-      },
-      error => {
-        console.log(error);
-      }
       );
   }
 
