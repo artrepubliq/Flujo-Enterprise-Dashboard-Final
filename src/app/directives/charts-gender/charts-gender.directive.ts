@@ -31,6 +31,9 @@ export class ChartsGenderDirective implements OnInit, OnChanges {
             data: [this.gender.female, this.gender.male],
             backgroundColor: [
               '#ee2f6b', '#0cc0df'
+            ],
+            borderColor: [
+              '#ee2f6b', '#0cc0df'
             ]
           }],
           labels: ['Female', 'Male']
@@ -38,7 +41,10 @@ export class ChartsGenderDirective implements OnInit, OnChanges {
         'options': {
           legend: {
             display: false
-          }
+          },
+          cutoutPercentage: [
+            95
+          ]
         }
       });
       // End of Gender Chart
