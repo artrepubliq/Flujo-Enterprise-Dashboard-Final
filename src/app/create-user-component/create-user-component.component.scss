@@ -33,6 +33,14 @@ div.alert {
   .create-user-data{
     min-width: 800px;
     overflow: auto;
+    .pc-checkbox{
+      width: 15px !important;
+      height: 15px !important;
+      border-radius: 2px !important;
+      background-color: #ffffff !important;
+      border: solid 1px #d8d8d8 !important;
+      }
+
   }
 }
 #createuserform .form-control {
@@ -98,6 +106,7 @@ td.btn-usert{
   button i:hover {
     opacity: 1;
   }
+  
 }
 
 .form-header {
