@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit, ViewChild, OnDestroy  } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
@@ -6,8 +6,8 @@ import { ICreateUserDetails } from '../model/createUser.model';
 import { IArrows } from '../model/arrows.model';
 
 import CSVExportService from 'json2csvexporter';
-import {MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort} from '@angular/material';
-import { FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort } from '@angular/material';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
@@ -79,12 +79,12 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.showReports = <IshowReports>{};
         this.showReports.completedActive = false;
         this.showReports.inProgressActive = false;
-        this.filterSubject.debounceTime(300).distinctUntilChanged().subscribe( searchItem =>
-        this.onChange2(searchItem));
+        this.filterSubject.debounceTime(300).distinctUntilChanged().subscribe(searchItem =>
+            this.onChange2(searchItem));
         if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
             this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
             this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/managereports');
-          }
+        }
         this.filterReportProblemData = [];
     }
     ngOnInit() {
@@ -189,14 +189,14 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                         this.alertService.success('Your request updated successfully.');
                         this.spinnerService.hide();
                         this.usersListControl = new FormControl();
-                      } else if (resp.custom_status_code === 101 && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                    } else if (resp.custom_status_code === 101 && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
                         this.alertService.danger('Required parameters are missing');
                         this.spinnerService.hide();
-                      } else {
+                    } else {
                         this.spinnerService.hide();
                         this.alertService.danger('Somthing went wrong.');
                         console.log('something went wrong');
-                      }
+                    }
                 },
                 error => {
                     this.alertService.danger('Somthing went wrong. please try again.');
@@ -224,17 +224,17 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                         console.log(resp);
                         if (!resp.error && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
                             this.alertService.success('Your request updated successfully.');
-                        this.spinnerService.hide();
-                        this.moveToListControl = new FormControl();
-                        this.remarksListControl = new FormControl();
-                          }  else if (resp.custom_status_code === 101 && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                            this.spinnerService.hide();
+                            this.moveToListControl = new FormControl();
+                            this.remarksListControl = new FormControl();
+                        } else if (resp.custom_status_code === 101 && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
                             this.alertService.danger('Required parameters are missing');
                             this.spinnerService.hide();
-                          } else {
+                        } else {
                             this.spinnerService.hide();
                             this.alertService.danger('Somthing went wrong.');
                             console.log('something went wrong');
-                          }
+                        }
                     },
                     error => {
                         this.alertService.danger('Somthing went wrong. please try again.');
@@ -260,13 +260,13 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                 data => {
                     if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
                         this.reportProblemData = data.result;
-                    this.reportProblemData2 = data.result;
-                    this.filterReportProblemData = data.result;
-                    this.spinnerService.hide();
-                      } else {
+                        this.reportProblemData2 = data.result;
+                        this.filterReportProblemData = data.result;
+                        this.spinnerService.hide();
+                    } else {
                         this.spinnerService.hide();
                         console.log('something went wrong');
-                      }
+                    }
                 },
                 error => {
                     this.spinnerService.hide();
@@ -338,14 +338,14 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
 
     public onChange2(searchTerm: string): void {
         this.filterReportProblemData = this.reportProblemData.filter((item) =>
-                (item.name.includes(searchTerm) ||
+            (item.name.includes(searchTerm) ||
                 (item.age.includes(searchTerm)) ||
                 (item.submitted_at.includes(searchTerm)) ||
                 (item.phone.includes(searchTerm)) ||
                 (item.email.includes(searchTerm)) ||
                 (item.gender.includes(searchTerm)) ||
                 (item.area.includes(searchTerm))
-        ));
+            ));
     }
 
     public onChange(searchitem: string): void {
@@ -356,9 +356,9 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     public ngOnDestroy(): void {
         this.filterSubject.complete();
     }
-      selectAll() {
+    selectAll() {
         for (let i = 0; i < this.filterReportProblemData.length; i++) {
-          this.filterReportProblemData[i].selected = this.checked;
+            this.filterReportProblemData[i].selected = this.checked;
         }
-      }
+    }
 }
