@@ -91,7 +91,9 @@
         <div class="chart_body text-center" fxLayout="column" fxLayoutAlign="center space-around">
           <app-charts-assign [assign]='assign'></app-charts-assign>
         </div>
-
+        <div class="chart_footer" fxLayout="row" fxLayoutAlign="end center">
+          <p>1:00</p>
+        </div>
       </div>
       <!-- Age Chart  -->
       <div fxFlex class="chart_card age_chart">
@@ -99,8 +101,8 @@
           <h3 class="title">Age</h3>
           <i class="fa fa-ellipsis-v"></i>
         </div>
-        <div class="chart_body">
-            <canvas id="ageChartCanvas"></canvas>
+        <div class="chart_body age-chat1234">
+            <canvas id="ageChartCanvas" width="150px"></canvas>
             <!-- <app-chart-age [ageData]="ageData"></app-chart-age> -->
         </div>
         <div class="chart_footer" fxLayout="row" fxLayoutWrap="wrap">

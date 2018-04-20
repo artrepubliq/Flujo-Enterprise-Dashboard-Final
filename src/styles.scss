@@ -58,6 +58,7 @@ button.button_submit {
   padding-right: 25px;
   transition: 0.3s ease-in-out;
   font-family: 'Roboto';
+  background-color: transparent;
 }
 
 button.button_cancel {
@@ -76,6 +77,7 @@ button.button_cancel {
   padding-right: 12px;
   border: none;
   font-family: 'Roboto';
+  background-color: transparent;
 }
 
 button.button_submit:hover {
@@ -916,7 +918,7 @@ control-messages,
     color: #666666;
   }
   .select_dropdown_mat {
-    max-width: 173px;
+    width: 173px;
     border-color: #666666;
     height: 30px;
     padding: 5px 20px;
