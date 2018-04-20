@@ -1,15 +1,21 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000">
+</ngx-alerts>
 
-<div class="container smsContact page_padding">
-  <ng4-loading-spinner></ng4-loading-spinner>
-  <ngx-alerts maxMessages="3" timeout="5000">
-  </ngx-alerts>
+<div class="smsContact page_padding-2" fxLayout="column" fxLayoutGap="30px">
 
-
-  <div fxLayout="row" class="p-rel">
-    <div class="page-header">
+  <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign="space-between center">
+    <div fxFlex class="page-header">
       SMS
     </div>
-    <button mat-raised-button class="choose-button" (click)="openDialog()" >Choose Template +</button>
+    <button class="choose_button" (click)="downLoadPhoneCsvFormat($event)">Download Csv Format</button>
+    <div>
+      <button class="choose_button" (click)="openDialog()">Choose Template
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
+    </div>
   </div>
 
   <form role="form" class="admin-form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
@@ -18,15 +24,12 @@
         <label for="phone">Mobile Number</label>
         <div>
 
-          <input type="text" formControlName="phone" oninput="this.value = this.value.replace(/[^0-9.,]/g, '').replace(/(\..*)\./g, '$1');"
+          <input type="text" formControlName="phone" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.,]/g, '').replace(/(\..*)\./g, '$1');"
             id="phone" placeholder="Add Number(s)">
           <div [hidden]="smsContactForm.controls.phone.valid || (smsContactForm.controls.phone.pristine && !submitted)" class="form-error-msg">
             enter valid phone number
           </div>
         </div>
-      </div>
-      <div fxLayoutAlign="center center" class="atRate">
-        @
       </div>
       <div fxFlex fxLayout="column" fxLayoutGap="13px" class="input_box">
         <label for="checkbox">Get contacts from db</label>
@@ -36,13 +39,28 @@
       </div>
     </div>
 
-    <div fxLayout="column" fxLayoutGap="13px" class="input_box">
+    <div fxLayout="column" fxLayoutGap="13px" class="input_box p-rel">
       <label for="inputPassword1">Get contacts from csv file</label>
       <div>
-        <input type="file" formControlName="file" class="form-control file-box">
+        <!-- <span (click)="downLoadPhoneCsvFormat($event)">Download Csv Format</span> -->
+        <input type="file" id="file" accept=".csv" (change)="getContactsFromCsv($event)" class="form-control file-box" #file>
       </div>
+      <div class="error_box" *ngIf="errorInFormat">
+          <div fxLayout="column" fxLayoutGap="13px">
+            <h3> You have error at column</h3>
+            <div fxLayout="row" fxLayoutAlign="center " fxLayoutGap="15px" fxLayoutWrap="wrap">
+              <p *ngFor="let item of errorPhoneContacts">{{item}},</p>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutGap="10px">
+            <button class="button_submit" (click)="rectify()" >Rectify</button>
+            <button class="button_submit" (click)="continue()" >Continue</button>
+          </div>
+        </div>
     </div>
-
+    <!-- <div fxLayout="column" fxLayoutGap="13px" class="input_box" *ngIf="errorPhoneContacts.length > 0">
+      <p>You hace error at column {{errorPhoneContacts}}</p>
+    </div> -->
     <div fxLayout="column" fxLayoutGap="13px" class="input_box">
       <label for="message">SMS Content</label>
       <div>
@@ -59,8 +77,8 @@
       </div>
     </div> -->
     <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-      <button type="button" mat-button (click)="cancelSmsEdit()" color="deafault">Cancel</button>
-      <button type="submit" class="button_submit" (click)="smsContactFormSubmit()" [disabled]="!smsContactForm.valid">Send</button>
+      <button type="button" mat-button (click)="cancelSmsEdit()" class="button_cancel">Cancel</button>
+      <button type="submit" class="button_submit" (click)="smsContactFormSubmit(smsContactForm.value)" [disabled]="!smsContactForm.valid">Send</button>
     </div>
   </form>
 </div>

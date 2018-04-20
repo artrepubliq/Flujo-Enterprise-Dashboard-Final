@@ -1,11 +1,11 @@
-
-<ng4-loading-spinner></ng4-loading-spinner>
+<ng4-loading-spinner>
+</ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000">
   <!-- <strong>{{successMessage }}</strong> -->
 </ngx-alerts>
 <div fxLayout="column" class="page_padding">
   <!-- === Buttons ==== -->
-  <div class="addview-buttons">
+  <!-- <div class="addview-buttons">
     <div class="page-header">
       <span *ngIf="isEdit">Privacy Policy</span>
     </div>
@@ -17,9 +17,33 @@
       <i class="fa fa-th-list"></i>
       <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
     </button>
-    <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Privacy Policy +</button>
+    <button *ngIf="!isEdit" class="choose_button" mat-raised-button color="primary" (click)="addPages()">Create Privacy Policy +</button>
+  </div> -->
+
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="addview-buttons">
+    <div *ngIf="isEdit" class="page-header">
+      Privacy Policy
+    </div>
+    <div *ngIf="isGridView" class="main-category">
+      Privacy Policy Grid View
+    </div>
+    <div></div>
+    <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign="end center">
+      <button class="page_viewButton" (click)="viewPagesGrid()">
+        <img src="./assets/grid-view-icon-active.png" />
+      </button>
+      <button class="page_viewButton" (click)="viewPages()">
+        <img src="./assets/list-view-icon-normal.png" />
+      </button>
+      <button *ngIf="!isEdit" class="choose_button" (click)="addPages()">Create Privacy Policy
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
+    </div>
   </div>
-  
+
+
   <!-- ===== Add Pages ======= -->
   <div *ngIf="isEdit" class="add-pages">
     <form [formGroup]="pnpSubmitForm" (submit)="onSubmit(pnpSubmitForm.value)" fxLayout="column" fxLayoutGap="45px">
@@ -38,7 +62,7 @@
       </div>
       <!-- Action Buttons -->
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-        <button (click)="cancelFileEdit()" class="button_submit" mat-button>Cancel
+        <button (click)="cancelFileEdit()" class="button_cancel" mat-button>Cancel
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
         <button type="submit" [disabled]="pnpSubmitForm.invalid || loading" class="button_submit" mat-button>{{button_text}}
@@ -86,9 +110,9 @@
 
   <div *ngIf="isGridView">
 
-    <div class="main-category">
+    <!-- <div class="main-category">
       <h6>Privacy Grid View</h6>
-    </div>
+    </div> -->
     <div fxLayout="row" class="child-pages" [perfectScrollbar]="config">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let detail of privacyDetails">
         <mat-card class="example-card">

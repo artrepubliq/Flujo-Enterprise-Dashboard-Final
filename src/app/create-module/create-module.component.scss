@@ -9,10 +9,9 @@ button {
 // }
 .addview-buttons {
   text-align: right;
-  padding: 20px 0;
+  padding-bottom: 20px;
   float: right;
   button {
-    margin-right: 15px;
     background: none;
     border: none;
     color: #666666;
@@ -132,17 +131,6 @@ img {
   }
 }
 
-.btn-addpage {
-  background: none;
-  border: 1px solid #666666 !important;
-  border-radius: 30px !important;
-  line-height: 30px;
-  font-size: 11px;
-  font-weight: 500;
-  text-align: center;
-  color: #666666;
-}
-
 .divider {
   width: auto;
   height: 1.5px;
@@ -151,10 +139,9 @@ img {
 }
 
 .main-category {
-  font-family: Roboto;
+  font-family: 'Roboto';
   font-size: 15px;
   font-weight: 500;
-  margin-bottom: 2rem;
   color: #666666;
 }
 
@@ -166,6 +153,7 @@ img {
 .child-pages {
   // height: 35vh; 
   position: relative;
+  margin: 0 -15px;
   .child-page {
     white-space: nowrap;
     display: inline;
@@ -199,5 +187,11 @@ img {
     border-color: transparent;
     background-color: transparent;
     height: auto;
+  }
+}
+
+.page_viewButton {
+  img {
+    max-height: 18.5px;
   }
 }

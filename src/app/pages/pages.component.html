@@ -1,53 +1,67 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000">
 </ngx-alerts>
-<div fxLayout="column" ngClass.lg="page_padding">
+<div fxLayout="column" class="page_padding-2">
   <!-- === Buttons ==== -->
-  <div  class="addview-buttons">
-    <div class="page-header">
-      <span *ngIf="isEdit">New page creation </span>
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="addview-buttons">
+    <div *ngIf="isEdit" class="page-header">
+      <span>New page creation </span>
     </div>
-    <button  color="primary" (click)="viewPagesGrid()">
-      <!-- <i class="fa fa-th"></i> -->
-      <img src="./assets/grid-view-icon-active.png"/>
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-    <button  color="primary" (click)="viewPages()">
-      <!-- <i class="fa fa-th-list"></i> -->
-      <img src="./assets/list-view-icon-normal.png"/>      
-      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
-    </button>
-    <button *ngIf="!isEdit" class="text-uppercase btn-addpage" mat-raised-button color="primary" (click)="addPages()">Create Page +</button>
+    <div *ngIf="isGridView" class="main-category">
+      <h6>Main Category</h6>
+    </div>
+    <div></div>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <button class="page_viewButton" (click)="viewPagesGrid()">
+        <img src="./assets/grid-view-icon-active.png" />
+      </button>
+      <button class="page_viewButton" (click)="viewPages()">
+        <img src="./assets/list-view-icon-normal.png" />
+      </button>
+      <button *ngIf="!isEdit" class="choose_button" (click)="addPages()">Create Page
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
+    </div>
   </div>
   <!-- ===== Add Pages ======= -->
   <div *ngIf="isEdit" class="add-pages">
-    <form [formGroup]="form" (submit)="onSubmit(form.value)" fxLayout="column" fxLayoutGap="45px">
+    <form [formGroup]="form" (submit)="onSubmit(form.value)" fxLayout="column" fxLayout.xs="column" fxLayoutGap="45px" fxLayoutGap.xs="0px">
       <!-- Input PageDetails -->
-      <div fxLayout="row" fxLayoutGap="15px">
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px" fxLayoutGap.xs="30px" ngClass.xs="d-block">
         <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_name">Page Title</label>
-          <input fxFlex type="text" class="input-feild" id="component_name" placeholder="page title" formControlName="component_name">
+          <input fxFlex type="text" class="input-feild" id="component_name" placeholder="Page title" formControlName="component_name">
         </div>
         <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_menu_name">Page Menu Title</label>
-          <input fxFlex type="text" class="input-feild" id="component_menuname" placeholder="page menu title" formControlName="component_menuname">
+          <input fxFlex type="text" class="input-feild" id="component_menuname" placeholder="Page menu title" formControlName="component_menuname">
         </div>
         <div class="input_box" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="parent_id">Page Parent</label>
 
-          <div class="select_box">
+          <!-- <div class="select_box">
             <select fxFlex formControlName="parent_id" class="selectpicker" id="parent_id">
               <option *ngFor="let parent of parentPageDetails" [value]="parent.id">
                 {{parent.id}}-{{parent.component_name}}
               </option>
             </select>
+          </div> -->
+
+          <div class="select_dropdown_mat">
+            <mat-select placeholder="Select" formControlName="parent_id" id="parent_id" [(ngModel)]="selectedValue" name="food">
+              <mat-option *ngFor="let parent of parentPageDetails" [value]="parent.id">
+                  {{parent.id}}-{{parent.component_name}}
+              </mat-option>
+            </mat-select>
           </div>
         </div>
       </div>
 
       <!-- Theme Inputs -->
       <div class="row">
-        <div class="col-md-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
+        <div class="col-lg-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
           <label for="component_background_color" class="input_title">Background Color</label>
           <div fxFlex style="position:relative">
             <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)"
@@ -57,26 +71,26 @@
             <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
+        <div class="col-lg-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
           <label for="component_image" class="input_title">Component Image</label>
           <div class="file_inputs">
-            <div class="choose_button">
+            <div class="input_choose_button">
               <input class="file" id="component_image" (click)="openDialog('componentImage')" #fileInput1 /> Choose file
               <label> No file selected</label>
             </div>
           </div>
 
         </div>
-        <div class="col-md-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
+        <div class="col-lg-3 col-sm-6 col-12" fxLayout="column" fxLayoutGap="12px">
           <label for="component_background_image" class="input_title">Component Background Image</label>
           <div class="file_inputs">
-            <div class="choose_button">
+            <div class="input_choose_button">
               <input class="file" id="component_image" (click)="openDialog('backgroundImage')" #fileInput1 /> Choose file
               <label> No file selected</label>
             </div>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6 col-12" class="input_box" fxLayout="column" fxLayoutGap="12px">
+        <div class="col-lg-3 col-sm-6 col-12 input_box" fxLayout="column" fxLayoutGap="12px">
           <label for="component_order">Page order</label>
           <input type="text" id="component_order" placeholder="Page Order" formControlName="component_order">
         </div>
@@ -96,9 +110,9 @@
 
       <!-- Action Buttons -->
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-        <button type="button" mat-button (click)="cancelFileEdit()" color="deafault">Cancel</button>
+        <button type="button" mat-button class="button_cancel" (click)="cancelFileEdit()">Cancel</button>
 
-        <button type="submit"  class="button_submit" mat-button>{{button_text}}
+        <button type="submit" class="button_submit" mat-button>{{button_text}}
           <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
         </button>
       </div>
@@ -110,51 +124,53 @@
   <!-- ====== Pages Table ======= -->
   <div *ngIf="isTableView">
     <div class="pages-total" [perfectScrollbar]="config">
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <!-- <th scope="col">Page Id</th> -->
-            <th scope="col">Page Name</th>
-            <!-- <th scope="col">Page Description </th> -->
-            <th scope="col">Page Image</th>
-            <th scope="col">Page bg Image</th>
-            <th scope="col">Page Order</th>
-            <th scope="col">Page parent id</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let page_item of pageDetails">
-            <!-- <th scope="row">{{page_item.id}}</th> -->
-            <td>{{page_item.component_name}}</td>
-            <!-- <td>{{page_item.component_description}}</td> -->
-            <td>
-              <span *ngIf="!page_item.component_image">no image</span>
-              <img *ngIf="page_item.component_image" class="figure" src="data:image/png;base64,{{page_item.component_image}}">
-            </td>
-            <td>
-              <span *ngIf="!page_item.component_background_image">no image</span>
-              <img *ngIf="page_item.component_background_image" class="figure" src="data:image/png;base64,{{page_item.component_background_image}}">
-            </td>
-            <td>{{page_item.component_order}}</td>
-            <td>{{page_item.parent_id}}</td>
+      <div class="pages-data">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <!-- <th scope="col">Page Id</th> -->
+              <th scope="col">Page Name</th>
+              <!-- <th scope="col">Page Description </th> -->
+              <th scope="col">Page Image</th>
+              <th scope="col">Page bg Image</th>
+              <th scope="col">Page Order</th>
+              <th scope="col">Page parent id</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let page_item of pageDetails">
+              <!-- <th scope="row">{{page_item.id}}</th> -->
+              <td>{{page_item.component_name}}</td>
+              <!-- <td>{{page_item.component_description}}</td> -->
+              <td>
+                <span *ngIf="!page_item.component_image">no image</span>
+                <img *ngIf="page_item.component_image" class="figure" src="data:image/png;base64,{{page_item.component_image}}">
+              </td>
+              <td>
+                <span *ngIf="!page_item.component_background_image">no image</span>
+                <img *ngIf="page_item.component_background_image" class="figure" src="data:image/png;base64,{{page_item.component_background_image}}">
+              </td>
+              <td>{{page_item.component_order}}</td>
+              <td>{{page_item.parent_id}}</td>
+  
+              <td class="btn-pages btn-stack">
+                <button (click)="editCompnent(page_item)"  type="button" class="btn">
+                    <i class="fa fa-pencil"></i>
+                </button>
+              </td>
+              <td class="btn-pages btn-stack">
+                <button (click)="onDelete(page_item)"  type="button" class="btn">
+                    <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+  
+          </tbody>
+        </table>
+      </div>
 
-            <td class="btn-pages btn-stack">
-              <button (click)="editCompnent(page_item)"  type="button" class="btn">
-                  <i class="fa fa-pencil"></i>
-              </button>
-            </td>
-            <td class="btn-pages btn-stack">
-              <button (click)="onDelete(page_item)"  type="button" class="btn">
-                  <i class="fa fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-
-        </tbody>
-      </table>
-    
     </div>
   </div>
 
@@ -166,18 +182,18 @@
 
   <div *ngIf="isGridView">
 
-    <div class="main-category">
+    <!-- <div class="main-category">
       <h6>Main Category</h6>
-    </div>
+    </div> -->
     <div fxLayout="row" fxLayoutGap="15px" class="main-pages" [perfectScrollbar]="config">
       <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 main-page" *ngFor="let detail of parentPageDetails">
         <mat-card class="example-card" (click)="getChild(detail)">
-          <div fxLayout="row" fxLayoutAlign="space-between center" class="page-controls" >
+          <div fxLayout="row" fxLayoutAlign="space-between center" class="page-controls">
             <div fxFlex="50">
-              <img  src="./assets/card-selection-icon-normal.png">
+              <img src="./assets/card-selection-icon-normal.png">
             </div>
-            <div fxFlex="50" fxLayoutAlign="end center" >
-              <img  class="pull-right" src="./assets/card-more-icon-normal.png">
+            <div fxFlex="50" fxLayoutAlign="end center">
+              <img class="pull-right" src="./assets/card-more-icon-normal.png">
             </div>
           </div>
           <div id="pageview">
@@ -251,12 +267,12 @@
         </div>
         <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 child-page">
           <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px" class="add-child-page">
-              <div class="text-center" fxLayout="column" fxLayoutAlign="center center" >
-                  <div class="addapageicon text-center">
-                    <img src="./assets/page-icon-normal.png">
-                  </div>
-                  <p class="addapage">Add Page</p>
+            <div class="text-center" fxLayout="column" fxLayoutAlign="center center">
+              <div class="addapageicon text-center">
+                <img src="./assets/page-icon-normal.png">
               </div>
+              <p class="addapage">Add Page</p>
+            </div>
           </div>
         </div>
       </div>

@@ -32,6 +32,11 @@ export class ChartAgeDirective implements OnChanges {
         }],
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: rangeValue
+      },
+      'options': {
+        cutoutPercentage: [
+          10
+        ]
       }
     });
     console.log(myAgeChart + 'test on changes');

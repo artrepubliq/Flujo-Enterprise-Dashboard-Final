@@ -1,16 +1,16 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 
 <div class="page_padding p-rel" fxLayout="column" fxLayoutGap="15px">
-  <div fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutWrap="wrap">
     <h6 class="issues">Feedback</h6>
     <div fxLayoutAlign="center center">
       <app-headerurls></app-headerurls>
     </div>
-    <div fxLayout="row" fxLayoutAlign="end center">
-      <div fxFlex="30" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" *ngIf="componentName === 'feedback'">
-        <button (click)="exportFeedbackData()" class="btn btn-outline-secondary btn-sm btn-report pull-right" float-right style="float:right">Export as CSV</button>
-        <div class="example-header">
-          <mat-form-field>
+    <div fxLayoutAlign="end center">
+      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" *ngIf="componentName === 'feedback'">
+        <button fxFlex (click)="exportFeedbackData()" class="choose_button">Export as CSV</button>
+        <div fxFlex class="custom_input_mat">
+          <mat-form-field class="select_dropdown">
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
           </mat-form-field>
         </div>
@@ -67,7 +67,7 @@
             </div>
           </div>
           <div>
-            <button mat-raised-button class="button_submit" (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" [disabled]="feedbackCsvMail.invalid">Send As Email</button>
+            <button mat-button class="button_submit" (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" [disabled]="feedbackCsvMail.invalid">Send As Email</button>
           </div>
         </form>
       </div>

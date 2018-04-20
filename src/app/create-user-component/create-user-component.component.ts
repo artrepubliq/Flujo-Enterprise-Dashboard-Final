@@ -35,7 +35,7 @@ export class CreateUserComponentComponent implements OnInit {
   feature_id = 17;
   // model=new User(1,'','','','');
   userAccessDataModel: AccessDataModelComponent;
-  PHONE_REGEXP = /^([0]|\+91)?[789]\d{9}$/;
+  PHONE_REGEXP = /^([0]|\+91)?[6789]\d{9}$/;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   constructor(public dialog: MatDialog, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
@@ -71,15 +71,17 @@ export class CreateUserComponentComponent implements OnInit {
       .subscribe(
         data => {
           this.CreateUserForm.reset();
-          if (data.result) {
-            // this.alertService.success('User added succesfully');
-            // this.CreateUserForm.reset();
-            // this.isEdit = false;
-            // this.button_text = 'save';
-            // this.getUsersList();
-            // } else {
+          if (data.access_token = AppConstants.ACCESS_TOKEN) {
+          if ( !data.error && (data.custom_status_code = 100)) {
+            this.alertService.success('User added succesfully');
+            this.CreateUserForm.reset();
+            this.isEdit = false;
+            this.button_text = 'save';
+            this.getUsersList();
+          } else {
             this.parsePostResponse(data);
           }
+        }
           // this.alertService.info('User added succesfully');
           this.spinnerService.hide();
         },

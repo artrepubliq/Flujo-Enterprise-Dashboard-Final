@@ -33,7 +33,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   yearView: boolean;
   inputDisabled: boolean;
   datepickerDisabled: boolean;
-  minDate: any = moment('1990-01-01').format('YYYY-MM-DD');
+  minDate: any = moment('2018-01-01').format('YYYY-MM-DD');
   maxDate: any = moment(new Date()).format('YYYY-MM-DD');
   startAt: Date;
   date: Date;
@@ -250,6 +250,9 @@ export class AnalyticsComponent implements OnInit, OnChanges {
             datasets: [{
               data: rangeValue,
               backgroundColor: [
+                '#0cc0df', '#ee2f6b', '#fecd0f', '#452c59'
+              ],
+              borderColor: [
                 '#0cc0df', '#ee2f6b', '#fecd0f', '#452c59'
               ]
             }],
