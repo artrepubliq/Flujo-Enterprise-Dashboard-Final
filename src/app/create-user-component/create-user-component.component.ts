@@ -23,10 +23,11 @@ import { ICommonInterface } from '../model/commonInterface.model';
   styleUrls: ['./create-user-component.component.scss']
 })
 export class CreateUserComponentComponent implements OnInit {
+  checked: false;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   isAddUser: boolean;
-  userDetails: ICreateUserDetails[];
+  userDetails: any;
   CreateUserForm: any;
   public loading = false;
   public isEdit = true;
@@ -184,8 +185,14 @@ export class CreateUserComponentComponent implements OnInit {
     if (AppConstants.ACCESS_TOKEN === data.access_token) {
       if (data.custom_status_code === 102) {
         this.alertService.warning('Everything is Up-to-date!!!');
-      } else if (data.custom_status_code === 100) {
+      } else if (data.custom_status_code === 100 && (typeof (data.result) === 'object')) {
         this.alertService.success('User updated successfully!!!');
+        this.CreateUserForm.reset();
+        this.isEdit = false;
+        this.button_text = 'save';
+        this.getUsersList();
+      } else if (data.custom_status_code === 100 && (typeof (data.result) === 'string')) {
+        this.alertService.success('User created successfully!!!');
         this.CreateUserForm.reset();
         this.isEdit = false;
         this.button_text = 'save';
@@ -210,7 +217,11 @@ export class CreateUserComponentComponent implements OnInit {
 
     // }
   }
-
+  selectAll() {
+    for (let i = 0; i < this.userDetails.length; i++) {
+      this.userDetails[i].selected = this.checked;
+    }
+  }
   cancelUser() {
     this.isEdit = false;
   }

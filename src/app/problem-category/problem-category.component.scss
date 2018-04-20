@@ -74,4 +74,24 @@
   button i:hover {
     opacity: 1;
   }
+
+  .btn-stack {
+    button {
+      background: none;
+      border: none;
+      margin: 0;
+    }
+    .btn:focus {
+      outline: 0;
+      box-shadow: none;
+    }
+    button i {
+      font-family: FontAwesome !important;
+      opacity: 0.6;
+    }
+    button i:hover {
+      opacity: 1;
+    }
+  }
+  
 }
