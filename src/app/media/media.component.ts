@@ -710,6 +710,7 @@ export class DialogOverviewExampleDialog {
   // tslint:disable-next-line:component-selector
   selector: 'dialog-overview-example-file-dialog',
   templateUrl: 'file-select.popup.html',
+  styleUrls: ['./media.component.scss']
 })
 // tslint:disable-next-line:component-class-suffix
 export class FileSelectPopup {
