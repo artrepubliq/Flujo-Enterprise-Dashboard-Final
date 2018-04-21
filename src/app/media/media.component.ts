@@ -742,7 +742,7 @@ export class FileSelectPopup {
   onNoClick(): void {
     this.dialogRef.close();
   }
-  closeDialog(name, id, des) {
+  closeDialog() {
     this.dialogRef.close();
   }
 
