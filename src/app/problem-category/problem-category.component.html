@@ -6,13 +6,12 @@
     <div>
       <p class="areas-head">Problem Category</p>
     </div>
-    <div class="input_fields input_box" fxFlex="70">
-      <form [formGroup]="problemForm" fxLayout="row" fxLayoutGap="15px">
-        <input type="text" class="input" id="addOrUpdate" placeholder="Problem type" [value]="problemTypeNameNew" formControlName="problemtypenamenew">
-        <input type="text" class="input" id="addOrUpdate" placeholder="Problem type in Telugu" [value]="problemTypeNameTeluguNew" formControlName="problemtypenametelugunew">
-        <button class="button_submit" [disabled]="problemForm.invalid" (click)="createNewproblem()">{{actionText}}</button>
-        <button class="button_cancel" [disabled]="problemForm.invalid" *ngIf="isEdit" (click)="backToSelect()">Cancel</button>
-      </form>
+    <div class="input_fields input_box" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
+      <!-- <form [formGroup]="problemForm" fxLayout="row" fxLayoutGap="15px"> -->
+        <!-- <input type="text" class="input" id="addOrUpdate" placeholder="Problem type" [value]="problemTypeNameNew" formControlName="problemtypenamenew"> -->
+        <!-- <input type="text" class="input" id="addOrUpdate" placeholder="Problem type in Telugu" [value]="problemTypeNameTeluguNew" formControlName="problemtypenametelugunew"> -->
+        <button class="button_submit" (click)="openDialog(add)">{{actionText}}</button>
+      <!-- </form> -->
     </div>
   </div>
   <div class="view_items" fxLayout="column" fxLayoutGap="0px" [perfectScrollbar]="config">
@@ -51,7 +50,7 @@
         5th April 2018
       </div>
       <div fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
-        <button (click)="updateProblemData(problem)" type="button" class="btn">
+        <button (click)="openDialog(problem)" type="button" class="btn">
           <i class="fa fa-pencil"></i>
         </button>
         <button type="button" class="btn">
