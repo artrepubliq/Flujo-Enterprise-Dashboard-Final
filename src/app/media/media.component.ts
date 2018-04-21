@@ -259,17 +259,17 @@ export class MediaComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postgallery', this.uploadImagesObject).subscribe(
       res => {
         if (res.access_token === AppConstants.ACCESS_TOKEN) {
-          if ((!res.error) && (res.custom_status_code = 100)) {
-          this.uploadImagesObject = <IUploadImages>{};
-          this.successMessagebool = true;
-          this.spinnerService.hide();
+          if ((!res.error) && (res.custom_status_code === 100)) {
+            this.uploadImagesObject = <IUploadImages>{};
+            this.successMessagebool = true;
+            this.spinnerService.hide();
 
-          this.successMessagebool = true;
-          this.alertService.success('Images uploaded successfully');
-          this.getMediaGalleryData();
-        } else if ((res.error) && (res.custom_status_code = 101)) {
-          this.alertService.warning('Required parameters are missing');
-        }
+            this.successMessagebool = true;
+            this.alertService.success('Images uploaded successfully');
+            this.getMediaGalleryData();
+          } else if ((res.error) && (res.custom_status_code === 101)) {
+            this.alertService.warning('Required parameters are missing');
+          }
         }
       },
       (err: HttpErrorResponse) => {
@@ -359,19 +359,19 @@ export class MediaComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postalbum', reqData)
       .subscribe(
         data => {
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+            if ((!data.error) && (data.custom_status_code === 100)) {
+              this.resetsubmitAlbumData();
+              this.spinnerService.hide();
 
-          if ((!data.error) && (data.custom_status_code = 100)) {
+              this.parseReloadAlbumGalleryObject(data.result);
 
-            this.resetsubmitAlbumData();
-            this.spinnerService.hide();
-
-            this.parseReloadAlbumGalleryObject(data.result);
-
-            this.hightlightStatus = [false];
-            this.alertService.success('Album created successfully.');
-          } else if ((data.error) && (data.custom_status_code = 101)) {
-            this.spinnerService.hide();
-            this.alertService.danger('Something went wrong.please try again.');
+              this.hightlightStatus = [false];
+              this.alertService.success('Album created successfully.');
+            } else if ((data.error) && (data.custom_status_code === 101)) {
+              this.spinnerService.hide();
+              this.alertService.danger('Something went wrong.please try again.');
+            }
           }
         },
         error => {
@@ -399,15 +399,15 @@ export class MediaComponent implements OnInit {
       .subscribe(
         data => {
           if (data.access_token === AppConstants.ACCESS_TOKEN) {
-            if ((!data.error) && (data.custom_status_code = 100)) {
-          this.albumGallery = data.result;
-          this.spinnerService.hide();
+            if ((!data.error) && (data.custom_status_code === 100)) {
+              this.albumGallery = data.result;
+              this.spinnerService.hide();
 
-          this.prepareAllAlbumImageIdsArray(data.result);
-        } else if ((data.error) && (data.custom_status_code = 101) ) {
-          this.alertService.danger('Required parameters are missing.');
-        }
-        }
+              this.prepareAllAlbumImageIdsArray(data.result);
+            } else if ((data.error) && (data.custom_status_code === 101)) {
+              this.alertService.danger('Required parameters are missing.');
+            }
+          }
         },
 
         err => {
@@ -436,10 +436,14 @@ export class MediaComponent implements OnInit {
       this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgalleryintoalbum', albumImageIds)
         .subscribe(
           data => {
-
-            this.albumGalleryItem = data.result;
-
-            this.spinnerService.hide();
+            if (data.access_token === AppConstants.ACCESS_TOKEN) {
+              if (!data.error && (data.custom_status_code === 100)) {
+                this.albumGalleryItem = data.result;
+                this.spinnerService.hide();
+              } else if (data.error && (data.custom_status_code === 101)) {
+                this.alertService.warning('Required parameters are missing');
+              }
+            }
           },
 
           err => {
@@ -590,7 +594,6 @@ export class MediaComponent implements OnInit {
     }
   }
   reloadAlbumByIds() {
-
     this.spinnerService.show();
     this.httpClient.get<IGalleryObject>(AppConstants.API_URL + 'flujo_client_getgallery/' + this.originalAlbumData.id)
       .subscribe(
