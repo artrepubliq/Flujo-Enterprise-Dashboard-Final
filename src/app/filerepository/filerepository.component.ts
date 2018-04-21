@@ -380,13 +380,13 @@ export class FilerepositoryComponent implements OnInit {
                                 // this.repositories = [];
 
                                 this.filtered_repositories = [].concat.apply([], this.allFiles);
-                                this.filtered_repositories.map((object, index) => {
-                                    console.log(this.filtered_repositories[index]);
-                                    if (this.filtered_repositories[index].file_path) {
-                                        // tslint:disable-next-line:max-line-length
-                                        this.filtered_repositories[index].file_path = 'http://' + this.filtered_repositories[index].file_path;
-                                    }
-                                });
+                                // this.filtered_repositories.map((object, index) => {
+                                //     console.log(this.filtered_repositories[index]);
+                                //     if (this.filtered_repositories[index].file_path) {
+                                //         // tslint:disable-next-line:max-line-length
+                                //         this.filtered_repositories[index].file_path = 'http://' + this.filtered_repositories[index].file_path;
+                                //     }
+                                // });
 
                                 this.getFileSizes();
                             } else {
