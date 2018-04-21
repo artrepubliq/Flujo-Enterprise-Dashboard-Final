@@ -90,7 +90,6 @@ export class AdminComponent implements OnInit {
   accessDataModel: AccessDataModelComponent;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
-    // public mScrollbarService: MalihuScrollbarService,
     private titleService: Title,
     private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService) {
@@ -143,6 +142,9 @@ export class AdminComponent implements OnInit {
     this.isUserActive = false;
     this.getUserList();
     setInterval(() => {
+      if (Date.now() > Number(localStorage.getItem('expires_at'))) {
+        this.loginAuthService.logout(false);
+        }
       this.getUserList();
     }, 5000);
   }

@@ -19,6 +19,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./problem-category.component.scss']
 })
 export class ProblemCategoryComponent implements OnInit {
+  checked: false;
   isEdit: boolean;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
@@ -30,7 +31,7 @@ export class ProblemCategoryComponent implements OnInit {
   problemTypeName: string;
   updatableData: IUpdateableData;
   newProblemData: IUpdateableData;
-  problemTypeData: Array<IproblemType>;
+  problemTypeData: any;
   updateProblem: boolean;
   problemForm: FormGroup;
   actionText: string;
@@ -188,5 +189,11 @@ export class ProblemCategoryComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  selectAll() {
+    for (let i = 0; i < this.problemTypeData.length; i++) {
+      this.problemTypeData[i].selected = this.checked;
+    }
   }
 }

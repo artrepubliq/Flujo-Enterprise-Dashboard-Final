@@ -78,7 +78,13 @@ export class ChartsAssignDirective implements OnChanges {
         },
         scales: {
           xAxes: [{
-              stacked: true
+              stacked: true,
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                display: false
+              }
           }],
           yAxes: [{
               stacked: true

@@ -160,14 +160,15 @@ export class PagesComponent implements OnInit, OnDestroy {
             .subscribe(
             data => {
                 if ((!data.error) && (data.custom_status_code = 100)) {
-                    // this.alertService.success('Pages addedd successfully');
-                    // this.parsePostResponse(data);
                     this.getPageDetails();
-                    this.parsePostResponse(data);
+                    this.parsePostResponse(data.result);
                     this.spinnerService.hide();
-                } else if ((data.error) && (data.custom_status_code = 101)) {
+                } else if (data.error && (data.custom_status_code = 132)) {
                     this.spinnerService.hide();
-                    this.alertService.warning('Pages not addedd successfully');
+                    this.alertService.warning('Page order is already existed');
+                } else if (data.error && (data.custom_status_code = 101)) {
+                    this.spinnerService.hide();
+                    this.alertService.warning('Required parameters are missing');
                 }
                 this.spinnerService.hide();
             },

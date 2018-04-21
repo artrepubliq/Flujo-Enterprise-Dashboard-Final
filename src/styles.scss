@@ -58,6 +58,7 @@ button.button_submit {
   padding-right: 25px;
   transition: 0.3s ease-in-out;
   font-family: 'Roboto';
+  background-color: transparent;
 }
 
 button.button_cancel {
@@ -76,6 +77,7 @@ button.button_cancel {
   padding-right: 12px;
   border: none;
   font-family: 'Roboto';
+  background-color: transparent;
 }
 
 button.button_submit:hover {
@@ -343,6 +345,14 @@ input[type="file"] {
     border-color: #0cc0df;
     box-shadow: 0px 0.5px 7.5px 0 #0cc0df;
     outline: none;
+  }
+}
+.input_box.page_input {
+  input {
+    border-color: #d8d8d8;
+  } 
+  input:focus {
+    border-color: #0cc0df;
   }
 }
 
@@ -908,10 +918,11 @@ control-messages,
     color: #666666;
   }
   .select_dropdown_mat {
-    max-width: 190px;
+    width: 173px;
     border-color: #666666;
     height: 30px;
     padding: 5px 20px;
+    padding-right: 16px;
     .mat-select-placeholder {
       font-family: 'Roboto';
       font-size: 11px;
@@ -984,7 +995,7 @@ control-messages,
     width:0;
     position: absolute; 
     top:-12px;
-    left:-28px;
+    left:-40px;
     cursor: pointer !important;      
   }
   .mat-input-underline .mat-form-field-underline,.mat-input-flex, .mat-form-field-flex{
