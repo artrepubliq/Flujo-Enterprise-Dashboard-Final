@@ -277,6 +277,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.isAddPage = true;
         this.isTableView = false;
         this.isGridView = false;
+        this.button_text = 'save';
     }
     viewPages = () => {
         // this.getPageDetails();
