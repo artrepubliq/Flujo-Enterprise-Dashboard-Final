@@ -1,0 +1,21 @@
+<div>
+        <div fxLayout="column" fxLayoutGap="30px">
+            <div>
+                <p class="areas-head">Problem Category</p>
+            </div>
+            <div class="input_fields input_box" fxFlex="80" fxLayout="column" fxLayoutGap="15px">
+                <form [formGroup]="problemForm" fxLayout="column" fxLayoutGap="15px">
+                    <div>
+                        <input type="text" class="input" id="addOrUpdate" placeholder="Area Name" formControlName="problemtypenamenew">
+                    </div>
+                    <div>
+                        <input type="text" class="input" placeholder="Enter Area name in Telugu" formControlName="problemtypenametelugunew">
+                    </div>
+                </form>
+                <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center">
+                    <button class="button_submit" (click)="postAreaData()">{{actionText}}</button>
+                    <button class="button_cancel" (click)="cancelPostAreaData()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>

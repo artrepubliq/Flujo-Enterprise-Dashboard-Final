@@ -8,7 +8,7 @@
     <div fxFlex class="page-header">
       SMS
     </div>
-    <button class="choose_button" (click)="downLoadPhoneCsvFormat($event)">Download Csv Format</button>
+    <button class="choose_button" (click)="downLoadPhoneCsvFormat()">Download Csv Format</button>
     <div>
       <button class="choose_button" (click)="openDialog()">Choose Template
         <span class="add_icon">
@@ -22,12 +22,15 @@
     <div fxLayout="row" fxLayoutGap="48px">
       <div fxFlex fxLayout="column" fxLayoutGap="13px" class="input_box page_input">
         <label for="phone">Mobile Number</label>
-        <div>
+        <div class="p-rel">
 
-          <input type="text" formControlName="phone" maxlength="10" oninput="this.value = this.value.replace(/[^0-9.,]/g, '').replace(/(\..*)\./g, '$1');"
+          <input type="text" formControlName="phone" (ngModelChange)="checkValidNumbers($event)" 
             id="phone" placeholder="Add Number(s)">
-          <div [hidden]="smsContactForm.controls.phone.valid || (smsContactForm.controls.phone.pristine && !submitted)" class="form-error-msg">
+          <!-- <div [hidden]="smsContactForm.controls.phone.valid || (smsContactForm.controls.phone.pristine && !submitted)" class="form-error-msg">
             enter valid phone number
+          </div> -->
+          <div *ngIf="!multipleNumbers" class="form-error-msg">
+            enter valid phone numbers
           </div>
         </div>
       </div>
@@ -46,17 +49,17 @@
         <input type="file" id="file" accept=".csv" (change)="getContactsFromCsv($event)" class="form-control file-box" #file>
       </div>
       <div class="error_box" *ngIf="errorInFormat">
-          <div fxLayout="column" fxLayoutGap="13px">
-            <h3> You have error at column</h3>
-            <div fxLayout="row" fxLayoutAlign="center " fxLayoutGap="15px" fxLayoutWrap="wrap">
-              <p *ngFor="let item of errorPhoneContacts">{{item}},</p>
-            </div>
-          </div>
-          <div fxLayout="row" fxLayoutGap="10px">
-            <button class="button_submit" (click)="rectify()" >Rectify</button>
-            <button class="button_submit" (click)="continue()" >Continue</button>
+        <div fxLayout="column" fxLayoutGap="13px">
+          <h3> You have error at column</h3>
+          <div fxLayout="row" fxLayoutAlign="center " fxLayoutGap="15px" fxLayoutWrap="wrap">
+            <p *ngFor="let item of errorPhoneContacts">{{item}},</p>
           </div>
         </div>
+        <div fxLayout="row" fxLayoutGap="10px">
+          <button class="button_submit" (click)="rectify()">Rectify</button>
+          <button class="button_submit" (click)="continue()">Continue</button>
+        </div>
+      </div>
     </div>
     <!-- <div fxLayout="column" fxLayoutGap="13px" class="input_box" *ngIf="errorPhoneContacts.length > 0">
       <p>You hace error at column {{errorPhoneContacts}}</p>
@@ -78,7 +81,7 @@
     </div> -->
     <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
       <button type="button" mat-button (click)="cancelSmsEdit()" class="button_cancel">Cancel</button>
-      <button type="submit" class="button_submit" (click)="smsContactFormSubmit(smsContactForm.value)" [disabled]="!smsContactForm.valid">Send</button>
+      <button type="submit" class="button_submit" (click)="smsContactFormSubmit()" [disabled]="(!smsContactForm.valid || !multipleNumbers)">Send</button>
     </div>
   </form>
 </div>
