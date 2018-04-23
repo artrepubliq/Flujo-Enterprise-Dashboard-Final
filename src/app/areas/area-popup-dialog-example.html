@@ -1,0 +1,27 @@
+<div>
+    <div fxLayout="column" fxLayoutGap="30px">
+        <div>
+            <p class="areas-head">Areas</p>
+        </div>
+        <div class="input_fields input_box" fxFlex="80" fxLayout="column" fxLayoutGap="15px">
+            <form [formGroup]="areaForm" fxLayout="column" fxLayoutGap="15px">
+                <div>
+                    <input type="text" class="input" id="addOrUpdate" placeholder="Area Name" formControlName="areatypenamenew">
+                    <!-- <input *ngIf="test" type="text" class="input" id="addOrUpdate" placeholder="Area Name" [value]="test[0].area" formControlName="areatypenamenew"> -->
+                </div>
+                <div>
+                    <input type="text" class="input" placeholder="Enter Area name in Telugu" formControlName="areateluguname">
+                    <!-- <input *ngIf="test" type="text" class="input" placeholder="Enter Area name in Telugu" [value]="test[0].area_telugu" formControlName="areateluguname"> -->
+                </div>
+                <div>
+                    <input type="number" placeholder="Area pincode" formControlName="areapincodenew">
+                    <!-- <input *ngIf="test" type="number" placeholder="Area pincode" [value]="test[0].pincode" formControlName="areapincodenew"> -->
+                </div>
+            </form>
+            <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center">
+                <button class="button_submit" (click)="postAreaData()">{{actionText}}</button>
+                <button class="button_cancel" (click)="cancelPostAreaData()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

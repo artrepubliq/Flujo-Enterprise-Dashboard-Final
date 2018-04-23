@@ -2,25 +2,20 @@
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div id="destination"></div>
 <div fxLayout="column" fxLayoutGap="30px" class="page_padding area_problem">
-<div fxLayout="row" fxLayoutAlign="space-between center">
-      <div>
-        <p class="areas-head">Areas</p>
-      </div>
-      <div class="input_fields input_box" fxFlex="80">
-        <form [formGroup]="areaForm" fxLayout="row" fxLayoutGap="15px">
-          <input type="text" class="input" id="addOrUpdate" placeholder="Area Name" [value]="areaName" formControlName="areatypenamenew">
-          <input type="text" class="input" placeholder="Enter Area name in Telugu" [value]="areaTelugu" formControlName="areateluguname">
-          <input type="number" placeholder="Area pincode" [value]="areaPincode" formControlName="areapincodenew">
-          <button class="button_submit" [disabled]="areaForm.invalid" (click)="createNewArea()">{{actionText}}</button>
-          <button class="button_cancel" [disabled]="areaForm.invalid" *ngIf="isEdit" (click)="backToSelect()">Cancel</button>
-        </form>
-      </div>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <p class="areas-head">Areas</p>
+    </div>
+    <div class="input_fields input_box" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
+      <button class="button_submit" (click)="openDialog(add)" fxLayoutAlign="end center">{{actionText}}</button>
+    </div>
   </div>
   <div class="view_items" fxLayout="column" fxLayoutGap="0px" [perfectScrollbar]="config">
     <div class="area-data">
-      <div fxLayout="row"  class="view_item" fxLayoutGap="30px" fxLayoutAlign="start center">
+      <div fxLayout="row" class="view_item" fxLayoutGap="30px" fxLayoutAlign="start center">
         <div class="d-inline name name-head" fxFlex="30">
-           &nbsp;&nbsp;&nbsp; <input fxFlex="5" class="d-inline" type="checkbox">&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;
+          <input fxFlex="5" class="d-inline" type="checkbox">&nbsp;&nbsp;
           <p class="d-inline">Area</p>
         </div>
         <div class="name code" fxFlex="31">
@@ -30,30 +25,29 @@
           Pincode
         </div>
       </div>
-       <div *ngFor="let area of areaData" class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
-         <div class="name" fxFlex="31">
-           <span class="text-muted d-inline">
-                 <i class="fa fa-ellipsis-v"></i>
-                 <i class="fa fa-ellipsis-v"></i>
-           </span>&nbsp;&nbsp;
-           <input type="checkbox">&nbsp;&nbsp;
-           {{area.area}}
-         </div>
-         <div class="code" fxFlex="31">
-           {{area.area_telugu}}
-         </div>
-         <div class="code" fxFlex="80px">
-           {{area.pincode}}
-         </div>
-         <div fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
-           <button  (click)="updateAreaData(area)" type="button" class="btn">
-             <i class="fa fa-pencil"></i>
-           </button>
-           <button (click)="deletearea(area)" type="button" class="btn">
-             <i class="fa fa-trash"></i>
-           </button>
-         </div>
-       </div>
+      <div *ngFor="let area of areaData" class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
+        <div class="name" fxFlex="31">
+          <span class="text-muted d-inline">
+            <i class="fa fa-ellipsis-v"></i>
+            <i class="fa fa-ellipsis-v"></i>
+          </span>&nbsp;&nbsp;
+          <input type="checkbox">&nbsp;&nbsp; {{area.area}}
+        </div>
+        <div class="code" fxFlex="31">
+          {{area.area_telugu}}
+        </div>
+        <div class="code" fxFlex="80px">
+          {{area.pincode}}
+        </div>
+        <div fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
+          <button (click)="openDialog(area)" type="button" class="btn">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button (click)="deletearea(area)" type="button" class="btn">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
