@@ -260,16 +260,16 @@ export class MediaComponent implements OnInit {
       res => {
         if (res.access_token === AppConstants.ACCESS_TOKEN) {
           if ((!res.error) && (res.custom_status_code = 100)) {
-          this.uploadImagesObject = <IUploadImages>{};
-          this.successMessagebool = true;
-          this.spinnerService.hide();
+            this.uploadImagesObject = <IUploadImages>{};
+            this.successMessagebool = true;
+            this.spinnerService.hide();
 
-          this.successMessagebool = true;
-          this.alertService.success('Images uploaded successfully');
-          this.getMediaGalleryData();
-        } else if ((res.error) && (res.custom_status_code = 101)) {
-          this.alertService.warning('Required parameters are missing');
-        }
+            this.successMessagebool = true;
+            this.alertService.success('Images uploaded successfully');
+            this.getMediaGalleryData();
+          } else if ((res.error) && (res.custom_status_code = 101)) {
+            this.alertService.warning('Required parameters are missing');
+          }
         }
       },
       (err: HttpErrorResponse) => {
@@ -288,8 +288,11 @@ export class MediaComponent implements OnInit {
       .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgallery/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          this.mediaData = data.result;
-          this.spinnerService.hide();
+          if (data.custom_status_code === 100 && AppConstants.ACCESS_TOKEN && data.error === false) {
+            this.mediaData = data.result;
+            console.log(this.mediaData);
+            this.spinnerService.hide();
+          }
         },
 
         err => {
@@ -400,14 +403,15 @@ export class MediaComponent implements OnInit {
         data => {
           if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code = 100)) {
-          this.albumGallery = data.result;
-          this.spinnerService.hide();
+              this.albumGallery = data.result;
+              console.log(this.albumGallery);
+              this.spinnerService.hide();
 
-          this.prepareAllAlbumImageIdsArray(data.result);
-        } else if ((data.error) && (data.custom_status_code = 101) ) {
-          this.alertService.danger('Required parameters are missing.');
-        }
-        }
+              this.prepareAllAlbumImageIdsArray(data.result);
+            } else if ((data.error) && (data.custom_status_code = 101)) {
+              this.alertService.danger('Required parameters are missing.');
+            }
+          }
         },
 
         err => {
@@ -438,7 +442,7 @@ export class MediaComponent implements OnInit {
           data => {
 
             this.albumGalleryItem = data.result;
-
+            console.log(this.albumGalleryItem);
             this.spinnerService.hide();
           },
 

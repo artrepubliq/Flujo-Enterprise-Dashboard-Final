@@ -75,13 +75,13 @@ export class PagesComponent implements OnInit, OnDestroy {
         }.bind(this), 3000);
         this.galleryImagesService.getGalleryImagesComponent('/flujo_client_getgallery/', AppConstants.CLIENT_ID)
             .subscribe(
-            data => {
-                this.imagesOfgallery = data.result;
-                console.log(this.imagesOfgallery);
-            },
-            error => {
-                console.log(error);
-            }
+                data => {
+                    this.imagesOfgallery = data.result;
+                    // console.log(this.imagesOfgallery);
+                },
+                error => {
+                    // console.log(error);
+                }
             );
     }
     createForm = () => {
@@ -130,10 +130,10 @@ export class PagesComponent implements OnInit, OnDestroy {
             height: '70vh',
             data: { images: this.imagesOfgallery, image_Type: imageType }
         });
-        console.log(this.imagesOfgallery);
+        // console.log(this.imagesOfgallery);
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
+                // console.log(result);
                 if (result.imageType === 'backgroundImage') {
                     this.popUpImageData = result.image;
                 } else {
@@ -158,24 +158,24 @@ export class PagesComponent implements OnInit, OnDestroy {
         }
         this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postcomponent', this.form.value)
             .subscribe(
-            data => {
-                if ((!data.error) && (data.custom_status_code = 100)) {
-                    this.getPageDetails();
-                    this.parsePostResponse(data.result);
+                data => {
+                    if ((!data.error) && (data.custom_status_code = 100)) {
+                        this.getPageDetails();
+                        this.parsePostResponse(data.result);
+                        this.spinnerService.hide();
+                    } else if (data.error && (data.custom_status_code = 132)) {
+                        this.spinnerService.hide();
+                        this.alertService.warning('Page order is already existed');
+                    } else if (data.error && (data.custom_status_code = 101)) {
+                        this.spinnerService.hide();
+                        this.alertService.warning('Required parameters are missing');
+                    }
                     this.spinnerService.hide();
-                } else if (data.error && (data.custom_status_code = 132)) {
+                },
+                error => {
+                    this.loading = false;
                     this.spinnerService.hide();
-                    this.alertService.warning('Page order is already existed');
-                } else if (data.error && (data.custom_status_code = 101)) {
-                    this.spinnerService.hide();
-                    this.alertService.warning('Required parameters are missing');
-                }
-                this.spinnerService.hide();
-            },
-            error => {
-                this.loading = false;
-                this.spinnerService.hide();
-            });
+                });
     }
 
     clearFile = (id) => {
@@ -193,57 +193,57 @@ export class PagesComponent implements OnInit, OnDestroy {
         const component_id = body.id;
         this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletecomponent/' + component_id)
             .subscribe(
-            data => {
-                if ((data.access_token === AppConstants.ACCESS_TOKEN)) {
-                if ((!data.error) && (data.custom_status_code = 100)) {
-                this.getPageDetails();
-                this.spinnerService.hide();
-                this.pageDetails = null;
-                console.log(data);
-                this.loading = false;
-                this.alertService.success('Page delete successfully');
-            } else if ((data.error) && (data.custom_status_code = 101)) {
-                this.alertService.danger('Required parameters are missing');
-            }
-        }
-            },
-            error => {
-                this.loading = false;
-                this.spinnerService.hide();
-                this.alertService.success('Something went wrong');
-            });
+                data => {
+                    if ((data.access_token === AppConstants.ACCESS_TOKEN)) {
+                        if ((!data.error) && (data.custom_status_code = 100)) {
+                            this.getPageDetails();
+                            this.spinnerService.hide();
+                            this.pageDetails = null;
+                            // console.log(data);
+                            this.loading = false;
+                            this.alertService.success('Page delete successfully');
+                        } else if ((data.error) && (data.custom_status_code = 101)) {
+                            this.alertService.danger('Required parameters are missing');
+                        }
+                    }
+                },
+                error => {
+                    this.loading = false;
+                    this.spinnerService.hide();
+                    this.alertService.success('Something went wrong');
+                });
     }
     getPageDetails = () => {
         this.spinnerService.show();
         this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
             .subscribe(
-            data => {
-                if ((data.access_token = AppConstants.ACCESS_TOKEN) && (data.custom_status_code = 100)) {
-                this.parentPageDetails = null;
-                this.pageDetails = null;
-                this.isEdit = false;
-                this.pageDetails = data.result;
-                this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
-                    return parentData.parent_id === '-1';
-                });
-                this.childDetails = _.filter(this.pageDetails, (parentData) => {
-                    return parentData.parent_id !== '-1';
-                });
-                this.spinnerService.hide();
-            }
-            },
-            error => {
-                console.log(error);
-                this.loading = false;
-                this.spinnerService.hide();
-            }
+                data => {
+                    if ((data.access_token = AppConstants.ACCESS_TOKEN) && (data.custom_status_code = 100)) {
+                        this.parentPageDetails = null;
+                        this.pageDetails = null;
+                        this.isEdit = false;
+                        this.pageDetails = data.result;
+                        this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
+                            return parentData.parent_id === '-1';
+                        });
+                        this.childDetails = _.filter(this.pageDetails, (parentData) => {
+                            return parentData.parent_id !== '-1';
+                        });
+                        this.spinnerService.hide();
+                    }
+                },
+                error => {
+                    // console.log(error);
+                    this.loading = false;
+                    this.spinnerService.hide();
+                }
             );
     }
     getChild(childData) {
         this.childDetails = _.filter(this.pageDetails, (parentData) => {
             return parentData.parent_id === childData.id;
         });
-        console.log(this.childDetails);
+        // console.log(this.childDetails);
     }
     // this method is used to set page detals to the form, if detalis exist
 
@@ -261,7 +261,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.form.controls['component_order'].setValue(pageData.component_order);
             this.form.controls['parent_id'].setValue(pageData.parent_id);
             this.dummy = pageData.parent_id;
-            console.log(this.form.value);
+            // console.log(this.form.value);
         }
 
     }
@@ -348,6 +348,6 @@ export class MediaLocalImagePopupDialog {
         });
         localImageData.isActive = true;
         this.filteredLocalImages = { image: this.total_images[index].image, imageType: this.data.image_Type };
-        console.log(this.filteredLocalImages);
+        // console.log(this.filteredLocalImages);
     }
 }
