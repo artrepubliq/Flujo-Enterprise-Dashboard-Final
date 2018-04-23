@@ -89,7 +89,7 @@ const routes: Routes = [
           { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat box' } },
           { path: 'user', component: CreateUserComponentComponent, data: { title: 'Create User' } },
           { path: 'media/gallery', component: ViewGalleryComponent, data: { title: 'Gallery' } },
-          { path: 'social_management', component: SocialManagementComponent, data: { title: 'Social Management' } },
+          { path: 'social_management', component: SocialManagementComponent, data: { title: 'Socila Management' } },
           { path: 'biography', component: BiographyComponent, data: { title: 'Biography' } },
           { path: 'module', component: CreateModuleComponent, data: { title: 'Create Module' } },
           { path: 'filerepository', component: FilerepositoryComponent, data: { title: 'Drive' } },
