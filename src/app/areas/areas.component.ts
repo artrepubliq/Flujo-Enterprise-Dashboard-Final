@@ -23,6 +23,7 @@ export class AreasComponent implements OnInit {
   isEdit: boolean;
   feature_id = 25;
   filteredUserAccessData: any;
+  add: any;
   userAccessLevelObject: any;
   newAreaData: IUpdateableData;
   areaData: Array<IAreaType>;
