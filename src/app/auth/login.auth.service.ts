@@ -48,11 +48,13 @@ export class LoginAuthService implements OnInit {
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('can_chat', authResult.can_chat);
     localStorage.setItem('email', authResult.email);
     localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('name', authResult.name);
     localStorage.setItem('expires_at', String(expTime));
     this.router.navigate(['/admin']);
+    window.location.reload();
     this.setLoggedInCustom(true);
   }
   getCustomLoginStatus() {
@@ -60,7 +62,7 @@ export class LoginAuthService implements OnInit {
   }
 
   logout(status) {
-    if (!status) {
+    if (status) {
       this.router.navigate(['/login']);
       this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.user_id)
       .subscribe(
