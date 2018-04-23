@@ -165,7 +165,7 @@ export class CreateModuleComponent implements OnInit {
                     this.spinnerService.hide();
                 },
                 error => {
-                    console.log(error);
+                    // console.log(error);
                     this.loading = false;
                     this.spinnerService.hide();
                 }
@@ -182,7 +182,7 @@ export class CreateModuleComponent implements OnInit {
             this.moduleForm.controls['module_background_image'].setValue(moduleData.module_background_image);
             this.moduleForm.controls['module_background_color'].setValue(moduleData.module_background_color);
             // this.dummy = moduleData.parent_id;
-            console.log(this.moduleForm.value);
+            // console.log(this.moduleForm.value);
         }
 
     }

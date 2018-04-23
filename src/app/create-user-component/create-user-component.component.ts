@@ -73,16 +73,19 @@ export class CreateUserComponentComponent implements OnInit {
         data => {
           this.CreateUserForm.reset();
           if (data.access_token = AppConstants.ACCESS_TOKEN) {
-          if ( !data.error && (data.custom_status_code = 100)) {
-            this.alertService.success('User added succesfully');
-            this.CreateUserForm.reset();
-            this.isEdit = false;
-            this.button_text = 'save';
-            this.getUsersList();
-          } else {
-            this.parsePostResponse(data);
+            if (!data.error && (data.custom_status_code = 100)) {
+              this.alertService.success('User added succesfully');
+              this.CreateUserForm.reset();
+              this.isEdit = false;
+              this.button_text = 'save';
+              this.getUsersList();
+            } else if (data.error === true && data.custom_status_code === 130) {
+              this.alertService.danger('Failed to create user!');
+            }
+             else {
+              this.parsePostResponse(data);
+            }
           }
-        }
           // this.alertService.info('User added succesfully');
           this.spinnerService.hide();
         },
@@ -109,7 +112,7 @@ export class CreateUserComponentComponent implements OnInit {
             }
           }
           this.spinnerService.hide();
-          console.log(data);
+          // console.log(data);
         },
         error => {
           this.loading = false;
@@ -126,17 +129,15 @@ export class CreateUserComponentComponent implements OnInit {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100 && data.result.length > 0) {
               data.result ? this.isEdit = false : this.isEdit = true;
-              console.log(data);
+              // console.log(data);
               this.userDetails = data.result;
-              console.log(this.userDetails);
-            } else if (data.custom_status_code === 101) {
-              this.alertService.warning('Required Parameters are Missing!!!');
+              // console.log(this.userDetails);
             }
           }
           this.spinnerService.hide();
         },
         error => {
-          console.log(error);
+          // console.log(error);
           this.spinnerService.hide();
         }
       );
@@ -148,7 +149,7 @@ export class CreateUserComponentComponent implements OnInit {
       data: userItem,
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
 
@@ -164,7 +165,7 @@ export class CreateUserComponentComponent implements OnInit {
       this.CreateUserForm.controls['phone'].setValue(userData.phone);
       this.CreateUserForm.controls['role'].setValue(userData.role);
       this.CreateUserForm.controls['user_id'].setValue(userData.id);
-      console.log(this.CreateUserForm.value);
+      // console.log(this.CreateUserForm.value);
     }
 
   }
@@ -179,7 +180,7 @@ export class CreateUserComponentComponent implements OnInit {
     this.isAddUser = true;
     this.button_text = 'Update';
     this.setDefaultClientUserDetails(userItem);
-    console.log(userItem);
+    // console.log(userItem);
   }
   parsePostResponse(data) {
     if (AppConstants.ACCESS_TOKEN === data.access_token) {
@@ -201,6 +202,8 @@ export class CreateUserComponentComponent implements OnInit {
         this.alertService.warning('Required Parameters are Missing!!!');
       } else if (data.custom_status_code === 105) {
         this.alertService.warning('Email Already Exists!!!');
+      } else if (data.custom_status_code === 130) {
+        this.alertService.warning('Failed to create user!!!');
       }
     } else {
       this.alertService.warning('You are not authorized person for this action');
@@ -262,7 +265,7 @@ export class AccessLevelPopup {
   }
 
   onNoClick(): void {
-    console.log(this.data);
+    // console.log(this.data);
     this.dialogRef.close();
   }
   closeDialog(): void {
@@ -359,8 +362,8 @@ export class AccessLevelPopup {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          console.log(data);
-          console.log(this.data);
+          // console.log(data);
+          // console.log(this.data);
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.result.length > 0 && data.custom_status_code === 100) {
               this.filteredAccessIds = _.filter(data.result, (item) => {
@@ -385,7 +388,7 @@ export class AccessLevelPopup {
           }
         },
         error => {
-          console.log(error);
+          // console.log(error);
           this.spinnerService.hide();
         }
       );
