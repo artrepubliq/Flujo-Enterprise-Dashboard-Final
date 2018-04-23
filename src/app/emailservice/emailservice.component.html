@@ -13,7 +13,7 @@
     <div fxFlex class="page-header">
       Mailchimp
     </div>
-    <button class="choose_button" (click)="downLoadCsvFormat($event)">Download Csv</button>
+    <button class="choose_button" (click)="downLoadCsvFormat()">Download Csv</button>
     <div>
       <button class="choose_button" *ngIf="isOpen" (click)="templateSelectPopup()">Choose Template
         <span class="add_icon">
@@ -30,9 +30,12 @@
           <div fxFlex class="input_box page_input" fxLayout="column" fxLayoutGap="12px">
             <label>To Address</label>
             <div class="input_error_feild">
-              <input formControlName="email" id="email" placeholder="Type E-mail address">
+              <input formControlName="email"  (ngModelChange)="checkValidEmails($event)" id="email" placeholder="Type E-mail address">
               <div [hidden]="mailSendingForm.controls.email.valid || (mailSendingForm.controls.email.pristine && !submitted)" class="form-error-msg">
                 enter valid email
+              </div>
+              <div [hidden]="multipleEmails" class="form-error-msg">
+                enter valid emails
               </div>
             </div>
           </div>
@@ -84,7 +87,7 @@
             Preview
           </button>
           <button type="button" mat-button class="button_cancel" (click)="cancelMail()">Cancel</button>
-          <button type="submit" [hidden]="Ishide3" class="button_submit" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="!mailSendingForm.valid">
+          <button type="submit" [hidden]="Ishide3" class="button_submit" (click)="mailSendingFormSubmit(mailSendingForm.value)" [disabled]="(!mailSendingForm.valid || !multipleEmails)">
             Send
           </button>
         </div>

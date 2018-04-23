@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { HttpService } from '../service/httpClient.service';
 import { AppConstants } from '../app.constants';
 import { IproblemType, IUpdateableData } from '../model/problemType.model';
 import { ProblemTypeService } from '../service/problem-type.service';
 import { IHttpResponse } from '../model/httpresponse.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { HttpClient } from '@angular/common/http';
+import { ICommonInterface } from '../model/commonInterface.model';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 @Component({
   selector: 'app-problem-category',
   templateUrl: './problem-category.component.html',
@@ -46,7 +48,8 @@ export class ProblemCategoryComponent implements OnInit {
     private alertService: AlertService,
     public adminComponent: AdminComponent,
     private router: Router,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    public dialog: MatDialog
   ) {
     this.updateProblem = false;
     this.selectProblem = true;
@@ -103,19 +106,99 @@ export class ProblemCategoryComponent implements OnInit {
     this.problemForm.get('problemid').setValue(this.problemId);
     console.log(this.problemForm.value);
   }
-
-  public backToSelect(): void {
-    this.isEdit = false;
-    this.actionText = 'Add';
-    this.problemTypeNameNew = '';
-    this.problemTypeNameTeluguNew = '';
-    this.problemId = '';
-    this.problemForm.get('problemtypenamenew').setValue('');
-    this.problemForm.get('problemtypenametelugunew').setValue('');
-    this.problemForm.get('problemid').setValue('');
+  public deleteProblem(problem): void {
+    console.log(problem);
+    this.spinnerService.show();
+    this.problemService.deleteProblem('flujo_client_deletereportproblemtype/', problem.id)
+      .subscribe(
+        data => {
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Problem deleted successfully');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            }
+          }
+          this.spinnerService.hide();
+          this.getproblemData();
+          this.problemForm.reset();
+          this.isEdit = false;
+        },
+        error => {
+          this.alertService.warning('something went wrong');
+          console.log(error);
+        }
+      );
   }
 
-  public createNewproblem() {
+  selectAll() {
+    for (let i = 0; i < this.problemTypeData.length; i++) {
+      this.problemTypeData[i].selected = this.checked;
+    }
+  }
+  /*Pop up for is for add and update of area data*/
+  openDialog(problem): void {
+    console.log(problem);
+    if (problem) {
+      const dialogRef = this.dialog.open(ProblemCategoryEditPopup, {
+        width: '30vw',
+        data: problem,
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        this.getproblemData();
+      });
+    } else if (!problem) {
+      const dialogRef = this.dialog.open(ProblemCategoryEditPopup, {
+        width: '30vw',
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        this.getproblemData();
+      });
+    }
+  }
+}
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'problem-popup-dialog-example.html',
+  styleUrls: ['./problem-category.component.scss']
+})
+// tslint:disable-next-line:component-class-suffix
+export class ProblemCategoryEditPopup {
+  problemId: any;
+  problemTypeNameTeluguNew: any;
+  problemTypeNameNew: any;
+  areaTelugu: any;
+  areaPincode: any;
+  areaId: any;
+  areaName: any;
+  actionText = 'Save';
+  newProblemData: IUpdateableData;
+  reportData: any;
+  problemForm: FormGroup;
+  constructor(
+    public dialogRef: MatDialogRef<ProblemCategoryEditPopup>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: FormBuilder,
+    private spinnerService: Ng4LoadingSpinnerService,
+    private httpClient: HttpClient,
+    private alertService: AlertService) {
+    this.problemForm = this.formBuilder.group({
+      'problemtypenamenew': ['', ],
+      'problemtypenametelugunew': ['', ],
+      'problemid': [null],
+      'client_id': [null]
+    });
+    if (this.data) {
+      console.log(this.data.area);
+      this.reportData = this.data;
+      this.updateProblemData(this.reportData);
+    }
+    dialogRef.disableClose = true;
+  }
+  postAreaData = () => {
     if (!this.problemForm.get('problemtypenamenew').value) {
       return false;
     }
@@ -138,12 +221,13 @@ export class ProblemCategoryComponent implements OnInit {
     this.newProblemData.created_by = localStorage.getItem('name');
     console.log(this.newProblemData);
     this.spinnerService.show();
-    this.problemService.updateProblemType('flujo_client_postreportproblemtype', this.newProblemData)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postreportproblemtype', this.newProblemData)
       .subscribe(
         data => {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.alertService.success('Problem updated successfully');
+              this.dialogRef.close();
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
             } else if (data.custom_status_code === 102) {
@@ -152,10 +236,7 @@ export class ProblemCategoryComponent implements OnInit {
           }
           console.log(data);
           this.spinnerService.hide();
-          this.getproblemData();
           this.problemForm.reset();
-          this.isEdit = false;
-          this.actionText = 'Add';
         },
         error => {
           this.spinnerService.hide();
@@ -164,36 +245,22 @@ export class ProblemCategoryComponent implements OnInit {
         }
       );
   }
-
-  public deleteProblem(problem): void {
-    console.log(problem);
-    this.spinnerService.show();
-    this.problemService.deleteProblem('flujo_client_deletereportproblemtype/', problem.id)
-      .subscribe(
-        data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 100) {
-              this.alertService.success('Problem deleted successfully');
-            } else if (data.custom_status_code === 101) {
-              this.alertService.warning('Required parameters are missing!');
-            }
-          }
-          this.spinnerService.hide();
-          this.getproblemData();
-          this.problemForm.reset();
-          this.isEdit = false;
-          this.actionText = 'Add';
-        },
-        error => {
-          this.alertService.warning('something went wrong');
-          console.log(error);
-        }
-      );
+  cancelPostAreaData () {
+    this.dialogRef.close();
+    this.problemForm.reset();
   }
-
-  selectAll() {
-    for (let i = 0; i < this.problemTypeData.length; i++) {
-      this.problemTypeData[i].selected = this.checked;
-    }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+  public updateProblemData(problem): void {
+    console.log(problem);
+    this.actionText = 'Update';
+    this.problemTypeNameNew = problem.problem_type;
+    this.problemTypeNameTeluguNew = problem.problem_type_telugu;
+    this.problemId = problem.id;
+    this.problemForm.get('problemtypenamenew').setValue(this.problemTypeNameNew);
+    this.problemForm.get('problemtypenametelugunew').setValue(this.problemTypeNameTeluguNew);
+    this.problemForm.get('problemid').setValue(this.problemId);
+    console.log(this.problemForm.value);
   }
 }

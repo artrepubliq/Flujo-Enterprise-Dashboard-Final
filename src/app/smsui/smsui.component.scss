@@ -21,10 +21,12 @@
     border: none;
 
   } // control-messages,
-  // .form-error-msg {
-  //   color: #E82C0C;
-  //   margin: 6px 0;
-  // }
+  .form-error-msg {
+    color: #E82C0C;
+    margin: 6px 0;
+    bottom: -8px;
+    top: auto;
+  }
 }
 
 
