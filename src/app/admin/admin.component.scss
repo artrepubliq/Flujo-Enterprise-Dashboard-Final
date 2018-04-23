@@ -113,6 +113,9 @@
     padding-left: 80px;
     .login-info {
       visibility: hidden;
+      .nav-link.dropdown-toggle:after {
+        display: none;
+      }
     }
   }
   .navbar-content {
@@ -138,6 +141,9 @@
     width: 240px;
     .login-info {
       visibility: visible;
+      .nav-link.dropdown-toggle:after {
+        display: block;
+      }
     }
   }
 }
@@ -558,7 +564,7 @@
   .nav-link.dropdown-toggle:after {
     position: absolute;
     top: 15px;
-    left: 70%; // float: right;
+    left: 60%; // float: right;
     border: none;
     transition: 0.3s;
     content: "\f107";
