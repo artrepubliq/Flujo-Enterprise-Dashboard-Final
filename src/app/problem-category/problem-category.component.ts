@@ -23,6 +23,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 export class ProblemCategoryComponent implements OnInit {
   checked: false;
   isEdit: boolean;
+  add: any;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   selectProblem: boolean;

@@ -89,11 +89,7 @@
           </div>
           <div class="file_actions">
             <div fxLayout="row" fxLayoutGap="15px">
-              <!-- <a  href="{{mahesh}}" download="mahesh.jpg"
-                class="fa fa-download action">
-              </a> -->
-              <a download="{{filtered_item.file_name}}.{{filtered_item.file_extension}}" href="{{filtered_item.file_path}}" 
-                class="fa fa-download action">
+              <a href="{{filtered_item.file_path}}" download="{{filtered_item.file_name}}.{{filtered_item.file_extension}}" class="fa fa-download action">
               </a>
               <i class="fa fa-trash action" (click)="deleteFile(filtered_item.id, filtered_repositories)"></i>
             </div>

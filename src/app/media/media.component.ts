@@ -53,6 +53,7 @@ export class MediaComponent implements OnInit {
   public successMessage;
   public loading = false;
   ishide: boolean;
+  public file_name_control;
   public successMessagebool;
   public deleteMessage;
   public deleteMessagebool;
@@ -710,6 +711,7 @@ export class DialogOverviewExampleDialog {
   // tslint:disable-next-line:component-selector
   selector: 'dialog-overview-example-file-dialog',
   templateUrl: 'file-select.popup.html',
+  styleUrls: ['./media.component.scss']
 })
 // tslint:disable-next-line:component-class-suffix
 export class FileSelectPopup {
@@ -717,6 +719,8 @@ export class FileSelectPopup {
   stateCtrl: FormControl;
   filteredStates: Observable<any[]>;
   description: string;
+  file_name_control: string;
+  config: any;
   sendData: any = {};
   constructor(
     public dialogRef: MatDialogRef<FileSelectPopup>,

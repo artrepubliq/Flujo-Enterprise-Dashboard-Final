@@ -237,6 +237,7 @@ export class EmailserviceComponent implements OnInit {
 })
 // tslint:disable-next-line:component-class-suffix
 export class EmailTemplateSelectionPopup {
+  config: any;
   selectedEmailTemplateData: IPostEmailTemplate[];
   constructor(
     public dialogRef: MatDialogRef<EmailTemplateSelectionPopup>,
