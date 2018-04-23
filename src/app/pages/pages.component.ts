@@ -76,11 +76,17 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.galleryImagesService.getGalleryImagesComponent('/flujo_client_getgallery/', AppConstants.CLIENT_ID)
             .subscribe(
                 data => {
-                    this.imagesOfgallery = data.result;
-                    // console.log(this.imagesOfgallery);
+                    if (data.access_token === AppConstants.ACCESS_TOKEN) {
+                        if (data.custom_status_code === 100) {
+                            this.imagesOfgallery = data.result;
+                            console.log(this.imagesOfgallery);
+                        } else if (data.custom_status_code === 101) {
+                            this.alertService.warning('Required parameters are missing');
+                        }
+                    }
                 },
                 error => {
-                    // console.log(error);
+                    console.log(error);
                 }
             );
     }
@@ -159,16 +165,16 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postcomponent', this.form.value)
             .subscribe(
                 data => {
-                    if ((!data.error) && (data.custom_status_code = 100)) {
+                    if ((!data.error) && (data.custom_status_code === 100)) {
                         this.getPageDetails();
                         this.parsePostResponse(data.result);
                         this.spinnerService.hide();
-                    } else if (data.error && (data.custom_status_code = 132)) {
-                        this.spinnerService.hide();
-                        this.alertService.warning('Page order is already existed');
-                    } else if (data.error && (data.custom_status_code = 101)) {
+                    } else if (data.error && (data.custom_status_code === 101)) {
                         this.spinnerService.hide();
                         this.alertService.warning('Required parameters are missing');
+                    } else if (data.error && (data.custom_status_code === 132)) {
+                        this.spinnerService.hide();
+                        this.alertService.warning('Page order is already existed');
                     }
                     this.spinnerService.hide();
                 },
@@ -199,7 +205,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                             this.getPageDetails();
                             this.spinnerService.hide();
                             this.pageDetails = null;
-                            // console.log(data);
+                            console.log(data);
                             this.loading = false;
                             this.alertService.success('Page delete successfully');
                         } else if ((data.error) && (data.custom_status_code = 101)) {
@@ -271,6 +277,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.isAddPage = true;
         this.isTableView = false;
         this.isGridView = false;
+        this.button_text = 'save';
     }
     viewPages = () => {
         // this.getPageDetails();

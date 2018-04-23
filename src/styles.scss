@@ -892,6 +892,7 @@ control-messages,
     box-shadow: 0px 0.5px 7.5px 0 #0cc0df;
   }
 }
+
 /* Custom Material input */
 
 .custom_input_mat {
@@ -912,6 +913,10 @@ control-messages,
       border-radius: 5px;
     }
   }
+}
+.popup_description.custom_input_mat .mat-form-field-flex {
+  height: 100px;
+  border-radius: 5px;
 }
 .sort_controls {
   .mat-select-arrow {

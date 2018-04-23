@@ -59,11 +59,11 @@
       <mat-tab-group class="media-tabs" [selectedIndex]="selectedTab" (selectedTabChange)="tabChanged($event)">
         <mat-tab label="All">
           <div *ngIf="!isshowAlbumGallery" enctype="multipart/form-data">
-            <div class="mb-3" fxLayout="row" fxLayoutAlign=" center">
+            <div class="mb-3" fxLayout="row" class="create_gallery" fxLayoutAlign=" center">
               <p class="mr-3 mb-0">Select Images to Create Gallery</p>
               <div>
                 <!-- <label for="title">Title :</label> -->
-                <input placeholder="Enter Album title here" type="text" class="input_custom" [(ngModel)]="albumTitle">
+                <input placeholder="Enter Album title here" type="text" [(ngModel)]="albumTitle">
                 <button class="button_submit" type="submit" (click)="CreateNewAlbumForm()">Create Gallery</button>
               </div>
               <span *ngIf="!isAlbumObjectsPresentAlert" class="error-msg">please enter album title and select two or more images</span>

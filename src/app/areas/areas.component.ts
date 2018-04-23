@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { IUpdateableData, IAreaType } from '../model/area.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { HttpService } from '../service/httpClient.service';
 import { AreaService } from '../service/area.service';
 import { NgxSmartLoaderService } from 'ngx-smart-loader';
@@ -12,6 +12,8 @@ import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-areas',
   templateUrl: './areas.component.html',
@@ -20,23 +22,13 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 export class AreasComponent implements OnInit {
   isEdit: boolean;
   feature_id = 25;
-  actionText: string;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
-  selectArea: boolean;
-  isNew: boolean;
-  isCancel: boolean;
-  areaId: string;
-  areaTypeNameNew: string;
-  areaPincodeNew: string;
-  areaTeluguName: string;
-  areaTelugu: string;
-  areaName: string;
-  areaPincode: string;
   newAreaData: IUpdateableData;
   areaData: Array<IAreaType>;
   areaForm: FormGroup;
   config: any;
+  actionText = 'Add New +';
   userAccessDataModel: AccessDataModelComponent;
   constructor(
     private httpService: HttpService,
@@ -46,20 +38,9 @@ export class AreasComponent implements OnInit {
     private alertService: AlertService,
     public adminComponent: AdminComponent,
     private router: Router,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    public dialog: MatDialog
   ) {
-    this.areaPincode = '';
-    this.areaName = '';
-    this.areaTeluguName = '';
-    this.areaTelugu = '';
-    this.actionText = 'Add New';
-    this.isEdit = false;
-    this.areaForm = new FormGroup({
-      'areatypenamenew': new FormControl(this.areaTypeNameNew, [Validators.required]),
-      'areateluguname': new FormControl(this.areaTeluguName, [Validators.required]),
-      'areapincodenew': new FormControl(this.areaPincodeNew, [Validators.required, Validators.minLength(3), Validators.maxLength(6)]),
-      'areaid': new FormControl(this.areaId),
-    });
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/areacategory');
@@ -91,40 +72,94 @@ export class AreasComponent implements OnInit {
         }
       );
   }
-
-  public updateAreaData(area): void {
+  public deletearea(area): void {
+    this.spinnerService.show();
     console.log(area);
-    this.isEdit = true;
-    this.actionText = 'Update';
-    this.areaName = area.area;
-    this.areaId = area.id;
-    this.areaPincode = area.pincode;
-    this.areaTelugu = area.area_telugu;
-    this.areaForm.get('areatypenamenew').setValue(this.areaName);
-    this.areaForm.get('areapincodenew').setValue(this.areaPincode);
-    this.areaForm.get('areateluguname').setValue(this.areaTelugu);
-    this.areaForm.get('areaid').setValue(area.id);
+    this.areaService.deleteArea('flujo_client_deletereportarea/', area.id)
+      .subscribe(
+        data => {
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (data.custom_status_code === 100) {
+              this.alertService.success('Area deleted successfully');
+            } else if (data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing!');
+            }
+            this.spinnerService.hide();
+            this.getAreaData();
+            this.areaForm.reset();
+            this.isEdit = false;
+          }
+        },
+        error => {
+          this.alertService.warning('Something went wrong.');
+          console.log(error);
+        }
+      );
   }
-
-  public backToSelect(): void {
-    this.isEdit = false;
-    this.areaId = '';
-    this.areaName = '';
-    this.areaTelugu = '';
-    this.areaPincode = '';
-    this.actionText = 'Add';
-    this.areaForm.get('areatypenamenew').setValue('');
-    this.areaForm.get('areateluguname').setValue('');
-    this.areaForm.get('areapincodenew').setValue('');
-    this.areaForm.get('areapincode').setValue('');
+  /*Pop up for is for add and update of area data*/
+  openDialog(area): void {
+    console.log(area);
+    if (area) {
+      const dialogRef = this.dialog.open(AreaEditPopup, {
+        width: '30vw',
+        data: area,
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        this.getAreaData();
+      });
+    } else if (!area) {
+      const dialogRef = this.dialog.open(AreaEditPopup, {
+        width: '30vw',
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        this.getAreaData();
+      });
+    }
   }
-
-  public createNewArea() {
+}
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'area-popup-dialog-example.html',
+  styleUrls: ['./areas.component.scss']
+})
+// tslint:disable-next-line:component-class-suffix
+export class AreaEditPopup {
+  areaTelugu: any;
+  areaPincode: any;
+  areaId: any;
+  areaName: any;
+  actionText = 'Save';
+  newAreaData: IUpdateableData;
+  test: any;
+  areaForm: FormGroup;
+  constructor(
+    public dialogRef: MatDialogRef<AreaEditPopup>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: FormBuilder,
+    private spinnerService: Ng4LoadingSpinnerService,
+    private httpClient: HttpClient,
+    private alertService: AlertService) {
+    this.areaForm = this.formBuilder.group({
+      'areatypenamenew': ['', ],
+      'areateluguname': ['', ],
+      'areapincodenew': ['', ],
+      'areaid': [null],
+      'client_id': [null]
+    });
+    if (this.data) {
+      console.log(this.data.area);
+      this.test = this.data;
+      this.updateAreaData(this.test);
+    }
+  }
+  postAreaData = () => {
     if (!this.areaForm.get('areatypenamenew').value ||
       !this.areaForm.get('areateluguname').value || !this.areaForm.get('areapincodenew').value) {
       return false;
     }
-    console.log(this.areaForm.value);
     this.spinnerService.show();
     if (this.areaForm.get('areaid').value) {
       this.newAreaData = {
@@ -142,24 +177,20 @@ export class AreasComponent implements OnInit {
         pincode: this.areaForm.get('areapincodenew').value,
       };
     }
-    console.log(this.newAreaData);
-    this.areaService.updateAreaType('flujo_client_postreportarea', this.newAreaData)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postreportarea', this.newAreaData)
       .subscribe(
         data => {
-          console.log(data);
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.alertService.success('Area updated successfully');
+              this.dialogRef.close();
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
             } else if (data.custom_status_code === 102) {
               this.alertService.warning('Every thing is upto date!');
             }
-            this.getAreaData();
             this.areaForm.reset();
             this.spinnerService.hide();
-            this.isEdit = false;
-            this.actionText = 'Add';
           }
         },
         error => {
@@ -169,30 +200,23 @@ export class AreasComponent implements OnInit {
         }
       );
   }
-
-  public deletearea(area): void {
-    this.spinnerService.show();
-    console.log(area);
-    this.areaService.deleteArea('flujo_client_deletereportarea/', area.id)
-      .subscribe(
-        data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 100) {
-              this.alertService.success('Area deleted successfully');
-            } else if (data.custom_status_code === 101) {
-              this.alertService.warning('Required parameters are missing!');
-            }
-            this.spinnerService.hide();
-            this.getAreaData();
-            this.areaForm.reset();
-            this.isEdit = false;
-            this.actionText = 'Add';
-          }
-        },
-        error => {
-          this.alertService.warning('Something went wrong.');
-          console.log(error);
-        }
-      );
+  cancelPostAreaData () {
+    this.dialogRef.close();
+    this.areaForm.reset();
   }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+  updateAreaData(area): void {
+    this.actionText = 'Update';
+    this.areaName = this.test.area;
+    this.areaId = this.test.id;
+    this.areaPincode = this.test.pincode;
+    this.areaTelugu = this.test.area_telugu;
+    this.areaForm.get('areatypenamenew').setValue(this.areaName);
+    this.areaForm.get('areapincodenew').setValue(this.areaPincode);
+    this.areaForm.get('areateluguname').setValue(this.areaTelugu);
+    this.areaForm.get('areaid').setValue(area.id);
+  }
+
 }

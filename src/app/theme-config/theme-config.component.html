@@ -9,31 +9,37 @@
       </div>
       <div fxLayout="row" fxLayoutGap="3rem" fxLayoutWrap fxLayoutAlign="start">
         <div fxFlex fxLayout="column" fxLayoutGap="3rem">
-          <div fxLayout="row" fxLayoutGap="3rem">
-            <div fxFlex="50%">
-              <label class="" for="rolename">Title Font Family</label>
-              <div class="rounded-rectangle-2736">
+          <div fxLayout="row" fxLayoutGap="15px">
+            <div fxFlex>
+              <label class="sub-title">Title Font Family</label>
+              <!-- <div class="rounded-rectangle-2736">
                 <select required [(ngModel)]="selectedTitleFont" id="rolename" class="form-control btn-new select-option" data-style="btn-new"
                   (ngModelChange)='onOptionSelected($event)' formControlName="title_font">
                   <option selected [ngValue]="undefined" disabled>Select Font-Family</option>
                   <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
                 </select>
+              </div> -->
+              <div>
+                <mat-select class="select_dropdown_mat" placeholder="Title Font" required [(ngModel)]="selectedTitleFont" id="rolename" (ngModelChange)='onOptionSelected($event)'
+                  formControlName="title_font">
+                  <mat-option *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</mat-option>
+                </mat-select>
               </div>
             </div>
-            <div fxFlex="50%">
-              <label class="" for="rolename">Body Font Family</label>
-              <div class="rounded-rectangle-2736">
-                <select required [(ngModel)]="selectedBodyFont" id="rolename" class="form-control btn-new select-option" data-style="btn-new"
-                  (ngModelChange)='onOptionSelected($event)' formControlName="body_font_family">
-                  <option selected [ngValue]="undefined" disabled>Select Font-Family</option>
-                  <option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</option>
-                </select>
+            <div fxFlex>
+              <label class="sub-title">Body Font Family</label>
+              <div>
+                <mat-select required [(ngModel)]="selectedBodyFont" id="rolename" class="select_dropdown_mat" (ngModelChange)='onOptionSelected($event)'
+                  formControlName="body_font_family">
+                  <mat-option selected disabled>Select Font-Family</mat-option>
+                  <mat-option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</mat-option>
+                </mat-select>
               </div>
             </div>
           </div>
           <div fxLayout="row" fxLayoutGap="3rem">
             <div fxFlex="100%">
-              <label for="fontSize">Font Size</label>
+              <label class="sub-title" for="fontSize">Font Size</label>
               <div class="form-group form-inline">
                 <input fxFlex="80%" id="fontSize" type="number" class="form-control" [(ngModel)]="fontSize" min="8" max="30" formControlName="theme_font_size"
                   disabled/>
@@ -52,7 +58,7 @@
       <div fxLayout="column" fxLayoutGap="2rem" fxLayoutWrap fxLayoutAlign="center">
         <div fxLayout="row" fxLayoutGap="2rem">
           <div class="colorPickerBox">
-            <label fxLayoutAlign="start" for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
+            <label class="sub-title" fxLayoutAlign="start" for="PrimaryMenuTitleColor">Primary Menu Title Color :</label>
             <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="PrimaryMenuTitleColor" [(colorPicker)]="PrimaryMenuTitleColor"
               [cpOKButton]="true" [cpSaveClickOutside]="false" [style.background]="PrimaryMenuTitleColor" [style.color]="PrimaryMenuTitleColor"
               class="form-control" id="PrimaryMenuTitleColor" formControlName="primary_menu_title_color" (colorPickerChange)="themeConfigForm.get('primary_menu_title_color').setValue($event)"
@@ -60,7 +66,7 @@
             <p class="hash-code">{{PrimaryMenuTitleColor}}</p>
           </div>
           <div class="colorPickerBox">
-            <label fxLayoutAlign="start" for="ChildMenuTitleColor">Child Menu Title Color :</label>
+            <label class="sub-title" fxLayoutAlign="start" for="ChildMenuTitleColor">Child Menu Title Color :</label>
             <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="ChildMenuTitleColor" [(colorPicker)]="ChildMenuTitleColor"
               [cpOKButton]="true" [cpSaveClickOutside]="false" [style.background]="ChildMenuTitleColor" [style.color]="ChildMenuTitleColor"
               class="form-control" id="ChildMenuTitleColor" formControlName="child_menu_title_color" (colorPickerChange)="themeConfigForm.get('child_menu_title_color').setValue($event)"
@@ -68,7 +74,7 @@
             <p class="hash-code">{{ChildMenuTitleColor}}</p>
           </div>
           <div class="colorPickerBox">
-            <label for="titleColor" fxLayoutAlign="start">Select Gradient Title Colors :</label>
+            <label class="sub-title" for="titleColor" fxLayoutAlign="start">Select Gradient Title Colors :</label>
             <div fxLayout="" row>
               <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="gradient_title_color1" [(colorPicker)]="gradient_title_color1"
                 [cpOKButton]="true" [cpSaveClickOutside]="false" [style.background]="gradient_title_color1" [style.color]="gradient_title_color1"
@@ -85,7 +91,7 @@
         </div>
         <div fxLayout="row" fxLayoutGap="3rem">
           <div class="colorPickerBox">
-            <label fxLayoutAlign="start" for="PrimaryMenuOverColor">Primary Menu Hover Color :</label>
+            <label class="sub-title" fxLayoutAlign="start" for="PrimaryMenuOverColor">Primary Menu Hover Color :</label>
             <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="PrimaryMenuOverColor" [(colorPicker)]="PrimaryMenuOverColor"
               [cpOKButton]="true" [cpSaveClickOutside]="false" [style.background]="PrimaryMenuOverColor" [style.color]="PrimaryMenuOverColor"
               class="form-control" id="PrimaryMenuOverColor" formControlName="primary_menu_hover_color" (colorPickerChange)="themeConfigForm.get('primary_menu_hover_color').setValue($event)"
@@ -93,7 +99,7 @@
             <p class="hash-code">{{PrimaryMenuOverColor}}</p>
           </div>
           <div class="colorPickerBox">
-            <label fxLayoutAlign="start" for="ChildMenuOverColor">Child Menu Hover Color :</label>
+            <label class="sub-title" fxLayoutAlign="start" for="ChildMenuOverColor">Child Menu Hover Color :</label>
             <input [cpPosition]="'right'" [cpPositionRelativeToArrow]="false" [value]="ChildMenuOverColor" [(colorPicker)]="ChildMenuOverColor"
               [cpOKButton]="true" [cpSaveClickOutside]="false" [style.background]="ChildMenuOverColor" [style.color]="ChildMenuOverColor"
               class="form-control" id="ChildMenuOverColor" formControlName="child_menu_hover_color" (colorPickerChange)="themeConfigForm.get('child_menu_hover_color').setValue($event)"
@@ -104,7 +110,7 @@
         </div>
       </div>
     </div>
-    <div fxHide.xs fxHide.sm fxLayout="column" class="rounded-rectangle-2360" ></div>
+    <div fxHide.xs fxHide.sm fxLayout="column" class="rounded-rectangle-2360"></div>
     <!-- =====preview block ====== -->
     <div fxFlex="50%" fxLayout="column" fxLayoutGap="1.5rem">
       <div class="pad-20"></div>
