@@ -104,11 +104,16 @@
   }
   .navbar-header {
     background-color: #4a2565;
-    width: 240px;
+    width: 80px;
     border-bottom: 1px solid #52306b;
     -webkit-transition: 0.3s ease-in-out;
     /* Safari */
     transition: 0.3s ease-in-out;
+    position: relative;
+    padding-left: 80px;
+    .login-info {
+      visibility: hidden;
+    }
   }
   .navbar-content {
     position: absolute;
@@ -119,22 +124,20 @@
   }
   .navbar-brand {
     cursor: pointer;
-    width: 50%;
-    padding: 18px;
-    height: 70px;
-    margin: 0; // border-bottom: 1px solid #52306b;
+    position: absolute;
+    width: 80px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    padding: 0;
     img {
-      max-height: 30px;
-      max-width: 50px;
+      max-width: 17px;
     }
   } //   Toggle Header
-  .navbar-header.navbar-header-toggle {
-    width: 80px;
-    .navbar-brand {
-      width: 100%;
-    }
+  .navbar-header.navbar-header-open {
+    width: 240px;
     .login-info {
-      display: none;
+      visibility: visible;
     }
   }
 }
@@ -144,18 +147,20 @@
   position: relative;
 }
 
+
+/* =================== */
+
 // **=======** Side-Bar Styles **=======**
-.sidebar-menu {
-  width: 240px;
-  position: relative;
+.sidebar-default {
   background-color: #4a2565;
   color: #7e678f;
   -webkit-transition: 0.3s ease-in-out;
   /* Safari */
   transition: 0.3s ease-in-out;
+  width: 80px;
   .divider-line {
     border-bottom: 1px solid #52306b;
-    margin: 10px 0;
+    // margin: 10px 0;
   }
   .nav-item {
     min-height: 30px;
@@ -170,6 +175,7 @@
     text-align: left;
     color: #604077;
     padding: 15px 15px 15px 12%;
+    display: none;
     i {
       float: right;
       margin-top: 5px;
@@ -179,15 +185,30 @@
     font-size: 14px;
     text-align: left;
     color: #7e678f;
-    padding: 15px 15px;
+    // padding: 15px 15px;
+    padding: 0;
     position: relative;
-    padding-left: 34%;
+    // padding-left: 34%;
+    padding-left: 80px;
     cursor: pointer;
-    img {
-      max-width: 20px;
-      max-height: 20px;
-      position: absolute;
-      left: 13%;
+    height: 50px;
+    place-content: center flex-start;
+    align-items: center;
+    display: flex;
+    .link_img {
+        position: absolute;
+        width: 80px;
+        height: 100%;
+        top: 0;
+        text-align: center;
+        left: 0;
+        place-content: center;
+        align-items: center;
+        display: flex;
+      img {
+        max-width: 20px;
+        max-height: 20px;
+      }
     }
     i {
       max-width: 20px;
@@ -199,10 +220,23 @@
     .active_img {
       display: none;
     }
+    span.link_title {
+      white-space: nowrap;
+      display: none;
+      transform: translateX(80px);
+      -webkit-transition-property: transform; /* Safari */
+      -webkit-transition-duration: 5s; /* Safari */
+      -webkit-transition-delay: 2s; /* Safari */
+      transition-property: transform;
+      transition-duration: 5s;
+      transition-delay: 2s;
+    }
   }
   .nav-link.editor-link {
-    padding-top: 30px;
-    padding-bottom: 30px;
+    height: 80px;
+  }
+  .nav-link.flow_link {
+    height: 60px;
   }
   .nav-link.active {
     .active_img {
@@ -288,11 +322,23 @@
         margin-right: 25%;
       }
     }
-  } // Team Chat 
+  } 
+  // Team Chat 
+  .team_icon {
+    display: block;
+    .nav-link {
+      padding-left: 0;
+      img {
+        max-width: 20px;
+        margin: 0 auto;
+      }
+    }
+  }
   .team-items {
     list-style: none;
     padding: 0; // max-height: 600px;
     position: relative;
+    display: none;
     .team-user {
       display: inline-block;
       position: relative;
@@ -342,87 +388,27 @@
 }
 
 /* **=======** END Side-Bar Styles **=======** */
+/* =================== */
 
-/* **=======** Sidebar Toggle Styles **=======** */
-
-/* .sidebar-toggle {
-  width: 80px;
-  overflow: visible !important;
-  .nav-item.open>.dropdown-menu {
-    display: none;
-  }
-  .team-items {
-    display: none;
+.sidebar-menu-open {
+  width: 240px;
+  .nav-title {
+    display: block !important;
   }
   .nav-link {
-    img {
-      position: initial;
-    }
-    span {
-      display: none;
-      position: absolute;
-    //   left: 150%;
-      z-index: 9999;
-      top: 18px;
-      color: #fff;
-      background: #52306b;
-      min-width: 130px;
-      left: 100%;
-      top: 0;
-      text-align: center;
-      padding: 30px 0;
+    span.link_title {
+      display: block;
+      transform: translateX(0px);
     }
   }
-  .dropdown-toggle:after {
-    display: none;
-  }
-  .nav-title,
-  .divider-line,
-  .divider {
-    display: none;
-  }
-  .nav-item:hover span {
+  .team-items {
     display: block;
   }
-  .nav-item:hover>.dropdown-menu {
-    display: block;
-  }
-  .nav-item {
-    position: relative;
-    .dropdown-menu {
-      position: absolute !important;
-      top: 0;
-      left: 100%;
-      background-color: #52306b;
-      padding-top: 80px;
-      width: calc(100% + 100px);
-      .dropdown-item {
-          padding-left: 20%;
-      }
-      .dropdown-menu {
-        padding: 0;
-        width: 126%;
-        .dropdown-item {
-          padding: 8px 15px;
-          padding-left: 20%;
-        }
-      }
-      .nav-link {
-        span {
-          display: block;
-          position: initial;
-          color: #7e678f;
-          text-align: initial;
-          padding: 0;
-          padding-left: 15%;
-        }
-      }
-    }
+  .team_icon {
+    display: none;
   }
 }
-*/
 
-/* **=======** END Sidebar Toggle Styles **=======** */
 
 // **=======** Page Wrapper Styles **=======**
 #page-content-wrapper {
@@ -432,68 +418,37 @@
 
 /* ========== Side-Bar Toggled =========== */
 
-.sidebar-toggle {
-  width: 80px;
-  overflow: visible !important;
-  .nav-item.open>.dropdown-menu {
-    display: none;
-  }
-  .team-items {
-    display: none;
-  }
-  .nav-link {
-    img {
-      position: initial;
-    }
-    span {
-      display: none;
-    }
-  }
-  .dropdown-toggle:after {
-    display: none;
-  }
-  .nav-title,
-  .divider-line,
-  .divider {
-    display: none;
-  }
-}
-
-/* || ====****==== END Side-Bar Toggled ====****==== || */
-
-/* ======= Side-Bar Hover Effect ======= */
-
-// .sidebar-toggle:hover {
-//   width: 240px;
-//   .nav-title,
-//   .divider-line,
-//   .divider,
-//   .team-items,
-//   .login-info,
+// .sidebar-toggle {
+//   width: 80px;
+//   overflow: visible !important;
 //   .nav-item.open>.dropdown-menu {
-//     display: block;
+//     display: none;
 //   }
-//   .dropdown-toggle:after {
-//     display: inline-block;
+//   .team-items {
+//     display: none;
 //   }
 //   .nav-link {
 //     img {
-//       position: absolute;
+//       position: initial;
 //     }
 //     span {
-//       display: block;
-//       position: initial;
-//       min-width: auto;
-//       padding: initial;
-//       background: transparent;
-//       left: initial;
-//       text-align: initial;
+//       display: none;
 //     }
 //   }
+//   .dropdown-toggle:after {
+//     display: none;
+//   }
+//   .nav-title,
+//   .divider-line,
+//   .divider {
+//     display: none;
+//   }
 // }
-/* || ====****==== END Side-Bar Hover Effect ====****==== || */
+
+/* || ====****==== END Side-Bar Toggled ====****==== || */
 
 .login-info {
+  position: relative;
   .dropdown-submenu {
     position: relative;
   }
@@ -563,8 +518,6 @@
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
   }
-  width: 60%;
-  position: relative;
   a.nav-link {
     font-family: Roboto;
     font-size: 13px;
@@ -726,3 +679,6 @@
   bottom: 0;
   top: 70px;
 }
+
+
+

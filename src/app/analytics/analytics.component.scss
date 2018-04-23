@@ -222,9 +222,9 @@ input {
 }
 
 .rect_card {
-  .chart_card {
-    // height: 310px; // max-width: 555px;
-  }
+  // .chart_card {
+  //   // height: 310px; // max-width: 555px;
+  // }
   .chart_body {
     height: calc(100% - 62px); // vertical-align: middle;
     // padding:0 20px;
@@ -265,6 +265,8 @@ input {
     bottom: 0;
     width: 100%;
     padding-bottom: 0;
+    padding-top: 0;
+    border: none;
   }
 }
 
@@ -286,9 +288,9 @@ input {
   }
 }
 
-.charts_md-scroll {
-  overflow-x: auto;
-}
+// .charts_md-scroll {
+//   // overflow-x: auto;
+// }
 
 /* Above 1920px */
 
@@ -298,4 +300,9 @@ input {
       height: auto;
     }
   }
+}
+.age-chat1234 {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }

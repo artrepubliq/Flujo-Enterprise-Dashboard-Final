@@ -44,18 +44,24 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: { title: 'Login' }
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    data: { title: 'Login' }
   },
 
   {
     path: 'callback',
-    component: CallbackComponent
+    component: CallbackComponent,
   },
-  { path: 'accessdenied', component: AccessdeniedComponent },
+  {
+    path: 'accessdenied',
+    component: AccessdeniedComponent,
+    data: { title: 'Access Denied' }
+  },
   {
     path: 'admin',
     component: AdminComponent,
@@ -66,39 +72,44 @@ const routes: Routes = [
           AuthGuard
         ],
         children: [
-          { path: 'logo', component: LogoComponent },
-          { path: 'profile', component: ProfileComponent},
-          { path: 'changepassword', component: ChangepasswordComponent },
-          { path: '', component: AdminDashboardComponent},
-          { path: 'pages', component: PagesComponent },
-          { path: 'media', component: MediaComponent},
-          { path: 'sociallinks', component: SocialLinksComponent},
-          { path: 'smtpconfiguration', component: SMTPConfigurationComponent},
-          { path: 'feedback', component: FeedbackComponent},
-          { path: 'changemakerreport', component: ChangemakerComponent },
-          { path: 'themeconfiguration', component: ThemeConfigComponent },
-          { path: 'email', component: EmailserviceComponent},
-          { path: 'sms', component: SmsuiComponent },
-          { path: 'chat', component: ChatBoxComponent },
-          { path: 'chat', component: ChatBoxComponent},
-          { path: 'user', component: CreateUserComponentComponent },
-          { path: 'media/gallery', component: ViewGalleryComponent },
-          { path: 'social_management', component: SocialManagementComponent },
-          { path: 'biography', component: BiographyComponent },
-          { path: 'module', component: CreateModuleComponent},
-          { path: 'filerepository', component: FilerepositoryComponent},
-          { path: 'managereports', component: ManageReportsComponent },
-          { path: 'analytics', component: AnalyticsComponent},
-          { path: 'problemcategory', component: ProblemCategoryComponent },
-          { path: 'areacategory', component: AreasComponent },
-          { path: 'termsnconditions', component: TncComponent },
-          { path: 'privacynpolicy', component: PnpComponent},
-          { path: 'database', component: DatabaseComponent},
-          { path: 'smsconfiguration', component: SmstemplateComponent },
-          { path: 'whatsappflujo', component: WhatsappComponent },
-          { path: 'emailconfiguration', component: EmailTemplateComponent, resolve: { themedata: EmailTemplateResolver }},
-          { path: 'chooseplatform', component: ChooseplatformComponent },
-          { path: 'socialconfiguration', component: SocialconfigurationComponent},
+          { path: 'logo', component: LogoComponent, data: { title: 'Logo' } },
+          { path: 'profile', component: ProfileComponent, data: { title: 'Profile' } },
+          { path: 'changepassword', component: ChangepasswordComponent, data: { title: 'Change Password' } },
+          { path: '', component: AdminDashboardComponent, data: { title: 'Admin Dashboard' } },
+          { path: 'pages', component: PagesComponent, data: { title: 'Pages Component' } },
+          { path: 'media', component: MediaComponent, data: { title: 'Media Dashboard' } },
+          { path: 'sociallinks', component: SocialLinksComponent, data: { title: 'Social links' } },
+          { path: 'smtpconfiguration', component: SMTPConfigurationComponent, data: { title: 'SMTP Configuration' } },
+          { path: 'feedback', component: FeedbackComponent, data: { title: 'Feedback' } },
+          { path: 'changemakerreport', component: ChangemakerComponent, data: { title: 'Change Maker' } },
+          { path: 'themeconfiguration', component: ThemeConfigComponent, data: { title: 'Theme Configuration' } },
+          { path: 'email', component: EmailserviceComponent, data: { title: 'Email Service' } },
+          { path: 'sms', component: SmsuiComponent, data: { title: 'SMS' } },
+          { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat Box' } },
+          { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat box' } },
+          { path: 'user', component: CreateUserComponentComponent, data: { title: 'Create User' } },
+          { path: 'media/gallery', component: ViewGalleryComponent, data: { title: 'Gallery' } },
+          { path: 'social_management', component: SocialManagementComponent, data: { title: 'Social Management' } },
+          { path: 'biography', component: BiographyComponent, data: { title: 'Biography' } },
+          { path: 'module', component: CreateModuleComponent, data: { title: 'Create Module' } },
+          { path: 'filerepository', component: FilerepositoryComponent, data: { title: 'Drive' } },
+          { path: 'managereports', component: ManageReportsComponent, data: { title: 'Manage Reports' } },
+          { path: 'analytics', component: AnalyticsComponent, data: { title: 'Analytics' } },
+          { path: 'problemcategory', component: ProblemCategoryComponent, data: { title: 'Problem Category' } },
+          { path: 'areacategory', component: AreasComponent, data: { title: 'Areas' } },
+          { path: 'termsnconditions', component: TncComponent, data: { title: 'Terms and Conditions' } },
+          { path: 'privacynpolicy', component: PnpComponent, data: { title: 'Privacy and Policy' } },
+          { path: 'database', component: DatabaseComponent, data: { title: 'Database' } },
+          { path: 'smsconfiguration', component: SmstemplateComponent, data: { title: 'SMS Template' } },
+          { path: 'whatsappflujo', component: WhatsappComponent, data: { title: 'Whatsapp' } },
+          {
+            path: 'emailconfiguration',
+            component: EmailTemplateComponent,
+            resolve: { themedata: EmailTemplateResolver },
+            data: { title: 'Email template' }
+          },
+          { path: 'chooseplatform', component: ChooseplatformComponent, data: { title: 'Platform\'s' } },
+          { path: 'socialconfiguration', component: SocialconfigurationComponent, data: { title: 'Social Configuration' } },
 
         ]
       }
@@ -111,4 +122,5 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [AuthGuard],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

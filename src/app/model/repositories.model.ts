@@ -14,6 +14,7 @@ export interface IResult {
     isShowKb: boolean;
     isActive?: boolean;
     size?: number;
+    file_path?: string;
 }
 
 export interface IFiles {
