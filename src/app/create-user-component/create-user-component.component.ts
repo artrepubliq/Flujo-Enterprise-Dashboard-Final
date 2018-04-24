@@ -82,7 +82,7 @@ export class CreateUserComponentComponent implements OnInit {
             } else if (data.error === true && data.custom_status_code === 130) {
               this.alertService.danger('Failed to create user!');
             }
-             else {
+            else {
               this.parsePostResponse(data);
             }
           }
@@ -132,6 +132,7 @@ export class CreateUserComponentComponent implements OnInit {
               // console.log(data);
               this.userDetails = data.result;
               // console.log(this.userDetails);
+              // console.log(localStorage.getItem('user_id'));
             }
           }
           this.spinnerService.hide();
@@ -227,6 +228,15 @@ export class CreateUserComponentComponent implements OnInit {
   }
   cancelUser() {
     this.isEdit = false;
+  }
+
+  public loggedInUser(userId): boolean {
+    const loggedInUser = localStorage.getItem('user_id');
+    // console.log(userId)
+    if (userId === loggedInUser) {
+      return true;
+    }
+    return false;
   }
 }
 

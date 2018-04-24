@@ -101,7 +101,7 @@ export class FeedbackComponent implements OnInit, AfterViewInit {
           }
         },
         error => {
-          console.log(error);
+          // console.log(error);
         });
   }
   applyFilter(filterValue: string) {

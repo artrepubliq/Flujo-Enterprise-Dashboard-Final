@@ -60,7 +60,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
  * be able to query its view for the initialized paginator.
  */
   ngAfterViewInit() {
-    console.log(this.dataSource);
+    // console.log(this.dataSource);
     this.dataSource.paginator = this.paginator;
   }
 
@@ -79,7 +79,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
           }
         });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 
@@ -111,16 +111,16 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
 
   // validate and send email
   sendEmail() {
-    console.log(this.postEmailValue);
+    // console.log(this.postEmailValue);
     // validate email or show error
     if (this.validateEmail(this.postEmailValue)) {
-      console.log('Got valid email id');
-      console.log(this.postEmailValue);
+      // console.log('Got valid email id');
+      // console.log(this.postEmailValue);
       this.dataURL = AppConstants.API_URL + '/flujo_client_emaildatabase/' + this.postEmailValue;
-      console.log(this.dataURL);
+      // console.log(this.dataURL);
       this.http.get<ICommonInterface>(this.dataURL)
         .subscribe((data) => {
-          console.log(data);
+          // console.log(data);
           if (!data.error || data.access_token === AppConstants.ACCESS_TOKEN) {
             this.alertService.success('Email sent!');
           } else {
@@ -131,7 +131,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
             this.alertService.warning('Something went wrong');
           });
     } else {
-      console.log('Enter valid email id');
+      // console.log('Enter valid email id');
       this.alertService.warning('Enter valid Email ID');
     }
   }
