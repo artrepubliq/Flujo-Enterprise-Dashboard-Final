@@ -112,8 +112,12 @@
     position: relative;
     padding-left: 80px;
     .login-info {
-      visibility: hidden;
+      opacity: 0;
     }
+    .nav-link.dropdown-toggle:after {
+      display: none;
+    }
+    
   }
   .navbar-content {
     position: absolute;
@@ -137,7 +141,12 @@
   .navbar-header.navbar-header-open {
     width: 240px;
     .login-info {
-      visibility: visible;
+      opacity:1;
+      -webkit-transition: all 0.5s; /* Safari */
+      transition:all 1.5s;
+    }
+    .nav-link.dropdown-toggle:after {
+      display: block;
     }
   }
 }
@@ -558,7 +567,7 @@
   .nav-link.dropdown-toggle:after {
     position: absolute;
     top: 15px;
-    left: 70%; // float: right;
+    left: 60%; // float: right;
     border: none;
     transition: 0.3s;
     content: "\f107";

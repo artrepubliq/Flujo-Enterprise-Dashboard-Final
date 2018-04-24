@@ -30,6 +30,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
   styleUrls: ['./smsui.component.scss']
 })
 export class SmsuiComponent implements OnInit {
+  multipleNumbers: boolean;
   errorInFormat = false;
   errorPhoneContacts = [];
   filteredPhoneContacts = [];
@@ -55,7 +56,7 @@ export class SmsuiComponent implements OnInit {
     private papa: PapaParseService,
     public snackBar: MatSnackBar) {
     this.smsContactForm = this.formBuilder.group({
-      'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
+      'phone': ['', Validators.compose([Validators.required])],
       'message': ['', [Validators.required, Validators.minLength(10)]],
       'check': [''],
       'file': [''],
@@ -68,11 +69,30 @@ export class SmsuiComponent implements OnInit {
     }
     this.phoneContactsArray = [];
     this.errorPhoneContacts = [];
+    this.multipleNumbers = true;
   }
   ngOnInit() {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
+  }
+  public checkValidNumbers(event) {
+    if (event != null) {
+      const numbersArray = event.split(',');
+      const errorNumbers = [];
+      numbersArray.map(item => {
+        if (item !== '' && item.match(this.PHONE_REGEXP) === null) {
+          errorNumbers.push(item);
+        }
+      });
+      if (errorNumbers.length > 0) {
+        this.multipleNumbers = false;
+      } else {
+        this.multipleNumbers = true;
+      }
+      console.log(errorNumbers);
+      console.log(this.multipleNumbers);
+    }
   }
   smsContactFormSubmit() {
     this.spinnerService.show();
@@ -83,15 +103,15 @@ export class SmsuiComponent implements OnInit {
         data => {
           this.spinnerService.hide();
           if (data.access_token === AppConstants.ACCESS_TOKEN) {
-          if ((!data.error) && (data.custom_status_code = 100)) {
-            this.alertService.success('Message has been sent successfully');
-            this.smsContactForm.reset();
-            this.file.nativeElement.value = null;
-          } else if (data.custom_status_code = 101) {
-            this.alertService.danger('Required parameters are missing');
-            this.smsContactForm.reset();
+            if ((!data.error) && (data.custom_status_code = 100)) {
+              this.alertService.success('Message has been sent successfully');
+              this.smsContactForm.reset();
+              this.file.nativeElement.value = null;
+            } else if (data.custom_status_code = 101) {
+              this.alertService.danger('Required parameters are missing');
+              this.smsContactForm.reset();
+            }
           }
-        }
         },
         error => {
           this.spinnerService.hide();
@@ -108,14 +128,14 @@ export class SmsuiComponent implements OnInit {
         data => {
           try {
             if (data.access_token === AppConstants.ACCESS_TOKEN) {
-            if ((!data.error) && (data.custom_status_code = 100)) {
-              this.smsTemplateSelectionData = data.result;
-              this.smsTemplateSelectionData.map((smsData) => {
-                smsData.isActive = false;
-              });
-              console.log(this.smsTemplateSelectionData);
+              if ((!data.error) && (data.custom_status_code = 100)) {
+                this.smsTemplateSelectionData = data.result;
+                this.smsTemplateSelectionData.map((smsData) => {
+                  smsData.isActive = false;
+                });
+                console.log(this.smsTemplateSelectionData);
+              }
             }
-          }
           } catch (e) {
             console.log(e);
           }
@@ -186,7 +206,7 @@ export class SmsuiComponent implements OnInit {
   continue() {
     this.errorInFormat = false;
   }
-  rectify () {
+  rectify() {
     this.errorInFormat = false;
     this.file.nativeElement.value = null;
   }

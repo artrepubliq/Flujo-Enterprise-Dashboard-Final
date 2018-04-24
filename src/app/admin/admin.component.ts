@@ -67,7 +67,7 @@ export class AdminComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   { feature_id: 1, title: 'Database', router: 'admin/database', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Analytics', router: 'admin/analytics', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png', isActive: false }
+  { feature_id: 1, title: 'Analytics', router: 'admin/analytics', activeicon: 'assets/icons/analytics-color-nav-icon-active@2x.png', normalicon: 'assets/icons/analytics-color-nav-icon-normal@2x.png', isActive: false }
   ];
   adminMenu = [
     { feature_id: 13, title: 'Logo', router: 'admin/logo' },
@@ -141,9 +141,10 @@ export class AdminComponent implements OnInit {
     // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     this.getUserList();
-    setInterval(() => {
+     const interval = setInterval(() => {
       if (Date.now() > Number(localStorage.getItem('expires_at'))) {
         this.loginAuthService.logout(false);
+        clearInterval(interval);
         }
       this.getUserList();
     }, 5000);

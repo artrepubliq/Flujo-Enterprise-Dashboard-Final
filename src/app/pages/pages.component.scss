@@ -147,6 +147,7 @@ img {
 }
 .main-pages{
   margin-left: -15px;
+  position: relative;
   .main-page{
     max-width: 270px !important;
     .mat-card-actions{
@@ -266,15 +267,17 @@ img {
 }
 
 .child-pages {
-  margin-left: -15px;
+  margin-left: 0;
   position: relative;
   .child-page {
     white-space: nowrap;
     max-width: 175px !important;
     display: inline;
+    margin-left: -15px;
+    margin-right: 30px !important;
     .mat-card-actions{
-      margin-left: 0;
-      margin-right: 0;
+      margin-left: 15px;
+      margin-right: 15px;
     }
     .example-card{
       #pageview {
@@ -307,8 +310,8 @@ img {
   .add-child-page{
     width: 175px;
     height: 196px;
-    border-radius: 5px;
-    margin: 8px 0;
+    border-radius: 2px;
+    margin: 0;
     background-color: #ffffff;
     box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
     margin-right:2px;

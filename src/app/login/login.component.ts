@@ -68,10 +68,9 @@ export class LoginComponent implements OnInit {
               this.loginAuthService._setSession(data.result[0]);
               if (this.loginData[0].email_verified === '0') {
                 const feature_id = 23;
+                this.redirectUrlForChatCamp(this.loginData[0]);
                 // this.router.navigate(['/admin/changepassword']);
                 this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
-              } else if (this.loginData[0].can_chat === false && this.loginData[0].email_verified === '1') {
-                this.redirectUrlForChatCamp(this.loginData[0]);
               }
               this.alertService.success('User logged in successfully');
             } else if (data.custom_status_code === 140) {
