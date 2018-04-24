@@ -25,28 +25,28 @@ img {
   vertical-align: middle;
 }
 
-.table {
-  thead {
-    tr {
-      border-bottom: 1px solid #dee2e6;
-    }
-  }
-  td,
-  th,
-  button {
-    border: none;
+// .table {
+//   thead {
+//     tr {
+//       border-bottom: 1px solid #dee2e6;
+//     }
+//   }
+//   td,
+//   th,
+//   button {
+//     border: none;
 
-    font-size: 14px;
-    font-family: 'Roboto';
-    font-size: 14px;
-    font-weight: 500; // line-height: 1.43;
-    // text-align: left;
-    color: #666666;
-  }
-  button {
-    color: #fff;
-  }
-}
+//     font-size: 14px;
+//     font-family: 'Roboto';
+//     font-size: 14px;
+//     font-weight: 500; // line-height: 1.43;
+//     // text-align: left;
+//     color: #666666;
+//   }
+//   button {
+//     color: #fff;
+//   }
+// }
 
 // input {
 //     border-radius: 0;
@@ -115,21 +115,21 @@ img {
   }
 }
 
-.button-row {
-  width: 100%;
-  padding: 25px 10px 25px 20px; // margin:10px auto;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  button {
-    margin: -10px;
-  } // .button-stack:hover button{
+// .button-row {
+//   width: 100%;
+//   padding: 25px 10px 25px 20px; // margin:10px auto;
+//   border-top: 1px solid rgba(0, 0, 0, 0.1);
+//   button {
+//     margin: -10px;
+//   } // .button-stack:hover button{
   //     margin: initial;
   //     z-index: 99;
   // }
-  a {
-    margin-left: 15px;
-    opacity: 0.6;
-  }
-}
+//   a {
+//     margin-left: 15px;
+//     opacity: 0.6;
+//   }
+// }
 
 .divider {
   width: auto;
@@ -194,4 +194,67 @@ img {
   img {
     max-height: 18.5px;
   }
+}
+
+.table-bordered {
+  background-color: rgb(255, 255, 255);
+}
+
+.table-bordered thead th,
+tbody td {
+  vertical-align: middle !important;
+}
+
+.table-bordered thead tr,
+tbody tr {
+  height: 70px;
+}
+
+.table-bordered th {
+  font-size: 13px;
+  font-weight: 500;
+  color: #666666;
+}
+.table-bordered tr {
+  font-size: 13px;
+  font-weight: 500;
+  color: #919191;
+}
+
+.table-bordered td:first-child {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border-left: none;
+  border-right: none;
+}
+td.btn-userm{
+  text-align: center;
+  padding:0rem;
+  button{
+    margin: 0;
+  }
+}
+.btn-stack {
+  button {
+    background: none;
+    border: none;
+    margin: 0;
+  }
+  .btn:focus {
+    outline: 0;
+    box-shadow: none;
+  }
+  button i {
+    font-family: FontAwesome !important;
+    opacity: 0.6;
+  }
+  button i:hover {
+    opacity: 1;
+  }
+  
 }
