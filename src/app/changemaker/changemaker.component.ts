@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
+import { IActiveHeader } from '../model/active-header.model';
 @Component({
   selector: 'app-changemaker',
   templateUrl: './changemaker.component.html',
@@ -23,6 +24,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
 })
 
 export class ChangemakerComponent implements OnInit {
+  public ActiveHeader: IActiveHeader;
   filteredUserAccessData: any;
   feature_id = 8;
   userAccessLevelObject: any;
@@ -63,6 +65,12 @@ export class ChangemakerComponent implements OnInit {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/changemakerreport');
     }
+    this.ActiveHeader = {
+      feedback: false,
+      change_maker: true,
+      surveys: false,
+      database: false
+    };
   }
   ngOnInit() {
     setTimeout(function () {

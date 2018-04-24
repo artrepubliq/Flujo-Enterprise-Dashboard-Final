@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
+import { IActiveHeader } from '../model/active-header.model';
 
 @Component({
   selector: 'app-database',
@@ -21,6 +22,7 @@ import { AlertService } from 'ngx-alerts';
 
 export class DatabaseComponent implements OnInit, AfterViewInit {
   dataURL: any;
+  public ActiveHeader: IActiveHeader;
   userAccessDataModel: AccessDataModelComponent;
   ELEMENT_DATA: Array<ElementResult>;
   // tslint:disable-next-line:member-ordering
@@ -41,6 +43,12 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
       this.userAccessDataModel = new AccessDataModelComponent(http, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/database');
     }
+    this.ActiveHeader = {
+      feedback: false,
+      change_maker: false,
+      surveys: false,
+      database: true
+    };
   }
   ngOnInit() {
 
