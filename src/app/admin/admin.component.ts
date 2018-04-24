@@ -18,6 +18,7 @@ import { IAccessLevelModel } from '../model/accessLevel.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 
+/*Start Chat Camp window initializaion to avoid build errors*/
 declare global {
   interface Window { cc: any; ChatCampUI: any;}
 }
@@ -25,6 +26,7 @@ declare global {
 window.cc = window.cc || {};
 
 window.ChatCampUI = window.ChatCampUI || {};
+/*End Chat Camp window initializaion*/
 
 @Component({
   templateUrl: './admin.component.html',
@@ -152,7 +154,11 @@ export class AdminComponent implements OnInit {
     // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     this.getUserList();
-    setInterval(() => {
+    const interval = setInterval(() => {
+      if (Date.now() > Number(localStorage.getItem('expires_at'))) {
+        this.loginAuthService.logout(false);
+        clearInterval(interval);
+        }
       this.getUserList();
       if(this.loggedinIds && !this.isChatStarted){
         this.isChatStarted = true;
@@ -196,8 +202,6 @@ export class AdminComponent implements OnInit {
   StoredLoggedinIds = () => {
     this.loggedinIds = [];
     _.each(this.loggedinUsersList, (loggedinUser: IActiveUsers) => {
-      // const isUserCanChat = localStorage.getItem('can_chat');
-      // const isUserCanChat = ;
       if(loggedinUser.is_logged_in == '1' && loggedinUser.isUserCanChat){
          this.loggedinIds.push(loggedinUser.id);
         }
