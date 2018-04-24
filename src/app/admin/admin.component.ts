@@ -47,7 +47,6 @@ export class AdminComponent implements OnInit {
   sidebarToggledButton: boolean;
   dropdownOpen: boolean;
   public name: string;
-  createUserList: 
   config: any;
   loggedinIds: Array<string>;
   public user_id: string;
