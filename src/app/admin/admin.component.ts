@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { IActiveUsers } from '../model/createUser.model';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { CreateUserComponentComponent, AccessLevelPopup } from '../create-user-component/create-user-component.component';
+import {  AccessLevelPopup } from '../create-user-component/create-user-component.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { IAccessLevelModel } from '../model/accessLevel.model';
@@ -47,7 +47,9 @@ export class AdminComponent implements OnInit {
   sidebarToggledButton: boolean;
   dropdownOpen: boolean;
   public name: string;
-  createUserList: CreateUserComponentComponent;
+  createUserList: 
+  
+  ;
   config: any;
   loggedinIds: Array<string>;
   public user_id: string;
