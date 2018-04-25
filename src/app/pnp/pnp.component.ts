@@ -17,13 +17,14 @@ import { Router } from '@angular/router';
 })
 export class PnpComponent implements OnInit {
 
+  isHide = true;
   loading: boolean;
   isAddPage: boolean;
   isTableView: boolean;
   isGridView = true;
   button_text = 'Save';
   isEdit: boolean;
-  privacyDetails: Array<IPrivacyData>;
+  privacyDetails: IPrivacyData[];
   pnpSubmitForm: FormGroup;
   feature_id = 22;
   userAccessDataModel: AccessDataModelComponent;
@@ -41,6 +42,7 @@ export class PnpComponent implements OnInit {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/privacynpolicy');
     }
+    this.privacyDetails = [];
   }
 
   ngOnInit() {
@@ -51,6 +53,7 @@ export class PnpComponent implements OnInit {
   onSubmit = () => {
     this.spinnerService.show();
     this.pnpSubmitForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    console.log(this.privacyDetails);
     if (this.privacyDetails) {
       this.pnpSubmitForm.controls['privacypolicy_id'].setValue(this.privacyDetails[0].id);
     }
@@ -58,11 +61,11 @@ export class PnpComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postprivacypolicy', formModel)
       .subscribe(
         data => {
-          console.log(data);
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
-              this.alertService.success('Data updated successfully');
+              this.alertService.success('Data submitted successfully');
               this.getPrivacyData();
+              this.isGridView = true;
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
             } else if (data.custom_status_code === 102) {
@@ -83,10 +86,16 @@ export class PnpComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getprivacypolicy/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          this.privacyDetails = null;
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 100 && data.result.length > 0) {
+            this.privacyDetails = null;
+            if (data.custom_status_code === 100 && !data.error) {
               this.privacyDetails = data.result;
+              console.log(this.privacyDetails);
+              if (this.privacyDetails.length > 0) {
+                this.isHide = false;
+              } else {
+                this.isHide = true;
+              }
               this.setDefaultClientPrivacyData(this.privacyDetails);
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
@@ -113,7 +122,6 @@ export class PnpComponent implements OnInit {
               this.alertService.warning('Required parameters are missing!');
             }
           }
-          // this.alertService.danger('deleted successfully');
           this.spinnerService.hide();
           this.getPrivacyData();
         },
@@ -125,12 +133,10 @@ export class PnpComponent implements OnInit {
   }
   // this method is used to update page detals to the form, if detalis exist
   setDefaultClientPrivacyData = (privacyData) => {
-    console.log(privacyData);
     if (privacyData) {
-      this.pnpSubmitForm.controls['title'].setValue(privacyData[0].title);
-      this.pnpSubmitForm.controls['privacy_policy'].setValue(privacyData[0].privacy_policy);
-      this.pnpSubmitForm.controls['privacypolicy_id'].setValue(privacyData[0].id);
-      console.log(this.pnpSubmitForm.value);
+      this.pnpSubmitForm.controls['title'].setValue(privacyData.title);
+      this.pnpSubmitForm.controls['privacy_policy'].setValue(privacyData.privacy_policy);
+      this.pnpSubmitForm.controls['privacypolicy_id'].setValue(privacyData.id);
     }
 
   }
@@ -143,7 +149,6 @@ export class PnpComponent implements OnInit {
     this.button_text = 'Save';
   }
   viewPages = () => {
-    // this.getModuleDetails();
     this.isEdit = false;
     this.isGridView = false;
     this.isTableView = true;
@@ -155,7 +160,6 @@ export class PnpComponent implements OnInit {
     this.isGridView = true;
   }
   editCompnent = (privacyItem) => {
-    // this.alertService.success('page updated successfull.');
     this.isEdit = true;
     this.isTableView = false;
     this.isGridView = false;
@@ -163,7 +167,6 @@ export class PnpComponent implements OnInit {
     this.setDefaultClientPrivacyData(privacyItem);
   }
   parsePostResponse(response) {
-    this.alertService.success('Request Completed Successfully.');
     this.loading = false;
     this.pnpSubmitForm.reset();
     this.isEdit = false;
