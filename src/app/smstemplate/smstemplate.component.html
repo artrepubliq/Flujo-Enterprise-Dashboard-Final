@@ -86,7 +86,7 @@
       <div fxLayout="row" fxLayoutGap="48px">
         <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px">
           <mat-form-field class="example-full-width">
-            <input type="text" placeholder="Choose a Template Category" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <input type="text" placeholder="Choose a Template Category" aria-label="Number" matInput formControlName="template_category" [matAutocomplete]="auto">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                 {{ option }}

@@ -23,14 +23,11 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 export class ProblemCategoryComponent implements OnInit {
   checked: false;
   isEdit: boolean;
+  add: any;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   selectProblem: boolean;
   problemId: string;
-  problemTypeNameNew: string;
-  problemTypeNameTeluguNew: string;
-  problemTypeNameTelugu: string;
-  problemTypeName: string;
   updatableData: IUpdateableData;
   newProblemData: IUpdateableData;
   problemTypeData: any;
@@ -54,16 +51,7 @@ export class ProblemCategoryComponent implements OnInit {
     this.updateProblem = false;
     this.selectProblem = true;
     this.actionText = 'Add New +';
-    this.problemId = '';
     this.isEdit = false;
-    this.problemTypeNameNew = '';
-    this.problemTypeNameTeluguNew = '';
-    this.problemForm = new FormGroup({
-      'problemid': new FormControl(this.problemId),
-      'problemtypenamenew': new FormControl(this.problemTypeNameNew, [Validators.required]),
-      'problemtypenametelugunew': new FormControl(this.problemTypeNameTeluguNew, [Validators.required])
-    });
-
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/problemcategory');
@@ -93,19 +81,6 @@ export class ProblemCategoryComponent implements OnInit {
         }
       );
   }
-
-  public updateProblemData(problem): void {
-    console.log(problem);
-    this.isEdit = true;
-    this.actionText = 'Update';
-    this.problemTypeNameNew = problem.problem_type;
-    this.problemTypeNameTeluguNew = problem.problem_type_telugu;
-    this.problemId = problem.id;
-    this.problemForm.get('problemtypenamenew').setValue(this.problemTypeNameNew);
-    this.problemForm.get('problemtypenametelugunew').setValue(this.problemTypeNameTeluguNew);
-    this.problemForm.get('problemid').setValue(this.problemId);
-    console.log(this.problemForm.value);
-  }
   public deleteProblem(problem): void {
     console.log(problem);
     this.spinnerService.show();
@@ -114,7 +89,7 @@ export class ProblemCategoryComponent implements OnInit {
         data => {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
-              this.alertService.success('Problem deleted successfully');
+              this.alertService.info('Problem deleted successfully');
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
             }
@@ -225,12 +200,12 @@ export class ProblemCategoryEditPopup {
       .subscribe(
         data => {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 100) {
+            if (!data.error && data.custom_status_code === 100) {
               this.alertService.success('Problem updated successfully');
               this.dialogRef.close();
-            } else if (data.custom_status_code === 101) {
+            } else if (data.error && data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
-            } else if (data.custom_status_code === 102) {
+            } else if (data.error && data.custom_status_code === 102) {
               this.alertService.warning('Every thing is upto date!');
             }
           }

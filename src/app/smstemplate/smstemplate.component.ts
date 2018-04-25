@@ -31,7 +31,7 @@ export class SmstemplateComponent implements OnInit {
   isView: boolean;
   isEdit: boolean;
   smsTemplateConfigurationForm: FormGroup;
-  myControl: FormControl = new FormControl();
+  template_category: FormControl;
   templatestring: string;
   public templateText: string;
   header: string;
@@ -75,24 +75,35 @@ export class SmstemplateComponent implements OnInit {
   }
   onSubmit = (body) => {
     this.spinnerService.hide();
-    this.smsTemplateConfigurationForm.controls['template_category'].setValue(this.myControl.value);
+    if  (this.template_category.value === null) {
+      this.smsTemplateConfigurationForm.controls['template_category'].setValue(body.template_category);
+    } else {
+      this.smsTemplateConfigurationForm.controls['template_category'].setValue(this.template_category.value);
+  }
     this.smsTemplateConfigurationForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     if (this.smsTemplateData) {
       this.smsTemplateConfigurationForm.controls['smstemplateconfig_id'].setValue(body.smstemplateconfig_id);
     }
     const formModel = this.smsTemplateConfigurationForm.value;
-    this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'flujo_client_postsmstemplateconfig', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postsmstemplateconfig', formModel)
       .subscribe(
       data => {
-        if (!data.error) {
-          this.alertService.success('template data submitted successfully');
+        if (data.access_token === AppConstants.ACCESS_TOKEN) {
+        if (!data.error && data.custom_status_code === 100) {
+          this.alertService.success('Template data submitted successfully');
           this.spinnerService.hide();
           this.smsTemplateConfigurationForm.reset();
+          this.template_category = null;
           this.getSMSTemplateConfigurationData();
-        } else {
-          this.alertService.warning(data.result);
+          this.getSMSTemplateDetails(this.smsTemplateData1);
+        } else if (data.error && data.custom_status_code === 101) {
+          this.alertService.warning('Required parameters are missing');
+          this.spinnerService.hide();
+        } else if (data.error && data.custom_status_code === 102) {
+          this.alertService.warning('Everything is upto date');
           this.spinnerService.hide();
         }
+      }
         this.spinnerService.hide();
       },
       error => {
@@ -106,7 +117,8 @@ export class SmstemplateComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getsmstemplateconfig/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if ((data.custom_status_code  = 100) && (!data.error)) {
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+          if (data.custom_status_code  === 100 && !data.error) {
           this.smsTemplateData2 = _.unique(data.result, (item) => {
             return item.template_category;
           });
@@ -118,7 +130,11 @@ export class SmstemplateComponent implements OnInit {
             this.options.push(smsData.template_category);
             this.getFilteredSmsData();
           });
+          this.spinnerService.hide();
+        } else if (data.error && data.custom_status_code === 101) {
+          this.alertService.warning('Required parameters are missing');
         }
+      }
         }, error => {
           console.log(error);
         }
@@ -126,16 +142,24 @@ export class SmstemplateComponent implements OnInit {
   }
   deleteSmsTemplate = (item) => {
     this.spinnerService.show();
-    this.httpClient.delete<IHttpResponse>(AppConstants.API_URL + '/flujo_client_deletesmstemplateconfig/' + item)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + '/flujo_client_deletesmstemplateconfig/' + item)
       .subscribe(
       data => {
-        if (!data.error) {
+        if (data.access_token === AppConstants.ACCESS_TOKEN) {
+        if (!data.error && data.custom_status_code === 100) {
           this.alertService.warning('Deleted successfully');
           this.spinnerService.hide();
-          this.getSMSTemplateDetails(this.smsTemplateData1);
           this.getSMSTemplateConfigurationData();
+          this.getSMSTemplateDetails(this.smsTemplateData1);
+          // this.getFilteredSmsData();
+          this.spinnerService.hide();
+        } else if (data.error && data.custom_status_code === 101) {
+          this.alertService.warning('Required parameters are missing');
+          this.spinnerService.hide();
         }
+      }
         this.spinnerService.hide();
+        this.getFilteredSmsData();
       },
       error => {
         console.log(error);
@@ -145,7 +169,7 @@ export class SmstemplateComponent implements OnInit {
       );
   }
   getFilteredSmsData() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredOptions = this.template_category.valueChanges.pipe(
       startWith(''),
       map(val => this.filter(val))
     );
@@ -178,6 +202,7 @@ export class SmstemplateComponent implements OnInit {
   cancelEdit() {
     this.isEdit = false;
     this.isView = true;
+    this.smsTemplateConfigurationForm.reset();
   }
   editSmsTemplate(SmstemplateUpdate) {
     this.templateText1 = SmstemplateUpdate.template_text;
@@ -185,5 +210,6 @@ export class SmstemplateComponent implements OnInit {
     this.isView = false;
     this.button_text = 'Update';
     this.setDefaultSmsTemplateDetails(SmstemplateUpdate);
+    this.getFilteredSmsData();
   }
 }

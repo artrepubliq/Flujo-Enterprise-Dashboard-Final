@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ValidationService } from '../service/validation.service';
@@ -7,7 +7,7 @@ import CSVExportService from 'json2csvexporter';
 import { AppConstants } from '../app.constants';
 import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort, PageEvent } from '@angular/material';
 import { Element } from '../model/element-model';
 import { Observable } from 'rxjs/Observable';
 import { DataSource } from '@angular/cdk/collections';
@@ -52,6 +52,7 @@ export class ChangemakerComponent implements OnInit {
   p: number;
   submitted: boolean;
   userAccessDataModel: AccessDataModelComponent;
+  pageChanged = new EventEmitter<number>();
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder, private httpClient:

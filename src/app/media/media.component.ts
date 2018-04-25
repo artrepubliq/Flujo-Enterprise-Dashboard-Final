@@ -53,6 +53,7 @@ export class MediaComponent implements OnInit {
   public successMessage;
   public loading = false;
   ishide: boolean;
+  public file_name_control;
   public successMessagebool;
   public deleteMessage;
   public deleteMessagebool;
@@ -721,6 +722,8 @@ export class FileSelectPopup {
   stateCtrl: FormControl;
   filteredStates: Observable<any[]>;
   description: string;
+  file_name_control: string;
+  config: any;
   sendData: any = {};
   constructor(
     public dialogRef: MatDialogRef<FileSelectPopup>,

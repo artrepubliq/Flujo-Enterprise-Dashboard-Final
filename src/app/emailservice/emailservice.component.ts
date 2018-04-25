@@ -117,6 +117,7 @@ export class EmailserviceComponent implements OnInit {
               this.mailSendingForm.reset();
               this.spinnerService.hide();
               this.multipleEmails = true;
+              this.file.nativeElement.value = null;
             }
           }
         },
@@ -236,6 +237,7 @@ export class EmailserviceComponent implements OnInit {
 })
 // tslint:disable-next-line:component-class-suffix
 export class EmailTemplateSelectionPopup {
+  config: any;
   selectedEmailTemplateData: IPostEmailTemplate[];
   constructor(
     public dialogRef: MatDialogRef<EmailTemplateSelectionPopup>,

@@ -261,7 +261,7 @@ export class AccessLevelPopup {
   accessLevelData: Array<object>;
   // accessLevelRawData:Array<IAccesLevels>;
   public eventCalls: Array<string> = [];
-
+  config: any;
   constructor(
     public dialogRef: MatDialogRef<AccessLevelPopup>,
     @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder,
@@ -341,7 +341,7 @@ export class AccessLevelPopup {
     return defaultData;
   }
   // Posting of user access level data to api
-  onSubmit = (body) => {
+  onSubmit = () => {
     this.spinnerService.show();
     this.accessLevelsFormSubmit.controls['access_levels'].setValue(this.accessLevelData);
     this.accessLevelsFormSubmit.controls['client_id'].setValue(AppConstants.CLIENT_ID);
@@ -352,15 +352,15 @@ export class AccessLevelPopup {
         data => {
           // this.alertService.success('User access levels updated successfully');
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 100) {
+            if (!data.error && data.custom_status_code === 100) {
               this.alertService.success('User access levels updated successfully!!!');
-            } else if (data.custom_status_code === 102) {
+            } else if (data.error === true && data.custom_status_code === 102) {
               this.alertService.warning('Everything is Up-to-date!!!');
-            } else if (data.custom_status_code === 101) {
+            } else if (data.error === true && data.custom_status_code === 101) {
               this.alertService.warning('Required Parameters are Missing!!!');
             }
             this.spinnerService.hide();
-            this.getAccessLevelData();
+            // this.getAccessLevelData();
             this.closeDialog();
           }
         },

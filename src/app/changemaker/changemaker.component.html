@@ -38,7 +38,7 @@
   </div>
   <div class="changemaker_table" [perfectScrollbar]="config">
     <div class="change_data">
-      <div *ngFor="let report of changemakerData2" class="link-row" fxLayout.xs="column" fxLayout="row">
+      <div *ngFor="let report of changemakerData2 | paginate: { itemsPerPage: 5, currentPage: p }" class="link-row" fxLayout.xs="column" fxLayout="row">
         <div class="problem-box" fxFlex fxLayout="column" fxLayoutGap="15px">
           <div fxLayout="row" fxLayoutGap="3rem">
             <div class="" fxFlex="20%" fxLayoutAlign="start center">
@@ -108,8 +108,9 @@
         </form>
       </div>
     </div>
-    <mat-paginator *ngIf="changemakerData2" [length]="changemakerData2.length" class="paginationn" #paginator [pageSize]="10"
+    <!-- <mat-paginator *ngIf="changemakerData2?.length > 0" (page)="changePage($event)" #paginator [length]="changemakerData2.length" class="paginationn" [pageSize]="10"
       [pageSizeOptions]="[5, 10, 25, 100]">
-    </mat-paginator>
+    </mat-paginator> -->
+    <pagination-controls class="paginationn" (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>

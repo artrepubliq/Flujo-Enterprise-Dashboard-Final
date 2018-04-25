@@ -23,6 +23,7 @@ export class AreasComponent implements OnInit {
   isEdit: boolean;
   feature_id = 25;
   filteredUserAccessData: any;
+  add: any;
   userAccessLevelObject: any;
   newAreaData: IUpdateableData;
   areaData: Array<IAreaType>;
@@ -80,7 +81,7 @@ export class AreasComponent implements OnInit {
         data => {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
-              this.alertService.success('Area deleted successfully');
+              this.alertService.info('Area deleted successfully');
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
             }
@@ -154,6 +155,7 @@ export class AreaEditPopup {
       this.test = this.data;
       this.updateAreaData(this.test);
     }
+    dialogRef.disableClose = true;
   }
   postAreaData = () => {
     if (!this.areaForm.get('areatypenamenew').value ||
