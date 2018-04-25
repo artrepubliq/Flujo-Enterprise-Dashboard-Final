@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, Output, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ValidationService } from '../service/validation.service';
@@ -13,12 +13,15 @@ import { AdminComponent } from '../admin/admin.component';
 import * as _ from 'underscore';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
+import { EventEmitter } from 'events';
+import { IActiveHeader } from '../model/active-header.model';
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.scss']
 })
-export class FeedbackComponent implements OnInit {
+export class FeedbackComponent implements OnInit, AfterViewInit {
+  public ActiveHeader: IActiveHeader;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   // tslint:disable-next-line:no-input-rename
@@ -65,6 +68,13 @@ export class FeedbackComponent implements OnInit {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/feedback');
     }
+
+    this.ActiveHeader = {
+      feedback: true,
+      change_maker: false,
+      surveys: false,
+      database: false
+    };
   }
   ngOnInit() {
     setTimeout(function () {
@@ -91,7 +101,7 @@ export class FeedbackComponent implements OnInit {
           }
         },
         error => {
-          console.log(error);
+          // console.log(error);
         });
   }
   applyFilter(filterValue: string) {
@@ -134,15 +144,15 @@ export class FeedbackComponent implements OnInit {
       .subscribe(
         data => {
           if (data.access_token === AppConstants.ACCESS_TOKEN) {
-          if (!data.error && (data.custom_status_code = 100)) {
-            this.alertService.info('Attachement sent succesfully');
-            this.feedbackCsvMail.reset();
-            this.spinnerService.hide();
-          } else if (data.error && (data.custom_status_code = 101)) {
-            this.alertService.info('Required parameters are missing');
-            this.spinnerService.hide();
+            if (!data.error && (data.custom_status_code = 100)) {
+              this.alertService.info('Attachement sent succesfully');
+              this.feedbackCsvMail.reset();
+              this.spinnerService.hide();
+            } else if (data.error && (data.custom_status_code = 101)) {
+              this.alertService.info('Required parameters are missing');
+              this.spinnerService.hide();
+            }
           }
-        }
         },
         error => {
           this.spinnerService.hide();
@@ -154,5 +164,8 @@ export class FeedbackComponent implements OnInit {
     this.componentName = name;
     this.isActive = !this.isActive;
     // this.router.navigate(['/admin/' + name]);
+  }
+  ngAfterViewInit() {
+
   }
 }

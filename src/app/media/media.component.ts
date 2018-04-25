@@ -289,8 +289,11 @@ export class MediaComponent implements OnInit {
       .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgallery/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          this.mediaData = data.result;
-          this.spinnerService.hide();
+          if (data.custom_status_code === 100 && AppConstants.ACCESS_TOKEN && data.error === false) {
+            this.mediaData = data.result;
+            console.log(this.mediaData);
+            this.spinnerService.hide();
+          }
         },
 
         err => {
