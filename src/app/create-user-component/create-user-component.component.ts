@@ -51,6 +51,7 @@ export class CreateUserComponentComponent implements OnInit {
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'role': ['', Validators.required],
+      'access_levels': [null],
       'admin_id': [null],
       'user_id': [null]
     });
@@ -61,12 +62,15 @@ export class CreateUserComponentComponent implements OnInit {
     }
   }
 
+
   ngOnInit() {
   }
   onSubmit = (body) => {
     this.spinnerService.show();
     // console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
+    this.CreateUserForm.controls['access_levels'].setValue(AppConstants.DEFAULT);
+    console.log(AppConstants.DEFAULT);
     const formModel = this.CreateUserForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
       .subscribe(
@@ -81,8 +85,7 @@ export class CreateUserComponentComponent implements OnInit {
               this.getUsersList();
             } else if (data.error === true && data.custom_status_code === 130) {
               this.alertService.danger('Failed to create user!');
-            }
-            else {
+            } else {
               this.parsePostResponse(data);
             }
           }
