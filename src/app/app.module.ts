@@ -83,7 +83,7 @@ import { DocumentViewModule } from 'ngx-document-view';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateModuleComponent } from './create-module/create-module.component';
 import { HeaderurlsComponent } from './headerurls/headerurls.component';
-import { ProblemCategoryComponent } from './problem-category/problem-category.component';
+import { ProblemCategoryComponent, ProblemCategoryEditPopup } from './problem-category/problem-category.component';
 import { ProblemTypeService } from './service/problem-type.service';
 import { AreaService } from './service/area.service';
 import { AreasComponent, AreaEditPopup } from './areas/areas.component';
@@ -179,7 +179,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmsTemplateSelectionDialog,
     MessageArchivedComponent,
     SafeHtmlPipe,
-    AreaEditPopup
+    AreaEditPopup,
+    ProblemCategoryEditPopup
   ],
   imports: [
     RouterModule.forRoot([], { useHash: true }),
@@ -238,7 +239,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
 
      AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
-    EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup],
+    EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup],
   providers: [
               // AuthService,
               HttpService,

@@ -20,18 +20,19 @@
       clientID:     'ObBZz6hBN0FJpdkXzwx-rmaPqmeXniF8'
     });
   </script>
-  <script>window.ChatCampData = {}; 
-    var userId = localStorage.getItem('user_id');
-    window.ChatCampData.userId = userId;
-
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"/>
+  <script>
+      window.ChatCampData = {}; 
+      window.ChatCampData.userId = localStorage.getItem('user_id');
+      window.ChatCampData.accessToken= localStorage.getItem('chat_token');
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"/>
   <script src="//cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
   <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
   
 </head>
 <body>
   <app-root></app-root>
+  <!--Chat camp Chat window-->
   <div id="app"></div>
 </body>
 </html>

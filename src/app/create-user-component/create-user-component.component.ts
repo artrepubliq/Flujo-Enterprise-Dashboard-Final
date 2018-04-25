@@ -245,7 +245,7 @@ export class AccessLevelPopup {
   accessLevelData: Array<object>;
   // accessLevelRawData:Array<IAccesLevels>;
   public eventCalls: Array<string> = [];
-
+  config: any;
   constructor(
     public dialogRef: MatDialogRef<AccessLevelPopup>,
     @Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder,

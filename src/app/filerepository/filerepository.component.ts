@@ -52,6 +52,7 @@ export class FilerepositoryComponent implements OnInit {
     showInKb: boolean;
     file_path: Object;
     // disabled = false;
+    // mahesh = 'http://flujo.in/dashboard/flujo_staging/src/uploads/1232/HARISH/53bc64a0-download.jpeg';
     @Input() projectId: number;
     @Input() sectionId: number;
     @Input() fileExt = 'JPG, PDF, PNG, JPEG, CSV, DOCX, DOC';
@@ -377,8 +378,16 @@ export class FilerepositoryComponent implements OnInit {
                                 }
                                 // console.log(this.total_size);
                                 // this.repositories = [];
+
                                 this.filtered_repositories = [].concat.apply([], this.allFiles);
-                                // console.log(this.allFiles);
+                                // this.filtered_repositories.map((object, index) => {
+                                //     console.log(this.filtered_repositories[index]);
+                                //     if (this.filtered_repositories[index].file_path) {
+                                //         // tslint:disable-next-line:max-line-length
+                                //         this.filtered_repositories[index].file_path = 'http://' + this.filtered_repositories[index].file_path;
+                                //     }
+                                // });
+
                                 this.getFileSizes();
                             } else {
                                 console.log(data);
@@ -663,7 +672,7 @@ export class FileViewerPopUp {
         console.log(this.data);
         console.log(this.data.file);
         console.log(this.data.file_extension);
-        this.file_path = 'http://' + this.data.file;
+        this.file_path = this.data.file;
         this.file_name = this.data.file_name;
         this.file_extension = this.data.file_extension.toLowerCase();
     }

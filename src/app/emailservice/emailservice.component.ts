@@ -25,6 +25,7 @@ import { MessageArchivedComponent } from '../directives/snackbar-sms-email/snack
   styleUrls: ['./emailservice.component.scss']
 })
 export class EmailserviceComponent implements OnInit {
+  multipleEmails: boolean;
   errorInFormat: boolean;
   emailContactsArray: ICsvData[];
   filteredEmailContacts = [];
@@ -59,7 +60,7 @@ export class EmailserviceComponent implements OnInit {
     public snackBar: MatSnackBar) {
     this.feature_id = 3;
     this.mailSendingForm = this.formBuilder.group({
-      'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
+      'email': ['', Validators.compose([Validators.required])],
       'subject': ['', Validators.required],
       'message': ['', Validators.required],
       'file': [null],
@@ -73,6 +74,7 @@ export class EmailserviceComponent implements OnInit {
     this.getEmailTemplateData();
     this.emailContactsArray = [];
     this.errorEmailContacts = [];
+    this.multipleEmails = true;
   }
 
   ngOnInit() {
@@ -80,23 +82,42 @@ export class EmailserviceComponent implements OnInit {
       this.spinnerService.hide();
     }.bind(this), 3000);
   }
-  // onFileChange(event) {
-  //   if (event.target.files.length > 0) {
-  //     const file = event.target.files[0];
-  //     this.mailSendingForm.get('file').setValue(file);
-  //   }
-  // }
+
+  public checkValidEmails(event) {
+    if (event != null) {
+      const emailsArray = event.split(',');
+      const errorEmails = [];
+      emailsArray.map(item => {
+        if (item !== '' && item.match(this.EMAIL_REGEXP) == null) {
+          // this.multipleEmails = false;
+          errorEmails.push(item);
+        }
+      });
+      if (errorEmails.length > 0) {
+        this.multipleEmails = false;
+        // return false;
+      } else {
+        this.multipleEmails = true;
+      }
+    }
+  }
   mailSendingFormSubmit(body: any) {
-    this.spinnerService.show();
+    if (this.multipleEmails === false) {
+      return false;
+    }
     console.log(this.mailSendingForm.value);
     this.mailSendingForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    this.spinnerService.show();
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_sendemaildbcsv', this.mailSendingForm.value)
       .subscribe(
         data => {
-          if (!data.error && (data.custom_status_code = 100)) {
-            this.alertService.success('Email has been sent ');
-            this.mailSendingForm.reset();
-            this.spinnerService.hide();
+          if (AppConstants.ACCESS_TOKEN === data.access_token) {
+            if (!data.error && (data.custom_status_code = 100)) {
+              this.alertService.success('Email has been sent ');
+              this.mailSendingForm.reset();
+              this.spinnerService.hide();
+              this.multipleEmails = true;
+            }
           }
         },
         error => {
@@ -192,7 +213,7 @@ export class EmailserviceComponent implements OnInit {
   continue() {
     this.errorInFormat = false;
   }
-  rectify () {
+  rectify() {
     this.errorInFormat = false;
     // event.target.value = null;
     this.file.nativeElement.value = null;
@@ -215,6 +236,7 @@ export class EmailserviceComponent implements OnInit {
 })
 // tslint:disable-next-line:component-class-suffix
 export class EmailTemplateSelectionPopup {
+  config: any;
   selectedEmailTemplateData: IPostEmailTemplate[];
   constructor(
     public dialogRef: MatDialogRef<EmailTemplateSelectionPopup>,
