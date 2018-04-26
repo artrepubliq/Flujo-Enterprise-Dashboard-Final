@@ -39,6 +39,9 @@ import { ChooseplatformComponent } from './chooseplatform/chooseplatform.compone
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsappComponent } from './whatsapp/whatsapp.component';
+import { ManageReportsResolver } from './manage-reports/manage-reports-resolver';
+import { FeedbackResolver } from './feedback/feedback-resolver';
+import { DataBaseResolver } from './database/database-resolver';
 
 const routes: Routes = [
   {
@@ -80,7 +83,11 @@ const routes: Routes = [
           { path: 'media', component: MediaComponent, data: { title: 'Media Dashboard' } },
           { path: 'sociallinks', component: SocialLinksComponent, data: { title: 'Social links' } },
           { path: 'smtpconfiguration', component: SMTPConfigurationComponent, data: { title: 'SMTP Configuration' } },
-          { path: 'feedback', component: FeedbackComponent, data: { title: 'Feedback' } },
+          {
+            path: 'feedback', component: FeedbackComponent,
+            resolve: { feedbackReportData: FeedbackResolver },
+            data: { title: 'Feedback' }
+          },
           { path: 'changemakerreport', component: ChangemakerComponent, data: { title: 'Change Maker' } },
           { path: 'themeconfiguration', component: ThemeConfigComponent, data: { title: 'Theme Configuration' } },
           { path: 'email', component: EmailserviceComponent, data: { title: 'Email Service' } },
@@ -88,18 +95,29 @@ const routes: Routes = [
           { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat Box' } },
           { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat box' } },
           { path: 'user', component: CreateUserComponentComponent, data: { title: 'Create User' } },
-          { path: 'media/gallery', component: ViewGalleryComponent, data: { title: 'Gallery' } },
+          {
+            path: 'media/gallery', component: ViewGalleryComponent,
+            data: { title: 'Gallery' }
+          },
           { path: 'social_management', component: SocialManagementComponent, data: { title: 'Socila Management' } },
           { path: 'biography', component: BiographyComponent, data: { title: 'Biography' } },
           { path: 'module', component: CreateModuleComponent, data: { title: 'Create Module' } },
           { path: 'filerepository', component: FilerepositoryComponent, data: { title: 'Drive' } },
-          { path: 'managereports', component: ManageReportsComponent, data: { title: 'Manage Reports' } },
+          {
+            path: 'managereports', component: ManageReportsComponent,
+            resolve: { reportData: ManageReportsResolver },
+            data: { title: 'Manage Reports' }
+          },
           { path: 'analytics', component: AnalyticsComponent, data: { title: 'Analytics' } },
           { path: 'problemcategory', component: ProblemCategoryComponent, data: { title: 'Problem Category' } },
           { path: 'areacategory', component: AreasComponent, data: { title: 'Areas' } },
           { path: 'termsnconditions', component: TncComponent, data: { title: 'Terms and Conditions' } },
           { path: 'privacynpolicy', component: PnpComponent, data: { title: 'Privacy and Policy' } },
-          { path: 'database', component: DatabaseComponent, data: { title: 'Database' } },
+          {
+            path: 'database', component: DatabaseComponent,
+            resolve: { databaseReportData: DataBaseResolver },
+            data: { title: 'Database' }
+          },
           { path: 'smsconfiguration', component: SmstemplateComponent, data: { title: 'SMS Template' } },
           { path: 'whatsappflujo', component: WhatsappComponent, data: { title: 'Whatsapp' } },
           {

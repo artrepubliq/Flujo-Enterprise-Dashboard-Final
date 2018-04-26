@@ -7,7 +7,7 @@ import CSVExportService from 'json2csvexporter';
 import { AppConstants } from '../app.constants';
 import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { Router } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource, MatSort, MatPaginator, SortDirection } from '@angular/material';
 import { AdminComponent } from '../admin/admin.component';
 import * as _ from 'underscore';
@@ -42,7 +42,7 @@ export class FeedbackComponent implements OnInit, AfterViewInit {
   public feedbackData: any;
   changemakerData: any;
   elementData: Array<Element>;
-  dataSource = new MatTableDataSource<Element>();
+  dataSource: MatTableDataSource<Element>;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public reportProblemData: any;
@@ -57,13 +57,14 @@ export class FeedbackComponent implements OnInit, AfterViewInit {
     private httpClient: HttpClient,
     private alertService: AlertService,
     public router: Router,
-    public adminComponent: AdminComponent
+    public adminComponent: AdminComponent,
+    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
     this.feedbackCsvMail = this.formBuilder.group({
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'client_id': [null]
     });
-    this.getuserFeedbackData();
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/feedback');
@@ -80,6 +81,11 @@ export class FeedbackComponent implements OnInit, AfterViewInit {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
+    this.getuserFeedbackData();
+  }
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
   showFeedback() {
     this.isFeedbackReport = true;
@@ -88,16 +94,14 @@ export class FeedbackComponent implements OnInit, AfterViewInit {
   }
   getuserFeedbackData() {
     this.spinnerService.show();
-    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getfeedback/' + AppConstants.CLIENT_ID)
+    this.activatedRoute.data
       .subscribe(
         data => {
-          if (data.result) {
-            this.feedbackData = data.result;
+          if (data.feedbackReportData.result) {
+            this.feedbackData = data.feedbackReportData.result;
             this.elementData = this.feedbackData;
             this.spinnerService.hide();
             this.dataSource = new MatTableDataSource(this.elementData);
-            this.dataSource.sort = this.sort;
-            this.dataSource.paginator = this.paginator;
           }
         },
         error => {
@@ -164,8 +168,5 @@ export class FeedbackComponent implements OnInit, AfterViewInit {
     this.componentName = name;
     this.isActive = !this.isActive;
     // this.router.navigate(['/admin/' + name]);
-  }
-  ngAfterViewInit() {
-
   }
 }

@@ -8,7 +8,7 @@ import { FormGroup, FormControl, EmailValidator } from '@angular/forms';
 import { ElementData } from '@angular/core/src/view';
 import { Angular2Csv } from 'angular2-csv';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
@@ -37,7 +37,10 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   feature_id = 10;
   // tslint:disable-next-line:max-line-length
-  constructor(private http: HttpClient, private router: Router, private spinnerService: Ng4LoadingSpinnerService, private alertService: AlertService) {
+  constructor(private http: HttpClient, private router: Router, private spinnerService: Ng4LoadingSpinnerService,
+     private alertService: AlertService,
+     private activatedRoute: ActivatedRoute,
+     private route: ActivatedRoute) {
 
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
       this.userAccessDataModel = new AccessDataModelComponent(http, router);
@@ -66,14 +69,14 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
 
   // get data from database
   async getData() {
+    this.spinnerService.show();
     try {
-      this.dataURL = AppConstants.API_URL + `/flujo_client_getdata/${AppConstants.CLIENT_ID}`;
-      this.http.get<ICommonInterface>(this.dataURL)
+      this.activatedRoute.data
         .subscribe((data) => {
           this.spinnerService.hide();
-          if (!data.error || data.access_token === AppConstants.ACCESS_TOKEN) {
-            this.dataSource.data = data.result;
-            this.dataCount = data.result.length;
+          if (!data.databaseReportData.error || data.databaseReportData.access_token === AppConstants.ACCESS_TOKEN) {
+            this.dataSource.data = data.databaseReportData.result;
+            this.dataCount = data.databaseReportData.result.length;
           } else {
             this.alertService.warning('Something went wrong.');
           }

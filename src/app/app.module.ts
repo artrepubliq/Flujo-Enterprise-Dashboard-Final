@@ -109,6 +109,12 @@ import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
 import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
 import { EditorSelectionService } from './service/editor-selection.service';
 import { PapaParseModule } from 'ngx-papaparse';
+import { ManageReportsResolver } from './manage-reports/manage-reports-resolver';
+import { ManageReportService } from './manage-reports/manage-reports-service';
+import { FeedbackService } from './feedback/feedback-service';
+import { FeedbackResolver } from './feedback/feedback-resolver';
+import { DataBaseResolver } from './database/database-resolver';
+import { DataBaseService } from './database/database-service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -269,6 +275,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               EmailTemplateResolver,
               EmailTemplateService,
               EditorSelectionService,
+              ManageReportsResolver,
+              ManageReportService,
+              FeedbackResolver,
+              FeedbackService,
+              DataBaseResolver,
+              DataBaseService,
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
