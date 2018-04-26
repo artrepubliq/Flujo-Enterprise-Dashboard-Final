@@ -130,7 +130,7 @@ button.active {
   padding-left: 10px;
   vertical-align: middle;
   p {
-    font-family: Roboto;
+    font-family: 'Roboto';
     font-size: 12px;
     font-weight: 500;
     font-style: normal;
@@ -179,6 +179,7 @@ input {
     padding: 22px 20px;
     .title,
     h3 {
+      font-family: 'Roboto';
       font-size: 13px;
       font-weight: 500;
       font-style: normal;
@@ -200,6 +201,7 @@ input {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-family: 'Roboto';
     }
     .chart_item:before {
       content: "";
