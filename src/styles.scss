@@ -286,7 +286,27 @@ input[type="file"] {
   cursor: pointer;
   border: none !important;
 }
-
+.input_box-view {
+  label {
+    font-size: 14px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #666666;
+  }
+  p {
+    font-size: 14px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #666666;
+  }
+}
 .input_box {
   ::placeholder {
     color: #c1c1c1;
@@ -474,12 +494,12 @@ control-messages,
 }
 
 // Custom Global Page-padding
-.page_padding {
-  padding: 3vh 2vw 15px 4vw;
-}
-.page_padding-2 {
-  padding: 25px 8% 30px 5%;
-}
+// .page_padding {
+//   padding: 3vh 2vw 15px 4vw;
+// }
+// .page_padding-2 {
+//   padding: 25px 8% 30px 5%;
+// }
 
 // Mat Toggle custom style
 .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {

@@ -94,8 +94,10 @@
         <div class="chart_body text-center" fxLayout="column" fxLayoutAlign="center space-around">
           <app-charts-assign [assign]='assign'></app-charts-assign>
         </div>
-        <div class="chart_footer" fxLayout="row" fxLayoutAlign="end center">
-          <p>1:00</p>
+        <div class="chart_footer" fxLayout="row" fxLayoutGap="10px">
+          <h3 fxFlex class="chart_item completed">Completed</h3>
+          <h3 fxFlex class="chart_item inprogress">Inprogress</h3>
+          <h3 fxFlex class="chart_item unresolved">Unresolved</h3>
         </div>
       </div>
       </div>
@@ -120,7 +122,7 @@
       </div>
     </div>
 
-    <div class="rect_card" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="30px">
+    <div class="rect_card" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="15px">
       <div fxFlex class="chart_card">
         <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
           <h3 class="title">Status</h3>

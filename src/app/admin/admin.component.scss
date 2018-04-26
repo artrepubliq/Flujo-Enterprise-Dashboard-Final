@@ -335,6 +335,7 @@
   // Team Chat 
   .team_icon {
     display: block;
+    width: 80px;
     .nav-link {
       padding-left: 0;
       img {
@@ -421,7 +422,7 @@
 
 // **=======** Page Wrapper Styles **=======**
 #page-content-wrapper {
-  padding: 20px 30px;
+  padding: 30px;
   margin-left: 80px;
 }
 

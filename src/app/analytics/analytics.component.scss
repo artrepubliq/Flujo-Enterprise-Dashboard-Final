@@ -197,6 +197,9 @@ input {
     .chart_item {
       position: relative;
       padding-left: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .chart_item:before {
       content: "";
@@ -213,6 +216,16 @@ input {
     .male:before {
       background-color: #0cc0df;
     }
+    .completed:before {
+      background-color: #ee2f6b;
+    }
+    .inprogress:before {
+      background-color: #0cc0df;
+    }
+    .unresolved:before {
+      background-color: #452c59;
+    }
+    
   }
   .chart_body {
     height: calc(100% - 123px);
@@ -319,4 +332,16 @@ input {
   .col-md-4:last-child {
     padding-right: 15px;
   }
-} 
+}
+@media (max-width: 767px) {
+  .profile_chatrs.row {
+    .col-md-4 {
+      padding-right: 15px;
+      margin-bottom: 15px;
+    }
+    .col-md-4:last-child {
+      padding-right: 15px;
+      margin-bottom: 0;
+    }
+  } 
+}
