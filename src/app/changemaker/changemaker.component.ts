@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
+import { IActiveHeader } from '../model/active-header.model';
 @Component({
   selector: 'app-changemaker',
   templateUrl: './changemaker.component.html',
@@ -23,6 +24,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
 })
 
 export class ChangemakerComponent implements OnInit {
+  public ActiveHeader: IActiveHeader;
   filteredUserAccessData: any;
   feature_id = 8;
   userAccessLevelObject: any;
@@ -64,6 +66,12 @@ export class ChangemakerComponent implements OnInit {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/changemakerreport');
     }
+    this.ActiveHeader = {
+      feedback: false,
+      change_maker: true,
+      surveys: false,
+      database: false
+    };
   }
   ngOnInit() {
     setTimeout(function () {
@@ -75,23 +83,23 @@ export class ChangemakerComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getchangemaker/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          console.log(data.result);
+          // console.log(data.result);
           this.changemakerData = data.result;
           this.changemakerData2 = data.result;
           this.spinnerService.hide();
           this.dataSource = new MatTableDataSource(this.changemakerData);
           // this.changemakerData.paginator = this.paginator;
           this.changeMakerElementData = this.changemakerData;
-          console.log(this.changemakerData);
+          // console.log(this.changemakerData);
           this.spinnerService.hide();
         },
         error => {
-          console.log(error);
+          // console.log(error);
         });
   }
   public applyFilter(filterValue: string): void {
-    console.log(filterValue);
-    console.log(this.changemakerData);
+    // console.log(filterValue);
+    // console.log(this.changemakerData);
     this.changemakerData2 = this.changemakerData.filter((item) =>
       (item.name.includes(filterValue) ||
         (item.date_now.includes(filterValue)) ||

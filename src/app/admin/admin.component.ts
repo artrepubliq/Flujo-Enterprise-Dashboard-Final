@@ -105,7 +105,7 @@ export class AdminComponent implements OnInit {
           }
         });
         if (this.userAccessLevelObject) {
-          console.log(this.userAccessLevelObject);
+          // console.log(this.userAccessLevelObject);
           this.userAccessLevelData = this.userAccessLevelObject;
           this.accessDataModel.setUserAccessLevels(this.userAccessLevelData, this.feature_id, 'admin');
         } else {
@@ -118,7 +118,7 @@ export class AdminComponent implements OnInit {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const title = this.getTitle(router.routerState, router.routerState.root).join('-');
-        console.log('title', title);
+        // console.log('title', title);
         titleService.setTitle(title);
         this.CurrentPageName = title;
       }
