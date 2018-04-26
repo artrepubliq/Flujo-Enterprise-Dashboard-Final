@@ -9,11 +9,11 @@
         <form class="file_uploader" enctype="multipart/form-data">
           <div class="">
             <!-- <input  type="file" id="image" (change)="selectMedia($event)" #fileInput multiple> -->
-            <image-upload (removed)="onRemoved($event)" [preview]="false" (uploadStateChanged)="onUploadStateChanged($event)" class="image-upload"
+            <image-upload (removed)="onRemoved($event)" [preview]="false"  class="image-upload"
               id="image" [buttonCaption]="'Choose file'" [dropBoxMessage]="'or drag ‘n’ drop here'" (change)="selectMedia($event)"
               [style]="customStyle" #fileInput>
             </image-upload>
-            <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="onUploadImages()">Upload</button>
+            <!-- <button class="upload-button" mat-raised-button [hidden]="ishide" type="submit" (click)="onUploadImages()">Upload</button> -->
           </div>
         </form>
 
