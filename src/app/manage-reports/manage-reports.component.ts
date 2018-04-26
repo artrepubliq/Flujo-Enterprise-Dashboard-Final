@@ -4,7 +4,6 @@ import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { ICreateUserDetails } from '../model/createUser.model';
 import { IArrows } from '../model/arrows.model';
-
 import CSVExportService from 'json2csvexporter';
 import { MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort } from '@angular/material';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -18,7 +17,7 @@ import { IshowReports } from '../model/showRepots.model';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
@@ -67,7 +66,8 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     private filterSubject: Subject<string> = new Subject<string>();
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
-        private alertService: AlertService, private router: Router, public adminComponent: AdminComponent
+        private alertService: AlertService, private router: Router, public adminComponent: AdminComponent,
+        private activatedRoute: ActivatedRoute, private route: ActivatedRoute,
     ) {
         this.arrows = <IArrows>{};
         this.arrows.age_arrow = false;
@@ -88,6 +88,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.filterReportProblemData = [];
     }
     ngOnInit() {
+        this.getAllReports();
         this.prepareMoveToAutoCompleteOptionsList(this.moveToListOptions);
         this.prepareRemarksAutoCompleteOptionsList(this.RemarksListOptions);
         this.spinnerService.show();
@@ -105,7 +106,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                 }
             );
 
-        this.getAllReports();
     }
     ngAfterViewInit() {
         this.spinnerService.hide();
@@ -254,14 +254,13 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.postMoveToRemarksObject.description = null;
     }
     // this function is used for getting reports data from the server
-    getAllReports = () => {
-        this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getreportproblem/' + AppConstants.CLIENT_ID)
-            .subscribe(
-                data => {
-                    if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
-                        this.reportProblemData = data.result;
-                        this.reportProblemData2 = data.result;
-                        this.filterReportProblemData = data.result;
+    getAllReports = (): void => {
+        this.activatedRoute.data.subscribe(data => {
+            console.log(data);
+                    if (!data.reportData.error && (AppConstants.ACCESS_TOKEN === data.reportData.access_token)) {
+                        this.reportProblemData = data.reportData.result;
+                        this.reportProblemData2 = data.reportData.result;
+                        this.filterReportProblemData = data.reportData.result;
                         this.spinnerService.hide();
                     } else {
                         this.spinnerService.hide();
