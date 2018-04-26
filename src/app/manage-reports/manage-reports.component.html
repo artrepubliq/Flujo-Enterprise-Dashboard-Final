@@ -51,7 +51,7 @@
     <div class="manage_reports_data">
       <mat-card fxLayout="column" class="card_box">
         <div class="reports-header" fxFlex="100%" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-          <div fxFlex="150px" class="name-field">
+          <div fxFlex="200px" class="name-field">
             <span fxFlex="100%" fxLayoutAlign="start center" fxLayoutGap="10px" class="fb-first-field cursor-p">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <mat-checkbox (change)="selectAll()" [(ngModel)]="checked" fxFlex="15px" class="d-inline" type="checkbox"></mat-checkbox>&nbsp;
               <p class="name-feedback" fxFlex="100%" class="d-inline" (click)="sortArray('name', 'name_arrow')">Name&nbsp;
@@ -96,7 +96,7 @@
             <mat-expansion-panel-header>
               <div fxLayout="column" fxFlex="100%">
                 <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-                  <div fxFlex="150px" class="name-data">
+                  <div fxFlex="200px" class="name-data">
                     <span fxLayout="row" fxFlex="100%" fxLayoutGap="10px" fxLayoutAlign="start center" class="d-inline">
                       <p class="text-muted d-inline">
                         <i class="fa fa-ellipsis-v"></i>
@@ -162,35 +162,54 @@
               </div>
             </mat-action-row>
             <mat-action-row>
-              <div fxLayout="column" fxFlex="100%">
-                <div class="reports-data-form problem-box" fxFlex="100%" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
-                  <div class="assign-issue" fxLayout="row" fxLayoutAlign="start center" fxFlex="40%">
+                <div class="reports-data-form problem-box" fxFlex="100%" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+                  <div class="assign-issue" fxLayout="row" fxLayoutAlign="start center" fxFlex="40">
                     <div>
                       <span class="text-muted d-inline">Assign Issue:&nbsp;&nbsp;</span>
                     </div>
                     <div>
-                      <form class="example-form d-inline form-inline">
-                        <mat-form-field class="example-full-width">
-                          <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
-                          <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredusersListOptions | async" [value]="option" (click)="AssignedUserName(option, report.id)">
-                              {{ option }}
-                            </mat-option>
-                          </mat-autocomplete>
-                        </mat-form-field>
-                        <button class="btn btn-outline-secondary btn-sm btn-report" (click)="updateAssignedUserIntoDB()">Assign</button>
+                      <form  class="d-inline form-inline">
+                        <div fxFlex="100%" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+                          <div fxFlex>
+                            <mat-form-field fxFlex="270px" class="example-full-width">
+                              <input fxFlex="270px" type="text" placeholder="Enter Name or Email" aria-label="Number" matInput [formControl]="usersListControl" [matAutocomplete]="auto1">
+                              <mat-autocomplete  autoActiveFirstOption #auto1="matAutocomplete">
+                                <mat-option class="option-no-issue" selected  disabled>
+                                  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+                                    Enter Name or Email
+                                    <div class="pull-right">
+                                      <i class="fa fa-angle-up"></i>
+                                    </div>
+                                  </div>
+                                </mat-option>
+                                <mat-option *ngFor="let option of filteredusersListOptions | async" [value]="option" (click)="AssignedUserName(option, report.id)">
+                                    <div fxLayout="row" fxLayoutGap="1.5rem" fxLayoutAlign="start center">
+                                      <div fxLayoutAlign="start center" class="user-avatar-issue">
+                                        <img  src="../assets/profile_user.jpg">
+                                      </div>
+                                      <div fxLayoutAlign="start center">{{ option }}</div>
+                                      <div fxFlex><input class="pull-right" type="checkbox" (click)="$event.stopPropagation();"/></div>
+                                    </div>
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                          </div>
+                          <div fxLayoutAlign="center center">
+                            <button class="btn btn-outline-secondary btn-sm btn-report pull-right" (click)="updateAssignedUserIntoDB()">Assign</button>
+                          </div>
+                        </div>
                       </form>
                     </div>
                   </div>
 
-                  <div fxLayout="row" fxFlex="25%" fxLayoutAlign="start center">
+                  <div fxLayout="row" fxFlex="25" fxLayoutAlign="start center">
                     <div>
                       <span class="text-muted d-inline">Move To:&nbsp;&nbsp;</span>
                     </div>
                     <div>
                       <form class="example-form">
                         <mat-form-field class="example-full-width">
-                          <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
+                          <input fxFlex="175px" type="text" placeholder="Move To" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
                           <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
                             <mat-option *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption)">
                               {{ moveoption }}
@@ -201,22 +220,26 @@
                     </div>
                   </div>
 
-                  <div class="assign-issue" fxFlex>
-                    <form class="example-form form-inline">
-                      <mat-form-field class="example-full-width">
-                        <input type="text" placeholder="Remarks select or type" aria-label="Number" matInput [formControl]="remarksListControl" [matAutocomplete]="auto3">
-                        <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
-                          <mat-option *ngFor="let remarksoption of FilteredRemarksListOptions | async" [value]="remarksoption" (click)="getRemarksOption(remarksoption)">
-                            {{ remarksoption }}
-                          </mat-option>
-                        </mat-autocomplete>
-                      </mat-form-field>
-                      <button class="btn btn-outline-secondary btn-sm btn-report" (click)="UpdateReportsStatus(report)">Assign</button>
+                  <div class="assign-issue" fxFlex="35">
+                    <form class="d-inline form-inline">
+                      <div fxFlex="100%" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+                        <div fxFlex>
+                          <mat-form-field class="example-full-width">
+                            <input fxFlex="300px" type="text" placeholder="Remarks select or type" aria-label="Number" matInput [formControl]="remarksListControl" [matAutocomplete]="auto3">
+                            <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
+                              <mat-option *ngFor="let remarksoption of FilteredRemarksListOptions | async" [value]="remarksoption" (click)="getRemarksOption(remarksoption)">
+                                {{ remarksoption }}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                        </div>
+                        <div fxLayoutAlign="center center">
+                          <button class="btn btn-outline-secondary btn-sm btn-report pull-right" (click)="UpdateReportsStatus(report)">Assign</button>
+                        </div>
+                      </div>
                     </form>
                   </div>
-
                 </div>
-              </div>
             </mat-action-row>
           </mat-expansion-panel>
         </mat-accordion>

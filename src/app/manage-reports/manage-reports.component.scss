@@ -304,6 +304,7 @@ input{
     -webkit-box-shadow:0 0 12px 1px #0cc0df !important;
     border:1px solid #0cc0df !important;
 }
+
 .problem-box.mat-expanded.mat-expansion-panel-spacing{
    margin-top: 0;
 }
@@ -322,6 +323,7 @@ input{
         text-align: center;
         color: #c1c1c1;
     }
+    
 }
 .mat-expansion-panel-header{
     padding:5px 26px;
@@ -364,11 +366,11 @@ input{
 }
 .assign-issue{
     position: relative;
-    min-width: 21rem;
+    // min-width: 21rem;
     button{
-        position: absolute;
-        top: 20%;
-        left: 67%;
+        // position: absolute;
+        // top: 20%;
+        // left: 100%;
         color: #4a2565;
         border: solid 1px #4a2565;
         font-family: Roboto;
@@ -386,10 +388,34 @@ input{
         top:1.5em;
         right:1em;
     }
+ 
+}
+.option-no-issue{
+    border-bottom: 1.5px solid #f5f5f5 !important;
+    background-color: #ffffff;
+    width:95%;
+    text-align: left;
+    margin: 0 auto;
+    font-family: Roboto;
+    font-size: 11px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #999999;
+}
+.user-avatar-issue{
+    max-width:30px !important;
+    max-height:30px !important;
+    img{
+        width:30px;
+        height:30px;
+        border-radius:50% !important;
+    }
 }
 .mat-action-row{
     border: none;
-    
 }
 .paginationn{
     margin-left: auto; 
@@ -398,7 +424,7 @@ input{
     max-height: calc(100vh - 300px);
     position: relative;
     .manage_reports_data{
-        padding:0 13px;
+        padding: 0 13px 0px 3px;
         min-width: 1200px;
         overflow: auto;
     }

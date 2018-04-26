@@ -22,7 +22,8 @@
               <div>
                 <mat-select class="select_dropdown_mat" placeholder="Title Font" required [(ngModel)]="selectedTitleFont" id="rolename" (ngModelChange)='onOptionSelected($event)'
                   formControlName="title_font">
-                  <mat-option *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</mat-option>
+                  <mat-option selected  disabled>Select Font-Family</mat-option>
+                  <mat-option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</mat-option>
                 </mat-select>
               </div>
             </div>
@@ -31,7 +32,7 @@
               <div>
                 <mat-select required [(ngModel)]="selectedBodyFont" id="rolename" class="select_dropdown_mat" (ngModelChange)='onOptionSelected($event)'
                   formControlName="body_font_family">
-                  <mat-option selected disabled>Select Font-Family</mat-option>
+                  <mat-option selected  disabled>Select Font-Family</mat-option>
                   <mat-option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</mat-option>
                 </mat-select>
               </div>
@@ -132,7 +133,7 @@
   </div>
   <div fxLayout="row" class="rounded-rectangle-2358"></div>
   <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">
-    <!-- <button class="pull-right btn" (click)="resetForm()">Cancel</button> -->
+    <button class="pull-right btn" (click)="resetForm()">Cancel</button>
     <button class="pull-right button_submit" [disabled]="themeConfigForm.invalid" (click)="submitTheme()">Save</button>
   </div>
 </form>
