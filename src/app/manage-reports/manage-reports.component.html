@@ -2,26 +2,23 @@
 </ngx-alerts>
 <ng4-loading-spinner></ng4-loading-spinner>
 <div class="page_padding" fxLayout="column" fxLayoutGap="13px">
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <h6 class="issues">Issues</h6>
+  <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="space-between center" fxLayoutWrap="wrap">
+    <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
+      <button (click)="sortByStatus('0')" [ngClass]="{'active':showReports.completedActive}" name="options" id="option1" autocomplete="off"
+        checked> Completed </button>
+      <button (click)="sortByStatus('1')" [ngClass]="{'active':showReports.inProgressActive}" name="options" id="option2" autocomplete="off">
+        In progress</button>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
+      <button (click)="exportManageReports()" class="choose_button">Export as CSV</button>
 
-    <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center" fxLayoutWrap="wrap">
-      <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
-        <button (click)="sortByStatus('0')" [ngClass]="{'active':showReports.completedActive}" name="options" id="option1" autocomplete="off"
-          checked> Completed </button>
-        <button (click)="sortByStatus('1')" [ngClass]="{'active':showReports.inProgressActive}" name="options" id="option2" autocomplete="off">
-          In progress</button>
+      <div class="custom_input_mat">
+        <mat-form-field class="select_dropdown">
+          <input matInput placeholder="Search" [(ngModel)]="searchReport" (ngModelChange)="onChange($event)">
+        </mat-form-field>
       </div>
-      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center">
-        <button (click)="exportManageReports()" class="choose_button">Export as CSV</button>
 
-        <div class="custom_input_mat">
-          <mat-form-field class="select_dropdown">
-            <input matInput placeholder="Search" [(ngModel)]="searchReport" (ngModelChange)="onChange($event)">
-          </mat-form-field>
-        </div>
-
-        <!-- <div class="dropdown">
+      <!-- <div class="dropdown">
           <ul class="pull-right btn btn-outline-secondary btn-issues dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Filter By
@@ -32,7 +29,7 @@
             </div>
           </ul>
         </div> -->
-        <!-- <div>
+      <!-- <div>
           <mat-form-field class="select_dropdown">
             <mat-select placeholder="Filter By">
               <mat-option (click)="picker.open()">
@@ -44,7 +41,6 @@
             </mat-select>
           </mat-form-field>
         </div> -->
-      </div>
     </div>
   </div>
   <br/>
@@ -53,15 +49,15 @@
   </div>
   <div class="manage_reports_table" [perfectScrollbar]="config">
     <div class="manage_reports_data">
-      <mat-card fxLayout="column" class="card_box" >
+      <mat-card fxLayout="column" class="card_box">
         <div class="reports-header" fxFlex="100%" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
           <div fxFlex="200px" class="name-field">
             <span fxFlex="100%" fxLayoutAlign="start center" fxLayoutGap="10px" class="fb-first-field cursor-p">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <mat-checkbox (change)="selectAll()" [(ngModel)]="checked" fxFlex="15px" class="d-inline" type="checkbox"></mat-checkbox>&nbsp;
-                <p class="name-feedback" fxFlex="100%" class="d-inline" (click)="sortArray('name', 'name_arrow')">Name&nbsp;
-                  <i *ngIf="!arrows.name_arrow" class="fa fa-angle-down d-inline"></i>
-                  <i *ngIf="arrows.name_arrow" class="fa fa-angle-up d-inline"></i>
-                </p>
+              <p class="name-feedback" fxFlex="100%" class="d-inline" (click)="sortArray('name', 'name_arrow')">Name&nbsp;
+                <i *ngIf="!arrows.name_arrow" class="fa fa-angle-down d-inline"></i>
+                <i *ngIf="arrows.name_arrow" class="fa fa-angle-up d-inline"></i>
+              </p>
             </span>
           </div>
           <div fxFlex="200px" (click)="sortArray('submitted_at', 'submitted_at_arrow')">
@@ -107,7 +103,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                       </p>
                       <mat-checkbox [(ngModel)]="report.selected" class="Check-box-normal" (click)="$event.stopPropagation();" type="checkbox"></mat-checkbox>&nbsp;
-                        <p class="name-feedback d-inline">{{report.name}}</p>
+                      <p class="name-feedback d-inline">{{report.name}}</p>
                     </span>
                   </div>
                   <div fxFlex="200px">

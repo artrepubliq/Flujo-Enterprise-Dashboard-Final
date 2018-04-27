@@ -12,22 +12,22 @@
       </div>
       <div class="smtp_body" fxLayout="row">
         <div *ngIf="smtpItems" class="smtp-confgs" fxLayout="column" fxLayoutGap="20px" fxFlex="90">
-          <div fxLayout="column">
+          <div fxLayout="column" class="input_box-view">
             <label>Host name</label>
             <p>{{smtpItems[0].host_name}}</p>
             <hr>
           </div>
-          <div fxLayout="column">
+          <div fxLayout="column" class="input_box-view">
             <label>From name</label>
             <p>{{smtpItems[0].from_name}}</p>
             <hr>
           </div>
-          <div fxLayout="column">
+          <div fxLayout="column" class="input_box-view">
             <label>From Email</label>
             <p>{{smtpItems[0].from_email}}</p>
             <hr>
           </div>
-          <div fxLayout="column">
+          <div fxLayout="column" class="input_box-view">
             <label>User name</label>
             <p>{{smtpItems[0].user_name}}</p>
             <hr>
