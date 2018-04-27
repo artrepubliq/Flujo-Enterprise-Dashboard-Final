@@ -19,14 +19,14 @@
               <span>
                 <img src="./assets/calendar-icon.png">&nbsp;&nbsp;
               </span>
-              <span class="date-input-span"  (click)="minDatePicker.open()">{{minDate | date:'dd LLL'}}
+              <span class="date-input-span"  (click)="minDatePicker.open()">{{minDate | date:'dd LLL yyyy'}}
                 <mat-form-field class="date-input1"  class="example-full-width">
                   <input fxHide matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
                   <mat-datepicker  #minDatePicker></mat-datepicker>
                 </mat-form-field>
-              </span>-
+              </span>&nbsp;To&nbsp;
               <span class="date-input-span" (click)="maxDatePicker.open()">{{maxDate | date:'dd LLL yyyy'}}
-                  <mat-form-field [ngStyle]="{'marginLeft': '-45px'}" class="date-input2" class="example-full-width">
+                  <mat-form-field [ngStyle]="{'marginLeft': '-90px'}" class="date-input2" class="example-full-width">
                       <input fxHide matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
                       <mat-datepicker #maxDatePicker></mat-datepicker>
                   </mat-form-field>
