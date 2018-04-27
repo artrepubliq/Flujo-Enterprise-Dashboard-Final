@@ -8,16 +8,24 @@ import * as _ from 'underscore';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { AppConstants } from '../app.constants';
 import { MatIconModule } from '@angular/material/icon';
-import { IloggedinUsers } from '../model/createUser.model';
+import { IActiveUsers } from '../model/createUser.model';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { CreateUserComponentComponent, AccessLevelPopup } from '../create-user-component/create-user-component.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { IAccessLevelModel } from '../model/accessLevel.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 
+/*Start Chat Camp window initializaion to avoid build errors*/
+declare global {
+  interface Window { cc: any; ChatCampUI: any; }
+}
+
+window.cc = window.cc || {};
+
+window.ChatCampUI = window.ChatCampUI || {};
+/*End Chat Camp window initializaion*/
 
 @Component({
   templateUrl: './admin.component.html',
@@ -32,15 +40,15 @@ export class AdminComponent implements OnInit {
   filteredAccessIds: any;
   isUserActive: boolean;
   CurrentPageName = 'Profile';
-  activeUsers: Array<IloggedinUsers>;
-  loggedinUsersList: Array<IloggedinUsers>;
-  userList: Array<IloggedinUsers>;
+  activeUsers: Array<IActiveUsers>;
+  loggedinUsersList: Array<IActiveUsers>;
+  userList: Array<IActiveUsers>;
   sidebarToggledButton: boolean;
   dropdownOpen: boolean;
   public name: string;
-  createUserList: CreateUserComponentComponent;
   config: any;
   loggedinIds: Array<string>;
+  public user_id: string;
   // Arrays for Side nav menu and admin menu
   // tslint:disable-next-line:max-line-length
   editor = [{ feature_id: 1, title: 'Editor', router: 'admin/chooseplatform', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
@@ -88,6 +96,7 @@ export class AdminComponent implements OnInit {
     { feature_id: 29, title: 'Social Configuration', router: 'admin/socialconfiguration' }
   ];
   accessDataModel: AccessDataModelComponent;
+  isChatStarted: boolean;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
     private titleService: Title,
@@ -135,18 +144,23 @@ export class AdminComponent implements OnInit {
     }
     return data;
   }
-
   ngOnInit(): void {
     this.name = localStorage.getItem('name');
+    this.user_id = localStorage.getItem('user_id');
+
     // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     this.getUserList();
-     const interval = setInterval(() => {
+    const interval = setInterval(() => {
       if (Date.now() > Number(localStorage.getItem('expires_at'))) {
         this.loginAuthService.logout(false);
         clearInterval(interval);
         }
       this.getUserList();
+      if ( this.loggedinIds && !this.isChatStarted) {
+        this.isChatStarted = true;
+        this.ChatIO();
+      }
     }, 5000);
   }
   // page navigations
@@ -165,11 +179,7 @@ export class AdminComponent implements OnInit {
     // this.CurrentPageName = page.title;
     this.accessDataModel.setUserAccessLevels(this.userAccessLevelData, page.feature_id, page.router);
   }
-  ChatIO = (chatItem) => {
-
-    // const  = [];
-
-    const window: any = Window;
+  ChatIO = () => {
 
     window.cc.GroupChannel.create('Team', this.loggedinIds, true, function (error, groupChannel) {
       if (error == null) {
@@ -188,37 +198,36 @@ export class AdminComponent implements OnInit {
   // getting logged in ids for chatcamp
   StoredLoggedinIds = () => {
     this.loggedinIds = [];
-
-    _.each(this.loggedinUsersList, (loggedinUser: IloggedinUsers) => {
-      const loggedInId = loggedinUser.id;
-      this.loggedinIds.push(loggedInId);
-    });
+    _.each(this.loggedinUsersList, (loggedinUser: IActiveUsers) => {
+      if (loggedinUser.is_logged_in === '1' && loggedinUser.isUserCanChat) {
+         this.loggedinIds.push(loggedinUser.id);
+        }
+     });
   }
 
+  OnetoOne = (chatItem) => {
+
+    const OnetoOne = [this.user_id];
+    OnetoOne.push(chatItem.id);
+    window.cc.GroupChannel.create('Team', OnetoOne, true, (error, groupChannel) => {
+     if (error == null) {
+       console.log('New one to one Channel has been created', groupChannel);
+       window.ChatCampUI.startChat(groupChannel.id);
+      }
+    });
+  }
   // getting users list who are logged in
   getUserList = () => {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          this.loggedinUsersList = data.result;
-          this.StoredLoggedinIds();
-          this.activeUsers = _.filter(this.loggedinUsersList, (activeUserData) => {
-            this.isUserActive = false;
-            return activeUserData.id !== localStorage.getItem('id_token');
-          });
-          if (this.activeUsers) {
-            _.each(this.activeUsers, (iteratee, index) => {
-              if (this.activeUsers[index].is_logged_in === '1' && localStorage.getItem('user_id')) {
-                this.activeUsers[index].isUserActive = true;
-                // this.filteredAccessIds = this.activeUsers;
-              }
-            });
-            this.activeUsers = _.filter(this.activeUsers, (filteredactiveUserData) => {
-              return filteredactiveUserData.id !== localStorage.getItem('user_id');
-            });
-          } else {
-            console.log('There are no active users');
-          }
+          this.activeUsers = data.result;
+          this.loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
+            return  activeUserData.id !== localStorage.getItem('user_id') ;
+        });
+        if (this.loggedinUsersList) {
+            this.StoredLoggedinIds();
+        }
         },
         error => {
           console.log(error);

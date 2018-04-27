@@ -35,7 +35,9 @@ export class LoginAuthService implements OnInit {
     this.customLoggedIn$.next(value);
     this.customLoggedIn = value;
     if (!this.customLoggedIn) {
-      window.alert('close session');
+        if (localStorage.getItem('isLoginPageLoads') === 'false') {
+          window.alert('close session');
+        }
       this.router.navigate(['/login']);
       // this.clearLocalStorage();
     } else {
@@ -61,6 +63,7 @@ export class LoginAuthService implements OnInit {
 
   logout(status) {
     if (!status) {
+      localStorage.setItem('isLoginPageLoads', 'false');
       this.router.navigate(['/login']);
       this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.user_id)
       .subscribe(
@@ -69,6 +72,7 @@ export class LoginAuthService implements OnInit {
         error => {
         });
         this.clearLocalStorage();
+        window.location.reload();
     }
   }
   clearLocalStorage = () => {

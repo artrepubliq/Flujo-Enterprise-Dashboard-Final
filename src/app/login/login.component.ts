@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
   }
   // When this component is loaded, we'll call the dealService and get our public deals.
   ngOnInit() {
+    localStorage.setItem('isLoginPageLoads', 'true')
   }
 
   onSubmit = (body) => {
@@ -62,15 +63,12 @@ export class LoginComponent implements OnInit {
             if (data.custom_status_code === 100) {
               this.loginForm.reset();
               console.log(this.loginData);
-              // this.spinnerService.hide();
-              // this.loginAuthService.setLoggedInCustom(true);
               console.log(data);
               this.loginAuthService._setSession(data.result[0]);
               if (this.loginData[0].email_verified === '0') {
                 const feature_id = 23;
-                this.redirectUrlForChatCamp(this.loginData[0]);
-                // this.router.navigate(['/admin/changepassword']);
                 this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
+                this.redirectUrlForChatCamp(this.loginData[0]);
               }
               this.alertService.success('User logged in successfully');
             } else if (data.custom_status_code === 140) {
@@ -80,24 +78,6 @@ export class LoginComponent implements OnInit {
               this.alertService.danger('Please enter valid details');
             }
           }
-          // if (data.status) {
-          //   this.loginForm.reset();
-          //   this.spinnerService.hide();
-          //   // this.loginAuthService.setLoggedInCustom(true);
-          //   console.log(data);
-          //   this.loginAuthService._setSession(data);
-          //   if (data.email_verified === '0') {
-          //     const feature_id = 23;
-          //     // this.router.navigate(['/admin/changepassword']);
-          //     this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
-          //   } else if (data.can_chat === false && data.email_verified === '1') {
-          //     this.redirectUrlForChatCamp(data);
-          //   }
-          //   this.alertService.success('User logged in successfully');
-          // } else {
-          //   this.spinnerService.hide();
-          //   this.alertService.danger('Please enter valid details');
-          // }
         });
   }
   redirectUrlForChatCamp = (data: IcustomLoginModelDetails) => {
