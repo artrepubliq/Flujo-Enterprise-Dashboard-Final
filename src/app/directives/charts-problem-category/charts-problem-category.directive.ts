@@ -12,6 +12,6 @@ export class ChartsProblemCategoryDirective implements OnInit {
   constructor(public mScrollbarService: MalihuScrollbarService) { }
 
   ngOnInit() {
-    // this.mScrollbarService.initScrollbar('.scrool-problem', { axis: 'x', theme: 'minimal' });
+    this.mScrollbarService.initScrollbar('.problems', { axis: 'x', theme: 'minimal' });
   }
 }
