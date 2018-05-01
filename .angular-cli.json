@@ -20,14 +20,14 @@
       "prefix": "app",
       "styles": [
         "styles.scss",
-        "../widget-example/static/css/main.a1350ceb.css",
+        "../widget-example/static/css/main.e58951d6.css",
         "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
         "../node_modules/froala-editor/css/froala_style.min.css",
         "../node_modules/font-awesome/css/font-awesome.css",
         "../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css"
       ],
       "scripts": [
-        "../widget-example/static/js/main.18774add.js",
+        "../widget-example/static/js/main.428ae54a.js",
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
         "../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js",

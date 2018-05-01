@@ -3,7 +3,7 @@
 <form id="themegform" [formGroup]="themeConfigForm" class="page_padding theme-global" fxLayout="column" fxLayoutGap="1.2rem">
   <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="2rem" fxLayoutAlign="space-around">
     <!-- =====theme block ====== -->
-    <div fxFlex="70%" fxLayout="column" fxLayoutGap="1.2rem">
+    <div fxFlex="45%" fxLayout="column" fxLayoutGap="1.2rem">
       <div>
         <h6 class="theme-header">Fonts</h6>
       </div>
@@ -22,7 +22,8 @@
               <div>
                 <mat-select class="select_dropdown_mat" placeholder="Title Font" required [(ngModel)]="selectedTitleFont" id="rolename" (ngModelChange)='onOptionSelected($event)'
                   formControlName="title_font">
-                  <mat-option *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</mat-option>
+                  <mat-option selected  disabled>Select Font-Family</mat-option>
+                  <mat-option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</mat-option>
                 </mat-select>
               </div>
             </div>
@@ -31,7 +32,7 @@
               <div>
                 <mat-select required [(ngModel)]="selectedBodyFont" id="rolename" class="select_dropdown_mat" (ngModelChange)='onOptionSelected($event)'
                   formControlName="body_font_family">
-                  <mat-option selected disabled>Select Font-Family</mat-option>
+                  <mat-option selected  disabled>Select Font-Family</mat-option>
                   <mat-option class='option' *ngFor="let item of TitleFontFamily" value="{{item.name}}">{{item.name}}</mat-option>
                 </mat-select>
               </div>
@@ -112,7 +113,7 @@
     </div>
     <div fxHide.xs fxHide.sm fxLayout="column" class="rounded-rectangle-2360"></div>
     <!-- =====preview block ====== -->
-    <div fxFlex="50%" fxLayout="column" fxLayoutGap="1.5rem">
+    <div fxFlex="55%" fxLayout="column" fxLayoutGap="1.5rem">
       <div class="pad-20"></div>
       <div fxLayout="row" fxLayoutGap="1rem" fxLayoutWrap fxLayoutAlign="spaece-around center">
         <h6 [style.background-image]="gradientColor" [ngStyle]="{'fontFamily': selectedTitleFont}" fxFlex="100%" class="preview-theme-header gradient">The quick brown fox jumps over the lazy dog</h6>
@@ -132,7 +133,7 @@
   </div>
   <div fxLayout="row" class="rounded-rectangle-2358"></div>
   <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">
-    <!-- <button class="pull-right btn" (click)="resetForm()">Cancel</button> -->
+    <button class="pull-right btn" (click)="resetForm()">Cancel</button>
     <button class="pull-right button_submit" [disabled]="themeConfigForm.invalid" (click)="submitTheme()">Save</button>
   </div>
 </form>

@@ -98,12 +98,12 @@
             <th scope="col">Module Title</th>
             <th scope="col">Module bg Image</th>
             <th scope="col">Module id</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let module_item of moduleDetails">
+          <tr class="btn-stack" *ngFor="let module_item of moduleDetails">
             <!-- <th scope="row">{{Module_item.id}}</th> -->
             <td>{{module_item.module_name}}</td>
             <td>{{module_item.module_title}}</td>
@@ -113,14 +113,17 @@
               <img *ngIf="module_item.module_background_image" class="figure" src="data:image/png;base64,{{module_item.module_background_image}}">
             </td>
             <td>{{module_item.id}}</td>
-            <td>
-              <button (click)="editCompnent(module_item)" class="btn btn-success">EDIT</button>
+            <td class="btn-userm">
+              <button (click)="editCompnent(module_item)" class="btn">
+                  <i class="fa fa-pencil"></i>
+              </button>
             </td>
-            <td>
-              <button (click)="onDelete(module_item)" class="btn btn-success">DELETE</button>
+            <td class="btn-userm">
+              <button (click)="onDelete(module_item)" class="btn">
+                  <i class="fa fa-trash"></i>
+              </button>
             </td>
           </tr>
-
         </tbody>
       </table>
       <br/>

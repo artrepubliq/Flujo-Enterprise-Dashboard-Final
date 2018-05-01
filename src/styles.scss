@@ -286,7 +286,27 @@ input[type="file"] {
   cursor: pointer;
   border: none !important;
 }
-
+.input_box-view {
+  label {
+    font-size: 12px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #c1c1c1;
+  }
+  p {
+    font-size: 14px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #666666;
+  }
+}
 .input_box {
   ::placeholder {
     color: #c1c1c1;
@@ -474,12 +494,12 @@ control-messages,
 }
 
 // Custom Global Page-padding
-.page_padding {
-  padding: 3vh 2vw 15px 4vw;
-}
-.page_padding-2 {
-  padding: 25px 8% 30px 5%;
-}
+// .page_padding {
+//   padding: 3vh 2vw 15px 4vw;
+// }
+// .page_padding-2 {
+//   padding: 25px 8% 30px 5%;
+// }
 
 // Mat Toggle custom style
 .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
@@ -538,6 +558,13 @@ control-messages,
   .mat-expansion-panel{
     border-bottom:1.5px solid #f5f5f5 !important;
   }
+  .mat-action-row{
+    padding: 0px 15px 0px 20px;
+  }
+  .problem-box .mat-expansion-panel-body{
+    display: none !important;
+    padding: 0;
+ }
 }
 
 /* FeedBack Material Table Custom Styles */
@@ -1021,4 +1048,13 @@ control-messages,
 .alert-snackbar {
   background: #000;
   color: #ee2f6b
+}
+.social-tabs {
+  .mat-ink-bar {
+    background-color: #ee286b !important;
+    border-radius: 2px;
+  }
+  .mat-tab-label {
+    min-width: 120px !important;
+}
 }

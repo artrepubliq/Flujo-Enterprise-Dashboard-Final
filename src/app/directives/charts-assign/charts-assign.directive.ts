@@ -70,9 +70,13 @@ export class ChartsAssignDirective implements OnChanges {
             label: 'Unresolved'
           }
         ],
+        barPercentage: [
+          '0.2'
+        ],
         labels: assignEmail
       },
       'options': {
+        responsive: true,
         legend: {
           display: false
         },
@@ -82,6 +86,7 @@ export class ChartsAssignDirective implements OnChanges {
               gridLines: {
                 display: false
               },
+              barPercentage: 0.2,
               ticks: {
                 display: false
               }

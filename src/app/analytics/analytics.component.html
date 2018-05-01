@@ -19,14 +19,14 @@
               <span>
                 <img src="./assets/calendar-icon.png">&nbsp;&nbsp;
               </span>
-              <span class="date-input-span"  (click)="minDatePicker.open()">{{minDate | date:'dd LLL'}}
+              <span class="date-input-span"  (click)="minDatePicker.open()">{{minDate | date:'dd LLL yyyy'}}
                 <mat-form-field class="date-input1"  class="example-full-width">
                   <input fxHide matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
                   <mat-datepicker  #minDatePicker></mat-datepicker>
                 </mat-form-field>
-              </span>-
+              </span>&nbsp;To&nbsp;
               <span class="date-input-span" (click)="maxDatePicker.open()">{{maxDate | date:'dd LLL yyyy'}}
-                  <mat-form-field [ngStyle]="{'marginLeft': '-45px'}" class="date-input2" class="example-full-width">
+                  <mat-form-field [ngStyle]="{'marginLeft': '-90px'}" class="date-input2" class="example-full-width">
                       <input fxHide matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
                       <mat-datepicker #maxDatePicker></mat-datepicker>
                   </mat-form-field>
@@ -66,9 +66,10 @@
 
   <!-- ======= Charts Cards ======== -->
   <div fxLayout="column" ngClass.lt-md="charts_lt-md" fxLayoutGap="15px">
-    <div fxLayout="row" ngClass.md="charts_md-scroll" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="30px">
+    <div class="profile_chatrs row">
       <!-- Gender Chart  -->
-      <div fxFlex class="chart_card">
+      <div class="col-md-4">
+      <div class="chart_card">
         <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
           <h3 class="title">Gender</h3>
           <i class="fa fa-ellipsis-v"></i>
@@ -81,9 +82,11 @@
           <h3 class="chart_item male">Male</h3>
         </div>
       </div>
+      </div>
 
       <!-- Assign Chart -->
-      <div fxFlex class="chart_card">
+      <div class="col-md-4">
+      <div class="chart_card">
         <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
           <h3 class="title">Assign</h3>
           <i class="fa fa-ellipsis-v"></i>
@@ -91,12 +94,16 @@
         <div class="chart_body text-center" fxLayout="column" fxLayoutAlign="center space-around">
           <app-charts-assign [assign]='assign'></app-charts-assign>
         </div>
-        <div class="chart_footer" fxLayout="row" fxLayoutAlign="end center">
-          <p>1:00</p>
+        <div class="chart_footer" fxLayout="row" fxLayoutGap="10px">
+          <h3 fxFlex class="chart_item completed">Completed</h3>
+          <h3 fxFlex class="chart_item inprogress">Inprogress</h3>
+          <h3 fxFlex class="chart_item unresolved">Unresolved</h3>
         </div>
       </div>
+      </div>
       <!-- Age Chart  -->
-      <div fxFlex class="chart_card age_chart">
+      <div class="col-md-4">
+      <div class="chart_card age_chart">
         <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
           <h3 class="title">Age</h3>
           <i class="fa fa-ellipsis-v"></i>
@@ -112,9 +119,10 @@
           <p fxFlex="50" class="chart_item age45">45 Above age</p>
         </div>
       </div>
+      </div>
     </div>
 
-    <div class="rect_card" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="30px">
+    <div class="rect_card" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="15px" fxLayoutGap.lt-md="15px">
       <div fxFlex class="chart_card">
         <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
           <h3 class="title">Status</h3>
