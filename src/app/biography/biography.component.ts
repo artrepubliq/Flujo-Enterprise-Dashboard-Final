@@ -59,9 +59,9 @@ export class BiographyComponent implements OnInit {
   biographySubmitForm: any;
   bgColor = '#3c3c3c';
   events: string[] = [];
-  startDate = new Date(1990, 0, 1);
-  startDate2 = new Date(1990, 1, 1);
-  minDate = new Date(1990, 1, 1);
+  startDate = new Date(1980, 0, 1);
+  startDate2 = new Date(1980, 1, 1);
+  minDate = new Date(1980, 1, 1);
   maxDate = new Date(2019, 1, 1);
   userAccessDataModel: AccessDataModelComponent;
   feature_id = 19;

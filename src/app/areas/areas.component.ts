@@ -144,8 +144,8 @@ export class AreaEditPopup {
     private httpClient: HttpClient,
     private alertService: AlertService) {
     this.areaForm = this.formBuilder.group({
-      'areatypenamenew': ['', ],
-      'areateluguname': ['', ],
+      'areatypenamenew': ['', Validators.required],
+      'areateluguname': ['', Validators.required],
       'areapincodenew': ['', ],
       'areaid': [null],
       'client_id': [null]

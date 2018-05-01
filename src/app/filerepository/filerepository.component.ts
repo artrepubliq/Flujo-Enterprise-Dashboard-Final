@@ -384,6 +384,7 @@ export class FilerepositoryComponent implements OnInit {
                                 //     console.log(this.filtered_repositories[index]);
                                 //     if (this.filtered_repositories[index].file_path) {
                                 //         // tslint:disable-next-line:max-line-length
+                                // tslint:disable-next-line:max-line-length
                                 //         this.filtered_repositories[index].file_path = 'http://' + this.filtered_repositories[index].file_path;
                                 //     }
                                 // });

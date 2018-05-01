@@ -3,8 +3,8 @@
         <app-headerurls [header]="ActiveHeader"></app-headerurls>
       </div>
   <div class="example-header" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="space-between center">
-    <div class="item_count">
-      <p>Total Items: {{dataCount}}</p>
+    <div fxLayoutAlign="center center">
+      <app-headerurls></app-headerurls>
     </div>
     <div fxLayout="row" fxLayoutGap="15px">
       <div>
@@ -22,6 +22,9 @@
 
   <!-- Table -->
   <div class="database_table" [perfectScrollbar]="config">
+    <div class="item_count">
+      <p>Total Items: {{dataCount}}</p>
+    </div>
     <div class="example-container">
       <mat-table #table [dataSource]="dataSource">
 
@@ -57,7 +60,7 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <div class="sendMail-data form-group">
-      <div fxLayout="row" fxLayoutGap="15px" >
+      <div fxLayout="row" fxLayoutGap="15px">
         <div class="input_box p-rel">
           <input id="email" placeholder="Enter email" email="true" [(ngModel)]="postEmailValue">
           <!-- <div  class="form-error-msg">
