@@ -96,7 +96,6 @@ export class ProblemCategoryComponent implements OnInit {
           }
           this.spinnerService.hide();
           this.getproblemData();
-          this.problemForm.reset();
           this.isEdit = false;
         },
         error => {

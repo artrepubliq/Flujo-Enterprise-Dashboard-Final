@@ -12,9 +12,10 @@ import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
+// import 'styles.scss';
 @Component({
   templateUrl: './logo.component.html',
-  styleUrls: ['./logo.component.scss']
+  styleUrls: ['./logo.component.scss'],
 })
 export class LogoComponent implements OnInit {
   filteredUserAccessData: any;
