@@ -10,8 +10,8 @@ import { AppConstants } from '../app.constants';
 import { MatIconModule } from '@angular/material/icon';
 import { IActiveUsers } from '../model/createUser.model';
 import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { AccessLevelPopup } from '../create-user-component/create-user-component.component';
+import { Router, ActivatedRoute, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
+import { CreateUserComponentComponent, AccessLevelPopup } from '../create-user-component/create-user-component.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { IAccessLevelModel } from '../model/accessLevel.model';
@@ -20,7 +20,7 @@ import { AccessDataModelComponent } from '../model/useraccess.data.model';
 
 /*Start Chat Camp window initializaion to avoid build errors*/
 declare global {
-  interface Window { cc: any; ChatCampUI: any;}
+  interface Window { cc: any; ChatCampUI: any; }
 }
 
 // window.cc = window.cc || {};
@@ -116,7 +116,7 @@ export class AdminComponent implements OnInit {
           }
         });
         if (this.userAccessLevelObject) {
-          console.log(this.userAccessLevelObject);
+          // console.log(this.userAccessLevelObject);
           this.userAccessLevelData = this.userAccessLevelObject;
           this.accessDataModel.setUserAccessLevels(this.userAccessLevelData, this.feature_id, 'admin');
         } else {
@@ -128,21 +128,27 @@ export class AdminComponent implements OnInit {
     );
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        const title = this.getTitle(router.routerState, router.routerState.root).join('-');
-        console.log('title', title);
+        const title = this.getTitle(this.router.routerState.snapshot.root);
+        // console.log('title', title);
         titleService.setTitle(title);
         this.CurrentPageName = title;
       }
     });
   }
-  public getTitle(state, parent): any[] {
-    const data = [];
-    if (parent && parent.snapshot.data && parent.snapshot.data.title) {
-      data.push(parent.snapshot.data.title);
-    }
+  public getTitle(routeSnapshot: ActivatedRouteSnapshot): any {
+    // const data = [];
+    // if (parent && parent.snapshot.data && parent.snapshot.data.title) {
+    //   data.push(parent.snapshot.data.title);
+    // }
 
-    if (state && parent) {
-      data.push(... this.getTitle(state, state.firstChild(parent)));
+    // if (state && parent) {
+    //   data.push(... this.getTitle(state, state.firstChild(parent)));
+    // }
+    // return data;
+    let data = [];
+    data = routeSnapshot.data ? routeSnapshot.data['title'] : '';
+    if (routeSnapshot.firstChild) {
+      data = this.getTitle(routeSnapshot.firstChild) || data;
     }
     return data;
   }
@@ -166,7 +172,7 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.name = localStorage.getItem('name');
-    this.user_id= localStorage.getItem('user_id');
+    this.user_id = localStorage.getItem('user_id');
 
     // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
@@ -178,12 +184,12 @@ export class AdminComponent implements OnInit {
         }
       this.getUserList();
 
-      if((this.loggedinIds && !this.isChatStarted) || !window.cc){
+      if ((this.loggedinIds && !this.isChatStarted) || !window.cc) {
         this.isChatStarted = true;
         this.ChatIO();
       }
     }, 5000);
-    
+
   }
 
   // page navigations
@@ -222,7 +228,7 @@ export class AdminComponent implements OnInit {
   StoredLoggedinIds = () => {
     this.loggedinIds = [this.user_id];
     _.each(this.loggedinUsersList, (loggedinUser: IActiveUsers) => {
-      if(loggedinUser.is_logged_in == '1' && loggedinUser.can_chat){
+      if (loggedinUser.is_logged_in === '1' && loggedinUser.can_chat) {
          this.loggedinIds.push(loggedinUser.id);
         }
      });
@@ -231,11 +237,8 @@ export class AdminComponent implements OnInit {
   OnetoOne = (chatItem) => {
 
     console.log(window);
-    
     const OnetoOne = [this.user_id];
-  
     OnetoOne.push(chatItem.id);
-  
     window.cc.GroupChannel.create('Team', OnetoOne, true, (error, groupChannel) => {
      if (error == null) {
        console.log('New one to one Channel has been created', groupChannel);

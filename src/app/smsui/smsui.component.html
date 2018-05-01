@@ -69,7 +69,10 @@
       <div>
         <textarea formControlName="message" *ngIf="selectedSmsTemplateData" [ngModel]="selectedSmsTemplateData" id="message" placeholder="Message"></textarea>
         <textarea *ngIf="!selectedSmsTemplateData" formControlName="message" id="message" placeholder="Message"></textarea>
-        <control-messages [control]="smsContactForm.controls.message"></control-messages>
+        <!-- <control-messages [control]="smsContactForm.controls.message"></control-messages> -->
+        <div [hidden]="smsContactForm.controls.message.valid || (smsContactForm.controls.message.pristine && !submitted)" class="form-error-msg">
+            Message minimum 10 characters
+          </div>
       </div>
     </div>
 

@@ -19,7 +19,7 @@
                 </div>
             </form>
             <div fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="end center">
-                <button class="button_submit" (click)="postAreaData()">{{actionText}}</button>
+                <button class="button_submit" [disabled]="areaForm.invalid" (click)="postAreaData()">{{actionText}}</button>
                 <button class="button_cancel" (click)="cancelPostAreaData()">Cancel</button>
             </div>
         </div>

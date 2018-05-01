@@ -28,7 +28,7 @@ export class WhatsappComponent implements OnInit {
     this.whatsAppSendingForm = formBuilder.group({
       'database': [null],
       'group': [null],
-      'message': [],
+      'message': ['', Validators.required],
       'client_id': [null]
     });
     this.getWhatsAppSmsTemplateData();
