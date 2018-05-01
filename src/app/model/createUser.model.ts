@@ -11,5 +11,5 @@ export interface IActiveUsers {
     is_logged_in: string;
     isUserActive: boolean;
     isUserCanChat: boolean;
+    can_chat: boolean;
 }
-

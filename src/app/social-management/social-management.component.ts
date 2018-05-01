@@ -30,6 +30,7 @@ export class SocialManagementComponent implements OnInit {
   isFbLogedin = false;
   isShowTwitter = false;
   access_token: any;
+  config : any;
   constructor(private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {

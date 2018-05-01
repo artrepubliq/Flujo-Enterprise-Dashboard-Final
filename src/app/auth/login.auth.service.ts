@@ -50,6 +50,7 @@ export class LoginAuthService implements OnInit {
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('chat_token', authResult.chatcamp_accesstoken);
     localStorage.setItem('email', authResult.email);
     localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('name', authResult.name);
@@ -84,6 +85,8 @@ export class LoginAuthService implements OnInit {
   localStorage.removeItem('expires_at');
   localStorage.removeItem('email');
   localStorage.removeItem('editor_source');
+  localStorage.removeItem('chat_token');
+
   this.setLoggedInCustom(false);
   }
   get authenticated(): boolean {

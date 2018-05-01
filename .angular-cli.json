@@ -27,7 +27,7 @@
         "../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css"
       ],
       "scripts": [
-        "../widget-example/static/js/main.bffe7e20.js",
+        "../widget-example/static/js/main.428ae54a.js",
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
         "../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js",
