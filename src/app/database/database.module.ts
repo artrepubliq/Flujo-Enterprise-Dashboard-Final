@@ -2,13 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DatabaseRoutingModule } from './database-routing.module';
-import { DatabaseComponent } from './database.component';
 import { MatPaginatorModule, MatTableModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AlertModule } from 'ngx-alerts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HeaderurlsComponent } from '../headerurls/headerurls.component';
+
 import { PerfectScrollbarModule, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -30,6 +29,6 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FlexLayoutModule,
     MatInputModule,
   ],
-  declarations: [DatabaseComponent]
+  declarations: []
 })
 export class DatabaseModule { }
