@@ -42,7 +42,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="btn-stack" *ngFor="let user of userDetails">
+              <tr class="btn-stack" *ngFor="let user of userDetails" [hidden]="loggedInUser(user.id)">
                 <td class="user_name" scope="col" colspan="2">
                   <span fxLayoutGap="0.5rem" class="d-inline">
                     <p class="text-muted d-inline">

@@ -4,7 +4,6 @@ import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { ICreateUserDetails } from '../model/createUser.model';
 import { IArrows } from '../model/arrows.model';
-
 import CSVExportService from 'json2csvexporter';
 import { MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort } from '@angular/material';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -18,7 +17,7 @@ import { IshowReports } from '../model/showRepots.model';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
@@ -52,7 +51,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     reportRemarksOption: string;
     reportCsvMail: FormGroup;
     usersListOptions = [];
-    moveToListOptions = ['In Progress', 'Completed', 'Pending/UnResolved'];
+    moveToListOptions = ['Completed', 'In Progress', 'Pending/UnResolved'];
     RemarksListOptions = ['constituency', 'othersOne', 'otherstwo', 'othersthree'];
     filteredusersListOptions: Observable<string[]>;
     filteredMoveToListOptions: Observable<string[]>;
@@ -67,7 +66,8 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     private filterSubject: Subject<string> = new Subject<string>();
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
-        private alertService: AlertService, private router: Router, public adminComponent: AdminComponent
+        private alertService: AlertService, private router: Router, public adminComponent: AdminComponent,
+        private activatedRoute: ActivatedRoute, private route: ActivatedRoute,
     ) {
         this.arrows = <IArrows>{};
         this.arrows.age_arrow = false;
@@ -88,6 +88,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.filterReportProblemData = [];
     }
     ngOnInit() {
+        this.getAllReports();
         this.prepareMoveToAutoCompleteOptionsList(this.moveToListOptions);
         this.prepareRemarksAutoCompleteOptionsList(this.RemarksListOptions);
         this.spinnerService.show();
@@ -100,12 +101,11 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                     this.spinnerService.hide();
                 },
                 error => {
-                    console.log(error);
+                    // console.log(error);
                     this.spinnerService.hide();
                 }
             );
 
-        this.getAllReports();
     }
     ngAfterViewInit() {
         this.spinnerService.hide();
@@ -122,7 +122,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                     map(val => this.usersListOptions.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0))
                 );
             } catch (error) {
-                console.log(error);
+                // console.log(error);
             }
         }
     }
@@ -134,7 +134,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                 map(val => optionsList.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0))
             );
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
     // Moveto options filter callbak
@@ -145,7 +145,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                 map(val => optionsList.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0))
             );
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
     AssignedUserName = (user, reportId) => {
@@ -177,14 +177,14 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             const result = user.name === this.reportAssignedToUserName;
             if (result) {
                 this.postAssignedUsersObject.email_to_send = this.loggedinUsersList[index].email;
-                console.log(this.postAssignedUsersObject.email_to_send);
+                // console.log(this.postAssignedUsersObject.email_to_send);
             }
         });
-        console.log(this.postAssignedUsersObject);
+        // console.log(this.postAssignedUsersObject);
         this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postreportassigned', this.postAssignedUsersObject)
             .subscribe(
                 resp => {
-                    console.log(resp);
+                    // console.log(resp);
                     if (!resp.error && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
                         this.alertService.success('Your request updated successfully.');
                         this.spinnerService.hide();
@@ -195,13 +195,13 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                     } else {
                         this.spinnerService.hide();
                         this.alertService.danger('Somthing went wrong.');
-                        console.log('something went wrong');
+                        // console.log('something went wrong');
                     }
                 },
                 error => {
                     this.alertService.danger('Somthing went wrong. please try again.');
                     this.spinnerService.hide();
-                    console.log(error);
+                    // console.log(error);
                 }
             );
     }
@@ -216,12 +216,12 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             this.postMoveToRemarksObject.updated_by = localStorage.getItem('user_id');
             this.postMoveToRemarksObject.email_to_send = report.email;
             this.postMoveToRemarksObject.send_reportstatus_phone = report.phone;
-            this.postMoveToRemarksObject.description = ''; // report.problem
-            console.log(this.postMoveToRemarksObject);
+            this.postMoveToRemarksObject.description = report.report_description; // report.problem
+            // console.log(this.postMoveToRemarksObject);
             this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_updatereportproblem', this.postMoveToRemarksObject)
                 .subscribe(
                     resp => {
-                        console.log(resp);
+                        // console.log(resp);
                         if (!resp.error && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
                             this.alertService.success('Your request updated successfully.');
                             this.spinnerService.hide();
@@ -233,13 +233,13 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                         } else {
                             this.spinnerService.hide();
                             this.alertService.danger('Somthing went wrong.');
-                            console.log('something went wrong');
+                            // console.log('something went wrong');
                         }
                     },
                     error => {
                         this.alertService.danger('Somthing went wrong. please try again.');
                         this.spinnerService.hide();
-                        console.log(error);
+                        // console.log(error);
                     }
                 );
         }
@@ -254,23 +254,22 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.postMoveToRemarksObject.description = null;
     }
     // this function is used for getting reports data from the server
-    getAllReports = () => {
-        this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getreportproblem/' + AppConstants.CLIENT_ID)
-            .subscribe(
-                data => {
-                    if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
-                        this.reportProblemData = data.result;
-                        this.reportProblemData2 = data.result;
-                        this.filterReportProblemData = data.result;
+    getAllReports = (): void => {
+        this.activatedRoute.data.subscribe(data => {
+            console.log(data);
+                    if (!data.reportData.error && (AppConstants.ACCESS_TOKEN === data.reportData.access_token)) {
+                        this.reportProblemData = data.reportData.result;
+                        this.reportProblemData2 = data.reportData.result;
+                        this.filterReportProblemData = data.reportData.result;
                         this.spinnerService.hide();
                     } else {
                         this.spinnerService.hide();
-                        console.log('something went wrong');
+                        // console.log('something went wrong');
                     }
                 },
                 error => {
                     this.spinnerService.hide();
-                    console.log(error);
+                    // console.log(error);
                 }
             );
     }

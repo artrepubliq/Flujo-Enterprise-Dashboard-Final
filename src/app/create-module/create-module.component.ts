@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AlertModule, AlertService } from 'ngx-alerts';
@@ -13,9 +14,9 @@ import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
-
+import 'styles.scss';
 @Component({
-    // selector: 'app-create-module',
+    selector: 'app-create-module',
     templateUrl: './create-module.component.html',
     styleUrls: ['./create-module.component.scss']
 })
@@ -165,7 +166,7 @@ export class CreateModuleComponent implements OnInit {
                     this.spinnerService.hide();
                 },
                 error => {
-                    console.log(error);
+                    // console.log(error);
                     this.loading = false;
                     this.spinnerService.hide();
                 }
@@ -182,7 +183,7 @@ export class CreateModuleComponent implements OnInit {
             this.moduleForm.controls['module_background_image'].setValue(moduleData.module_background_image);
             this.moduleForm.controls['module_background_color'].setValue(moduleData.module_background_color);
             // this.dummy = moduleData.parent_id;
-            console.log(this.moduleForm.value);
+            // console.log(this.moduleForm.value);
         }
 
     }

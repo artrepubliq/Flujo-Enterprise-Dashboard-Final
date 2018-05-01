@@ -17,6 +17,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
 })
 export class TncComponent implements OnInit {
 
+  isButton = false;
   loading: boolean;
   isAddPage: boolean;
   isTableView: boolean;
@@ -52,36 +53,30 @@ export class TncComponent implements OnInit {
   onSubmit = () => {
     this.spinnerService.show();
     this.tncSubmitForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    if (this.termsDetails) {
+    if (this.termsDetails.length > 0) {
       this.tncSubmitForm.controls['termsconditions_id'].setValue(this.termsDetails[0].id);
     }
     const formModel = this.tncSubmitForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_posttermsconditions', formModel)
       .subscribe(
         data => {
-          if (data.custom_status_code === 100) {
+          if (data.access_token === AppConstants.ACCESS_TOKEN) {
+          if (!data.error && data.custom_status_code === 100) {
             this.alertService.success('Data updated successfully');
             this.getTermsData();
+            this.isGridView = true;
           } else if (data.custom_status_code === 101) {
             this.alertService.warning('Required parameters are missing!');
           } else if (data.custom_status_code === 102) {
             this.alertService.warning('Every thing is upto date!');
           }
-          // if (data.error) {
-          //     this.alertService.warning('data not submitted');
-          //     // this.parsePostResponse(data);
-          //     this.spinnerService.hide();
-          // } else {
-          //     this.getTermsData();
-          //     this.parsePostResponse(data);
-          //     this.spinnerService.hide();
-          // }
-
+        }
         },
         err => {
           console.log(err);
           this.spinnerService.hide();
           this.alertService.danger('Data not Submitted');
+          this.getTermsData();
         }
       );
   }
@@ -94,6 +89,11 @@ export class TncComponent implements OnInit {
               this.termsDetails = null;
               this.isEdit = false;
               this.termsDetails = data.result;
+                if (this.termsDetails.length === 0) {
+                  this.isButton = true;
+                } else {
+                  this.isButton = false;
+                }
               console.log(this.termsDetails);
               this.setDefaultClientPrivacyData(this.termsDetails);
               this.spinnerService.hide();
@@ -118,18 +118,13 @@ export class TncComponent implements OnInit {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.alertService.success('Data deleted successfully');
+              this.spinnerService.hide();
+              this.getTermsData();
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
+              this.spinnerService.hide();
             }
           }
-          // thi
-          // if ((data.custom_status_code = 100) && (data.result[0] === '1')) {
-          //   this.alertService.danger('Deleted Successfully');
-          //   this.spinnerService.hide();
-          //   this.getTermsData();
-          // } else {
-          //   this.alertService.warning('Someting went wrong');
-          // }
         },
         error => {
           this.spinnerService.hide();
@@ -141,15 +136,14 @@ export class TncComponent implements OnInit {
   setDefaultClientPrivacyData = (termsData) => {
     console.log(termsData);
     if (termsData) {
-      this.tncSubmitForm.controls['title'].setValue(termsData[0].title);
-      this.tncSubmitForm.controls['terms_conditions'].setValue(termsData[0].terms_conditions);
-      this.tncSubmitForm.controls['termsconditions_id'].setValue(termsData[0].id);
+      this.tncSubmitForm.controls['title'].setValue(termsData.title);
+      this.tncSubmitForm.controls['terms_conditions'].setValue(termsData.terms_conditions);
+      this.tncSubmitForm.controls['termsconditions_id'].setValue(termsData.id);
       console.log(this.tncSubmitForm.value);
     }
 
   }
   addPages = () => {
-    this.tncSubmitForm.reset();
     this.isEdit = true;
     this.isAddPage = true;
     this.isTableView = false;

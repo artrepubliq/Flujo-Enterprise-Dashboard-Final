@@ -35,7 +35,7 @@
       <button class="page_viewButton" (click)="viewPages()">
         <img src="./assets/list-view-icon-normal.png" />
       </button>
-      <button *ngIf="!isEdit" class="choose_button" (click)="addPages()">Create Terms & Conditions
+      <button *ngIf="isButton" class="choose_button" (click)="addPages()">Create Terms & Conditions
         <span class="add_icon">
           <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
         </span>
