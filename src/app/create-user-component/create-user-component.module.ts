@@ -9,6 +9,7 @@ import { AlertModule } from 'ngx-alerts';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PerfectScrollbarModule, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { FlexLayoutModule } from '@angular/flex-layout';
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -25,7 +26,8 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormsModule,
     ReactiveFormsModule,
     PerfectScrollbarModule,
-    MatSelectModule
+    MatSelectModule,
+    FlexLayoutModule
   ],
   declarations: [CreateUserComponentComponent]
 })

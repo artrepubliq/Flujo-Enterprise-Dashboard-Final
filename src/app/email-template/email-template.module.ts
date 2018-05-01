@@ -28,6 +28,6 @@ import { CKEditorModule } from 'ngx-ckeditor';
     MatButtonModule,
     CKEditorModule,
   ],
-  declarations: [EmailTemplateComponent]
+  declarations: []
 })
 export class EmailTemplateModule { }

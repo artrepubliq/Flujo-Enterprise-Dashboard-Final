@@ -10,7 +10,7 @@ import { AppConstants } from '../app.constants';
 import { MatIconModule } from '@angular/material/icon';
 import { IloggedinUsers } from '../model/createUser.model';
 import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
 import { CreateUserComponentComponent, AccessLevelPopup } from '../create-user-component/create-user-component.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
@@ -25,6 +25,7 @@ import { AccessDataModelComponent } from '../model/useraccess.data.model';
 
 })
 export class AdminComponent implements OnInit {
+  title: any;
   feature_id = 0;
   userAccessData: any;
   userAccessLevelData: Array<IAccessLevelModel>;
@@ -117,21 +118,27 @@ export class AdminComponent implements OnInit {
     );
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        const title = this.getTitle(router.routerState, router.routerState.root).join('-');
+        const title = this.getTitle(this.router.routerState.snapshot.root);
         // console.log('title', title);
         titleService.setTitle(title);
         this.CurrentPageName = title;
       }
     });
   }
-  public getTitle(state, parent): any[] {
-    const data = [];
-    if (parent && parent.snapshot.data && parent.snapshot.data.title) {
-      data.push(parent.snapshot.data.title);
-    }
+  public getTitle(routeSnapshot: ActivatedRouteSnapshot): any {
+    // const data = [];
+    // if (parent && parent.snapshot.data && parent.snapshot.data.title) {
+    //   data.push(parent.snapshot.data.title);
+    // }
 
-    if (state && parent) {
-      data.push(... this.getTitle(state, state.firstChild(parent)));
+    // if (state && parent) {
+    //   data.push(... this.getTitle(state, state.firstChild(parent)));
+    // }
+    // return data;
+    let data = [];
+    data = routeSnapshot.data ? routeSnapshot.data['title'] : '';
+    if (routeSnapshot.firstChild) {
+      data = this.getTitle(routeSnapshot.firstChild) || data;
     }
     return data;
   }

@@ -5,7 +5,8 @@ import { SmstemplateComponent } from './smstemplate.component';
 const routes: Routes = [
   {
     path: '',
-    component: SmstemplateComponent
+    component: SmstemplateComponent,
+    data: { title: 'Biography' }
   }
 ];
 
