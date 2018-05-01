@@ -42,6 +42,7 @@ import { WhatsappComponent } from './whatsapp/whatsapp.component';
 import { ManageReportsResolver } from './manage-reports/manage-reports-resolver';
 import { FeedbackResolver } from './feedback/feedback-resolver';
 import { DataBaseResolver } from './database/database-resolver';
+import { TwitterComponent } from './twitter/twitter.component';
 
 const routes: Routes = [
   {
@@ -128,7 +129,9 @@ const routes: Routes = [
           },
           { path: 'chooseplatform', component: ChooseplatformComponent, data: { title: 'Platform\'s' } },
           { path: 'socialconfiguration', component: SocialconfigurationComponent, data: { title: 'Social Configuration' } },
-
+          {
+            path: 'twitter', component: TwitterComponent
+          }
         ]
       }
     ]

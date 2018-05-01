@@ -115,6 +115,7 @@ import { FeedbackService } from './feedback/feedback-service';
 import { FeedbackResolver } from './feedback/feedback-resolver';
 import { DataBaseResolver } from './database/database-resolver';
 import { DataBaseService } from './database/database-service';
+import { TwitterComponent } from './twitter/twitter.component';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -186,7 +187,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MessageArchivedComponent,
     SafeHtmlPipe,
     AreaEditPopup,
-    ProblemCategoryEditPopup
+    ProblemCategoryEditPopup,
+    TwitterComponent
   ],
   imports: [
     RouterModule.forRoot([], { useHash: true }),
