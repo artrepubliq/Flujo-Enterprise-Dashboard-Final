@@ -31,7 +31,7 @@ import {
   MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
   MatNativeDateModule, MatExpansionModule, DateAdapter,
   MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatTabsModule,
-  MatCardModule, MatTooltipModule, MatCheckboxModule, MatAutocompleteModule, MatSnackBarModule
+  MatCardModule, MatTooltipModule, MatCheckboxModule, MatListModule, MatAutocompleteModule, MatSnackBarModule
 } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
@@ -79,7 +79,7 @@ import { FileRepositoryPopup, FileViewerPopUp } from './filerepository/filerepos
 import { MatIconModule } from '@angular/material/icon';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { DocumentViewModule } from 'ngx-document-view';
+// import { DocumentViewModule } from 'ngx-document-view';
 import { NgxPaginationModule } from 'ngx-pagination';
 // import { CreateModuleComponent } from './create-module/create-module.component';
 import { HeaderurlsComponent } from './headerurls/headerurls.component';
@@ -223,6 +223,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatExpansionModule,
     MatCardModule,
     MatIconModule,
+    MatListModule,
     MomentModule,
     MatProgressBarModule,
     MatAutocompleteModule,
@@ -234,7 +235,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatNativeDateModule,
     MatSlideToggleModule,
     PdfViewerModule,
-    DocumentViewModule,
     NgxPaginationModule,
     MatTableModule,
     MatSortModule,

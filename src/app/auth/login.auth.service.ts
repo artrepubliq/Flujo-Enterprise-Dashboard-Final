@@ -35,7 +35,9 @@ export class LoginAuthService implements OnInit {
     this.customLoggedIn$.next(value);
     this.customLoggedIn = value;
     if (!this.customLoggedIn) {
-      window.alert('close session');
+        if (localStorage.getItem('isLoginPageLoads') === 'false') {
+          window.alert('close session');
+        }
       this.router.navigate(['/login']);
       // this.clearLocalStorage();
     } else {
@@ -48,6 +50,7 @@ export class LoginAuthService implements OnInit {
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('chat_token', authResult.chatcamp_accesstoken);
     localStorage.setItem('email', authResult.email);
     localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('name', authResult.name);
@@ -70,6 +73,7 @@ export class LoginAuthService implements OnInit {
         error => {
         });
         this.clearLocalStorage();
+        window.location.reload();
     }
   }
   clearLocalStorage = () => {
@@ -81,6 +85,8 @@ export class LoginAuthService implements OnInit {
   localStorage.removeItem('expires_at');
   localStorage.removeItem('email');
   localStorage.removeItem('editor_source');
+  localStorage.removeItem('chat_token');
+
   this.setLoggedInCustom(false);
   }
   get authenticated(): boolean {
