@@ -23,9 +23,9 @@ declare global {
   interface Window { cc: any; ChatCampUI: any;}
 }
 
-window.cc = window.cc || {};
+// window.cc = window.cc || {};
 
-window.ChatCampUI = window.ChatCampUI || {};
+// window.ChatCampUI = window.ChatCampUI || {};
 /*End Chat Camp window initializaion*/
 
 @Component({
