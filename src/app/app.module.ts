@@ -66,7 +66,7 @@ import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
 import { Router, RouterModule } from '@angular/router';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
-import { SocialManagementComponent } from './social-management/social-management.component';
+import { SocialManagementComponent, MessageCompose } from './social-management/social-management.component';
 import { FacebookModule } from 'ngx-facebook';
 import { FBService } from './service/fb.service';
 import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
@@ -180,7 +180,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MessageArchivedComponent,
     SafeHtmlPipe,
     AreaEditPopup,
-    ProblemCategoryEditPopup
+    ProblemCategoryEditPopup,
+    MessageCompose
   ],
   imports: [
     RouterModule.forRoot([], { useHash: true }),
@@ -238,9 +239,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     PapaParseModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-
      AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
-    EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup],
+    EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
+    MessageCompose],
   providers: [
               // AuthService,
               HttpService,

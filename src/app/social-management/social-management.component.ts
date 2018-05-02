@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FacebookService, InitParams, LoginResponse, LoginOptions } from 'ngx-facebook';
 import { FBService } from '../service/fb.service';
 import { IFBFeedResponse, IFBFeedArray, IPaginigCursors } from '../model/fb-feed.model';
@@ -7,6 +7,10 @@ import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
+import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
+import * as moment from 'moment';
+import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +18,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
+  doSchedule: true;
   test: FormGroup;
   test1: string;
   test2: string;
@@ -30,7 +35,8 @@ export class SocialManagementComponent implements OnInit {
   isFbLogedin = false;
   isShowTwitter = false;
   access_token: any;
-  constructor(private fb: FacebookService, private formBuilder: FormBuilder,
+  constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
+    public mScrollbarService: MalihuScrollbarService,
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {
     this.fbResponseData = <IFBFeedArray>{};
@@ -62,8 +68,22 @@ export class SocialManagementComponent implements OnInit {
     //   .catch((e: any) => {
     //     console.log(e);
     //   });
+
+    // this.mScrollbarService.initScrollbar('.posts-scrollable', { axis: 'y', theme: 'minimal' });
+
   }
 
+  openmessageComposeDialog(): void {
+    const dialogRef = this.dialog.open(MessageCompose, {
+      panelClass: 'app-full-bleed-dialog',
+      width: '45vw',
+      height: '61vh',
+      data: '',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
   fbLogin = () => {
     // login with options
     const options: LoginOptions = {
@@ -187,4 +207,28 @@ export class SocialManagementComponent implements OnInit {
   // logout() {
   //   this.fb.logout();
   // }
+}
+
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'message-compose',
+  templateUrl: 'message-compose.html',
+  styleUrls: ['./social-management.component.scss']
+})
+// tslint:disable-next-line:component-class-suffix
+export class MessageCompose {
+
+  constructor(
+    public dialogRef: MatDialogRef<MessageCompose>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+
 }
