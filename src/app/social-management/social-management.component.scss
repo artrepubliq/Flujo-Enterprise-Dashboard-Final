@@ -1,20 +1,20 @@
-.scrollContent {
-    max-height: calc(100vh - 70px);
-    overflow-y: scroll;
-}
+// .scrollContent {
+//     max-height: calc(100vh - 70px);
+//     overflow-y: scroll;
+// }
 
-.main-box {
-    height: calc(100vh - 100px);
-}
-.example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
+// .main-box {
+//     height: calc(100vh - 100px);
+// }
+// .example-form {
+//     min-width: 150px;
+//     max-width: 500px;
+//     width: 100%;
+//   }
   
-  .example-full-width {
-    width: 100%;
-  }
+//   .example-full-width {
+//     width: 100%;
+//   }
 
   .btn-filter {
     width: 100px;
@@ -23,6 +23,23 @@
     background-color:transparent;
     border: solid 1.5px #f0f0f0;
   }
+  .pos-filter{
+    position: absolute;
+    z-index: 1;
+    top: 5px;
+    right: 0px;
+    .filter-items{
+        line-height:2;
+    }
+}
+.Check-box-normal {
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    border: solid 1px #d8d8d8;
+  }
+
   .new-postt-box {
     width: 555px;
     height: 40px;
@@ -42,6 +59,7 @@
 
     input{
         border: none;
+        width: 90%;
     }
     i{
         opacity: 0.6;
@@ -51,26 +69,38 @@
       position: relative;
       ul li{
           list-style: none;
+          border-bottom: 1.5px solid #f5f5f5;
+      }
+      .posts-card-row{
+          position: relative; 
+        //   z-index: 9999;
+          position: sticky !important;
+          top: 0px;
+        //   background-color: white !important;
       }
       .col-md-4{
-        //    max-width:365px;
-           margin-right: 15px;
+           max-width:565px !important;
+           width:100% !important;
+           margin-right: 2px !important;
+           margin-left:-7px !important;
+           max-height:580px !important;
       }
+     
   }
   .social-card{
     font-family: Roboto;
       width:365px;
-      box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+      box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
       margin: 0 auto;
       transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
       display: block;
       position: relative;
       padding: 14px 24px;
-      border-radius: 2px;
+      border-radius: 5px;
       background: #fff;
       color: rgba(0,0,0,.87);
       .example-card {
-        max-width: 335px;
+        // max-width: 335px;
         box-shadow: none !important;
         border: none !important;
         padding: 15px !important;
@@ -112,6 +142,7 @@
         }
         .social-image{
             width: 335px;
+            // width: 100%;
             max-height: 165px;
             overflow: hidden;
             margin: 0 auto;
@@ -181,10 +212,133 @@
         border-right: 1.5px solid #f0f0f0;
     }
 }
+
+.pos-post-cards{
+    margin-left:-35px;
+}
+
 .example-header-image {
     background-image: url('/assets/profile_user.jpg');
     background-size: cover;
   }
-  .test {
+  .social-tabs-hub{
+      height: calc(100vh - 600px);
       position: relative;
+  }
+
+  .message-compose-pop{
+    position: relative;
+      .col-list-accounts{
+          border-right:1.5px solid #f5f5f5;
+          i.fa-twitter{
+            color: #1dcaff;
+          }
+          i.fa-facebook{
+            color: #3b5998;
+          }
+      }
+      ul{
+          line-height: normal;
+          list-style:none;
+          padding-left: 0;
+          li{
+              border-bottom:1.5px solid#f5f5f5;
+              width:100%;
+              height: 70px;
+              padding-right:15px;
+              padding-left:15px;
+          }
+          li:last-child{
+              border-bottom:none;
+              padding-bottom: 0;
+          }
+      }
+      .btn-stack-action{
+        position: absolute;
+        bottom: 10px;
+        right:10px;
+    }
+    .hor-line{
+        border: 1.5px solid #f7f7f7;
+        margin-left: 15px;
+    }
+  }
+  .message-config-box{
+      padding-top: 24px;
+      padding-left: 24px;
+      font-family: Roboto;
+      position: relative;
+      .postt-msg {
+        // width: 555px;
+        height: 75px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        border: solid 1px #f5f5f5;
+        padding:0 15px;
+        font-family: Roboto;
+        font-size: 12px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #999999;
+        position: relative;
+        .emoji-stack{
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        textarea{
+            padding: 0;
+            border: none;
+            outline: none;
+            resize: none;
+        }
+        i{
+            opacity: 0.6;
+        }
+      }
+      .head-msg{
+        font-size: 14px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #666666;
+      }
+      .account-target-count{
+        font-size: 12px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: right;
+        color: #c1c1c1;
+      }
+      input{
+        height: 40px;
+        border-radius: 20px;
+        background-color: #ffffff;
+        border: solid 1.5px #f7f7f7;
+        padding: 0 15px ;
+      }
+      label,input{
+        display: inline-block;
+        vertical-align: middle;
+    }
+    label{
+        font-size: 14px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #666666;   
+    }
+   
+   
   }

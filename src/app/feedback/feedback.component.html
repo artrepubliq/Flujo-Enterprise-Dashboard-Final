@@ -4,7 +4,7 @@
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutWrap="wrap">
     <!-- <h6 class="issues">Feedback</h6> -->
     <div fxLayoutAlign="center center">
-      <app-headerurls></app-headerurls>
+      <app-headerurls [header]="ActiveHeader"></app-headerurls>
     </div>
     <div fxLayoutAlign="end center">
       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" *ngIf="componentName === 'feedback'">

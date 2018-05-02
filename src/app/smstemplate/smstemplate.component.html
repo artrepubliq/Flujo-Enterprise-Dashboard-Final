@@ -86,7 +86,7 @@
       <div fxLayout="row" fxLayoutGap="48px">
         <div fxFlex="50%" fxLayout="column" fxLayoutGap="20px">
           <mat-form-field class="example-full-width">
-            <input type="text" placeholder="Choose a Template Category" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <input type="text" placeholder="Choose a Template Category" aria-label="Number" matInput [formControl]="templateCategory" [matAutocomplete]="auto">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                 {{ option }}
@@ -120,7 +120,7 @@
         <button type="submit" class="button_cancel" (click)="cancelEdit()">Cancel</button>
       </div>
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
-        <button type="submit" (click)="onSubmit(smsTemplateConfigurationForm.value)" class="button_submit">{{button_text}}</button>
+        <button type="submit" [disabled]="!smsTemplateConfigurationForm.valid || !templateCategory.valid" (click)="onSubmit(smsTemplateConfigurationForm.value)" class="button_submit">{{button_text}}</button>
       </div>
     </div>
   </form>

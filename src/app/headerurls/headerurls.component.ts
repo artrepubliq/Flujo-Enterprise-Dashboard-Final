@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { HttpClient } from '@angular/common/http';
+import { IActiveHeader } from '../model/active-header.model';
 
 @Component({
   selector: 'app-headerurls',
@@ -11,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HeaderurlsComponent implements OnInit {
   isActive: boolean;
+  @Input() header: IActiveHeader;
   userAccessDataModel: AccessDataModelComponent;
   constructor(
     private httpClient: HttpClient,
@@ -18,9 +20,10 @@ export class HeaderurlsComponent implements OnInit {
     public location: Location
   ) {
     this.userAccessDataModel = new AccessDataModelComponent(this.httpClient, this.router);
-   }
+  }
 
   ngOnInit() {
+    // console.log(this.header);
   }
 
   radioChange = (segment, feature_id) => {

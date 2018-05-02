@@ -1034,7 +1034,31 @@ control-messages,
     display: none;
   }
 }
-
+.date-schedule{
+  position: relative;
+  .mat-input-ripple, .mat-form-field-ripple{
+    display: none !important;
+    position: absolute !important;
+  }
+  .mat-input-underline, .mat-form-field-underline{
+    opacity: 0 !important;
+  }
+  input.date-from{
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+  input.date-to{
+    border-left:none!important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+  .mat-form-field-placeholder {
+    display:block !important;
+    float: none !important;;
+    animation: none !important;;
+    -webkit-animation: none !important;;
+  }
+}
 
 /* Manage Reports  */
 .manage_reports_table {
@@ -1056,5 +1080,10 @@ control-messages,
   }
   .mat-tab-label {
     min-width: 120px !important;
+  }
 }
-}
+.app-full-bleed-dialog .mat-dialog-container{
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+}  

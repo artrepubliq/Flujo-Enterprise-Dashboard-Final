@@ -35,7 +35,7 @@ export class SafeHtmlPipe implements PipeTransform {
 })
 export class EmailTemplateComponent implements OnInit {
   filteredOptions: Observable<string[]>;
-  templateCategory: FormControl = new FormControl();
+  templateCategory: FormControl;
   img: any;
   test: any;
   config: any;
@@ -65,11 +65,7 @@ export class EmailTemplateComponent implements OnInit {
     private route: ActivatedRoute,
     private platformLocation: PlatformLocation,
   ) {
-    // client_id: string;
-    // template_name: string;
-    // template_category: string;
-    // template_html: string;
-    // emailtemplateconfig_id?: string;
+
     this.createEmailTemplateForm = this.formBuilder.group({
       'template_name': ['', Validators.required],
       'template_category': [''],
@@ -77,6 +73,7 @@ export class EmailTemplateComponent implements OnInit {
       'emailtemplateconfig_id': [''],
       'client_id': ['']
     });
+    this.templateCategory = new FormControl('', Validators.required);
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/emailconfiguration');
@@ -97,24 +94,15 @@ export class EmailTemplateComponent implements OnInit {
     this.createEmailTemplateForm.controls['template_category'].setValue(this.templateCategory.value);
     this.createEmailTemplateForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     const formModel = this.createEmailTemplateForm.value;
-    console.log(formModel);
+    // console.log(formModel);
     this.spinnerService.show();
     this.emailTemplateService.postEmailTemplateData(formModel, 'flujo_client_postemailtemplateconfig')
       .subscribe((result) => {
         if (AppConstants.ACCESS_TOKEN === result.access_token) {
-          //   if (data.custom_status_code === 100 && data.result.length > 0) {
-          // if (data.custom_status_code === 100) {
-          //   this.alertService.success('Data updated successfully');
-          //   this.getPrivacyData();
-          // } else if (data.custom_status_code === 101) {
-          //   this.alertService.warning('Required parameters are missing!');
-          // } else if (data.custom_status_code === 102) {
-          //   this.alertService.warning('Every thing is upto date!');
-          // }
           if (result.custom_status_code === 101 && result.result.length === 0) {
             this.alertService.warning('Required parameters are missing');
             this.spinnerService.hide();
-          } else if ((result.custom_status_code === 100) && (typeof (result.result) === 'object')  && this.dummy != null) {
+          } else if ((result.custom_status_code === 100) && (typeof (result.result) === 'object') && this.dummy != null) {
             const index = this.allEmailTemplates.findIndex(item => item.id === this.dummy.id);
             if (index !== undefined) {
               this.allEmailTemplates[index].template_category = this.templateCategory.value;
@@ -139,6 +127,9 @@ export class EmailTemplateComponent implements OnInit {
             this.spinnerService.hide();
             this.alertService.success('Template created successfully');
             this.createEmailTemplateForm.reset();
+            this.templateCategory.setValue('');
+            this.isView = true;
+            this.isEdit = false;
           }
         }
         this.spinnerService.hide();
@@ -154,14 +145,6 @@ export class EmailTemplateComponent implements OnInit {
     this.activatedRoute.data.subscribe(result => {
       this.spinnerService.hide();
       this.editOrUpdate = false;
-      // if (data.custom_status_code === 100) {
-      //   this.alertService.success('Data updated successfully');
-      //   this.getPrivacyData();
-      // } else if (data.custom_status_code === 101) {
-      //   this.alertService.warning('Required parameters are missing!');
-      // } else if (data.custom_status_code === 102) {
-      //   this.alertService.warning('Every thing is upto date!');
-      // }
       if (AppConstants.ACCESS_TOKEN === result.themedata.access_token) {
         if (result.themedata.custom_status_code === 100 && result.themedata.result.length > 0) {
           this.allEmailTemplates = result.themedata.result;
@@ -206,12 +189,19 @@ export class EmailTemplateComponent implements OnInit {
           this.spinnerService.hide();
           this.readTemplates(this.filteredThemes);
           console.log(emailtemplateconfig_id);
+          console.log(this.allEmailTemplates);
+          const theme_data = this.allEmailTemplates.filter((object) => object.id === emailtemplateconfig_id);
+          const index = this.tempate_categories.indexOf(theme_data[0].template_category);
+          if (index > -1) {
+            this.tempate_categories.splice(index, 1);
+          }
           this.allEmailTemplates = this.allEmailTemplates.filter((object) => object.id !== emailtemplateconfig_id);
           this.allEmailTemplates2 = this.allEmailTemplates;
           this.filteredThemes = this.allEmailTemplates;
           this.uniqueEmailTemplates = _.uniq(this.allEmailTemplates, function (x) {
             return x.template_category;
           });
+          // console.log(this.tempate_categories.pop());
           console.log(this.allEmailTemplates);
         }
       },

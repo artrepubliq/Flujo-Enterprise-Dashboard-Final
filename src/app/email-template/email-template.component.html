@@ -62,7 +62,7 @@
         <button type="button" (click)="cancelEditTemplate()" class="button_cancel">Cancel</button>
       </div>
       <div>
-        <button type="button" [disabled]="createEmailTemplateForm.invalid" (click)="submitTemplate()" class="button_submit">Submit</button>
+        <button type="button" [disabled]="createEmailTemplateForm.invalid || templateCategory.invalid" (click)="submitTemplate()" class="button_submit">Submit</button>
       </div>
     </div>
   </form>
