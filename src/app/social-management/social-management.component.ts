@@ -220,7 +220,7 @@ export class SocialManagementComponent implements OnInit {
 })
 // tslint:disable-next-line:component-class-suffix
 export class MessageCompose {
-
+  doSchedule: any;
   constructor(
     public dialogRef: MatDialogRef<MessageCompose>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
