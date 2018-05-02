@@ -30,7 +30,7 @@ export class SocialManagementComponent implements OnInit {
   isFbLogedin = false;
   isShowTwitter = false;
   access_token: any;
-  config : any;
+  config: any;
   constructor(private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {
@@ -89,13 +89,13 @@ export class SocialManagementComponent implements OnInit {
   }
   /* make the API call */
   getDebugToken = () => {
-     // tslint:disable-next-line:max-line-length
-     this.fb.api('https://graph.facebook.com/v2.12/oauth/access_token?grant_type=fb_exchange_token&client_id=149056292450936&client_secret=d9a268c797f16d10ce58c44e923488aa&fb_exchange_token=EAACHkN9c8ngBABoqnD32p6ozaGBFdDZBYN0msdi052zd0c4IcpB7IBZAAE5S3W9hBXgyItsGZBakGQ0Xoe8KyLgwGMWm2OisdQXxr6fO7s8vMpZCatz6bK8zX5Rv0QIdcKrEU0cCzbNAGHXFr6ZBBKS87eJow1kYZD', 'get').then((resp) => {
+    // tslint:disable-next-line:max-line-length
+    this.fb.api('https://graph.facebook.com/v2.12/oauth/access_token?grant_type=fb_exchange_token&client_id=149056292450936&client_secret=d9a268c797f16d10ce58c44e923488aa&fb_exchange_token=EAACHkN9c8ngBABoqnD32p6ozaGBFdDZBYN0msdi052zd0c4IcpB7IBZAAE5S3W9hBXgyItsGZBakGQ0Xoe8KyLgwGMWm2OisdQXxr6fO7s8vMpZCatz6bK8zX5Rv0QIdcKrEU0cCzbNAGHXFr6ZBBKS87eJow1kYZD', 'get').then((resp) => {
       console.log(resp);
     })
-    .catch((err) => {
-      console.log(err);
-    });
+      .catch((err) => {
+        console.log(err);
+      });
     // this is used for debug token
     // tslint:disable-next-line:max-line-length
     // this.fb.api('https://graph.facebook.com/v2.12/debug_token?input_token=' + localStorage.getItem('access_token'), 'get').then((resp) => {

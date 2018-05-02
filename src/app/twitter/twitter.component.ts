@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import * as OAuth from 'oauth-1.0a';
 
 @Component({
   selector: 'app-twitter',
@@ -34,6 +35,17 @@ export class TwitterComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  public signInTwitter(): void {
+    this.httpClient.get('http://ec2-13-232-8-219.ap-south-1.compute.amazonaws.com:3000/oauth_token')
+      .subscribe(
+        result => {
+          console.log(result);
+        },
+        error => {
+          console.log(error);
+        });
   }
 
 }
