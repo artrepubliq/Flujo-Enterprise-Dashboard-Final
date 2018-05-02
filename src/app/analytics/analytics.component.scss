@@ -6,6 +6,11 @@ button:active {
   background-color: #fff !important;
   color: #999999;
 }
+.more_icon {
+  img {
+    max-height: 12px;
+  }
+}
 
 .button-group .button:focus,
 button.active {
