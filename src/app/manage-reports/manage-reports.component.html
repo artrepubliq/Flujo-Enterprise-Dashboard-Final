@@ -43,7 +43,6 @@
         </div> -->
     </div>
   </div>
-  <br/>
   <div>
     <span>Total count: {{filterReportProblemData?.length}}</span>
   </div>
@@ -99,8 +98,9 @@
                   <div fxFlex="200px" class="name-data">
                     <span fxLayout="row" fxFlex="100%" fxLayoutGap="10px" fxLayoutAlign="start center" class="d-inline">
                       <p class="text-muted d-inline">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
+                        <!-- <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i> -->
+                        <img src="../../assets/icons/move-icon-normal@3x.png" alt="">
                       </p>
                       <mat-checkbox [(ngModel)]="report.selected" class="Check-box-normal" (click)="$event.stopPropagation();" type="checkbox"></mat-checkbox>&nbsp;
                       <p class="name-feedback d-inline">{{report.name}}</p>
