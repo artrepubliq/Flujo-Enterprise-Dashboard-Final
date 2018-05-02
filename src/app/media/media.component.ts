@@ -213,6 +213,7 @@ export class MediaComponent implements OnInit {
           this.imageDetail.push(reader.result.split(',')[1]);
           console.log(this.imageDetail);
         };
+        console.log(reader.result);
       }
       this.openFileDialog(this.imageDetail);
       try {
@@ -262,6 +263,7 @@ export class MediaComponent implements OnInit {
         if (res.access_token === AppConstants.ACCESS_TOKEN) {
           if ((!res.error) && (res.custom_status_code === 100)) {
             this.uploadImagesObject = <IUploadImages>{};
+            console.log(res.result);
             this.successMessagebool = true;
             this.spinnerService.hide();
 
@@ -772,6 +774,7 @@ export class FileSelectPopup {
         this.spinnerService.hide();
         this.alertService.success('Uploaded successfully');
         this.dialogRef.close();
+        console.log(res);
       },
       (err: HttpErrorResponse) => {
         this.spinnerService.hide();
