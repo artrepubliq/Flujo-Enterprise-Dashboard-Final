@@ -68,26 +68,26 @@ export class SocialLinksComponent implements OnInit {
       this.router.navigate(['admin/sociallinks']);
     } else {
       this.router.navigate(['/accessdenied']);
-      console.log('else');
+      // console.log('else');
     }
   }
   socialLinksFormSubmit(body: any) {
     this.spinnerService.show();
     body.client_id = AppConstants.CLIENT_ID;
     this.socialLinksForm.get('client_id').setValue(AppConstants.CLIENT_ID);
-    console.log(this.socialLinksForm.value);
-    console.log(body);
+    // console.log(this.socialLinksForm.value);
+    // console.log(body);
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_postsociallinks', body)
 
 
       .subscribe(
         res => {
           if (AppConstants.ACCESS_TOKEN === res.access_token) {
-            if (res.custom_status_code === 100) {
+            if (res.custom_status_code === 100 && res.error === false) {
               this.alertService.success('Social Links updated successfully');
-            } else if (res.custom_status_code === 102) {
+            } else if (res.custom_status_code === 102 && res.error === true) {
               this.alertService.warning('Everything is upto date');
-            } else if (res.custom_status_code === 101) {
+            } else if (res.custom_status_code === 101 && res.error === true) {
               this.alertService.warning('Required parameters are missig');
             }
           }
@@ -111,7 +111,7 @@ export class SocialLinksComponent implements OnInit {
       .subscribe(
         data => {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 100) {
+            if (data.custom_status_code === 100 && data.error === false ) {
               this.spinnerService.hide();
               this.socialItems = data.result;
               this.socialItems.map(object => {
@@ -129,7 +129,7 @@ export class SocialLinksComponent implements OnInit {
 
         err => {
           this.spinnerService.hide();
-          console.log(err);
+          // console.log(err);
         }
       );
 
@@ -145,13 +145,13 @@ export class SocialLinksComponent implements OnInit {
   }
   // sociallinks delete from db
   deleteSocialLinks(socialItem) {
-    console.log(socialItem);
+    // console.log(socialItem);
     this.spinnerService.show();
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletesociallinks/' + socialItem.socialitem_id)
       .subscribe(
         data => {
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 100) {
+            if (data.custom_status_code === 100 && data.error === false) {
               this.alertService.success('Social Links deleted Successfully');
             } else if (data.custom_status_code === 102) {
               this.alertService.warning('Everything is upto date');
@@ -163,7 +163,7 @@ export class SocialLinksComponent implements OnInit {
           this.getSocialLinksData();
         },
         error => {
-          console.log(error);
+          // console.log(error);
           this.alertService.danger('Social item is not deleted.');
           this.spinnerService.hide();
         });
@@ -181,7 +181,7 @@ export class SocialLinksComponent implements OnInit {
 
   }
   EditSocialLinks(socialData) {
-    console.log(socialData);
+    // console.log(socialData);
     socialData.editLink = true;
     this.socialItemId = socialData.id;
     this.addNew = false;
@@ -196,10 +196,10 @@ export class SocialLinksComponent implements OnInit {
   }
 
   updateLink(socialData) {
-    console.log(socialData);
+    // console.log(socialData);
   }
   modifyLink(event, socialData) {
     socialData.socialitem_url = event.target.value;
-    console.log(event.target.value);
+    // console.log(event.target.value);
   }
 }

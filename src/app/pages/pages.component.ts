@@ -136,10 +136,10 @@ export class PagesComponent implements OnInit, OnDestroy {
             height: '70vh',
             data: { images: this.imagesOfgallery, image_Type: imageType }
         });
-        console.log(this.imagesOfgallery);
+        // console.log(this.imagesOfgallery);
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(result);
+                // console.log(result);
                 if (result.imageType === 'backgroundImage') {
                     this.popUpImageData = result.image;
                 } else {
@@ -239,7 +239,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                     }
                 },
                 error => {
-                    console.log(error);
+                    // console.log(error);
                     this.loading = false;
                     this.spinnerService.hide();
                 }
@@ -249,7 +249,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.childDetails = _.filter(this.pageDetails, (parentData) => {
             return parentData.parent_id === childData.id;
         });
-        console.log(this.childDetails);
+        // console.log(this.childDetails);
     }
     // this method is used to set page detals to the form, if detalis exist
 
@@ -267,7 +267,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.form.controls['component_order'].setValue(pageData.component_order);
             this.form.controls['parent_id'].setValue(pageData.parent_id);
             this.dummy = pageData.parent_id;
-            console.log(this.form.value);
+            // console.log(this.form.value);
         }
 
     }
@@ -355,6 +355,6 @@ export class MediaLocalImagePopupDialog {
         });
         localImageData.isActive = true;
         this.filteredLocalImages = { image: this.total_images[index].image, imageType: this.data.image_Type };
-        console.log(this.filteredLocalImages);
+        // console.log(this.filteredLocalImages);
     }
 }

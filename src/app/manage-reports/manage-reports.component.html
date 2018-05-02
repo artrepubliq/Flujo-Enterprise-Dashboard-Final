@@ -211,7 +211,7 @@
                         <mat-form-field class="example-full-width">
                           <input fxFlex="175px" type="text" placeholder="Move To" aria-label="Number" matInput [formControl]="moveToListControl" [matAutocomplete]="auto2">
                           <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
-                            <mat-option *ngFor="let moveoption of filteredMoveToListOptions | async" [value]="moveoption" (click)="getMoveToOptions(moveoption)">
+                            <mat-option *ngFor="let moveoption of filteredMoveToListOptions | async; let i = index;" [value]="moveoption" (click)="getMoveToOptions(i)">
                               {{ moveoption }}
                             </mat-option>
                           </mat-autocomplete>

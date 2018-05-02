@@ -51,7 +51,7 @@ export class ThemeConfigComponent implements OnInit {
   max = 30;
   log = '';
   onOptionSelected(event) {
-    console.log(event); // option value will be sent as event
+    // console.log(event); // option value will be sent as event
   }
 
   constructor(
@@ -88,11 +88,11 @@ export class ThemeConfigComponent implements OnInit {
     this.themeConfigForm.controls['themeconfig_id'].setValue(AppConstants.THEME_ID);
     const themeData = this.themeConfigForm.value;
     themeData.client_id = AppConstants.CLIENT_ID;
-    console.log(themeData);
+    // console.log(themeData);
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postthemeconfig', themeData)
       .subscribe(
         data => {
-          console.log(data);
+          // console.log(data);
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.alertService.success('Theme details updated successfully');
@@ -118,18 +118,18 @@ export class ThemeConfigComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getthemeconfig/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          console.log(data);
+          // console.log(data);
           if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (!data.error && (data.result.length > 0) && (data.custom_status_code === 100)) {
               this.setThemeDetails(data.result);
             } else {
-              this.alertService.success('No Data found');
+              this.alertService.warning('No Data found');
             }
           }
         },
         error => {
           this.spinnerService.hide();
-          console.log(error);
+          // console.log(error);
         }
       );
   }
@@ -137,7 +137,7 @@ export class ThemeConfigComponent implements OnInit {
   /* this is to set theme details in the form */
   setThemeDetails = (themeData) => {
     if (themeData) {
-      console.log(themeData);
+      // console.log(themeData);
       this.themeConfigForm.controls['body_font_family'].setValue(themeData[0].body_font_family);
       this.selectedBodyFont = themeData[0].body_font_family;
 
@@ -209,13 +209,13 @@ export class ThemeConfigComponent implements OnInit {
   setGradientLeft(event) {
     // console.log(event);
     this.gradientColor = 'linear-gradient(130deg, ' + this.gradient_title_color1 + ', ' + this.gradient_title_color2 + ')';
-    console.log(this.gradientColor);
+    // console.log(this.gradientColor);
   }
 
   setGradientRight(event) {
     // console.log(event);
     this.gradientColor = 'linear-gradient(130deg, ' + this.gradient_title_color1 + ', ' + this.gradient_title_color2 + ')';
-    console.log(this.gradientColor);
+    // console.log(this.gradientColor);
   }
   ngOnInit() {
     setTimeout(function () {
