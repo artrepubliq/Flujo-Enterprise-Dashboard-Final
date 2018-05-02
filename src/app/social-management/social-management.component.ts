@@ -35,8 +35,7 @@ export class SocialManagementComponent implements OnInit {
   isFbLogedin = false;
   isShowTwitter = false;
   access_token: any;
-
-  config : any;
+  config: any;
 
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
     public mScrollbarService: MalihuScrollbarService,
