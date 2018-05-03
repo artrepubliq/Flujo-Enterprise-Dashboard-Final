@@ -53,20 +53,20 @@ export class AuthService {
 
   handleAuth() {
     // When Auth0 hash parsed, get profile
-    // this.auth0.parseHash(window.location.hash, (err, authResult) => {
-    //   if (authResult && authResult.accessToken && authResult.idToken) {
-    //     window.location.hash = '';
-    //     // console.log(authResult);
+    this.auth0.parseHash(window.location.hash, (err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        window.location.hash = '';
+        // console.log(authResult);
 
-    //     this._getProfile(authResult);
-    //   } else if (err) {
-    //     console.error(`Error: ${err.error}`);
-    //   }
-    //   _.delay(() => {
-    //     this.router.navigate(['/admin']);
+        this._getProfile(authResult);
+      } else if (err) {
+        console.error(`Error: ${err.error}`);
+      }
+      _.delay(() => {
+        this.router.navigate(['/admin']);
 
-    //   }, 1000, 'arg1');
-    // });
+      }, 1000, 'arg1');
+    });
   }
 
   private _getProfile(authResult) {
