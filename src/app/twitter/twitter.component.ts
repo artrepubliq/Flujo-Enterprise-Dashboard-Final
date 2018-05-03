@@ -26,7 +26,7 @@ export class TwitterComponent implements OnInit {
       'verifier': 'tKk1pXRQyfXVPkIyJuq2wzqUQSwANIsQ'
     };
     const body = { status: this.status };
-    this.httpClient.post('http://flujo-middleware.herokuapp.com/post', body)
+    this.httpClient.post('http://ec2-13-232-8-219.ap-south-1.compute.amazonaws.com:3000/post', body)
       .subscribe(
         result => {
           console.log(result);
@@ -38,7 +38,7 @@ export class TwitterComponent implements OnInit {
   }
 
   public signInTwitter(): void {
-    this.httpClient.get('http://flujo-middleware.herokuapp.com/oauth_token')
+    this.httpClient.get('http://ec2-13-232-8-219.ap-south-1.compute.amazonaws.com:3000/oauth_token')
       .subscribe(
         result => {
           console.log(result);
