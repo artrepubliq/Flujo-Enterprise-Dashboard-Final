@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { IActiveUsers } from '../model/createUser.model';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import {  AccessLevelPopup } from '../create-user-component/create-user-component.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { IAccessLevelModel } from '../model/accessLevel.model';
@@ -107,6 +108,7 @@ export class AdminComponent implements OnInit {
     this.getUserAccessLevelsHttpClient().subscribe(
       resp => {
         _.each(resp.result, item => {
+          console.log(localStorage.getItem('user_id'));
           if (item.user_id === localStorage.getItem('user_id')) {
             this.userAccessLevelObject = item.access_levels;
           } else {

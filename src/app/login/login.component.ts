@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   }
   // When this component is loaded, we'll call the dealService and get our public deals.
   ngOnInit() {
-    localStorage.setItem('isLoginPageLoads', 'true')
+    localStorage.setItem('isLoginPageLoads', 'true');
   }
 
   onSubmit = (body) => {

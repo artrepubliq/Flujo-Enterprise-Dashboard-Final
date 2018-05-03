@@ -66,9 +66,6 @@
               enter valid email
             </div>
           </div>
-          <div>
-            <button mat-button class="button_submit" (click)="feedbackCsvMailSubmit(feedbackCsvMail.value)" [disabled]="feedbackCsvMail.invalid">Send As Email</button>
-          </div>
         </form>
       </div>
       <mat-paginator class="paginationn" #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
