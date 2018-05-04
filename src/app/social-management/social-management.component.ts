@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
 import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
 import * as moment from 'moment';
-import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
+import { MessageCompose } from '../dialogs/social-compose/social-compose-message';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,6 @@ import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
-  doSchedule: true;
   test: FormGroup;
   test1: string;
   test2: string;
@@ -38,8 +37,6 @@ export class SocialManagementComponent implements OnInit {
   config: any;
 
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
-    public mScrollbarService: MalihuScrollbarService,
-
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {
     this.fbResponseData = <IFBFeedArray>{};
@@ -111,13 +108,13 @@ export class SocialManagementComponent implements OnInit {
   }
   /* make the API call */
   getDebugToken = () => {
-     // tslint:disable-next-line:max-line-length
-     this.fb.api('https://graph.facebook.com/v2.12/oauth/access_token?grant_type=fb_exchange_token&client_id=149056292450936&client_secret=d9a268c797f16d10ce58c44e923488aa&fb_exchange_token=EAACHkN9c8ngBABoqnD32p6ozaGBFdDZBYN0msdi052zd0c4IcpB7IBZAAE5S3W9hBXgyItsGZBakGQ0Xoe8KyLgwGMWm2OisdQXxr6fO7s8vMpZCatz6bK8zX5Rv0QIdcKrEU0cCzbNAGHXFr6ZBBKS87eJow1kYZD', 'get').then((resp) => {
+    // tslint:disable-next-line:max-line-length
+    this.fb.api('https://graph.facebook.com/v2.12/oauth/access_token?grant_type=fb_exchange_token&client_id=149056292450936&client_secret=d9a268c797f16d10ce58c44e923488aa&fb_exchange_token=EAACHkN9c8ngBABoqnD32p6ozaGBFdDZBYN0msdi052zd0c4IcpB7IBZAAE5S3W9hBXgyItsGZBakGQ0Xoe8KyLgwGMWm2OisdQXxr6fO7s8vMpZCatz6bK8zX5Rv0QIdcKrEU0cCzbNAGHXFr6ZBBKS87eJow1kYZD', 'get').then((resp) => {
       console.log(resp);
     })
-    .catch((err) => {
-      console.log(err);
-    });
+      .catch((err) => {
+        console.log(err);
+      });
     // this is used for debug token
     // tslint:disable-next-line:max-line-length
     // this.fb.api('https://graph.facebook.com/v2.12/debug_token?input_token=' + localStorage.getItem('access_token'), 'get').then((resp) => {
@@ -212,26 +209,3 @@ export class SocialManagementComponent implements OnInit {
   // }
 }
 
-@Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'message-compose',
-  templateUrl: 'message-compose.html',
-  styleUrls: ['./social-management.component.scss']
-})
-// tslint:disable-next-line:component-class-suffix
-export class MessageCompose {
-  doSchedule: any;
-  constructor(
-    public dialogRef: MatDialogRef<MessageCompose>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  closeDialog(): void {
-    this.dialogRef.close();
-  }
-
-
-}
