@@ -67,7 +67,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
-import { SocialManagementComponent, MessageCompose } from './social-management/social-management.component';
+import { SocialManagementComponent } from './social-management/social-management.component';
 
 import { FacebookModule } from 'ngx-facebook';
 import { FBService } from './service/fb.service';
@@ -117,6 +117,9 @@ import { FeedbackService } from './feedback/feedback-service';
 import { FeedbackResolver } from './feedback/feedback-resolver';
 import { DataBaseResolver } from './database/database-resolver';
 import { DataBaseService } from './database/database-service';
+import { FacebookComponent } from './facebook/facebook.component';
+import { MessageCompose } from './dialogs/social-compose/social-compose-message';
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -189,7 +192,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SafeHtmlPipe,
     AreaEditPopup,
     ProblemCategoryEditPopup,
-    MessageCompose
+    MessageCompose,
+    FacebookComponent
   ],
   imports: [
     RouterModule.forRoot([], { useHash: true }),
