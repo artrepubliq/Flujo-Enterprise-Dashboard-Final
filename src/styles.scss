@@ -1083,10 +1083,11 @@ control-messages,
   }
   .mat-tab-label-active,.mat-tab-label:focus{
     color: #666666 !important;
+    opacity: 1 !important;
   }
   .mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus{
     background-color: rgba(255, 255, 255, 0);
-    color: #666666 !important;
+    // color: #666666 !important;
   }
   .mat-tab-group.mat-primary .mat-tab-label-active.mat-tab-label:not(.mat-tab-disabled):focus{
     color: #666666 !important;

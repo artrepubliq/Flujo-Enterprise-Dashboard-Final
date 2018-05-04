@@ -28,7 +28,9 @@
                 color: #c1c1c1 !important;
                 
             }
-           
+            .mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus{
+                background-color: none !important;
+            }
         }
 
     }
