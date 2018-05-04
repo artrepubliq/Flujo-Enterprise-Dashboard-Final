@@ -1,7 +1,5 @@
 import { Component, OnInit, Output, Inject, Injectable, EventEmitter } from '@angular/core';
-// import { AuthService } from '../auth/auth.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-// import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'underscore';
@@ -17,17 +15,14 @@ import { AlertService } from 'ngx-alerts';
 import { IAccessLevelModel } from '../model/accessLevel.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
+import { WindowRef } from './window.service';
+declare var jquery: any;
+declare var $window: any;
+declare var $: any;
+// import {ChatCamp} from './chatCamp';
 
-/*Start Chat Camp window initializaion to avoid build errors*/
-declare global {
-  interface Window { cc: any; ChatCampUI: any; }
-}
 
-window.cc = window.cc || {};
-
-window.ChatCampUI = window.ChatCampUI || {};
 /*End Chat Camp window initializaion*/
-
 @Component({
   templateUrl: './admin.component.html',
   styleUrls: ['../app.component.scss']
@@ -136,15 +131,6 @@ export class AdminComponent implements OnInit {
     });
   }
   public getTitle(routeSnapshot: ActivatedRouteSnapshot): any {
-    // const data = [];
-    // if (parent && parent.snapshot.data && parent.snapshot.data.title) {
-    //   data.push(parent.snapshot.data.title);
-    // }
-
-    // if (state && parent) {
-    //   data.push(... this.getTitle(state, state.firstChild(parent)));
-    // }
-    // return data;
     let data = [];
     data = routeSnapshot.data ? routeSnapshot.data['title'] : '';
     if (routeSnapshot.firstChild) {
@@ -184,13 +170,34 @@ export class AdminComponent implements OnInit {
         }
       this.getUserList();
 
-      if ((this.loggedinIds && !this.isChatStarted) || !window.cc) {
+    }, 5000);
+    const interval2 = setInterval(() => {
+      if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
         this.isChatStarted = true;
+        console.log('enter the dragan');
+        // this.loadScript('/widget-example/static/js/main.428ae54a.js');   
+        // this.window.cc = window.cc || {};
+        // this.window.ChatCampUI = window.ChatCampUI || {};
+        // console.log(window);        
         this.ChatIO();
       }
-    }, 5000);
+    }, 3000);
+ }
 
-  }
+// ngAfterViewInit(): void {
+//   const interval2 = setInterval(() => {
+//     if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
+//       this.isChatStarted = true;
+//       console.log('enter the dragan');
+//       // this.loadScript('/widget-example/static/js/main.428ae54a.js');   
+//       // this.windowRef.cc = window.cc || {};
+//       // window.ChatCampUI = window.ChatCampUI || {};
+//       // console.log(window);        
+//       this.ChatIO();
+//     }
+//   }, 3000);
+
+//   }
 
   // page navigations
   navigatePage = (page, index, menuid) => {
@@ -209,13 +216,16 @@ export class AdminComponent implements OnInit {
     this.accessDataModel.setUserAccessLevels(this.userAccessLevelData, page.feature_id, page.router);
   }
   ChatIO = () => {
-    // console.log(window);
+    // console.log(this.window);
+
+    /* tslint:disable */ 
     window.cc.GroupChannel.create('Team', this.loggedinIds, true, function (error, groupChannel) {
       if (error == null) {
         console.log('New Group Channel has been created', groupChannel);
         window.ChatCampUI.startChat(groupChannel.id);
       }
     });
+    /* tslint:enable */
   }
   viewPages() {
     localStorage.setItem('page_item', 'viewpages');
@@ -236,15 +246,17 @@ export class AdminComponent implements OnInit {
 
   OnetoOne = (chatItem) => {
 
-    console.log(window);
+    // console.log(this.window);
     const OnetoOne = [this.user_id];
     OnetoOne.push(chatItem.id);
+    /* tslint:disable */ 
     window.cc.GroupChannel.create('Team', OnetoOne, true, (error, groupChannel) => {
      if (error == null) {
        console.log('New one to one Channel has been created', groupChannel);
        window.ChatCampUI.startChat(groupChannel.id);
       }
     });
+    /* tslint:enable */ 
   }
   openDialog(): void {
     const dialogRef = this.dialog.open(EmptyAccessLevelDialog, {

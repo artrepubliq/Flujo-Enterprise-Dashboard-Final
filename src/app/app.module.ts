@@ -117,8 +117,12 @@ import { FeedbackService } from './feedback/feedback-service';
 import { FeedbackResolver } from './feedback/feedback-resolver';
 import { DataBaseResolver } from './database/database-resolver';
 import { DataBaseService } from './database/database-service';
+
 import { FacebookComponent } from './facebook/facebook.component';
 import { MessageCompose } from './dialogs/social-compose/social-compose-message';
+
+
+import { WindowRef } from './admin/window.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -266,6 +270,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               {provide: DateAdapter, useClass: DateFormat},
               SmsTemplateSelectService,
               SmsTemplateSelectService,
+              WindowRef,
 
     // AuthService,
     HttpService,
