@@ -65,7 +65,10 @@
             <label>Subject</label>
             <div class="input_error_feild">
               <input formControlName="subject" id="subject" placeholder="Enter your subject">
-              <control-messages [control]="mailSendingForm.controls.subject"></control-messages>
+              <!-- <control-messages [control]="mailSendingForm.controls.subject"></control-messages> -->
+              <div [hidden]="mailSendingForm.controls.subject.valid || (mailSendingForm.controls.subject.pristine && !submitted)" class="form-error-msg">
+                enter valid subject
+              </div>
             </div>
           </div>
           <div fxFlex class="" fxLayout="column" fxLayoutGap="12px">
@@ -80,7 +83,10 @@
             skin="moono-lisa" lang="en" [fullPage]="true" [readonly]="false"></ck-editor>
           <ck-editor *ngIf="!selectedEmailTemplateData" formControlName="message" class="editor-mail" id="message" [(ngModel)]="editorValue"
             skin="moono-lisa" lang="en" [fullPage]="true" [readonly]="false"></ck-editor>
-          <control-messages [control]="mailSendingForm.controls.message"></control-messages>
+          <!-- <control-messages [control]="mailSendingForm.controls.message"></control-messages> -->
+          <div [hidden]="mailSendingForm.controls.message.valid || (mailSendingForm.controls.message.pristine && !submitted)" class="form-error-msg">
+            enter valid message
+          </div>
         </div>
         <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center" class="p-rel">
           <button type="submit" [hidden]="Ishide3" class="button_submit preview_button" [disabled]="!mailSendingForm.valid">

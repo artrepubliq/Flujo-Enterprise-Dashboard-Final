@@ -117,6 +117,7 @@ export class EmailserviceComponent implements OnInit {
               this.mailSendingForm.reset();
               this.spinnerService.hide();
               this.multipleEmails = true;
+              this.file.nativeElement.value = null;
             }
           }
         },

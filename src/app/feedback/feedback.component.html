@@ -2,9 +2,9 @@
 
 <div class="page_padding p-rel" fxLayout="column" fxLayoutGap="15px">
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutWrap="wrap">
-    <h6 class="issues">Feedback</h6>
+    <!-- <h6 class="issues">Feedback</h6> -->
     <div fxLayoutAlign="center center">
-      <app-headerurls></app-headerurls>
+      <app-headerurls [header]="ActiveHeader"></app-headerurls>
     </div>
     <div fxLayoutAlign="end center">
       <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" *ngIf="componentName === 'feedback'">
@@ -17,10 +17,10 @@
       </div>
     </div>
   </div>
+  <div>
+    <p>Total Count: {{elementData?.length}}</p>
+  </div>
   <div *ngIf="componentName === 'feedback'">
-    <div>
-      <p>Total Count: {{elementData?.length}}</p>
-    </div>
     <div class="feedback_table" [perfectScrollbar]="config">
 
       <div class="feedback-data">

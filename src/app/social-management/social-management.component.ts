@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FacebookService, InitParams, LoginResponse, LoginOptions } from 'ngx-facebook';
 import { FBService } from '../service/fb.service';
 import { IFBFeedResponse, IFBFeedArray, IPaginigCursors } from '../model/fb-feed.model';
@@ -7,6 +7,10 @@ import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
+import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
+import * as moment from 'moment';
+import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
 
 @Component({
   selector: 'app-root',
@@ -14,43 +18,30 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
-  test: FormGroup;
-  test1: string;
-  test2: string;
-  test3: string;
-  test4: string;
+  FbLongLivedToken: any;
+  doSchedule: true;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   postis = 4;
   fbNextPage: IPaginigCursors;
   fbResponseData: IFBFeedArray;
   fbResponseDataItems: Array<IFBFeedArray>;
-  // tslint:disable-next-line:max-line-length
   getFBFeerUrl: string;
   isFbLogedin = false;
   isShowTwitter = false;
   access_token: any;
-  constructor(private fb: FacebookService, private formBuilder: FormBuilder,
+  config: any;
+
+  constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
+    public mScrollbarService: MalihuScrollbarService,
+
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {
     this.fbResponseData = <IFBFeedArray>{};
     this.fbResponseDataItems = [];
     fbService.FBInit();
-
-    this.test = this.formBuilder.group({
-      'test1': ['', Validators.required],
-      'test2': ['', Validators.required],
-      'test3': ['', Validators.required],
-      'test4': ['', Validators.required],
-    });
   }
   ngOnInit(): void {
-    setTimeout(function () {
-      this.test.controls['test1'].setValue('test1');
-      this.test.controls['test2'].setValue('test2');
-      this.test.controls['test3'].setValue('test3');
-      this.test.controls['test4'].setValue('test4');
-    }.bind(this), 3000);
     // tslint:disable-next-line:max-line-length
     // this.fb.api('https://graph.facebook.com/v2.12/Squaretechnos1/feed/?fields=created_time,message,comments.summary(true),likes.summary(true),full_picture&limit=25&access_token=' + localStorage.getItem('access_token'), 'get')
     //   .then((res: IFBFeedResponse) => {
@@ -62,8 +53,22 @@ export class SocialManagementComponent implements OnInit {
     //   .catch((e: any) => {
     //     console.log(e);
     //   });
+
+    // this.mScrollbarService.initScrollbar('.posts-scrollable', { axis: 'y', theme: 'minimal' });
+
   }
 
+  openmessageComposeDialog(): void {
+    const dialogRef = this.dialog.open(MessageCompose, {
+      panelClass: 'app-full-bleed-dialog',
+      width: '45vw',
+      height: '61vh',
+      data: '',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
   fbLogin = () => {
     // login with options
     const options: LoginOptions = {
@@ -73,36 +78,45 @@ export class SocialManagementComponent implements OnInit {
     };
     this.fb.login(options)
       .then((response: LoginResponse) => {
+        localStorage.setItem('access_tokeen_debug', response.authResponse.accessToken);
         console.log(response);
-        localStorage.setItem('access_token', response.authResponse.accessToken);
+        // tslint:disable-next-line:max-line-length
+        this.fb.api('https://graph.facebook.com/v3.0/oauth/access_token?grant_type=fb_exchange_token&client_id=208023236649331&client_secret=294c39db380eab8dbe3ed39125d60eab&fb_exchange_token=' + response.authResponse.accessToken, 'get').then((resp) => {
+          console.log(resp);
+          this.FbLongLivedToken = resp.access_token;
+          localStorage.setItem('access_token', resp.access_token);
+        })
+          .catch((err) => {
+            console.log(err);
+          });
         // this.access_token = response.authResponse.accessToken;
         // tslint:disable-next-line:max-line-length
         // this.getFBFeerUrl = 'https://graph.facebook.com/v2.12/dasyam.vinayabhaskar/feed/?fields=created_time,message,comments.summary(true),likes.summary(true),full_picture&limit=25&access_token=' + localStorage.getItem('access_token');
         // this.isFbLogedin = true;
         // this.getFBFeedFromApi(this.getFBFeerUrl);
-      }
-      )
+      })
       .catch((e: Error) => {
         console.log(e);
       });
   }
   /* make the API call */
   getDebugToken = () => {
-     // tslint:disable-next-line:max-line-length
-     this.fb.api('https://graph.facebook.com/v2.12/oauth/access_token?grant_type=fb_exchange_token&client_id=149056292450936&client_secret=d9a268c797f16d10ce58c44e923488aa&fb_exchange_token=EAACHkN9c8ngBABoqnD32p6ozaGBFdDZBYN0msdi052zd0c4IcpB7IBZAAE5S3W9hBXgyItsGZBakGQ0Xoe8KyLgwGMWm2OisdQXxr6fO7s8vMpZCatz6bK8zX5Rv0QIdcKrEU0cCzbNAGHXFr6ZBBKS87eJow1kYZD', 'get').then((resp) => {
+    // tslint:disable-next-line:max-line-length
+    // this.fb.api('https://graph.facebook.com/v2.12/oauth/access_token?grant_type=fb_exchange_token&client_id=149056292450936&client_secret=d9a268c797f16d10ce58c44e923488aa&fb_exchange_token=' + localStorage.getItem('access_token'), 'get').then((resp) => {
+    //   console.log(resp);
+    //   this.FbLongLivedToken = resp.expires_in;
+    // })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // this is used for debug token
+    // tslint:disable-next-line:max-line-length
+    this.fb.api('https://graph.facebook.com/v2.12/debug_token?input_token=EAACHkN9c8ngBAKQzZBuH5L5zkbZBZCiG89EQdEzM5BBdZBNXlMxbN0nQxWLR3S89NlYlW88txeHXjGAvoqxcfpMD8sr4uapKrkNhKY6mfGcTcxDZCkZAlZCKrqxUonkkZAy379mkxYW8l8wwUn1RnmMXJ5mtwZAGG751oUdaCzxbMbpUTWLc7e3rTX10YOZBiofltVKt18kUqK0QZDZD', 'get').then((resp) => {
       console.log(resp);
     })
     .catch((err) => {
       console.log(err);
     });
-    // this is used for debug token
-    // tslint:disable-next-line:max-line-length
-    // this.fb.api('https://graph.facebook.com/v2.12/debug_token?input_token=' + localStorage.getItem('access_token'), 'get').then((resp) => {
-    //   console.log(resp);
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
   }
   // getting facebook feed graph api calling
   getFBFeedFromApi(graphurl) {
@@ -187,4 +201,29 @@ export class SocialManagementComponent implements OnInit {
   // logout() {
   //   this.fb.logout();
   // }
+}
+
+@Component({
+  // tslint:disable-next-line:component-selectorgetDebugToken
+  // tslint:disable-next-line:component-selector
+  selector: 'message-compose',
+  templateUrl: 'message-compose.html',
+  styleUrls: ['./social-management.component.scss']
+})
+// tslint:disable-next-line:component-class-suffix
+export class MessageCompose {
+  doSchedule: any;
+  constructor(
+    public dialogRef: MatDialogRef<MessageCompose>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+
 }

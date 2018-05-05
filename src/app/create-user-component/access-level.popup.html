@@ -6,7 +6,7 @@
         </h4>
     </div>
     <br>
-    <form fxLayout="column" action="" [formGroup]="accessLevelsFormSubmit"  (submit)="onSubmit(accessLevelsFormSubmit.value)">
+    <form fxLayout="column" action="" [formGroup]="accessLevelsFormSubmit">
         <div fxLayout="row" class="headings" fxLayoutGap="15px">
             <div fxFlex>
                 Feature Type
@@ -16,22 +16,22 @@
             </div>
         </div>
         <div class="overflow_data" [perfectScrollbar]="config">
-            <div fxLayout="column">
-                <div class="access-item" fxLayout="row" *ngFor="let accessdata of accessLevelData let i=index">
-                    <div fxFlex>
-                        {{accessdata.name}}
-                    </div>
-                    <div fxFlex="100px">
-                        <div>
-                            <mat-slide-toggle [color]="color" [checked]="accessdata.enable" (change)="testChange($event,i,'enable',accessdata.feature_id,data.id)"></mat-slide-toggle>
+                <div fxLayout="column">
+                    <div class="access-item" fxLayout="row" *ngFor="let accessdata of accessLevelData let i=index">
+                        <div fxFlex>
+                            {{accessdata.name}}
+                        </div>
+                        <div fxFlex="100px">
+                            <div>
+                                <mat-slide-toggle [color]="color" [checked]="accessdata.enable" (change)="testChange($event,i,'enable',accessdata.feature_id,data.id)"></mat-slide-toggle>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="access_actions" fxLayoutAlign="end ">
-            <button class="button_cancel" mat-button (click)="closeDialog()">Cancel</button>
-            <button class="button_submit pull-right" type="submit">Save</button>
-        </div>
+            <div class="access_actions" fxLayoutAlign="end ">
+                <button class="button_cancel" mat-button (click)="closeDialog()">Cancel</button>
+                <button class="button_submit pull-right" (click)="onSubmit()" type="submit">Save</button>
+            </div>
     </form>
-</div>
+    </div>

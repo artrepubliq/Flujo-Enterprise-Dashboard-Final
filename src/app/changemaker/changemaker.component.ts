@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ValidationService } from '../service/validation.service';
@@ -7,7 +7,7 @@ import CSVExportService from 'json2csvexporter';
 import { AppConstants } from '../app.constants';
 import { IUserFeedback, IUserChangemaker } from '../model/feedback.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, SortDirection, Sort, PageEvent } from '@angular/material';
 import { Element } from '../model/element-model';
 import { Observable } from 'rxjs/Observable';
 import { DataSource } from '@angular/cdk/collections';
@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
+import { IActiveHeader } from '../model/active-header.model';
 @Component({
   selector: 'app-changemaker',
   templateUrl: './changemaker.component.html',
@@ -23,6 +24,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
 })
 
 export class ChangemakerComponent implements OnInit {
+  public ActiveHeader: IActiveHeader;
   filteredUserAccessData: any;
   feature_id = 8;
   userAccessLevelObject: any;
@@ -50,6 +52,7 @@ export class ChangemakerComponent implements OnInit {
   p: number;
   submitted: boolean;
   userAccessDataModel: AccessDataModelComponent;
+  pageChanged = new EventEmitter<number>();
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder, private httpClient:
@@ -63,6 +66,12 @@ export class ChangemakerComponent implements OnInit {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/changemakerreport');
     }
+    this.ActiveHeader = {
+      feedback: false,
+      change_maker: true,
+      surveys: false,
+      database: false
+    };
   }
   ngOnInit() {
     setTimeout(function () {
@@ -74,23 +83,23 @@ export class ChangemakerComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getchangemaker/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          console.log(data.result);
+          // console.log(data.result);
           this.changemakerData = data.result;
           this.changemakerData2 = data.result;
           this.spinnerService.hide();
           this.dataSource = new MatTableDataSource(this.changemakerData);
           // this.changemakerData.paginator = this.paginator;
           this.changeMakerElementData = this.changemakerData;
-          console.log(this.changemakerData);
+          // console.log(this.changemakerData);
           this.spinnerService.hide();
         },
         error => {
-          console.log(error);
+          // console.log(error);
         });
   }
   public applyFilter(filterValue: string): void {
-    console.log(filterValue);
-    console.log(this.changemakerData);
+    // console.log(filterValue);
+    // console.log(this.changemakerData);
     this.changemakerData2 = this.changemakerData.filter((item) =>
       (item.name.includes(filterValue) ||
         (item.date_now.includes(filterValue)) ||
