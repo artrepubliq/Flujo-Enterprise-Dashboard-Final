@@ -35,6 +35,7 @@ export class SocialManagementComponent implements OnInit {
   isShowTwitter = false;
   access_token: any;
   config: any;
+  highLighted = '';
 
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
@@ -49,6 +50,7 @@ export class SocialManagementComponent implements OnInit {
       'test3': ['', Validators.required],
       'test4': ['', Validators.required],
     });
+
   }
   ngOnInit(): void {
     setTimeout(function () {
@@ -80,8 +82,10 @@ export class SocialManagementComponent implements OnInit {
       height: '61vh',
       data: '',
     });
+    this.highLighted = 'show-class';
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.highLighted = 'hide-class';
     });
   }
   fbLogin = () => {

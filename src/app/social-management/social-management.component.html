@@ -47,23 +47,23 @@
               Add Social Network
           </button>
       </div>
-      <div class="new-postt-box" fxLayout="row" fxLayoutAlign="space-between center">
-        <span  fxFlex  class="d-inline">
-          <i class="fa fa-pencil d-inline"></i>&nbsp;<input (click)="openmessageComposeDialog()" fxFlex type="text" placeholder="New Post">
+      <div [ngClass]="highLighted" class="new-postt-box" fxLayout="row" fxLayoutAlign="space-between center">
+        <span fxFlex class="d-inline">
+          <span class="icons-default"><img src="../assets/social/new-post-normal@3x.png" class="d-inline"/></span>&nbsp;<input class="d-inline" (click)="openmessageComposeDialog()" fxFlex="90" type="text" placeholder="New Post">
         </span>
         <div fxLayout="row" fxLayoutGap="1rem">
-            <i class="fa fa-smile-o"></i>
-            <i class="fa fa-picture-o"></i>
-            <i class="fa fa-video-camera"></i>
-            <i class="fa fa-map-marker"></i>
+            <span class="icons-default"><img src="../assets/social/emoji-icon-default@3x.png"/></span>
+            <span class="icons-default"><img src="../assets/social/image-icon-default@3x.png"/></span>
+            <span class="icons-default"><img class="img3" src="../assets/social/video-icon-default@3x.png"/></span>
+            <span class="icons-default"><img class="img4" src="../assets/social/location-icon-default@3x.png"/></span>
         </div>
       </div>
       <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
-          <button  name="options" id="option1" autocomplete="off" checked>
-             <i class="fa fa-th"></i>
+          <button class="" name="options" id="option1" autocomplete="off" checked>
+             <img src="../assets/social/grid-view-icon-normal@3x.png" class="img5">
           </button>
-          <button   name="options" id="option2" autocomplete="off">
-                <i class="fa fa-list"></i>
+          <button class="" name="options" id="option2" autocomplete="off">
+                <img src="../assets/social/list-view-icon-active@3x.png" class="img6">
           </button>
       </div>
   </div>
@@ -78,6 +78,22 @@
             <mat-tab label="Instagram">Instagram</mat-tab>
             <mat-tab label="YouTube">YouTube</mat-tab>
         </mat-tab-group>
+      </div>
+      <div class="pos-streams">
+          <div class="btn-group">
+              <button type="button" class="btn-filter  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Streams
+              </button>
+              <div class="filter-items dropdown-menu" (click)="$event.stopPropagation();">
+                <span class="dropdown-item">Streams<span class="pull-right"><i class="fa fa-angle-up"></i></span></span>
+                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Dasyam Vinay Bhaskar</label>
+                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Dasyam Abhinav Bhaskar</label>
+                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Dasyam Official</label>
+                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Art Republiq</label>
+                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Valmiki Warangal</label>
+                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; ICICI South</label>
+              </div>
+          </div>
       </div>
       <div class="pos-filter">
           <div class="btn-group">
