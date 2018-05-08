@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
 import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
 import * as moment from 'moment';
-import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
+import { MessageCompose } from '../dialogs/social-compose/social-compose-message';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,6 @@ import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
-  doSchedule: true;
   test: FormGroup;
   test1: string;
   test2: string;
@@ -36,10 +35,9 @@ export class SocialManagementComponent implements OnInit {
   isShowTwitter = false;
   access_token: any;
   config: any;
+  highLighted = '';
 
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
-    public mScrollbarService: MalihuScrollbarService,
-
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {
     this.fbResponseData = <IFBFeedArray>{};
@@ -52,6 +50,7 @@ export class SocialManagementComponent implements OnInit {
       'test3': ['', Validators.required],
       'test4': ['', Validators.required],
     });
+
   }
   ngOnInit(): void {
     setTimeout(function () {
@@ -83,8 +82,10 @@ export class SocialManagementComponent implements OnInit {
       height: '61vh',
       data: '',
     });
+    this.highLighted = 'show-class';
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.highLighted = 'hide-class';
     });
   }
   fbLogin = () => {
@@ -212,26 +213,3 @@ export class SocialManagementComponent implements OnInit {
   // }
 }
 
-@Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'message-compose',
-  templateUrl: 'message-compose.html',
-  styleUrls: ['./social-management.component.scss']
-})
-// tslint:disable-next-line:component-class-suffix
-export class MessageCompose {
-  doSchedule: any;
-  constructor(
-    public dialogRef: MatDialogRef<MessageCompose>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  closeDialog(): void {
-    this.dialogRef.close();
-  }
-
-
-}

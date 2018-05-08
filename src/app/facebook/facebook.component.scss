@@ -1,0 +1,52 @@
+.social-tabs-inner{
+    position: relative;
+    .social-tabs-hub-inner{
+        position: relative;
+        .social-tabs-hub-inner-row{
+            position: relative; 
+        ul li{
+            list-style: none !important;
+            border-bottom: 1.5px solid #f5f5f5;
+        }
+        .col-md-4{
+             min-width:440px !important;
+             width:100% !important;
+             margin-right: 2px !important;
+             margin-left:-12px !important;
+             .social-card{
+                max-height:575px !important;
+             }
+        } 
+        .mat-tab-group{
+         font-family: Roboto !important;
+            .mat-tab-label-container{
+                font-size: 15px !important;
+                font-weight: 500 !important;
+                font-style: normal !important;
+                font-stretch: normal !important;
+                line-height: normal !important;
+                letter-spacing: normal !important;
+                .mat-tab-label-active{
+                    color: #666666 !important;
+                    background-color: none !important;
+                }
+                .mat-tab-label{
+                    color: #c1c1c1 !important;                   
+                }
+                .mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus{
+                    background-color: none !important;
+                }
+            }
+    
+        }
+    } 
+ } 
+}
+
+.Check-box-normal {
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    border: solid 1px #d8d8d8;
+  }

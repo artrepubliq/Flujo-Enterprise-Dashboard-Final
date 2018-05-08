@@ -67,7 +67,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
-import { SocialManagementComponent, MessageCompose } from './social-management/social-management.component';
+import { SocialManagementComponent } from './social-management/social-management.component';
 
 import { FacebookModule } from 'ngx-facebook';
 import { FBService } from './service/fb.service';
@@ -121,6 +121,8 @@ import { TwitterComponent } from './twitter/twitter.component';
 import { WindowRef } from './admin/window.service';
 import { TwitterServiceService } from './service/twitter-service.service';
 import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
+import { FacebookComponent } from './facebook/facebook.component';
+import { MessageCompose } from './dialogs/social-compose/social-compose-message';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -196,7 +198,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProblemCategoryEditPopup,
     TwitterComponent,
     TwitterTimelineDirective,
-    MessageCompose
+    MessageCompose,
+    FacebookComponent
   ],
   imports: [
     RouterModule.forRoot([], { useHash: true }),

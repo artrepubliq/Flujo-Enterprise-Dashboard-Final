@@ -864,6 +864,7 @@ control-messages,
   border: solid 1.5px #d8d8d8;
   .mat-select-content {
     padding: 10px;
+    line-height: 2.57;
   }
   .mat-option {
     height: 40px;
@@ -873,7 +874,7 @@ control-messages,
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
-    line-height: 2.57;
+    margin-bottom: 3px;
     letter-spacing: normal;
     text-align: left;
     color: #666666;
@@ -882,6 +883,10 @@ control-messages,
   .mat-option.mat-active, .mat-option:hover{
     background-color: #52306b !important;
     color: #ffffff !important;
+  }
+  .mat-option:first-child:hover{
+    background-color: initial !important;
+    color: initial !important;
   }
 }
 .select_dropdown {
@@ -1054,9 +1059,27 @@ control-messages,
   }
   .mat-form-field-placeholder {
     display:block !important;
-    float: none !important;;
-    animation: none !important;;
-    -webkit-animation: none !important;;
+    float: none !important;
+    animation: none !important;
+    -webkit-animation: none !important;
+  }
+    .mat-form-field-placeholder {
+      display:block !important;
+      float: none !important;
+      animation: none !important;
+      -webkit-animation: none !important;
+    }
+    .mat-input-element{
+      padding: 0 15px !important;
+    }
+    .mat-form-field-label {
+      top: 1.5em;
+      left: 1em;
+  }
+  .mat-calendar{
+    .mat-calendar-body-label {
+      display: none !important;
+    }
   }
 }
 
@@ -1077,13 +1100,44 @@ control-messages,
   .mat-ink-bar {
     background-color: #ee286b !important;
     border-radius: 2px;
+    width: 100px !important;
   }
   .mat-tab-label {
-    min-width: 120px !important;
+    min-width: 100px !important;
+    margin-bottom: 5px !important;
+    padding: 0 0px;
+    color: #c1c1c1 !important;
+  }
+  .mat-tab-label-active,.mat-tab-label:focus{
+    color: #666666 !important;
+    opacity: 1 !important;
+  }
+  .mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus{
+    background-color: rgba(255, 255, 255, 0);
+    // color: #666666 !important;
+  }
+  .mat-tab-group.mat-primary .mat-tab-label-active.mat-tab-label:not(.mat-tab-disabled):focus{
+    color: #666666 !important;
+  }
+  
+  .ps__rail-y:hover > .ps__thumb-y{
+    width:6px !important;
+  }
+
+  .ps__thumb-y{
+    width:4px !important;
+  }
+  .ps__rail-x:hover > .ps__thumb-x{
+    height:6px !important;
+  }
+  .ps__thumb-x{
+    height:4px !important;
   }
 }
+
 .app-full-bleed-dialog .mat-dialog-container{
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   padding-left: 0 !important;
 }  
+
