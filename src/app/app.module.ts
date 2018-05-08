@@ -123,6 +123,7 @@ import { MessageCompose } from './dialogs/social-compose/social-compose-message'
 
 
 import { WindowRef } from './admin/window.service';
+import { SocialLoginComponent } from './social-login/social-login.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -197,7 +198,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AreaEditPopup,
     ProblemCategoryEditPopup,
     MessageCompose,
-    FacebookComponent
+    FacebookComponent,
+    SocialLoginComponent
   ],
   imports: [
     RouterModule.forRoot([], { useHash: true }),
