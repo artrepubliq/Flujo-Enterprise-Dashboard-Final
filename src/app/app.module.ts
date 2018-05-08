@@ -119,6 +119,9 @@ import { DataBaseResolver } from './database/database-resolver';
 import { DataBaseService } from './database/database-service';
 import { TwitterComponent } from './twitter/twitter.component';
 import { WindowRef } from './admin/window.service';
+import { TwitterServiceService } from './service/twitter-service.service';
+import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -192,6 +195,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AreaEditPopup,
     ProblemCategoryEditPopup,
     TwitterComponent,
+    TwitterTimelineDirective,
     MessageCompose
   ],
   imports: [
@@ -288,6 +292,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               FeedbackService,
               DataBaseResolver,
               DataBaseService,
+              TwitterServiceService,
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,

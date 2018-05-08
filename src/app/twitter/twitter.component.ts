@@ -3,8 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import * as OAuth from 'oauth-1.0a';
 import { Router } from '@angular/router';
 import { AppConstants } from '../app.constants';
-import { ITwitterresponse } from '../model/twitter/twitter.model';
+import {
+  ITwitterresponse,
+  ISocialKeysObject,
+  ISocialKeysTableData,
+  ITwitterTimelineObject,
+  ITwitTimeLineObject
+} from '../model/twitter/twitter.model';
 import { ICommonInterface } from '../model/commonInterface.model';
+import { TwitterServiceService } from '../service/twitter-service.service';
 @Component({
   selector: 'app-twitter',
   templateUrl: './twitter.component.html',
@@ -12,39 +19,28 @@ import { ICommonInterface } from '../model/commonInterface.model';
 })
 export class TwitterComponent implements OnInit {
 
-
+  public twitTimeLineData: ITwitterTimelineObject[];
+  public twitter_social_keys: ISocialKeysObject;
+  public twitter_social_keys_object: ISocialKeysTableData[];
   public twitterUserLogin: string;
   constructor(
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    private twitterService: TwitterServiceService
   ) { }
   public status: string;
 
   ngOnInit() {
-    this.getUserTokens();
-  }
-  postStatus() {
-    const oauth = {
-      'consumer_key': 'rBf3yuBU4eBcC0qJ7rc7BOwDk',
-      'consumer_secret': 'HkVUiTgq2fy2jYzgcYJlWcT39O6kkFilk5sywslUAkh9mw1mzq',
-      'token': 'lhGCwgAAAAAA5ogYAAABYxo9bZE',
-      'token_secret': 'dN7Fjftsnwh3E3CsdKXzWPKZA54k8Qaq',
-      'verifier': 'tKk1pXRQyfXVPkIyJuq2wzqUQSwANIsQ'
-    };
-    const body = { status: this.status };
-    this.httpClient.post(AppConstants.EXPRESS_URL + '/post', body)
-      .subscribe(
-        result => {
-          console.log(result);
-        },
-        error => {
-          console.log(error);
-        }
-      );
-  }
 
+    this.getTimeLine();
+  }
+  /*
+   * this is the function when a user tries to log in
+   * for the first time(If no tokens are available)
+   * with the client id
+   */
   public signInTwitter(): void {
-    this.httpClient.get<ITwitterresponse>(AppConstants.EXPRESS_URL + '/oauth_token/1232')
+    this.httpClient.get<ITwitterresponse>(AppConstants.EXPRESS_URL + 'oauth_token/' + AppConstants.CLIENT_ID)
       .subscribe(
         result => {
           console.log(result);
@@ -64,13 +60,28 @@ export class TwitterComponent implements OnInit {
   public getUserTokens(): void {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getsocialtokens' + '/' + AppConstants.CLIENT_ID)
       .subscribe(
-        result => {
-          console.log(result);
+        response => {
+          // this.twitter_social_keys_object = response.result.filter(object => object.social_appname === 'twitter');
+          // this.twitter_social_keys = this.twitter_social_keys_object[0].social_keys;
+          console.log(response);
         },
         error => {
           console.log(error);
         }
       );
+  }
+  /**
+   * this is to get time line from twitter service
+   */
+  public getTimeLine(): void {
+    this.twitterService.getTimeLine()
+      .subscribe(
+        result => {
+          this.twitTimeLineData = result.data;
+        },
+        error => {
+          console.log(error);
+        });
   }
 
 }
