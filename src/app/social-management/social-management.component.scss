@@ -159,6 +159,7 @@
     
     
   .social-card{
+      overflow-x: visible !important;
       font-family: Roboto;
       min-width:365px;
       box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
@@ -177,6 +178,7 @@
         padding: 15px !important;
         border-radius: 0 !important;
         margin: 0 auto;
+        overflow-x: visible !important;
         .mat-card-actions{
             img{
                 width:15px;
@@ -190,6 +192,7 @@
             margin:0 -25px;
         }
         .social-card-footer {
+            
             font-size: 13px;
             font-weight: normal;
             font-style: normal;
@@ -212,10 +215,10 @@
                 font-size: 14px;
                 color: #666666;
             }
-            .dropdown-menu.show {
+            .dropdown-menu{
                 position: absolute !important;;
                 // top: 60% !important;
-                left: -146px !important;
+                // left: 12%!important;
                 width: 175px;
                 height: auto;
                 background-origin: padding-box;
@@ -297,9 +300,12 @@
             width:3px !important;
             height: auto;
         }
+        .stream{
+            position: relative !important;
+        }
         span{
             cursor: pointer;
-            position: relative;
+            position: relative !important;
         }
         button#dropdownMenuButton {
             border: none;
@@ -311,10 +317,10 @@
             font-size: 14px;
             color: #666666;
         }
-        .dropdown-menu.show {
+        .dropdown-menu{
             position: absolute !important;
-            top: -35px !important;
-            left: -25rem !important;
+            // top: -35px !important;
+            // left: -9.5rem !important;
             width: 175px;
             height: 145px;
             background-origin: padding-box;
