@@ -1,0 +1,127 @@
+<div class="message-compose-pop" fxLayout="row">
+    <div class="col-list-accounts" fxLayout="column" fxFlex="37">
+        <div fxLayout="row">
+            <ul fxFlex="100%">
+                <li fxLayoutAlign="space-between center">
+                    <label class="d-inline">
+                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Art Republiq</label>
+                    <span class="pull-right">
+                        <i class="fa fa-twitter"></i>
+                    </span>
+                </li>
+                <li fxLayoutAlign="space-between center">
+                    <label class="d-inline">
+                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Dasyam Abhinav</label>
+                    <span class="pull-right">
+                        <i class="fa fa-facebook"></i>
+                    </span>
+                </li>
+                <li fxLayoutAlign="space-between center">
+                    <label class="d-inline">
+                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Dasyam Official</label>
+                    <span class="pull-right">
+                        <i class="fa fa-facebook"></i>
+                    </span>
+                </li>
+                <li fxLayoutAlign="space-between center">
+                    <label class="d-inline">
+                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Dasyam Vinay Bhaskar</label>
+                    <span class="pull-right">
+                        <i class="fa fa-facebook"></i>
+                    </span>
+                </li>
+                <li fxLayoutAlign="space-between center">
+                    <label class="d-inline">
+                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Orugallu kala Vaibhavam</label>
+                    <span class="pull-right">
+                        <i class="fa fa-facebook"></i>
+                    </span>
+                </li>
+                <li fxLayoutAlign="space-between center">
+                    <label class="d-inline">
+                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Valmiki Waranagal</label>
+                    <span class="pull-right">
+                        <i class="fa fa-twitter"></i>
+                    </span>
+                </li>
+                <li fxLayoutAlign="space-between center">
+                    <label class="d-inline">
+                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Naresh Bingi</label>
+                    <span class="pull-right">
+                        <i class="fa fa-twitter"></i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div fxLayout="column" fxFlex="63">
+        <div fxLayout="column" fxLayoutGap="0.5rem" class="message-config-box">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="head-msg">
+                    <p>Compose message</p>
+                </div>
+                <div class="account-target-count">
+                    <p>3 accounts selected</p>
+                </div>
+            </div>
+            <div class="postt-msg" fxLayout="row" fxLayoutAlign="space-between center">
+                <span fxFlex="100%" class="d-inline">
+                    <textarea placeholder="Type here" rows="5" cols="55"></textarea>
+                </span>
+                <div class="emoji-stack" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
+                    <span class="icons-default">
+                        <img src="../assets/social/emoji-icon-default@3x.png" />
+                    </span>
+                    <span class="icons-default">
+                        <img src="../assets/social/image-icon-default@3x.png" />
+                    </span>
+                    <span class="icons-default">
+                        <img class="img3" src="../assets/social/video-icon-default@3x.png" />
+                    </span>
+                    <span class="icons-default">
+                        <img class="img4" src="../assets/social/location-icon-default@3x.png" />
+                    </span>
+                </div>
+            </div>
+            <br/>
+            <div>
+                <input fxFlex="100%" type="text" placeholder="Add Link(optional)">
+            </div>
+            <div fxLayout="column" fxFlex="200px">
+                <div class="checkbox d-inline">
+                    <label>
+                        <input class="Check-box-normal" [(ngModel)]="doSchedule" type="checkbox" value="">&nbsp;&nbsp;Schedule Post</label>
+                </div>
+                <div class="date-schedule" *ngIf="doSchedule" fxLayout="row">
+                    <div class="">
+                        <mat-form-field class="example-full-width">
+                            <input class="date-from" matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="From">
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="">
+                        <mat-form-field class="example-full-width">
+                            <input class="date-to" matInput [matDatepicker]="picker2" (click)="picker2.open()" placeholder="To">
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div>
+                    <mat-select class="select_dropdown_mat" placeholder="Select Target Audience" required id="rolename">
+                        <mat-option selected disabled>Select Target Audience</mat-option>
+                        <mat-option class='option' value=""></mat-option>
+                    </mat-select>
+                </div>
+                <br/>
+
+            </div>
+            <br/>
+        </div>
+        <div class="hor-line"></div>
+        <div fxFlex="100%" class="btn-stack-action" fxLayoutAlign="end end">
+            <button class="button_cancel" mat-button (click)="closeDialog()">Cancel</button>
+            <button class="button_submit pull-right" type="submit">Save</button>
+        </div>
+    </div>
+</div>

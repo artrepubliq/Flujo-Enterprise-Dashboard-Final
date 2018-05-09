@@ -42,6 +42,7 @@ import { EmailTemplateResolver } from './email-template/email-template.resolver'
 import { ManageReportsResolver } from './manage-reports/manage-reports-resolver';
 import { FeedbackResolver } from './feedback/feedback-resolver';
 import { DataBaseResolver } from './database/database-resolver';
+import { SocialLoginComponent } from './social-login/social-login.component';
 
 const routes: Routes = [
   {
@@ -130,6 +131,7 @@ const routes: Routes = [
             data: { title: 'Gallery' }
           },
           { path: 'social_management', component: SocialManagementComponent, data: { title: 'Socila Management' } },
+          { path: 'social_login', component: SocialLoginComponent, data: { title: 'Socila Login' } },
           { path: 'biography', loadChildren: './biography/biography.module#BiographyModule', data: { title: 'Biography' } },
           {
             path: 'module',

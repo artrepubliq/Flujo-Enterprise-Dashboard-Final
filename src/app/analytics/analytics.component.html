@@ -20,13 +20,13 @@
                 <img src="./assets/calendar-icon.png">&nbsp;&nbsp;
               </span>
               <span class="date-input-span"  (click)="minDatePicker.open()">{{minDate | date:'dd LLL yyyy'}}
-                <mat-form-field class="date-input1"  class="example-full-width">
+                <mat-form-field class="date-input1 example-full-width">
                   <input fxHide matInput [matDatepicker]="minDatePicker" [(ngModel)]="minDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
                   <mat-datepicker  #minDatePicker></mat-datepicker>
                 </mat-form-field>
               </span>&nbsp;To&nbsp;
               <span class="date-input-span" (click)="maxDatePicker.open()">{{maxDate | date:'dd LLL yyyy'}}
-                  <mat-form-field [ngStyle]="{'marginLeft': '-90px'}" class="date-input2" class="example-full-width">
+                  <mat-form-field [ngStyle]="{'marginLeft': '-90px'}" class="date-input2 example-full-width">
                       <input fxHide matInput [matDatepicker]="maxDatePicker" [(ngModel)]="maxDate" (ngModelChange)="onValueChange()" [disabled]="inputDisabled">
                       <mat-datepicker #maxDatePicker></mat-datepicker>
                   </mat-form-field>
@@ -37,7 +37,6 @@
         </div>
       </div>
       <div  fxFlex fxFlex.sm="100%" fxLayoutAlign="start center" fxLayoutAlign.sm="center center" class="button-group">
-
         <button class="btn btn-outline-secondary btn-start" (click)="onToday()" [ngClass]="{'active': getBGColor('today')}" name="options"
           id="option1" autocomplete="off">Today</button>
         <button class="btn btn-outline-secondary btn-options" (click)="onWeek()" [ngClass]="{'active': getBGColor('week')}" name="options"
@@ -72,7 +71,8 @@
       <div class="chart_card">
         <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
           <h3 class="title">Gender</h3>
-          <i class="fa fa-ellipsis-v"></i>
+          <span class="more_icon"><img src="assets/icons/more-icon-normal@3x.png" alt=""></span>
+          <!-- <i class="fa fa-ellipsis-v"></i> -->
         </div>
         <div class="chart_body">
             <app-charts-gender [gender]='gender'></app-charts-gender>
@@ -89,7 +89,8 @@
       <div class="chart_card">
         <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
           <h3 class="title">Assign</h3>
-          <i class="fa fa-ellipsis-v"></i>
+          <!-- <i class="fa fa-ellipsis-v"></i> -->
+          <span class="more_icon"><img src="assets/icons/more-icon-normal@3x.png" alt=""></span>
         </div>
         <div class="chart_body text-center" fxLayout="column" fxLayoutAlign="center space-around">
           <app-charts-assign [assign]='assign'></app-charts-assign>
@@ -106,7 +107,8 @@
       <div class="chart_card age_chart">
         <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between ">
           <h3 class="title">Age</h3>
-          <i class="fa fa-ellipsis-v"></i>
+          <!-- <i class="fa fa-ellipsis-v"></i> -->
+          <span class="more_icon"><img src="assets/icons/more-icon-normal@3x.png" alt=""></span>
         </div>
         <div class="chart_body age-chat1234">
             <canvas id="ageChartCanvas" width="150px"></canvas>
@@ -126,7 +128,8 @@
       <div fxFlex class="chart_card">
         <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
           <h3 class="title">Status</h3>
-          <i class="fa fa-ellipsis-v"></i>
+          <!-- <i class="fa fa-ellipsis-v"></i> -->
+          <span class="more_icon"><img src="assets/icons/more-icon-normal@3x.png" alt=""></span>
         </div>
 
         <div class="chart_body">
@@ -136,7 +139,8 @@
       <div fxFlex class="chart_card">
         <div class="cart_header" fxLayout="row" fxLayoutAlign="space-between">
           <h3 class="title">Locality</h3>
-          <i class="fa fa-ellipsis-v"></i>
+          <!-- <i class="fa fa-ellipsis-v"></i> -->
+          <span class="more_icon"><img src="assets/icons/more-icon-normal@3x.png" alt=""></span>
         </div>
         <div class="chart_body">
           <app-charts-loyality [area]="area"></app-charts-loyality>

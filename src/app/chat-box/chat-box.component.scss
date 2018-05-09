@@ -1,5 +1,6 @@
 .flujoChat-box {
-  position: relative;
+  position: fixed;
+  z-index: 99999;
 //   height: 100%;
 //   margin: -30px;
   .chat-header {

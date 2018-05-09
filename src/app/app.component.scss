@@ -1,11 +1,49 @@
 @import './admin/admin.component.scss';
-
-
-.navbar-right { margin-right: 0px !important}
-.navbar-default {
-    height: 70px;
-    background-color: transparent;
+.navbar-right {
+  margin-right: 0px !important
 }
 
+.navbar-default {
+  height: 70px;
+  background-color: transparent;
+}
 
-// Font Family
+.custom_mat_input {
+  .mat-form-field-flex {
+    border: 1.5px solid #d8d8d8;
+    padding: 0px 20px;
+    border-radius: 50px;
+  }
+  .mat-form-field-infix {
+    border: none;
+  }
+  .mat-form-field-underline {
+    display: none;
+  }
+  .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.28125em) scale(.65) perspective(150px) translateZ(.001px);
+  }
+  .mat-select-placeholder {
+    color: #999999 !important;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+  .select_dropdown.mat-focused .mat-form-field-flex {
+    border-color: #0cc0df;
+    box-shadow: 0px 0.5px 7.5px 0 #0cc0df;
+  }
+}
+
+.custom_mat_input.success {
+    .mat-form-field-flex {
+        border-color: #0f0;
+    }
+}
+.custom_mat_input.error {
+    .mat-form-field-flex {
+        border-color: #f00;
+    }
+}

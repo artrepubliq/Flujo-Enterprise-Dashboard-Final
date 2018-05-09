@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FacebookService, InitParams, LoginResponse, LoginOptions } from 'ngx-facebook';
 import { FBService } from '../service/fb.service';
 import { IFBFeedResponse, IFBFeedArray, IPaginigCursors } from '../model/fb-feed.model';
@@ -7,6 +7,10 @@ import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
+import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
+import * as moment from 'moment';
+import { MessageCompose } from '../dialogs/social-compose/social-compose-message';
 
 @Component({
   selector: 'app-root',
@@ -30,8 +34,10 @@ export class SocialManagementComponent implements OnInit {
   isFbLogedin = false;
   isShowTwitter = false;
   access_token: any;
-  config : any;
-  constructor(private fb: FacebookService, private formBuilder: FormBuilder,
+  config: any;
+  highLighted = '';
+
+  constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {
     this.fbResponseData = <IFBFeedArray>{};
@@ -44,6 +50,7 @@ export class SocialManagementComponent implements OnInit {
       'test3': ['', Validators.required],
       'test4': ['', Validators.required],
     });
+
   }
   ngOnInit(): void {
     setTimeout(function () {
@@ -63,8 +70,24 @@ export class SocialManagementComponent implements OnInit {
     //   .catch((e: any) => {
     //     console.log(e);
     //   });
+
+    // this.mScrollbarService.initScrollbar('.posts-scrollable', { axis: 'y', theme: 'minimal' });
+
   }
 
+  openmessageComposeDialog(): void {
+    const dialogRef = this.dialog.open(MessageCompose, {
+      panelClass: 'app-full-bleed-dialog',
+      width: '45vw',
+      height: '61vh',
+      data: '',
+    });
+    this.highLighted = 'show-class';
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.highLighted = 'hide-class';
+    });
+  }
   fbLogin = () => {
     // login with options
     const options: LoginOptions = {
@@ -89,13 +112,13 @@ export class SocialManagementComponent implements OnInit {
   }
   /* make the API call */
   getDebugToken = () => {
-     // tslint:disable-next-line:max-line-length
-     this.fb.api('https://graph.facebook.com/v2.12/oauth/access_token?grant_type=fb_exchange_token&client_id=149056292450936&client_secret=d9a268c797f16d10ce58c44e923488aa&fb_exchange_token=EAACHkN9c8ngBABoqnD32p6ozaGBFdDZBYN0msdi052zd0c4IcpB7IBZAAE5S3W9hBXgyItsGZBakGQ0Xoe8KyLgwGMWm2OisdQXxr6fO7s8vMpZCatz6bK8zX5Rv0QIdcKrEU0cCzbNAGHXFr6ZBBKS87eJow1kYZD', 'get').then((resp) => {
+    // tslint:disable-next-line:max-line-length
+    this.fb.api('https://graph.facebook.com/v2.12/oauth/access_token?grant_type=fb_exchange_token&client_id=149056292450936&client_secret=d9a268c797f16d10ce58c44e923488aa&fb_exchange_token=EAACHkN9c8ngBABoqnD32p6ozaGBFdDZBYN0msdi052zd0c4IcpB7IBZAAE5S3W9hBXgyItsGZBakGQ0Xoe8KyLgwGMWm2OisdQXxr6fO7s8vMpZCatz6bK8zX5Rv0QIdcKrEU0cCzbNAGHXFr6ZBBKS87eJow1kYZD', 'get').then((resp) => {
       console.log(resp);
     })
-    .catch((err) => {
-      console.log(err);
-    });
+      .catch((err) => {
+        console.log(err);
+      });
     // this is used for debug token
     // tslint:disable-next-line:max-line-length
     // this.fb.api('https://graph.facebook.com/v2.12/debug_token?input_token=' + localStorage.getItem('access_token'), 'get').then((resp) => {
@@ -189,3 +212,4 @@ export class SocialManagementComponent implements OnInit {
   //   this.fb.logout();
   // }
 }
+
