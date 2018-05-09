@@ -117,7 +117,9 @@ import { FeedbackService } from './feedback/feedback-service';
 import { FeedbackResolver } from './feedback/feedback-resolver';
 import { DataBaseResolver } from './database/database-resolver';
 import { DataBaseService } from './database/database-service';
-
+import { TwitterComponent } from './twitter/twitter.component';
+import { TwitterServiceService } from './service/twitter-service.service';
+import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
 import { FacebookComponent } from './facebook/facebook.component';
 import { MessageCompose } from './dialogs/social-compose/social-compose-message';
 
@@ -197,6 +199,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SafeHtmlPipe,
     AreaEditPopup,
     ProblemCategoryEditPopup,
+    TwitterComponent,
+    TwitterTimelineDirective,
     MessageCompose,
     FacebookComponent,
     SocialLoginComponent
@@ -295,6 +299,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               FeedbackService,
               DataBaseResolver,
               DataBaseService,
+              TwitterServiceService,
               // AuthInterceptorService,
               // {
               // provide: AuthHttp,
