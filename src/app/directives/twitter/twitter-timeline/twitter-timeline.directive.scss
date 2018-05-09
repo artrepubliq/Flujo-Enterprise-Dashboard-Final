@@ -1,0 +1,275 @@
+
+  .show-class {
+    border-color: #0cc0df !important;
+  }
+  
+  .hide-class {
+    border-color: #f5f5f5 !important;
+  } 
+    
+    
+  .social-card{
+      font-family: Roboto;
+      min-width:365px;
+      box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+      margin: 0 auto;
+      transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
+      display: block;
+      position: relative;
+      padding: 14px 24px;
+      border-radius: 5px;
+      background: #fff;
+      color: rgba(0,0,0,.87);
+      .example-card {
+        // max-width: 335px;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 15px !important;
+        border-radius: 0 !important;
+        margin: 0 auto;
+        .mat-card-actions{
+            img{
+                width:15px;
+            }
+            .img-more-footer{
+                width:3px !important;
+                height: auto;
+            }
+        }
+        .mat-card-header,.mat-card-content,.mat-card-actions{
+            margin:0 -25px;
+        }
+        .social-card-footer {
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.54;
+            letter-spacing: normal;
+            text-align: left;
+            span {
+            color: #666666;  
+            cursor: pointer;  
+            position: relative;      
+            }
+            button#dropdownMenuButton {
+                border: none;
+            }
+            .dropdown-toggle::after{
+                display: none;
+            }
+            .dropdown-menu a{
+                font-size: 14px;
+                color: #666666;
+            }
+            .dropdown-menu.show {
+                position: absolute !important;;
+                // top: 60% !important;
+                left: -146px !important;
+                width: 175px;
+                height: auto;
+                background-origin: padding-box;
+                border: none !important;
+                border-radius: 5px;
+                background-color: #ffffff;
+                box-shadow: 0px 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+                line-height: 2.5;
+            }
+        }
+        .mat-card-header{
+            vertical-align: middle;
+            input.input-commet{
+                width: 290px;
+                height: 30px;
+                border-radius: 15px;
+                background-color: #ffffff;
+                border: solid 1.5px #f7f7f7;
+                margin-top:5px;
+                padding:0 15px;
+            }
+        }
+        .mat-card-title {
+            margin-bottom: 10px;
+        }
+        .social-image{
+            min-width: 380px;
+            max-height: 165px;
+            overflow: hidden;
+            margin: 0 auto;
+            border-radius: 3px;
+            height: 100%;
+            text-align: center;
+            -o-object-fit: fill;
+            object-fit: fill;
+            -webkit-object-fit: fill;
+            position: relative;
+            left: -30px;
+            img{
+                // width:100%;
+                // height: 100%;
+                border-radius: 3px;
+                background-color: #4a2565;
+            }
+        }
+      }
+      .nav-social{
+          border-bottom: 1.5px solid #f5f5f5;
+          padding-bottom: 15px;
+      }
+      .social-cards-header{
+        font-size: 14px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #333333;
+        h6{
+            margin-bottom: 0;
+        }
+      }  
+      .social-cards-header-icnons{
+        font-family: Roboto;
+        font-size: 13px !important;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #999999;
+        img{
+            width:13px;
+            height: auto;
+        }
+        .img-more{
+            width:3px !important;
+            height: auto;
+        }
+        span{
+            cursor: pointer;
+            position: relative;
+        }
+        button#dropdownMenuButton {
+            border: none;
+        }
+        .dropdown-toggle::after{
+            display: none;
+        }
+        .dropdown-menu a{
+            font-size: 14px;
+            color: #666666;
+        }
+        .dropdown-menu.show {
+            position: absolute !important;
+            top: -35px !important;
+            left: -25rem !important;
+            width: 175px;
+            height: 145px;
+            background-origin: padding-box;
+            border: none !important;
+            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0px 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+            line-height: 2.5;
+        }
+      }
+
+  }
+  .group_btns {
+    button {
+        padding: 12px 23px;
+        height: 40px;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: center;
+        color: #999999;
+        border: 1.5px solid #f0f0f0;
+        border-right: none;
+        background-color: transparent;
+    }
+    button.active {
+        background-color: #ffffff;
+    }
+    button:first-child {
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+    button:last-child {
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border-right: 1.5px solid #f0f0f0;
+    }
+}
+
+.pos-post-cards{
+    margin-left:-35px;
+}
+
+.example-header-image {
+    background-image: url('/assets/profile_user.jpg');
+    background-size: cover;
+  }
+.social-tabs-hub{
+      height: calc(100vh - 615px);
+      position: relative;
+      .social-tabs{
+          position: relative !important;
+      }
+}
+
+  
+
+.social-tabs-inner{
+    position: relative;
+    .social-tabs-hub-inner{
+        position: relative;
+        .social-tabs-hub-inner-row{
+            position: relative; 
+        ul li{
+            list-style: none !important;
+            border-bottom: 1.5px solid #f5f5f5;
+        }
+        .twtter_social_cards{
+             min-width:440px !important;
+             width:100% !important;
+             margin-right: 2px !important;
+             margin-left:-12px !important;
+             .social-card{
+                max-height:575px !important;
+             }
+        } 
+        .mat-tab-group{
+         font-family: Roboto !important;
+            .mat-tab-label-container{
+                font-size: 15px !important;
+                font-weight: 500 !important;
+                font-style: normal !important;
+                font-stretch: normal !important;
+                line-height: normal !important;
+                letter-spacing: normal !important;
+                .mat-tab-label-active{
+                    color: #666666 !important;
+                    background-color: none !important;
+                }
+                .mat-tab-label{
+                    color: #c1c1c1 !important;                   
+                }
+                .mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus{
+                    background-color: none !important;
+                }
+            }
+    
+        }
+    } 
+ } 
+}
+
+.Check-box-normal {
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    border: solid 1px #d8d8d8;
+  }

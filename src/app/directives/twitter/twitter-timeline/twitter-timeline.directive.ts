@@ -13,7 +13,10 @@ export class TwitterTimelineDirective implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.twitTimelineData);
+    console.log((this.twitTimelineData));
+    this.twitTimelineData.map( object => {
+      console.log(object.created_at);
+    });
   }
 
 }

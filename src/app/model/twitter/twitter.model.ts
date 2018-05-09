@@ -69,7 +69,32 @@ export interface ITwitterEntities {
     symbols: Array<any>;
     urls: Array<ITwitterUrls>;
     user_mentions: Array<ITwitterUserMentions>;
+    media?: Array<ITwitterMedia>;
 
+}
+
+export interface ITwitterMedia {
+    id: number;
+    id_str: string;
+    indices: Array<any>;
+    media_url: string;
+    media_url_https: string;
+    url: string;
+    display_url: string;
+    expanded_url: string;
+    type: string;
+    sizes: ITwitterSizeType;
+}
+export interface ITwitterSizeType {
+    thumb: ITwitterSizes;
+    medium: ITwitterSizes;
+    small: ITwitterSizes;
+    large: ITwitterSizes;
+}
+export interface ITwitterSizes {
+    w: number;
+    h: number;
+    resize: string;
 }
 
 export interface ITwitterUrls {
