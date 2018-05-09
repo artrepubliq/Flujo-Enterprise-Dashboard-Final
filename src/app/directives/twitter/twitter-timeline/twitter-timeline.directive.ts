@@ -8,13 +8,14 @@ import { ITwitterTimelineObject } from '../../../model/twitter/twitter.model';
 })
 // tslint:disable-next-line:component-class-suffix
 export class TwitterTimelineDirective implements OnInit {
-
+  public config: any;
+  
   @Input() twitTimelineData: ITwitterTimelineObject[];
   constructor() { }
 
   ngOnInit() {
     console.log((this.twitTimelineData));
-    this.twitTimelineData.map( object => {
+    this.twitTimelineData.map(object => {
       console.log(object.created_at);
     });
   }

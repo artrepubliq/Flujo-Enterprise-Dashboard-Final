@@ -79,7 +79,7 @@
   </div>
   <div class="social-tabs-hub" fxLayout="column">
     <div class="social-tabs">
-      <mat-tab-group class="posts-card-row" [selectedIndex]="selectedTab" (selectedTabChange)="tabChanged($event)">
+      <mat-tab-group class="posts-card-row" (selectedTabChange)="tabChanged($event)">
         <mat-tab label="Facebook">
           <br/>
           <app-facebook></app-facebook>
