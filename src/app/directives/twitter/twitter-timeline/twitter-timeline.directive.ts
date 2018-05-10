@@ -9,7 +9,6 @@ import { ITwitterTimelineObject } from '../../../model/twitter/twitter.model';
 // tslint:disable-next-line:component-class-suffix
 export class TwitterTimelineDirective implements OnInit {
   public config: any;
-  
   @Input() twitTimelineData: ITwitterTimelineObject[];
   constructor() { }
 

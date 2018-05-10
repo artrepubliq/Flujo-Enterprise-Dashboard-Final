@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as OAuth from 'oauth-1.0a';
 import { Router } from '@angular/router';
 import { AppConstants } from '../app.constants';
 import {
@@ -18,7 +17,7 @@ import { TwitterServiceService } from '../service/twitter-service.service';
   styleUrls: ['./twitter.component.scss']
 })
 export class TwitterComponent implements OnInit {
-
+  public config: any;
   public twitTimeLineData: ITwitterTimelineObject[];
   public twitter_social_keys: ISocialKeysObject;
   public twitter_social_keys_object: ISocialKeysTableData[];
