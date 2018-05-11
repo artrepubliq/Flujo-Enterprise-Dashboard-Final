@@ -60,7 +60,6 @@ export class TncComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_posttermsconditions', formModel)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
           if (!data.error && data.custom_status_code === 100) {
             this.alertService.success('Data updated successfully');
             this.getTermsData();
@@ -70,7 +69,6 @@ export class TncComponent implements OnInit {
           } else if (data.custom_status_code === 102) {
             this.alertService.warning('Every thing is upto date!');
           }
-        }
         },
         err => {
           console.log(err);
@@ -84,24 +82,22 @@ export class TncComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_gettermsconditions/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 100) {
-              this.termsDetails = null;
-              this.isEdit = false;
-              this.termsDetails = data.result;
-                if (this.termsDetails.length === 0) {
-                  this.isButton = true;
-                } else {
-                  this.isButton = false;
-                }
-              console.log(this.termsDetails);
-              this.setDefaultClientPrivacyData(this.termsDetails);
-              this.spinnerService.hide();
-            } else if ((data.error) && (data.custom_status_code = 102)) {
-              this.alertService.warning('Everything is upto date');
-            } else if ((data.error) && (data.custom_status_code = 101)) {
-              this.alertService.warning('Required parameters are missing');
+          if (data.custom_status_code === 100) {
+            this.termsDetails = null;
+            this.isEdit = false;
+            this.termsDetails = data.result;
+            if (this.termsDetails.length === 0) {
+              this.isButton = true;
+            } else {
+              this.isButton = false;
             }
+            console.log(this.termsDetails);
+            this.setDefaultClientPrivacyData(this.termsDetails);
+            this.spinnerService.hide();
+          } else if ((data.error) && (data.custom_status_code = 102)) {
+            this.alertService.warning('Everything is upto date');
+          } else if ((data.error) && (data.custom_status_code = 101)) {
+            this.alertService.warning('Required parameters are missing');
           }
         }, error => {
           console.log(error);
@@ -115,15 +111,13 @@ export class TncComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletetermsconditions/' + body.id)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 100) {
-              this.alertService.success('Data deleted successfully');
-              this.spinnerService.hide();
-              this.getTermsData();
-            } else if (data.custom_status_code === 101) {
-              this.alertService.warning('Required parameters are missing!');
-              this.spinnerService.hide();
-            }
+          if (data.custom_status_code === 100) {
+            this.alertService.success('Data deleted successfully');
+            this.spinnerService.hide();
+            this.getTermsData();
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing!');
+            this.spinnerService.hide();
           }
         },
         error => {

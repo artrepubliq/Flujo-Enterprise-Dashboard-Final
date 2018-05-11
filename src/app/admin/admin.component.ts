@@ -175,10 +175,10 @@ export class AdminComponent implements OnInit {
       if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
         this.isChatStarted = true;
         console.log('enter the dragan');
-        // this.loadScript('/widget-example/static/js/main.428ae54a.js');   
+        // this.loadScript('/widget-example/static/js/main.428ae54a.js');
         // this.window.cc = window.cc || {};
         // this.window.ChatCampUI = window.ChatCampUI || {};
-        // console.log(window);        
+        // console.log(window);
         this.ChatIO();
       }
     }, 3000);
@@ -189,10 +189,10 @@ export class AdminComponent implements OnInit {
 //     if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
 //       this.isChatStarted = true;
 //       console.log('enter the dragan');
-//       // this.loadScript('/widget-example/static/js/main.428ae54a.js');   
+//       // this.loadScript('/widget-example/static/js/main.428ae54a.js');
 //       // this.windowRef.cc = window.cc || {};
 //       // window.ChatCampUI = window.ChatCampUI || {};
-//       // console.log(window);        
+//       // console.log(window);
 //       this.ChatIO();
 //     }
 //   }, 3000);
@@ -256,7 +256,7 @@ export class AdminComponent implements OnInit {
        window.ChatCampUI.startChat(groupChannel.id);
       }
     });
-    /* tslint:enable */ 
+    /* tslint:enable */
   }
   openDialog(): void {
     const dialogRef = this.dialog.open(EmptyAccessLevelDialog, {

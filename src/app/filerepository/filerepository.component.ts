@@ -143,7 +143,6 @@ export class FilerepositoryComponent implements OnInit {
             this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
                 .subscribe(
                     data => {
-                        if (AppConstants.ACCESS_TOKEN === data.access_token) {
                             if (data.custom_status_code === 100 && data.result.length > 0) {
                                 this.alertService.success('File uploaded successfully');
                                 this.foldersdata = [];
@@ -154,7 +153,6 @@ export class FilerepositoryComponent implements OnInit {
                             } else if (data.custom_status_code === 102) {
                                 this.alertService.warning('Every thing is upto date!');
                             }
-                        }
                         this.spinnerService.hide();
                         // if (data.error) {
                         //     this.alertService.warning(data.result);
@@ -358,7 +356,6 @@ export class FilerepositoryComponent implements OnInit {
             .subscribe(
                 data => {
                     try {
-                        if (data.custom_status_code === 100 && data.access_token === AppConstants.ACCESS_TOKEN) {
                             if (data.result[1].result && data.result[0].size) {
                                 this.allFiles = [];
                                 this.repositories = data.result[1].result;
@@ -395,7 +392,6 @@ export class FilerepositoryComponent implements OnInit {
                                 this.repositories = [];
                             }
                             this.spinnerService.hide();
-                        }
                     } catch (error) {
                         console.log(error);
                         this.spinnerService.hide();
@@ -468,7 +464,6 @@ export class FilerepositoryComponent implements OnInit {
         this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletefilerepository/' + id)
             .subscribe(
                 data => {
-                    if (AppConstants.ACCESS_TOKEN === data.access_token) {
                         if (data.custom_status_code === 100) {
                             this.alertService.success('File deleted successfully');
                             this.filtered_repositories = [];
@@ -478,7 +473,6 @@ export class FilerepositoryComponent implements OnInit {
                         } else if (data.custom_status_code === 102) {
                             this.alertService.warning('Every thing is upto date!');
                         }
-                    }
                     this.spinnerService.hide();
                     // this.alertService.success('File deleted successfully');
                     // this.filtered_repositories = [];
@@ -521,7 +515,6 @@ export class FilerepositoryComponent implements OnInit {
         this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleterepositories/' + folderId)
             .subscribe(
                 data => {
-                    if (AppConstants.ACCESS_TOKEN === data.access_token) {
                         if (data.custom_status_code === 100) {
                             this.alertService.success('Folder deleted successfully');
                             this.filtered_repositories = [];
@@ -531,7 +524,6 @@ export class FilerepositoryComponent implements OnInit {
                         } else if (data.custom_status_code === 102) {
                             this.alertService.warning('Every thing is upto date!');
                         }
-                    }
                     this.spinnerService.hide();
                     // this.alertService.success('Folder deleted successfully');
                     // this.filtered_repositories = [];

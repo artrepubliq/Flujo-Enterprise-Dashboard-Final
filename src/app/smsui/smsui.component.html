@@ -25,7 +25,7 @@
         <div class="p-rel">
 
           <input type="text" formControlName="phone" (ngModelChange)="checkValidNumbers($event)" 
-            id="phone" placeholder="Add Number(s)">
+            id="phone" placeholder="Add Number(s)" oninput="this.value = this.value.replace(/^[789]\\d{9}$/g, '').replace(/(\..*)\./g, '$1');">
           <!-- <div [hidden]="smsContactForm.controls.phone.valid || (smsContactForm.controls.phone.pristine && !submitted)" class="form-error-msg">
             enter valid phone number
           </div> -->

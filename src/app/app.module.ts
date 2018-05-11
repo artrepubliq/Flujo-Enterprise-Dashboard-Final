@@ -310,6 +310,19 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               FeedbackService,
               DataBaseResolver,
               DataBaseService,
+
+              AuthInterceptorService,
+              {
+              provide: AuthHttp,
+              useFactory: authHttpServiceFactory,
+              deps: [Http, RequestOptions]
+              },
+              {
+                provide: HTTP_INTERCEPTORS,
+                useClass: TokenInterceptor,
+                multi: true
+              },
+
               TwitterServiceService,
               // AuthInterceptorService,
               // {
@@ -322,6 +335,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               //   useClass: TokenInterceptor,
               //   multi: true
               // }
+
 
     { provide: DateAdapter, useClass: DateFormat }
 

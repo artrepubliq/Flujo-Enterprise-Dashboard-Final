@@ -185,7 +185,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             .subscribe(
                 resp => {
                     // console.log(resp);
-                    if (!resp.error && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                    if (!resp.error) {
                         this.alertService.success('Your request updated successfully.');
                         this.spinnerService.hide();
                         this.usersListControl = new FormControl();
@@ -222,7 +222,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                 .subscribe(
                     resp => {
                         // console.log(resp);
-                        if (!resp.error && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                        if (!resp.error) {
                             this.alertService.success('Your request updated successfully.');
                             this.spinnerService.hide();
                             this.moveToListControl = new FormControl();
@@ -257,7 +257,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     getAllReports = (): void => {
         this.activatedRoute.data.subscribe(data => {
             console.log(data);
-                    if (!data.reportData.error && (AppConstants.ACCESS_TOKEN === data.reportData.access_token)) {
+                    if (!data.reportData.error) {
                         this.reportProblemData = data.reportData.result;
                         this.reportProblemData2 = data.reportData.result;
                         this.filterReportProblemData = data.reportData.result;

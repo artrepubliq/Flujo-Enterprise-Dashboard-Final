@@ -43,7 +43,6 @@ export class WhatsappComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_sendwhatsapp', formModel)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if (!data.error && (data.custom_status_code = 100)) {
               this.spinnerService.hide();
               this.alertService.info('Message has been sent successfully');
@@ -51,7 +50,6 @@ export class WhatsappComponent implements OnInit {
             } else if ((data.error) && (data.custom_status_code = 101)) {
               this.alertService.danger('Required parameters are missing');
             }
-          }
         }
       );
   }
@@ -59,7 +57,6 @@ export class WhatsappComponent implements OnInit {
     this.smsSelectTemplateService.getSmsSelectData('/flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
       .subscribe(
         result => {
-          if (result.access_token === AppConstants.ACCESS_TOKEN) {
             if ((result.custom_status_code = 100) && (!result.error)) {
               this.whatsAppTemplateData = result.result;
               this.whatsAppTemplateData.map((templateData) => {
@@ -68,9 +65,6 @@ export class WhatsappComponent implements OnInit {
             } else if ((result.error) && (result.custom_status_code = 101)) {
               this.alertService.info('Required parameters are missing');
             }
-          } else {
-            this.alertService.info('Something went wromg');
-          }
         }, error => {
           console.log(error);
         }

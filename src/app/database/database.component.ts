@@ -74,7 +74,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
       this.activatedRoute.data
         .subscribe((data) => {
           this.spinnerService.hide();
-          if (!data.databaseReportData.error || data.databaseReportData.access_token === AppConstants.ACCESS_TOKEN) {
+          if (!data.databaseReportData.error) {
             this.dataSource.data = data.databaseReportData.result;
             this.dataCount = data.databaseReportData.result.length;
           } else {
@@ -124,7 +124,7 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
       this.http.get<ICommonInterface>(this.dataURL)
         .subscribe((data) => {
           // console.log(data);
-          if (!data.error || data.access_token === AppConstants.ACCESS_TOKEN) {
+          if (!data.error) {
             this.alertService.success('Email sent!');
           } else {
             this.alertService.warning('Something went wrong');
