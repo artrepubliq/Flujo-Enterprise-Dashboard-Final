@@ -10,17 +10,18 @@ import { ITwitterTimelineObject } from '../../../model/twitter/twitter.model';
 export class TwitterTimelineDirective implements OnInit {
   public config: any;
 
-  @Input() twitHomeTimeLine: ITwitterTimelineObject[];
+  @Input() twitTimeLine: ITwitterTimelineObject[];
+  @Input() header_title: string;
   constructor() { }
 
   ngOnInit() {
-    console.log((this.twitHomeTimeLine));
-    this.twitHomeTimeLine.map(object => {
-      if (object.entities.media) {
-        console.log(object.entities.media[0].media_url);
-      }
-      const now = Date.now();
-      console.log(now);
+    console.log((this.twitTimeLine));
+    this.twitTimeLine.map(object => {
+      // if (object.entities.media) {
+      //   console.log(object.entities.media[0].media_url);
+      // }
+      // const now = Date.now();
+      // console.log(now);
     });
 
   }
