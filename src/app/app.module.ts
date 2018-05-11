@@ -122,8 +122,6 @@ import { TwitterServiceService } from './service/twitter-service.service';
 import { FacebookComponent } from './facebook/facebook.component';
 import { MessageCompose } from './dialogs/social-compose/social-compose-message';
 import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
-import { TwitterUsertimelineComponent } from './directives/twitter/twitter-usertimeline/twitter-usertimeline.component';
-import { TwitterMentionstimelineComponent } from './directives/twitter/twitter-mentionstimeline/twitter-mentionstimeline.component';
 
 
 
@@ -212,8 +210,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     TwitterTimelineDirective,
     MessageCompose,
     FacebookComponent,
-    TwitterUsertimelineComponent,
-    TwitterMentionstimelineComponent,
     SocialLoginComponent
   ],
   imports: [
