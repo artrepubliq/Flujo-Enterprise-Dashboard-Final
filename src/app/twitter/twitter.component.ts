@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as OAuth from 'oauth-1.0a';
 import { Router } from '@angular/router';
 import { AppConstants } from '../app.constants';
 import {
@@ -17,8 +18,13 @@ import { TwitterServiceService } from '../service/twitter-service.service';
   styleUrls: ['./twitter.component.scss']
 })
 export class TwitterComponent implements OnInit {
+
   public config: any;
-  public twitTimeLineData: ITwitterTimelineObject[];
+  public showSignIn: boolean;
+  public twitHomeTimeLine: ITwitterTimelineObject;
+  public twitUserTimeLine: ITwitterTimelineObject;
+  public twitMentionsTimeLine: ITwitterTimelineObject;
+
   public twitter_social_keys: ISocialKeysObject;
   public twitter_social_keys_object: ISocialKeysTableData[];
   public twitterUserLogin: string;
@@ -31,7 +37,7 @@ export class TwitterComponent implements OnInit {
 
   ngOnInit() {
 
-    this.getTimeLine();
+    this.getTimeLines();
   }
   /*
    * this is the function when a user tries to log in
@@ -72,11 +78,24 @@ export class TwitterComponent implements OnInit {
   /**
    * this is to get time line from twitter service
    */
-  public getTimeLine(): void {
-    this.twitterService.getTimeLine()
+  public getTimeLines(): void {
+    this.showSignIn = false;
+    const headersObject = {
+      twitter_access_token: localStorage.getItem('twitter_access_token'),
+      token_expiry_date: localStorage.getItem('token_expiry_date')
+    };
+    const headers = new HttpHeaders(headersObject);
+    this.twitterService.getTimeLines(headers)
       .subscribe(
         result => {
-          this.twitTimeLineData = result.data;
+          if (result.error === false) {
+            this.twitHomeTimeLine = result.data[0];
+            this.twitUserTimeLine = result.data[1];
+            this.twitMentionsTimeLine = result.data[2];
+          } else {
+            this.showSignIn = true;
+            console.log(result.data);
+          }
         },
         error => {
           console.log(error);

@@ -9,14 +9,20 @@ import { ITwitterTimelineObject } from '../../../model/twitter/twitter.model';
 // tslint:disable-next-line:component-class-suffix
 export class TwitterTimelineDirective implements OnInit {
   public config: any;
-  @Input() twitTimelineData: ITwitterTimelineObject[];
+
+  @Input() twitHomeTimeLine: ITwitterTimelineObject[];
   constructor() { }
 
   ngOnInit() {
-    console.log((this.twitTimelineData));
-    this.twitTimelineData.map(object => {
-      console.log(object.created_at);
+    console.log((this.twitHomeTimeLine));
+    this.twitHomeTimeLine.map(object => {
+      if (object.entities.media) {
+        console.log(object.entities.media[0].media_url);
+      }
+      const now = Date.now();
+      console.log(now);
     });
+
   }
 
 }

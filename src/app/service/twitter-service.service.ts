@@ -11,8 +11,9 @@ export class TwitterServiceService {
     private httpClient: HttpClient
   ) { }
 
-  public getTimeLine(): Observable<ITwitTimeLineObject> {
-    return this.httpClient.get<ITwitTimeLineObject>(AppConstants.EXPRESS_URL + 'oauth_token/' + AppConstants.CLIENT_ID);
+  public getTimeLines(headers): Observable<ITwitTimeLineObject> {
+    return this.httpClient.get<ITwitTimeLineObject>
+      (AppConstants.EXPRESS_URL + 'oauth_token/' + AppConstants.CLIENT_ID, { headers: headers });
   }
 
 }

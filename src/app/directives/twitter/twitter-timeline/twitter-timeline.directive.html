@@ -30,8 +30,8 @@
               </div>
             </div>
           </div>
-          <ul class="pos-post-cards" >
-            <li *ngFor="let timeline of twitTimelineData">
+          <ul class="pos-post-cards">
+            <li *ngFor="let timeline of twitHomeTimeLine">
               <mat-card class="example-card">
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
@@ -45,9 +45,8 @@
                   </p>
                 </mat-card-content>
                 <br/>
-                <div class="social-image">
-                  <img mat-card-image src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350"
-                    alt="Photo of a Shiba Inu">
+                <div class="social-image" *ngIf="timeline.entities.media">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
                 </div>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
