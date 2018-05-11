@@ -211,7 +211,7 @@ export class MediaComponent implements OnInit {
         reader.readAsDataURL(file);
         reader.onload = () => {
           this.imageDetail.push(reader.result.split(',')[1]);
-          console.log(this.imageDetail);
+          // console.log(this.imageDetail);
         };
         console.log(reader.result);
       }
@@ -223,10 +223,10 @@ export class MediaComponent implements OnInit {
       }
     }
   }
-  onRemoved(file: FileHolder) {
-    this.ishide = true;
-    // do some stuff with the removed file.
-  }
+  // onRemoved(file: FileHolder) {
+  //   this.ishide = true;
+  //   // do some stuff with the removed file.
+  // }
   onUploadStateChanged(state: boolean) {
     console.log(JSON.stringify(state));
   }
@@ -291,7 +291,7 @@ export class MediaComponent implements OnInit {
         data => {
           if (data.custom_status_code === 100) {
             this.mediaData = data.result;
-            console.log(this.mediaData);
+            // console.log(this.mediaData);
             this.spinnerService.hide();
           }
         },
@@ -714,9 +714,11 @@ export class FileSelectPopup {
   stateCtrl: FormControl;
   filteredStates: Observable<any[]>;
   description: string;
-  file_name_control: string;
+  file_name_control: FormControl;
   config: any;
   sendData: any = {};
+  // public imageData: IAlbumImageUpdate[] = this.data;
+  public options: string[] = [];
   constructor(
     public dialogRef: MatDialogRef<FileSelectPopup>,
     @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
@@ -724,17 +726,23 @@ export class FileSelectPopup {
 
     dialogRef.disableClose = true;
     this.stateCtrl = new FormControl();
+    this.file_name_control = new FormControl();
     this.filteredStates = this.stateCtrl.valueChanges
       .pipe(
         startWith(''),
-        map(state => state ? this.filterStates(state) : state.slice())
+        map(state => this.filterStates(state))
       );
-    console.log(this.filteredStates);
+    // console.log(this.data);
+    // console.log(this.imageData);
+    this.data.options.map(item => {
+      this.options.push(item.title);
+    });
+    // console.log(this.options);
   }
 
   filterStates(name: string) {
-    return this.data.options.filter(state =>
-      state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+    return this.options.filter(state =>
+      state.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
   displayFn(project): string {

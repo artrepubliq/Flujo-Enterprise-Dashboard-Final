@@ -15,7 +15,7 @@
                 <span>
                   <img src="../assets/social/refresh-so-icon-normal@3x.png" class="">
                 </span>
-                <span class="dropdown">
+                <span class="stream dropdown">
                   <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="img-more" src="../assets/social/more-so-icon-normal@3x.png">
                   </button>
@@ -49,13 +49,15 @@
                 </div>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div>
-                      <span class="icons-default">
-                        <img src="../assets/social/like-icon-normal@3x.png" class="">&nbsp; Like
+                    <div class="btn-likes" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img  src="../assets/social/like-icon-normal@3x.png" class="like-icon">
+                        <img  src="../assets/social/liked-icon-normal@3x.png" class="liked-icon">
                       </span>
+                      <span class="d-inline">Like</span>
                     </div>
                     <div>
-                      <span>
+                      <span (click)="doComment= !doComment">
                         <img src="../assets/social/comment-icon-normal@3x.png" class="">&nbsp; Comment
                       </span>
                     </div>
@@ -65,22 +67,79 @@
                       </span>
                     </div>
                     <div>
-                      <span class="dropdown">
+                      <div class="dropdown">
                         <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <img src="../assets/social/more-so-icon-normal@3x.png" class="img-more-footer">
+                            <img src="../assets/social/more-so-icon-normal@3x.png" class="img-more-footer">
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item">Edit</a>
-                          <a class="dropdown-item">Send Email</a>
-                          <a class="dropdown-item">Create Stream</a>
-                          <a class="dropdown-item">Delete Post</a>
-                        </div>
-                      </span>
+                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">Send Email</a>
+                            <a class="dropdown-item" href="#">Create Stream</a>
+                            <a class="dropdown-item" href="#">Delete Post</a>
+                          </div>
+                      </div>
                     </div>
                   </div>
                   <br/>
                 </mat-card-actions>
-                <mat-card-header>
+                <mat-card-actions class="header-as-footer">
+                  <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="btn-likes" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" class="like-icon">
+                        <!-- <img src="../assets/social/liked-icon-normal@3x.png" class="liked-icon"> -->
+                      </span>
+                      <span class="d-inline">22</span>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px">
+                      <span>
+                        12&nbsp;Comments
+                      </span>
+                      <span>
+                        12&nbsp;Shares
+                      </span>
+                    </div>
+                  </div>
+                </mat-card-actions><br/>
+                <mat-card-header fxLayout="column" fxLayoutGap="10px" class="social-card-footer comments-section">
+                  <div fxLayout="row"  fxLayoutGap="10px">
+                    <div mat-card-avatar class="d-inline">
+                      <img class="comments-avatar" src="../assets/profile_user.jpg">
+                    </div>
+                    <div fxLayout="column" fxLayoutGap="5px" class="d-inline">
+                      <div fxLayout="row" fxLayoutGap="5px">
+                        <span><b>Abhiram</b></span>
+                        <span>commented by commentor  The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
+                            very well with mountainous terrain, the Shiba Inu was originally bred for hunting.</span>
+                      </div>
+                      <div fxLayout="row" fxLayoutGap="10px">
+                        <span>Like</span> <span>|</span>
+                        <span>Reply</span>
+                        <span>1&nbsp;<span>day</span></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div fxLayout="row"  fxLayoutGap="10px">
+                    <div mat-card-avatar class="d-inline">
+                      <img class="comments-avatar" src="../assets/profile_user.jpg">
+                    </div>
+                    <div fxLayout="column" fxLayoutGap="5px" class="d-inline">
+                      <div fxLayout="row" fxLayoutGap="5px">
+                        <span><b>Abhiram</b></span>
+                        <span>commented by commentor</span>
+                      </div>
+                      <div fxLayout="row" fxLayoutGap="10px">
+                        <span>Like</span> <span>|</span>
+                        <span>Reply</span>
+                        <span>1&nbsp;<span>day</span></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  
+                </mat-card-header><br/>
+                <mat-card-header *ngIf="doComment">
                   <div mat-card-avatar class="d-inline example-header-image"></div>
                   <input class="d-inline input-commet" type="text" placeholder="Comment">
                 </mat-card-header>
