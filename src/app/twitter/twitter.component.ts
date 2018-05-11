@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as OAuth from 'oauth-1.0a';
 import { Router } from '@angular/router';
 import { AppConstants } from '../app.constants';
 import {
