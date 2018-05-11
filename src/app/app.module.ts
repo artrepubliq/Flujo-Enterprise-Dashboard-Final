@@ -120,9 +120,18 @@ import { DataBaseService } from './database/database-service';
 import { TwitterComponent } from './twitter/twitter.component';
 import { WindowRef } from './admin/window.service';
 import { TwitterServiceService } from './service/twitter-service.service';
-import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
 import { FacebookComponent } from './facebook/facebook.component';
 import { MessageCompose } from './dialogs/social-compose/social-compose-message';
+import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
+import { TwitterUsertimelineComponent } from './directives/twitter/twitter-usertimeline/twitter-usertimeline.component';
+import { TwitterMentionstimelineComponent } from './directives/twitter/twitter-mentionstimeline/twitter-mentionstimeline.component';
+
+
+
+
+
+
+
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -199,7 +208,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     TwitterComponent,
     TwitterTimelineDirective,
     MessageCompose,
-    FacebookComponent
+    FacebookComponent,
+    TwitterUsertimelineComponent,
+    TwitterMentionstimelineComponent
   ],
   imports: [
     RouterModule.forRoot([], { useHash: true }),

@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
                 const feature_id = 23;
                 this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
                 this.redirectUrlForChatCamp(this.loginData[0]);
-              } 
+              }
               this.alertService.success('User logged in successfully');
             } else if (data.custom_status_code === 140) {
               this.alertService.danger('Not a valid user!');

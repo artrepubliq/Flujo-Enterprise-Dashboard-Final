@@ -31,6 +31,7 @@ export interface ISocialKeysObject {
  * this is an interface for getting twitter timeline
  */
 export interface ITwitTimeLineObject {
+    error: boolean;
     data: ITwitterTimelineObject[];
 }
 export interface ITwitterTimelineObject {
@@ -39,6 +40,7 @@ export interface ITwitterTimelineObject {
     coordinates: string | null;
     created_at: string;
     entities: ITwitterEntities;
+    extended_entities: ITwitterMedia;
     favorite_count: number;
     favorited: boolean;
     geo: null | string;
@@ -84,6 +86,32 @@ export interface ITwitterMedia {
     expanded_url: string;
     type: string;
     sizes: ITwitterSizeType;
+    video_info?: ITwitterVideoInfo;
+    additional_media_info?: ITwitterAdditionalMediaInfo;
+}
+
+export interface ITwitterAdditionalMediaInfo {
+    title: string;
+    description: string;
+    call_to_actions: any;
+}
+
+export interface ITwitterCallToActions {
+    watch_now: { url: string };
+    embeddable: boolean;
+    monetizable: boolean;
+}
+
+export interface ITwitterVideoInfo {
+    aspect_ratio: Array<any>;
+    duration_millis: number;
+    varients: Array<ITwitterVarients>;
+}
+
+export interface ITwitterVarients {
+    bitrate: number;
+    content_type: string;
+    url: string;
 }
 export interface ITwitterSizeType {
     thumb: ITwitterSizes;
