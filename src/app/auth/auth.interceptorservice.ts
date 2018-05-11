@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { tokenNotExpired } from 'angular2-jwt';
+import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 import { AppConstants } from '../app.constants';
+import * as crypto from 'crypto';
 @Injectable()
 export class AuthInterceptorService {
   public getToken(): string {
-    return AppConstants.CLIENT_ID;
+    return localStorage.getItem('token');
   }
   public isAuthenticated(): boolean {
     // get the token
     const token = this.getToken();
-    // return a boolean reflecting 
+    // return a boolean reflecting
     // whether or not the token is expired
     return tokenNotExpired(null, token);
   }

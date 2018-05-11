@@ -12,7 +12,7 @@ import * as moment from 'moment';
 import { AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-analytics',
@@ -58,7 +58,8 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   };
   userAccessDataModel: AccessDataModelComponent;
   constructor(public http: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
-    private alertService: AlertService, private router: Router) {
+    private alertService: AlertService, private router: Router,
+    private activeRoute: ActivatedRoute, private route: ActivatedRoute) {
       if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
         this.userAccessDataModel = new AccessDataModelComponent(http, router);
         this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/analytics');
@@ -69,6 +70,11 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     this.getData(this.params);
     // console.log(moment(this.maxDate).format("YYYY-MM-DD"));
     // console.log(moment(this.minDate).format("YYYY-MM-DD"));
+    // this.activeRoute.data.subscribe(
+    //   result => {
+    //     console.log(result);
+    //   }
+    // );
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -152,6 +158,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
       .subscribe(
         (data) => {
           if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
+            this.problem_category = [];
             this.problem_category = data.result;
           } else {
             console.log('Error getting problems data');
@@ -198,6 +205,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
       .subscribe(
         (data) => {
           if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
+            this.area = [];
             this.area = data['result'];
           } else {
             console.log('Error getting area data');
@@ -213,6 +221,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
       .subscribe(
         (data) => {
           if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
+            this.status_reports = [];
             this.status_reports = data['result'];
           } else {
             console.log('Error getting status reports data');
