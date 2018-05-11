@@ -19,6 +19,7 @@ import { TwitterServiceService } from '../service/twitter-service.service';
 })
 export class TwitterComponent implements OnInit {
 
+  public config: any;
   public showSignIn: boolean;
   public twitHomeTimeLine: ITwitterTimelineObject;
   public twitUserTimeLine: ITwitterTimelineObject;
