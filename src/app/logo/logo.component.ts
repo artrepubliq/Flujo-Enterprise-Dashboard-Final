@@ -102,7 +102,6 @@ export class LogoComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postlogoupload', reqObject)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.http_status_code = 200)) {
               // this.logoImage = reqObject.logo_image;
               this.alertService.success('Logo submitted successfully.');
@@ -114,9 +113,6 @@ export class LogoComponent implements OnInit {
               this.spinnerService.hide();
               this.getLogoDetails();
             }
-          } else {
-            this.alertService.info('something went wrong');
-          }
         },
         error => {
           this.loadingSave = false;
@@ -133,7 +129,6 @@ export class LogoComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postlogo', formModel)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if (data.error === true && (data.custom_status_code === 101)) {
               this.alertService.warning('Required parameters are missing !!');
               this.loadingSave = false;
@@ -147,7 +142,6 @@ export class LogoComponent implements OnInit {
               this.loadingSave = false;
               this.getLogoDetails();
             }
-          }
           this.spinnerService.hide();
         },
         error => {
@@ -167,14 +161,12 @@ export class LogoComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletelogo/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.result != null && data.error === false && data.custom_status_code === 100) {
               this.alertService.success('Logo deleted Successfully');
               this.getLogoDetails();
               this.isEdit = true;
               this.loadingDelete = false;
               this.form.reset();
-            }
           }
           this.spinnerService.hide();
         },
@@ -192,7 +184,6 @@ export class LogoComponent implements OnInit {
           this.logoImageDetails = data.result;
           data ? this.isEdit = false : this.isEdit = true;
           // console.log(data);
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.result != null && data.error === false && data.custom_status_code === 100) {
               this.setDefaultClientLogoDetails(this.logoImageDetails);
               this.isHide = true;
@@ -205,7 +196,6 @@ export class LogoComponent implements OnInit {
               this.isHide = false;
               this.spinnerService.hide();
             }
-          }
           this.loadingSave = false;
           // this.isEdit = false;
         },

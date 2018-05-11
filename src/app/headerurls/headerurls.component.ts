@@ -23,7 +23,7 @@ export class HeaderurlsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log(this.header);
+    console.log(this.header);
   }
 
   radioChange = (segment, feature_id) => {

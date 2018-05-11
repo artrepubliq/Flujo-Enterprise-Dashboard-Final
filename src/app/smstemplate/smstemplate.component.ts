@@ -121,7 +121,6 @@ export class SmstemplateComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getsmstemplateconfig/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if (data.custom_status_code === 100 && !data.error) {
               this.smsTemplateData2 = _.unique(data.result, (item) => {
                 return item.template_category;
@@ -138,7 +137,6 @@ export class SmstemplateComponent implements OnInit {
               this.spinnerService.hide();
             } else if (data.error && data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing');
-            }
           }
         }, error => {
           console.log(error);
@@ -150,7 +148,6 @@ export class SmstemplateComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + '/flujo_client_deletesmstemplateconfig/' + item)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if (!data.error && data.custom_status_code === 100) {
               this.alertService.warning('Deleted successfully');
               this.spinnerService.hide();
@@ -162,7 +159,6 @@ export class SmstemplateComponent implements OnInit {
               this.alertService.warning('Required parameters are missing');
               this.spinnerService.hide();
             }
-          }
           this.spinnerService.hide();
           // this.getFilteredSmsData();
         },

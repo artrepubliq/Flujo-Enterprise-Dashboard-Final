@@ -98,7 +98,6 @@ export class EmailTemplateComponent implements OnInit {
     this.spinnerService.show();
     this.emailTemplateService.postEmailTemplateData(formModel, 'flujo_client_postemailtemplateconfig')
       .subscribe((result) => {
-        if (AppConstants.ACCESS_TOKEN === result.access_token) {
           if (result.custom_status_code === 101 && result.result.length === 0) {
             this.alertService.warning('Required parameters are missing');
             this.spinnerService.hide();
@@ -131,7 +130,6 @@ export class EmailTemplateComponent implements OnInit {
             this.isView = true;
             this.isEdit = false;
           }
-        }
         this.spinnerService.hide();
         this.createEmailTemplateForm.reset();
       },

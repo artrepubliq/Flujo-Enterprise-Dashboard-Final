@@ -155,13 +155,12 @@ export class CreateModuleComponent implements OnInit {
             .subscribe(
                 data => {
                     this.moduleDetails = null;
-                    if (AppConstants.ACCESS_TOKEN === data.access_token) {
-                        if (data.custom_status_code === 100 && data.result.length > 0) {
+                        if (data.custom_status_code === 100 && !data.error) {
                             this.moduleDetails = data.result;
+                            console.log(this.moduleDetails);
                         } else if (data.custom_status_code === 101) {
 
                         }
-                    }
                     this.isEdit = false;
                     this.spinnerService.hide();
                 },

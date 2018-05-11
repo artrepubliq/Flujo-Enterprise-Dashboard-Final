@@ -95,7 +95,6 @@ export class BiographyComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postbiography', formModel)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if ((!data.error) && (data.custom_status_code === 100)) {
               this.alertService.success('Biography data submitted successfully');
               this.biographySubmitForm.reset();
@@ -103,7 +102,6 @@ export class BiographyComponent implements OnInit {
               this.alertService.warning('Required parameters are missing!');
             } else if (data.custom_status_code === 102) {
               this.alertService.warning('Everything is upto date!');
-            }
           }
           this.spinnerService.hide();
           // if (!data.error) {

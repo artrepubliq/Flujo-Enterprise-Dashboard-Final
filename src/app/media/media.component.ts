@@ -213,6 +213,7 @@ export class MediaComponent implements OnInit {
           this.imageDetail.push(reader.result.split(',')[1]);
           // console.log(this.imageDetail);
         };
+        console.log(reader.result);
       }
       this.openFileDialog(this.imageDetail);
       try {
@@ -259,9 +260,9 @@ export class MediaComponent implements OnInit {
     this.uploadImagesObject.client_id = AppConstants.CLIENT_ID;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postgallery', this.uploadImagesObject).subscribe(
       res => {
-        if (res.access_token === AppConstants.ACCESS_TOKEN) {
           if ((!res.error) && (res.custom_status_code === 100)) {
             this.uploadImagesObject = <IUploadImages>{};
+            console.log(res.result);
             this.successMessagebool = true;
             this.spinnerService.hide();
 
@@ -271,7 +272,6 @@ export class MediaComponent implements OnInit {
           } else if ((res.error) && (res.custom_status_code === 101)) {
             this.alertService.warning('Required parameters are missing');
           }
-        }
       },
       (err: HttpErrorResponse) => {
         this.spinnerService.hide();
@@ -289,7 +289,7 @@ export class MediaComponent implements OnInit {
       .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgallery/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.custom_status_code === 100 && AppConstants.ACCESS_TOKEN && data.error === false) {
+          if (data.custom_status_code === 100) {
             this.mediaData = data.result;
             // console.log(this.mediaData);
             this.spinnerService.hide();
@@ -306,7 +306,6 @@ export class MediaComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletegallery/' + image_id)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code = 100)) {
               this.hightlightStatus = [false];
               this.spinnerService.hide();
@@ -315,7 +314,6 @@ export class MediaComponent implements OnInit {
             } else if ((data.error) && (data.custom_status_code = 101)) {
               this.alertService.warning('Required parameters are missing');
             }
-          }
         },
         error => {
           this.spinnerService.hide();
@@ -363,7 +361,6 @@ export class MediaComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postalbum', reqData)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code === 100)) {
               this.resetsubmitAlbumData();
               this.spinnerService.hide();
@@ -376,7 +373,6 @@ export class MediaComponent implements OnInit {
               this.spinnerService.hide();
               this.alertService.danger('Something went wrong.please try again.');
             }
-          }
         },
         error => {
           this.spinnerService.hide();
@@ -402,7 +398,6 @@ export class MediaComponent implements OnInit {
       .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getalbum/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code === 100)) {
               this.albumGallery = data.result;
               this.spinnerService.hide();
@@ -411,7 +406,6 @@ export class MediaComponent implements OnInit {
             } else if ((data.error) && (data.custom_status_code === 101)) {
               this.alertService.danger('Required parameters are missing.');
             }
-          }
         },
 
         err => {
@@ -440,14 +434,12 @@ export class MediaComponent implements OnInit {
       this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgalleryintoalbum', albumImageIds)
         .subscribe(
           data => {
-            if (data.access_token === AppConstants.ACCESS_TOKEN) {
               if (!data.error && (data.custom_status_code === 100)) {
                 this.albumGalleryItem = data.result;
                 this.spinnerService.hide();
               } else if (data.error && (data.custom_status_code === 101)) {
                 this.alertService.warning('Required parameters are missing');
               }
-            }
           },
 
           err => {
@@ -780,6 +772,7 @@ export class FileSelectPopup {
         this.spinnerService.hide();
         this.alertService.success('Uploaded successfully');
         this.dialogRef.close();
+        console.log(res);
       },
       (err: HttpErrorResponse) => {
         this.spinnerService.hide();
