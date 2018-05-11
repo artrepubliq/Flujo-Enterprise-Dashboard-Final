@@ -11,17 +11,22 @@
     <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
       <div class="col-md-4" *ngIf="twitHomeTimeLine">
         <div class="social-card" [perfectScrollbar]="config">
-          <app-twitter-timeline [twitTimeLine]="twitHomeTimeLine"></app-twitter-timeline>
+          <app-twitter-timeline [twitTimeLine]="twitHomeTimeLine" [header_title]="timeline"></app-twitter-timeline>
         </div>
       </div>
       <div class="col-md-4" *ngIf="twitUserTimeLine">
         <div class="social-card" [perfectScrollbar]="config">
-          <app-twitter-timeline [twitTimeLine]="twitUserTimeLine"></app-twitter-timeline>
+          <app-twitter-timeline [twitTimeLine]="twitUserTimeLine" [header_title]="tweets"></app-twitter-timeline>
         </div>
       </div>
       <div class="col-md-4" *ngIf="twitMentionsTimeLine">
         <div class="social-card" [perfectScrollbar]="config">
-          <app-twitter-timeline [twitTimeLine]="twitMentionsTimeLine"></app-twitter-timeline>
+          <app-twitter-timeline [twitTimeLine]="twitMentionsTimeLine" [header_title]="mentions"></app-twitter-timeline>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="twitRetweets">
+        <div class="social-card" [perfectScrollbar]="config">
+          <app-twitter-timeline [twitTimeLine]="twitRetweets" [header_title]="retweets"></app-twitter-timeline>
         </div>
       </div>
     </div>

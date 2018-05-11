@@ -11,16 +11,17 @@ export class TwitterTimelineDirective implements OnInit {
   public config: any;
 
   @Input() twitTimeLine: ITwitterTimelineObject[];
+  @Input() header_title: string;
   constructor() { }
 
   ngOnInit() {
     console.log((this.twitTimeLine));
     this.twitTimeLine.map(object => {
-      if (object.entities.media) {
-        console.log(object.entities.media[0].media_url);
-      }
-      const now = Date.now();
-      console.log(now);
+      // if (object.entities.media) {
+      //   console.log(object.entities.media[0].media_url);
+      // }
+      // const now = Date.now();
+      // console.log(now);
     });
 
   }

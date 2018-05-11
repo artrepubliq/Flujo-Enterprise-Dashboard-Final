@@ -19,11 +19,16 @@ import { TwitterServiceService } from '../service/twitter-service.service';
 })
 export class TwitterComponent implements OnInit {
 
+  public retweets: string;
+  public mentions: string;
+  public tweets: string;
+  public timeline: string;
   public config: any;
   public showSignIn: boolean;
   public twitHomeTimeLine: ITwitterTimelineObject;
   public twitUserTimeLine: ITwitterTimelineObject;
   public twitMentionsTimeLine: ITwitterTimelineObject;
+  public twitRetweets: ITwitterTimelineObject;
 
   public twitter_social_keys: ISocialKeysObject;
   public twitter_social_keys_object: ISocialKeysTableData[];
@@ -89,9 +94,14 @@ export class TwitterComponent implements OnInit {
       .subscribe(
         result => {
           if (result.error === false) {
+            this.timeline = 'Timeline';
+            this.tweets = 'Tweets';
+            this.mentions = 'Mentions';
+            this.retweets = 'Retweets';
             this.twitHomeTimeLine = result.data[0];
             this.twitUserTimeLine = result.data[1];
             this.twitMentionsTimeLine = result.data[2];
+            this.twitRetweets = result.data[3];
           } else {
             this.showSignIn = true;
             console.log(result.data);
