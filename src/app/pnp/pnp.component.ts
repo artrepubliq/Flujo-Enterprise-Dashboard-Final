@@ -61,7 +61,6 @@ export class PnpComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postprivacypolicy', formModel)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.alertService.success('Data submitted successfully');
               this.getPrivacyData();
@@ -71,7 +70,6 @@ export class PnpComponent implements OnInit {
             } else if (data.custom_status_code === 102) {
               this.alertService.warning('Every thing is upto date!');
             }
-          }
           this.parsePostResponse(data);
           this.spinnerService.hide();
         },
@@ -86,7 +84,6 @@ export class PnpComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getprivacypolicy/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             this.privacyDetails = null;
             if (data.custom_status_code === 100 && !data.error) {
               this.privacyDetails = data.result;
@@ -100,7 +97,6 @@ export class PnpComponent implements OnInit {
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
             }
-          }
           this.isEdit = false;
           this.spinnerService.hide();
         }, error => {
@@ -115,13 +111,11 @@ export class PnpComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleteprivacypolicy/' + body)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.alertService.success('Data deleted successfully');
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
             }
-          }
           this.spinnerService.hide();
           this.getPrivacyData();
         },

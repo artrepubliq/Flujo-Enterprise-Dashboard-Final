@@ -117,9 +117,20 @@ import { FeedbackService } from './feedback/feedback-service';
 import { FeedbackResolver } from './feedback/feedback-resolver';
 import { DataBaseResolver } from './database/database-resolver';
 import { DataBaseService } from './database/database-service';
-
+import { TwitterComponent } from './twitter/twitter.component';
+import { TwitterServiceService } from './service/twitter-service.service';
 import { FacebookComponent } from './facebook/facebook.component';
 import { MessageCompose } from './dialogs/social-compose/social-compose-message';
+import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
+import { TwitterUsertimelineComponent } from './directives/twitter/twitter-usertimeline/twitter-usertimeline.component';
+import { TwitterMentionstimelineComponent } from './directives/twitter/twitter-mentionstimeline/twitter-mentionstimeline.component';
+
+
+
+
+
+
+
 
 
 import { WindowRef } from './admin/window.service';
@@ -197,8 +208,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SafeHtmlPipe,
     AreaEditPopup,
     ProblemCategoryEditPopup,
+    TwitterComponent,
+    TwitterTimelineDirective,
     MessageCompose,
     FacebookComponent,
+    TwitterUsertimelineComponent,
+    TwitterMentionstimelineComponent,
     SocialLoginComponent
   ],
   imports: [
@@ -295,6 +310,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
               FeedbackService,
               DataBaseResolver,
               DataBaseService,
+
               AuthInterceptorService,
               {
               provide: AuthHttp,
@@ -306,6 +322,20 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
                 useClass: TokenInterceptor,
                 multi: true
               },
+
+              TwitterServiceService,
+              // AuthInterceptorService,
+              // {
+              // provide: AuthHttp,
+              // useFactory: authHttpServiceFactory,
+              // deps: [Http, RequestOptions]
+              // },
+              // {
+              //   provide: HTTP_INTERCEPTORS,
+              //   useClass: TokenInterceptor,
+              //   multi: true
+              // }
+
 
     { provide: DateAdapter, useClass: DateFormat }
 

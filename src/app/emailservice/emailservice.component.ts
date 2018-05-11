@@ -111,7 +111,6 @@ export class EmailserviceComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_sendemaildbcsv', this.mailSendingForm.value)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (!data.error && (data.custom_status_code = 100)) {
               this.alertService.success('Email has been sent ');
               this.mailSendingForm.reset();
@@ -119,7 +118,6 @@ export class EmailserviceComponent implements OnInit {
               this.multipleEmails = true;
               this.file.nativeElement.value = null;
             }
-          }
         },
         error => {
           console.log(error);

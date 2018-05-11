@@ -98,7 +98,6 @@ export class EmailTemplateComponent implements OnInit {
     this.spinnerService.show();
     this.emailTemplateService.postEmailTemplateData(formModel, 'flujo_client_postemailtemplateconfig')
       .subscribe((result) => {
-        if (AppConstants.ACCESS_TOKEN === result.access_token) {
           if (result.custom_status_code === 101 && result.result.length === 0) {
             this.alertService.warning('Required parameters are missing');
             this.spinnerService.hide();
@@ -131,12 +130,11 @@ export class EmailTemplateComponent implements OnInit {
             this.isView = true;
             this.isEdit = false;
           }
-        }
         this.spinnerService.hide();
         this.createEmailTemplateForm.reset();
       },
         error => {
-          console.log(error);
+          // console.log(error);
         }
       );
   }
@@ -162,7 +160,7 @@ export class EmailTemplateComponent implements OnInit {
       // console.log(this.allEmailTemplates);
     },
       error => {
-        console.log(error);
+        // console.log(error);
       });
   }
   public getFilteredEmailCategories() {
@@ -180,7 +178,7 @@ export class EmailTemplateComponent implements OnInit {
     this.emailTemplateService.deleteEmailTemplateData(AppConstants.API_URL,
       'flujo_client_deleteemailtemplateconfig/', emailtemplateconfig_id)
       .subscribe((result) => {
-        console.log(result);
+        // console.log(result);
         if (result.error) {
           this.alertService.warning(result.result);
           this.spinnerService.hide();
@@ -188,8 +186,8 @@ export class EmailTemplateComponent implements OnInit {
           this.alertService.success('Template delete successfully');
           this.spinnerService.hide();
           this.readTemplates(this.filteredThemes);
-          console.log(emailtemplateconfig_id);
-          console.log(this.allEmailTemplates);
+          // console.log(emailtemplateconfig_id);
+          // console.log(this.allEmailTemplates);
           const theme_data = this.allEmailTemplates.filter((object) => object.id === emailtemplateconfig_id);
           const index = this.tempate_categories.indexOf(theme_data[0].template_category);
           if (index > -1) {
@@ -202,18 +200,18 @@ export class EmailTemplateComponent implements OnInit {
             return x.template_category;
           });
           // console.log(this.tempate_categories.pop());
-          console.log(this.allEmailTemplates);
+          // console.log(this.allEmailTemplates);
         }
       },
         error => {
-          console.log(error);
+          // console.log(error);
         }
       );
   }
   public readTemplates(theme_category): void {
-    console.log(theme_category);
+    // console.log(theme_category);
     this.filteredThemes = this.allEmailTemplates2.filter((filterTemplate) => filterTemplate.template_category === theme_category);
-    console.log(this.filteredThemes);
+    // console.log(this.filteredThemes);
   }
   setDefaultEmailTemplateDetails(emailTemplateItem) {
     if (emailTemplateItem) {
@@ -240,12 +238,12 @@ export class EmailTemplateComponent implements OnInit {
     this.setDefaultEmailTemplateDetails(emailTemplateData);
   }
   public modelChanged(event) {
-    console.log(event);
+    // console.log(event);
     this.template_html = event;
   }
 
   cancelEditTemplate() {
-    console.log(this.allEmailTemplates);
+    // console.log(this.allEmailTemplates);
     this.isEdit = false;
   }
 }

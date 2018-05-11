@@ -157,7 +157,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postproblemtypereportanalytics', params)
       .subscribe(
         (data) => {
-          if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
+          if (!data.error) {
             this.problem_category = [];
             this.problem_category = data.result;
           } else {
@@ -173,7 +173,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postgenderreportanalytics', params)
       .subscribe(
         (data) => {
-          if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
+          if (!data.error) {
             this.gender = data['result'][0];
           } else {
             console.log('Error getting gender data');
@@ -188,7 +188,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postagereportanalytics', params)
       .subscribe(
         (data) => {
-          if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
+          if (!data.error) {
             this.ageData = data['result'];
             this.ageChart();
           } else {
@@ -204,7 +204,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postareareportanalytics', params)
       .subscribe(
         (data) => {
-          if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
+          if (!data.error) {
             this.area = [];
             this.area = data['result'];
           } else {
@@ -220,7 +220,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_poststatusreportanalytics', params)
       .subscribe(
         (data) => {
-          if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
+          if (!data.error ) {
             this.status_reports = [];
             this.status_reports = data['result'];
           } else {
@@ -237,7 +237,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
       .subscribe(
         (data) => {
           console.log(data);
-          if (!data.error && (AppConstants.ACCESS_TOKEN === data.access_token)) {
+          if (!data.error) {
             this.assign = data['result'];
           } else {
             console.log('Error getting problems data');

@@ -82,7 +82,6 @@ export class SocialLinksComponent implements OnInit {
 
       .subscribe(
         res => {
-          if (AppConstants.ACCESS_TOKEN === res.access_token) {
             if (res.custom_status_code === 100 && res.error === false) {
               this.alertService.success('Social Links updated successfully');
             } else if (res.custom_status_code === 102 && res.error === true) {
@@ -90,7 +89,6 @@ export class SocialLinksComponent implements OnInit {
             } else if (res.custom_status_code === 101 && res.error === true) {
               this.alertService.warning('Required parameters are missig');
             }
-          }
           this.getSocialLinksData();
           this.socialLinksForm.reset();
           this.spinnerService.hide();
@@ -110,7 +108,6 @@ export class SocialLinksComponent implements OnInit {
       .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getsociallinks/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100 && data.error === false ) {
               this.spinnerService.hide();
               this.socialItems = data.result;
@@ -124,7 +121,6 @@ export class SocialLinksComponent implements OnInit {
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!!');
             }
-          }
         },
 
         err => {
@@ -150,7 +146,6 @@ export class SocialLinksComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletesociallinks/' + socialItem.socialitem_id)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100 && data.error === false) {
               this.alertService.success('Social Links deleted Successfully');
             } else if (data.custom_status_code === 102) {
@@ -158,7 +153,6 @@ export class SocialLinksComponent implements OnInit {
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missig');
             }
-          }
           this.spinnerService.hide();
           this.getSocialLinksData();
         },

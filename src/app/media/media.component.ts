@@ -211,7 +211,7 @@ export class MediaComponent implements OnInit {
         reader.readAsDataURL(file);
         reader.onload = () => {
           this.imageDetail.push(reader.result.split(',')[1]);
-          console.log(this.imageDetail);
+          // console.log(this.imageDetail);
         };
         console.log(reader.result);
       }
@@ -223,10 +223,10 @@ export class MediaComponent implements OnInit {
       }
     }
   }
-  onRemoved(file: FileHolder) {
-    this.ishide = true;
-    // do some stuff with the removed file.
-  }
+  // onRemoved(file: FileHolder) {
+  //   this.ishide = true;
+  //   // do some stuff with the removed file.
+  // }
   onUploadStateChanged(state: boolean) {
     console.log(JSON.stringify(state));
   }
@@ -260,7 +260,6 @@ export class MediaComponent implements OnInit {
     this.uploadImagesObject.client_id = AppConstants.CLIENT_ID;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postgallery', this.uploadImagesObject).subscribe(
       res => {
-        if (res.access_token === AppConstants.ACCESS_TOKEN) {
           if ((!res.error) && (res.custom_status_code === 100)) {
             this.uploadImagesObject = <IUploadImages>{};
             console.log(res.result);
@@ -273,7 +272,6 @@ export class MediaComponent implements OnInit {
           } else if ((res.error) && (res.custom_status_code === 101)) {
             this.alertService.warning('Required parameters are missing');
           }
-        }
       },
       (err: HttpErrorResponse) => {
         this.spinnerService.hide();
@@ -291,9 +289,9 @@ export class MediaComponent implements OnInit {
       .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgallery/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.custom_status_code === 100 && AppConstants.ACCESS_TOKEN && data.error === false) {
+          if (data.custom_status_code === 100) {
             this.mediaData = data.result;
-            console.log(this.mediaData);
+            // console.log(this.mediaData);
             this.spinnerService.hide();
           }
         },
@@ -308,7 +306,6 @@ export class MediaComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletegallery/' + image_id)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code = 100)) {
               this.hightlightStatus = [false];
               this.spinnerService.hide();
@@ -317,7 +314,6 @@ export class MediaComponent implements OnInit {
             } else if ((data.error) && (data.custom_status_code = 101)) {
               this.alertService.warning('Required parameters are missing');
             }
-          }
         },
         error => {
           this.spinnerService.hide();
@@ -365,7 +361,6 @@ export class MediaComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postalbum', reqData)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code === 100)) {
               this.resetsubmitAlbumData();
               this.spinnerService.hide();
@@ -378,7 +373,6 @@ export class MediaComponent implements OnInit {
               this.spinnerService.hide();
               this.alertService.danger('Something went wrong.please try again.');
             }
-          }
         },
         error => {
           this.spinnerService.hide();
@@ -404,7 +398,6 @@ export class MediaComponent implements OnInit {
       .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getalbum/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code === 100)) {
               this.albumGallery = data.result;
               this.spinnerService.hide();
@@ -413,7 +406,6 @@ export class MediaComponent implements OnInit {
             } else if ((data.error) && (data.custom_status_code === 101)) {
               this.alertService.danger('Required parameters are missing.');
             }
-          }
         },
 
         err => {
@@ -442,14 +434,12 @@ export class MediaComponent implements OnInit {
       this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgalleryintoalbum', albumImageIds)
         .subscribe(
           data => {
-            if (data.access_token === AppConstants.ACCESS_TOKEN) {
               if (!data.error && (data.custom_status_code === 100)) {
                 this.albumGalleryItem = data.result;
                 this.spinnerService.hide();
               } else if (data.error && (data.custom_status_code === 101)) {
                 this.alertService.warning('Required parameters are missing');
               }
-            }
           },
 
           err => {
@@ -724,9 +714,11 @@ export class FileSelectPopup {
   stateCtrl: FormControl;
   filteredStates: Observable<any[]>;
   description: string;
-  file_name_control: string;
+  file_name_control: FormControl;
   config: any;
   sendData: any = {};
+  // public imageData: IAlbumImageUpdate[] = this.data;
+  public options: string[] = [];
   constructor(
     public dialogRef: MatDialogRef<FileSelectPopup>,
     @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
@@ -734,17 +726,23 @@ export class FileSelectPopup {
 
     dialogRef.disableClose = true;
     this.stateCtrl = new FormControl();
+    this.file_name_control = new FormControl();
     this.filteredStates = this.stateCtrl.valueChanges
       .pipe(
         startWith(''),
-        map(state => state ? this.filterStates(state) : state.slice())
+        map(state => this.filterStates(state))
       );
-    console.log(this.filteredStates);
+    // console.log(this.data);
+    // console.log(this.imageData);
+    this.data.options.map(item => {
+      this.options.push(item.title);
+    });
+    // console.log(this.options);
   }
 
   filterStates(name: string) {
-    return this.data.options.filter(state =>
-      state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+    return this.options.filter(state =>
+      state.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
   displayFn(project): string {

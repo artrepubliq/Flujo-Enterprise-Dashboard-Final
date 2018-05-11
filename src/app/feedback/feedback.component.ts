@@ -147,7 +147,6 @@ export class FeedbackComponent implements OnInit, AfterViewInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_feedbackdatacsvemail', formModel)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if (!data.error && (data.custom_status_code = 100)) {
               this.alertService.info('Attachement sent succesfully');
               this.feedbackCsvMail.reset();
@@ -156,7 +155,6 @@ export class FeedbackComponent implements OnInit, AfterViewInit {
               this.alertService.info('Required parameters are missing');
               this.spinnerService.hide();
             }
-          }
         },
         error => {
           this.spinnerService.hide();
