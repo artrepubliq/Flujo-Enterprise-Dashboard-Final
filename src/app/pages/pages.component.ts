@@ -76,13 +76,11 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.galleryImagesService.getGalleryImagesComponent('/flujo_client_getgallery/', AppConstants.CLIENT_ID)
             .subscribe(
                 data => {
-                    if (data.access_token === AppConstants.ACCESS_TOKEN) {
-                        if (data.custom_status_code === 100) {
-                            this.imagesOfgallery = data.result;
-                            console.log(this.imagesOfgallery);
-                        } else if (data.custom_status_code === 101) {
-                            this.alertService.warning('Required parameters are missing');
-                        }
+                    if (data.custom_status_code === 100) {
+                        this.imagesOfgallery = data.result;
+                        console.log(this.imagesOfgallery);
+                    } else if (data.custom_status_code === 101) {
+                        this.alertService.warning('Required parameters are missing');
                     }
                 },
                 error => {
@@ -200,17 +198,15 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletecomponent/' + component_id)
             .subscribe(
                 data => {
-                    if ((data.access_token === AppConstants.ACCESS_TOKEN)) {
-                        if ((!data.error) && (data.custom_status_code = 100)) {
-                            this.getPageDetails();
-                            this.spinnerService.hide();
-                            this.pageDetails = null;
-                            console.log(data);
-                            this.loading = false;
-                            this.alertService.success('Page delete successfully');
-                        } else if ((data.error) && (data.custom_status_code = 101)) {
-                            this.alertService.danger('Required parameters are missing');
-                        }
+                    if ((!data.error) && (data.custom_status_code = 100)) {
+                        this.getPageDetails();
+                        this.spinnerService.hide();
+                        this.pageDetails = null;
+                        console.log(data);
+                        this.loading = false;
+                        this.alertService.success('Page delete successfully');
+                    } else if ((data.error) && (data.custom_status_code = 101)) {
+                        this.alertService.danger('Required parameters are missing');
                     }
                 },
                 error => {
@@ -224,19 +220,17 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
             .subscribe(
                 data => {
-                    if ((data.access_token = AppConstants.ACCESS_TOKEN) && (data.custom_status_code = 100)) {
-                        this.parentPageDetails = null;
-                        this.pageDetails = null;
-                        this.isEdit = false;
-                        this.pageDetails = data.result;
-                        this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
-                            return parentData.parent_id === '-1';
-                        });
-                        this.childDetails = _.filter(this.pageDetails, (parentData) => {
-                            return parentData.parent_id !== '-1';
-                        });
-                        this.spinnerService.hide();
-                    }
+                    this.parentPageDetails = null;
+                    this.pageDetails = null;
+                    this.isEdit = false;
+                    this.pageDetails = data.result;
+                    this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
+                        return parentData.parent_id === '-1';
+                    });
+                    this.childDetails = _.filter(this.pageDetails, (parentData) => {
+                        return parentData.parent_id !== '-1';
+                    });
+                    this.spinnerService.hide();
                 },
                 error => {
                     // console.log(error);

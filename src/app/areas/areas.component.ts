@@ -182,7 +182,6 @@ export class AreaEditPopup {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postreportarea', this.newAreaData)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.alertService.success('Area updated successfully');
               this.dialogRef.close();
@@ -193,7 +192,6 @@ export class AreaEditPopup {
             }
             this.areaForm.reset();
             this.spinnerService.hide();
-          }
         },
         error => {
           this.spinnerService.hide();

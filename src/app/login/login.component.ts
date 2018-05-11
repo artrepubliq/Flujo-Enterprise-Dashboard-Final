@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   }
   // When this component is loaded, we'll call the dealService and get our public deals.
   ngOnInit() {
-    localStorage.setItem('isLoginPageLoads', 'true')
+    localStorage.setItem('isLoginPageLoads', 'true');
   }
 
   onSubmit = (body) => {
@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit {
         data => {
           console.log(data.result);
           this.loginData = data.result;
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.loginForm.reset();
               console.log(this.loginData);
@@ -69,14 +68,13 @@ export class LoginComponent implements OnInit {
                 const feature_id = 23;
                 this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
                 this.redirectUrlForChatCamp(this.loginData[0]);
-              } 
+              }
               this.alertService.success('User logged in successfully');
             } else if (data.custom_status_code === 140) {
               this.alertService.danger('Not a valid user!');
             } else {
               this.spinnerService.hide();
               this.alertService.danger('Please enter valid details');
-            }
           }
         });
   }

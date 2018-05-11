@@ -53,7 +53,7 @@ export class SMTPConfigurationComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_postsmtpconfiguration', this.smtpUpdationForm.value)
     .subscribe(
       res => {
-        if ((res.access_token = AppConstants.ACCESS_TOKEN) && (!res.error) && (res.custom_status_code === 100)) {
+        if ((!res.error) && (res.custom_status_code === 100)) {
           this.spinnerService.hide();
           this.getuserSMTPConfigData();
           this.alertService.success('SMTP Config Successfully');
@@ -76,7 +76,7 @@ export class SMTPConfigurationComponent implements OnInit {
       data => {
         data.result ? this.isEdit = false : this.isEdit = true;
 
-        if ((data.access_token = AppConstants.ACCESS_TOKEN) && (!data.error) && (data.custom_status_code === 100)) {
+        if ((!data.error) && (data.custom_status_code === 100)) {
           this.spinnerService.hide();
          this.smtpItems = data.result;
         } else {
@@ -96,7 +96,7 @@ export class SMTPConfigurationComponent implements OnInit {
     .subscribe(
       data => {
         this.btn_text = 'save';
-        if ((data.access_token = AppConstants.ACCESS_TOKEN) && (!data.error) && (data.custom_status_code === 100)) {
+        if ((!data.error) && (data.custom_status_code === 100)) {
           this.spinnerService.hide();
          this.smtpUpdationForm.reset();
          this.alertService.success('Social Links  deleted Successfully');

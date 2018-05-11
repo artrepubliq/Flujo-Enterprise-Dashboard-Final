@@ -7,7 +7,8 @@ export class AppConstants {
     public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/'; }
     public static get CLIENT_ID(): string { return '1232'; }
     public static get THEME_ID(): string { return '32'; }
-    public static get ACCESS_TOKEN(): string { return 'keerthan_token'; }
+    // tslint:disable-next-line:max-line-length
+    public static get ACCESS_TOKEN(): string { return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcnRyZXB1YmxpcS5vcmciLCJhdWQiOiJodHRwOlwvXC9hcGkuYXJ0cmVwdWJsaXEuY29tIiwiZGF0ZSI6IjA1XC8xMVwvMjAxOCAxMjo0MjozMSBwbSIsInVzZXIiOiJrZWVydGhhbkBmbHVqby5pbiIsImNsaWVudF9pZCI6IjEyMzIifQ.GpC8FA6pQtPfTHp4-X6cNgO2Nm_Qmmf532EvKwEoKdk'; }
     public static get DEFAULT(): Array<IAccessLevelModel> {
         return [
             { name: 'Editor', feature_id: 1, enable: false, read: false, write: false, order: '1' },

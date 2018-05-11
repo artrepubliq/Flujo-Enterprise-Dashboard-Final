@@ -72,19 +72,17 @@ export class ChangepasswordComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
-            if (data.custom_status_code === 102) {
-              this.alertService.warning('Everything is Up-to-date!!!');
-            } else if (data.custom_status_code === 100) {
-              this.alertService.success('Password updated successfully!!!');
-              _.delay(de => {
-                this.router.navigate(['/login']);
-              }, 1000);
-            } else if (data.custom_status_code === 101) {
-              this.alertService.warning('Required Parameters are Missing!!!');
-            } else if ( data.custom_status_code === 119) {
-              this.alertService.warning('Old password is incorrect!!!');
-            }
+          if (data.custom_status_code === 102) {
+            this.alertService.warning('Everything is Up-to-date!!!');
+          } else if (data.custom_status_code === 100) {
+            this.alertService.success('Password updated successfully!!!');
+            _.delay(de => {
+              this.router.navigate(['/login']);
+            }, 1000);
+          } else if (data.custom_status_code === 101) {
+            this.alertService.warning('Required Parameters are Missing!!!');
+          } else if (data.custom_status_code === 119) {
+            this.alertService.warning('Old password is incorrect!!!');
           } else {
             this.alertService.warning('You are not authorized person for this action');
           }
