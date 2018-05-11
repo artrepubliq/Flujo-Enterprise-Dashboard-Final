@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FacebookComponent implements OnInit {
   public config: any;
+  public doComment: false;
   constructor() { }
 
   ngOnInit() {
