@@ -63,6 +63,8 @@ export class LoginComponent implements OnInit {
               this.loginForm.reset();
               console.log(this.loginData);
               console.log(data);
+              // Dont remove reload
+              window.location.reload();
               this.loginAuthService._setSession(data.result[0]);
               if (this.loginData[0].email_verified === '0') {
                 const feature_id = 23;
