@@ -13,8 +13,8 @@
         <input matInput placeholder="Enter image / gallery name" aria-label="State" [matAutocomplete]="auto" [formControl]="stateCtrl"
           [(ngModel)]="selectedOption">
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of data.options" [value]="option">
-            {{option.title}}
+          <mat-option *ngFor="let option of filteredStates | async" [value]="option">
+            {{option}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -23,7 +23,7 @@
     <div class="custom_input_mat popup_description" fxLayout="column" fxLayoutGap="12px">
       <p>Description</p>
       <mat-form-field class="select_dropdown">
-        <input type="text" name="" id="" placeholder="Enter text" matInput [formControl]="file_name_control" formControlName="file_name">
+        <input type="text" name="file_name_control" placeholder="Enter text" matInput [formControl]="file_name_control">
       </mat-form-field>
     </div>
 

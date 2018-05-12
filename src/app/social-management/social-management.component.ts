@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatTabChangeEvent } from '@angular/material';
 import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
 import * as moment from 'moment';
 import { MessageCompose } from '../dialogs/social-compose/social-compose-message';
@@ -36,7 +36,7 @@ export class SocialManagementComponent implements OnInit {
   access_token: any;
   config: any;
   highLighted = '';
-
+  public tab_index: number;
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {
@@ -51,6 +51,7 @@ export class SocialManagementComponent implements OnInit {
       'test4': ['', Validators.required],
     });
 
+    this.tab_index = 0;
   }
   ngOnInit(): void {
     setTimeout(function () {
@@ -59,22 +60,15 @@ export class SocialManagementComponent implements OnInit {
       this.test.controls['test3'].setValue('test3');
       this.test.controls['test4'].setValue('test4');
     }.bind(this), 3000);
-    // tslint:disable-next-line:max-line-length
-    // this.fb.api('https://graph.facebook.com/v2.12/Squaretechnos1/feed/?fields=created_time,message,comments.summary(true),likes.summary(true),full_picture&limit=25&access_token=' + localStorage.getItem('access_token'), 'get')
-    //   .then((res: IFBFeedResponse) => {
-    //     this.fbResponseData = res.data;
-    //     this.fbNextPage = res.paging.next;
-    //     console.log(this.fbResponseData);
-    //     console.log(res);
-    //   })
-    //   .catch((e: any) => {
-    //     console.log(e);
-    //   });
-
-    // this.mScrollbarService.initScrollbar('.posts-scrollable', { axis: 'y', theme: 'minimal' });
 
   }
 
+  public tabChanged(event: MatTabChangeEvent) {
+
+    console.log(event);
+    this.tab_index = event.index;
+
+  }
   openmessageComposeDialog(): void {
     const dialogRef = this.dialog.open(MessageCompose, {
       panelClass: 'app-full-bleed-dialog',
@@ -99,11 +93,6 @@ export class SocialManagementComponent implements OnInit {
       .then((response: LoginResponse) => {
         console.log(response);
         localStorage.setItem('access_token', response.authResponse.accessToken);
-        // this.access_token = response.authResponse.accessToken;
-        // tslint:disable-next-line:max-line-length
-        // this.getFBFeerUrl = 'https://graph.facebook.com/v2.12/dasyam.vinayabhaskar/feed/?fields=created_time,message,comments.summary(true),likes.summary(true),full_picture&limit=25&access_token=' + localStorage.getItem('access_token');
-        // this.isFbLogedin = true;
-        // this.getFBFeedFromApi(this.getFBFeerUrl);
       }
       )
       .catch((e: Error) => {
@@ -119,16 +108,9 @@ export class SocialManagementComponent implements OnInit {
       .catch((err) => {
         console.log(err);
       });
-    // this is used for debug token
-    // tslint:disable-next-line:max-line-length
-    // this.fb.api('https://graph.facebook.com/v2.12/debug_token?input_token=' + localStorage.getItem('access_token'), 'get').then((resp) => {
-    //   console.log(resp);
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
+
   }
-  // getting facebook feed graph api calling
+
   getFBFeedFromApi(graphurl) {
     if (graphurl) {
       this.fb.api(graphurl, 'get')
@@ -138,10 +120,6 @@ export class SocialManagementComponent implements OnInit {
             this.fbResponseData = fbData;
             this.fbResponseDataItems.push(this.fbResponseData);
           });
-          // this.fbResponseDataItems.push(res.data);
-          // this.fbResponseData.push(res.data);
-
-          // this.fbResponseData = res.data;
           if (res.paging.next) {
             this.fbNextPage = res.paging.next;
           } else {
@@ -162,22 +140,8 @@ export class SocialManagementComponent implements OnInit {
     this.isShowTwitter = true;
   }
 
-  // getPageToken = () => {
-  //   this.fb.api('https://graph.facebook.com/v2.12/Squaretechnos1?fields=access_token')
-  //     .then((rep: any) => {
-  //       console.log(rep);
-  //       localStorage.setItem('page_token', rep.access_token);
-  //     })
-  //     .catch((ee) => {
-  //       console.log(ee);
-  //     });
-
-  // }
-
   addPost() {
 
-    // this.fb.api('https://graph.facebook.com/v2.12/Squaretechnos1/feed?is_published=true',
-    // tslint:disable-next-line:max-line-length
     this.fb.api('https://graph.facebook.com/v2.12/Squaretechnos1/feed',
       'post',
       {
@@ -191,25 +155,5 @@ export class SocialManagementComponent implements OnInit {
         console.log(err);
       });
   }
-
-  // publishPost = () => {
-
-
-  //   // tslint:disable-next-line:max-line-length
-  //   console.log(localStorage.getItem('page_token'));
-  // tslint:disable-next-line:max-line-length
-  // this.fb.api('https://graph.facebook.com/964338043669329_1212304148872716?is_published=true&access_token=' + localStorage.getItem('page_token'),
-  //     'post')
-  //     .then((respo: Response) => {
-  //       console.log(respo);
-  //     })
-  //     .catch((err: Error) => {
-  //       console.log(err);
-  //     });
-
-  // }
-  // logout() {
-  //   this.fb.logout();
-  // }
 }
 

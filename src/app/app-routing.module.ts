@@ -43,6 +43,7 @@ import { ManageReportsResolver } from './manage-reports/manage-reports-resolver'
 import { FeedbackResolver } from './feedback/feedback-resolver';
 import { DataBaseResolver } from './database/database-resolver';
 import { SocialLoginComponent } from './social-login/social-login.component';
+import { TwitterComponent } from './twitter/twitter.component';
 
 const routes: Routes = [
   {
@@ -188,6 +189,9 @@ const routes: Routes = [
             path: 'socialconfiguration', loadChildren: './socialconfiguration/socialconfiguration.module#SocialconfigurationModule',
             data: { title: 'Social Configuration' }
           },
+          {
+            path: 'twitter', component: TwitterComponent
+          }
 
         ]
       }
