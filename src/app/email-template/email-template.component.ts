@@ -143,7 +143,6 @@ export class EmailTemplateComponent implements OnInit {
     this.activatedRoute.data.subscribe(result => {
       this.spinnerService.hide();
       this.editOrUpdate = false;
-      if (AppConstants.ACCESS_TOKEN === result.themedata.access_token) {
         if (result.themedata.custom_status_code === 100 && result.themedata.result.length > 0) {
           this.allEmailTemplates = result.themedata.result;
           this.allEmailTemplates2 = result.themedata.result;
@@ -156,7 +155,6 @@ export class EmailTemplateComponent implements OnInit {
           });
           this.filteredThemes = this.allEmailTemplates;
         }
-      }
       // console.log(this.allEmailTemplates);
     },
       error => {

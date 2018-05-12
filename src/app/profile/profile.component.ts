@@ -121,7 +121,6 @@ export class ProfileComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postprofile', formModel)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((data.error) && (data.custom_status_code = 101)) {
               this.alertService.warning('Required parameters are missing');
               this.spinnerService.hide();
@@ -133,7 +132,6 @@ export class ProfileComponent implements OnInit {
             } else if ((data.error) && (data.custom_status_code = 102)) {
               this.alertService.info('Everything is upto date');
             }
-          }
         },
         error => {
           this.loading = false;

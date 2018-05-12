@@ -214,7 +214,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FacebookComponent,
     TwitterUsertimelineComponent,
     TwitterMentionstimelineComponent,
-    SocialLoginComponent
+    SocialLoginComponent,
   ],
   imports: [
     RouterModule.forRoot([], { useHash: true }),
