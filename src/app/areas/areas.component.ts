@@ -56,7 +56,6 @@ export class AreasComponent implements OnInit {
     this.areaService.getAreaData('/flujo_client_getreportarea/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100 && data.result.length > 0) {
               this.areaData = data.result;
             } else if (data.custom_status_code === 101) {
@@ -65,7 +64,6 @@ export class AreasComponent implements OnInit {
             this.spinnerService.hide();
             // this.areaData = data;
             console.log(this.areaData);
-          }
         },
         error => {
           this.spinnerService.hide();
@@ -79,7 +77,6 @@ export class AreasComponent implements OnInit {
     this.areaService.deleteArea('flujo_client_deletereportarea/', area.id)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.alertService.info('Area deleted successfully');
             } else if (data.custom_status_code === 101) {
@@ -89,7 +86,6 @@ export class AreasComponent implements OnInit {
             this.getAreaData();
             this.areaForm.reset();
             this.isEdit = false;
-          }
         },
         error => {
           this.alertService.warning('Something went wrong.');

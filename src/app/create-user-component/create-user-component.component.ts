@@ -103,7 +103,6 @@ export class CreateUserComponentComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletecreateuser/' + user_id)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.alertService.success('User deleted successfully');
               this.getUsersList();
@@ -111,7 +110,6 @@ export class CreateUserComponentComponent implements OnInit {
             } else if (data.custom_status_code === 102) {
               this.alertService.warning('Required parameters are missing!!!');
             }
-          }
           this.spinnerService.hide();
           // console.log(data);
         },
@@ -127,7 +125,6 @@ export class CreateUserComponentComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getcreateuser/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100 && data.result.length > 0) {
               data.result ? this.isEdit = false : this.isEdit = true;
               // console.log(data);
@@ -135,7 +132,6 @@ export class CreateUserComponentComponent implements OnInit {
               // console.log(this.userDetails);
               // console.log(localStorage.getItem('user_id'));
             }
-          }
           this.spinnerService.hide();
         },
         error => {
@@ -185,7 +181,6 @@ export class CreateUserComponentComponent implements OnInit {
     // console.log(userItem);
   }
   parsePostResponse(data) {
-    if (AppConstants.ACCESS_TOKEN === data.access_token) {
       if (data.custom_status_code === 102) {
         this.alertService.warning('Everything is Up-to-date!!!');
       } else if (data.custom_status_code === 100 && (typeof (data.result) === 'object')) {
@@ -207,9 +202,6 @@ export class CreateUserComponentComponent implements OnInit {
       } else if (data.custom_status_code === 130) {
         this.alertService.warning('Failed to create user!!!');
       }
-    } else {
-      this.alertService.warning('You are not authorized person for this action');
-    }
 
     // if (response.result) {
     //   this.alertService.danger('Email ID already existed');
@@ -349,7 +341,6 @@ export class AccessLevelPopup {
       .subscribe(
         data => {
           // this.alertService.success('User access levels updated successfully');
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (!data.error && data.custom_status_code === 100) {
               this.alertService.success('User access levels updated successfully!!!');
             } else if (data.error === true && data.custom_status_code === 102) {
@@ -360,7 +351,6 @@ export class AccessLevelPopup {
             this.spinnerService.hide();
             // this.getAccessLevelData();
             this.closeDialog();
-          }
         },
         error => {
           this.spinnerService.hide();
@@ -375,7 +365,6 @@ export class AccessLevelPopup {
         data => {
           // console.log(data);
           // console.log(this.data);
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.result.length > 0 && data.custom_status_code === 100) {
               this.filteredAccessIds = _.filter(data.result, (item) => {
                 // this.data.id will come from open access dialog and we are comparing selected id and server data id
@@ -396,7 +385,6 @@ export class AccessLevelPopup {
               this.accessLevelData = this.checkBoxNames();
             }
             this.spinnerService.hide();
-          }
         },
         error => {
           // console.log(error);
