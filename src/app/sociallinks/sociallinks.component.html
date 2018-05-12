@@ -50,11 +50,13 @@
     </div>
     <!-- Link Edit Icons -->
     <div *ngIf="!socialitem.editLink" class="linksAction-buttons" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
-      <button (click)="EditSocialLinks(socialitem)" type="button" class="btn">
-        <i class="fa fa-pencil"></i>
+      <button (click)="EditSocialLinks(socialitem)" type="button" class="btn btn-flujo">
+        <!-- <i class="fa fa-pencil"></i> -->
+        <img class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
       </button>
       <button (click)="deleteSocialLinks(socialitem)" type="button" class="btn">
-        <i class="fa fa-trash-o"></i>
+        <!-- <i class="fa fa-trash-o"></i> -->
+        <img class="asset-btn-flujo" src="../assets/icons/remove-icon-active@2x.png">
       </button>
     </div>
     <!-- Link Update Icons -->

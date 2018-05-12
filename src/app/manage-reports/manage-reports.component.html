@@ -91,7 +91,7 @@
           </div>
         </div>
         <mat-accordion>
-          <mat-expansion-panel class="problem-box" *ngFor="let report of filterReportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
+          <mat-expansion-panel class="view_item problem-box" *ngFor="let report of filterReportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
             <mat-expansion-panel-header>
               <div fxLayout="column" fxFlex="100%">
                 <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
@@ -100,7 +100,7 @@
                       <p class="text-muted d-inline">
                         <!-- <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i> -->
-                        <img src="../../assets/icons/move-icon-normal@3x.png" alt="">
+                        <img class="asset-btn-flujo draggon" src="../../assets/icons/move-icon-normal@3x.png" alt="">
                       </p>
                       <mat-checkbox [(ngModel)]="report.selected" class="Check-box-normal" (click)="$event.stopPropagation();" type="checkbox"></mat-checkbox>&nbsp;
                       <p class="name-feedback d-inline">{{report.name}}</p>

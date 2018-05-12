@@ -92,7 +92,14 @@ button.button_cancel:hover {
     opacity: 0;
   }
 }
-
+.asset-btn-flujo{
+  height: auto !important;
+  width:13px !important;
+  opacity: 0.6;
+}
+.asset-btn-flujo:hover{
+  opacity: 1;
+}
 button:disabled {
   cursor: not-allowed !important;
 }
@@ -1143,5 +1150,12 @@ control-messages,
 
 #ifc-app .chatcamp-popup{
   z-index: 99 !important;
+}
+.draggon{
+  visibility: hidden;
+  cursor: pointer;
+}
+.view_item:hover .draggon{
+  visibility: visible;
 }
 
