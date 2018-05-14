@@ -88,6 +88,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.filterReportProblemData = [];
     }
     ngOnInit() {
+        this.spinnerService.show();
         this.getAllReports();
         this.prepareMoveToAutoCompleteOptionsList(this.moveToListOptions);
         this.prepareRemarksAutoCompleteOptionsList(this.RemarksListOptions);
