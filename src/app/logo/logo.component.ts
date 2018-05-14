@@ -18,6 +18,7 @@ import { AccessDataModelComponent } from '../model/useraccess.data.model';
   styleUrls: ['./logo.component.scss'],
 })
 export class LogoComponent implements OnInit {
+  showlayout: boolean;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   logoImage: any;
@@ -194,6 +195,7 @@ export class LogoComponent implements OnInit {
               data ? this.isEdit = false : this.isEdit = true;
               this.alertService.warning('No Data found');
               this.isHide = false;
+              this.showlayout = true;
               this.spinnerService.hide();
             }
           this.loadingSave = false;

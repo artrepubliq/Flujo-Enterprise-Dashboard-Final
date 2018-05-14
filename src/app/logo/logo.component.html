@@ -9,10 +9,10 @@
         <h3 class="header_title">Logo Properties</h3>
       </div>
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
-        <div class="profile_img">
+        <div class="profile_img" [ngClass]="{'wireframe-layout': !logoItems }">
           <div fxLayoutAlign="center center" class="logo-img">
             <span *ngIf="!logoImage"><img src="../assets/default_logo.png" class="img-fluid"></span>
-            <img *ngIf="logoImage" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoImage}}">
+            <img [ngClass]="{'wireframe-layout':showlayout}" *ngIf="logoImage" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoImage}}">
           </div>
           <div class="upload-logo">
             <input mat-raised-button type="file" (change)="onFileChange($event)" accept=".jpg, .png, .jpeg" #fileInput>
@@ -25,22 +25,22 @@
         <div fxLayout="column" fxFlex="40" fxLayoutGap="25px">
           <!-- Logo Text-->
           <div fxLayout="column" class="input_box-view">
-            <label>Logo Text</label>
-            <p>{{logoItems?.logo_text}}</p>
+            <label [ngClass]="{'wireframe-layout': showlayout }">Logo Text</label>
+            <p [ngClass]="{'wireframe-layout': !logoItems }">{{logoItems?.logo_text}}</p>
           </div>
           <!-- Logo Alt Text -->
           <div fxLayout="column" class="input_box-view">
-            <label>Logo Caption</label>
-            <p>{{logoItems?.logo_caption}}</p>
+            <label [ngClass]="{'wireframe-layout': !logoItems }">Logo Caption</label>
+            <p [ngClass]="{'wireframe-layout': showlayout }">{{logoItems?.logo_caption}}</p>
           </div>
           <!-- Logo Width & Height -->
           <div fxLayout="row" class="logo-dimensions" fxLayoutGap="15px">
             <div fxLayout="column" class="input_box-view">
-              <label>Width</label>
+              <label [ngClass]="{'wireframe-layout': !logoItems }" >Width</label>
               <p>{{logoItems?.logo_width}}</p>
             </div>
             <div fxLayout="column" class="input_box-view">
-              <label>Height</label>
+              <label [ngClass]="{'wireframe-layout': !logoItems }">Height</label>
               <p>{{logoItems?.logo_height}}</p>
             </div>
           </div>
@@ -62,16 +62,16 @@
       <div class="profile_body" fxLayout="row" fxLayoutGap="40px">
         <div class="" fxLayout="column" fxLayoutGap="20px">
           <!-- Logo Image Upload -->
-          <div class="profile_img">
+          <div class="profile_img" [ngClass]="{'wireframe-layout': !logoItems }">
             <div fxLayoutAlign="center center" class="logo-img">
-              <span *ngIf="!logoImage"><img src="../assets/default_logo.png" class="img-fluid"></span>
+              <span *ngIf="!logoImage" ></span>
               <img *ngIf="logoImage" alt="upload image" class="figure img-fluid" src="data:image/png;base64,{{logoImage}}">
             </div> 
             <div class="upload-logo">
               <!-- <input mat-raised-button type="file"  (change)="onFileChange($event)" #fileInput> -->
               <p *ngIf="logoImage" class="hover-upload">Upload Logo Image</p>
               <p *ngIf="logoImage" class="hover-upload">Update Logo Image</p>
-              <input mat-raised-button type="file" (change)="onFileChange($event)" accept=".jpg, .png, .jpeg" #fileInput>
+              <input [ngClass]="{'wireframe-layout': !logoItems }" mat-raised-button type="file" (change)="onFileChange($event)" accept=".jpg, .png, .jpeg" #fileInput>
               <button *ngIf="logoImage" class="delete_logo" matTooltip="Delete Image" matTooltipPosition="right" (click)="onDelete()"><i class="fa fa-times"></i></button>
               <div class="bg-layer"></div>
             </div>
@@ -79,30 +79,30 @@
           <!-- Logo File Details -->
           <div class="logo-details">
             <!-- <p class="file_Name">flujo_logo.svg</p> -->
-            <p class="file_Prop">Original : {{logoItems?.logo_width}} px x {{logoItems?.logo_height}} px</p>
+            <p class="file_Prop" [ngClass]="{'wireframe-layout': !logoItems }">Original : {{logoItems?.logo_width}} px x {{logoItems?.logo_height}} px</p>
           </div>
         </div>
         <div fxLayout="column" fxFlex fxFlex.lg="52" fxLayoutGap="25px">
           <!-- Logo Text-->
           <div class="input_box" fxLayout="column">
-            <label>Logo Text</label>
-            <input type="text" formControlName="logo_text" id="logo_text" placeholder="Enter Logo Text">
+            <label [ngClass]="{'wireframe-layout': !logoItems }">Logo Text</label>
+            <input [ngClass]="{'wireframe-layout': !logoItems }" type="text" formControlName="logo_text" id="logo_text" placeholder="Enter Logo Text">
           </div>
           <!-- Logo Alt Text -->
           <div class="input_box" fxLayout="column">
-            <label>Logo Caption</label>
-            <input type="text" placeholder="Enter Alt Text" id="logo_caption" formControlName="logo_caption">
+            <label [ngClass]="{'wireframe-layout': !logoItems }">Logo Caption</label>
+            <input [ngClass]="{'wireframe-layout': !logoItems }" type="text" placeholder="Enter Alt Text" id="logo_caption" formControlName="logo_caption">
           </div>
           <!-- Logo Width & Height -->
           <div fxLayout="row" class="logo-dimensions input_box" fxLayoutGap="15px">
             <div  fxLayout="column">
-              <label>Width</label>
-              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width"
+              <label [ngClass]="{'wireframe-layout': !logoItems }">Width</label>
+              <input [ngClass]="{'wireframe-layout': !logoItems }" type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_width"
                 placeholder="Logo width" formControlName="logo_width">
             </div>
             <div fxLayout="column">
-              <label>Height</label>
-              <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_height"
+              <label [ngClass]="{'wireframe-layout': !logoItems }">Height</label>
+              <input [ngClass]="{'wireframe-layout': !logoItems }" type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="logo_height"
                 placeholder="Logo height" formControlName="logo_height">
             </div>
           </div>
@@ -111,8 +111,8 @@
       <!-- Save Button -->
       <div class="profile_footer" fxLayoutAlign="end center">
         <!-- <p>You can also resize and position logo, when you are in visual editor</p> -->
-        <button mat-button class="button_cancel" (click)="cancelFileEdit()">Cancel</button>
-        <button mat-button class="button_submit" [disabled]="form.invalid || loadingSave">Save</button>
+        <button [ngClass]="{'wireframe-layout': !logoItems }" mat-button class="button_cancel" (click)="cancelFileEdit()">Cancel</button>
+        <button [ngClass]="{'wireframe-layout': !logoItems }" mat-button class="button_submit" [disabled]="form.invalid || loadingSave">Save</button>
         <!-- <button mat-button class="logoCtrl_button" (click)="onDelete(form.value)" [disabled]="form.invalid || loadingSave">Delete</button> -->
       </div>
     </form>

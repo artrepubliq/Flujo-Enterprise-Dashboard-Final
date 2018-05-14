@@ -276,11 +276,13 @@ button:disabled {
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
 input[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -1158,4 +1160,14 @@ control-messages,
 .view_item:hover .draggon{
   visibility: visible;
 }
-
+.profile_block{
+  .wireframe-layout{
+    background-color: #dbdbdb!important;
+    color: #dbdbdb!important;
+    width:max-content;
+    border-color: #dbdbdb!important;
+  }
+  ::placeholder {
+    color: #dbdbdb!important;
+  }
+}
