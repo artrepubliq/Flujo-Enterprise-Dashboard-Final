@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-alerts';
-import {LocationStrategy, HashLocationStrategy} from '@angular/common';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 // import { Chart } from 'chart.js';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -122,17 +122,6 @@ import { TwitterServiceService } from './service/twitter-service.service';
 import { FacebookComponent } from './facebook/facebook.component';
 import { MessageCompose } from './dialogs/social-compose/social-compose-message';
 import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
-import { TwitterUsertimelineComponent } from './directives/twitter/twitter-usertimeline/twitter-usertimeline.component';
-import { TwitterMentionstimelineComponent } from './directives/twitter/twitter-mentionstimeline/twitter-mentionstimeline.component';
-
-
-
-
-
-
-
-
-
 import { WindowRef } from './admin/window.service';
 import { SocialLoginComponent } from './social-login/social-login.component';
 
@@ -271,23 +260,23 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     PapaParseModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
+    AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
     MessageCompose],
   providers: [
-              // AuthService,
-              HttpService,
-              ValidationService,
-              NgxSmartLoaderService,
-              LoginAuthService,
-              GalleryImagesService,
-              FBService,
-              ProblemTypeService,
-              AreaService,
-              {provide: DateAdapter, useClass: DateFormat},
-              SmsTemplateSelectService,
-              SmsTemplateSelectService,
-              WindowRef,
+    // AuthService,
+    HttpService,
+    ValidationService,
+    NgxSmartLoaderService,
+    LoginAuthService,
+    GalleryImagesService,
+    FBService,
+    ProblemTypeService,
+    AreaService,
+    { provide: DateAdapter, useClass: DateFormat },
+    SmsTemplateSelectService,
+    SmsTemplateSelectService,
+    WindowRef,
 
     // AuthService,
     HttpService,
@@ -299,43 +288,29 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProblemTypeService,
     AreaService,
     { provide: DateAdapter, useClass: DateFormat },
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
-              SmsTemplateSelectService,
-              EmailTemplateResolver,
-              EmailTemplateService,
-              EditorSelectionService,
-              ManageReportsResolver,
-              ManageReportService,
-              FeedbackResolver,
-              FeedbackService,
-              DataBaseResolver,
-              DataBaseService,
-
-              AuthInterceptorService,
-              {
-              provide: AuthHttp,
-              useFactory: authHttpServiceFactory,
-              deps: [Http, RequestOptions]
-              },
-              {
-                provide: HTTP_INTERCEPTORS,
-                useClass: TokenInterceptor,
-                multi: true
-              },
-
-              TwitterServiceService,
-              // AuthInterceptorService,
-              // {
-              // provide: AuthHttp,
-              // useFactory: authHttpServiceFactory,
-              // deps: [Http, RequestOptions]
-              // },
-              // {
-              //   provide: HTTP_INTERCEPTORS,
-              //   useClass: TokenInterceptor,
-              //   multi: true
-              // }
-
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    SmsTemplateSelectService,
+    EmailTemplateResolver,
+    EmailTemplateService,
+    EditorSelectionService,
+    ManageReportsResolver,
+    ManageReportService,
+    FeedbackResolver,
+    FeedbackService,
+    DataBaseResolver,
+    DataBaseService,
+    AuthInterceptorService,
+    TwitterServiceService,
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
 
     { provide: DateAdapter, useClass: DateFormat }
 
