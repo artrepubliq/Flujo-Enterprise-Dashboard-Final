@@ -201,8 +201,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     TwitterTimelineDirective,
     MessageCompose,
     FacebookComponent,
-    TwitterUsertimelineComponent,
-    TwitterMentionstimelineComponent,
     SocialLoginComponent,
   ],
   imports: [
