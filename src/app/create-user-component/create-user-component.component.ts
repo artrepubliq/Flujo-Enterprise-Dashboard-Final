@@ -365,7 +365,9 @@ export class AccessLevelPopup {
         data => {
           // console.log(data);
           // console.log(this.data);
+
           //  {
+
             if (data.result.length > 0 && data.custom_status_code === 100) {
               this.filteredAccessIds = _.filter(data.result, (item) => {
                 // this.data.id will come from open access dialog and we are comparing selected id and server data id
@@ -386,7 +388,9 @@ export class AccessLevelPopup {
               this.accessLevelData = this.checkBoxNames();
             }
             this.spinnerService.hide();
+
           // }
+
         },
         error => {
           // console.log(error);

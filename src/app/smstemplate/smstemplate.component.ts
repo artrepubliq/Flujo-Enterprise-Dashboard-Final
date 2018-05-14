@@ -89,7 +89,6 @@ export class SmstemplateComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postsmstemplateconfig', formModel)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if (!data.error && data.custom_status_code === 100) {
               this.alertService.success('Template data submitted successfully');
               this.spinnerService.hide();
@@ -106,7 +105,6 @@ export class SmstemplateComponent implements OnInit {
               this.alertService.warning('Everything is upto date');
               this.spinnerService.hide();
             }
-          }
           this.spinnerService.hide();
         },
         error => {
