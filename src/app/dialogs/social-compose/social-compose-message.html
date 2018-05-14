@@ -2,55 +2,22 @@
     <div class="col-list-accounts" fxLayout="column" fxFlex="37">
         <div fxLayout="row">
             <ul fxFlex="100%">
-                <li fxLayoutAlign="space-between center">
+                <li fxLayoutAlign="space-between center" *ngFor="let twitUser of data.data">
                     <label class="d-inline">
-                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Art Republiq</label>
+                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;{{twitUser.screen_name}}</label>
                     <span class="pull-right">
-                        <i class="fa fa-twitter"></i>
+
+                        <i *ngIf="data.type == 'twitter'" class="fa fa-twitter"></i>
+                        <i *ngIf="data.type == 'facebook' "class="fa fa-facebook"></i>
                     </span>
                 </li>
-                <li fxLayoutAlign="space-between center">
+                <!-- <li fxLayoutAlign="space-between center">
                     <label class="d-inline">
                         <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Dasyam Abhinav</label>
                     <span class="pull-right">
                         <i class="fa fa-facebook"></i>
                     </span>
-                </li>
-                <li fxLayoutAlign="space-between center">
-                    <label class="d-inline">
-                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Dasyam Official</label>
-                    <span class="pull-right">
-                        <i class="fa fa-facebook"></i>
-                    </span>
-                </li>
-                <li fxLayoutAlign="space-between center">
-                    <label class="d-inline">
-                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Dasyam Vinay Bhaskar</label>
-                    <span class="pull-right">
-                        <i class="fa fa-facebook"></i>
-                    </span>
-                </li>
-                <li fxLayoutAlign="space-between center">
-                    <label class="d-inline">
-                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Orugallu kala Vaibhavam</label>
-                    <span class="pull-right">
-                        <i class="fa fa-facebook"></i>
-                    </span>
-                </li>
-                <li fxLayoutAlign="space-between center">
-                    <label class="d-inline">
-                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Valmiki Waranagal</label>
-                    <span class="pull-right">
-                        <i class="fa fa-twitter"></i>
-                    </span>
-                </li>
-                <li fxLayoutAlign="space-between center">
-                    <label class="d-inline">
-                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;Naresh Bingi</label>
-                    <span class="pull-right">
-                        <i class="fa fa-twitter"></i>
-                    </span>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
