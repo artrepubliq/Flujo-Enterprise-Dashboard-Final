@@ -98,6 +98,13 @@
   .fa-folder-open {
     display: none;
   }
+  .folder-icon-hover {
+    display: none;
+  }
+  .asset-drive-flujo{
+    height: 18px !important;
+    width: auto !important;
+  }
 }
 
 .floder_block.active,
@@ -108,10 +115,10 @@
 }
 
 .floder_block.active {
-  .fa-folder-o {
+  .folder-icon-normal {
     display: none;
   }
-  .fa-folder-open {
+  .folder-icon-hover {
     display: block;
     margin-right: 15px;
   }
