@@ -11,6 +11,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatTabChange
 import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
 import * as moment from 'moment';
 import { MessageCompose } from '../dialogs/social-compose/social-compose-message';
+import { HttpHeaders } from '@angular/common/http';
+import { TwitterServiceService } from '../service/twitter-service.service';
+import { ITwitterUserProfile, ITwitUser } from '../model/twitter/twitter.model';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +21,8 @@ import { MessageCompose } from '../dialogs/social-compose/social-compose-message
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
+  // public social_users_info: { twitter: ITwitterUserProfile[], facebook: any };
+  public twitUserInfo: ITwitUser;
   test: FormGroup;
   test1: string;
   test2: string;
@@ -39,7 +44,8 @@ export class SocialManagementComponent implements OnInit {
   public tab_index: number;
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
-    private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent) {
+    private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent,
+    private twitterService: TwitterServiceService) {
     this.fbResponseData = <IFBFeedArray>{};
     this.fbResponseDataItems = [];
     fbService.FBInit();
@@ -61,6 +67,8 @@ export class SocialManagementComponent implements OnInit {
       this.test.controls['test4'].setValue('test4');
     }.bind(this), 3000);
 
+    this.getTwitterUserProfiles();
+
   }
 
   public tabChanged(event: MatTabChangeEvent) {
@@ -74,7 +82,7 @@ export class SocialManagementComponent implements OnInit {
       panelClass: 'app-full-bleed-dialog',
       width: '45vw',
       height: '61vh',
-      data: '',
+      data: this.twitUserInfo
     });
     this.highLighted = 'show-class';
     dialogRef.afterClosed().subscribe(result => {
@@ -154,6 +162,32 @@ export class SocialManagementComponent implements OnInit {
       .catch((err: Error) => {
         console.log(err);
       });
+  }
+
+  /**
+   * this is to get twittter user profile data.
+   */
+
+  public getTwitterUserProfiles(): void {
+
+    const headersObject = {
+      twitter_access_token: localStorage.getItem('twitter_access_token'),
+      token_expiry_date: localStorage.getItem('token_expiry_date')
+    };
+
+    const headers = new HttpHeaders(headersObject);
+    this.twitterService.getTwitterUserProfiles(headers)
+      .subscribe(
+        result => {
+          this.twitUserInfo = result;
+          this.twitUserInfo.type = 'twitter';
+
+          // this.social_users_info.twitter = this.twitUserInfo;
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 }
 

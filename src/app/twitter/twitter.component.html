@@ -1,6 +1,6 @@
-<div *ngIf="showSignIn">
-  <!-- <input type="text" [(ngModel)]="status">
-    <button (click)="postStatus()">Post status</button> -->
+<div>
+  <!-- <div *ngIf="showSignIn"> -->
+  <!-- <button (click)="postStatus()">Post status</button>  -->
   <button (click)="signInTwitter()"> Sign in for twitter</button>
   <a [attr.href]="twitterUserLogin" target="_blank"> sign in for twitter</a>
 </div>
@@ -10,7 +10,7 @@
   <div class="social-tabs-hub-inner" [perfectScrollbar]="config">
     <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
       <div class="col-md-4" *ngIf="twitHomeTimeLine">
-        <div class="social-card" [perfectScrollbar]="config">
+        <div class="social-card" [perfectScrollbar]="config" (psYReachEnd)="homeTimeLineScrollEvent($event)" #homeTimeLine>
           <app-twitter-timeline [twitTimeLine]="twitHomeTimeLine" [header_title]="timeline"></app-twitter-timeline>
         </div>
       </div>
