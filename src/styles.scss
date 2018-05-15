@@ -1162,12 +1162,41 @@ control-messages,
 }
 .profile_block{
   .wireframe-layout{
-    background-color: #dbdbdb!important;
-    color: #dbdbdb!important;
+    background-color: #eaeaea !important;
+    color: #eaeaea !important;
     width:max-content;
-    border-color: #dbdbdb!important;
+    border-color: #eaeaea !important;
+    position: relative;
+    overflow: hidden;
   }
   ::placeholder {
-    color: #dbdbdb!important;
+    color: #eaeaea !important;
   }
+  @keyframes placeHolderShimmer{
+    0%{
+        left:  -100%
+    }
+    50%{
+      left: 50%
+    }
+    100%{
+       left : 100% 
+    }
+}
+
+  .wireframe-layout::before{
+    content: ' ';
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    top: -150%;
+    right: 0%;
+    bottom: -50%;
+    left: 0%;
+    position: absolute;
+    background: linear-gradient(to right, #efefef 30%, #efefef 60%, #efefef 30%);
+    transform: skewX(45deg);
+}
 }
