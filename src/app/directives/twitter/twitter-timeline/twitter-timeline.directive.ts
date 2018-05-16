@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ITwitterTimelineObject } from '../../../model/twitter/twitter.model';
+import { TwitterServiceService } from '../../../service/twitter-service.service';
 
 @Component({
   selector: 'app-twitter-timeline',
@@ -12,18 +13,67 @@ export class TwitterTimelineDirective implements OnInit {
 
   @Input() twitTimeLine: ITwitterTimelineObject[];
   @Input() header_title: string;
-  constructor() { }
+  constructor(
+    private twitterService: TwitterServiceService
+  ) { }
 
   ngOnInit() {
     console.log((this.twitTimeLine));
-    this.twitTimeLine.map(object => {
-      // if (object.entities.media) {
-      //   console.log(object.entities.media[0].media_url);
-      // }
-      // const now = Date.now();
-      // console.log(now);
-    });
+    // this.twitTimeLine.map(object => {
+    //   // if (object.entities.media) {
+    //   //   console.log(object.entities.media[0].media_url);
+    //   // }
+    //   // const now = Date.now();
+    //   // console.log(now);
+    // });
+  }
 
+  /**
+   * this is a function to delete tweet
+   * @param tweetid this is the tweet id we need to delete
+   */
+  public deleteTweet(timeline: ITwitterTimelineObject): void {
+    console.log(timeline);
+    const params = { id: timeline.id_str };
+
+    this.twitterService.deleteTweetOfId(params)
+      .subscribe(
+        result => {
+          if (!result.data.errors) {
+            console.log(result.data);
+          } else {
+            console.log(result.data.errors);
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  /**
+   * THis is for retweeting the tweet or status
+   * @param timeline this is the timeline object(tweet or status object)
+   */
+  public retweet(timeline: ITwitterTimelineObject) {
+    console.log(timeline);
+    if (timeline.retweeted) {
+      return;
+    } else {
+      const params = { id: timeline.id_str };
+      this.twitterService.retweetOfId(params).subscribe(
+        result => {
+          if (!result.data.errors) {
+            timeline.retweet_count = result.data.retweet_count;
+          } else {
+            console.log(result.data.errors);
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
   }
 
 }

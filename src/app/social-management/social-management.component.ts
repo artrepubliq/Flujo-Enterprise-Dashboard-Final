@@ -85,8 +85,26 @@ export class SocialManagementComponent implements OnInit {
       data: this.twitUserInfo
     });
     this.highLighted = 'show-class';
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(status => {
       console.log('The dialog was closed');
+      if (status !== undefined) {
+
+        // this.twitUserInfo;
+        console.log(status);
+        this.twitterService.postStatusOnTwitter(status)
+          .subscribe(
+            result => {
+              if (result.data.errors && result.data.errors.length > 0) {
+                console.log(result.data.errors);
+              } else {
+                console.log('status posted successfully');
+              }
+            },
+            error => {
+              console.log(error);
+            }
+          );
+      }
       this.highLighted = 'hide-class';
     });
   }

@@ -42,8 +42,9 @@ export class TwitterComponent implements OnInit {
   public status: string;
 
   ngOnInit() {
-
-    this.getTimeLines();
+    if (this.twitHomeTimeLine === undefined) {
+      this.getTimeLines();
+    }
   }
   /*
    * this is the function when a user tries to log in
@@ -124,8 +125,10 @@ export class TwitterComponent implements OnInit {
       .subscribe(
         result => {
           console.log(result.data);
+          if (!result.error) {
+            this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
+          }
           console.log(this.twitHomeTimeLine);
-          this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
           console.log(this.twitHomeTimeLine);
         },
         error => {
