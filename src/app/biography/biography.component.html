@@ -1,66 +1,111 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000">
 </ngx-alerts>
-<div class="flujo_card_block bio_graphy" fxLayoutAlign="center center">
-  <form action="" [formGroup]="biographySubmitForm" (submit)="onSubmit()" class="card_block">
-    <div class="card_header">
-      <h3 class="header_title">Biography</h3>
+<div class="page_padding" fxLayout="column" fxLayoutGap="15px">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex>
+      <h6 class="social">Biography</h6>
     </div>
-    <div fxLayout="column" class="card_body" fxLayoutGap="15px">
-
-      <div class="custom_input_mat" fxLayout="column" fxLayoutGap="12px">
-        <p>Position</p>
-        <mat-form-field class="select_dropdown" fxFlex>
-          <input matInput type="text" placeholder="Career Position" formControlName="career_position">
-        </mat-form-field>
+    <div fxFlex>
+      <button (click)="addNewItem()" class="choose_button">Add New Link
+        <span class="add_icon">
+          <img src="../../assets/icons/create-icon-normal@3x.png" alt="+">
+        </span>
+      </button>
+    </div>
+  </div>
+  <!-- Add new  -->
+  <div class="flujo_card_block bio_graphy" fxLayoutAlign="center center" [hidden]="showAdd">
+    <form action="" [formGroup]="biographySubmitForm" (submit)="onSubmit()" class="card_block">
+      <div class="card_header">
+        <h3 class="header_title">Biography</h3>
       </div>
-
-      <div class="custom_input_mat" fxLayout="row" fxLayoutGap="20px">
-        <div fxFlex fxLayout="column" fxLayoutGap="12px">
-          <p>From</p>
-          <mat-form-field class="select_dropdown">
-            <input matInput [min]="minDate" formControlName="from_year" [max]="maxDate" [matDatepicker]="picker1" placeholder="From date"
-              (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker touchUi="true" startView="year" [startAt]="startDate" #picker1></mat-datepicker>
+      <div fxLayout="column" class="card_body" fxLayoutGap="15px">
+        <div class="custom_input_mat" fxLayout="column" fxLayoutGap="12px">
+          <p>Position</p>
+          <mat-form-field class="select_dropdown" fxFlex>
+            <input matInput type="text" placeholder="Career Position" formControlName="career_position">
           </mat-form-field>
         </div>
 
-        <div fxFlex fxLayout="column" fxLayoutGap="12px">
-          <p>To</p>
-          <mat-form-field class="select_dropdown">
-            <input matInput [min]="minDate" formControlName="to_year" [max]="maxDate" [matDatepicker]="picker2" placeholder="To date"
-              (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker touchUi="true" startView="year" [startAt]="startDate2" #picker2></mat-datepicker>
+        <div class="custom_input_mat" fxLayout="row" fxLayoutGap="20px">
+          <div fxFlex fxLayout="column" fxLayoutGap="12px">
+            <p>From</p>
+            <mat-form-field class="select_dropdown">
+              <input matInput [min]="minDate" formControlName="from_year" [max]="maxDate" [matDatepicker]="picker1" placeholder="From date"
+                (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker touchUi="true" startView="year" [startAt]="startDate" #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex fxLayout="column" fxLayoutGap="12px">
+            <p>To</p>
+            <mat-form-field class="select_dropdown">
+              <input matInput [min]="minDate" formControlName="to_year" [max]="maxDate" [matDatepicker]="picker2" placeholder="To date"
+                (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker touchUi="true" startView="year" [startAt]="startDate2" #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="custom_input_mat" fxLayout="column" fxLayoutGap="12px">
+          <p>Career Description</p>
+          <mat-form-field class="select_dropdown textarea_mat_custom" fxFlex>
+            <textarea matInput type="text" placeholder="Career Description" formControlName="career_description"></textarea>
           </mat-form-field>
         </div>
-      </div>
 
-      <div class="custom_input_mat" fxLayout="column" fxLayoutGap="12px">
-        <p>Career Description</p>
-        <mat-form-field class="select_dropdown textarea_mat_custom" fxFlex>
-          <textarea matInput type="text" placeholder="Career Description" formControlName="career_description"></textarea>
-        </mat-form-field>
-      </div>
-
-      <div>
-        <div class="bio_colorPicker" fxLayout="column" fxLayoutGap="12px">
-          <label for="background_color" class="input_title">Module Background Color</label>
-          <div fxFlex style="position:relative">
-            <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="biographySubmitForm.get('background_color').setValue($event)"
-              [(colorPicker)]="bgColor" formControlName="background_color" id="background_color" [style.background]="bgColor"
-              [style.color]="bgColor" [cpSaveClickOutside]="true" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
-            />
-            <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
+        <div>
+          <div class="bio_colorPicker" fxLayout="column" fxLayoutGap="12px">
+            <label for="background_color" class="input_title">Module Background Color</label>
+            <div fxFlex style="position:relative">
+              <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="biographySubmitForm.get('background_color').setValue($event)"
+                [(colorPicker)]="bgColor" formControlName="background_color" id="background_color" [style.background]="bgColor"
+                [style.color]="bgColor" [cpSaveClickOutside]="true" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
+              />
+              <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="card_footer" fxLayoutAlign="end center">
-      <div>
-        <button mat-button class="button_submit" type="submit" [disabled]="biographySubmitForm.invalid">Save</button>
+      <div class="card_footer" fxLayoutAlign="end center">
+        <div>
+          <p mat-button (click)="showListView()">Go Back</p>
+          <button mat-button class="button_submit" type="submit" [disabled]="biographySubmitForm.invalid">Save</button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
+  <!-- end of add new -->
+  <!-- list view -->
+  <!-- View/Edit Links -->
+  <div [hidden]="!showList">
+      <div *ngFor="let item of biographyData" class="link-row input_box" fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between center">
+          <div class="link_name" fxFlex="180px" fxFlex.lt-md="120px" fxLayoutAlign="start center">
+            <p>{{item.career_position}}</p>
+          </div>
+          <div fxFlex class="link-url" fxLayoutAlign="start center">
+            <p>{{item.from_year | date:'shortDate'}}</p>
+            <!-- <input *ngIf="socialitem.editLink" (change)='modifyLink($event, socialitem)' type="text" id="socialitem_name" value="{{socialitem?.socialitem_url}}"> -->
+          </div>
+          <div fxFlex class="link-url" fxLayoutAlign="start center">
+              <p>{{item.to_year | date:'shortDate'}}</p>
+              <!-- <input *ngIf="socialitem.editLink" (change)='modifyLink($event, socialitem)' type="text" id="socialitem_name" value="{{socialitem?.socialitem_url}}"> -->
+            </div>
+            <div class="link_name" fxFlex="180px" fxFlex.lt-md="120px" fxLayoutAlign="start center">
+                <p>{{item.career_description}}</p>
+              </div>
+          <!-- Link Edit Icons -->
+          <div class="linksAction-buttons" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
+            <!-- <button type="button" class="btn">
+              Edit
+            </button> -->
+            <button (click)="deleteItem(item.id)" type="button" class="btn btn-sm btn-danger">
+              Delete
+            </button>
+          </div>
+        </div>
+  </div>
 </div>
