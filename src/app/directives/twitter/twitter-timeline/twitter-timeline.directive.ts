@@ -76,4 +76,44 @@ export class TwitterTimelineDirective implements OnInit {
     }
   }
 
+  /**
+   * THis is for posting favorite the tweet or status
+   * @param timeline this is the timeline object(tweet or status object)
+   */
+  public favorite(timeline: ITwitterTimelineObject) {
+    console.log(timeline);
+    const params = { id: timeline.id_str };
+    if (timeline.favorited) {
+      // postUndoFavorite
+      this.twitterService.postUndoFavorite(params).subscribe(
+        result => {
+          if (!result.data.errors) {
+            console.log(result);
+            timeline.favorited = false;
+          } else {
+            console.log(result.data.errors);
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else {
+      this.twitterService.postFavorite(params).subscribe(
+        result => {
+          if (!result.data.errors) {
+            console.log(result);
+            timeline.favorited = true;
+          } else {
+            console.log(result.data.errors);
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+
 }

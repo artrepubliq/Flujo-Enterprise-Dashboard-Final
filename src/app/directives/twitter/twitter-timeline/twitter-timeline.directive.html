@@ -52,7 +52,7 @@
         <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
           <div>
             <span class="icons-default">
-              <img src="../assets/social/like-icon-normal@3x.png" class="">&nbsp; Like
+              <img src="../assets/social/like-icon-normal@3x.png" (click)="favorite(timeline)" class="">&nbsp; Like
             </span>
             <span>{{timeline.favorite_count}}</span>
           </div>
