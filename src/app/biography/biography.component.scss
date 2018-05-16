@@ -1,3 +1,4 @@
+
 .bio_colorPicker {
   input {
     width: 30px;
@@ -7,3 +8,115 @@
     border: 1px solid #333;
   }
 }
+
+
+// css from social links
+
+.btn-social {
+  border-radius: 35px !important;
+  vertical-align: middle;
+  border: solid 1.5px #4a2565;
+  font-family: Roboto;
+  font-size: 14px;
+  padding: 4px 10px;
+  font-weight: 500;
+  color: #4a2565;
+}
+
+.btn-social:hover {
+  background-color: #4a2565;
+  color: #fff;
+  border-color: transparent;
+}
+
+.social {
+  font-size: 30px;
+  font-weight: 300;
+  color: #666666;
+}
+
+.link-row {
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+  padding: 20px 40px;
+  position: relative;
+  .link_name {
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #666666;
+    margin: 0;
+  }
+  .link-url {
+    p {
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: #919191;
+      margin: 0;
+      line-height: 40px;
+      height: 40px;
+      padding: 0 20px;
+    }
+  }
+}
+
+.linksAction-buttons {
+  button {
+    color: #c1c1c1;
+    background: transparent;
+  }
+  button:hover {
+    color: #666666;
+  }
+}
+
+.linksAction-buttons.edit-mode {
+  button {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: solid 1px #000;
+    text-align: center;
+    border-radius: 50px;
+    padding-bottom: 0;
+    img {
+      max-width: 11px;
+      vertical-align: initial;
+    }
+  }
+  button.save {
+    border-color: #50d166;
+  }
+  button.cancel {
+    border-color: #f13a30;
+  }
+}
+
+.social-edit {
+  .form-input-block {
+    margin-bottom: 15px;
+    label {
+      min-width: 100px;
+    }
+    .form-control {
+      box-shadow: none;
+      outline: none;
+      width: auto;
+      display: initial;
+      margin-left: 15px;
+    }
+  }
+}
+
+
+// end of social links css
