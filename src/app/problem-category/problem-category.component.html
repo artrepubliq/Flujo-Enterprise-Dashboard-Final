@@ -34,8 +34,9 @@
     <div *ngFor="let problem of problemTypeData" class="view_item problem_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
       <div class="name" fxFlex="25%">
           <span class="text-muted d-inline">
-              <i class="fa fa-ellipsis-v"></i>
-              <i class="fa fa-ellipsis-v"></i>
+              <!-- <i class="fa fa-ellipsis-v"></i>
+              <i class="fa fa-ellipsis-v"></i> -->
+          <img class="asset-btn-flujo draggon" src="../assets/icons/move-icon-normal@3x.png">                
         </span>&nbsp;&nbsp;
         <input [(ngModel)]="problem.selected" class="d-inline pc-checkbox" type="checkbox">&nbsp;&nbsp;
         <p class="d-inline">{{problem.problem_type}}</p>
@@ -51,13 +52,16 @@
       </div>
       <div class="btn-stack" fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
         <button (click)="openDialog(problem)" type="button" class="btn">
-          <i class="fa fa-pencil"></i>
+          <!-- <i class="fa fa-pencil"></i> -->
+          <img class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
         </button>
         <button type="button" class="btn">
-          <i class="fa fa-eye"></i>
+          <!-- <i class="fa fa-eye"></i> -->
+          <img class="btn-flujo asset-btn-flujo" src="../assets/icons/permissions-icon-normal@3x.png">
         </button>
         <button (click)="deleteProblem(problem)" type="button" class="btn">
-          <i class="fa fa-trash"></i>
+          <!-- <i class="fa fa-trash"></i> -->
+          <img class="asset-btn-flujo" src="../assets/icons/remove-icon-active@2x.png">
         </button>
       </div>
     </div>

@@ -42,12 +42,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="btn-stack" *ngFor="let user of userDetails" [hidden]="loggedInUser(user.id)">
+              <tr class="view_item btn-stack" *ngFor="let user of userDetails" [hidden]="loggedInUser(user.id)">
                 <td class="user_name" scope="col" colspan="2">
                   <span fxLayoutGap="0.5rem" class="d-inline">
                     <p class="text-muted d-inline">
-                      <i class="fa fa-ellipsis-v"></i>
-                      <i class="fa fa-ellipsis-v"></i>
+                      <!-- <i class="fa fa-ellipsis-v"></i>
+                      <i class="fa fa-ellipsis-v"></i> -->
+                      <img class="asset-btn-flujo draggon" src="../assets/icons/move-icon-normal@3x.png">  
                     </p>
                     <input [(ngModel)]="user.selected" class="pc-checkbox" type="checkbox">
                     <p class="name-feedback d-inline">{{user.name}}</p>
@@ -60,17 +61,20 @@
                 <td *ngIf="user.role==2">Content Manager</td>
                 <td class="btn-usert">
                   <button (click)="editCompnent(user)" type="button" class="btn">
-                    <i class="fa fa-pencil"></i>
+                    <!-- <i class="fa fa-pencil"></i> -->
+                    <img class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
                   </button>
                 </td>
                 <td class="btn-usert">
                   <button type="button" class="btn" (click)="openAccessDialog(user)">
-                    <i class="fa fa-eye"></i>
+                    <!-- <i class="fa fa-eye"></i> -->
+                    <img class="btn-userflujo asset-btn-flujo" src="../assets/icons/permissions-icon-normal@3x.png">
                   </button>
                 </td>
                 <td class="btn-usert">
                   <button (click)="onDelete(user)" type="button" class="btn">
-                    <i class="fa fa-trash"></i>
+                    <!-- <i class="fa fa-trash"></i> -->
+                    <img class="asset-btn-flujo" src="../assets/icons/remove-icon-active@2x.png">
                   </button>
                 </td>
               </tr>

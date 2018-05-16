@@ -92,7 +92,14 @@ button.button_cancel:hover {
     opacity: 0;
   }
 }
-
+.asset-btn-flujo{
+  height: auto !important;
+  width:13px !important;
+  opacity: 0.6;
+}
+.asset-btn-flujo:hover{
+  opacity: 1;
+}
 button:disabled {
   cursor: not-allowed !important;
 }
@@ -269,11 +276,13 @@ button:disabled {
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
 input[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -1144,4 +1153,50 @@ control-messages,
 #ifc-app .chatcamp-popup{
   z-index: 99 !important;
 }
+.draggon{
+  visibility: hidden;
+  cursor: pointer;
+}
+.view_item:hover .draggon{
+  visibility: visible;
+}
+.profile_block{
+  .wireframe-layout{
+    background-color: #eaeaea !important;
+    color: #eaeaea !important;
+    width:max-content;
+    border-color: #eaeaea !important;
+    position: relative;
+    overflow: hidden;
+  }
+  ::placeholder {
+    color: #eaeaea !important;
+  }
+  @keyframes placeHolderShimmer{
+    0%{
+        left:  -100%
+    }
+    50%{
+      left: 50%
+    }
+    100%{
+       left : 100% 
+    }
+}
 
+  .wireframe-layout::before{
+    content: ' ';
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    top: -150%;
+    right: 0%;
+    bottom: -50%;
+    left: 0%;
+    position: absolute;
+    background: linear-gradient(to right, #efefef 30%, #efefef 60%, #efefef 30%);
+    transform: skewX(45deg);
+}
+}
