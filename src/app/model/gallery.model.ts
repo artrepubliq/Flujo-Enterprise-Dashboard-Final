@@ -3,12 +3,14 @@ export interface IGalleryObject {
     client_id?: string;
     title: string;
     images: IGalleryImageItem[];
+    album_id: string;
   }
   export interface IGalleryImageItem {
     id: string;
     description?: string;
     title?: string;
     order?: string;
+    album_id: string;
   }
 
 
@@ -18,14 +20,14 @@ export interface IGalleryObject {
     id: string;
     title: string;
     description: string;
-    image: string;
+    images: string;
     order: string;
   }
 
   // base 64 images interface
   export interface IBase64Images {
     id: string;
-    image: string;
+    images: string;
   }
 
   // interface to upload the images

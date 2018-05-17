@@ -5,7 +5,7 @@
   <!-- === Buttons ==== -->
   <div fxLayout="row" fxLayoutAlign="space-between center" class="addview-buttons">
     <div *ngIf="isEdit" class="page-header">
-      <span>New page creation </span>
+      <!-- <span>New page creation </span> -->
     </div>
     <div *ngIf="isGridView" class="main-category">
       <h6>Main Category</h6>
@@ -50,7 +50,7 @@
           </div> -->
 
           <div class="select_dropdown_mat">
-            <mat-select placeholder="Select" formControlName="parent_id" id="parent_id" [(ngModel)]="selectedValue" name="food">
+            <mat-select placeholder="Select" formControlName="parent_id" id="parent_id">
               <mat-option *ngFor="let parent of parentPageDetails" [value]="parent.id">
                   {{parent.id}}-{{parent.component_name}}
               </mat-option>

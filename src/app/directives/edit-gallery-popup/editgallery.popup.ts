@@ -16,6 +16,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
   constructor(private formBuilder: FormBuilder , public dialogRef: MatDialogRef<EditGalleryItems>,
      @Inject(MAT_DIALOG_DATA) public data: any) {
+       console.log(this.data);
       this.albumItemForm = this.formBuilder.group({
         id: [null],
         title: ['', Validators.required],
@@ -26,7 +27,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
       this.albumItemForm.controls['title'].setValue(data[0].title);
       this.albumItemForm.controls['description'].setValue(data[0].description);
       this.albumItemForm.controls['order'].setValue(data[0].order);
-      this.image = data[0].image;
+      this.image = data[0].images;
 
  }
  onSubmit(data) {

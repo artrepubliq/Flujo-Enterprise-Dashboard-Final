@@ -261,7 +261,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.form.controls['component_order'].setValue(pageData.component_order);
             this.form.controls['parent_id'].setValue(pageData.parent_id);
             this.dummy = pageData.parent_id;
-            // console.log(this.form.value);
+            console.log(this.form.value);
         }
 
     }
