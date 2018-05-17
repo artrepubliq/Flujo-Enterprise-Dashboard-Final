@@ -430,6 +430,12 @@ input{
         padding: 0 13px 0px 3px;
         min-width: 1200px;
         overflow: auto;
+        .manage-arrow-up,.manage-arrow-down{
+            width:9px;
+        }
+        .manage-arrow-down{
+            transform:rotate(180deg);
+        }
     }
 }
 .paginationn{

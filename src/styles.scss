@@ -1155,7 +1155,10 @@ control-messages,
 }
 .draggon{
   visibility: hidden;
-  cursor: pointer;
+  cursor: grab;
+  cursor: -webkit-grab;
+  width:8px !important;
+  height: auto;
 }
 .view_item:hover .draggon{
   visibility: visible;
