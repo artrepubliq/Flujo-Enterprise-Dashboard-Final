@@ -45,7 +45,7 @@
               <input matInput [min]="minDate" formControlName="to_year" [max]="maxDate" [matDatepicker]="picker2" placeholder="To date"
                 (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-              <mat-datepicker touchUi="true" startView="year" [startAt]="startDate2" #picker2></mat-datepicker>
+              <mat-datepicker touchUi="true" startView="year" [startAt]="startDate" #picker2></mat-datepicker>
             </mat-form-field>
           </div>
         </div>
