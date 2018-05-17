@@ -205,9 +205,12 @@
           </div>
           <mat-card-content>
             <div id="pageheader">
-              <div class="edit-title">
+              <div  class="edit-title">
                 <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
-                <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
+                <!-- <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i> -->
+                <i fxFlex="50%" fxLayoutAlign="end center">
+                  <img  (click)="editCompnent(detail)" class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
+                </i>
               </div>
             </div>
           </mat-card-content>
@@ -248,8 +251,10 @@
               <div id="pageheader">
                 <div class="edit-title">
                   <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
-                  <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
-                  <!-- <img src="../assets/icons/edit-icon-active@2x.png" class="pull-right"> -->
+                  <!-- <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i> -->
+                  <i fxFlex="50%" fxLayoutAlign="end center">
+                      <img  (click)="editCompnent(detail)" class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
+                  </i>
                 </div>
               </div>
             </mat-card-content>
