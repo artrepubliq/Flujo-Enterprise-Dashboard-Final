@@ -11,7 +11,7 @@ import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfi
 import { GalleryImagesService } from '../service/gallery-images.service';
 import { mediaDetail } from '../model/feedback.model';
 import { Router } from '@angular/router';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, _MatProgressSpinnerMixinBase } from '@angular/material';
 import { AdminComponent } from '../admin/admin.component';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
@@ -256,6 +256,9 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.form.controls['web_description'].setValue(pageData.web_description);
             this.form.controls['app_description'].setValue(pageData.app_description);
             this.form.controls['component_image'].setValue(pageData.component_image);
+            if (pageData) {
+                this.bgColor = pageData.component_background_color;
+            }
             this.form.controls['component_background_image'].setValue(pageData.component_background_image);
             this.form.controls['component_background_color'].setValue(pageData.component_background_color);
             this.form.controls['component_order'].setValue(pageData.component_order);
