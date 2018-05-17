@@ -116,7 +116,8 @@ export class MediaComponent implements OnInit {
       'font-family': 'Roboto',
       'width': '130px',
       'height': '40px',
-      'float': 'right'
+      'float': 'right',
+      'display': 'none'
     },
     layout: {
       'border-radius': '5px',
@@ -213,37 +214,17 @@ export class MediaComponent implements OnInit {
   }
 
   selectMedia(event) {
-    console.log(event.target.files);
     this.ishide = false;
     if (event.target.files && event.target.files.length > 0) {
 
       const files = event.target.files;
-      // this.fileName = files;
-      // for (let i = 0; i < event.target.files.length; i++) {
-      // const reader = new FileReader();
-      // const file = event.target.files[i];
-      // reader.onload = () => {
-      //   this.imageDetail.push(reader.result.split(',')[1]);
-      //   // console.log(this.imageDetail);
-      // };
-      // console.log(reader.result);
-      // }
-      console.log(files);
       this.saveFiles(files);
-      // const dummy =  this.test.map((imageData1) => {
-      //     this.imageName = imageData1.name;
-      //     this.imageSize = imageData1.size;
-      //   });
 
       this.imageDetail = Object.values(files);
-      // this.imageDetail.Values()
       this.final_images = [];
-      // this.imageDetail.map((file, index) => {
-      //   this.final_images.push(file[index]);
-      // });
-      console.log(this.final_images);
-      console.log(this.imageDetail);
-      this.openFileDialog(this.imageDetail);
+      if (this.errors.length === 0) {
+        this.openFileDialog(this.imageDetail);
+      }
       console.log(this.errors);
       try {
         this.uploadImagesObject.image = this.imageDetail;
@@ -256,31 +237,34 @@ export class MediaComponent implements OnInit {
   @HostListener('dragover', ['$event']) onDragOver(event) {
     this.dragAreaClass = 'droparea';
     event.preventDefault();
-  }
+}
 
-  @HostListener('dragenter', ['$event']) onDragEnter(event) {
+@HostListener('dragenter', ['$event']) onDragEnter(event) {
     this.dragAreaClass = 'droparea';
-    console.log(event);
     event.preventDefault();
-  }
+}
 
-  @HostListener('dragend', ['$event']) onDragEnd(event) {
+@HostListener('dragend', ['$event']) onDragEnd(event) {
     this.dragAreaClass = 'dragarea';
     event.preventDefault();
-  }
+}
 
-  @HostListener('dragleave', ['$event']) onDragLeave(event) {
+@HostListener('dragleave', ['$event']) onDragLeave(event) {
     this.dragAreaClass = 'dragarea';
     event.preventDefault();
-  }
-  @HostListener('drop', ['$event']) onDrop(event) {
+}
+@HostListener('drop', ['$event']) onDrop(event) {
     this.dragAreaClass = 'dragarea';
     event.preventDefault();
     event.stopPropagation();
     const files = event.dataTransfer.files;
-    console.log(files);
-
-  }
+    this.saveFiles(files);
+    // console.log(this.foldersdata);
+    if (this.errors.length === 0) {
+      this.imageDetail = Object.values(files);
+        this.openDialog(this.imageDetail);
+    }
+}
 
   saveFiles(files) {
     this.errors = [];
@@ -925,20 +909,24 @@ export class FileSelectPopup {
           this.alertService.warning('Something went wrong.');
         }
       );
-    } else {
-      const formData = new FormData();
-      formData.append('images', this.data.images);
-      formData.append('title', this.stateCtrl.value);
-      formData.append('description', this.file_name_control.value);
-      formData.append('client_id', AppConstants.CLIENT_ID);
-      this.http.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_postmedia', formData)
+    } else if (this.data.images.length === 1) {
+      const singleData = new FormData();
+      this.data.images.map(file => {
+        singleData.append('images[]', file);
+      });
+      singleData.append('description', this.file_name_control.value);
+      singleData.append('client_id', AppConstants.CLIENT_ID);
+      this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postmedia', singleData)
         .subscribe(
           data => {
             if (!data.error && data.custom_status_code === 100) {
               this.alertService.info('Image uploaded successfully');
+              this.spinnerService.hide();
+              this.dialogRef.close();
             } else if (data.error && data.custom_status_code === 101) {
               this.alertService.danger('Image not uploaded');
               this.spinnerService.hide();
+              this.dialogRef.close();
             }
           }
         );
