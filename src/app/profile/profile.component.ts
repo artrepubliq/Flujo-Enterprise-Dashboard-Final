@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit {
   button_text = 'save';
   decodedString: string;
   profileImag: string;
-  isEdit: boolean;
+  isEdit = true;
   resultExist: boolean;
   isDataExist: boolean;
   isHideDeletebtn: boolean;

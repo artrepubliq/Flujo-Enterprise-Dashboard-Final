@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AppConstants } from '../app.constants';
@@ -11,6 +11,8 @@ import {
 } from '../model/twitter/twitter.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { TwitterServiceService } from '../service/twitter-service.service';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 @Component({
   selector: 'app-twitter',
   templateUrl: './twitter.component.html',
@@ -18,12 +20,17 @@ import { TwitterServiceService } from '../service/twitter-service.service';
 })
 export class TwitterComponent implements OnInit {
 
+  public retweets: string;
+  public mentions: string;
+  public tweets: string;
+  public timeline: string;
   public config: any;
   public showSignIn: boolean;
-  public twitHomeTimeLine: ITwitterTimelineObject;
-  public twitUserTimeLine: ITwitterTimelineObject;
-  public twitMentionsTimeLine: ITwitterTimelineObject;
-
+  // public previousTweetTimeline: ITwitterTimelineObject[];
+  public twitHomeTimeLine: ITwitterTimelineObject[];
+  public twitUserTimeLine: ITwitterTimelineObject[];
+  public twitMentionsTimeLine: ITwitterTimelineObject[];
+  public twitRetweets: ITwitterTimelineObject[];
   public twitter_social_keys: ISocialKeysObject;
   public twitter_social_keys_object: ISocialKeysTableData[];
   public twitterUserLogin: string;
@@ -88,13 +95,38 @@ export class TwitterComponent implements OnInit {
       .subscribe(
         result => {
           if (result.error === false) {
+            this.timeline = 'Timeline';
+            this.tweets = 'Tweets';
+            this.mentions = 'Mentions';
+            this.retweets = 'Retweets';
             this.twitHomeTimeLine = result.data[0];
             this.twitUserTimeLine = result.data[1];
             this.twitMentionsTimeLine = result.data[2];
+            this.twitRetweets = result.data[3];
           } else {
             this.showSignIn = true;
             console.log(result.data);
           }
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  /** this is an event triggered when scrolled to end
+   *
+  */
+
+  public homeTimeLineScrollEvent(event): void {
+    const last_index = this.twitHomeTimeLine.length - 1;
+    console.log(this.twitHomeTimeLine[last_index].id);
+    this.twitterService.getOldHomeTimeline(this.twitHomeTimeLine[last_index].id)
+      .subscribe(
+        result => {
+          console.log(result.data);
+          console.log(this.twitHomeTimeLine);
+          this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
+          console.log(this.twitHomeTimeLine);
         },
         error => {
           console.log(error);

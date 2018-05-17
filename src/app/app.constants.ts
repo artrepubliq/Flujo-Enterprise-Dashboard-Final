@@ -12,7 +12,6 @@ export class AppConstants {
     public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/'; }
     public static get TWITTER_API_URL(): string { return 'https://api.twitter.com'; }
     public static get JSONWEBTOKENKEY(): string { return 'jsonWebTokenSecreyKey1232##'; }
-
     public static get DEFAULT(): Array<IAccessLevelModel> {
         return [
             { name: 'Editor', feature_id: 1, enable: false, read: false, write: false, order: '1' },

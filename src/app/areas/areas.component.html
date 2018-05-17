@@ -28,8 +28,9 @@
       <div *ngFor="let area of areaData" class="view_item" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="center center">
         <div class="name" fxFlex="31">
           <span class="text-muted d-inline">
-            <i class="fa fa-ellipsis-v"></i>
-            <i class="fa fa-ellipsis-v"></i>
+            <!-- <i class="fa fa-ellipsis-v"></i>
+            <i class="fa fa-ellipsis-v"></i> -->
+            <img class="asset-btn-flujo draggon" src="../assets/icons/move-icon-normal@3x.png">
           </span>&nbsp;&nbsp;
           <input type="checkbox">&nbsp;&nbsp; {{area.area}}
         </div>
@@ -41,10 +42,12 @@
         </div>
         <div fxLayout="row" fxLayoutGap="15px" fxFlex fxLayoutAlign="end center">
           <button (click)="openDialog(area)" type="button" class="btn">
-            <i class="fa fa-pencil"></i>
+            <!-- <i class="fa fa-pencil"></i> -->
+            <img class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
           </button>
           <button (click)="deletearea(area)" type="button" class="btn">
-            <i class="fa fa-trash"></i>
+            <!-- <i class="fa fa-trash"></i> -->
+            <img class="asset-btn-flujo" src="../assets/icons/remove-icon-active@2x.png">
           </button>
         </div>
       </div>

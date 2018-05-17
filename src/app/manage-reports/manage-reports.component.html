@@ -54,15 +54,23 @@
             <span fxFlex="100%" fxLayoutAlign="start center" fxLayoutGap="10px" class="fb-first-field cursor-p">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <mat-checkbox (change)="selectAll()" [(ngModel)]="checked" fxFlex="15px" class="d-inline" type="checkbox"></mat-checkbox>&nbsp;
               <p class="name-feedback" fxFlex="100%" class="d-inline" (click)="sortArray('name', 'name_arrow')">Name&nbsp;
-                <i *ngIf="!arrows.name_arrow" class="fa fa-angle-down d-inline"></i>
-                <i *ngIf="arrows.name_arrow" class="fa fa-angle-up d-inline"></i>
+                <i *ngIf="!arrows.name_arrow" class="d-inline">
+                  <img class="manage-arrow-up" src="../assets/icons/headings-down-arrow-icon@3x.png">
+                </i>
+                <i *ngIf="arrows.name_arrow" class="d-inline">
+                    <img class="manage-arrow-down" src="../assets/icons/headings-down-arrow-icon@3x.png">
+                </i>
               </p>
             </span>
           </div>
           <div fxFlex="200px" (click)="sortArray('submitted_at', 'submitted_at_arrow')">
             <span class="d-inline cursor-p">Updated &nbsp;
-              <i *ngIf="!arrows.submitted_at_arrow" class="fa fa-angle-down"></i>
-              <i *ngIf="arrows.submitted_at_arrow" class="fa fa-angle-up"></i>
+              <i *ngIf="!arrows.submitted_at_arrow" class="d-inline">
+                  <img class="manage-arrow-up" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
+              <i *ngIf="arrows.submitted_at_arrow" class="d-inline">
+                  <img class="manage-arrow-down" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
             </span>
           </div>
           <div fxFlex="200px">
@@ -73,25 +81,37 @@
           </div>
           <div fxFlex="100px" (click)="sortArray('gender', 'gender_arrow')">
             <span class="d-inline cursor-p">Gender&nbsp;
-              <i *ngIf="!arrows.gender_arrow" class="fa fa-angle-down"></i>
-              <i *ngIf="arrows.gender_arrow" class="fa fa-angle-up"></i>
+              <i *ngIf="!arrows.gender_arrow" class="d-inline">
+                  <img class="manage-arrow-up" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
+              <i *ngIf="arrows.gender_arrow" class="d-inline">
+                  <img class="manage-arrow-down" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
             </span>
           </div>
           <div fxFlex="100px" (click)="sortArray('age', 'age_arrow')">
             <span class="d-inline cursor-p">Age &nbsp;
-              <i *ngIf="!arrows.age_arrow" class="fa fa-angle-down"></i>
-              <i *ngIf="arrows.age_arrow" class="fa fa-angle-up"></i>
+              <i *ngIf="!arrows.age_arrow" class="d-inline">
+                  <img class="manage-arrow-up" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
+              <i *ngIf="arrows.age_arrow" class="d-inline">
+                  <img class="manage-arrow-down" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
             </span>
           </div>
           <div fxFlex (click)="sortArray('area', 'area_arrow')">
             <span class="d-inline cursor-p">Locality &nbsp;
-              <i *ngIf="!arrows.area_arrow" class="fa fa-angle-down"></i>
-              <i *ngIf="arrows.area_arrow" class="fa fa-angle-up"></i>
+              <i *ngIf="!arrows.area_arrow" class="d-inline">
+                  <img class="manage-arrow-up" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
+              <i *ngIf="arrows.area_arrow" class="d-inline">
+                  <img class="manage-arrow-down" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
             </span>
           </div>
         </div>
         <mat-accordion>
-          <mat-expansion-panel class="problem-box" *ngFor="let report of filterReportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
+          <mat-expansion-panel class="view_item problem-box" *ngFor="let report of filterReportProblemData | paginate: { itemsPerPage: 10, currentPage: p }">
             <mat-expansion-panel-header>
               <div fxLayout="column" fxFlex="100%">
                 <div class="reports-data" fxFlex="100%" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
@@ -100,7 +120,7 @@
                       <p class="text-muted d-inline">
                         <!-- <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i> -->
-                        <img src="../../assets/icons/move-icon-normal@3x.png" alt="">
+                        <img class="d-inline asset-btn-flujo draggon" src="../../assets/icons/move-icon-normal@3x.png" alt="">
                       </p>
                       <mat-checkbox [(ngModel)]="report.selected" class="Check-box-normal" (click)="$event.stopPropagation();" type="checkbox"></mat-checkbox>&nbsp;
                       <p class="name-feedback d-inline">{{report.name}}</p>

@@ -6,7 +6,7 @@
           <div  class="nav-social">
             <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
               <div class="social-cards-header">
-                <h6>My Mentions</h6>
+                <h6>{{header_title}}</h6>
               </div>
               <div class="social-cards-header-icnons d-inline">
                 <div fxLayout="row" fxLayoutGap="1rem">
@@ -30,8 +30,8 @@
               </div>
             </div>
           </div>
-          <ul class="pos-post-cards">
-            <li *ngFor="let timeline of twitHomeTimeLine">
+          <ul class="pos-post-cards" >
+            <li *ngFor="let timeline of twitTimeLine">
               <mat-card class="example-card">
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->

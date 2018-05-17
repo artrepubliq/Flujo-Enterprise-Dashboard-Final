@@ -32,8 +32,14 @@ export interface ISocialKeysObject {
  */
 export interface ITwitTimeLineObject {
     error: boolean;
-    data: ITwitterTimelineObject[];
+    data: Array<ITwitterTimelineObject[]>;
 }
+
+export interface ITwitTimeLineObejctMaxId {
+    error: boolean;
+    data: Array<ITwitterTimelineObject>;
+}
+
 export interface ITwitterTimelineObject {
 
     contributors: string | null;
@@ -196,4 +202,120 @@ export interface ITwitterEntities {
 
 export interface ITwitterUrls2 {
     urls: Array<any>;
+}
+
+
+/*
+ *  this is an interface for twitter user profile
+*/
+
+export interface ITwitUser {
+    error: boolean;
+    data: ITwitterUserProfile[];
+    type?: string;
+}
+// export interface ITwitterUserdata {
+//     twitter: ITwitterUserProfile[];
+// }
+
+export interface ITwitterUserProfile {
+    id: number;
+    id_str: string;
+    name: string;
+    screen_name: string;
+    location: string;
+    profile_location: null | string;
+    description: string;
+    url: string;
+    entities: {
+        url: {
+            urls: {
+                url: string;
+                expanded_url: string;
+                display_url: string;
+                indices: any[];
+            }[]
+        },
+        description: {
+            urls: {
+                url: string;
+                expanded_url: string;
+                display_url: string;
+                indices: any[];
+            }[];
+        },
+    };
+    protected: boolean;
+    followers_count: number;
+    friends_count: number;
+    listed_count: number;
+    created_at: string;
+    favourites_count: number;
+    utc_offset: number;
+    time_zone: string;
+    geo_enabled: boolean;
+    verified: boolean;
+    statuses_count: number;
+    lang: string;
+    status: {
+        created_at: string;
+        id: number;
+        id_str: string;
+        text: string;
+        truncated: false;
+        source: string;
+        in_reply_to_status_id: null | number;
+        in_reply_to_status_id_str: null | string;
+        in_reply_to_user_id: null | string;
+        in_reply_to_user_id_str: null | string;
+        in_reply_to_screen_name: null | string;
+        geo: null | number | string;
+        coordinates: null | string | number;
+        place: null | string;
+        contributors: null | string;
+        is_quote_status: boolean;
+        retweet_count: number;
+        favorite_count: number;
+        favorited: boolean;
+        retweeted: boolean;
+        lang: string;
+        entities: {
+            hashtags: {
+                text: string;
+                indices: any[];
+            }[];
+        };
+        symbols: string;
+        user_mentions: {
+            screen_name: string;
+            name: string;
+            id: number;
+            id_str: string;
+            indices: any[];
+        }[];
+        urls: any[];
+    };
+    contributors_enabled: boolean;
+    is_translator: boolean;
+    is_translation_enabled: boolean;
+    profile_background_color: string;
+    profile_background_image_url: string;
+    profile_background_image_url_https: string;
+    profile_background_tile: boolean;
+    profile_image_url: string;
+    profile_image_url_https: string;
+    profile_link_color: string;
+    profile_sidebar_border_color: string;
+    profile_sidebar_fill_color: string;
+    profile_text_color: string;
+    profile_use_background_image: boolean;
+    has_extended_profile: boolean;
+    default_profile: boolean;
+    default_profile_image: boolean;
+    following: boolean;
+    follow_request_sent: boolean;
+    notifications: boolean;
+    translator_type: string;
+    suspended: boolean;
+    needs_phone_verification: boolean;
 }

@@ -19,9 +19,9 @@
 }
 .example-card h6 i{
     display:inline;
-    vertical-align: middle;
+    // vertical-align: middle;
     font-size: 1.5em;  
-    line-height:40px;      
+    line-height:2.5;      
 }
 .example-card h6{
     font-size: 1em;
@@ -87,6 +87,10 @@
 .logIn_button {
     margin: 0;
     padding: 0;
+    .arrow-right{
+        width: 20px;
+        transform: rotate(270deg);
+    }
 }
 .logIn_inputs {
     padding:30px;
