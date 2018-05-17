@@ -54,15 +54,23 @@
             <span fxFlex="100%" fxLayoutAlign="start center" fxLayoutGap="10px" class="fb-first-field cursor-p">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <mat-checkbox (change)="selectAll()" [(ngModel)]="checked" fxFlex="15px" class="d-inline" type="checkbox"></mat-checkbox>&nbsp;
               <p class="name-feedback" fxFlex="100%" class="d-inline" (click)="sortArray('name', 'name_arrow')">Name&nbsp;
-                <i *ngIf="!arrows.name_arrow" class="fa fa-angle-down d-inline"></i>
-                <i *ngIf="arrows.name_arrow" class="fa fa-angle-up d-inline"></i>
+                <i *ngIf="!arrows.name_arrow" class="d-inline">
+                  <img class="manage-arrow-up" src="../assets/icons/headings-down-arrow-icon@3x.png">
+                </i>
+                <i *ngIf="arrows.name_arrow" class="d-inline">
+                    <img class="manage-arrow-down" src="../assets/icons/headings-down-arrow-icon@3x.png">
+                </i>
               </p>
             </span>
           </div>
           <div fxFlex="200px" (click)="sortArray('submitted_at', 'submitted_at_arrow')">
             <span class="d-inline cursor-p">Updated &nbsp;
-              <i *ngIf="!arrows.submitted_at_arrow" class="fa fa-angle-down"></i>
-              <i *ngIf="arrows.submitted_at_arrow" class="fa fa-angle-up"></i>
+              <i *ngIf="!arrows.submitted_at_arrow" class="d-inline">
+                  <img class="manage-arrow-up" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
+              <i *ngIf="arrows.submitted_at_arrow" class="d-inline">
+                  <img class="manage-arrow-down" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
             </span>
           </div>
           <div fxFlex="200px">
@@ -73,20 +81,32 @@
           </div>
           <div fxFlex="100px" (click)="sortArray('gender', 'gender_arrow')">
             <span class="d-inline cursor-p">Gender&nbsp;
-              <i *ngIf="!arrows.gender_arrow" class="fa fa-angle-down"></i>
-              <i *ngIf="arrows.gender_arrow" class="fa fa-angle-up"></i>
+              <i *ngIf="!arrows.gender_arrow" class="d-inline">
+                  <img class="manage-arrow-up" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
+              <i *ngIf="arrows.gender_arrow" class="d-inline">
+                  <img class="manage-arrow-down" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
             </span>
           </div>
           <div fxFlex="100px" (click)="sortArray('age', 'age_arrow')">
             <span class="d-inline cursor-p">Age &nbsp;
-              <i *ngIf="!arrows.age_arrow" class="fa fa-angle-down"></i>
-              <i *ngIf="arrows.age_arrow" class="fa fa-angle-up"></i>
+              <i *ngIf="!arrows.age_arrow" class="d-inline">
+                  <img class="manage-arrow-up" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
+              <i *ngIf="arrows.age_arrow" class="d-inline">
+                  <img class="manage-arrow-down" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
             </span>
           </div>
           <div fxFlex (click)="sortArray('area', 'area_arrow')">
             <span class="d-inline cursor-p">Locality &nbsp;
-              <i *ngIf="!arrows.area_arrow" class="fa fa-angle-down"></i>
-              <i *ngIf="arrows.area_arrow" class="fa fa-angle-up"></i>
+              <i *ngIf="!arrows.area_arrow" class="d-inline">
+                  <img class="manage-arrow-up" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
+              <i *ngIf="arrows.area_arrow" class="d-inline">
+                  <img class="manage-arrow-down" src="../assets/icons/headings-down-arrow-icon@3x.png">
+              </i>
             </span>
           </div>
         </div>
