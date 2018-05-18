@@ -124,6 +124,7 @@ import { MessageCompose } from './dialogs/social-compose/social-compose-message'
 import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
 import { WindowRef } from './admin/window.service';
 import { SocialLoginComponent } from './social-login/social-login.component';
+import { TwitterUserService } from './service/twitter-user.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -299,6 +300,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DataBaseService,
     AuthInterceptorService,
     TwitterServiceService,
+    TwitterUserService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

@@ -1,6 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ITwitterTimelineObject } from '../../../model/twitter/twitter.model';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { ITwitterTimelineObject, ITwitUser } from '../../../model/twitter/twitter.model';
 import { TwitterServiceService } from '../../../service/twitter-service.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { TwitterUserService } from '../../../service/twitter-user.service';
+
 
 @Component({
   selector: 'app-twitter-timeline',
@@ -8,24 +14,30 @@ import { TwitterServiceService } from '../../../service/twitter-service.service'
   styleUrls: ['./twitter-timeline.directive.scss']
 })
 // tslint:disable-next-line:component-class-suffix
-export class TwitterTimelineDirective implements OnInit {
+export class TwitterTimelineDirective implements OnInit, OnDestroy {
+  subscription: Subscription;
+  twituser: Observable<ITwitUser>;
   public config: any;
-
+  private ngUnSubScribe = new Subject();
   @Input() twitTimeLine: ITwitterTimelineObject[];
   @Input() header_title: string;
   constructor(
-    private twitterService: TwitterServiceService
-  ) { }
+    private twitterService: TwitterServiceService,
+    private twitterUserService: TwitterUserService
+  ) {
+  }
 
   ngOnInit() {
-    console.log((this.twitTimeLine));
-    // this.twitTimeLine.map(object => {
-    //   // if (object.entities.media) {
-    //   //   console.log(object.entities.media[0].media_url);
-    //   // }
-    //   // const now = Date.now();
-    //   // console.log(now);
-    // });
+    this.twitterUserService.getTwitusers().takeUntil(this.ngUnSubScribe)
+      .subscribe(
+        result => {
+          console.log(result);
+        },
+        error => {
+          console.log(error);
+        },
+    );
+    console.log(this.twitterUserService.getTwitterData);
   }
 
   /**
@@ -113,6 +125,12 @@ export class TwitterTimelineDirective implements OnInit {
         }
       );
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.ngUnSubScribe.next();
+    this.ngUnSubScribe.complete();
   }
 
 

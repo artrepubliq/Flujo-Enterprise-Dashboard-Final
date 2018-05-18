@@ -8,10 +8,13 @@ import {
   ITwitterUserProfile, ITwitUser, ITStatusResponse
 } from '../model/twitter/twitter.model';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class TwitterServiceService {
-
+  private subject = new Subject<ITwitUser>();
+  userdata$ = this.subject.asObservable();
+  private twit_user: ITwitUser;
   constructor(
     private httpClient: HttpClient
   ) { }
@@ -46,6 +49,7 @@ export class TwitterServiceService {
       AppConstants.EXPRESS_URL + 'userprofile/' + AppConstants.CLIENT_ID, { headers: headers }
     );
   }
+
 
   /**
    * this is a service for posting a status on twitter
