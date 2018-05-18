@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ITwitterTimelineObject, ITwitUser } from '../../../model/twitter/twitter.model';
+import { ITwitterTimelineObject, ITwitUser, ITwitterUserProfile } from '../../../model/twitter/twitter.model';
 import { TwitterServiceService } from '../../../service/twitter-service.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
@@ -15,8 +15,8 @@ import { TwitterUserService } from '../../../service/twitter-user.service';
 })
 // tslint:disable-next-line:component-class-suffix
 export class TwitterTimelineDirective implements OnInit, OnDestroy {
-  subscription: Subscription;
-  twituser: Observable<ITwitUser>;
+  public twitterUserObject: ITwitUser;
+  public twitterUser: ITwitterUserProfile[];
   public config: any;
   private ngUnSubScribe = new Subject();
   @Input() twitTimeLine: ITwitterTimelineObject[];
@@ -37,7 +37,11 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           console.log(error);
         },
     );
-    console.log(this.twitterUserService.getTwitterData);
+
+    this.twitterUserObject = this.twitterUserService.getTwitterUserData;
+    this.twitterUser = this.twitterUserObject.data;
+    console.log(this.twitterUser);
+
   }
 
   /**
@@ -127,8 +131,18 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * This function is to validate user to delete a post of his own
+   * @param timeline this is the timeline object
+   */
+  public ValidateUserForDeleteTweet(timeline: ITwitterTimelineObject): boolean {
+    if (timeline.user.id === this.twitterUser[0].id) {
+      return true;
+    }
+    return false;
+  }
+
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
     this.ngUnSubScribe.next();
     this.ngUnSubScribe.complete();
   }

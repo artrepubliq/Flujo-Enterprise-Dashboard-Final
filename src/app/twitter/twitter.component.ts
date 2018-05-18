@@ -7,7 +7,8 @@ import {
   ISocialKeysObject,
   ISocialKeysTableData,
   ITwitterTimelineObject,
-  ITwitTimeLineObject
+  ITwitTimeLineObject,
+  ITwitUser
 } from '../model/twitter/twitter.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { TwitterServiceService } from '../service/twitter-service.service';
@@ -24,6 +25,7 @@ import { TwitterUserService } from '../service/twitter-user.service';
 })
 export class TwitterComponent implements OnInit, OnDestroy {
 
+  public twitterUser: ITwitUser;
   // private ngUnSubScribe = new Subject();
   public retweets: string;
   public mentions: string;
@@ -51,6 +53,7 @@ export class TwitterComponent implements OnInit, OnDestroy {
     if (this.twitHomeTimeLine === undefined) {
       this.getTimeLines();
     }
+    // this.twitterUser = this.twitterUserService.getTwitterData;
   }
   /*
    * this is the function when a user tries to log in

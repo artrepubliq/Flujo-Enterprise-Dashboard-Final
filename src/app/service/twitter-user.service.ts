@@ -26,7 +26,7 @@ export class TwitterUserService {
     return this.subject.asObservable();
   }
 
-  public get getTwitterData(): ITwitUser {
+  public get getTwitterUserData(): ITwitUser {
     return this.userData;
   }
 

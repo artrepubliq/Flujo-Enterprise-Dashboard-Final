@@ -75,7 +75,8 @@
                 <a class="dropdown-item">Edit</a>
                 <a class="dropdown-item">Send Email</a>
                 <a class="dropdown-item">Create Stream</a>
-                <a class="dropdown-item" *ngIf="timeline.retweeted || header_title == 'tweets'" (click)="deleteTweet(timeline)">Delete Post</a>
+                <a class="dropdown-item" *ngIf="ValidateUserForDeleteTweet(timeline)" (click)="deleteTweet(timeline)">Delete Post</a>
+                <!-- <a class="dropdown-item"  (click)="ValidateUserForDeleteTweet(timeline)">Delete Post</a> -->
               </div>
             </span>
           </div>
