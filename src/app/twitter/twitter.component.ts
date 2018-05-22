@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AppConstants } from '../app.constants';
@@ -7,7 +7,8 @@ import {
   ISocialKeysObject,
   ISocialKeysTableData,
   ITwitterTimelineObject,
-  ITwitTimeLineObject
+  ITwitTimeLineObject,
+  ITwitUser
 } from '../model/twitter/twitter.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { TwitterServiceService } from '../service/twitter-service.service';
@@ -15,13 +16,19 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
+import { Observable } from 'rxjs/Observable';
+import { TwitterUserService } from '../service/twitter-user.service';
 @Component({
   selector: 'app-twitter',
   templateUrl: './twitter.component.html',
   styleUrls: ['./twitter.component.scss']
 })
-export class TwitterComponent implements OnInit {
+export class TwitterComponent implements OnInit, OnDestroy {
 
+  public twitterUser: ITwitUser;
+  // private ngUnSubScribe = new Subject();
   public retweets: string;
   public mentions: string;
   public tweets: string;
@@ -39,13 +46,16 @@ export class TwitterComponent implements OnInit {
   constructor(
     private httpClient: HttpClient,
     private router: Router,
-    private twitterService: TwitterServiceService
+    private twitterService: TwitterServiceService,
+    private twitterUserService: TwitterUserService,
   ) { }
   public status: string;
 
   ngOnInit() {
-
-    this.getTimeLines();
+    if (this.twitHomeTimeLine === undefined) {
+      this.getTimeLines();
+    }
+    // this.twitterUser = this.twitterUserService.getTwitterData;
   }
   /*
    * this is the function when a user tries to log in
@@ -53,7 +63,16 @@ export class TwitterComponent implements OnInit {
    * with the client id
    */
   public signInTwitter(): void {
-    this.httpClient.get<ITwitterresponse>(AppConstants.EXPRESS_URL + 'oauth_token/' + AppConstants.CLIENT_ID)
+
+    const headersObject = {
+      twitter_access_token: localStorage.getItem('twitter_access_token'),
+      token_expiry_date: localStorage.getItem('token_expiry_date')
+    };
+
+    const headers = new HttpHeaders(headersObject);
+
+    this.httpClient.get<ITwitterresponse>(AppConstants.EXPRESS_URL + 'oauth_token/' + AppConstants.CLIENT_ID,
+      { headers: headers })
       .subscribe(
         result => {
           console.log(result);
@@ -126,13 +145,20 @@ export class TwitterComponent implements OnInit {
       .subscribe(
         result => {
           console.log(result.data);
+          if (!result.error) {
+            this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
+          }
           console.log(this.twitHomeTimeLine);
-          this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
           console.log(this.twitHomeTimeLine);
         },
         error => {
           console.log(error);
         });
+  }
+
+  public ngOnDestroy(): void {
+    // this.ngUnSubScribe.next();
+    // this.ngUnSubScribe.complete();
   }
 
 }

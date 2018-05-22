@@ -4,11 +4,11 @@
             <ul fxFlex="100%">
                 <li fxLayoutAlign="space-between center" *ngFor="let twitUser of data.data">
                     <label class="d-inline">
-                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;{{twitUser.screen_name}}</label>
+                        <input class="Check-box-normal" (change)="onCheckEvent($event)" type="checkbox">&nbsp;&nbsp;{{twitUser.screen_name}}</label>
                     <span class="pull-right">
 
                         <i *ngIf="data.type == 'twitter'" class="fa fa-twitter"></i>
-                        <i *ngIf="data.type == 'facebook' "class="fa fa-facebook"></i>
+                        <i *ngIf="data.type == 'facebook' " class="fa fa-facebook"></i>
                     </span>
                 </li>
                 <li fxLayoutAlign="space-between center" *ngFor="let twitUser of data.data">
@@ -24,9 +24,9 @@
         </div>
     </div>
 
-    <div fxLayout="column" fxFlex="63">
-        <div fxLayout="column" fxLayoutGap="0.5rem" fxFlex="100%" class="message-config-box">
-            <div fxFlex="20px" fxLayout="row" fxLayoutAlign="space-between center">
+    <form fxLayout="column" [formGroup]="postStatusForm" fxFlex="63">
+        <div fxLayout="column" fxLayoutGap="0.5rem" class="message-config-box">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
                 <div class="head-msg">
                     <p>Compose message</p>
                 </div>
@@ -36,7 +36,7 @@
             </div>
             <div fxFlex="75px" class="postt-msg" fxLayout="row" fxLayoutAlign="space-between center">
                 <span fxFlex="100%" class="d-inline">
-                    <textarea placeholder="Type here" rows="5" cols="55"></textarea>
+                    <textarea placeholder="Type here" rows="5" cols="55" formControlName="postStatus"></textarea>
                 </span>
                 <div class="emoji-stack" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
                     <span class="icons-default">
@@ -60,7 +60,7 @@
             <div fxLayout="column" fxFlex="200px">
                 <div class="checkbox d-inline">
                     <label>
-                        <input class="Check-box-normal" [(ngModel)]="doSchedule" type="checkbox" value="">&nbsp;&nbsp;Schedule Post</label>
+                        <input class="Check-box-normal" type="checkbox" value="">&nbsp;&nbsp;Schedule Post</label>
                 </div>
                 <div class="date-schedule" *ngIf="doSchedule" fxLayout="row">
                     <div class="">
@@ -90,7 +90,7 @@
         <div fxFlex="1.5px" class="hor-line"></div>
         <div fxFlex="55px" class="btn-stack-action" fxLayoutAlign="end end">
             <button class="button_cancel" mat-button (click)="closeDialog()">Cancel</button>
-            <button class="button_submit pull-right" type="submit">Save</button>
+            <button class="button_submit pull-right" [disabled]="postStatusForm.invalid" (click)="postSocialStatus()">Save</button>
         </div>
-    </div>
+    </form>
 </div>
