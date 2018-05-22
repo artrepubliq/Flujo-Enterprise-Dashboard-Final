@@ -124,11 +124,8 @@ import { MessageCompose } from './dialogs/social-compose/social-compose-message'
 import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
 import { WindowRef } from './admin/window.service';
 import { SocialLoginComponent } from './social-login/social-login.component';
-<<<<<<< HEAD
 import {ScrollDispatchModule} from '@angular/cdk/scrolling';
-=======
 import { TwitterUserService } from './service/twitter-user.service';
->>>>>>> 754754a5a5e1d284f4dff77f229b52f7e07cd4dc
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);

@@ -2,36 +2,9 @@
   <div class="social-tabs-hub-inner" [perfectScrollbar]="config">
     <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
       <div class="col-md-4"> -->
-<<<<<<< HEAD
-        <!-- <div class="social-card" [perfectScrollbar]="config"> -->
-          <div  class="nav-social" >
-            <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center"  (psScrollY)="doApplyFixedPosition($event)">
-              <div class="social-cards-header">
-                <h6>{{header_title}}</h6>
-              </div>
-              <div class="social-cards-header-icnons d-inline">
-                <div fxLayout="row" fxLayoutGap="1rem">
-                  <span>
-                    <img src="../assets/social/search-so-icon-normal@3x.png" class="">
-                  </span>
-                  <span>
-                    <img src="../assets/social/refresh-so-icon-normal@3x.png" class="">
-                  </span>
-                  <span class="dropdown">
-                    <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <img class="img-more" src="../assets/social/more-so-icon-normal@3x.png">
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item">Text Only</a>
-                      <a class="dropdown-item">Text + Images</a>
-                      <a class="dropdown-item">Remove Stream</a>
-                    </div>
-                  </span>
-                </div>
-=======
 <!-- <div class="social-card" [perfectScrollbar]="config"> -->
 <div class="nav-social">
-  <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
+  <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center" (psScrollY)="doApplyFixedPosition($event)">
     <div class="social-cards-header">
       <h6>{{header_title}}</h6>
     </div>
@@ -104,7 +77,6 @@
                 <a class="dropdown-item">Create Stream</a>
                 <a class="dropdown-item" *ngIf="ValidateUserForDeleteTweet(timeline)" (click)="deleteTweet(timeline)">Delete Post</a>
                 <!-- <a class="dropdown-item"  (click)="ValidateUserForDeleteTweet(timeline)">Delete Post</a> -->
->>>>>>> 754754a5a5e1d284f4dff77f229b52f7e07cd4dc
               </div>
             </span>
           </div>
