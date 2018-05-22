@@ -1,11 +1,11 @@
 <!-- This is for twitter home time line -->
 <div class="social-tabs-inner">
-  <div class="social-tabs-hub-inner" [perfectScrollbar]="config">
+  <div class="social-tabs-hub-inner">
     <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
       <div class="col-md-4" *ngIf="twitHomeTimeLine">
-        <div class="social-card" [perfectScrollbar]="config" (psYReachEnd)="homeTimeLineScrollEvent($event)">
+        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}" (psYReachEnd)="homeTimeLineScrollEvent($event)">
           <div class="nav-social">
-            <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
+            <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center" (psScrollY)="doApplyFixedPosition($event)">
               <div class="social-cards-header">
                 <h6>Twitter Timeline</h6>
               </div>
@@ -95,10 +95,9 @@
         </div>
       </div>
 
-
       <!-- This is twit user timeline -->
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="config">
+        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
           <div class="nav-social">
             <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
               <div class="social-cards-header">
@@ -192,7 +191,7 @@
 
       <!-- this is mentions timeline -->
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="config">
+        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
           <div class="nav-social">
             <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
               <div class="social-cards-header">
@@ -286,7 +285,7 @@
 
       <!-- this is retweets timeline -->
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="config">
+        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
           <div class="nav-social">
             <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
               <div class="social-cards-header">
@@ -377,6 +376,6 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div><br/>
   </div>
 </div>

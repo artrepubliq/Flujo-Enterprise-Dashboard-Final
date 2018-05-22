@@ -61,12 +61,5 @@
         }
     } 
  } 
- .social-tabs-hub-inner::-webkit-scrollbar {
-    height:4px;
-    // visibility: hidden !important;
-    display: none !important;
- }
- .social-tabs-hub-inner:hover .social-tabs-hub-inner::-webkit-scrollbar {
-    display: block !important;
- }
+ 
 }
