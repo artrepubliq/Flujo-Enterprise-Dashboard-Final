@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy, Output, HostListener } from '@angular/core';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { TwitterServiceService } from '../../../service/twitter-service.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
@@ -25,6 +25,11 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   dofix: boolean;
 
   private ngUnSubScribe = new Subject();
+  public homeTimeLine = 'homeTimeLine';
+  public userTimeLine = 'usertimeline';
+  public mentions = 'mentions';
+  public retweets = 'retweets';
+
   @Input() twitHomeTimeLine: ITwitterTimelineObject[];
   @Input() twitUserTimeLine: ITwitterTimelineObject[];
   @Input() twitMentionsTimeLine: ITwitterTimelineObject[];
@@ -128,7 +133,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           if (!result.data.errors) {
             console.log(result);
             timeline.favorited = false;
-            timeline.favorite_count = timeline.favorite_count + 1;
+            timeline.favorite_count = timeline.favorite_count - 1;
           } else {
             console.log(result.data.errors);
           }
@@ -143,7 +148,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           if (!result.data.errors) {
             console.log(result);
             timeline.favorited = true;
-            timeline.favorite_count = timeline.favorite_count - 1;
+            timeline.favorite_count = timeline.favorite_count + 1;
           } else {
             console.log(result.data.errors);
           }
@@ -166,6 +171,11 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
     return false;
   }
 
+  /**
+   * this is to reply to a tweet
+   * @param event this is an input event
+   * @param timeline this is tweet object of a timeline
+   */
   public submitReplyTo(event: any, timeline: ITwitterTimelineObject): void {
     // console.log(timeline);
     const status = '@' + timeline.user.screen_name + ' ' + event.target.value;
@@ -183,7 +193,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   }
 
   /** this is an event triggered when scrolled to end
-   *
+   *@param event takes scroll event
   */
 
   public homeTimeLineScrollEvent(event): void {
@@ -202,6 +212,22 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
         error => {
           console.log(error);
         });
+  }
+
+  /**
+   * this is to refresh streams
+   * @param params it takes string of stream time
+   */
+  public refresh(params: string): void {
+    if (params === this.retweets) {
+
+    } else if (params === this.userTimeLine) {
+
+    } else if (params === this.homeTimeLine) {
+
+    } else if (params === this.mentions) {
+
+    }
   }
 
   public ngOnDestroy(): void {
