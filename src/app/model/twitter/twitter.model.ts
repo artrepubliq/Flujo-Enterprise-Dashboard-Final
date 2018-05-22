@@ -35,7 +35,7 @@ export interface ITwitTimeLineObject {
     data: Array<ITwitterTimelineObject[]>;
 }
 
-export interface ITwitTimeLineObejctMaxId {
+export interface ITwitIndividualTimeLineObejct {
     error: boolean;
     data: Array<ITwitterTimelineObject>;
 }
@@ -68,7 +68,7 @@ export interface ITwitterTimelineObject {
     text: string;
     truncated: boolean;
     user: ITwitterUser;
-
+    header_title?: string;
 }
 
 export interface ITwitterEntities {
