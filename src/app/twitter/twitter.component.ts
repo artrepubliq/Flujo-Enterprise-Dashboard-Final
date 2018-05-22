@@ -27,10 +27,6 @@ export class TwitterComponent implements OnInit, OnDestroy {
 
   public twitterUser: ITwitUser;
   // private ngUnSubScribe = new Subject();
-  public retweets: string;
-  public mentions: string;
-  public tweets: string;
-  public timeline: string;
   public config: any;
   public showSignIn: boolean;
   // public previousTweetTimeline: ITwitterTimelineObject[];
@@ -114,10 +110,6 @@ export class TwitterComponent implements OnInit, OnDestroy {
       .subscribe(
         result => {
           if (result.error === false) {
-            this.timeline = 'Timeline';
-            this.tweets = 'Tweets';
-            this.mentions = 'Mentions';
-            this.retweets = 'Retweets';
             this.twitHomeTimeLine = result.data[0];
             this.twitUserTimeLine = result.data[1];
             this.twitMentionsTimeLine = result.data[2];

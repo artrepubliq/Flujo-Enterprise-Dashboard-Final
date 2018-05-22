@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   ITwitterTimelineObject,
   ITwitTimeLineObject,
-  ITwitTimeLineObejctMaxId,
+  ITwitIndividualTimeLineObejct,
   ITwitterUserProfile, ITwitUser, ITStatusResponse
 } from '../model/twitter/twitter.model';
 import { Observable } from 'rxjs/Observable';
@@ -34,9 +34,9 @@ export class TwitterServiceService {
    * @param max_id this is the tweet id we need to pass,
    * it returns recent tweets less than the max_id
    */
-  public getOldHomeTimeline(max_id): Observable<ITwitTimeLineObejctMaxId> {
+  public getOldHomeTimeline(max_id): Observable<ITwitIndividualTimeLineObejct> {
 
-    return this.httpClient.get<ITwitTimeLineObejctMaxId>
+    return this.httpClient.get<ITwitIndividualTimeLineObejct>
       (AppConstants.EXPRESS_URL + 'timeline/' + max_id);
   }
   /**
@@ -105,8 +105,8 @@ export class TwitterServiceService {
    * @param headers Headers we need to pass twitter feature token and expiry date
    * it returns the various timelines like user, home, mentions, retweets
    */
-  public getUserTimeline(): Observable<ITwitTimeLineObject> {
-    return this.httpClient.get<ITwitTimeLineObject>
+  public getUserTimeline(): Observable<ITwitIndividualTimeLineObejct> {
+    return this.httpClient.get<ITwitIndividualTimeLineObejct>
       (AppConstants.EXPRESS_URL + 'getusertimeline/' + AppConstants.CLIENT_ID);
   }
 

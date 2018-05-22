@@ -6,13 +6,7 @@
 </div>
 
 
-<!-- <div class="social-tabs-inner"> -->
-<!-- <div class="social-tabs-hub-inner" [perfectScrollbar]="config"> -->
-<!-- <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row"> -->
-<!-- <div class="social-card" [perfectScrollbar]="config" (psYReachEnd)="homeTimeLineScrollEvent($event)"> -->
-<app-twitter-timeline [twitHomeTimeLine]="twitHomeTimeLine" [twitUserTimeLine]="twitUserTimeLine" [twitMentionsTimeLine]="twitMentionsTimeLine"
-  [tweetsTimeLine]="twitRetweets"></app-twitter-timeline>
-<!-- </div> -->
-<!-- </div> -->
-<!-- </div> -->
-<!-- </div> -->
+<div *ngIf="twitHomeTimeLine && twitUserTimeLine && twitMentionsTimeLine && twitRetweets">
+  <app-twitter-timeline [twitHomeTimeLine]="twitHomeTimeLine" [twitUserTimeLine]="twitUserTimeLine" [twitMentionsTimeLine]="twitMentionsTimeLine"
+    [tweetsTimeLine]="twitRetweets"></app-twitter-timeline>
+</div>

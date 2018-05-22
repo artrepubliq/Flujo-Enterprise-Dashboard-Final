@@ -91,6 +91,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
               .subscribe(
                 response => {
                   console.log(response);
+                  this.twitUserTimeLine = response.data;
                 },
                 error => {
                   console.log(error);
