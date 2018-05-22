@@ -42,7 +42,7 @@
             color: #666666;
         }
         .dropdown-menu {
-            position: absolute !important;;
+            position: absolute !important;
             // top: 60% !important;
             // left: -146px !important;
             width: 175px;
@@ -110,6 +110,8 @@ ul li{
    position: relative;
     .nav-social-inner{
         // position:fixed;
+        position: -webkit-sticky !important;
+        position: sticky !important;
         z-index:99;
         background:#fff; 
         border-bottom:1px solid #f5f5f5;
@@ -120,6 +122,9 @@ ul li{
         border-top-left-radius: 2px;
         border-top-right-radius: 2px;
     }
+}
+.fixed-nav-social{
+    position: fixed;
 }
 
 .social-cards-header{
@@ -181,3 +186,69 @@ ul li{
         line-height: 2.5;
     }
   }
+
+
+  .social-card{
+    overflow-x: visible !important;
+    font-family: Roboto;
+    min-width:365px;
+    box-shadow: 0px 1.5px 7.5px 0 rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
+    display: block;
+    position: relative;
+    padding: 14px 24px;
+    border-radius: 5px;
+    background: #fff;
+    color: rgba(0,0,0,.87);
+}
+
+.social-tabs-hub{
+    height: calc(100vh - 615px);
+    position: relative;
+    .social-tabs{
+        position: relative !important;
+    }
+}
+.social-tabs-inner{
+    position: relative;
+    .social-tabs-hub-inner{
+        position: relative;
+        .social-tabs-hub-inner-row{
+            position: relative; 
+       
+        .col-md-4{
+             min-width:440px !important;
+             width:100% !important;
+             margin-right: 2px !important;
+             margin-left:-12px !important;
+             .social-card{
+                max-height:575px !important;
+             }
+        } 
+        .mat-tab-group{
+         font-family: Roboto !important;
+            .mat-tab-label-container{
+                font-size: 15px !important;
+                font-weight: 500 !important;
+                font-style: normal !important;
+                font-stretch: normal !important;
+                line-height: normal !important;
+                letter-spacing: normal !important;
+                .mat-tab-label-active{
+                    color: #666666 !important;
+                    background-color: none !important;
+                }
+                .mat-tab-label{
+                    color: #c1c1c1 !important;                   
+                }
+                .mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus{
+                    background-color: none !important;
+                }
+            }
+    
+        }
+    } 
+ } 
+ 
+}

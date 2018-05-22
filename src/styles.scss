@@ -1143,7 +1143,16 @@ control-messages,
     height:4px !important;
   }
 }
-
+.social-tabs-hub-inner{
+  overflow-x: scroll;
+}
+.social-tabs-hub-inner::-webkit-scrollbar {
+  height:4px !important;
+  display: none !important;
+}
+.social-tabs-hub-inner:hover .social-tabs-hub-inner::-webkit-scrollbar {
+  display: block !important;
+}
 .app-full-bleed-dialog .mat-dialog-container{
   padding-top: 0 !important;
   padding-bottom: 0 !important;

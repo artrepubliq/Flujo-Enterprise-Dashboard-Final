@@ -14,6 +14,7 @@ import { MessageCompose } from '../dialogs/social-compose/social-compose-message
 import { HttpHeaders } from '@angular/common/http';
 import { TwitterServiceService } from '../service/twitter-service.service';
 import { ITwitterUserProfile, ITwitUser } from '../model/twitter/twitter.model';
+import { TwitterUserService } from '../service/twitter-user.service';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +46,9 @@ export class SocialManagementComponent implements OnInit {
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent,
-    private twitterService: TwitterServiceService) {
+    private twitterService: TwitterServiceService,
+    private twitterUserService: TwitterUserService
+  ) {
     this.fbResponseData = <IFBFeedArray>{};
     this.fbResponseDataItems = [];
     fbService.FBInit();
@@ -73,7 +76,6 @@ export class SocialManagementComponent implements OnInit {
 
   public tabChanged(event: MatTabChangeEvent) {
 
-    console.log(event);
     this.tab_index = event.index;
 
   }
@@ -85,8 +87,26 @@ export class SocialManagementComponent implements OnInit {
       data: this.twitUserInfo
     });
     this.highLighted = 'show-class';
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(status => {
       console.log('The dialog was closed');
+      if (status !== undefined) {
+
+        // this.twitUserInfo;
+        console.log(status);
+        this.twitterService.postStatusOnTwitter(status)
+          .subscribe(
+            result => {
+              if (result.data.errors && result.data.errors.length > 0) {
+                console.log(result.data.errors);
+              } else {
+                console.log('status posted successfully');
+              }
+            },
+            error => {
+              console.log(error);
+            }
+          );
+      }
       this.highLighted = 'hide-class';
     });
   }
@@ -181,8 +201,7 @@ export class SocialManagementComponent implements OnInit {
         result => {
           this.twitUserInfo = result;
           this.twitUserInfo.type = 'twitter';
-
-          // this.social_users_info.twitter = this.twitUserInfo;
+          this.twitterUserService.addUser(this.twitUserInfo);
         },
         error => {
           console.log(error);
