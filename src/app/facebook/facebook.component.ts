@@ -7,9 +7,8 @@ import { Component, OnInit } from '@angular/core';
 export class FacebookComponent implements OnInit {
   public config: any;
   public doComment: boolean;
-  constructor() { }
 
+  constructor() { }
   ngOnInit() {
   }
-
 }

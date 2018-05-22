@@ -13,6 +13,8 @@ import { ICommonInterface } from '../model/commonInterface.model';
 import { TwitterServiceService } from '../service/twitter-service.service';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+
 @Component({
   selector: 'app-twitter',
   templateUrl: './twitter.component.html',
