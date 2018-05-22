@@ -125,6 +125,7 @@ import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/
 import { WindowRef } from './admin/window.service';
 import { SocialLoginComponent } from './social-login/social-login.component';
 import { TwitterUserService } from './service/twitter-user.service';
+import { MyDatePipe } from './directives/twitter/twitter-timeline/date-pipe';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -202,7 +203,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     TwitterTimelineDirective,
     MessageCompose,
     FacebookComponent,
-    SocialLoginComponent
+    SocialLoginComponent,
+    MyDatePipe,
   ],
   imports: [
     RouterModule.forRoot([], { useHash: true }),

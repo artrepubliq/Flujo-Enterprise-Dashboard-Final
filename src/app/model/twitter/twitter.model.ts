@@ -68,7 +68,7 @@ export interface ITwitterTimelineObject {
     text: string;
     truncated: boolean;
     user: ITwitterUser;
-
+    header_title?: string;
 }
 
 export interface ITwitterEntities {

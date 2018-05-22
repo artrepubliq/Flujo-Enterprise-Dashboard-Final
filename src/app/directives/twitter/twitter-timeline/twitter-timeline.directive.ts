@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ITwitterTimelineObject, ITwitUser, ITwitterUserProfile } from '../../../model/twitter/twitter.model';
+import { Component, OnInit, Input, OnDestroy, Output } from '@angular/core';
+import { ITwitterTimelineObject, ITwitUser, ITwitterUserProfile, ITwitTimeLineObject } from '../../../model/twitter/twitter.model';
 import { TwitterServiceService } from '../../../service/twitter-service.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+// import { Subscription } from 'rxjs/Subscription';
 import { TwitterUserService } from '../../../service/twitter-user.service';
+import { EventEmitter } from 'events';
 
 
 @Component({
@@ -19,8 +20,13 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public twitterUser: ITwitterUserProfile[];
   public config: any;
   private ngUnSubScribe = new Subject();
-  @Input() twitTimeLine: ITwitterTimelineObject[];
+  @Input() twitHomeTimeLine: ITwitterTimelineObject[];
+  @Input() twitUserTimeLine: ITwitterTimelineObject[];
+  @Input() twitMentionsTimeLine: ITwitterTimelineObject[];
+  @Input() tweetsTimeLine: ITwitterTimelineObject[];
   @Input() header_title: string;
+  // @Output() replyTweetObject = new Subject<ITwitterTimelineObject>();
+
   constructor(
     private twitterService: TwitterServiceService,
     private twitterUserService: TwitterUserService
@@ -40,7 +46,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
 
     this.twitterUserObject = this.twitterUserService.getTwitterUserData;
     this.twitterUser = this.twitterUserObject.data;
-    console.log(this.twitterUser);
+    // console.log(this.twitTimeLine);
 
   }
 
@@ -80,7 +86,17 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       this.twitterService.retweetOfId(params).subscribe(
         result => {
           if (!result.data.errors) {
-            timeline.retweet_count = result.data.retweet_count;
+            timeline.retweet_count = timeline.retweet_count + 1;
+            this.twitterService.getUserTimeline()
+              .subscribe(
+                response => {
+                  console.log(response);
+                },
+                error => {
+                  console.log(error);
+                }
+              );
+
           } else {
             console.log(result.data.errors);
           }
@@ -106,6 +122,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           if (!result.data.errors) {
             console.log(result);
             timeline.favorited = false;
+            timeline.favorite_count = timeline.favorite_count + 1;
           } else {
             console.log(result.data.errors);
           }
@@ -120,6 +137,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           if (!result.data.errors) {
             console.log(result);
             timeline.favorited = true;
+            timeline.favorite_count = timeline.favorite_count - 1;
           } else {
             console.log(result.data.errors);
           }
@@ -140,6 +158,44 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       return true;
     }
     return false;
+  }
+
+  public submitReplyTo(event: any, timeline: ITwitterTimelineObject): void {
+    // console.log(timeline);
+    const status = '@' + timeline.user.screen_name + ' ' + event.target.value;
+    this.twitterService.postStatusOnTwitter({
+      postStatus: status,
+      status_id: timeline.id_str
+    }).subscribe(
+      result => {
+        console.log(result);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  /** this is an event triggered when scrolled to end
+   *
+  */
+
+  public homeTimeLineScrollEvent(event): void {
+    const last_index = this.twitHomeTimeLine.length - 1;
+    console.log(this.twitHomeTimeLine[last_index].id);
+    this.twitterService.getOldHomeTimeline(this.twitHomeTimeLine[last_index].id)
+      .subscribe(
+        result => {
+          console.log(result.data);
+          if (!result.error) {
+            this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
+          }
+          console.log(this.twitHomeTimeLine);
+          console.log(this.twitHomeTimeLine);
+        },
+        error => {
+          console.log(error);
+        });
   }
 
   public ngOnDestroy(): void {
