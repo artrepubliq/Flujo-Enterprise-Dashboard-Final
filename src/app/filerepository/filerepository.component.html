@@ -63,11 +63,14 @@
   <div class="row" *ngIf="repositories.length > 0">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12 folder_block" *ngFor="let repositoryitem of repositories; let i = index">
       <div class="floder_block" [ngClass]="{'active' : repositoryitem.isActive}" fxLayout="row" fxLayoutGap="15px" (click)="getDocuments(repositories, repositoryitem.folder, i)">
-        <i class="fa fa-folder-o"></i>
-        <i class="fa fa-folder-open"></i>
+        <!-- <i class="fa fa-folder-o"></i>
+        <i class="fa fa-folder-open"></i> -->
+        <img class="asset-drive-flujo action folder-icon-normal" src="../assets/icons/folder-icon-normal@3x.png" (click)="deleteFolder(repositoryitem)">
+        <img class="asset-drive-flujo action folder-icon-hover" src="../assets/icons/folder-icon-hover@3x.png" (click)="deleteFolder(repositoryitem)">
         <p class="floder_name">{{repositoryitem.folder}}</p>
         <div class="trash-icon">
-          <i class="fa fa-trash action" (click)="deleteFolder(repositoryitem)"></i>
+          <!-- <i class="fa fa-trash " ></i> -->
+          <img class="asset-btn-flujo action" src="../assets/icons/remove-icon-active@2x.png" (click)="deleteFolder(repositoryitem)">
         </div>
       </div>
     </div>

@@ -189,7 +189,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                         this.alertService.success('Your request updated successfully.');
                         this.spinnerService.hide();
                         this.usersListControl = new FormControl();
-                    } else if (resp.custom_status_code === 101 && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                    } else if (resp.custom_status_code === 101) {
                         this.alertService.danger('Required parameters are missing');
                         this.spinnerService.hide();
                     } else {
@@ -227,7 +227,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                             this.spinnerService.hide();
                             this.moveToListControl = new FormControl();
                             this.remarksListControl = new FormControl();
-                        } else if (resp.custom_status_code === 101 && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                        } else if (resp.custom_status_code === 101) {
                             this.alertService.danger('Required parameters are missing');
                             this.spinnerService.hide();
                         } else {

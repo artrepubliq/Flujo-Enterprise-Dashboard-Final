@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, OnDestroy, Output } from '@angular/core';
-import { ITwitterTimelineObject, ITwitUser, ITwitterUserProfile, ITwitTimeLineObject } from '../../../model/twitter/twitter.model';
+import { Component, OnInit, Input, OnDestroy, Output, HostListener } from '@angular/core';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 import { TwitterServiceService } from '../../../service/twitter-service.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
@@ -7,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 // import { Subscription } from 'rxjs/Subscription';
 import { TwitterUserService } from '../../../service/twitter-user.service';
 import { EventEmitter } from 'events';
+import { ITwitterTimelineObject, ITwitUser, ITwitterUserProfile, ITwitTimeLineObject } from '../../../model/twitter/twitter.model';
 
 
 @Component({
@@ -19,6 +22,8 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public twitterUserObject: ITwitUser;
   public twitterUser: ITwitterUserProfile[];
   public config: any;
+  dofix: boolean;
+
   private ngUnSubScribe = new Subject();
   @Input() twitHomeTimeLine: ITwitterTimelineObject[];
   @Input() twitUserTimeLine: ITwitterTimelineObject[];
@@ -202,6 +207,10 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.ngUnSubScribe.next();
     this.ngUnSubScribe.complete();
+  }
+  @HostListener('window:scroll', ['$event'])
+  doApplyFixedPosition(event) {
+    this.dofix = true;
   }
 
 

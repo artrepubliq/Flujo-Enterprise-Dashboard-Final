@@ -93,7 +93,6 @@ export class CreateModuleComponent implements OnInit {
         this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postmodule', this.moduleForm.value)
             .subscribe(
                 data => {
-                    if (AppConstants.ACCESS_TOKEN === data.access_token) {
                         if (data.custom_status_code === 100) {
                             this.alertService.success('Data updated successfully');
                             this.parsePostResponse(data);
@@ -102,7 +101,6 @@ export class CreateModuleComponent implements OnInit {
                         } else if (data.custom_status_code === 102) {
                             this.alertService.warning('Every thing is upto date!');
                         }
-                    }
                     // if (data.error) {
                     //     this.alertService.warning(data.result);
                     //     // this.parsePostResponse(data);
@@ -132,12 +130,10 @@ export class CreateModuleComponent implements OnInit {
             .subscribe(
                 data => {
                     this.moduleDetails = null;
-                    if (AppConstants.ACCESS_TOKEN === data.access_token) {
                         if (data.custom_status_code === 100) {
                             this.alertService.success('Data deleted successfully');
                         } else if (data.custom_status_code === 101) {
                             this.alertService.warning('Required parameters are missing!');
-                        }
                     }
                     this.getModuleDetails();
                     this.spinnerService.hide();

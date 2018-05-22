@@ -14,7 +14,7 @@ import { ProfileComponent } from './profile/profile.component';
 // import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 // import { MediaComponent } from './media/media.component';
-// import { SmsuiComponent } from './smsui/smsui.component';
+import { SmsuiComponent } from './smsui/smsui.component';
 import { CreateUserComponentComponent } from './create-user-component/create-user-component.component';
 // import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ViewGalleryComponent } from './view-gallery/view-gallery.component';
@@ -38,12 +38,11 @@ import { EmailTemplateComponent } from './email-template/email-template.componen
 import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 // import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
-// import { WhatsappComponent } from './whatsapp/whatsapp.component';
+import { WhatsappComponent } from './whatsapp/whatsapp.component';
 import { ManageReportsResolver } from './manage-reports/manage-reports-resolver';
 import { FeedbackResolver } from './feedback/feedback-resolver';
 import { DataBaseResolver } from './database/database-resolver';
 import { SocialLoginComponent } from './social-login/social-login.component';
-import { TwitterComponent } from './twitter/twitter.component';
 
 const routes: Routes = [
   {
@@ -189,9 +188,6 @@ const routes: Routes = [
             path: 'socialconfiguration', loadChildren: './socialconfiguration/socialconfiguration.module#SocialconfigurationModule',
             data: { title: 'Social Configuration' }
           },
-          {
-            path: 'twitter', component: TwitterComponent
-          }
 
         ]
       }
