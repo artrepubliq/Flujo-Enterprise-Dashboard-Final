@@ -97,17 +97,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
         result => {
           if (!result.data.errors) {
             timeline.retweet_count = timeline.retweet_count + 1;
-            this.twitterService.getUserTimeline()
-              .subscribe(
-                response => {
-                  console.log(response);
-                  this.twitUserTimeLine = response.data;
-                },
-                error => {
-                  console.log(error);
-                }
-              );
-
+            this.refresh(this.userTimeLine);
           } else {
             console.log(result.data.errors);
           }
@@ -222,6 +212,16 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
     if (params === this.retweets) {
 
     } else if (params === this.userTimeLine) {
+      this.twitterService.getUserTimeline()
+              .subscribe(
+                response => {
+                  console.log(response);
+                  this.twitUserTimeLine = response.data;
+                },
+                error => {
+                  console.log(error);
+                }
+              );
 
     } else if (params === this.homeTimeLine) {
 
