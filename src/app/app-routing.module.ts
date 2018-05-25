@@ -130,8 +130,8 @@ const routes: Routes = [
             path: 'media/gallery', component: ViewGalleryComponent,
             data: { title: 'Gallery' }
           },
-          { path: 'social_management', component: SocialManagementComponent, data: { title: 'Socila Management' } },
-          { path: 'social_login', component: SocialLoginComponent, data: { title: 'Socila Login' } },
+          { path: 'social_management', component: SocialManagementComponent, data: { title: 'Social Management' } },
+          { path: 'social_login', component: SocialLoginComponent, data: { title: 'Social Login' } },
           { path: 'biography', loadChildren: './biography/biography.module#BiographyModule', data: { title: 'Biography' } },
           {
             path: 'module',

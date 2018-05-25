@@ -24,6 +24,7 @@
     position: relative;
     .social-tabs-hub-inner{
         position: relative;
+        overflow-x: scroll;
         .social-tabs-hub-inner-row{
             position: relative; 
        
@@ -60,4 +61,5 @@
         }
     } 
  } 
+ 
 }

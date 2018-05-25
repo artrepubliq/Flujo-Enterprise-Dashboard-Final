@@ -35,7 +35,7 @@ export interface ITwitTimeLineObject {
     data: Array<ITwitterTimelineObject[]>;
 }
 
-export interface ITwitTimeLineObejctMaxId {
+export interface ITwitIndividualTimeLineObejct {
     error: boolean;
     data: Array<ITwitterTimelineObject>;
 }
@@ -68,7 +68,7 @@ export interface ITwitterTimelineObject {
     text: string;
     truncated: boolean;
     user: ITwitterUser;
-
+    header_title?: string;
 }
 
 export interface ITwitterEntities {
@@ -206,7 +206,7 @@ export interface ITwitterUrls2 {
 
 
 /*
- *  this is an interface for twitter user profile
+ *  this is an interface for twitter user profile from node
 */
 
 export interface ITwitUser {
@@ -217,7 +217,9 @@ export interface ITwitUser {
 // export interface ITwitterUserdata {
 //     twitter: ITwitterUserProfile[];
 // }
-
+/**
+ * this is a response from twitter for user profile
+ */
 export interface ITwitterUserProfile {
     id: number;
     id_str: string;
@@ -318,4 +320,41 @@ export interface ITwitterUserProfile {
     translator_type: string;
     suspended: boolean;
     needs_phone_verification: boolean;
+}
+
+
+/**
+ * this is an interface for a response of twitter when new status is posted
+ */
+export interface ITStatusResponse {
+    data: {
+        errors?: {
+            code: number;
+            message: string;
+        }[];
+        created_at: string;
+        contributors: null | string;
+        coordinates: string | null;
+        entities: {};
+        favorited: boolean;
+        favorite_count: number;
+        geo: null | string | number;
+        id: number;
+        id_str: string;
+        in_reply_to_screen_name: string;
+        in_reply_to_status_id: string;
+        in_reply_to_status_id_str: string;
+        in_reply_to_user_id: string;
+        in_reply_to_user_id_str: string;
+        is_quote_status: boolean;
+        lang: string;
+        place: string;
+        retweeted: boolean;
+        retweet_count: number;
+        source: string;
+        text: string;
+        truncated: boolean;
+        user: {}
+    };
+
 }
