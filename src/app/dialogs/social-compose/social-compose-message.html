@@ -4,6 +4,21 @@
             <ul fxFlex="100%">
                 <li fxLayoutAlign="space-between center" *ngFor="let streams of data">
                     <label class="d-inline">
+                        <!-- <input class="Check-box-normal" (change)="onCheckEvent($event)" type="checkbox">&nbsp;&nbsp;{{twitUser.screen_name}}</label>
+                    <span class="pull-right">
+
+                        <i *ngIf="data.type == 'twitter'" class="fa fa-twitter"></i>
+                        <i *ngIf="data.type == 'facebook' " class="fa fa-facebook"></i>
+                    </span>
+                </li>
+                <li fxLayoutAlign="space-between center" *ngFor="let twitUser of data.data">
+                    <label class="d-inline">
+                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;{{twitUser.screen_name}}</label>
+                    <span class="pull-right">
+
+                        <i *ngIf="data.type == 'twitter'" class="fa fa-twitter"></i>
+                        <i *ngIf="data.type == 'facebook' " class="fa fa-facebook"></i>
+                    </span> -->
                         <input class="Check-box-normal" (change)="onCheckEvent(streams)" type="checkbox">&nbsp;&nbsp;{{streams.screen_name}}</label>
                 </li>
             </ul>
@@ -46,22 +61,40 @@
             <div fxLayout="column" fxFlex="200px">
                 <div class="checkbox d-inline">
                     <label>
-                        <input class="Check-box-normal" type="checkbox" value="">&nbsp;&nbsp;Schedule Post</label>
+                        <input class="Check-box-normal" type="checkbox" (change)="scheduleCheckBox($event)" value="">&nbsp;&nbsp;Schedule Post</label>
                 </div>
                 <div class="date-schedule" *ngIf="doSchedule" fxLayout="row">
-                    <div class="">
-                        <mat-form-field class="example-full-width">
+                    <div class="date-from">
+                        <!-- <mat-form-field class="example-full-width">
                             <input class="date-from" matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="From">
                             <mat-datepicker #picker1></mat-datepicker>
-                        </mat-form-field>
+                        </mat-form-field> -->
+                        <!-- <div class="form-group">
+                            <div class="input-group date" id='datetimepicker4'>
+                                <input class="form-control date-from input-group-addon" a2e-datetimepicker date [(ngModel)]="startDate" [options]="startOptions" [ngModelOptions]="{standalone: true}"
+                                    (ngModelChange)="update()" />
+                            </div>
+                        </div> -->
+                        <!-- <input class="date-from" type="text"  (minimumdate)="true" (onlydatepicker)="false" id="startdate_id" appFlujodatepicker (datechange)="onStartDateChange($event)"> -->
+                        <angular2-date-picker  class="" [(ngModel)]="date" [settings]="settings" [ngModelOptions]="{standalone: true}">
+                        </angular2-date-picker>
                     </div>
-                    <div class="">
-                        <mat-form-field class="example-full-width">
+                    <div class="date-to">
+                        <!-- <mat-form-field class="example-full-width">
                             <input class="date-to" matInput [matDatepicker]="picker2" (click)="picker2.open()" placeholder="To">
                             <mat-datepicker #picker2></mat-datepicker>
-                        </mat-form-field>
+                        </mat-form-field> -->
+                        <!-- <div class="form-group">
+                            <div class="input-group date" id='datetimepicker4'>
+                                <input class="form-control date-to input-group-addon" a2e-datetimepicker date [(ngModel)]="endDate" [options]="endOptions" [ngModelOptions]="{standalone: true}"
+                                    (ngModelChange)="update()" />
+                            </div>
+                        </div> -->
+                        <!-- <input class="date-to" type="text" id="startdate_id" appFlujodatepicker (datechange)="onStartDateChange($event)"> -->
+                        <angular2-date-picker class="" [(ngModel)]="date" [settings]="settings" [ngModelOptions]="{standalone: true}">
+                        </angular2-date-picker>
                     </div>
-                </div>
+                </div><br/>
                 <div>
                     <mat-select class="select_dropdown_mat" placeholder="Select Target Audience" required id="rolename">
                         <mat-option selected disabled>Select Target Audience</mat-option>
@@ -79,3 +112,19 @@
         </div>
     </form>
 </div>
+
+<!-- <script type="text/javascript">
+    $(function() {              
+       // Bootstrap DateTimePicker v4
+       $('#datetimepicker4').datetimepicker({
+             format: 'DD/MM/YYYY HH:mm',
+             locale: 'fr', format: 'L LT',
+             pickTime: true 
+       });
+    });      
+</script> -->
+<!-- <script>
+    $(function() {
+      $( "#appFlujodatepicker" ).datepicker();
+    });
+</script> -->

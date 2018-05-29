@@ -1,8 +1,9 @@
 <div class="upload_popup" fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="15px">
   <div fxFlex.lg="30%" fxFlex class="uploaded_files" fxLayoutAlign="center center">
-    <div *ngFor="let image of data.images">
-      <img src='data:image/png;base64,{{image}}' width="100px" height="100px">
+    <div *ngFor="let item of image_base64">
+      <img src='data:image/png;base64,{{item}}' width="100px" height="100px">
     </div>
+    <p *ngIf="isApply">{{data.images.length}}</p>
   </div>
 
   <div fxFlex fxLayout="column" fxLayoutGap="20px">
@@ -10,9 +11,8 @@
     <div class="custom_input_mat select_folder" fxLayout="column" fxLayoutGap="12px" *ngIf="data.images?.length > 1">
       <p>Image / Gallery Name</p>
       <mat-form-field class="select_dropdown">
-        <input matInput placeholder="Enter image / gallery name" aria-label="State" [matAutocomplete]="auto" [formControl]="stateCtrl"
-          [(ngModel)]="selectedOption">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <input matInput placeholder="Enter image / gallery name" aria-label="State" [matAutocomplete]="auto" [formControl]="stateCtrl">
+        <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let option of filteredStates | async" [value]="option">
             {{option}}
           </mat-option>

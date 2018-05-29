@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-alerts';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 // import { Chart } from 'chart.js';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -127,6 +127,11 @@ import { SocialLoginComponent } from './social-login/social-login.component';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { TwitterUserService } from './service/twitter-user.service';
 import { MyDatePipe } from './directives/twitter/twitter-timeline/date-pipe';
+// import { A2Edatetimepicker } from 'ng2-eonasdan-datetimepicker';
+// import { FlujodatepickerDirective } from './flujodatepicker.directive';
+
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+
 import { FacebookComponentCommunicationService } from './service/social-comp-int.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -207,8 +212,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FacebookComponent,
     SocialLoginComponent,
     MyDatePipe,
+    // FlujodatepickerDirective
   ],
   imports: [
+    CommonModule,
     RouterModule.forRoot([], { useHash: true }),
     BrowserModule,
     BrowserAnimationsModule,
@@ -262,6 +269,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatSnackBarModule,
     PapaParseModule,
     ScrollDispatchModule,
+    // A2Edatetimepicker,
+    AngularDateTimePickerModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
@@ -321,6 +330,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     { provide: DateAdapter, useClass: DateFormat }
 
   ],
+  // exports: [
+  //   FlujodatepickerDirective,
+  // ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -45,7 +45,7 @@
               <input matInput [min]="minDate" formControlName="to_year" [max]="maxDate" [matDatepicker]="picker2" placeholder="To date"
                 (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-              <mat-datepicker touchUi="true" startView="year" [startAt]="startDate2" #picker2></mat-datepicker>
+              <mat-datepicker touchUi="true" startView="year" [startAt]="startDate" #picker2></mat-datepicker>
             </mat-form-field>
           </div>
         </div>
@@ -99,9 +99,9 @@
               </div>
           <!-- Link Edit Icons -->
           <div class="linksAction-buttons" fxFlex="30%" fxLayoutAlign="end center" fxLayoutGap="15px">
-            <!-- <button type="button" class="btn">
+            <button type="button" class="btn btn-sm btn-success" (click)="updateItem(item.id)">
               Edit
-            </button> -->
+            </button>
             <button (click)="deleteItem(item.id)" type="button" class="btn btn-sm btn-danger">
               Delete
             </button>

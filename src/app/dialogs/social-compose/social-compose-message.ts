@@ -13,8 +13,33 @@ import { IComposePost, IStreamDetails, IStreamComposeData } from '../../model/so
 export class MessageCompose implements OnInit {
     public mediaFile: any;
     checkboxGroup: FormArray;
-    doSchedule: true;
+    doSchedule: boolean;
     postStatusForm: any;
+    // format: 'LT';
+    // pickTime: true;
+    // startDate =  moment('2015-11-18T00:00Z');
+    // endDate = moment('2015-11-20T00:00Z');
+    // startOptions: any = {format: 'YYYY-MM-DD'};
+    // endOptions: any = {format: 'YYYY-MM-DD'};
+    // public startDate: any = new Date();
+    public date: Date = new Date();
+    // settings = {
+    //     bigBanner: true,
+    //     timePicker: true,
+    //     format: 'dd-MM-yyyy hh:mm',
+    //     defaultOpen: false,
+    //     closeOnSelect: true,
+    //     rangepicker: false,
+    //     clickOutside: false
+    // };
+    settings = {
+        bigBanner: true,
+        timePicker: true,
+        format: 'dd-MM-yyyy hh:mm',
+        defaultOpen: false,
+        closeOnSelect: true,
+        rangepicker: false,
+    };
     selectedStreamsArray: IStreamDetails[];
     constructor(
         public dialogRef: MatDialogRef<MessageCompose>,
@@ -24,6 +49,12 @@ export class MessageCompose implements OnInit {
         this.postStatusForm = this.formBuilder.group({
             'message': ['', Validators.compose([Validators.required])],
         });
+        this.doSchedule = false;
+        // this.checkboxGroup = new FormArray(this.data.map(item => new FormGroup({
+        //     id: new FormControl(item.key),
+        //     text: new FormControl(item.text),
+        //     checkbox: new FormControl(false)
+        //   })));
     }
     ngOnInit(): void {
         this.selectedStreamsArray = [];
@@ -56,6 +87,23 @@ export class MessageCompose implements OnInit {
         console.log(composedPostData);
     }
 
+    public scheduleCheckBox(event): void {
+        if (event.target.checked) {
+            this.doSchedule = true;
+        } else {
+            this.doSchedule = false;
+        }
+        console.log(event.target.checked);
+    }
+    // public update() {
+    //     this.startOptions.maxDate = this.endDate;
+    //     this.endOptions.minDate = this.startDate;
+    //   }
+
+    // public onStartDateChange(date) {
+    //     this.startDate = Date;
+    //     this.startDate = new Date(this.startDate.toISOString());
+    // }
     /**
      *
      * @param event takes input as file event
