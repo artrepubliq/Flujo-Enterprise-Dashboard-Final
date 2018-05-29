@@ -155,6 +155,8 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
    * @param timeline this is the timeline object
    */
   public ValidateUserForDeleteTweet(timeline: ITwitterTimelineObject): boolean {
+    // console.log(timeline.user.id);
+    // console.log(this.twitterUser[0].id)
     if (timeline.user.id === this.twitterUser[0].id) {
       return true;
     }
@@ -170,7 +172,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
     // console.log(timeline);
     const status = '@' + timeline.user.screen_name + ' ' + event.target.value;
     this.twitterService.postStatusOnTwitter({
-      postStatus: status,
+      message: status,
       status_id: timeline.id_str
     }).subscribe(
       result => {
@@ -196,8 +198,8 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           if (!result.error) {
             this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
           }
-          console.log(this.twitHomeTimeLine);
-          console.log(this.twitHomeTimeLine);
+          // console.log(this.twitHomeTimeLine);
+          // console.log(this.twitHomeTimeLine);
         },
         error => {
           console.log(error);
@@ -210,23 +212,50 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
    */
   public refresh(params: string): void {
     if (params === this.retweets) {
-
+      this.twitterService.getRetweetsTimeline()
+        .subscribe(
+          response => {
+            console.log(response);
+            this.tweetsTimeLine = response.data;
+          },
+          error => {
+            console.log(error);
+          }
+        );
     } else if (params === this.userTimeLine) {
       this.twitterService.getUserTimeline()
-              .subscribe(
-                response => {
-                  console.log(response);
-                  this.twitUserTimeLine = response.data;
-                },
-                error => {
-                  console.log(error);
-                }
-              );
+        .subscribe(
+          response => {
+            console.log(response);
+            this.twitUserTimeLine = response.data;
+          },
+          error => {
+            console.log(error);
+          }
+        );
 
     } else if (params === this.homeTimeLine) {
-
+      this.twitterService.getHomeTimeline()
+        .subscribe(
+          response => {
+            console.log(response);
+            this.twitHomeTimeLine = response.data;
+          },
+          error => {
+            console.log(error);
+          }
+        );
     } else if (params === this.mentions) {
-
+      this.twitterService.getMentionsTimeline()
+        .subscribe(
+          response => {
+            console.log(response);
+            this.twitMentionsTimeLine = response.data;
+          },
+          error => {
+            console.log(error);
+          }
+        );
     }
   }
 

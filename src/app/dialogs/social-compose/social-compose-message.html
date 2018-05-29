@@ -2,9 +2,9 @@
     <div class="col-list-accounts" fxLayout="column" fxFlex="37">
         <div fxLayout="row">
             <ul fxFlex="100%">
-                <li fxLayoutAlign="space-between center" *ngFor="let twitUser of data.data">
+                <li fxLayoutAlign="space-between center" *ngFor="let streams of data">
                     <label class="d-inline">
-                        <input class="Check-box-normal" (change)="onCheckEvent($event)" type="checkbox">&nbsp;&nbsp;{{twitUser.screen_name}}</label>
+                        <!-- <input class="Check-box-normal" (change)="onCheckEvent($event)" type="checkbox">&nbsp;&nbsp;{{twitUser.screen_name}}</label>
                     <span class="pull-right">
 
                         <i *ngIf="data.type == 'twitter'" class="fa fa-twitter"></i>
@@ -18,12 +18,12 @@
 
                         <i *ngIf="data.type == 'twitter'" class="fa fa-twitter"></i>
                         <i *ngIf="data.type == 'facebook' " class="fa fa-facebook"></i>
-                    </span>
+                    </span> -->
+                        <input class="Check-box-normal" (change)="onCheckEvent(streams)" type="checkbox">&nbsp;&nbsp;{{streams.screen_name}}</label>
                 </li>
             </ul>
         </div>
     </div>
-
     <form fxLayout="column" [formGroup]="postStatusForm" fxFlex="63">
         <div fxLayout="column" fxLayoutGap="0.5rem" class="message-config-box">
             <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -34,9 +34,9 @@
                     <p>3 accounts selected</p>
                 </div>
             </div>
-            <div fxFlex="75px" class="postt-msg" fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="postt-msg" fxLayout="row" fxLayoutAlign="space-between center">
                 <span fxFlex="100%" class="d-inline">
-                    <textarea placeholder="Type here" rows="5" cols="55" formControlName="postStatus"></textarea>
+                    <textarea placeholder="Type here" rows="5" cols="55" formControlName="message"></textarea>
                 </span>
                 <div class="emoji-stack" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
                     <span class="icons-default">
@@ -44,6 +44,7 @@
                     </span>
                     <span class="icons-default">
                         <img src="../assets/social/image-icon-default@3x.png" />
+                        <input mat-raised-button type="file" (change)="onFileChange($event)" accept=".jpg, .png, .jpeg" #fileInput>
                     </span>
                     <span class="icons-default">
                         <img class="img3" src="../assets/social/video-icon-default@3x.png" />
@@ -54,7 +55,7 @@
                 </div>
             </div>
             <br/>
-            <div fxFlex="40px">
+            <div>
                 <input fxFlex="100%" type="text" placeholder="Add Link(optional)">
             </div>
             <div fxLayout="column" fxFlex="200px">
@@ -101,14 +102,13 @@
                     </mat-select>
                 </div>
                 <br/>
-
             </div>
             <br/>
         </div>
-        <div fxFlex="1.5px" class="hor-line"></div>
-        <div fxFlex="55px" class="btn-stack-action" fxLayoutAlign="end end">
+        <div class="hor-line"></div>
+        <div fxFlex="100%" class="btn-stack-action" fxLayoutAlign="end end">
             <button class="button_cancel" mat-button (click)="closeDialog()">Cancel</button>
-            <button class="button_submit pull-right" [disabled]="postStatusForm.invalid" (click)="postSocialStatus()">Save</button>
+            <button class="button_submit pull-right" [disabled]="postStatusForm.invalid" (click)="submitSocilPost()">Save</button>
         </div>
     </form>
 </div>

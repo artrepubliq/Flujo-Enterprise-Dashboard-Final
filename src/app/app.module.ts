@@ -132,6 +132,7 @@ import { MyDatePipe } from './directives/twitter/twitter-timeline/date-pipe';
 
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
+import { FacebookComponentCommunicationService } from './service/social-comp-int.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -314,6 +315,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AuthInterceptorService,
     TwitterServiceService,
     TwitterUserService,
+    FacebookComponentCommunicationService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

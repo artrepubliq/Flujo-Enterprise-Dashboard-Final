@@ -14,12 +14,14 @@ import { ICommonInterface } from '../model/commonInterface.model';
 import { TwitterServiceService } from '../service/twitter-service.service';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import { Observable } from 'rxjs/Observable';
 import { TwitterUserService } from '../service/twitter-user.service';
+import { FacebookComponentCommunicationService } from '../service/social-comp-int.service';
+import { IStreamComposeData, IComposePost } from '../model/social-common.model';
 @Component({
   selector: 'app-twitter',
   templateUrl: './twitter.component.html',
@@ -27,6 +29,7 @@ import { TwitterUserService } from '../service/twitter-user.service';
 })
 export class TwitterComponent implements OnInit, OnDestroy {
 
+  subscription: any;
   public twitterUser: ITwitUser;
   // private ngUnSubScribe = new Subject();
   public config: any;
@@ -39,12 +42,26 @@ export class TwitterComponent implements OnInit, OnDestroy {
   public twitter_social_keys: ISocialKeysObject;
   public twitter_social_keys_object: ISocialKeysTableData[];
   public twitterUserLogin: string;
+  public tweetPostData: IStreamComposeData;
   constructor(
     private httpClient: HttpClient,
     private router: Router,
     private twitterService: TwitterServiceService,
     private twitterUserService: TwitterUserService,
-  ) { }
+    private fbCMPCommunicationService: FacebookComponentCommunicationService
+  ) {
+    this.subscription = this.fbCMPCommunicationService.FBComposedPost$.subscribe(
+      result => {
+        // console.log(result);
+        if (result.streamDetails.length > 0 && result.streamDetails[0].social_platform === 'twitter') {
+          if (result.composedMessage.media) {
+            this.postTweetWithMedia(result.composedMessage);
+          } else {
+            this.postATweet(result.composedMessage);
+          }
+        }
+      });
+  }
   public status: string;
 
   ngOnInit() {
@@ -52,6 +69,7 @@ export class TwitterComponent implements OnInit, OnDestroy {
       this.getTimeLines();
     }
     // this.twitterUser = this.twitterUserService.getTwitterData;
+
   }
   /*
    * this is the function when a user tries to log in
@@ -105,13 +123,14 @@ export class TwitterComponent implements OnInit, OnDestroy {
     this.showSignIn = false;
     const headersObject = {
       twitter_access_token: localStorage.getItem('twitter_access_token'),
-      token_expiry_date: localStorage.getItem('token_expiry_date')
+      token_expiry_date: localStorage.getItem('token_expiry_date'),
+      client_id: AppConstants.CLIENT_ID
     };
     const headers = new HttpHeaders(headersObject);
     this.twitterService.getTimeLines(headers)
       .subscribe(
         result => {
-          if (result.error === false) {
+          if (result.error === false && result.data) {
             this.twitHomeTimeLine = result.data[0];
             this.twitUserTimeLine = result.data[1];
             this.twitMentionsTimeLine = result.data[2];
@@ -146,6 +165,43 @@ export class TwitterComponent implements OnInit, OnDestroy {
         error => {
           console.log(error);
         });
+  }
+  /**
+   * this is to post the status on twitter
+   * @param tweetData has the info of message or status to be posted
+   */
+  public postATweet(tweetData: IComposePost): void {
+    console.log(tweetData);
+    this.twitterService.postStatusOnTwitter(tweetData)
+      .subscribe(
+        result => {
+          console.log(result);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+  /**
+   *
+   * @param tweetData this contains tweet information with media;
+   */
+  public postTweetWithMedia(tweetData: IComposePost): void {
+    console.log(tweetData);
+    const formData = new FormData();
+    formData.append('message', tweetData.message);
+    // tweetData.media.map(item => {
+      formData.append('media', tweetData.media[0]);
+    // });
+    this.twitterService.postTweetMedia(formData)
+      .subscribe(
+        result => {
+          console.log(result);
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   public ngOnDestroy(): void {

@@ -32,7 +32,10 @@ export interface ISocialKeysObject {
  */
 export interface ITwitTimeLineObject {
     error: boolean;
-    data: Array<ITwitterTimelineObject[]>;
+    data?: Array<ITwitterTimelineObject[]>;
+    oauth_callback_confirmed?: boolean;
+    oauth_token?: string;
+    oauth_token_secret?: string;
 }
 
 export interface ITwitIndividualTimeLineObejct {
