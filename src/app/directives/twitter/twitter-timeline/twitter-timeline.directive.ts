@@ -189,21 +189,96 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   */
 
   public homeTimeLineScrollEvent(event): void {
-    const last_index = this.twitHomeTimeLine.length - 1;
-    console.log(this.twitHomeTimeLine[last_index].id);
-    this.twitterService.getOldHomeTimeline(this.twitHomeTimeLine[last_index].id)
-      .subscribe(
-        result => {
-          console.log(result.data);
-          if (!result.error) {
-            this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
-          }
-          // console.log(this.twitHomeTimeLine);
-          // console.log(this.twitHomeTimeLine);
-        },
-        error => {
-          console.log(error);
-        });
+    if (this.twitHomeTimeLine) {
+      const last_index = this.twitHomeTimeLine.length - 1;
+      console.log(this.twitHomeTimeLine[last_index].id);
+      this.twitterService.getOldHomeTimeline(this.twitHomeTimeLine[last_index].id)
+        .subscribe(
+          result => {
+            console.log(result.data);
+            if (!result.error && result.data.length > 0) {
+              this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
+            }
+            // console.log(this.twitHomeTimeLine);
+            // console.log(this.twitHomeTimeLine);
+          },
+          error => {
+            console.log(error);
+          });
+    }
+  }
+
+
+  /**
+   * this is for getting older timeline of a user
+   *  this is an event triggered when scrolled to end
+   *@param event takes scroll event
+  */
+
+  public userTimeLineScrollEvent(event): void {
+    if (this.twitUserTimeLine) {
+      const last_index = this.twitUserTimeLine.length - 1;
+      console.log(this.twitUserTimeLine[last_index].id);
+      this.twitterService.getOldUserTimeline(this.twitUserTimeLine[last_index].id)
+        .subscribe(
+          result => {
+            console.log(result.data);
+            if (!result.error && result.data.length > 0) {
+              this.twitUserTimeLine = [...this.twitUserTimeLine, ...result.data];
+            }
+          },
+          error => {
+            console.log(error);
+          });
+    }
+  }
+
+  /**
+   * this is for getting older mentions timeline of a user
+   *  this is an event triggered when scrolled to end
+   *@param event takes scroll event
+  */
+
+  public mentionsTimeLineScrollEvent(event): void {
+    if (this.twitMentionsTimeLine) {
+      const last_index = this.twitMentionsTimeLine.length - 1;
+      console.log(this.twitMentionsTimeLine[last_index].id);
+      this.twitterService.getOldMentionsTimeline(this.twitMentionsTimeLine[last_index].id)
+        .subscribe(
+          result => {
+            console.log(result.data);
+            if (!result.error && result.data.length > 0) {
+              this.twitMentionsTimeLine = [...this.twitMentionsTimeLine, ...result.data];
+            }
+          },
+          error => {
+            console.log(error);
+          });
+    }
+  }
+
+  /**
+   * this is for getting older mentions timeline of a user
+   *  this is an event triggered when scrolled to end
+   *@param event takes scroll event
+  */
+
+  public retweetsOfMeTimeLineScrollEvent(event): void {
+    if (this.tweetsTimeLine) {
+      const last_index = this.tweetsTimeLine.length - 1;
+      console.log(this.tweetsTimeLine[last_index].id);
+      this.twitterService.getOldRetweetsOfMeTimeline(this.tweetsTimeLine[last_index].id)
+        .subscribe(
+          result => {
+            console.log(result.data);
+            if (!result.error && result.data.length > 0) {
+              this.tweetsTimeLine = [...this.tweetsTimeLine, ...result.data];
+            }
+          },
+          error => {
+            console.log(error);
+          });
+    }
   }
 
   /**

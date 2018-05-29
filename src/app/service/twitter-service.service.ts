@@ -50,6 +50,40 @@ export class TwitterServiceService {
     return this.httpClient.get<ITwitIndividualTimeLineObejct>
       (AppConstants.EXPRESS_URL + 'timeline/' + max_id, { headers: this.headers });
   }
+
+  /**
+   *
+   * @param max_id this is the tweet id we need to pass,
+   * it returns recent tweets less than the max_id
+   */
+  public getOldUserTimeline(max_id): Observable<ITwitIndividualTimeLineObejct> {
+
+    return this.httpClient.get<ITwitIndividualTimeLineObejct>
+      (AppConstants.EXPRESS_URL + 'usertimeline/' + max_id, { headers: this.headers });
+  }
+
+  /**
+   *
+   * @param max_id this is the tweet id we need to pass,
+   * it returns recent tweets less than the max_id
+   */
+  public getOldMentionsTimeline(max_id): Observable<ITwitIndividualTimeLineObejct> {
+
+    return this.httpClient.get<ITwitIndividualTimeLineObejct>
+      (AppConstants.EXPRESS_URL + 'mentionstimeline/' + max_id, { headers: this.headers });
+  }
+
+  /**
+   *
+   * @param max_id this is the tweet id we need to pass,
+   * it returns recent tweets less than the max_id
+   */
+  public getOldRetweetsOfMeTimeline(max_id): Observable<ITwitIndividualTimeLineObejct> {
+
+    return this.httpClient.get<ITwitIndividualTimeLineObejct>
+      (AppConstants.EXPRESS_URL + 'retweetsofme/' + max_id, { headers: this.headers });
+  }
+
   /**
    *
    * @param headers Headers we need to pass twitter feature token and expiry date

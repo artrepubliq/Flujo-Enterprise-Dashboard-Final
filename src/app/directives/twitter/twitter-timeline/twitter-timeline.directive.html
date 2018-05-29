@@ -5,7 +5,8 @@
       <div class="col-md-4" *ngIf="twitHomeTimeLine">
         <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}" (psYReachEnd)="homeTimeLineScrollEvent($event)">
           <div class="nav-social">
-            <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center" (psScrollY)="doApplyFixedPosition($event)">
+            <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center"
+              (psScrollY)="doApplyFixedPosition($event)">
               <div class="social-cards-header">
                 <h6>Twitter Timeline</h6>
               </div>
@@ -97,7 +98,7 @@
 
       <!-- This is twit user timeline -->
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
+        <div class="social-card" (psYReachEnd)="userTimeLineScrollEvent($event)" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
           <div class="nav-social">
             <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
               <div class="social-cards-header">
@@ -191,7 +192,7 @@
 
       <!-- this is mentions timeline -->
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
+        <div class="social-card" (psYReachEnd)="mentionsTimeLineScrollEvent($event)" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
           <div class="nav-social">
             <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
               <div class="social-cards-header">
@@ -285,7 +286,7 @@
 
       <!-- this is retweets timeline -->
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
+        <div class="social-card" (psYReachEnd)="retweetsOfMeTimeLineScrollEvent($event)" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
           <div class="nav-social">
             <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
               <div class="social-cards-header">
@@ -376,6 +377,7 @@
           </ul>
         </div>
       </div>
-    </div><br/>
+    </div>
+    <br/>
   </div>
 </div>
