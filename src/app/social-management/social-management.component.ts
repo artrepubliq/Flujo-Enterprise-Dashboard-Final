@@ -15,6 +15,10 @@ import { HttpHeaders } from '@angular/common/http';
 import { TwitterServiceService } from '../service/twitter-service.service';
 import { ITwitterUserProfile, ITwitUser } from '../model/twitter/twitter.model';
 import { TwitterUserService } from '../service/twitter-user.service';
+import { IStreamDetails } from '../model/social-common.model';
+import { FacebookComponentCommunicationService } from '../service/social-comp-int.service';
+import { AppConstants } from '../app.constants';
+
 
 @Component({
   selector: 'app-root',
@@ -22,6 +26,7 @@ import { TwitterUserService } from '../service/twitter-user.service';
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
+  // FBUserAccountsArray: IFBpages[];
   // public social_users_info: { twitter: ITwitterUserProfile[], facebook: any };
   public twitUserInfo: ITwitUser;
   test: FormGroup;
@@ -47,7 +52,8 @@ export class SocialManagementComponent implements OnInit {
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent,
     private twitterService: TwitterServiceService,
-    private twitterUserService: TwitterUserService
+    private twitterUserService: TwitterUserService,
+    private fbCMPCommunicationService: FacebookComponentCommunicationService
   ) {
     this.fbResponseData = <IFBFeedArray>{};
     this.fbResponseDataItems = [];
@@ -79,33 +85,41 @@ export class SocialManagementComponent implements OnInit {
     this.tab_index = event.index;
 
   }
+
   openmessageComposeDialog(): void {
+    let composeMessagePopUpInputArrayData: IStreamDetails[];
+    composeMessagePopUpInputArrayData = [];
+    let composeMessagePopUpInputObject: IStreamDetails;
+    // _.each(this.FBUserAccountsArray, (item: IFBPages, index) => {
+    //   composeMessagePopUpInputObject = <IStreamDetails>{};
+    //   composeMessagePopUpInputObject.id = index;
+    //   composeMessagePopUpInputObject.access_token = item.access_token;
+    //   composeMessagePopUpInputObject.screen_name = item.name;
+    //   composeMessagePopUpInputObject.social_id = item.id;
+    //   composeMessagePopUpInputArrayData.push(composeMessagePopUpInputObject);
+    // });
+    // console.log(this.twitUserInfo);
+    if (this.twitUserInfo.data.length > 0) {
+      this.twitUserInfo.data.map((item: ITwitterUserProfile, index) => {
+        composeMessagePopUpInputObject = <IStreamDetails>{};
+        composeMessagePopUpInputObject.id = index;
+        composeMessagePopUpInputObject.access_token = '';
+        composeMessagePopUpInputObject.social_platform = 'twitter';
+        composeMessagePopUpInputObject.screen_name = item.screen_name;
+        composeMessagePopUpInputObject.social_id = item.id_str;
+        composeMessagePopUpInputArrayData.push(composeMessagePopUpInputObject);
+      });
+    }
     const dialogRef = this.dialog.open(MessageCompose, {
       panelClass: 'app-full-bleed-dialog',
       width: '45vw',
       height: '61vh',
-      data: this.twitUserInfo
+      data: composeMessagePopUpInputArrayData,
     });
     this.highLighted = 'show-class';
-    dialogRef.afterClosed().subscribe(status => {
-      console.log('The dialog was closed');
-      if (status !== undefined) {
-
-        // this.twitUserInfo;
-        console.log(status);
-        this.twitterService.postStatusOnTwitter(status)
-          .subscribe(
-            result => {
-              if (result.data.errors && result.data.errors.length > 0) {
-                console.log(result.data.errors);
-              } else {
-                console.log('status posted successfully');
-              }
-            },
-            error => {
-              console.log(error);
-            }
-          );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fbCMPCommunicationService.fbComposedPostAnnounce(result);
       }
       this.highLighted = 'hide-class';
     });
@@ -192,7 +206,8 @@ export class SocialManagementComponent implements OnInit {
 
     const headersObject = {
       twitter_access_token: localStorage.getItem('twitter_access_token'),
-      token_expiry_date: localStorage.getItem('token_expiry_date')
+      token_expiry_date: localStorage.getItem('token_expiry_date'),
+      client_id: AppConstants.CLIENT_ID
     };
 
     const headers = new HttpHeaders(headersObject);

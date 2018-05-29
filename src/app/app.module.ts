@@ -124,9 +124,10 @@ import { MessageCompose } from './dialogs/social-compose/social-compose-message'
 import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
 import { WindowRef } from './admin/window.service';
 import { SocialLoginComponent } from './social-login/social-login.component';
-import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { TwitterUserService } from './service/twitter-user.service';
 import { MyDatePipe } from './directives/twitter/twitter-timeline/date-pipe';
+import { FacebookComponentCommunicationService } from './service/social-comp-int.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -305,6 +306,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AuthInterceptorService,
     TwitterServiceService,
     TwitterUserService,
+    FacebookComponentCommunicationService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
