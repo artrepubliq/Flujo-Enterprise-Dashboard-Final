@@ -74,7 +74,7 @@
                 [class.highlight]="hightlightStatus[i]">
                 <div class="img-item">
                   <div class="bg-layer"></div>
-                  <img class="img-fluid" src='data:image/png;base64,{{items.image}}' alt="">
+                  <img class="img-fluid" src='{{items.images}}' alt="">
                   <div class="delete-img" (click)="deleteMediaImage(items.id)">
                     <i class="fa fa-times"></i>
                   </div>
@@ -99,7 +99,7 @@
               <div [hidden]="!albumItem">
                 <div class="grid-item img-item">
                   <div class="img-block">
-                    <img src='data:image/png;base64,{{albumItem.image}}' class="img-fluid" alt="Gallary Img">
+                    <img src='{{albumItem.images}}' class="img-fluid" alt="Gallary Img">
                     <div class="bg-layer"></div>
                     <div class="item-controls">
                       <i class="fa fa-times" (click)="deleteGalleryItem(albumItem)"></i>
