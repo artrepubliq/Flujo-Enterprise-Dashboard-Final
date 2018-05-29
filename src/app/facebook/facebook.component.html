@@ -1,5 +1,5 @@
 <div class="social-tabs-inner">
-  <div class="social-tabs-hub-inner" [perfectScrollbar]="{suppressScrollY: true, wheelPropagation: true}">
+  <div fxLayout="column"  fxLayoutGap="10px" class="social-tabs-hub-inner">
     <div class="social-tabs-hub-inner-row"  fxLayoutGap="0.5px" fxLayout="row">
       <div class="col-md-4">
         <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true}">
@@ -208,7 +208,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="config">
+        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true}">
           <div class="nav-social" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="social-cards-header">
               <h6>Mentions</h6>
@@ -297,7 +297,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="config">
+        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true}">
           <div class="nav-social" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="social-cards-header">
               <h6>Shares</h6>
@@ -386,7 +386,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="config">
+        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true}">
           <div class="nav-social" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="social-cards-header">
               <h6>Likes</h6>
@@ -475,7 +475,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="config">
+        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true}">
           <div class="nav-social" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="social-cards-header">
               <h6>Comments</h6>
@@ -565,6 +565,5 @@
       </div>
 
     </div>
-    <br>
   </div>
 </div>
