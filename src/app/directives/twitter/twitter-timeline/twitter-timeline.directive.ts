@@ -157,7 +157,8 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public ValidateUserForDeleteTweet(timeline: ITwitterTimelineObject): boolean {
     // console.log(timeline.user.id);
     // console.log(this.twitterUser[0].id)
-    if (timeline.user.id === this.twitterUser[0].id) {
+    // console.log(this.twitterUser);
+    if (this.twitterUser && (this.twitterUser[0].id === timeline.user.id)) {
       return true;
     }
     return false;

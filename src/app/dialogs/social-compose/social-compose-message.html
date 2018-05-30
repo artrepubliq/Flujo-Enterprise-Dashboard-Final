@@ -1,3 +1,4 @@
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="message-compose-pop" fxLayout="row">
     <div class="col-list-accounts" fxLayout="column" fxFlex="37">
         <div fxLayout="row">
@@ -56,7 +57,7 @@
             </div>
             <br/>
             <div>
-                <input fxFlex="100%" type="text" placeholder="Add Link(optional)">
+                <input fxFlex="100%" type="text" formControlName="link" placeholder="Add Link(optional)">
             </div>
             <div fxLayout="column" fxFlex="200px">
                 <div class="checkbox d-inline">
@@ -76,7 +77,7 @@
                             </div>
                         </div> -->
                         <!-- <input class="date-from" type="text"  (minimumdate)="true" (onlydatepicker)="false" id="startdate_id" appFlujodatepicker (datechange)="onStartDateChange($event)"> -->
-                        <angular2-date-picker  class="" [(ngModel)]="date" [settings]="settings" [ngModelOptions]="{standalone: true}">
+                        <angular2-date-picker class="" formControlName="from_date" [settings]="settings" >
                         </angular2-date-picker>
                     </div>
                     <div class="date-to">
@@ -91,10 +92,11 @@
                             </div>
                         </div> -->
                         <!-- <input class="date-to" type="text" id="startdate_id" appFlujodatepicker (datechange)="onStartDateChange($event)"> -->
-                        <angular2-date-picker class="" [(ngModel)]="date" [settings]="settings" [ngModelOptions]="{standalone: true}">
+                        <angular2-date-picker class="" formControlName="to_date" [settings]="settings">
                         </angular2-date-picker>
                     </div>
-                </div><br/>
+                </div>
+                <br/>
                 <div>
                     <mat-select class="select_dropdown_mat" placeholder="Select Target Audience" required id="rolename">
                         <mat-option selected disabled>Select Target Audience</mat-option>
@@ -108,7 +110,7 @@
         <div class="hor-line"></div>
         <div fxFlex="100%" class="btn-stack-action" fxLayoutAlign="end end">
             <button class="button_cancel" mat-button (click)="closeDialog()">Cancel</button>
-            <button class="button_submit pull-right" [disabled]="postStatusForm.invalid" (click)="submitSocilPost()">Save</button>
+            <button class="button_submit pull-right" [disabled]="postStatusForm.invalid" (click)="submitSocialPost()">Save</button>
         </div>
     </form>
 </div>

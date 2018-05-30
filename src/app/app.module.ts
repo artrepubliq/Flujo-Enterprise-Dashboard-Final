@@ -127,6 +127,7 @@ import { SocialLoginComponent } from './social-login/social-login.component';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { TwitterUserService } from './service/twitter-user.service';
 import { MyDatePipe } from './directives/twitter/twitter-timeline/date-pipe';
+import { LinkyModule } from 'angular-linky';
 // import { A2Edatetimepicker } from 'ng2-eonasdan-datetimepicker';
 // import { FlujodatepickerDirective } from './flujodatepicker.directive';
 
@@ -271,6 +272,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ScrollDispatchModule,
     // A2Edatetimepicker,
     AngularDateTimePickerModule,
+    LinkyModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,

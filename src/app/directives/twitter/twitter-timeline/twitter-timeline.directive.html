@@ -1,6 +1,6 @@
 <!-- This is for twitter home time line -->
 <div class="social-tabs-inner">
-  <div fxLayout="column"  fxLayoutGap="10px" class="social-tabs-hub-inner">
+  <div fxLayout="column" fxLayoutGap="10px" class="social-tabs-hub-inner">
     <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
       <div class="col-md-4" *ngIf="twitHomeTimeLine">
         <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}" (psYReachEnd)="homeTimeLineScrollEvent($event)">
@@ -42,9 +42,7 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>
-                    {{timeline.text}}
-                  </p>
+                  <span [innerHTML]="timeline.text | linky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media">
@@ -136,9 +134,7 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>
-                    {{timeline.text}}
-                  </p>
+                  <span [innerHTML]="timeline.text | linky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media">
@@ -230,9 +226,7 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>
-                    {{timeline.text}}
-                  </p>
+                  <span [innerHTML]="timeline.text | linky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media">
@@ -324,9 +318,7 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>
-                    {{timeline.text}}
-                  </p>
+                  <span [innerHTML]="timeline.text | linky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media">

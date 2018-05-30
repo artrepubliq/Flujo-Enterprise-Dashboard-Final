@@ -99,7 +99,7 @@ export class SocialManagementComponent implements OnInit {
     //   composeMessagePopUpInputArrayData.push(composeMessagePopUpInputObject);
     // });
     // console.log(this.twitUserInfo);
-    if (this.twitUserInfo.data.length > 0) {
+    if (this.twitUserInfo.data && this.twitUserInfo.data.length > 0) {
       this.twitUserInfo.data.map((item: ITwitterUserProfile, index) => {
         composeMessagePopUpInputObject = <IStreamDetails>{};
         composeMessagePopUpInputObject.id = index;

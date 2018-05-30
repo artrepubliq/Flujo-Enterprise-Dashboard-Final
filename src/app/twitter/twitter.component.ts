@@ -54,7 +54,7 @@ export class TwitterComponent implements OnInit, OnDestroy {
       result => {
         // console.log(result);
         if (result.streamDetails.length > 0 && result.streamDetails[0].social_platform === 'twitter') {
-          if (result.composedMessage.media) {
+          if (result.composedMessage.media && result.composedMessage.media.length > 0) {
             this.postTweetWithMedia(result.composedMessage);
           } else {
             this.postATweet(result.composedMessage);
@@ -173,6 +173,7 @@ export class TwitterComponent implements OnInit, OnDestroy {
   public postATweet(tweetData: IComposePost): void {
     console.log(tweetData);
     this.twitterService.postStatusOnTwitter(tweetData)
+    // this.twitterService.testPost(tweetData)
       .subscribe(
         result => {
           console.log(result);
@@ -191,7 +192,7 @@ export class TwitterComponent implements OnInit, OnDestroy {
     const formData = new FormData();
     formData.append('message', tweetData.message);
     // tweetData.media.map(item => {
-      formData.append('media', tweetData.media[0]);
+    formData.append('media', tweetData.media[0]);
     // });
     this.twitterService.postTweetMedia(formData)
       .subscribe(

@@ -7,6 +7,9 @@ export class AuthInterceptorService {
   public getToken(): string {
     return localStorage.getItem('token');
   }
+  public getDomain(): string {
+    return localStorage.getItem('domain_name');
+  }
   public isAuthenticated(): boolean {
     // get the token
     const token = this.getToken();

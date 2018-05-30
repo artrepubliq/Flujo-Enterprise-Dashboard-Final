@@ -8,7 +8,7 @@ import {
   ITwitterTimelineObject,
   ITwitTimeLineObject,
   ITwitIndividualTimeLineObejct,
-  ITwitterUserProfile, ITwitUser, ITStatusResponse
+  ITwitterUserProfile, ITwitUser, ITStatusResponse, ITwitterUser
 } from '../model/twitter/twitter.model';
 
 @Injectable()
@@ -94,7 +94,6 @@ export class TwitterServiceService {
       AppConstants.EXPRESS_URL + 'userprofile/' + AppConstants.CLIENT_ID, { headers: headers }
     );
   }
-
 
   /**
    * this is a service for posting a status on twitter
@@ -192,4 +191,11 @@ export class TwitterServiceService {
     // return this.httpClient.post<Observable<any>>('http://localhost:3000/postmediastatus', tweetMedia, { headers: this.headers });
     return this.httpClient.post<Observable<any>>(AppConstants.EXPRESS_URL + 'postmediastatus', tweetMedia, { headers: this.headers });
   }
+
+  public testPost(data): Observable<ITwitterUser> {
+    return this.httpClient.post<ITwitterUser>(
+      'http://192.168.1.35:3000/scheduler/twitter/', data, { headers: this.headers }
+    );
+  }
+
 }
