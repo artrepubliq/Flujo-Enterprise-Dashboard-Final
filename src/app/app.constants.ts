@@ -2,10 +2,10 @@ import { IAccessLevelModel } from './model/accessLevel.model';
 
 export class AppConstants {
     /** server */
-    public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo.in_api_client/'; }
+    // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo.in_api_client/'; }
 
     /*Staging*/
-    // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/'; }
+    public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/v1/'; }
 
     /**this is heroku cloud url for production */
     // public static get API_URL(): string { return 'https://flujo-api-pro.herokuapp.com'; }
