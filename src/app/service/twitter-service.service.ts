@@ -192,7 +192,7 @@ export class TwitterServiceService {
     return this.httpClient.post<Observable<any>>(AppConstants.EXPRESS_URL + 'postmediastatus', tweetMedia, { headers: this.headers });
   }
 
-  public testPost(data): Observable<ITwitterUser> {
+  public postScheduleTweet(data): Observable<ITwitterUser> {
     return this.httpClient.post<ITwitterUser>(
       'http://192.168.1.35:3000/scheduler/twitter/', data, { headers: this.headers }
     );

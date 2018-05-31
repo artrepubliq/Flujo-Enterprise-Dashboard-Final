@@ -172,16 +172,27 @@ export class TwitterComponent implements OnInit, OnDestroy {
    */
   public postATweet(tweetData: IComposePost): void {
     console.log(tweetData);
-    this.twitterService.postStatusOnTwitter(tweetData)
-    // this.twitterService.testPost(tweetData)
-      .subscribe(
-        result => {
-          console.log(result);
-        },
-        error => {
-          console.log(error);
-        }
-      );
+    if (tweetData.from_date || tweetData.to_date) {
+      this.twitterService.postScheduleTweet(tweetData)
+        .subscribe(
+          result => {
+            console.log(result);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+    } else {
+      this.twitterService.postStatusOnTwitter(tweetData)
+        .subscribe(
+          result => {
+            console.log(result);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+    }
   }
   /**
    *

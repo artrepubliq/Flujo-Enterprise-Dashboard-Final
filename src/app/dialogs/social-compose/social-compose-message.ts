@@ -88,10 +88,16 @@ export class MessageCompose implements OnInit {
         composedPostData = <IStreamComposeData>{};
         composedPostData.streamDetails = this.selectedStreamsArray;
         composedPostData.composedMessage = this.postStatusForm.value;
-        if (this.mediaFile !== undefined && (this.errors && this.errors.length > 0)) {
+        if (this.mediaFile !== undefined && this.errors.length === 0) {
             composedPostData.composedMessage.media = this.mediaFile;
         } else {
+            // if media is not opted then setting the media value to an empty array.
             composedPostData.composedMessage.media = [];
+        }
+        /** if scheduling isn't opted then settting from_date and to_date to undefined */
+        if (this.doSchedule === false) {
+            composedPostData.composedMessage.from_date = undefined;
+            composedPostData.composedMessage.to_date = undefined;
         }
 
         console.log(composedPostData);
