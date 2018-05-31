@@ -54,7 +54,7 @@ export class MessageCompose implements OnInit {
             'message': ['', Validators.compose([Validators.required])],
             'from_date': [new Date()],
             'to_date': [new Date()],
-            'link': [null],
+            'link': [''],
             'user_id': [localStorage.getItem('user_id')]
         });
         this.doSchedule = false;
