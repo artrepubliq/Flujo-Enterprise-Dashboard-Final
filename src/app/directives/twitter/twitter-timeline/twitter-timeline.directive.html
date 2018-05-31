@@ -45,9 +45,12 @@
                   <span [innerHTML]="timeline.text | linky"></span>
                 </mat-card-content>
                 <br/>
-                <div class="social-image" *ngIf="timeline.entities.media">
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
                   <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
                 </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
                     <div>
@@ -137,9 +140,12 @@
                   <span [innerHTML]="timeline.text | linky"></span>
                 </mat-card-content>
                 <br/>
-                <div class="social-image" *ngIf="timeline.entities.media">
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
                   <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
                 </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
                     <div>
@@ -229,9 +235,12 @@
                   <span [innerHTML]="timeline.text | linky"></span>
                 </mat-card-content>
                 <br/>
-                <div class="social-image" *ngIf="timeline.entities.media">
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
                   <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
                 </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
                     <div>
@@ -321,9 +330,12 @@
                   <span [innerHTML]="timeline.text | linky"></span>
                 </mat-card-content>
                 <br/>
-                <div class="social-image" *ngIf="timeline.entities.media">
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
                   <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
                 </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
                     <div>

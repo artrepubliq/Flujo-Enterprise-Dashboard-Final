@@ -135,6 +135,7 @@ export class TwitterComponent implements OnInit, OnDestroy {
             this.twitUserTimeLine = result.data[1];
             this.twitMentionsTimeLine = result.data[2];
             this.twitRetweets = result.data[3];
+            console.log(this.twitHomeTimeLine);
           } else {
             this.showSignIn = true;
             console.log(result.data);

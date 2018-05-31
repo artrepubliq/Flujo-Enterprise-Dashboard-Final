@@ -126,7 +126,6 @@ import { WindowRef } from './admin/window.service';
 import { SocialLoginComponent } from './social-login/social-login.component';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { TwitterUserService } from './service/twitter-user.service';
-import { MyDatePipe } from './directives/twitter/twitter-timeline/date-pipe';
 import { LinkyModule } from 'angular-linky';
 // import { A2Edatetimepicker } from 'ng2-eonasdan-datetimepicker';
 // import { FlujodatepickerDirective } from './flujodatepicker.directive';
@@ -134,6 +133,7 @@ import { LinkyModule } from 'angular-linky';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
 import { FacebookComponentCommunicationService } from './service/social-comp-int.service';
+import { MyDatePipe } from './_pipes/date-pipe';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);

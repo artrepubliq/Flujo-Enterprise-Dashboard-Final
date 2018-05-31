@@ -2,9 +2,17 @@ import { IAccessLevelModel } from './model/accessLevel.model';
 
 export class AppConstants {
     /** server */
-    // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo.in_api_client/'; }
+    public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo.in_api_client/'; }
+
     /*Staging*/
-    public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/'; }
+    // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/'; }
+
+    /**this is heroku cloud url for production */
+    // public static get API_URL(): string { return 'https://flujo-api-pro.herokuapp.com'; }
+
+    /**this is heroku cloud url for staging */
+    // public static get API_URL(): string { return 'https://flujo-client-api.herokuapp.com'; }
+
     public static get CLIENT_ID(): string { return '1232'; }
     public static get THEME_ID(): string { return '32'; }
 
