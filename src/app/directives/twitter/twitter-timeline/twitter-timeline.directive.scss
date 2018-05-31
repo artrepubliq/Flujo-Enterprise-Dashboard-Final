@@ -27,10 +27,34 @@
         letter-spacing: normal;
         text-align: left;
         span {
-        color: #666666;  
-        cursor: pointer;  
-        position: relative;      
-        }
+            color: #666666;  
+            cursor: pointer;  
+            position: relative;  
+            }
+            img.liked-icon{
+                display:inline-block;
+                vertical-align: sub !important;    
+            }
+            img.like-icon{
+                display:inline-block;
+                vertical-align: sub !important;
+            }
+            span.liked{
+                color: #ee2f6b;
+            }
+            // .btn-likes:hover, .btn-likes:focus{
+            //     span{
+            //         color: #ee2f6b;
+            //     }
+            //     img.liked-icon{
+            //         display:inline-block;
+            //         vertical-align: sub !important;                    
+            //     }
+            //     img.like-icon{
+            //         display:none;
+            //         vertical-align: sub !important;
+            //     }
+            // }
         button#dropdownMenuButton {
             border: none;
         }

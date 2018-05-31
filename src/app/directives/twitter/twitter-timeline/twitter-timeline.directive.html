@@ -53,11 +53,13 @@
                 </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div>
-                      <span class="icons-default">
-                        <img src="../assets/social/like-icon-normal@3x.png" (click)="favorite(timeline)" class="">&nbsp; Like
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
                       </span>
-                      <span>{{timeline.favorite_count}}</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
                     </div>
                     <div>
                       <span>
@@ -148,11 +150,13 @@
                 </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div>
-                      <span class="icons-default">
-                        <img src="../assets/social/like-icon-normal@3x.png" (click)="favorite(timeline)" class="">&nbsp; Like
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
                       </span>
-                      <span>{{timeline.favorite_count}}</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
                     </div>
                     <div>
                       <span>
@@ -243,11 +247,13 @@
                 </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div>
-                      <span class="icons-default">
-                        <img src="../assets/social/like-icon-normal@3x.png" (click)="favorite(timeline)" class="">&nbsp; Like
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
                       </span>
-                      <span>{{timeline.favorite_count}}</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
                     </div>
                     <div>
                       <span>
@@ -338,11 +344,13 @@
                 </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div>
-                      <span class="icons-default">
-                        <img src="../assets/social/like-icon-normal@3x.png" (click)="favorite(timeline)" class="">&nbsp; Like
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
                       </span>
-                      <span>{{timeline.favorite_count}}</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
                     </div>
                     <div>
                       <span>
