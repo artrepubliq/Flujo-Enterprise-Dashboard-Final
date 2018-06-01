@@ -9,8 +9,11 @@ import { Observable } from 'rxjs/Observable';
 // import { Subscription } from 'rxjs/Subscription';
 import { TwitterUserService } from '../../../service/twitter-user.service';
 import { EventEmitter } from 'events';
-import { ITwitterTimelineObject, ITwitUser, ITwitterUserProfile, ITwitTimeLineObject } from '../../../model/twitter/twitter.model';
-
+import {
+  ITwitterTimelineObject, ITwitUser, ITwitterUserProfile, ITwitTimeLineObject, ITwitterMedia
+} from '../../../model/twitter/twitter.model';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ImagePreviewDialogComponent } from '../../../dialogs/image-preview-dialog/image-preview-dialog.component';
 
 @Component({
   selector: 'app-twitter-timeline',
@@ -19,6 +22,7 @@ import { ITwitterTimelineObject, ITwitUser, ITwitterUserProfile, ITwitTimeLineOb
 })
 // tslint:disable-next-line:component-class-suffix
 export class TwitterTimelineDirective implements OnInit, OnDestroy {
+  autolinker: string;
   public twitterUserObject: ITwitUser;
   public twitterUser: ITwitterUserProfile[];
   public config: any;
@@ -39,7 +43,8 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
 
   constructor(
     private twitterService: TwitterServiceService,
-    private twitterUserService: TwitterUserService
+    private twitterUserService: TwitterUserService,
+    public dialog: MatDialog
   ) {
   }
 
@@ -57,7 +62,9 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
     this.twitterUserObject = this.twitterUserService.getTwitterUserData;
     this.twitterUser = this.twitterUserObject.data;
     // console.log(this.twitTimeLine);
-
+    // this.autolinker = Autolinker.link('www.hii.com #hahahahah im in anotation',
+    // { twitter: true, className: 'hai', hashtag: true, urls: true });
+    // console.log(autolinker);
   }
 
   /**
@@ -335,6 +342,39 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * this is to preview the image
+   * @param image it takes the image url for preview
+   */
+  public previewImage(timelineObject: ITwitterTimelineObject): void {
+
+    let arrayOfImages: String[];
+    console.log(timelineObject);
+    if (
+      timelineObject.extended_entities &&
+      timelineObject.extended_entities.media &&
+      timelineObject.extended_entities.media.length > 0) {
+      arrayOfImages = timelineObject.extended_entities.media.map(
+        image => image.media_url
+      );
+      console.log(arrayOfImages);
+    } else if (
+      !timelineObject.extended_entities
+      && timelineObject.entities.media
+      && timelineObject.entities.media.length > 0
+    ) {
+      arrayOfImages = timelineObject.entities.media.map(
+        image => image.media_url
+      );
+    }
+    const dialogRef = this.dialog.open(ImagePreviewDialogComponent, {
+      width: '50%',
+      data: arrayOfImages,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
   public ngOnDestroy(): void {
     this.ngUnSubScribe.next();
     this.ngUnSubScribe.complete();

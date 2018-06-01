@@ -49,7 +49,7 @@ export interface ITwitterTimelineObject {
     coordinates: string | null;
     created_at: string;
     entities: ITwitterEntities;
-    extended_entities: ITwitterMedia;
+    extended_entities: { media: Array<ITwitterMedia> };
     favorite_count: number;
     favorited: boolean;
     geo: null | string;

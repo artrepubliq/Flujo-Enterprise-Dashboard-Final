@@ -203,9 +203,9 @@ export class TwitterComponent implements OnInit, OnDestroy {
     console.log(tweetData);
     const formData = new FormData();
     formData.append('message', tweetData.message);
-    // tweetData.media.map(item => {
-    formData.append('media', tweetData.media[0]);
-    // });
+    tweetData.media.map(item => {
+      formData.append('media[]', item);
+    });
     this.twitterService.postTweetMedia(formData)
       .subscribe(
         result => {

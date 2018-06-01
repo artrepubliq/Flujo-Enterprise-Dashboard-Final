@@ -42,11 +42,11 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span [innerHTML]="timeline.text | linky"></span>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
-                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
                 </div>
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
@@ -139,11 +139,11 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span [innerHTML]="timeline.text | linky"></span>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
-                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
                 </div>
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
@@ -236,11 +236,11 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span [innerHTML]="timeline.text | linky"></span>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
-                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
                 </div>
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
@@ -333,11 +333,11 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span [innerHTML]="timeline.text | linky"></span>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
-                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
                 </div>
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
