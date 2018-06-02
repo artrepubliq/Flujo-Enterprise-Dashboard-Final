@@ -53,7 +53,7 @@ export class TwitterComponent implements OnInit, OnDestroy {
     this.subscription = this.fbCMPCommunicationService.FBComposedPost$.subscribe(
       result => {
         // console.log(result);
-        if (result.streamDetails.length > 0 && result.streamDetails[0].social_platform === 'twitter') {
+        if (result.streamDetails.length > 0 && result.streamDetails[0].social_platform[0] === 'twitter') {
           if (result.composedMessage.media && result.composedMessage.media.length > 0) {
             this.postTweetWithMedia(result.composedMessage);
           } else {

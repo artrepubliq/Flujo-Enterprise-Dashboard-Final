@@ -19,22 +19,6 @@ export class MessageCompose implements OnInit {
     postStatusForm: any;
     public errors: Array<string> = [];
     public date: Date = new Date();
-    // format: 'LT';
-    // pickTime: true;
-    // startDate =  moment('2015-11-18T00:00Z');
-    // endDate = moment('2015-11-20T00:00Z');
-    // startOptions: any = {format: 'YYYY-MM-DD'};
-    // endOptions: any = {format: 'YYYY-MM-DD'};
-    // public startDate: any = new Date();
-    // settings = {
-    //     bigBanner: true,
-    //     timePicker: true,
-    //     format: 'dd-MM-yyyy hh:mm',
-    //     defaultOpen: false,
-    //     closeOnSelect: true,
-    //     rangepicker: false,
-    //     clickOutside: false
-    // };
     settings = {
         bigBanner: true,
         timePicker: true,
@@ -58,11 +42,6 @@ export class MessageCompose implements OnInit {
             'user_id': [localStorage.getItem('user_id')]
         });
         this.doSchedule = false;
-        // this.checkboxGroup = new FormArray(this.data.map(item => new FormGroup({
-        //     id: new FormControl(item.key),
-        //     text: new FormControl(item.text),
-        //     checkbox: new FormControl(false)
-        //   })));
     }
     ngOnInit(): void {
         this.selectedStreamsArray = [];
@@ -76,11 +55,13 @@ export class MessageCompose implements OnInit {
     public onCheckEvent(stream: IStreamDetails): void {
         let composedPostObject: IStreamDetails;
         composedPostObject = <IStreamDetails>{};
-        composedPostObject.social_id = stream.social_id;
+        composedPostObject.social_id = stream.id;
         composedPostObject.id = stream.id;
         composedPostObject.screen_name = stream.screen_name;
         composedPostObject.access_token = stream.access_token;
-        composedPostObject.social_platform = stream.social_platform ? stream.social_platform : '';
+        composedPostObject.imageUploadSuccessItem = [];
+        composedPostObject.imageUploadFailedItem = [];
+        composedPostObject.postStatus = false;
         this.selectedStreamsArray.push(composedPostObject);
     }
     public submitSocialPost(): void {
@@ -114,15 +95,7 @@ export class MessageCompose implements OnInit {
         }
         console.log(event.target.checked);
     }
-    // public update() {
-    //     this.startOptions.maxDate = this.endDate;
-    //     this.endOptions.minDate = this.startDate;
-    //   }
 
-    // public onStartDateChange(date) {
-    //     this.startDate = Date;
-    //     this.startDate = new Date(this.startDate.toISOString());
-    // }
     /**
      *
      * @param event takes input as file event

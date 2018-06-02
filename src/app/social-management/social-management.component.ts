@@ -3,6 +3,7 @@ import { FacebookService, InitParams, LoginResponse, LoginOptions } from 'ngx-fa
 import { FBService } from '../service/fb.service';
 import { IFBFeedResponse, IFBFeedArray, IPaginigCursors } from '../model/fb-feed.model';
 import * as _ from 'underscore';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -11,13 +12,14 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatTabChange
 import { ThemePalette, MatDatepickerInputEvent } from '@angular/material';
 import * as moment from 'moment';
 import { MessageCompose } from '../dialogs/social-compose/social-compose-message';
-import { HttpHeaders } from '@angular/common/http';
 import { TwitterServiceService } from '../service/twitter-service.service';
 import { ITwitterUserProfile, ITwitUser } from '../model/twitter/twitter.model';
 import { TwitterUserService } from '../service/twitter-user.service';
-import { IStreamDetails } from '../model/social-common.model';
+import { IStreamDetails, ILoggedInUsersAccounts, IStreamComposeData, IUserAccountPages } from '../model/social-common.model';
 import { FacebookComponentCommunicationService } from '../service/social-comp-int.service';
 import { AppConstants } from '../app.constants';
+import { IMyAccounts, IFBPages } from '../model/facebook.model';
+import { ICommonInterface } from '../model/commonInterface.model';
 
 
 @Component({
@@ -26,21 +28,17 @@ import { AppConstants } from '../app.constants';
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
-  // FBUserAccountsArray: IFBpages[];
-  // public social_users_info: { twitter: ITwitterUserProfile[], facebook: any };
+  FbLongLivedToken: any;
+  userName: string;
+  userAccountId: string;
+  loggedInUserAccountsArray: ILoggedInUsersAccounts[];
+  FBUserAccountsArray: IFBPages[];
   public twitUserInfo: ITwitUser;
-  test: FormGroup;
-  test1: string;
-  test2: string;
-  test3: string;
-  test4: string;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
-  postis = 4;
   fbNextPage: IPaginigCursors;
   fbResponseData: IFBFeedArray;
   fbResponseDataItems: Array<IFBFeedArray>;
-  // tslint:disable-next-line:max-line-length
   getFBFeerUrl: string;
   isFbLogedin = false;
   isShowTwitter = false;
@@ -53,31 +51,18 @@ export class SocialManagementComponent implements OnInit {
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent,
     private twitterService: TwitterServiceService,
     private twitterUserService: TwitterUserService,
-    private fbCMPCommunicationService: FacebookComponentCommunicationService
+    private fbCMPCommunicationService: FacebookComponentCommunicationService,
+    private httpClient: HttpClient,
   ) {
     this.fbResponseData = <IFBFeedArray>{};
     this.fbResponseDataItems = [];
     fbService.FBInit();
-
-    this.test = this.formBuilder.group({
-      'test1': ['', Validators.required],
-      'test2': ['', Validators.required],
-      'test3': ['', Validators.required],
-      'test4': ['', Validators.required],
-    });
-
+    this.fbLogin();
     this.tab_index = 0;
   }
   ngOnInit(): void {
-    setTimeout(function () {
-      this.test.controls['test1'].setValue('test1');
-      this.test.controls['test2'].setValue('test2');
-      this.test.controls['test3'].setValue('test3');
-      this.test.controls['test4'].setValue('test4');
-    }.bind(this), 3000);
-
     this.getTwitterUserProfiles();
-
+    this.loggedInUserAccountsArray = [];
   }
 
   public tabChanged(event: MatTabChangeEvent) {
@@ -85,31 +70,10 @@ export class SocialManagementComponent implements OnInit {
     this.tab_index = event.index;
 
   }
-
   openmessageComposeDialog(): void {
-    let composeMessagePopUpInputArrayData: IStreamDetails[];
-    composeMessagePopUpInputArrayData = [];
-    let composeMessagePopUpInputObject: IStreamDetails;
-    // _.each(this.FBUserAccountsArray, (item: IFBPages, index) => {
-    //   composeMessagePopUpInputObject = <IStreamDetails>{};
-    //   composeMessagePopUpInputObject.id = index;
-    //   composeMessagePopUpInputObject.access_token = item.access_token;
-    //   composeMessagePopUpInputObject.screen_name = item.name;
-    //   composeMessagePopUpInputObject.social_id = item.id;
-    //   composeMessagePopUpInputArrayData.push(composeMessagePopUpInputObject);
-    // });
-    // console.log(this.twitUserInfo);
-    if (this.twitUserInfo.data && this.twitUserInfo.data.length > 0) {
-      this.twitUserInfo.data.map((item: ITwitterUserProfile, index) => {
-        composeMessagePopUpInputObject = <IStreamDetails>{};
-        composeMessagePopUpInputObject.id = index;
-        composeMessagePopUpInputObject.access_token = '';
-        composeMessagePopUpInputObject.social_platform = 'twitter';
-        composeMessagePopUpInputObject.screen_name = item.screen_name;
-        composeMessagePopUpInputObject.social_id = item.id_str;
-        composeMessagePopUpInputArrayData.push(composeMessagePopUpInputObject);
-      });
-    }
+    let composeMessagePopUpInputArrayData: IUserAccountPages[];
+    composeMessagePopUpInputArrayData = this.prepareStreamsDataForComposeMessageDialog(this.loggedInUserAccountsArray, this.twitUserInfo);
+    console.log(composeMessagePopUpInputArrayData);
     const dialogRef = this.dialog.open(MessageCompose, {
       panelClass: 'app-full-bleed-dialog',
       width: '45vw',
@@ -117,85 +81,51 @@ export class SocialManagementComponent implements OnInit {
       data: composeMessagePopUpInputArrayData,
     });
     this.highLighted = 'show-class';
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.fbCMPCommunicationService.fbComposedPostAnnounce(result);
+    dialogRef.afterClosed().subscribe(composedPostData => {
+      if (composedPostData) {
+        this.uploadFBPhotosToOurServer(composedPostData);
       }
       this.highLighted = 'hide-class';
     });
   }
-  fbLogin = () => {
-    // login with options
-    const options: LoginOptions = {
-      scope: 'public_profile,user_friends,email, pages_show_list , manage_pages, publish_pages',
-      return_scopes: true,
-      enable_profile_selector: true
-    };
-    this.fb.login(options)
-      .then((response: LoginResponse) => {
-        console.log(response);
-        localStorage.setItem('access_token', response.authResponse.accessToken);
-      }
-      )
-      .catch((e: Error) => {
-        console.log(e);
-      });
-  }
-  /* make the API call */
-  getDebugToken = () => {
-    // tslint:disable-next-line:max-line-length
-    this.fb.api('https://graph.facebook.com/v2.12/oauth/access_token?grant_type=fb_exchange_token&client_id=149056292450936&client_secret=d9a268c797f16d10ce58c44e923488aa&fb_exchange_token=EAACHkN9c8ngBABoqnD32p6ozaGBFdDZBYN0msdi052zd0c4IcpB7IBZAAE5S3W9hBXgyItsGZBakGQ0Xoe8KyLgwGMWm2OisdQXxr6fO7s8vMpZCatz6bK8zX5Rv0QIdcKrEU0cCzbNAGHXFr6ZBBKS87eJow1kYZD', 'get').then((resp) => {
-      console.log(resp);
-    })
-      .catch((err) => {
-        console.log(err);
-      });
 
-  }
+  prepareStreamsDataForComposeMessageDialog = (loggedInUserAccountsArray, twitUserInfo) => {
+    let composeMessagePopUpInputArrayData: IUserAccountPages[];
+    composeMessagePopUpInputArrayData = [];
+    let facebookObject: IUserAccountPages;
+    let twitterData: IUserAccountPages;
+    const social_platform = [];
+    _.each(loggedInUserAccountsArray, (item: ILoggedInUsersAccounts, index) => {
+      facebookObject = <IUserAccountPages>{};
+      // composeMessagePopUpInputObject.id = index;
+      facebookObject.access_token = item.access_token;
+      facebookObject.name = item.name;
+      facebookObject.id = item.id;
+      facebookObject.social_id = item.id;
+      facebookObject.social_platform = 'facebook';
+      _.each(item.accounts, (account) => {
+        facebookObject = <IUserAccountPages>{};
+        facebookObject.access_token = item.access_token;
+        facebookObject.name = item.name;
+        facebookObject.id = item.id;
+        facebookObject.social_id = item.id;
+        facebookObject.social_platform = 'facebook';
+        composeMessagePopUpInputArrayData.push(facebookObject);
+      });
+      composeMessagePopUpInputArrayData.push(facebookObject);
+    });
 
-  getFBFeedFromApi(graphurl) {
-    if (graphurl) {
-      this.fb.api(graphurl, 'get')
-        .then((res: IFBFeedResponse) => {
-          console.log(res.data);
-          _.each(res.data, (fbData: IFBFeedArray) => {
-            this.fbResponseData = fbData;
-            this.fbResponseDataItems.push(this.fbResponseData);
-          });
-          if (res.paging.next) {
-            this.fbNextPage = res.paging.next;
-          } else {
-            this.fbNextPage = null;
-          }
-        })
-        .catch((e: any) => {
-          console.log(e);
-        });
+    if (twitUserInfo.data && this.twitUserInfo.data.length > 0) {
+      this.twitUserInfo.data.map((item: ITwitterUserProfile, index) => {
+        twitterData = <IUserAccountPages>{};
+        twitterData.id = String(index);
+        twitterData.access_token = '';
+        twitterData.name = item.screen_name;
+        twitterData.social_id = item.id_str;
+        composeMessagePopUpInputArrayData.push(twitterData);
+      });
     }
-  }
-
-  fbLoadMore = () => {
-    this.getFBFeedFromApi(this.fbNextPage);
-  }
-
-  getTwitterFeed() {
-    this.isShowTwitter = true;
-  }
-
-  addPost() {
-
-    this.fb.api('https://graph.facebook.com/v2.12/Squaretechnos1/feed',
-      'post',
-      {
-        'message': 'This is a test message' + this.postis
-      })
-      .then((respo: any) => {
-        this.postis = this.postis + 1;
-        console.log(respo);
-      })
-      .catch((err: Error) => {
-        console.log(err);
-      });
+    return composeMessagePopUpInputArrayData;
   }
 
   /**
@@ -222,6 +152,80 @@ export class SocialManagementComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  // THE FOLLOWING CODE IS FOR FACEBOOK FUNCTIONALITY
+
+  fbLogin = () => {
+    // login with options
+    const options: LoginOptions = {
+      scope: 'public_profile,user_friends,email,user_posts, pages_show_list , manage_pages, publish_pages',
+      return_scopes: true,
+      enable_profile_selector: true
+    };
+    this.fb.login(options)
+      .then((response: LoginResponse) => {
+        this.getExtendedAccessToken(response);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  }
+  // THIS FUNCTION IS USED TO GET THE EXTENDED ACCESSTOKEN FROM THE FACEBOOK
+  getExtendedAccessToken = (response) => {
+    // tslint:disable-next-line:max-line-length
+    this.fb.api('https://graph.facebook.com/v3.0/oauth/access_token?grant_type=fb_exchange_token&client_id=208023236649331&client_secret=294c39db380eab8dbe3ed39125d60eab&fb_exchange_token=' + response.authResponse.accessToken, 'get')
+      .then((resp) => {
+        this.FbLongLivedToken = resp.access_token;
+        this.getFBUserAccounts(this.FbLongLivedToken);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  // THIS FUNCTION IS USED FOR GET ALL THE ACCOUNTS OF LOGGED IN USER
+  getFBUserAccounts = (access_token) => {
+      this.fb.api('https://graph.facebook.com/v3.0/me?fields=accounts,id,name&access_token=' + access_token, 'get')
+        .then((accountResp: IMyAccounts) => {
+          this.prepareLoggedInUserAccountDetails(access_token, accountResp);
+          this.FBUserAccountsArray = accountResp.accounts.data;
+          this.userName = accountResp.name;
+          this.userAccountId = accountResp.id;
+
+        })
+        .catch((e: any) => {
+          console.log(e);
+        });
+  }
+  prepareLoggedInUserAccountDetails = (token: any, accountResp: IMyAccounts) => {
+    const streamsArray = ['My Posts', 'Home TimeLine', 'Mentions'];
+    let loggedInUserAccountsObject: ILoggedInUsersAccounts;
+    loggedInUserAccountsObject = <ILoggedInUsersAccounts>{};
+    loggedInUserAccountsObject.access_token = token;
+    loggedInUserAccountsObject.id = accountResp.id;
+    loggedInUserAccountsObject.name = accountResp.name;
+    loggedInUserAccountsObject.streams = streamsArray;
+    loggedInUserAccountsObject.accounts = accountResp.accounts.data;
+    loggedInUserAccountsObject.order = '1';
+    loggedInUserAccountsObject.social_platform = 'facebook';
+    this.loggedInUserAccountsArray.push(loggedInUserAccountsObject);
+    return this.loggedInUserAccountsArray;
+  }
+  // THIS FUNCTION IS USED TO UPLOAD THE PHOTOS TO THE SERVER AND GET THE URL PATH OF THAT IMAGE
+  uploadFBPhotosToOurServer = (composedPostData: IStreamComposeData) => {
+    console.log(composedPostData);
+    // tslint:disable-next-line:max-line-length
+    this.httpClient.post<ICommonInterface>('http://www.flujo.in/dashboard/flujo_staging/flujo_client_postsocialimageupload', composedPostData.composedMessage.media).subscribe(
+       successresp => {
+        if (successresp.access_token && successresp.custom_status_code === 100 && !successresp.error ) {
+        composedPostData.composedMessage.media = successresp.result;
+        this.fbCMPCommunicationService.fbComposedPostAnnounce(composedPostData);
+        }
+
+      }, errorrsp => {
+        console.log(errorrsp);
+      }
+    );
   }
 }
 
