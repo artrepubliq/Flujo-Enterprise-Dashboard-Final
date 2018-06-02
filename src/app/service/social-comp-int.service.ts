@@ -6,22 +6,27 @@ import { IStreamComposeData } from '../model/social-common.model';
 export class FacebookComponentCommunicationService {
 
   // Observable string sources
-  private fbcallAnnouncedSource = new Subject<string>();
-  private fbcallConfirmedSource = new Subject<string>();
-  private fbComposedMessageData = new Subject<IStreamComposeData>();
+  private socialaddStreamAnnounceCallSource = new Subject<any>();
+  // private fbcallConfirmedSource = new Subject<string>();
+  private FBSocialComposedMessageData = new Subject<IStreamComposeData>();
+  private TwitterSocialComposedMessageData = new Subject<IStreamComposeData>();
   // Observable string streams
-  FBAnnounced$ = this.fbcallAnnouncedSource.asObservable();
-  FBConfirmed$ = this.fbcallAnnouncedSource.asObservable();
-  FBComposedPost$ = this.fbComposedMessageData.asObservable();
+  SoailAddStreamAnnounced$ = this.socialaddStreamAnnounceCallSource.asObservable();
+  // FBConfirmed$ = this.fbcallAnnouncedSource.asObservable();
+  FBSocialComposedPost$ = this.FBSocialComposedMessageData.asObservable();
+  TwitterSocialComposedPost$ = this.TwitterSocialComposedMessageData.asObservable();
   // Service message commands
-  fbAnnounceCall(fbCall: string) {
-    this.fbcallAnnouncedSource.next(fbCall);
+  socialaddSocialStreamAnnounceCall(fbCall: any) {
+    this.socialaddStreamAnnounceCallSource.next(fbCall);
   }
-  fbConfirmCall(fbAnnounce: string) {
-    this.fbcallAnnouncedSource.next(fbAnnounce);
-  }
+  // fbConfirmCall(fbAnnounce: string) {
+  //   this.fbcallAnnouncedSource.next(fbAnnounce);
+  // }
   // this is for composed message post
-  fbComposedPostAnnounce(fbPost: IStreamComposeData) {
-    this.fbComposedMessageData.next(fbPost);
+  FBSocialComposedPostAnnounce(fbPost: IStreamComposeData) {
+    this.FBSocialComposedMessageData.next(fbPost);
+  }
+  TwitterSocialComposedPostAnnounce(fbPost: IStreamComposeData) {
+    this.TwitterSocialComposedMessageData.next(fbPost);
   }
 }

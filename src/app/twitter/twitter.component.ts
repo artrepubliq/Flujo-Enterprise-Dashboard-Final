@@ -10,6 +10,7 @@ import {
   ITwitTimeLineObject,
   ITwitUser
 } from '../model/twitter/twitter.model';
+import * as _ from 'underscore';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { TwitterServiceService } from '../service/twitter-service.service';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -50,10 +51,11 @@ export class TwitterComponent implements OnInit, OnDestroy {
     private twitterUserService: TwitterUserService,
     private fbCMPCommunicationService: FacebookComponentCommunicationService
   ) {
-    this.subscription = this.fbCMPCommunicationService.FBComposedPost$.subscribe(
+    this.subscription = this.fbCMPCommunicationService.TwitterSocialComposedPost$.subscribe(
       result => {
-        // console.log(result);
-        if (result.streamDetails.length > 0 && result.streamDetails[0].social_platform[0] === 'twitter') {
+        const twitterStream = result.streamDetails.filter((item) => item.social_platform === 'twitter');
+        console.log(twitterStream);
+        if (twitterStream) {
           if (result.composedMessage.media && result.composedMessage.media.length > 0) {
             this.postTweetWithMedia(result.composedMessage);
           } else {
@@ -88,16 +90,16 @@ export class TwitterComponent implements OnInit, OnDestroy {
     this.httpClient.get<ITwitterresponse>(AppConstants.EXPRESS_URL + 'oauth_token/' + AppConstants.CLIENT_ID,
       { headers: headers })
       .subscribe(
-        result => {
-          console.log(result);
-          if (result.error === false && result.token_data.oauth_callback_confirmed === 'true') {
-            this.twitterUserLogin = AppConstants.TWITTER_API_URL + '/oauth/authenticate' +
-              '?oauth_token=' + result.token_data.oauth_token;
-          }
-        },
-        error => {
-          console.log(error);
-        });
+      result => {
+        console.log(result);
+        if (result.error === false && result.token_data.oauth_callback_confirmed === 'true') {
+          this.twitterUserLogin = AppConstants.TWITTER_API_URL + '/oauth/authenticate' +
+            '?oauth_token=' + result.token_data.oauth_token;
+        }
+      },
+      error => {
+        console.log(error);
+      });
   }
 
   /**
@@ -106,14 +108,14 @@ export class TwitterComponent implements OnInit, OnDestroy {
   public getUserTokens(): void {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getsocialtokens' + '/' + AppConstants.CLIENT_ID)
       .subscribe(
-        response => {
-          // this.twitter_social_keys_object = response.result.filter(object => object.social_appname === 'twitter');
-          // this.twitter_social_keys = this.twitter_social_keys_object[0].social_keys;
-          console.log(response);
-        },
-        error => {
-          console.log(error);
-        }
+      response => {
+        // this.twitter_social_keys_object = response.result.filter(object => object.social_appname === 'twitter');
+        // this.twitter_social_keys = this.twitter_social_keys_object[0].social_keys;
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      }
       );
   }
   /**
@@ -129,21 +131,21 @@ export class TwitterComponent implements OnInit, OnDestroy {
     const headers = new HttpHeaders(headersObject);
     this.twitterService.getTimeLines(headers)
       .subscribe(
-        result => {
-          if (result.error === false && result.data) {
-            this.twitHomeTimeLine = result.data[0];
-            this.twitUserTimeLine = result.data[1];
-            this.twitMentionsTimeLine = result.data[2];
-            this.twitRetweets = result.data[3];
-            console.log(this.twitHomeTimeLine);
-          } else {
-            this.showSignIn = true;
-            console.log(result.data);
-          }
-        },
-        error => {
-          console.log(error);
-        });
+      result => {
+        if (result.error === false && result.data) {
+          this.twitHomeTimeLine = result.data[0];
+          this.twitUserTimeLine = result.data[1];
+          this.twitMentionsTimeLine = result.data[2];
+          this.twitRetweets = result.data[3];
+          console.log(this.twitHomeTimeLine);
+        } else {
+          this.showSignIn = true;
+          console.log(result.data);
+        }
+      },
+      error => {
+        console.log(error);
+      });
   }
 
   /** this is an event triggered when scrolled to end
@@ -155,17 +157,17 @@ export class TwitterComponent implements OnInit, OnDestroy {
     console.log(this.twitHomeTimeLine[last_index].id);
     this.twitterService.getOldHomeTimeline(this.twitHomeTimeLine[last_index].id)
       .subscribe(
-        result => {
-          console.log(result.data);
-          if (!result.error) {
-            this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
-          }
-          console.log(this.twitHomeTimeLine);
-          console.log(this.twitHomeTimeLine);
-        },
-        error => {
-          console.log(error);
-        });
+      result => {
+        console.log(result.data);
+        if (!result.error) {
+          this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
+        }
+        console.log(this.twitHomeTimeLine);
+        console.log(this.twitHomeTimeLine);
+      },
+      error => {
+        console.log(error);
+      });
   }
   /**
    * this is to post the status on twitter
@@ -176,22 +178,22 @@ export class TwitterComponent implements OnInit, OnDestroy {
     if (tweetData.from_date || tweetData.to_date) {
       this.twitterService.postScheduleTweet(tweetData)
         .subscribe(
-          result => {
-            console.log(result);
-          },
-          error => {
-            console.log(error);
-          }
+        result => {
+          console.log(result);
+        },
+        error => {
+          console.log(error);
+        }
         );
     } else {
       this.twitterService.postStatusOnTwitter(tweetData)
         .subscribe(
-          result => {
-            console.log(result);
-          },
-          error => {
-            console.log(error);
-          }
+        result => {
+          console.log(result);
+        },
+        error => {
+          console.log(error);
+        }
         );
     }
   }
@@ -208,12 +210,12 @@ export class TwitterComponent implements OnInit, OnDestroy {
     });
     this.twitterService.postTweetMedia(formData)
       .subscribe(
-        result => {
-          console.log(result);
-        },
-        error => {
-          console.log(error);
-        }
+      result => {
+        console.log(result);
+      },
+      error => {
+        console.log(error);
+      }
       );
   }
 

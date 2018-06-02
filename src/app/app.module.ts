@@ -135,6 +135,8 @@ import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { FacebookComponentCommunicationService } from './service/social-comp-int.service';
 import { MyDatePipe } from './_pipes/date-pipe';
 import { ImagePreviewDialogComponent } from './dialogs/image-preview-dialog/image-preview-dialog.component';
+import { EditFacebookMessage } from './dialogs/edit-fb-post/edit-fb-post-dialog';
+import { AddSocialStreemDialog } from './dialogs/social-addstreem/social-addstreem.dialog';
 
 
 
@@ -218,7 +220,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SocialLoginComponent,
     MyDatePipe,
     ImagePreviewDialogComponent,
-
+    EditFacebookMessage,
+    AddSocialStreemDialog
     // FlujodatepickerDirective
   ],
   imports: [
@@ -283,7 +286,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
-    MessageCompose, ImagePreviewDialogComponent],
+    MessageCompose, ImagePreviewDialogComponent, EditFacebookMessage, AddSocialStreemDialog],
   providers: [
     // AuthService,
     HttpService,

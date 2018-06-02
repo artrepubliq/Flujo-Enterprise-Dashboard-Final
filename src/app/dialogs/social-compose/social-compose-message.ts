@@ -57,11 +57,13 @@ export class MessageCompose implements OnInit {
         composedPostObject = <IStreamDetails>{};
         composedPostObject.social_id = stream.id;
         composedPostObject.id = stream.id;
-        composedPostObject.screen_name = stream.screen_name;
+        composedPostObject.social_id = stream.social_id;
+        composedPostObject.name = stream.name;
         composedPostObject.access_token = stream.access_token;
         composedPostObject.imageUploadSuccessItem = [];
         composedPostObject.imageUploadFailedItem = [];
         composedPostObject.postStatus = false;
+        composedPostObject.social_platform = stream.social_platform;
         this.selectedStreamsArray.push(composedPostObject);
     }
     public submitSocialPost(): void {

@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FacebookService, InitParams, LoginResponse, LoginOptions } from 'ngx-facebook';
 import { FBService } from '../service/fb.service';
-import { IFBFeedResponse, IFBFeedArray, IPaginigCursors } from '../model/fb-feed.model';
 import * as _ from 'underscore';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -18,7 +17,7 @@ import { TwitterUserService } from '../service/twitter-user.service';
 import { IStreamDetails, ILoggedInUsersAccounts, IStreamComposeData, IUserAccountPages } from '../model/social-common.model';
 import { FacebookComponentCommunicationService } from '../service/social-comp-int.service';
 import { AppConstants } from '../app.constants';
-import { IMyAccounts, IFBPages } from '../model/facebook.model';
+import { IMyAccounts, IFBPages, IPaginigCursors, IFBFeedArray } from '../model/facebook.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 
 
@@ -33,7 +32,6 @@ export class SocialManagementComponent implements OnInit {
   userAccountId: string;
   loggedInUserAccountsArray: ILoggedInUsersAccounts[];
   FBUserAccountsArray: IFBPages[];
-  public twitUserInfo: ITwitUser;
   filteredUserAccessData: any;
   userAccessLevelObject: any;
   fbNextPage: IPaginigCursors;
@@ -72,7 +70,7 @@ export class SocialManagementComponent implements OnInit {
   }
   openmessageComposeDialog(): void {
     let composeMessagePopUpInputArrayData: IUserAccountPages[];
-    composeMessagePopUpInputArrayData = this.prepareStreamsDataForComposeMessageDialog(this.loggedInUserAccountsArray, this.twitUserInfo);
+    composeMessagePopUpInputArrayData = this.prepareStreamsDataForComposeMessageDialog(this.loggedInUserAccountsArray);
     console.log(composeMessagePopUpInputArrayData);
     const dialogRef = this.dialog.open(MessageCompose, {
       panelClass: 'app-full-bleed-dialog',
@@ -83,48 +81,40 @@ export class SocialManagementComponent implements OnInit {
     this.highLighted = 'show-class';
     dialogRef.afterClosed().subscribe(composedPostData => {
       if (composedPostData) {
-        this.uploadFBPhotosToOurServer(composedPostData);
+        this.fbCMPCommunicationService.TwitterSocialComposedPostAnnounce(composedPostData);
+        // this.uploadFBPhotosToOurServer(composedPostData);
       }
       this.highLighted = 'hide-class';
     });
   }
-
-  prepareStreamsDataForComposeMessageDialog = (loggedInUserAccountsArray, twitUserInfo) => {
+  // THIS FUNCTION IS USED FOR PREPARE THE STREAMS OBJECT TO SHOW IN COMPOSE MESSAGE DIALOG.
+  prepareStreamsDataForComposeMessageDialog = (loggedInUserAccountsArray) => {
     let composeMessagePopUpInputArrayData: IUserAccountPages[];
     composeMessagePopUpInputArrayData = [];
-    let facebookObject: IUserAccountPages;
-    let twitterData: IUserAccountPages;
-    const social_platform = [];
+    let profileData: IUserAccountPages;
+    let fbAccounts: IUserAccountPages;
+    // let twitterData: IUserAccountPages;
+    let fbaccounts = [];
     _.each(loggedInUserAccountsArray, (item: ILoggedInUsersAccounts, index) => {
-      facebookObject = <IUserAccountPages>{};
+      profileData = <IUserAccountPages>{};
       // composeMessagePopUpInputObject.id = index;
-      facebookObject.access_token = item.access_token;
-      facebookObject.name = item.name;
-      facebookObject.id = item.id;
-      facebookObject.social_id = item.id;
-      facebookObject.social_platform = 'facebook';
-      _.each(item.accounts, (account) => {
-        facebookObject = <IUserAccountPages>{};
-        facebookObject.access_token = item.access_token;
-        facebookObject.name = item.name;
-        facebookObject.id = item.id;
-        facebookObject.social_id = item.id;
-        facebookObject.social_platform = 'facebook';
-        composeMessagePopUpInputArrayData.push(facebookObject);
-      });
-      composeMessagePopUpInputArrayData.push(facebookObject);
+      profileData.access_token = item.access_token;
+      profileData.name = item.name;
+      profileData.id = item.id;
+      profileData.social_id = item.id;
+      fbaccounts = item.accounts;
+      profileData.social_platform = item.social_platform;
+      composeMessagePopUpInputArrayData.push(profileData);
     });
-
-    if (twitUserInfo.data && this.twitUserInfo.data.length > 0) {
-      this.twitUserInfo.data.map((item: ITwitterUserProfile, index) => {
-        twitterData = <IUserAccountPages>{};
-        twitterData.id = String(index);
-        twitterData.access_token = '';
-        twitterData.name = item.screen_name;
-        twitterData.social_id = item.id_str;
-        composeMessagePopUpInputArrayData.push(twitterData);
-      });
-    }
+    _.each(fbaccounts, (account) => {
+      fbAccounts = <IUserAccountPages>{};
+      fbAccounts.access_token = account.access_token;
+      fbAccounts.name = account.name;
+      fbAccounts.id = account.id;
+      fbAccounts.social_id = account.id;
+      fbAccounts.social_platform = 'facebook';
+      composeMessagePopUpInputArrayData.push(fbAccounts);
+    });
     return composeMessagePopUpInputArrayData;
   }
 
@@ -144,16 +134,19 @@ export class SocialManagementComponent implements OnInit {
     this.twitterService.getTwitterUserProfiles(headers)
       .subscribe(
         result => {
-          this.twitUserInfo = result;
-          this.twitUserInfo.type = 'twitter';
-          this.twitterUserService.addUser(this.twitUserInfo);
+          if (result.data && result.data.length > 0) {
+            this.prepareLoggedInUserAccountDetails('twitter', result);
+          }
+          this.twitterUserService.addUser(result);
         },
         error => {
           console.log(error);
         }
       );
   }
-
+  addSocialStreem = () => {
+    this.fbCMPCommunicationService.socialaddSocialStreamAnnounceCall(this.loggedInUserAccountsArray);
+  }
   // THE FOLLOWING CODE IS FOR FACEBOOK FUNCTIONALITY
 
   fbLogin = () => {
@@ -197,29 +190,47 @@ export class SocialManagementComponent implements OnInit {
           console.log(e);
         });
   }
-  prepareLoggedInUserAccountDetails = (token: any, accountResp: IMyAccounts) => {
+  prepareLoggedInUserAccountDetails = (token: any, accountResp: any) => {
     const streamsArray = ['My Posts', 'Home TimeLine', 'Mentions'];
     let loggedInUserAccountsObject: ILoggedInUsersAccounts;
     loggedInUserAccountsObject = <ILoggedInUsersAccounts>{};
-    loggedInUserAccountsObject.access_token = token;
-    loggedInUserAccountsObject.id = accountResp.id;
-    loggedInUserAccountsObject.name = accountResp.name;
-    loggedInUserAccountsObject.streams = streamsArray;
-    loggedInUserAccountsObject.accounts = accountResp.accounts.data;
-    loggedInUserAccountsObject.order = '1';
-    loggedInUserAccountsObject.social_platform = 'facebook';
-    this.loggedInUserAccountsArray.push(loggedInUserAccountsObject);
+    if (token === 'twitter') {
+      accountResp.data.map((item: ITwitterUserProfile, index) => {
+        loggedInUserAccountsObject.access_token = '';
+        loggedInUserAccountsObject.id = item.id_str;
+        loggedInUserAccountsObject.name = item.screen_name;
+        loggedInUserAccountsObject.streams = streamsArray;
+        loggedInUserAccountsObject.accounts = [];
+        loggedInUserAccountsObject.order = '2';
+        loggedInUserAccountsObject.social_platform = 'twitter';
+        this.loggedInUserAccountsArray.push(loggedInUserAccountsObject);
+      });
+    } else {
+      loggedInUserAccountsObject.access_token = token;
+      loggedInUserAccountsObject.id = accountResp.id;
+      loggedInUserAccountsObject.name = accountResp.name;
+      loggedInUserAccountsObject.streams = streamsArray;
+      loggedInUserAccountsObject.accounts = accountResp.accounts.data;
+      loggedInUserAccountsObject.order = '1';
+      loggedInUserAccountsObject.social_platform = 'facebook';
+      this.loggedInUserAccountsArray.push(loggedInUserAccountsObject);
+    }
     return this.loggedInUserAccountsArray;
   }
   // THIS FUNCTION IS USED TO UPLOAD THE PHOTOS TO THE SERVER AND GET THE URL PATH OF THAT IMAGE
   uploadFBPhotosToOurServer = (composedPostData: IStreamComposeData) => {
-    console.log(composedPostData);
+    const uploadPhotosformData = new FormData();
+    composedPostData.composedMessage.media.map(file => {
+      uploadPhotosformData.append('images[]', file);
+      });
+      uploadPhotosformData.append('client_id', AppConstants.CLIENT_ID);
     // tslint:disable-next-line:max-line-length
-    this.httpClient.post<ICommonInterface>('http://www.flujo.in/dashboard/flujo_staging/flujo_client_postsocialimageupload', composedPostData.composedMessage.media).subscribe(
+    this.httpClient.post<ICommonInterface>('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_postsocialimageupload', uploadPhotosformData).subscribe(
        successresp => {
+         console.log(successresp);
         if (successresp.access_token && successresp.custom_status_code === 100 && !successresp.error ) {
         composedPostData.composedMessage.media = successresp.result;
-        this.fbCMPCommunicationService.fbComposedPostAnnounce(composedPostData);
+        this.fbCMPCommunicationService.FBSocialComposedPostAnnounce(composedPostData);
         }
 
       }, errorrsp => {

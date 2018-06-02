@@ -3,10 +3,10 @@ export interface IStreamComposeData {
     composedMessage: IComposePost;
 }
 export interface IStreamDetails {
-    social_platform?: string[];
+    social_platform?: string;
     id: string;
     access_token?: any;
-    screen_name: string;
+    name: string;
     social_id: string;
     imageUploadFailedItem?: IImageIds[];
     imageUploadSuccessItem?: IImageIds[];
