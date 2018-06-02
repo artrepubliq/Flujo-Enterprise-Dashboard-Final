@@ -12,7 +12,7 @@ import { EventEmitter } from 'events';
 import {
   ITwitterTimelineObject, ITwitUser, ITwitterUserProfile, ITwitTimeLineObject, ITwitterMedia
 } from '../../../model/twitter/twitter.model';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { ImagePreviewDialogComponent } from '../../../dialogs/image-preview-dialog/image-preview-dialog.component';
 
 @Component({
@@ -44,7 +44,8 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   constructor(
     private twitterService: TwitterServiceService,
     private twitterUserService: TwitterUserService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
   ) {
   }
 
@@ -80,6 +81,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
         result => {
           if (!result.data.errors) {
             console.log(result.data);
+            this.snackBar.open('Tweet deleted', 'Dismiss');
           } else {
             console.log(result.data.errors);
           }
@@ -375,6 +377,14 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       console.log('The dialog was closed');
     });
   }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
+
   public ngOnDestroy(): void {
     this.ngUnSubScribe.next();
     this.ngUnSubScribe.complete();
