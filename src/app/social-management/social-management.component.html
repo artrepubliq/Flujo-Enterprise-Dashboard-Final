@@ -1,7 +1,8 @@
+
 <div fxLayout="column" fxLayoutGap="15px">
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
-      <button name="options" id="option1" autocomplete="off" checked>
+          <button  name="options" id="option1" autocomplete="off" checked (click)="addSocialStreem()">
         Add Stream
       </button>
       <button name="options" id="option2" autocomplete="off">
@@ -41,14 +42,14 @@
   </div>
   <div class="social-tabs-hub" fxLayout="column">
     <div class="social-tabs">
-      <mat-tab-group class="posts-card-row" (selectedTabChange)="tabChanged($event)">
+      <mat-tab-group class="posts-card-row" [selectedIndex]="selectedIndex" (selectedTabChange)="tabChanged($event)">
         <mat-tab label="Facebook">
           <br/>
-          <app-facebook></app-facebook>
+          <app-facebook *ngIf="FbLongLivedToken && userAccountId" [FbLongLivedToken]="FbLongLivedToken"></app-facebook>
         </mat-tab>
         <mat-tab label="Twitter">
             <br/>
-          <app-twitter *ngIf="tab_index === 1"></app-twitter>
+          <app-twitter></app-twitter>
         </mat-tab>
         <mat-tab label="Instagram">Instagram</mat-tab>
         <mat-tab label="YouTube">YouTube</mat-tab>

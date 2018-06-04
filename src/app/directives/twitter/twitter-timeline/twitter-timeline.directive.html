@@ -1,11 +1,12 @@
 <!-- This is for twitter home time line -->
 <div class="social-tabs-inner">
-  <div class="social-tabs-hub-inner">
+  <div fxLayout="column" fxLayoutGap="10px" class="social-tabs-hub-inner">
     <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
       <div class="col-md-4" *ngIf="twitHomeTimeLine">
         <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}" (psYReachEnd)="homeTimeLineScrollEvent($event)">
           <div class="nav-social">
-            <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center" (psScrollY)="doApplyFixedPosition($event)">
+            <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center"
+              (psScrollY)="doApplyFixedPosition($event)">
               <div class="social-cards-header">
                 <h6>Twitter Timeline</h6>
               </div>
@@ -41,21 +42,24 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>
-                    {{timeline.text}}
-                  </p>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
                 </mat-card-content>
                 <br/>
-                <div class="social-image" *ngIf="timeline.entities.media">
-                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
                 </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div>
-                      <span class="icons-default">
-                        <img src="../assets/social/like-icon-normal@3x.png" (click)="favorite(timeline)" class="">&nbsp; Like
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
                       </span>
-                      <span>{{timeline.favorite_count}}</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
                     </div>
                     <div>
                       <span>
@@ -97,7 +101,7 @@
 
       <!-- This is twit user timeline -->
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
+        <div class="social-card" (psYReachEnd)="userTimeLineScrollEvent($event)" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
           <div class="nav-social">
             <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
               <div class="social-cards-header">
@@ -135,21 +139,24 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>
-                    {{timeline.text}}
-                  </p>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
                 </mat-card-content>
                 <br/>
-                <div class="social-image" *ngIf="timeline.entities.media">
-                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
                 </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div>
-                      <span class="icons-default">
-                        <img src="../assets/social/like-icon-normal@3x.png" (click)="favorite(timeline)" class="">&nbsp; Like
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
                       </span>
-                      <span>{{timeline.favorite_count}}</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
                     </div>
                     <div>
                       <span>
@@ -191,7 +198,7 @@
 
       <!-- this is mentions timeline -->
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
+        <div class="social-card" (psYReachEnd)="mentionsTimeLineScrollEvent($event)" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
           <div class="nav-social">
             <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
               <div class="social-cards-header">
@@ -229,21 +236,24 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>
-                    {{timeline.text}}
-                  </p>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
                 </mat-card-content>
                 <br/>
-                <div class="social-image" *ngIf="timeline.entities.media">
-                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
                 </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div>
-                      <span class="icons-default">
-                        <img src="../assets/social/like-icon-normal@3x.png" (click)="favorite(timeline)" class="">&nbsp; Like
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
                       </span>
-                      <span>{{timeline.favorite_count}}</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
                     </div>
                     <div>
                       <span>
@@ -285,7 +295,7 @@
 
       <!-- this is retweets timeline -->
       <div class="col-md-4">
-        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
+        <div class="social-card" (psYReachEnd)="retweetsOfMeTimeLineScrollEvent($event)" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
           <div class="nav-social">
             <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
               <div class="social-cards-header">
@@ -323,21 +333,24 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>
-                    {{timeline.text}}
-                  </p>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
                 </mat-card-content>
                 <br/>
-                <div class="social-image" *ngIf="timeline.entities.media">
-                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" alt="Photo of a Shiba Inu">
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
                 </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div>
-                      <span class="icons-default">
-                        <img src="../assets/social/like-icon-normal@3x.png" (click)="favorite(timeline)" class="">&nbsp; Like
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
                       </span>
-                      <span>{{timeline.favorite_count}}</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
                     </div>
                     <div>
                       <span>
@@ -376,6 +389,7 @@
           </ul>
         </div>
       </div>
-    </div><br/>
+    </div>
+    <br/>
   </div>
 </div>

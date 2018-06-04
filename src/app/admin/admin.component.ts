@@ -21,8 +21,6 @@ declare var jquery: any;
 declare var $window: any;
 declare var $: any;
 // import {ChatCamp} from './chatCamp';
-
-
 /*End Chat Camp window initializaion*/
 @Component({
   templateUrl: './admin.component.html',
@@ -54,7 +52,7 @@ export class AdminComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   drive = [{ feature_id: 11, title: 'Drive', router: 'admin/filerepository', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
   // tslint:disable-next-line:max-line-length
-  flow = [{ feature_id: 1, title: 'Social', router: 'admin/social_management', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png', isActive: false },
+  flow = [{ feature_id: 1, title: 'Social', router: 'admin/social_login', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
   { feature_id: 3, title: 'Mail', router: 'admin/email', activeicon: 'assets/icons/mail-color-nav-icon-active@2x.png', normalicon: 'assets/icons/mail-color-nav-icon-normal@2x.png', isActive: false },
   // tslint:disable-next-line:max-line-length
@@ -108,6 +106,7 @@ export class AdminComponent implements OnInit {
     this.getUserAccessLevelsHttpClient().subscribe(
       resp => {
         _.each(resp.result, item => {
+          console.log(localStorage.getItem('user_id'));
           if (item.user_id === localStorage.getItem('user_id')) {
             this.userAccessLevelObject = item.access_levels;
           } else {

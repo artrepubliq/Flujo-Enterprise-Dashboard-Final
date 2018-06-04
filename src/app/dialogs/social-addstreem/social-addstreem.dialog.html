@@ -1,0 +1,44 @@
+<div class="message-compose-pop" fxLayout="row">
+    <div class="col-list-accounts" fxLayout="column" fxFlex="37">
+        <div fxLayout="row">
+            <ul fxFlex="100%">
+                <li fxLayoutAlign="space-between center" *ngFor="let accountItem of data">
+                    <label class="d-inline">
+                        <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp;{{accountItem.name}}</label>
+                    <span class="pull-right">
+                        <i class="fa fa-twitter"></i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div fxLayout="column" fxFlex="63">
+        <div fxLayout="column" fxLayoutGap="0.5rem" class="message-config-box">
+            
+            <div fxLayout="column" fxFlex="200px">
+                <div>
+                    <mat-select class="select_dropdown_mat" placeholder="Add Social Streem " (change)="changeClient($event.value)" required id="rolename">
+                        <!-- <mat-option selected disabled>Select Target Audience</mat-option> -->
+                        <mat-option *ngFor="let streem of data[1].accounts" [value]="streem">
+                            {{ streem?.name }}
+                          </mat-option>
+                          <mat-option *ngFor="let streem of data[0].accounts" [value]="streem">
+                                {{ streem?.name }}
+                              </mat-option>
+                    </mat-select>
+                </div>
+                <br/>
+            <div>
+                <li *ngFor= "let stream of data[0].streams" (click)="selectStream(stream)">{{stream}}</li>
+            </div>
+            </div>
+            <br/>
+        </div>
+        <div class="hor-line"></div>
+        <div fxFlex="100%" class="btn-stack-action" fxLayoutAlign="end end">
+            <button class="button_cancel" mat-button (click)="closeDialog()">Cancel</button>
+            <button class="button_submit pull-right" type="submit" (click)="closeDialog()">Save</button>
+        </div>
+    </div>
+</div>

@@ -32,7 +32,10 @@ export interface ISocialKeysObject {
  */
 export interface ITwitTimeLineObject {
     error: boolean;
-    data: Array<ITwitterTimelineObject[]>;
+    data?: Array<ITwitterTimelineObject[]>;
+    oauth_callback_confirmed?: boolean;
+    oauth_token?: string;
+    oauth_token_secret?: string;
 }
 
 export interface ITwitIndividualTimeLineObejct {
@@ -46,7 +49,7 @@ export interface ITwitterTimelineObject {
     coordinates: string | null;
     created_at: string;
     entities: ITwitterEntities;
-    extended_entities: ITwitterMedia;
+    extended_entities: { media: Array<ITwitterMedia> };
     favorite_count: number;
     favorited: boolean;
     geo: null | string;
