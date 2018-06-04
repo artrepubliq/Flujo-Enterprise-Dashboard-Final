@@ -55,7 +55,7 @@ export class TwitterComponent implements OnInit, OnDestroy {
       result => {
         const twitterStream = result.streamDetails.filter((item) => item.social_platform === 'twitter');
         console.log(twitterStream);
-        if (twitterStream) {
+        if (twitterStream && twitterStream.length > 0) {
           if (result.composedMessage.media && result.composedMessage.media.length > 0) {
             this.postTweetWithMedia(result.composedMessage);
           } else {
