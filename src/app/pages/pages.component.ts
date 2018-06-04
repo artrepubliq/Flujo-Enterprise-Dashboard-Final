@@ -11,7 +11,7 @@ import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfi
 import { GalleryImagesService } from '../service/gallery-images.service';
 import { mediaDetail } from '../model/feedback.model';
 import { Router } from '@angular/router';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, _MatProgressSpinnerMixinBase } from '@angular/material';
 import { AdminComponent } from '../admin/admin.component';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
@@ -76,13 +76,11 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.galleryImagesService.getGalleryImagesComponent('/flujo_client_getgallery/', AppConstants.CLIENT_ID)
             .subscribe(
                 data => {
-                    if (data.access_token === AppConstants.ACCESS_TOKEN) {
-                        if (data.custom_status_code === 100) {
-                            this.imagesOfgallery = data.result;
-                            console.log(this.imagesOfgallery);
-                        } else if (data.custom_status_code === 101) {
-                            this.alertService.warning('Required parameters are missing');
-                        }
+                    if (data.custom_status_code === 100) {
+                        this.imagesOfgallery = data.result;
+                        console.log(this.imagesOfgallery);
+                    } else if (data.custom_status_code === 101) {
+                        this.alertService.warning('Required parameters are missing');
                     }
                 },
                 error => {
@@ -200,17 +198,15 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletecomponent/' + component_id)
             .subscribe(
                 data => {
-                    if ((data.access_token === AppConstants.ACCESS_TOKEN)) {
-                        if ((!data.error) && (data.custom_status_code = 100)) {
-                            this.getPageDetails();
-                            this.spinnerService.hide();
-                            this.pageDetails = null;
-                            console.log(data);
-                            this.loading = false;
-                            this.alertService.success('Page delete successfully');
-                        } else if ((data.error) && (data.custom_status_code = 101)) {
-                            this.alertService.danger('Required parameters are missing');
-                        }
+                    if ((!data.error) && (data.custom_status_code = 100)) {
+                        this.getPageDetails();
+                        this.spinnerService.hide();
+                        this.pageDetails = null;
+                        console.log(data);
+                        this.loading = false;
+                        this.alertService.success('Page delete successfully');
+                    } else if ((data.error) && (data.custom_status_code = 101)) {
+                        this.alertService.danger('Required parameters are missing');
                     }
                 },
                 error => {
@@ -224,19 +220,17 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getcomponent/' + AppConstants.CLIENT_ID)
             .subscribe(
                 data => {
-                    if ((data.access_token = AppConstants.ACCESS_TOKEN) && (data.custom_status_code = 100)) {
-                        this.parentPageDetails = null;
-                        this.pageDetails = null;
-                        this.isEdit = false;
-                        this.pageDetails = data.result;
-                        this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
-                            return parentData.parent_id === '-1';
-                        });
-                        this.childDetails = _.filter(this.pageDetails, (parentData) => {
-                            return parentData.parent_id !== '-1';
-                        });
-                        this.spinnerService.hide();
-                    }
+                    this.parentPageDetails = null;
+                    this.pageDetails = null;
+                    this.isEdit = false;
+                    this.pageDetails = data.result;
+                    this.parentPageDetails = _.filter(this.pageDetails, (parentData) => {
+                        return parentData.parent_id === '-1';
+                    });
+                    this.childDetails = _.filter(this.pageDetails, (parentData) => {
+                        return parentData.parent_id !== '-1';
+                    });
+                    this.spinnerService.hide();
                 },
                 error => {
                     // console.log(error);
@@ -262,12 +256,15 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.form.controls['web_description'].setValue(pageData.web_description);
             this.form.controls['app_description'].setValue(pageData.app_description);
             this.form.controls['component_image'].setValue(pageData.component_image);
+            if (pageData) {
+                this.bgColor = pageData.component_background_color;
+            }
             this.form.controls['component_background_image'].setValue(pageData.component_background_image);
             this.form.controls['component_background_color'].setValue(pageData.component_background_color);
             this.form.controls['component_order'].setValue(pageData.component_order);
             this.form.controls['parent_id'].setValue(pageData.parent_id);
             this.dummy = pageData.parent_id;
-            // console.log(this.form.value);
+            console.log(this.form.value);
         }
 
     }

@@ -111,7 +111,6 @@ export class SocialconfigurationComponent implements OnInit {
     keysConfigPostData.source_keys = formData;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postthirdparty', keysConfigPostData).subscribe(
       resp => {
-        if (AppConstants.ACCESS_TOKEN === resp.access_token) {
           if (resp.custom_status_code === 100) {
             this.alertService.success('Updated successfully.');
           } else if (resp.custom_status_code === 101) {
@@ -119,7 +118,6 @@ export class SocialconfigurationComponent implements OnInit {
           } else if (resp.custom_status_code === 102) {
             this.alertService.warning('Everything is Up-to-date!!!');
           }
-        }
         // this.alertService.success('Updated successfully.');
         this.spinnerService.hide();
       },
@@ -137,14 +135,12 @@ export class SocialconfigurationComponent implements OnInit {
       resp => {
         console.log(resp);
         this.spinnerService.hide();
-        if (AppConstants.ACCESS_TOKEN === resp.access_token) {
           if (resp.custom_status_code === 100 && resp.result.length > 0) {
             this.configKeysArray = resp.result;
             this.parseJsonDataToForm(resp.result[0]);
           } else if (resp.custom_status_code === 101) {
             this.alertService.warning('Something went wrong');
           }
-        }
       },
       err => {
         this.spinnerService.hide();

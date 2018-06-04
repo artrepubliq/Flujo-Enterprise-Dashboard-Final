@@ -87,13 +87,11 @@ export class ProblemCategoryComponent implements OnInit {
     this.problemService.deleteProblem('flujo_client_deletereportproblemtype/', problem.id)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.alertService.info('Problem deleted successfully');
             } else if (data.custom_status_code === 101) {
               this.alertService.warning('Required parameters are missing!');
             }
-          }
           this.spinnerService.hide();
           this.getproblemData();
           this.isEdit = false;
@@ -198,7 +196,6 @@ export class ProblemCategoryEditPopup {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postreportproblemtype', this.newProblemData)
       .subscribe(
         data => {
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (!data.error && data.custom_status_code === 100) {
               this.alertService.success('Problem updated successfully');
               this.dialogRef.close();
@@ -207,7 +204,6 @@ export class ProblemCategoryEditPopup {
             } else if (data.error && data.custom_status_code === 102) {
               this.alertService.warning('Every thing is upto date!');
             }
-          }
           console.log(data);
           this.spinnerService.hide();
           this.problemForm.reset();

@@ -1,0 +1,395 @@
+<!-- This is for twitter home time line -->
+<div class="social-tabs-inner">
+  <div fxLayout="column" fxLayoutGap="10px" class="social-tabs-hub-inner">
+    <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
+      <div class="col-md-4" *ngIf="twitHomeTimeLine">
+        <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}" (psYReachEnd)="homeTimeLineScrollEvent($event)">
+          <div class="nav-social">
+            <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center"
+              (psScrollY)="doApplyFixedPosition($event)">
+              <div class="social-cards-header">
+                <h6>Twitter Timeline</h6>
+              </div>
+              <div class="social-cards-header-icnons d-inline">
+                <div fxLayout="row" fxLayoutGap="1rem">
+                  <span>
+                    <img src="../assets/social/search-so-icon-normal@3x.png" class="">
+                  </span>
+                  <span>
+                    <img src="../assets/social/refresh-so-icon-normal@3x.png" (click)="refresh(homeTimeLine)" class="">
+                  </span>
+                  <span class="dropdown">
+                    <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img class="img-more" src="../assets/social/more-so-icon-normal@3x.png">
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item">Text Only</a>
+                      <a class="dropdown-item">Text + Images</a>
+                      <a class="dropdown-item">Remove Stream</a>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ul class="pos-post-cards">
+            <li *ngFor="let timeline of twitHomeTimeLine">
+              <mat-card class="example-card">
+                <mat-card-header>
+                  <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
+                  <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
+                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
+                </mat-card-content>
+                <br/>
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
+                </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
+                <mat-card-actions>
+                  <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
+                      </span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
+                    </div>
+                    <div>
+                      <span>
+                        <img src="../assets/social/comment-icon-normal@3x.png" (click)="replyToStatus(timeline)" class="">&nbsp; reply
+                      </span>
+                      <span></span>
+                    </div>
+                    <div>
+                      <img src="../assets/svg/004-retweet.svg" (click)="retweet(timeline)">&nbsp;
+                      <span>{{timeline.retweet_count}}</span>
+                    </div>
+                    <div>
+                      <span class="dropdown">
+                        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <img src="../assets/social/more-so-icon-normal@3x.png" class="img-more-footer">
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item">Edit</a>
+                          <a class="dropdown-item">Send Email</a>
+                          <a class="dropdown-item">Create Stream</a>
+                          <a class="dropdown-item" *ngIf="ValidateUserForDeleteTweet(timeline)" (click)="deleteTweet(timeline)">Delete Post</a>
+                          <!-- <a class="dropdown-item"  (click)="ValidateUserForDeleteTweet(timeline)">Delete Post</a> -->
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <br/>
+                </mat-card-actions>
+                <mat-card-header>
+                  <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
+                  <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
+                  <input class="d-inline input-commet" type="text" (keyup.enter)="submitReplyTo($event, timeline)" placeholder="Comment">
+                </mat-card-header>
+              </mat-card>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- This is twit user timeline -->
+      <div class="col-md-4">
+        <div class="social-card" (psYReachEnd)="userTimeLineScrollEvent($event)" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
+          <div class="nav-social">
+            <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
+              <div class="social-cards-header">
+                <h6>User Timeline</h6>
+              </div>
+              <div class="social-cards-header-icnons d-inline">
+                <div fxLayout="row" fxLayoutGap="1rem">
+                  <span>
+                    <img src="../assets/social/search-so-icon-normal@3x.png" class="">
+                  </span>
+                  <span>
+                    <img src="../assets/social/refresh-so-icon-normal@3x.png" (click)="refresh(userTimeLine)" class="">
+                  </span>
+                  <span class="dropdown">
+                    <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img class="img-more" src="../assets/social/more-so-icon-normal@3x.png">
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item">Text Only</a>
+                      <a class="dropdown-item">Text + Images</a>
+                      <a class="dropdown-item">Remove Stream</a>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ul class="pos-post-cards">
+            <li *ngFor="let timeline of twitUserTimeLine">
+              <mat-card class="example-card">
+                <mat-card-header>
+                  <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
+                  <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
+                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
+                </mat-card-content>
+                <br/>
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
+                </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
+                <mat-card-actions>
+                  <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
+                      </span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
+                    </div>
+                    <div>
+                      <span>
+                        <img src="../assets/social/comment-icon-normal@3x.png" (click)="replyToStatus(timeline)" class="">&nbsp; reply
+                      </span>
+                      <span></span>
+                    </div>
+                    <div>
+                      <img src="../assets/svg/004-retweet.svg" (click)="retweet(timeline)">&nbsp;
+                      <span>{{timeline.retweet_count}}</span>
+                    </div>
+                    <div>
+                      <span class="dropdown">
+                        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <img src="../assets/social/more-so-icon-normal@3x.png" class="img-more-footer">
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item">Edit</a>
+                          <a class="dropdown-item">Send Email</a>
+                          <a class="dropdown-item">Create Stream</a>
+                          <a class="dropdown-item" *ngIf="ValidateUserForDeleteTweet(timeline)" (click)="deleteTweet(timeline)">Delete Post</a>
+                          <!-- <a class="dropdown-item"  (click)="ValidateUserForDeleteTweet(timeline)">Delete Post</a> -->
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <br/>
+                </mat-card-actions>
+                <mat-card-header>
+                  <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
+                  <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
+                  <input class="d-inline input-commet" type="text" (keyup.enter)="submitReplyTo($event, timeline)" placeholder="Comment">
+                </mat-card-header>
+              </mat-card>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- this is mentions timeline -->
+      <div class="col-md-4">
+        <div class="social-card" (psYReachEnd)="mentionsTimeLineScrollEvent($event)" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
+          <div class="nav-social">
+            <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
+              <div class="social-cards-header">
+                <h6>Mentions</h6>
+              </div>
+              <div class="social-cards-header-icnons d-inline">
+                <div fxLayout="row" fxLayoutGap="1rem">
+                  <span>
+                    <img src="../assets/social/search-so-icon-normal@3x.png" class="">
+                  </span>
+                  <span>
+                    <img src="../assets/social/refresh-so-icon-normal@3x.png" (click)="refresh(mentions)" class="">
+                  </span>
+                  <span class="dropdown">
+                    <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img class="img-more" src="../assets/social/more-so-icon-normal@3x.png">
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item">Text Only</a>
+                      <a class="dropdown-item">Text + Images</a>
+                      <a class="dropdown-item">Remove Stream</a>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ul class="pos-post-cards">
+            <li *ngFor="let timeline of twitMentionsTimeLine">
+              <mat-card class="example-card">
+                <mat-card-header>
+                  <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
+                  <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
+                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
+                </mat-card-content>
+                <br/>
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
+                </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
+                <mat-card-actions>
+                  <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
+                      </span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
+                    </div>
+                    <div>
+                      <span>
+                        <img src="../assets/social/comment-icon-normal@3x.png" (click)="replyToStatus(timeline)" class="">&nbsp; reply
+                      </span>
+                      <span></span>
+                    </div>
+                    <div>
+                      <img src="../assets/svg/004-retweet.svg" (click)="retweet(timeline)">&nbsp;
+                      <span>{{timeline.retweet_count}}</span>
+                    </div>
+                    <div>
+                      <span class="dropdown">
+                        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <img src="../assets/social/more-so-icon-normal@3x.png" class="img-more-footer">
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item">Edit</a>
+                          <a class="dropdown-item">Send Email</a>
+                          <a class="dropdown-item">Create Stream</a>
+                          <a class="dropdown-item" *ngIf="ValidateUserForDeleteTweet(timeline)" (click)="deleteTweet(timeline)">Delete Post</a>
+                          <!-- <a class="dropdown-item"  (click)="ValidateUserForDeleteTweet(timeline)">Delete Post</a> -->
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <br/>
+                </mat-card-actions>
+                <mat-card-header>
+                  <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
+                  <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
+                  <input class="d-inline input-commet" type="text" (keyup.enter)="submitReplyTo($event, timeline)" placeholder="Comment">
+                </mat-card-header>
+              </mat-card>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- this is retweets timeline -->
+      <div class="col-md-4">
+        <div class="social-card" (psYReachEnd)="retweetsOfMeTimeLineScrollEvent($event)" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}">
+          <div class="nav-social">
+            <div class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center">
+              <div class="social-cards-header">
+                <h6>Retweets</h6>
+              </div>
+              <div class="social-cards-header-icnons d-inline">
+                <div fxLayout="row" fxLayoutGap="1rem">
+                  <span>
+                    <img src="../assets/social/search-so-icon-normal@3x.png" class="">
+                  </span>
+                  <span>
+                    <img src="../assets/social/refresh-so-icon-normal@3x.png" (click)="refresh(retweets)" class="">
+                  </span>
+                  <span class="dropdown">
+                    <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img class="img-more" src="../assets/social/more-so-icon-normal@3x.png">
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item">Text Only</a>
+                      <a class="dropdown-item">Text + Images</a>
+                      <a class="dropdown-item">Remove Stream</a>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ul class="pos-post-cards">
+            <li *ngFor="let timeline of tweetsTimeLine">
+              <mat-card class="example-card">
+                <mat-card-header>
+                  <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
+                  <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
+                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
+                </mat-card-content>
+                <br/>
+                <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
+                  <img mat-card-image [src]="timeline.entities.media[0]?.media_url" (click)="previewImage(timeline)" alt="">
+                </div>
+                <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
+                  <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
+                </video>
+                <mat-card-actions>
+                  <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
+                      <span class="icons-default d-inline">
+                        <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
+                        <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
+                      </span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
+                    </div>
+                    <div>
+                      <span>
+                        <img src="../assets/social/comment-icon-normal@3x.png" (click)="replyToStatus(timeline)" class="">&nbsp; reply
+                      </span>
+                      <span></span>
+                    </div>
+                    <div>
+                      <img src="../assets/svg/004-retweet.svg" (click)="retweet(timeline)">&nbsp;
+                      <span>{{timeline.retweet_count}}</span>
+                    </div>
+                    <div>
+                      <span class="dropdown">
+                        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <img src="../assets/social/more-so-icon-normal@3x.png" class="img-more-footer">
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item">Edit</a>
+                          <a class="dropdown-item">Send Email</a>
+                          <a class="dropdown-item">Create Stream</a>
+                          <a class="dropdown-item" *ngIf="ValidateUserForDeleteTweet(timeline)" (click)="deleteTweet(timeline)">Delete Post</a>
+                          <!-- <a class="dropdown-item"  (click)="ValidateUserForDeleteTweet(timeline)">Delete Post</a> -->
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <br/>
+                </mat-card-actions>
+                <mat-card-header>
+                  <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
+                  <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
+                  <input class="d-inline input-commet" type="text" (keyup.enter)="submitReplyTo($event, timeline)" placeholder="Comment">
+                </mat-card-header>
+              </mat-card>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <br/>
+  </div>
+</div>

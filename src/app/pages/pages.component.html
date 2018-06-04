@@ -5,7 +5,7 @@
   <!-- === Buttons ==== -->
   <div fxLayout="row" fxLayoutAlign="space-between center" class="addview-buttons">
     <div *ngIf="isEdit" class="page-header">
-      <span>New page creation </span>
+      <!-- <span>New page creation </span> -->
     </div>
     <div *ngIf="isGridView" class="main-category">
       <h6>Main Category</h6>
@@ -50,7 +50,7 @@
           </div> -->
 
           <div class="select_dropdown_mat">
-            <mat-select placeholder="Select" formControlName="parent_id" id="parent_id" [(ngModel)]="selectedValue" name="food">
+            <mat-select placeholder="Select" formControlName="parent_id" id="parent_id">
               <mat-option *ngFor="let parent of parentPageDetails" [value]="parent.id">
                   {{parent.id}}-{{parent.component_name}}
               </mat-option>
@@ -157,12 +157,14 @@
   
               <td class="btn-pages btn-stack">
                 <button (click)="editCompnent(page_item)"  type="button" class="btn">
-                    <i class="fa fa-pencil"></i>
+                    <!-- <i class="fa fa-pencil"></i> -->
+                    <img class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
                 </button>
               </td>
               <td class="btn-pages btn-stack">
                 <button (click)="onDelete(page_item)"  type="button" class="btn">
-                    <i class="fa fa-trash"></i>
+                    <!-- <i class="fa fa-trash"></i> -->
+                    <img class="asset-btn-flujo" src="../assets/icons/remove-icon-active@2x.png">                    
                 </button>
               </td>
             </tr>
@@ -203,9 +205,12 @@
           </div>
           <mat-card-content>
             <div id="pageheader">
-              <div class="edit-title">
+              <div  class="edit-title">
                 <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
-                <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
+                <!-- <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i> -->
+                <i fxFlex="50%" fxLayoutAlign="end center">
+                  <img  (click)="editCompnent(detail)" class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
+                </i>
               </div>
             </div>
           </mat-card-content>
@@ -246,7 +251,10 @@
               <div id="pageheader">
                 <div class="edit-title">
                   <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
-                  <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i>
+                  <!-- <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i> -->
+                  <i fxFlex="50%" fxLayoutAlign="end center">
+                      <img  (click)="editCompnent(detail)" class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
+                  </i>
                 </div>
               </div>
             </mat-card-content>

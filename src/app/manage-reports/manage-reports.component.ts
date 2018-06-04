@@ -88,6 +88,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.filterReportProblemData = [];
     }
     ngOnInit() {
+        this.spinnerService.show();
         this.getAllReports();
         this.prepareMoveToAutoCompleteOptionsList(this.moveToListOptions);
         this.prepareRemarksAutoCompleteOptionsList(this.RemarksListOptions);
@@ -185,11 +186,11 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
             .subscribe(
                 resp => {
                     // console.log(resp);
-                    if (!resp.error && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                    if (!resp.error) {
                         this.alertService.success('Your request updated successfully.');
                         this.spinnerService.hide();
                         this.usersListControl = new FormControl();
-                    } else if (resp.custom_status_code === 101 && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                    } else if (resp.custom_status_code === 101) {
                         this.alertService.danger('Required parameters are missing');
                         this.spinnerService.hide();
                     } else {
@@ -222,12 +223,12 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
                 .subscribe(
                     resp => {
                         // console.log(resp);
-                        if (!resp.error && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                        if (!resp.error) {
                             this.alertService.success('Your request updated successfully.');
                             this.spinnerService.hide();
                             this.moveToListControl = new FormControl();
                             this.remarksListControl = new FormControl();
-                        } else if (resp.custom_status_code === 101 && (AppConstants.ACCESS_TOKEN === resp.access_token)) {
+                        } else if (resp.custom_status_code === 101) {
                             this.alertService.danger('Required parameters are missing');
                             this.spinnerService.hide();
                         } else {
@@ -257,7 +258,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     getAllReports = (): void => {
         this.activatedRoute.data.subscribe(data => {
             console.log(data);
-                    if (!data.reportData.error && (AppConstants.ACCESS_TOKEN === data.reportData.access_token)) {
+                    if (!data.reportData.error) {
                         this.reportProblemData = data.reportData.result;
                         this.reportProblemData2 = data.reportData.result;
                         this.filterReportProblemData = data.reportData.result;

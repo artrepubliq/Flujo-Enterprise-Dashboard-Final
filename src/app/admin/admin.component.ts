@@ -8,7 +8,8 @@ import { AppConstants } from '../app.constants';
 import { MatIconModule } from '@angular/material/icon';
 import { IActiveUsers } from '../model/createUser.model';
 import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, ActivatedRouteSnapshot,
+   Event, NavigationStart, NavigationCancel, NavigationError } from '@angular/router';
 import { CreateUserComponentComponent, AccessLevelPopup } from '../create-user-component/create-user-component.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
@@ -98,6 +99,9 @@ export class AdminComponent implements OnInit {
     private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService) {
     this.accessDataModel = new AccessDataModelComponent(httpClient, router);
+    this.router.events.subscribe((event: Event) => {
+      this.navigationInterceptor(event);
+    });
     this.getUserList();
     this.getUserAccessLevelsHttpClient().subscribe(
       resp => {
@@ -128,6 +132,23 @@ export class AdminComponent implements OnInit {
         this.CurrentPageName = title;
       }
     });
+  }
+
+  private navigationInterceptor(event: Event): void {
+    if (event instanceof NavigationStart) {
+      this.spinnerService.show();
+    }
+    if (event instanceof NavigationEnd) {
+      this.spinnerService.hide();
+    }
+
+    // Set loading state to false in both of the below events to hide the loader in case a request fails
+    if (event instanceof NavigationCancel) {
+      this.spinnerService.hide();
+    }
+    if (event instanceof NavigationError) {
+      this.spinnerService.hide();
+    }
   }
   public getTitle(routeSnapshot: ActivatedRouteSnapshot): any {
     let data = [];
@@ -270,7 +291,7 @@ export class AdminComponent implements OnInit {
 
     // return  this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
 
-    return this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
+    return this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getuseraccess/' + AppConstants.CLIENT_ID);
   }
   sidebarToggleOpen() {
     this.sidebarToggledButton = true;

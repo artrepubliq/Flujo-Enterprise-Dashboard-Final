@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-alerts';
-import {LocationStrategy, HashLocationStrategy} from '@angular/common';
+import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 // import { Chart } from 'chart.js';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -67,7 +67,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
-import { SocialManagementComponent, MessageCompose } from './social-management/social-management.component';
+import { SocialManagementComponent } from './social-management/social-management.component';
 
 import { FacebookModule } from 'ngx-facebook';
 import { FBService } from './service/fb.service';
@@ -117,7 +117,26 @@ import { FeedbackService } from './feedback/feedback-service';
 import { FeedbackResolver } from './feedback/feedback-resolver';
 import { DataBaseResolver } from './database/database-resolver';
 import { DataBaseService } from './database/database-service';
+import { TwitterComponent } from './twitter/twitter.component';
+import { TwitterServiceService } from './service/twitter-service.service';
+import { FacebookComponent } from './facebook/facebook.component';
+import { MessageCompose } from './dialogs/social-compose/social-compose-message';
+import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
 import { WindowRef } from './admin/window.service';
+import { SocialLoginComponent } from './social-login/social-login.component';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { TwitterUserService } from './service/twitter-user.service';
+import { LinkyModule } from 'angular-linky';
+// import { A2Edatetimepicker } from 'ng2-eonasdan-datetimepicker';
+// import { FlujodatepickerDirective } from './flujodatepicker.directive';
+
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+
+import { FacebookComponentCommunicationService } from './service/social-comp-int.service';
+import { MyDatePipe } from './_pipes/date-pipe';
+import { ImagePreviewDialogComponent } from './dialogs/image-preview-dialog/image-preview-dialog.component';
+import { EditFacebookMessage } from './dialogs/edit-fb-post/edit-fb-post-dialog';
+import { AddSocialStreemDialog } from './dialogs/social-addstreem/social-addstreem.dialog';
 import { FacebookComponent } from './facebook/facebook.component';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -191,10 +210,21 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SafeHtmlPipe,
     AreaEditPopup,
     ProblemCategoryEditPopup,
+    TwitterComponent,
+    TwitterTimelineDirective,
+    MessageCompose,
+    FacebookComponent,
+    SocialLoginComponent,
+    MyDatePipe,
+    ImagePreviewDialogComponent,
+    EditFacebookMessage,
+    AddSocialStreemDialog,
+    // FlujodatepickerDirective
     MessageCompose,
     FacebookComponent
   ],
   imports: [
+    CommonModule,
     RouterModule.forRoot([], { useHash: true }),
     BrowserModule,
     BrowserAnimationsModule,
@@ -247,25 +277,29 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatPaginatorModule,
     MatSnackBarModule,
     PapaParseModule,
+    ScrollDispatchModule,
+    // A2Edatetimepicker,
+    AngularDateTimePickerModule,
+    LinkyModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
+    AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
-    MessageCompose],
+    MessageCompose, ImagePreviewDialogComponent, EditFacebookMessage, AddSocialStreemDialog],
   providers: [
-              // AuthService,
-              HttpService,
-              ValidationService,
-              NgxSmartLoaderService,
-              LoginAuthService,
-              GalleryImagesService,
-              FBService,
-              ProblemTypeService,
-              AreaService,
-              {provide: DateAdapter, useClass: DateFormat},
-              SmsTemplateSelectService,
-              SmsTemplateSelectService,
-              WindowRef,
+    // AuthService,
+    HttpService,
+    ValidationService,
+    NgxSmartLoaderService,
+    LoginAuthService,
+    GalleryImagesService,
+    FBService,
+    ProblemTypeService,
+    AreaService,
+    { provide: DateAdapter, useClass: DateFormat },
+    SmsTemplateSelectService,
+    SmsTemplateSelectService,
+    WindowRef,
 
     // AuthService,
     HttpService,
@@ -277,32 +311,38 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProblemTypeService,
     AreaService,
     { provide: DateAdapter, useClass: DateFormat },
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
-              SmsTemplateSelectService,
-              EmailTemplateResolver,
-              EmailTemplateService,
-              EditorSelectionService,
-              ManageReportsResolver,
-              ManageReportService,
-              FeedbackResolver,
-              FeedbackService,
-              DataBaseResolver,
-              DataBaseService,
-              // AuthInterceptorService,
-              // {
-              // provide: AuthHttp,
-              // useFactory: authHttpServiceFactory,
-              // deps: [Http, RequestOptions]
-              // },
-              // {
-              //   provide: HTTP_INTERCEPTORS,
-              //   useClass: TokenInterceptor,
-              //   multi: true
-              // }
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    SmsTemplateSelectService,
+    EmailTemplateResolver,
+    EmailTemplateService,
+    EditorSelectionService,
+    ManageReportsResolver,
+    ManageReportService,
+    FeedbackResolver,
+    FeedbackService,
+    DataBaseResolver,
+    DataBaseService,
+    AuthInterceptorService,
+    TwitterServiceService,
+    TwitterUserService,
+    FacebookComponentCommunicationService,
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
 
     { provide: DateAdapter, useClass: DateFormat }
 
   ],
+  // exports: [
+  //   FlujodatepickerDirective,
+  // ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit {
   button_text = 'save';
   decodedString: string;
   profileImag: string;
-  isEdit: boolean;
+  isEdit = true;
   resultExist: boolean;
   isDataExist: boolean;
   isHideDeletebtn: boolean;
@@ -121,7 +121,6 @@ export class ProfileComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postprofile', formModel)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((data.error) && (data.custom_status_code = 101)) {
               this.alertService.warning('Required parameters are missing');
               this.spinnerService.hide();
@@ -133,7 +132,6 @@ export class ProfileComponent implements OnInit {
             } else if ((data.error) && (data.custom_status_code = 102)) {
               this.alertService.info('Everything is upto date');
             }
-          }
         },
         error => {
           this.loading = false;
@@ -155,7 +153,6 @@ export class ProfileComponent implements OnInit {
     this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleteprofile/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code = 100)) {
               this.alertService.success('profile image deleted Successfully.');
               this.form.reset();
@@ -170,7 +167,6 @@ export class ProfileComponent implements OnInit {
             } else if ((data.error) && (data.custom_status_code = 101)) {
               this.alertService.info('Required parameters are missing');
             }
-          }
         },
         error => {
           this.loading = false;
@@ -184,7 +180,6 @@ export class ProfileComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getprofile/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code = 100)) {
               this.profileImageDetails = data.result;
               data.result ? this.isEdit = false : this.isEdit = true;
@@ -200,7 +195,6 @@ export class ProfileComponent implements OnInit {
               }
               this.loading = false;
             }
-          }
         },
         error => {
           console.log(error);

@@ -1,0 +1,12 @@
+<div *ngIf="showSignIn">
+  <!-- <div *ngIf="showSignIn"> -->
+  <!-- <button (click)="postStatus()">Post status</button>  -->
+  <button (click)="signInTwitter()"> Sign in for twitter</button>
+  <a [attr.href]="twitterUserLogin" target="_blank"> sign in for twitter</a>
+</div>
+
+
+<div *ngIf="twitHomeTimeLine && twitUserTimeLine && twitMentionsTimeLine && twitRetweets">
+  <app-twitter-timeline [twitHomeTimeLine]="twitHomeTimeLine" [twitUserTimeLine]="twitUserTimeLine" [twitMentionsTimeLine]="twitMentionsTimeLine"
+    [tweetsTimeLine]="twitRetweets"></app-twitter-timeline>
+</div>

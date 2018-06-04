@@ -12,11 +12,10 @@ import { Observable } from 'rxjs/Observable';
 export class TokenInterceptor implements HttpInterceptor {
   constructor(public auth: AuthInterceptorService) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
     request = request.clone({
       setHeaders: {
         Authorization: `${this.auth.getToken()}`,
-        Accept: `${this.auth.getClientId()}`
+        Accept: `${this.auth.getDomain()}`
       }
     });
     return next.handle(request);

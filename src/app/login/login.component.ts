@@ -59,11 +59,12 @@ export class LoginComponent implements OnInit {
         data => {
           console.log(data.result);
           this.loginData = data.result;
-          if (AppConstants.ACCESS_TOKEN === data.access_token) {
             if (data.custom_status_code === 100) {
               this.loginForm.reset();
               console.log(this.loginData);
               console.log(data);
+              // Dont remove reload
+              window.location.reload();
               this.loginAuthService._setSession(data.result[0]);
               if (this.loginData[0].email_verified === '0') {
                 const feature_id = 23;
@@ -76,7 +77,6 @@ export class LoginComponent implements OnInit {
             } else {
               this.spinnerService.hide();
               this.alertService.danger('Please enter valid details');
-            }
           }
         });
   }

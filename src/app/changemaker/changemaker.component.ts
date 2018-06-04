@@ -155,7 +155,6 @@ export class ChangemakerComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_changemakerdatacsvemail', formModel)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if (!data.error && (data.custom_status_code = 100)) {
               this.changeMakerCsvMail.reset();
               this.alertService.info('Attachement sent succesfully');
@@ -163,7 +162,6 @@ export class ChangemakerComponent implements OnInit {
             } else if ((data.error) && (data.custom_status_code = 101)) {
               this.spinnerService.hide();
               this.alertService.danger('Email could not sent');
-            }
           }
         },
         error => {

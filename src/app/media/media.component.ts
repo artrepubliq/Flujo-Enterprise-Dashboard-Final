@@ -31,9 +31,15 @@ import { ICommonInterface } from '../model/commonInterface.model';
 })
 
 export class MediaComponent implements OnInit {
+
+  final_images: any[];
+  test: any[];
+  imageSize: any;
+  imageName: any;
+  errors: any[];
   myGroup: FormGroup;
   popupFileUploadData = {};
-  imageDetail: any = [];
+  imageDetail: any[];
   albumTitles: string;
   uploadImagesForm: FormGroup;
   toggleFileUploader = false;
@@ -110,7 +116,8 @@ export class MediaComponent implements OnInit {
       'font-family': 'Roboto',
       'width': '130px',
       'height': '40px',
-      'float': 'right'
+      'float': 'right',
+      'display': 'none'
     },
     layout: {
       'border-radius': '5px',
@@ -131,6 +138,10 @@ export class MediaComponent implements OnInit {
     },
 
   };
+  @Input() maxFiles = 10;
+  @Input() fileExt = 'JPG, PNG, JPEG';
+  @Output() uploadStatus = new EventEmitter();
+  @Input() maxSize = 2; // 5MB
   public dragging: boolean;
   constructor(public dialog: MatDialog, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private formBuilder: FormBuilder, private alertService: AlertService,
@@ -201,20 +212,20 @@ export class MediaComponent implements OnInit {
       this.router.navigate(['/accessdenied']);
     }
   }
+
   selectMedia(event) {
     this.ishide = false;
     if (event.target.files && event.target.files.length > 0) {
 
-      for (let i = 0; i < event.target.files.length; i++) {
-        const reader = new FileReader();
-        const file = event.target.files[i];
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          this.imageDetail.push(reader.result.split(',')[1]);
-          console.log(this.imageDetail);
-        };
+      const files = event.target.files;
+      this.saveFiles(files);
+
+      this.imageDetail = Object.values(files);
+      this.final_images = [];
+      if (this.errors.length === 0) {
+        this.openFileDialog(this.imageDetail);
       }
-      this.openFileDialog(this.imageDetail);
+      console.log(this.errors);
       try {
         this.uploadImagesObject.image = this.imageDetail;
       } catch (e) {
@@ -222,10 +233,102 @@ export class MediaComponent implements OnInit {
       }
     }
   }
-  onRemoved(file: FileHolder) {
-    this.ishide = true;
-    // do some stuff with the removed file.
+
+  @HostListener('dragover', ['$event']) onDragOver(event) {
+    this.dragAreaClass = 'droparea';
+    event.preventDefault();
+}
+
+@HostListener('dragenter', ['$event']) onDragEnter(event) {
+    this.dragAreaClass = 'droparea';
+    event.preventDefault();
+}
+
+@HostListener('dragend', ['$event']) onDragEnd(event) {
+    this.dragAreaClass = 'dragarea';
+    event.preventDefault();
+}
+
+@HostListener('dragleave', ['$event']) onDragLeave(event) {
+    this.dragAreaClass = 'dragarea';
+    event.preventDefault();
+}
+@HostListener('drop', ['$event']) onDrop(event) {
+    this.dragAreaClass = 'dragarea';
+    event.preventDefault();
+    event.stopPropagation();
+    const files = event.dataTransfer.files;
+    this.saveFiles(files);
+    // console.log(this.foldersdata);
+    if (this.errors.length === 0) {
+      this.imageDetail = Object.values(files);
+        this.openDialog(this.imageDetail);
+    }
+}
+
+  saveFiles(files) {
+    this.errors = [];
+    // Validate file size and allowed extensions
+
+    if (files.length > 0 && (!this.isValidFiles(files))) {
+      this.uploadStatus.emit(false);
+      return;
+    }
+    const fileSizeinMB = files[0].size / (1024 * 1000);
+    const size = Math.round(fileSizeinMB * 100) / 100;
+    // console.log(fileSizeinMB);
+    // console.log(size);
+    // this.FileUploadControl.controls['file_path'].setValue(files[0]);
+    // this.foldersdata['file_path'] = files[0];
+    // this.FileUploadControl.controls['file_size'].setValue(size);
   }
+
+  /* this is for checking for the maximum number of files */
+  private isValidFiles(files) {
+    // Check Number of files
+    if (files.length > this.maxFiles) {
+      this.alertService.warning('Error: At a time you can upload only ' + this.maxFiles + ' files');
+      this.errors.push('Error: At a time you can upload only ' + this.maxFiles + ' files');
+      return;
+    }
+    this.isValidFileExtension(files);
+    // return this.errors.length === 0;
+  }
+
+  private isValidFileExtension(files) {
+    // Make array of file extensions
+    const extensions = (this.fileExt.split(','))
+      .map(function (x) { return x.toLocaleUpperCase().trim(); });
+
+    for (let i = 0; i < files.length; i++) {
+      // Get file extension
+      const ext = files[i].name.toUpperCase().split('.').pop() || files[i].name;
+      // Check the extension exists
+      const exists = extensions.includes(ext);
+      if (!exists) {
+        this.alertService.warning('Error (Extension): ' + files[i].name);
+        this.errors.push('Error (Extension): ' + files[i].name);
+        return;
+      }
+      // Check file size
+      this.isValidFileSize(files[i]);
+    }
+  }
+
+  /* this is for checking valid size of the file */
+  private isValidFileSize(file) {
+    const fileSizeinMB = file.size / (1024 * 1000);
+    const size = Math.round(fileSizeinMB * 100) / 100; // convert upto 2 decimal place
+    if (size > this.maxSize) {
+
+      this.alertService.warning('Error (File Size): ' + file.name + ': exceed file size limit of '
+        + this.maxSize + 'MB ( ' + size + 'MB )');
+      this.errors.push('Error (File Size): ' + file.name + ': exceed file size limit of '
+        + this.maxSize + 'MB ( ' + size + 'MB )');
+    }
+  }
+
+
   onUploadStateChanged(state: boolean) {
     console.log(JSON.stringify(state));
   }
@@ -249,6 +352,7 @@ export class MediaComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed 1');
+      this.getMediaGalleryData();
     });
   }
 
@@ -257,20 +361,19 @@ export class MediaComponent implements OnInit {
     this.spinnerService.show();
 
     this.uploadImagesObject.client_id = AppConstants.CLIENT_ID;
-    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postgallery', this.uploadImagesObject).subscribe(
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postmedia', this.uploadImagesObject).subscribe(
       res => {
-        if (res.access_token === AppConstants.ACCESS_TOKEN) {
-          if ((!res.error) && (res.custom_status_code === 100)) {
-            this.uploadImagesObject = <IUploadImages>{};
-            this.successMessagebool = true;
-            this.spinnerService.hide();
+        if ((!res.error) && (res.custom_status_code === 100)) {
+          this.uploadImagesObject = <IUploadImages>{};
+          console.log(res.result);
+          this.successMessagebool = true;
+          this.spinnerService.hide();
 
-            this.successMessagebool = true;
-            this.alertService.success('Images uploaded successfully');
-            this.getMediaGalleryData();
-          } else if ((res.error) && (res.custom_status_code === 101)) {
-            this.alertService.warning('Required parameters are missing');
-          }
+          this.successMessagebool = true;
+          this.alertService.success('Images uploaded successfully');
+          this.getMediaGalleryData();
+        } else if ((res.error) && (res.custom_status_code === 101)) {
+          this.alertService.warning('Required parameters are missing');
         }
       },
       (err: HttpErrorResponse) => {
@@ -286,12 +389,12 @@ export class MediaComponent implements OnInit {
     this.spinnerService.show();
     this.httpClient
 
-      .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgallery/' + AppConstants.CLIENT_ID)
+      .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getmedia/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.custom_status_code === 100 && AppConstants.ACCESS_TOKEN && data.error === false) {
+          if (data.custom_status_code === 100) {
             this.mediaData = data.result;
-            console.log(this.mediaData);
+            // console.log(this.mediaData);
             this.spinnerService.hide();
           }
         },
@@ -303,18 +406,16 @@ export class MediaComponent implements OnInit {
   }
   deleteMediaImage(image_id) {
     this.spinnerService.show();
-    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletegallery/' + image_id)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletemedia/' + image_id)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
-            if ((!data.error) && (data.custom_status_code = 100)) {
-              this.hightlightStatus = [false];
-              this.spinnerService.hide();
-              this.alertService.success('Image deleted Successfully');
-              this.getMediaGalleryData();
-            } else if ((data.error) && (data.custom_status_code = 101)) {
-              this.alertService.warning('Required parameters are missing');
-            }
+          if (!data.error && data.custom_status_code === 100) {
+            this.hightlightStatus = [false];
+            this.spinnerService.hide();
+            this.alertService.success('Image deleted Successfully');
+            this.getMediaGalleryData();
+          } else if (data.error && data.custom_status_code === 101) {
+            this.alertService.warning('Required parameters are missing');
           }
         },
         error => {
@@ -335,7 +436,7 @@ export class MediaComponent implements OnInit {
       this.albumObject.images = _.without(this.albumObject.images, item_index);
     } else {
       this.albumImage = <IGalleryImageItem>{};
-      this.albumImage.id = item_id.id;
+      this.albumImage.album_id = item_id.id;
       this.albumImage.title = null;
       this.albumImage.description = null;
       this.albumObject.images.push(this.albumImage);
@@ -363,19 +464,17 @@ export class MediaComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postalbum', reqData)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
-            if ((!data.error) && (data.custom_status_code === 100)) {
-              this.resetsubmitAlbumData();
-              this.spinnerService.hide();
+          if (!data.error && data.custom_status_code === 100) {
+            this.resetsubmitAlbumData();
+            this.spinnerService.hide();
 
-              this.parseReloadAlbumGalleryObject(data.result);
+            this.parseReloadAlbumGalleryObject(data.result);
 
-              this.hightlightStatus = [false];
-              this.alertService.success('Album created successfully.');
-            } else if ((data.error) && (data.custom_status_code === 101)) {
-              this.spinnerService.hide();
-              this.alertService.danger('Something went wrong.please try again.');
-            }
+            this.hightlightStatus = [false];
+            this.alertService.success('Album created successfully.');
+          } else if (data.error && data.custom_status_code === 101) {
+            this.spinnerService.hide();
+            this.alertService.danger('Something went wrong.please try again.');
           }
         },
         error => {
@@ -402,15 +501,13 @@ export class MediaComponent implements OnInit {
       .get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getalbum/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
-            if ((!data.error) && (data.custom_status_code === 100)) {
-              this.albumGallery = data.result;
-              this.spinnerService.hide();
+          if (!data.error && data.custom_status_code === 100) {
+            this.albumGallery = data.result;
+            this.spinnerService.hide();
 
-              this.prepareAllAlbumImageIdsArray(data.result);
-            } else if ((data.error) && (data.custom_status_code === 101)) {
-              this.alertService.danger('Required parameters are missing.');
-            }
+            this.prepareAllAlbumImageIdsArray(data.result);
+          } else if (data.error && data.custom_status_code === 101) {
+            this.alertService.danger('Required parameters are missing.');
           }
         },
 
@@ -437,16 +534,14 @@ export class MediaComponent implements OnInit {
 
     if (albumImageIds.length > 0) {
       this.spinnerService.show();
-      this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getgalleryintoalbum', albumImageIds)
+      this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postmediaintoalbum', albumImageIds)
         .subscribe(
           data => {
-            if (data.access_token === AppConstants.ACCESS_TOKEN) {
-              if (!data.error && (data.custom_status_code === 100)) {
-                this.albumGalleryItem = data.result;
-                this.spinnerService.hide();
-              } else if (data.error && (data.custom_status_code === 101)) {
-                this.alertService.warning('Required parameters are missing');
-              }
+            if (!data.error && data.custom_status_code === 100) {
+              this.albumGalleryItem = data.result;
+              this.spinnerService.hide();
+            } else if (data.error && data.custom_status_code === 101) {
+              this.alertService.warning('Required parameters are missing');
             }
           },
 
@@ -480,7 +575,7 @@ export class MediaComponent implements OnInit {
       });
       console.log(filteredimagesArray);
       const popupData = this.prepareAlbumBase64ImagesObject(filteredimagesArray, albumItem);
-
+      console.log(popupData[0].images);
       const dialogRef = this.dialog.open(EditGalleryItems, {
         data: popupData,
         height: '400px',
@@ -500,7 +595,7 @@ export class MediaComponent implements OnInit {
           console.log(filteredimagesArray);
           this.albumObject = <IGalleryObject>{};
           this.albumObject.images = [];
-          this.albumObject.id = this.originalAlbumData.id;
+          this.albumObject.album_id = this.originalAlbumData.id;
           this.albumObject.title = this.originalAlbumData.title;
           this.albumObject.client_id = this.originalAlbumData.client_id;
           this.albumObject.images.push(result);
@@ -526,7 +621,7 @@ export class MediaComponent implements OnInit {
         this.albumBase64imagesObject = {
           id: albumdetals[item_index].id,
           title: albumdetals[item_index].title, description: albumdetals[item_index].description,
-          order: albumdetals[item_index].order, image: base64images.image
+          order: albumdetals[item_index].order, images: base64images.images
         };
         this.albumBase64imagesArray.push(this.albumBase64imagesObject);
       }
@@ -599,7 +694,7 @@ export class MediaComponent implements OnInit {
   }
   reloadAlbumByIds() {
     this.spinnerService.show();
-    this.httpClient.get<IGalleryObject>(AppConstants.API_URL + 'flujo_client_getgallery/' + this.originalAlbumData.id)
+    this.httpClient.get<IGalleryObject>(AppConstants.API_URL + 'flujo_client_getalbumbyid' + this.originalAlbumData.id)
       .subscribe(
         data => {
           this.parseReloadAlbumGalleryObject(data[0]);
@@ -718,13 +813,18 @@ export class DialogOverviewExampleDialog {
 })
 // tslint:disable-next-line:component-class-suffix
 export class FileSelectPopup {
+
+  isApply = false;
+  image_base64: Array<any>;
   selectedOption: any;
   stateCtrl: FormControl;
   filteredStates: Observable<any[]>;
   description: string;
-  file_name_control: string;
+  file_name_control: FormControl;
   config: any;
   sendData: any = {};
+  // public imageData: IAlbumImageUpdate[] = this.data;
+  public options: string[] = [];
   constructor(
     public dialogRef: MatDialogRef<FileSelectPopup>,
     @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
@@ -732,22 +832,36 @@ export class FileSelectPopup {
 
     dialogRef.disableClose = true;
     this.stateCtrl = new FormControl();
+    this.file_name_control = new FormControl();
     this.filteredStates = this.stateCtrl.valueChanges
       .pipe(
         startWith(''),
-        map(state => state ? this.filterStates(state) : state.slice())
+        map(state => this.filterStates(state))
       );
-    console.log(this.filteredStates);
+      if (this.data.images.length > 1) {
+        this.isApply = true;
+      }
+    this.data.images.map(imageBase => {
+      const reader = new FileReader();
+      this.image_base64 = [];
+      reader.readAsDataURL(imageBase);
+      reader.onload = () => {
+        this.image_base64.push(reader.result.split(',')[1]);
+      };
+    });
+    this.data.options.map(item => {
+      this.options.push(item.title);
+    });
   }
 
   filterStates(name: string) {
-    return this.data.options.filter(state =>
-      state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+    return this.options.filter(state =>
+      state.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
-  displayFn(project): string {
-    return project ? project.title : project;
-  }
+  // displayFn(project): string {
+  //   return project ? project.title : project;
+  // }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -759,25 +873,64 @@ export class FileSelectPopup {
   saveFiles() {
     this.spinnerService.show();
     if (this.data.images.length > 1) {
-      this.sendData.id = this.selectedOption.id;
-      this.sendData.title = this.selectedOption.title;
-    }
-    this.sendData.description = this.description;
-    this.sendData.images = this.data.images;
-    this.sendData.client_id = AppConstants.CLIENT_ID;
-    console.log(this.sendData);
+      const formData = new FormData();
+      console.log(this.data.images);
+      console.log(this.selectedOption);
+      // formData.append('images', this.data.images);
+      this.data.images.map(file => {
+        formData.append('images[]', file);
+      });
+      // if (this.selectedOption.id) {
+      //   // formData.append('id', this.data.options.id);
+      // }
+      formData.append('title', this.stateCtrl.value);
+      formData.append('description', this.file_name_control.value);
+      formData.append('client_id', AppConstants.CLIENT_ID);
+      // this.sendData.id = this.selectedOption.id;
+      // this.sendData.title = this.selectedOption.title;
+      // this.sendData.description = this.file_name_control.value;
+      // this.sendData.images = this.data.images;
 
-    this.http.post(AppConstants.API_URL + '/flujo_client_postalbumgallery', this.sendData).subscribe(
-      res => {
-        this.spinnerService.hide();
-        this.alertService.success('Uploaded successfully');
-        this.dialogRef.close();
-      },
-      (err: HttpErrorResponse) => {
-        this.spinnerService.hide();
-        this.alertService.warning('Something went wrong.');
-      }
-    );
+      // this.sendData.client_id = AppConstants.CLIENT_ID;
+      // if (!this.selectedOption.title) {
+      //   this.sendData.title = this.stateCtrl.value;
+      // }
+      // console.log(this.sendData);
+
+      this.http.post(AppConstants.API_URL + 'flujo_client_postalbummedia', formData).subscribe(
+        res => {
+          this.spinnerService.hide();
+          this.alertService.success('Uploaded successfully');
+          this.dialogRef.close();
+          console.log(res);
+        },
+        (err: HttpErrorResponse) => {
+          this.spinnerService.hide();
+          this.alertService.warning('Something went wrong.');
+        }
+      );
+    } else if (this.data.images.length === 1) {
+      const singleData = new FormData();
+      this.data.images.map(file => {
+        singleData.append('images[]', file);
+      });
+      singleData.append('description', this.file_name_control.value);
+      singleData.append('client_id', AppConstants.CLIENT_ID);
+      this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postmedia', singleData)
+        .subscribe(
+          data => {
+            if (!data.error && data.custom_status_code === 100) {
+              this.alertService.info('Image uploaded successfully');
+              this.spinnerService.hide();
+              this.dialogRef.close();
+            } else if (data.error && data.custom_status_code === 101) {
+              this.alertService.danger('Image not uploaded');
+              this.spinnerService.hide();
+              this.dialogRef.close();
+            }
+          }
+        );
+    }
   }
 
 }

@@ -102,7 +102,6 @@ export class SmsuiComponent implements OnInit {
       .subscribe(
         data => {
           this.spinnerService.hide();
-          if (data.access_token === AppConstants.ACCESS_TOKEN) {
             if ((!data.error) && (data.custom_status_code = 100)) {
               this.alertService.success('Message has been sent successfully');
               this.smsContactForm.reset();
@@ -111,7 +110,6 @@ export class SmsuiComponent implements OnInit {
               this.alertService.danger('Required parameters are missing');
               this.smsContactForm.reset();
             }
-          }
         },
         error => {
           this.spinnerService.hide();
@@ -127,7 +125,6 @@ export class SmsuiComponent implements OnInit {
       .subscribe(
         data => {
           try {
-            if (data.access_token === AppConstants.ACCESS_TOKEN) {
               if ((!data.error) && (data.custom_status_code = 100)) {
                 this.smsTemplateSelectionData = data.result;
                 this.smsTemplateSelectionData.map((smsData) => {
@@ -135,7 +132,6 @@ export class SmsuiComponent implements OnInit {
                 });
                 console.log(this.smsTemplateSelectionData);
               }
-            }
           } catch (e) {
             console.log(e);
           }

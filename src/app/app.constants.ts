@@ -2,12 +2,25 @@ import { IAccessLevelModel } from './model/accessLevel.model';
 
 export class AppConstants {
     /** server */
-    public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo.in_api_client/'; }
+    // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo.in_api_client/'; }
+
     /*Staging*/
-    // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/'; }
+    public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/v1/'; }
+
+    /**this is heroku cloud url for production */
+    // public static get API_URL(): string { return 'https://flujo-api-pro.herokuapp.com'; }
+
+    /**this is heroku cloud url for staging */
+    // public static get API_URL(): string { return 'https://flujo-client-api.herokuapp.com'; }
+
     public static get CLIENT_ID(): string { return '1232'; }
     public static get THEME_ID(): string { return '32'; }
+
     public static get ACCESS_TOKEN(): string { return 'keerthan_token'; }
+    public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/'; }
+    // public static get EXPRESS_URL(): string { return 'http://localhost:3000/'; }
+    public static get TWITTER_API_URL(): string { return 'https://api.twitter.com'; }
+    public static get JSONWEBTOKENKEY(): string { return 'jsonWebTokenSecreyKey1232##'; }
     public static get DEFAULT(): Array<IAccessLevelModel> {
         return [
             { name: 'Editor', feature_id: 1, enable: false, read: false, write: false, order: '1' },

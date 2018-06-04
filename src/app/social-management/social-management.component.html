@@ -1,509 +1,109 @@
 
-<!-- 
-<div class="container">
-  <div class="row">
-      
-    <div class="col scrollContent">
-      <div>
-          <a (click)="getDebugToken()" class="btn btn-primary">Login with facebook</a>
-          <a *ngIf="!isFbLogedin" (click)="fbLogin()" class="btn btn-primary">Login with facebook</a>
-        <div *ngIf="fbResponseDataItems">
-          <div class="card" *ngFor="let fbItem of fbResponseDataItems">
-
-
-            <img *ngIf="fbItem.full_picture" class="img-fluid" src={{fbItem.full_picture}} alt="Card image cap">
-
-
-            <div class="card-body">
-              <p class="card-text">{{fbItem.message}}</p>
-              <p>likes: {{fbItem.likes.summary.total_count}}</p>
-              <p>comments: {{fbItem.comments.summary.total_count}}</p>
-            </div>
-
-          </div>
-        </div>
-        <a *ngIf="isFbLogedin" (click)="fbLoadMore()" class="btn btn-primary">Load More</a>
-      </div>
-    </div>
-    <div class="col scrollContent">
-      <div>
-          <a *ngIf="!isShowTwitter" (click)="getTwitterFeed()" class="btn btn-primary">Show Twitter</a>
-        <ngx-twitter-timeline *ngIf="isShowTwitter" [data]="{
-            sourceType: 'url',
-            url: 'https://twitter.com/@dasyamofficial'}" [opts]="{
-            tweetLimit: 20
-        }"></ngx-twitter-timeline>
-      </div>
-    </div>
-  </div>
-</div> -->
-<a (click)="getDebugToken()" class="btn btn-primary">get debug token</a>
-<a (click)="fbLogin()" class="btn btn-primary">Login with facebook</a>
-<div  fxLayout="column" fxLayoutGap="15px">
+<div fxLayout="column" fxLayoutGap="15px">
   <div fxLayout="row" fxLayoutAlign="space-between center">
-      <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
-          <button  name="options" id="option1" autocomplete="off" checked>
-              Add Stream
-          </button>
-          <button   name="options" id="option2" autocomplete="off">
-              Add Social Network
-          </button>
-      </div>
-      <div class="new-postt-box" fxLayout="row" fxLayoutAlign="space-between center">
-        <span  fxFlex  class="d-inline">
-          <i class="fa fa-pencil d-inline"></i>&nbsp;<input (click)="openmessageComposeDialog()" fxFlex type="text" placeholder="New Post">
+    <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
+          <button  name="options" id="option1" autocomplete="off" checked (click)="addSocialStreem()">
+        Add Stream
+      </button>
+      <button name="options" id="option2" autocomplete="off">
+        Add Social Network
+      </button>
+    </div>
+    <div [ngClass]="highLighted" class="new-postt-box" fxLayout="row" fxLayoutAlign="space-between center">
+      <span fxFlex class="d-inline">
+        <span class="icons-default">
+          <img src="../assets/social/new-post-normal@3x.png" class="d-inline" />
+        </span>&nbsp;
+        <input class="d-inline" (click)="openmessageComposeDialog()" fxFlex="90" type="text" placeholder="New Post">
+      </span>
+      <div fxLayout="row" fxLayoutGap="1rem">
+        <span class="icons-default">
+          <img src="../assets/social/emoji-icon-default@3x.png" />
         </span>
-        <div fxLayout="row" fxLayoutGap="1rem">
-            <i class="fa fa-smile-o"></i>
-            <i class="fa fa-picture-o"></i>
-            <i class="fa fa-video-camera"></i>
-            <i class="fa fa-map-marker"></i>
+        <span class="icons-default">
+          <img src="../assets/social/image-icon-default@3x.png" />
+        </span>
+        <span class="icons-default">
+          <img class="img3" src="../assets/social/video-icon-default@3x.png" />
+        </span>
+        <span class="icons-default">
+          <img class="img4" src="../assets/social/location-icon-default@3x.png" />
+        </span>
+      </div>
+    </div>
+    <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
+      <button class="" name="options" id="option1" autocomplete="off" checked>
+        <img src="../assets/social/grid-view-icon-normal@3x.png" class="img5">
+      </button>
+      <button class="" name="options" id="option2" autocomplete="off">
+        <img src="../assets/social/list-view-icon-active@3x.png" class="img6">
+      </button>
+    </div>
+  </div>
+  <div class="social-tabs-hub" fxLayout="column">
+    <div class="social-tabs">
+      <mat-tab-group class="posts-card-row" (selectedTabChange)="tabChanged($event)">
+        <mat-tab label="Facebook">
+          <br/>
+          <app-facebook *ngIf="FbLongLivedToken && userAccountId" [FbLongLivedToken]="FbLongLivedToken"></app-facebook>
+        </mat-tab>
+        <mat-tab label="Twitter">
+            <br/>
+          <app-twitter></app-twitter>
+        </mat-tab>
+        <mat-tab label="Instagram">Instagram</mat-tab>
+        <mat-tab label="YouTube">YouTube</mat-tab>
+      </mat-tab-group>
+    </div>
+    <div class="pos-streams">
+      <div class="btn-group">
+        <button type="button" class="btn-filter  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Streams
+        </button>
+        <div class="filter-items dropdown-menu" (click)="$event.stopPropagation();">
+          <span class="dropdown-item">Streams
+            <span class="pull-right">
+              <i class="fa fa-angle-up"></i>
+            </span>
+          </span>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Dasyam Vinay Bhaskar</label>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Dasyam Abhinav Bhaskar</label>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Dasyam Official</label>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Art Republiq</label>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Valmiki Warangal</label>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; ICICI South</label>
         </div>
       </div>
-      <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
-          <button  name="options" id="option1" autocomplete="off" checked>
-             <i class="fa fa-th"></i>
-          </button>
-          <button   name="options" id="option2" autocomplete="off">
-                <i class="fa fa-list"></i>
-          </button>
+    </div>
+    <div class="pos-filter">
+      <div class="btn-group">
+        <button type="button" class="btn-filter  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Filter
+        </button>
+        <div class="filter-items dropdown-menu" (click)="$event.stopPropagation();">
+          <span class="dropdown-item">Filters
+            <span class="pull-right">
+              <i class="fa fa-angle-up"></i>
+            </span>
+          </span>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Timelines</label>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Mentions</label>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Likes</label>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Shares</label>
+          <label class="dropdown-item">
+            <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Comments</label>
+        </div>
       </div>
+    </div>
   </div>
-  <app-facebook *ngIf="FbLongLivedToken" [FbLongLivedToken]="FbLongLivedToken"></app-facebook>
-  <!-- <div class="social-tabs-hub" fxLayout="column">
-      <div  class="social-tabs">
-        <mat-tab-group class="posts-card-row">
-            <mat-tab label="Facebook" >
-              <br/>
-                <div fxLayoutGap="0.5px" fxLayout="row" [perfectScrollbar]="config">
-                  <div class="col-md-4" [perfectScrollbar]="config">
-                    <div class="social-card">
-                      <div class="nav-social" fxLayout="row" fxLayoutAlign="space-between center">
-                        <div class="social-cards-header">
-                          <h6>Mentions</h6>
-                        </div>
-                        <div class="social-cards-header-icnons d-inline">
-                          <div fxLayout="row" fxLayoutGap="1rem">
-                            <i class="fa fa-search"></i>
-                            <i class="fa fa-repeat"></i>
-                            <i class="fa fa-ellipsis-v"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <ul class="pos-post-cards">
-                        <app-facebook></app-facebook>
-                         <li>
-                          <mat-card class="example-card">
-                            <mat-card-header>
-                              <div mat-card-avatar class="example-header-image"></div>
-                              <mat-card-title>Shiba Inu</mat-card-title>
-                              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                              <p>
-                                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                              </p>
-                            </mat-card-content>
-                            <br/>
-                            <div class="social-image">
-                              <img mat-card-image src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350"
-                                alt="Photo of a Shiba Inu">
-                            </div>
-                            <mat-card-actions>
-                              <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                                <div>
-                                  <span>
-                                    <i class="fa fa-thumbs-o-up"></i>&nbsp; Like</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-comment-o"></i>&nbsp; Comment</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-share"></i>&nbsp; Share</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                  </span>
-                                </div>
-                              </div>
-                              <br/>
-                            </mat-card-actions>
-                            <mat-card-header>
-                              <div mat-card-avatar class="d-inline example-header-image"></div>
-                              <input class="d-inline input-commet" type="text" placeholder="Comment">
-                            </mat-card-header>
-                          </mat-card>
-                        </li>
-                      <li>
-                          <mat-card class="example-card">
-                            <mat-card-header>
-                              <div mat-card-avatar class="example-header-image"></div>
-                              <mat-card-title>Shiba Inu</mat-card-title>
-                              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                              <p>
-                                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                              </p>
-                            </mat-card-content>
-                            <br/>
-                            <div class="social-image">
-                              <img mat-card-image src="../assets/profile_user.jpg" alt="Photo of a Shiba Inu">
-                            </div>
-                            <mat-card-actions>
-                              <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                                <div>
-                                  <span>
-                                    <i class="fa fa-thumbs-o-up"></i>&nbsp; Like</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-comment-o"></i>&nbsp; Comment</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-share"></i>&nbsp; Share</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                  </span>
-                                </div>
-                              </div>
-                              <br/>
-                            </mat-card-actions>
-                            <mat-card-header>
-                              <div mat-card-avatar class="d-inline example-header-image"></div>
-                              <input class="d-inline input-commet" type="text" placeholder="Comment">
-                            </mat-card-header>
-                          </mat-card>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-md-4" [perfectScrollbar]="config">
-                    <div class="social-card">
-                      <div class="nav-social" fxLayout="row" fxLayoutAlign="space-between center">
-                        <div class="social-cards-header">
-                          <h6>Mentions</h6>
-                        </div>
-                        <div class="social-cards-header-icnons d-inline">
-                          <div fxLayout="row" fxLayoutGap="1rem">
-                            <i class="fa fa-search"></i>
-                            <i class="fa fa-repeat"></i>
-                            <i class="fa fa-ellipsis-v"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <ul class="pos-post-cards">
-                        <li>
-                          <mat-card class="example-card">
-                            <mat-card-header>
-                              <div mat-card-avatar class="example-header-image"></div>
-                              <mat-card-title>Shiba Inu</mat-card-title>
-                              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                              <p>
-                                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                              </p>
-                            </mat-card-content>
-                            <br/>
-                            <div class="social-image">
-                              <img mat-card-image src="../assets/profile_user.jpg" alt="Photo of a Shiba Inu">
-                            </div>
-                            <mat-card-actions>
-                              <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                                <div>
-                                  <span>
-                                    <i class="fa fa-thumbs-o-up"></i>&nbsp; Like</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-comment-o"></i>&nbsp; Comment</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-share"></i>&nbsp; Share</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                  </span>
-                                </div>
-                              </div>
-                              <br/>
-                            </mat-card-actions>
-                            <mat-card-header>
-                              <div mat-card-avatar class="d-inline example-header-image"></div>
-                              <input class="d-inline input-commet" type="text" placeholder="Comment">
-                            </mat-card-header>
-                          </mat-card>
-                        </li>
-                        <li>
-                          <mat-card class="example-card">
-                            <mat-card-header>
-                              <div mat-card-avatar class="example-header-image"></div>
-                              <mat-card-title>Shiba Inu</mat-card-title>
-                              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                              <p>
-                                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                              </p>
-                            </mat-card-content>
-                            <br/>
-                            <div class="social-image">
-                              <img mat-card-image src="../assets/profile_user.jpg" alt="Photo of a Shiba Inu">
-                            </div>
-                            <mat-card-actions>
-                              <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                                <div>
-                                  <span>
-                                    <i class="fa fa-thumbs-o-up"></i>&nbsp; Like</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-comment-o"></i>&nbsp; Comment</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-share"></i>&nbsp; Share</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                  </span>
-                                </div>
-                              </div>
-                              <br/>
-                            </mat-card-actions>
-                            <mat-card-header>
-                              <div mat-card-avatar class="d-inline example-header-image"></div>
-                              <input class="d-inline input-commet" type="text" placeholder="Comment">
-                            </mat-card-header>
-                          </mat-card>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-md-4" [perfectScrollbar]="config">
-                    <div class="social-card">
-                      <div class="nav-social" fxLayout="row" fxLayoutAlign="space-between center">
-                        <div class="social-cards-header">
-                          <h6>Mentions</h6>
-                        </div>
-                        <div class="social-cards-header-icnons d-inline">
-                          <div fxLayout="row" fxLayoutGap="1rem">
-                            <i class="fa fa-search"></i>
-                            <i class="fa fa-repeat"></i>
-                            <i class="fa fa-ellipsis-v"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <ul class="pos-post-cards">
-                        <li>
-                          <mat-card class="example-card">
-                            <mat-card-header>
-                              <div mat-card-avatar class="example-header-image"></div>
-                              <mat-card-title>Shiba Inu</mat-card-title>
-                              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                              <p>
-                                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                              </p>
-                            </mat-card-content>
-                            <br/>
-                            <div class="social-image">
-                              <img mat-card-image src="../assets/profile_user.jpg" alt="Photo of a Shiba Inu">
-                            </div>
-                            <mat-card-actions>
-                              <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                                <div>
-                                  <span>
-                                    <i class="fa fa-thumbs-o-up"></i>&nbsp; Like</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-comment-o"></i>&nbsp; Comment</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-share"></i>&nbsp; Share</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                  </span>
-                                </div>
-                              </div>
-                              <br/>
-                            </mat-card-actions>
-                            <mat-card-header>
-                              <div mat-card-avatar class="d-inline example-header-image"></div>
-                              <input class="d-inline input-commet" type="text" placeholder="Comment">
-                            </mat-card-header>
-                          </mat-card>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-md-4" [perfectScrollbar]="config">
-                    <div class="social-card">
-                      <div class="nav-social" fxLayout="row" fxLayoutAlign="space-between center">
-                        <div class="social-cards-header">
-                          <h6>Mentions</h6>
-                        </div>
-                        <div class="social-cards-header-icnons d-inline">
-                          <div fxLayout="row" fxLayoutGap="1rem">
-                            <i class="fa fa-search"></i>
-                            <i class="fa fa-repeat"></i>
-                            <i class="fa fa-ellipsis-v"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <ul class="pos-post-cards">
-                        <li>
-                          <mat-card class="example-card">
-                            <mat-card-header>
-                              <div mat-card-avatar class="example-header-image"></div>
-                              <mat-card-title>Shiba Inu</mat-card-title>
-                              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                              <p>
-                                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                              </p>
-                            </mat-card-content>
-                            <br/>
-                            <div class="social-image">
-                              <img mat-card-image src="../assets/profile_user.jpg" alt="Photo of a Shiba Inu">
-                            </div>
-                            <mat-card-actions>
-                              <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                                <div>
-                                  <span>
-                                    <i class="fa fa-thumbs-o-up"></i>&nbsp; Like</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-comment-o"></i>&nbsp; Comment</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-share"></i>&nbsp; Share</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                  </span>
-                                </div>
-                              </div>
-                              <br/>
-                            </mat-card-actions>
-                            <mat-card-header>
-                              <div mat-card-avatar class="d-inline example-header-image"></div>
-                              <input class="d-inline input-commet" type="text" placeholder="Comment">
-                            </mat-card-header>
-                          </mat-card>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>          
-                  <div class="col-md-4" [perfectScrollbar]="config">
-                    <div class="social-card">
-                      <div class="nav-social" fxLayout="row" fxLayoutAlign="space-between center">
-                        <div class="social-cards-header">
-                          <h6>Mentions</h6>
-                        </div>
-                        <div class="social-cards-header-icnons d-inline">
-                          <div fxLayout="row" fxLayoutGap="1rem">
-                            <i class="fa fa-search"></i>
-                            <i class="fa fa-repeat"></i>
-                            <i class="fa fa-ellipsis-v"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <ul class="pos-post-cards">
-                        <li>
-                          <mat-card class="example-card">
-                            <mat-card-header>
-                              <div mat-card-avatar class="example-header-image"></div>
-                              <mat-card-title>Shiba Inu</mat-card-title>
-                              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                            </mat-card-header>
-                            <mat-card-content>
-                              <p>
-                                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
-                                very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                              </p>
-                            </mat-card-content>
-                            <br/>
-                            <div class="social-image">
-                              <img mat-card-image src="../assets/profile_user.jpg" alt="Photo of a Shiba Inu">
-                            </div>
-                            <mat-card-actions>
-                              <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
-                                <div>
-                                  <span>
-                                    <i class="fa fa-thumbs-o-up"></i>&nbsp; Like</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-comment-o"></i>&nbsp; Comment</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-share"></i>&nbsp; Share</span>
-                                </div>
-                                <div>
-                                  <span>
-                                    <i class="fa fa-ellipsis-v"></i>
-                                  </span>
-                                </div>
-                              </div>
-                              <br/>
-                            </mat-card-actions>
-                            <mat-card-header>
-                              <div mat-card-avatar class="d-inline example-header-image"></div>
-                              <input class="d-inline input-commet" type="text" placeholder="Comment">
-                            </mat-card-header>
-                          </mat-card>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>          
-                </div>
-            </mat-tab>
-            <mat-tab label="Twitter">Twitter</mat-tab>
-            <mat-tab label="Instagram">Instagram</mat-tab>
-            <mat-tab label="YouTube">YouTube</mat-tab>
-        </mat-tab-group>
-      </div>
-      <div class="pos-filter">
-          <div class="btn-group">
-              <button type="button" class="btn-filter  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Filter
-              </button>
-              <div class="filter-items dropdown-menu" (click)="$event.stopPropagation();">
-                <span class="dropdown-item"></span>
-                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Timelines</label>
-                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Mentions</label>
-                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Likes</label>
-                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Shares</label>
-                <label class="dropdown-item"> <input class="Check-box-normal" type="checkbox">&nbsp;&nbsp; Comments</label>
-              </div>
-          </div>
-      </div>
-  </div> -->
 </div>
