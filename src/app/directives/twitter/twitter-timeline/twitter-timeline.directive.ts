@@ -83,6 +83,9 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
             console.log(result.data);
             this.snackBar.open('Tweet deleted', 'Dismiss');
           } else {
+            if (result.data.errors[0].code === 144) {
+              this.snackBar.open('Tweet not found on Twitter.com', 'Dismiss');
+            }
             console.log(result.data.errors);
           }
         },
@@ -199,7 +202,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   */
 
   public homeTimeLineScrollEvent(event): void {
-    if (this.twitHomeTimeLine) {
+    if (this.twitHomeTimeLine && this.twitHomeTimeLine.length > 0) {
       const last_index = this.twitHomeTimeLine.length - 1;
       console.log(this.twitHomeTimeLine[last_index].id);
       this.twitterService.getOldHomeTimeline(this.twitHomeTimeLine[last_index].id)
@@ -226,7 +229,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   */
 
   public userTimeLineScrollEvent(event): void {
-    if (this.twitUserTimeLine) {
+    if (this.twitUserTimeLine && this.twitUserTimeLine.length > 0) {
       const last_index = this.twitUserTimeLine.length - 1;
       console.log(this.twitUserTimeLine[last_index].id);
       this.twitterService.getOldUserTimeline(this.twitUserTimeLine[last_index].id)
@@ -250,7 +253,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   */
 
   public mentionsTimeLineScrollEvent(event): void {
-    if (this.twitMentionsTimeLine) {
+    if (this.twitMentionsTimeLine && this.twitMentionsTimeLine.length > 0) {
       const last_index = this.twitMentionsTimeLine.length - 1;
       console.log(this.twitMentionsTimeLine[last_index].id);
       this.twitterService.getOldMentionsTimeline(this.twitMentionsTimeLine[last_index].id)
@@ -274,7 +277,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   */
 
   public retweetsOfMeTimeLineScrollEvent(event): void {
-    if (this.tweetsTimeLine) {
+    if (this.tweetsTimeLine && this.tweetsTimeLine.length > 0) {
       const last_index = this.tweetsTimeLine.length - 1;
       console.log(this.tweetsTimeLine[last_index].id);
       this.twitterService.getOldRetweetsOfMeTimeline(this.tweetsTimeLine[last_index].id)

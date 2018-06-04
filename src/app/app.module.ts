@@ -119,7 +119,6 @@ import { DataBaseResolver } from './database/database-resolver';
 import { DataBaseService } from './database/database-service';
 import { TwitterComponent } from './twitter/twitter.component';
 import { TwitterServiceService } from './service/twitter-service.service';
-import { FacebookComponent } from './facebook/facebook.component';
 import { MessageCompose } from './dialogs/social-compose/social-compose-message';
 import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
 import { WindowRef } from './admin/window.service';
