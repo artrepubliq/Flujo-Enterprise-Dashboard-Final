@@ -130,7 +130,7 @@ const routes: Routes = [
             path: 'media/gallery', component: ViewGalleryComponent,
             data: { title: 'Gallery' }
           },
-          { path: 'social_management', component: SocialManagementComponent, data: { title: 'Social Management' } },
+          { path: 'social_management/:id', component: SocialManagementComponent, data: { title: 'Social Management' } },
           { path: 'social_login', component: SocialLoginComponent, data: { title: 'Social Login' } },
           { path: 'biography', loadChildren: './biography/biography.module#BiographyModule', data: { title: 'Biography' } },
           {
