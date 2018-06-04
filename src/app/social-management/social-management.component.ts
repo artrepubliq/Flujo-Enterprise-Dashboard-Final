@@ -89,8 +89,12 @@ export class SocialManagementComponent implements OnInit {
     this.highLighted = 'show-class';
     dialogRef.afterClosed().subscribe(composedPostData => {
       if (composedPostData) {
+        if (composedPostData.composedMessage.media.length > 0) {
+          this.uploadFBPhotosToOurServer(composedPostData);
+        } else {
+          this.fbCMPCommunicationService.FBSocialComposedPostAnnounce(composedPostData);
+        }
         this.fbCMPCommunicationService.TwitterSocialComposedPostAnnounce(composedPostData);
-        // this.uploadFBPhotosToOurServer(composedPostData);
       }
       this.highLighted = 'hide-class';
     });

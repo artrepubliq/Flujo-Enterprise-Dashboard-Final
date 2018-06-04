@@ -12,7 +12,7 @@ import { AppConstants } from '../app.constants';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { EditFacebookMessage } from '../dialogs/edit-fb-post/edit-fb-post-dialog';
 import { ImagePreviewDialogComponent } from '../dialogs/image-preview-dialog/image-preview-dialog.component';
-import { IFBPages, IFBFeedArray, IFBFeedResponse, IProfile, IPaginigCursors, IFBPagesList, IMediaData } from '../model/facebook.model';
+import { IFBPages, IProfile, IFBPagesList, IMediaData, IFBFeedArray, IFBFeedResponse, IPaginigCursors } from '../model/facebook.model';
 @Component({
   selector: 'app-facebook',
   templateUrl: './facebook.component.html',
@@ -291,15 +291,20 @@ export class FacebookComponent implements OnInit {
   handleComposedFBPost = async (composedFBPost: IStreamComposeData) => {
     console.log(composedFBPost);
     try {
-      const photoUploadResp = await this.addPhotosToFBUserPageOrHomePhotos(composedFBPost);
-      console.log(photoUploadResp);
-      const addFBPostResp: any[] = await this.asyncThreadToAddFacebookPost(photoUploadResp);
-      console.log(addFBPostResp);
-      if (addFBPostResp.length === composedFBPost.streamDetails.length) {
-        this.deleteuploadedImagesFromServer(composedFBPost.composedMessage.media);
+      if (composedFBPost.composedMessage.media.length > 0) {
+        const photoUploadResp: IStreamComposeData = await this.addPhotosToFBUserPageOrHomePhotos(composedFBPost);
+        console.log(photoUploadResp.composedMessage.media);
+        const addFBPostResp: any[] = await this.asyncThreadToAddFacebookPost(photoUploadResp);
+        console.log(addFBPostResp);
+        if (addFBPostResp.length === composedFBPost.streamDetails.length) {
+          this.deleteuploadedImagesFromServer(composedFBPost.composedMessage.media);
+        } else {
+          console.log('error in facebook component handlecomposedPost');
+          alert('failed to post the Post on Some streams');
+        }
       } else {
-        console.log('error in facebook component handlecomposedPost');
-        alert('failed to post the Post on Some streams');
+        const addFBPostResp: any[] = await this.asyncThreadToAddFacebookPost(composedFBPost);
+        console.log(addFBPostResp);
       }
     } catch (err) {
       console.log(err);
@@ -324,21 +329,28 @@ export class FacebookComponent implements OnInit {
   // THIS FACEBOOK API CALL SERVICE TO POST THE FB POST ON TO SELECTED PAGE OR PROFILE
   asyncFBAPICALLThreadToPostTheFBPost = (streamItem: IStreamDetails, composedPost: IComposePost) => {
     return new Promise(async (resolve, reject) => {
+      let fbPostObject: any;
       if (streamItem.imageUploadFailedItem.length === 0 && streamItem.imageUploadSuccessItem.length > 0) {
-        const fbPostObject = this.prepareFBPostObject(streamItem, composedPost);
+         fbPostObject = this.prepareFBPostObject(streamItem, composedPost);
+
+      } else {
+         fbPostObject = this.prepareFBPostObject(streamItem, composedPost);
+      }
+      if (fbPostObject) {
         // prepareFBPostParamsObject.tags =
         this.fb.api('https://graph.facebook.com/v3.0/' + streamItem.social_id + '/feed?access_token=' + streamItem.access_token,
-          'post', fbPostObject)
-          .then((respo: any) => {
-            streamItem.postStatus = true;
-            resolve(streamItem);
-          })
-          .catch((err: Error) => {
-            console.log(err);
-            streamItem.postStatus = false;
-            reject(streamItem);
-          });
+        'post', fbPostObject)
+        .then((respo: any) => {
+          streamItem.postStatus = true;
+          resolve(streamItem);
+        })
+        .catch((err: Error) => {
+          console.log(err);
+          streamItem.postStatus = false;
+          reject(streamItem);
+        });
       } else {
+         alert('something went wrong. please try again');
       }
     });
   }
@@ -438,19 +450,27 @@ export class FacebookComponent implements OnInit {
    */
   // THIS FUNCTION IS USED TO PREPARE THE OBJECT WITH REQUIRED PARAMETERS FOR FB POST
   prepareFBPostObject = (post: IStreamDetails, fbPost: IComposePost): any => {
-    let prepareFBPostParamsObject: { 'attached_media': any[], 'link': any, 'message': string, 'tags': any };
-    prepareFBPostParamsObject = <any>{};
-    let imgIDsObj: { 'media_fbid': string };
-    const imgIDsArray = [];
-    _.each(post.imageUploadSuccessItem, (id) => {
-      imgIDsObj = <any>{};
-      imgIDsObj.media_fbid = id;
-      imgIDsArray.push(imgIDsObj);
-    });
-    prepareFBPostParamsObject.attached_media = imgIDsArray;
-    prepareFBPostParamsObject.link = fbPost.link;
-    prepareFBPostParamsObject.message = fbPost.message;
-    return prepareFBPostParamsObject;
+    if (fbPost.media.length > 0) {
+      let prepareFBPostParamsObject: { 'attached_media': any[], 'link': any, 'message': string, 'tags': any };
+      prepareFBPostParamsObject = <any>{};
+      let imgIDsObj: { 'media_fbid': string };
+      const imgIDsArray = [];
+      _.each(post.imageUploadSuccessItem, (id) => {
+        imgIDsObj = <any>{};
+        imgIDsObj.media_fbid = id;
+        imgIDsArray.push(imgIDsObj);
+      });
+      prepareFBPostParamsObject.attached_media = imgIDsArray;
+      prepareFBPostParamsObject.link = fbPost.link;
+      prepareFBPostParamsObject.message = fbPost.message;
+      return prepareFBPostParamsObject;
+    } else {
+      let prepareFBPostParamsObject: {'link': any, 'message': string, 'tags': any };
+      prepareFBPostParamsObject = <any>{};
+      prepareFBPostParamsObject.link = fbPost.link;
+      prepareFBPostParamsObject.message = fbPost.message;
+      return prepareFBPostParamsObject;
+    }
   }
 
   // THIS FUNCTION IS USED TO DELETE THE UPLOADED IMAGES FROM OUR SERVER AFTER POST SUBMITED SUCCESSFULLY
