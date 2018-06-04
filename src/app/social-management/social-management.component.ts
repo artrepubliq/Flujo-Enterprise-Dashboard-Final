@@ -3,7 +3,7 @@ import { FacebookService, InitParams, LoginResponse, LoginOptions } from 'ngx-fa
 import { FBService } from '../service/fb.service';
 import * as _ from 'underscore';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, ParamMap } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -19,6 +19,7 @@ import { FacebookComponentCommunicationService } from '../service/social-comp-in
 import { AppConstants } from '../app.constants';
 import { IMyAccounts, IFBPages, IPaginigCursors, IFBFeedArray } from '../model/facebook.model';
 import { ICommonInterface } from '../model/commonInterface.model';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class SocialManagementComponent implements OnInit {
   config: any;
   highLighted = '';
   public tab_index: number;
+  selectedIndex: any;
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent,
@@ -51,6 +53,7 @@ export class SocialManagementComponent implements OnInit {
     private twitterUserService: TwitterUserService,
     private fbCMPCommunicationService: FacebookComponentCommunicationService,
     private httpClient: HttpClient,
+    private route: ActivatedRoute,
   ) {
     this.fbResponseData = <IFBFeedArray>{};
     this.fbResponseDataItems = [];
@@ -59,6 +62,11 @@ export class SocialManagementComponent implements OnInit {
     this.tab_index = 0;
   }
   ngOnInit(): void {
+    const sub = this.route.params.subscribe(params => {
+      console.log(params['id']);
+      this.selectedIndex = params['id'];
+
+   });
     this.getTwitterUserProfiles();
     this.loggedInUserAccountsArray = [];
   }

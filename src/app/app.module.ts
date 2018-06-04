@@ -127,17 +127,12 @@ import { SocialLoginComponent } from './social-login/social-login.component';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { TwitterUserService } from './service/twitter-user.service';
 import { LinkyModule } from 'angular-linky';
-// import { A2Edatetimepicker } from 'ng2-eonasdan-datetimepicker';
-// import { FlujodatepickerDirective } from './flujodatepicker.directive';
-
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
-
 import { FacebookComponentCommunicationService } from './service/social-comp-int.service';
 import { MyDatePipe } from './_pipes/date-pipe';
 import { ImagePreviewDialogComponent } from './dialogs/image-preview-dialog/image-preview-dialog.component';
 import { EditFacebookMessage } from './dialogs/edit-fb-post/edit-fb-post-dialog';
 import { AddSocialStreemDialog } from './dialogs/social-addstreem/social-addstreem.dialog';
-import { FacebookComponent } from './facebook/facebook.component';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
