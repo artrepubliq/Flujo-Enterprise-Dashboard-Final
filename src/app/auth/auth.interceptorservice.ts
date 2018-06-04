@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 import { AppConstants } from '../app.constants';
-import * as crypto from 'crypto';
+// import * as crypto from 'crypto';
 @Injectable()
 export class AuthInterceptorService {
   public getToken(): string {
