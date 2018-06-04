@@ -137,10 +137,7 @@ import { MyDatePipe } from './_pipes/date-pipe';
 import { ImagePreviewDialogComponent } from './dialogs/image-preview-dialog/image-preview-dialog.component';
 import { EditFacebookMessage } from './dialogs/edit-fb-post/edit-fb-post-dialog';
 import { AddSocialStreemDialog } from './dialogs/social-addstreem/social-addstreem.dialog';
-
-
-
-
+import { FacebookComponent } from './facebook/facebook.component';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -221,8 +218,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MyDatePipe,
     ImagePreviewDialogComponent,
     EditFacebookMessage,
-    AddSocialStreemDialog
+    AddSocialStreemDialog,
     // FlujodatepickerDirective
+    MessageCompose,
+    FacebookComponent
   ],
   imports: [
     CommonModule,

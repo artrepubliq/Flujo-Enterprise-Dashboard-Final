@@ -21,8 +21,6 @@ declare var jquery: any;
 declare var $window: any;
 declare var $: any;
 // import {ChatCamp} from './chatCamp';
-
-
 /*End Chat Camp window initializaion*/
 @Component({
   templateUrl: './admin.component.html',
@@ -108,6 +106,7 @@ export class AdminComponent implements OnInit {
     this.getUserAccessLevelsHttpClient().subscribe(
       resp => {
         _.each(resp.result, item => {
+          console.log(localStorage.getItem('user_id'));
           if (item.user_id === localStorage.getItem('user_id')) {
             this.userAccessLevelObject = item.access_levels;
           } else {

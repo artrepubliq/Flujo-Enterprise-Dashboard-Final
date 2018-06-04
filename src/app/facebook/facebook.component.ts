@@ -13,6 +13,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
 import { EditFacebookMessage } from '../dialogs/edit-fb-post/edit-fb-post-dialog';
 import { ImagePreviewDialogComponent } from '../dialogs/image-preview-dialog/image-preview-dialog.component';
 import { IFBPages, IFBFeedArray, IFBFeedResponse, IProfile, IPaginigCursors, IFBPagesList, IMediaData } from '../model/facebook.model';
+import { IFBFeedResponse, IFBFeedArray, IPaginigCursors } from '../model/fb-feed.model';
 @Component({
   selector: 'app-facebook',
   templateUrl: './facebook.component.html',

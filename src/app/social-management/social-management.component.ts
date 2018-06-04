@@ -239,4 +239,3 @@ export class SocialManagementComponent implements OnInit {
     );
   }
 }
-
