@@ -42,7 +42,8 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
+                  <!-- <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span> -->
+                  <span [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -139,7 +140,8 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
+                  <!-- <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span> -->
+                  <span [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -236,7 +238,8 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
+                  <!-- <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span> -->
+                  <span [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -333,7 +336,8 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span>
+                  <!-- <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span> -->
+                  <span [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">

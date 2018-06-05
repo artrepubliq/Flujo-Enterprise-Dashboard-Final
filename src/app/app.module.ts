@@ -133,6 +133,8 @@ import { ImagePreviewDialogComponent } from './dialogs/image-preview-dialog/imag
 import { EditFacebookMessage } from './dialogs/edit-fb-post/edit-fb-post-dialog';
 import { AddSocialStreemDialog } from './dialogs/social-addstreem/social-addstreem.dialog';
 import { FacebookComponent } from './facebook/facebook.component';
+import { TwitterLinkyPipe } from './_pipes/twitter-linky.pipe';
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -215,7 +217,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EditFacebookMessage,
     AddSocialStreemDialog,
     // FlujodatepickerDirective
-    MessageCompose
+    MessageCompose,
+    TwitterLinkyPipe
   ],
   imports: [
     CommonModule,

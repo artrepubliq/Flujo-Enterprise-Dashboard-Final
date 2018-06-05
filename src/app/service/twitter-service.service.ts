@@ -188,8 +188,18 @@ export class TwitterServiceService {
    * @param tweetMedia this has info of tweet media and status
    */
   public postTweetMedia(tweetMedia): Observable<any> {
-    // return this.httpClient.post<Observable<any>>('http://localhost:3000/postmediastatus', tweetMedia, { headers: this.headers });
+    // tslint:disable-next-line:max-line-length
+    // return this.httpClient.post<Observable<any>>('http://192.168.1.35:3000/scheduler/twitter/media', tweetMedia, { headers: this.headers });
     return this.httpClient.post<Observable<any>>(AppConstants.EXPRESS_URL + 'postmediastatus', tweetMedia, { headers: this.headers });
+  }
+
+  /**
+   * this is to post tweet with media
+   * @param tweetMedia this has info of tweet media and status
+   */
+  public postTweetMediaSchedule(tweetMedia): Observable<any> {
+    return this.httpClient.post<Observable<any>>('http://192.168.1.35:3000/scheduler/twitter/media', tweetMedia, { headers: this.headers });
+    // return this.httpClient.post<Observable<any>>(AppConstants.EXPRESS_URL + 'postmediastatus', tweetMedia, { headers: this.headers });
   }
 
   public postScheduleTweet(data): Observable<ITwitterUser> {
