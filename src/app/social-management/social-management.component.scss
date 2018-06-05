@@ -204,26 +204,30 @@
             cursor: pointer;  
             position: relative;  
             }
+            span.liked{
+                color: #ee2f6b;
+            }
             img.liked-icon{
-                display:none;
+                vertical-align: sub !important;
+                display:inline-block;
             }
             img.like-icon{
                 display:inline-block;
                 vertical-align: sub !important;
             }
-            .btn-likes:hover, .btn-likes:focus{
-                span{
-                    color: #ee2f6b;
-                }
-                img.liked-icon{
-                    display:inline-block;
-                    vertical-align: sub !important;                    
-                }
-                img.like-icon{
-                    display:none;
-                    vertical-align: sub !important;
-                }
-            }
+            // .btn-likes:hover, .btn-likes:focus{
+            //     span{
+            //         color: #ee2f6b;
+            //     }
+            //     img.liked-icon{
+            //         display:inline-block;
+            //         vertical-align: sub !important;                    
+            //     }
+            //     img.like-icon{
+            //         display:none;
+            //         vertical-align: sub !important;
+            //     }
+            // }
             button#dropdownMenuButton {
                 border: none;
             }

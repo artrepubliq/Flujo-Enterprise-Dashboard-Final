@@ -19,6 +19,7 @@ import { IFBPages, IProfile, IFBPagesList, IMediaData, IFBFeedArray, IFBFeedResp
   styleUrls: ['./facebook.component.scss', '../social-management/social-management.component.scss']
 })
 export class FacebookComponent implements OnInit {
+  showProgressBarValue = 0;
   displayTextOnlyForHomeTimeline =  false;
   displayTextOnlyForMyPosts =  false;
   displayTextOnlyForTaggedPosts =  false;
@@ -63,32 +64,47 @@ export class FacebookComponent implements OnInit {
     }
   }
   startWithFacebook = async (FbLongLivedToken) => {
+
     const profile: any = await this.getUserProfile(FbLongLivedToken);
     this.currentStreamDetails = profile;
-    this.getUserHomeORPageTimeline(profile);
-    this.getUserHomeORPageMyPosts(profile);
-    this.getUserHomeORPageTaggedPosts(profile);
+    if (profile) {
+      this.showProgressBarValue = 0;
+      this.getUserHomeORPageTimeline(profile);
+      this.getUserHomeORPageMyPosts(profile);
+      this.getUserHomeORPageTaggedPosts(profile);
+    } else {
+alert('not logged in');
+    }
   }
 
   scrollLoadMoreToRefresh = async (event) => {
+    this.showProgressBarValue = 0;
     if (event === 1 && this.FBHomeTimelineNextPostURL) {
       const result: IFBFeedResponse = await this.FBAPICallOnLoadMoreRefreshedDataFromFB(this.FBHomeTimelineNextPostURL);
       if (result.paging && result.paging.next) {
       this.FBHomeTimelineNextPostURL = result.paging.next;
+      } else {
+        this.FBHomeTimelineNextPostURL = '';
       }
       this.FBHomeTimelinePosts = [...this.FBHomeTimelinePosts, ...result.data];
     } else if (event === 2 && this.FBTaggedPostsNextURL) {
      const result: IFBFeedResponse = await this.FBAPICallOnLoadMoreRefreshedDataFromFB(this.FBTaggedPostsNextURL);
      if (result.paging && result.paging.next) {
       this.FBTaggedPostsNextURL = result.paging.next;
+     } else {
+      this.FBTaggedPostsNextURL = '';
      }
      this.FBTaggedPosts = [...this.FBTaggedPosts, ...result.data];
     } else if (event === 3 && this.FBMyPostsNextURL) {
     const result: IFBFeedResponse = await this.FBAPICallOnLoadMoreRefreshedDataFromFB(this.FBMyPostsNextURL);
     if (result.paging && result.paging.next) {
     this.FBMyPostsNextURL = result.paging.next;
+  } else {
+    this.FBMyPostsNextURL = '';
   }
     this.FBMyPosts = [...this.FBMyPosts, ...result.data];
+    } else {
+      this.showProgressBarValue = 100;
     }
   }
   //  THIS FUNCTION IS USED FOR OPEN THE PREVIEW DIALOG AND DISPLAY THE IMAGES
@@ -129,6 +145,7 @@ export class FacebookComponent implements OnInit {
     });
   }
   getUserProfile = (FbLongLivedToken) => {
+    this.showProgressBarValue = 0;
     return new Promise((resolve, reject) => {
       // tslint:disable-next-line:max-line-length
       this.fb.api('https://graph.facebook.com/v3.0/me?fields=id,name,picture{url}&access_token=' + FbLongLivedToken, 'get')
@@ -140,11 +157,12 @@ export class FacebookComponent implements OnInit {
           useraccount.access_token = FbLongLivedToken;
           useraccount.id = profile_res.id;
           useraccount.name = profile_res.name;
-
+          this.showProgressBarValue = 100;
           resolve(useraccount);
         })
         .catch((errResp: any) => {
           console.log(errResp);
+          this.showProgressBarValue = 100;
           reject(errResp);
         });
     });
@@ -168,33 +186,46 @@ export class FacebookComponent implements OnInit {
 
   // THIS FUNCTION IS USED FOR GETTING THE LOAD MORE REFRESHED DATA
   FBAPICallOnLoadMoreRefreshedDataFromFB = (url: any): Promise<any> => {
-    return new Promise((resolve, reject) => {
-      this.fb.api(url, 'get')
-      .then((data: IFBFeedResponse) => {
-       resolve(data);
-      })
-      .catch((errResp: any) => {
-        reject(errResp);
+    this.showProgressBarValue = 0;
+    if (url.length > 0) {
+      return new Promise((resolve, reject) => {
+        this.fb.api(url, 'get')
+        .then((data: IFBFeedResponse) => {
+          this.showProgressBarValue = 100;
+         resolve(data);
+        })
+        .catch((errResp: any) => {
+          this.showProgressBarValue = 100;
+          reject(errResp);
+        });
       });
-    });
+    } else {
+      this.showProgressBarValue = 100;
+    }
   }
 
   // THIS FUNCTION IS USED TO GET ALL THE HOME FEED IF THE USER
   getUserHomeORPageTimeline = (streamDetails: IFBPages) => {
+    this.showProgressBarValue = 0;
     // tslint:disable-next-line:max-line-length
     this.fb.api('https://graph.facebook.com/v3.0/' + streamDetails.id + '/feed?fields=parent_id,created_time,description,full_picture,attachments{subattachments},message,shares,comments.summary(true),likes.summary(true)&limit=25&access_token=' + streamDetails.access_token, 'get')
       .then((userHomeFeed: IFBFeedResponse) => {
         this.FBHomeTimelinePosts = userHomeFeed.data;
         if (userHomeFeed && userHomeFeed.paging && userHomeFeed.paging.next) {
           this.FBHomeTimelineNextPostURL = userHomeFeed.paging.next;
+        } else {
+          this.FBHomeTimelineNextPostURL = '';
         }
+        this.showProgressBarValue = 100;
       })
       .catch((e: any) => {
         console.log(e);
+        this.showProgressBarValue = 100;
       });
   }
   // THIS FUNCTION IS USED TO GET TAGGED POST FROM THE USER HOME PROFILE
   getUserHomeORPageTaggedPosts = (streamDetails: IFBPages) => {
+    this.showProgressBarValue = 0;
     // tslint:disable-next-line:max-line-length
     this.fb.api('https://graph.facebook.com/v3.0/' + streamDetails.id + '/tagged?fields=parent_id,full_picture,message,created_time,shares,comments.summary(true),likes.summary(true)&limit=25&access_token=' + streamDetails.access_token, 'get')
       .then((taggedPosts: IFBFeedResponse) => {
@@ -202,14 +233,16 @@ export class FacebookComponent implements OnInit {
         if (taggedPosts && taggedPosts.paging && taggedPosts.paging.next) {
         this.FBTaggedPostsNextURL = taggedPosts.paging.next;
         }
+        this.showProgressBarValue = 100;
       })
       .catch((e: any) => {
         console.log(e);
-
+        this.showProgressBarValue = 100;
       });
   }
   // THIS FUNCTION IS USED TO GET SHARED POST FROM THE USER HOME PROFILE
   getUserHomeORPageMyPosts = (streamDetails: IFBPages) => {
+    this.showProgressBarValue = 0;
     // tslint:disable-next-line:max-line-length
     this.fb.api('https://graph.facebook.com/v3.0/' + streamDetails.id + '/feed?fields=parent_id,created_time,description,full_picture,message,shares,comments.summary(true),likes.summary(true)&limit=25&access_token=' + streamDetails.access_token, 'get')
       .then((myPost: IFBFeedResponse) => {
@@ -220,10 +253,11 @@ export class FacebookComponent implements OnInit {
           return !object.parent_id;
         });
         this.FBMyPosts = filteredmyPost;
+        this.showProgressBarValue =  100;
       })
       .catch((e: any) => {
         console.log(e);
-
+        this.showProgressBarValue = 100;
       });
   }
   // THIS FUNCTION IS USED TO GET ALL THE PAGES WHICH HAVE LINKED WITH USER PROFILE
@@ -249,17 +283,20 @@ export class FacebookComponent implements OnInit {
   }
   // THIS FUNCTION IS USED TO POST THE LIKE FOR FACEBOOK PAGE POST
   postLikeForAUserPagePost = (post: IFBFeedArray) => {
+    this.showProgressBarValue = 0;
     this.fb.api('https://graph.facebook.com/v3.0/' + post.id + '/likes?access_token=' + this.currentStreamDetails.access_token, 'post')
       .then((res: any) => {
-        console.log('post like response');
         console.log(res);
+        this.showProgressBarValue =  100;
       })
       .catch((e: any) => {
+        this.showProgressBarValue = 100;
         console.log(e);
       });
   }
   // THIS FUNCTION IS USED TO POST THE COMMENT FOR FACEBOOK PAGE POST
   postCommentForAUserPagePost = (post: IFBFeedArray) => {
+    this.showProgressBarValue = 0;
     let commentinput: {'message': string};
     commentinput = <any>{};
     commentinput.message = this.commentInput;
@@ -268,34 +305,41 @@ export class FacebookComponent implements OnInit {
       .then((respo: any) => {
         this.commentInput = '';
         console.log(respo);
+        this.showProgressBarValue = 100;
       })
       .catch((err: Error) => {
         console.log(err);
+        this.showProgressBarValue = 100;
       });
   }
 
   // THIS FUNCTION IS USED TO  SHARE THE FACEBOOK POST FROM THE PAGE
   postShareAUserPagePost = (post: IFBFeedArray) => {
+    this.showProgressBarValue = 0;
     const postID = post.id.split('_');
     // tslint:disable-next-line:max-line-length
     this.fb.api('https://graph.facebook.com/v3.0/' + postID[0] + '/feed?link=https://www.facebook.com/' + postID[1] + '&access_token=' + this.currentStreamDetails.access_token, 'post')
       .then((res: any) => {
         console.log('share response');
         console.log(res.data);
+        this.showProgressBarValue = 100;
       })
       .catch((e: any) => {
         console.log(e);
+        this.showProgressBarValue = 100;
       });
   }
   // THIS FUNCTION IS USED TO HANDLE ALL THE FUNCTIONALITIES REQUIRED TO POST THE FB POST
   handleComposedFBPost = async (composedFBPost: IStreamComposeData) => {
-    console.log(composedFBPost);
+    this.showProgressBarValue = 0;
     try {
       if (composedFBPost.composedMessage.media.length > 0) {
         const photoUploadResp: IStreamComposeData = await this.addPhotosToFBUserPageOrHomePhotos(composedFBPost);
         console.log(photoUploadResp.composedMessage.media);
         const addFBPostResp: any[] = await this.asyncThreadToAddFacebookPost(photoUploadResp);
         console.log(addFBPostResp);
+        this.showProgressBarValue = 100;
+        this.refreshAllCurrentStreamsStreams();
         if (addFBPostResp.length === composedFBPost.streamDetails.length) {
           this.deleteuploadedImagesFromServer(composedFBPost.composedMessage.media);
         } else {
@@ -304,12 +348,18 @@ export class FacebookComponent implements OnInit {
         }
       } else {
         const addFBPostResp: any[] = await this.asyncThreadToAddFacebookPost(composedFBPost);
-        console.log(addFBPostResp);
+        this.showProgressBarValue = 100;
+        this.refreshAllCurrentStreamsStreams();
       }
     } catch (err) {
       console.log(err);
     }
 
+  }
+  refreshAllCurrentStreamsStreams = () => {
+    this.getUserHomeORPageMyPosts(this.currentStreamDetails);
+    this.getUserHomeORPageTaggedPosts(this.currentStreamDetails);
+    this.getUserHomeORPageTimeline(this.currentStreamDetails);
   }
   // THIS FUNCTION IS USED TO POST THE FB POST IN ALL THE SELECTED STREAMS
   asyncThreadToAddFacebookPost = (fbPost: IStreamComposeData): Promise<any> => {
@@ -350,6 +400,7 @@ export class FacebookComponent implements OnInit {
           reject(streamItem);
         });
       } else {
+        this.showProgressBarValue = 100;
          alert('something went wrong. please try again');
       }
     });
@@ -413,8 +464,10 @@ export class FacebookComponent implements OnInit {
   }
   // FUNCTION IS USED TO DELETE THE FACEBOOK POST FROM THE USER PAGE OR PROFILE
   deleteFBPostFromUserHomeOrPageTimeline = (postDetails: IFBFeedArray, currentStreamDetails: IFBPages, streamSNo) => {
+    this.showProgressBarValue = 0;
     this.fb.api('https://graph.facebook.com/v3.0/' + postDetails.id + '?access_token=' + currentStreamDetails.access_token, 'delete')
       .then((respo: any) => {
+        this.showProgressBarValue = 100;
         if (streamSNo === 1) {
           this.getUserHomeORPageTimeline(currentStreamDetails);
         } else if (streamSNo === 2) {
@@ -426,6 +479,7 @@ export class FacebookComponent implements OnInit {
       })
       .catch((err: Error) => {
         console.log(err);
+        this.showProgressBarValue = 100;
       });
   }
 

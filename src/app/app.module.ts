@@ -31,7 +31,8 @@ import {
   MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
   MatNativeDateModule, MatExpansionModule, DateAdapter,
   MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatTabsModule,
-  MatCardModule, MatTooltipModule, MatCheckboxModule, MatListModule, MatAutocompleteModule, MatSnackBarModule
+  MatCardModule, MatTooltipModule, MatCheckboxModule, MatListModule,
+  MatAutocompleteModule, MatSnackBarModule, MatProgressSpinnerModule
 } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
@@ -270,6 +271,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatSortModule,
     MatPaginatorModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     PapaParseModule,
     ScrollDispatchModule,
     // A2Edatetimepicker,

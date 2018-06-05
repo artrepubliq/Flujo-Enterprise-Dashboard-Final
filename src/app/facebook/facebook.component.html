@@ -1,7 +1,7 @@
-
+<mat-progress-bar *ngIf="showProgressBarValue < 100" mode="indeterminate"></mat-progress-bar>
 <div class="social-tabs-inner">
   <div class="social-tabs-hub-inner" >
-    <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
+    <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">        
       <div class="col-md-4">
         <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}" (psYReachEnd)="scrollLoadMoreToRefresh(1)">
           <div class="nav-social" fxLayout="row" fxLayoutAlign="space-between center">
@@ -29,6 +29,7 @@
               </div>
             </div>
           </div>
+          <!-- <mat-progress-spinner *ngIf="showSpinner" class="example-margin" [color]="color" [mode]="mode"></mat-progress-spinner> -->
           <ul class="pos-post-cards">
             <li *ngFor="let feedItem of FBHomeTimelinePosts; let i = index">
               <mat-card class="example-card">
@@ -59,7 +60,7 @@
                           <img *ngIf="!feedItem.likes.summary.has_liked" src="../assets/social/like-icon-normal@3x.png" class="like-icon">
                           <img  *ngIf="feedItem.likes.summary.has_liked" src="../assets/social/liked-icon-normal@3x.png" class="liked-icon">
                         </span>
-                      <span *ngIf="feedItem.comments.data" [ngClass]="{'liked': feedItem.likes.summary.has_liked}" class=" d-inline">Like</span>{{feedItem.likes.summary.has_liked}}
+                      <span *ngIf="feedItem.comments.data" [ngClass]="{'liked': feedItem.likes.summary.has_liked}" class=" d-inline">Like</span>
                     </div>
                     <div (click)="postCommentForAUserPagePost(feedItem)">
                       <span>
