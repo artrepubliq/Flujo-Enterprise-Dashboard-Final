@@ -7,9 +7,7 @@ import { ITwitterTimelineObject } from '../model/twitter/twitter.model';
 export class TwitterLinkyPipe implements PipeTransform {
 
   transform(timeline: ITwitterTimelineObject, args?: any): any {
-    // console.log(timeline.text);
 
-    // console.log(timeline.entities);
     let replaceableArray: IReplaceableStrings[];
     replaceableArray = [];
     let text = timeline.text;
@@ -18,6 +16,7 @@ export class TwitterLinkyPipe implements PipeTransform {
     if (timeline.extended_entities && timeline.extended_entities.media && timeline.extended_entities.media.length > 0) {
       text = timeline.extended_entities.media.reduce((newtext, media) => text.replace(media.url, ''), text);
     }
+
     /** Appending Hastags, if atweet has any */
     if (timeline.entities.hashtags && timeline.entities.hashtags.length > 0) {
       timeline.entities.hashtags.map((hashtag) => {
@@ -45,29 +44,25 @@ export class TwitterLinkyPipe implements PipeTransform {
         });
       });
     }
-    /** Appending tweet urls in extendend entities if a tweet has any */
-    // if (timeline.extended_entities && timeline.extended_entities.media && timeline.extended_entities.media.length > 0) {
-    //   timeline.extended_entities.media.map((media) => {
-    //     replaceableArray.push({
-    //       replaceString: '<a target="_blank" href="' + media.url + '">' + media.display_url + '</a>',
-    //       matchableString: media.url
-    //     });
-    //   });
-    // }
-    // console.log(replaceableArray);
+
+    /** this returns the tweet string with clickable hyperlinks */
     const newTweet = this.replaceMatcingString(replaceableArray, text);
     return newTweet;
   }
 
-  public ReplaceAt(input: string, search: string, replace: string, start: number, end: number) {
-    return input.slice(0, start) + input.slice(start, end).replace(search, replace) + input.slice(end);
-  }
 
-  public replaceMatcingString(tags: IReplaceableStrings[], text: string) {
+  /**
+   * this function replaces the hastags, mentions and urls in a string
+   * to clickable Hyperlinks
+   * @param tags this has the array of objects of @param IReplaceableStrings
+   * @param text this has the string that needs to be transformed
+   */
+  public replaceMatcingString(tags: IReplaceableStrings[], text: string): string {
+
     const newTweet = tags.reduce(
       (tweet, replaceableObject, index) => tweet.replace(replaceableObject.matchableString, replaceableObject.replaceString), text);
-    console.log(newTweet);
     return newTweet;
+
   }
 
 }
