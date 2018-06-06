@@ -17,7 +17,8 @@ export class AppConstants {
     public static get THEME_ID(): string { return '32'; }
 
     public static get ACCESS_TOKEN(): string { return 'keerthan_token'; }
-    public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/twitter/'; }
+    public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/'; }
+    // public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/twitter/'; }
 
     // public static get EXPRESS_URL(): string { return 'http://localhost:3000/twitter/'; }
     public static get TWITTER_API_URL(): string { return 'https://api.twitter.com'; }
