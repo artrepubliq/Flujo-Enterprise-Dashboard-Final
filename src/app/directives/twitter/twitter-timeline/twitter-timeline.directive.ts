@@ -10,10 +10,13 @@ import { Observable } from 'rxjs/Observable';
 import { TwitterUserService } from '../../../service/twitter-user.service';
 import { EventEmitter } from 'events';
 import {
-  ITwitterTimelineObject, ITwitUser, ITwitterUserProfile, ITwitTimeLineObject, ITwitterMedia
+  ITwitterTimelineObject, ITwitUser, ITwitterUserProfile, ITwitTimeLineObject, ITwitterMedia, ITwitterUser
 } from '../../../model/twitter/twitter.model';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { ImagePreviewDialogComponent } from '../../../dialogs/image-preview-dialog/image-preview-dialog.component';
+import { ProfileInfoDialog } from '../../../dialogs/profile-info/profile-info.dialog';
+import { AppConstants } from '../../../app.constants';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-twitter-timeline',
@@ -45,7 +48,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
     private twitterService: TwitterServiceService,
     private twitterUserService: TwitterUserService,
     public dialog: MatDialog,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
   ) {
   }
 
@@ -271,6 +274,23 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   }
 
   /**
+   *
+   * @param id_str it takes twit id string object
+   */
+  getConversation(id_str: string, index: number): void {
+    console.log(index);
+    this.twitterService.getTweetStatusById(id_str)
+      .subscribe(
+        result => {
+          console.log(result);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  /**
    * this is for getting older mentions timeline of a user
    *  this is an event triggered when scrolled to end
    *@param event takes scroll event
@@ -380,11 +400,110 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       console.log('The dialog was closed');
     });
   }
-
+  /**
+   *
+   * @param message this takes the message for the snackbar
+   * @param action this take the text for the action for snackbar
+   */
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
+  }
+
+  /**
+   * this function is to display the type of data i.e a hastag description or
+   * a user mention description.
+   * @param event this takes mouse event to get type of request data and data
+   * @param timeline this takes timeline object to match the string data to the object
+   */
+  public async showDescription(event: any, timeline: ITwitterTimelineObject) {
+
+    const headersObject = {
+      twitter_access_token: localStorage.getItem('twitter_access_token'),
+      token_expiry_date: localStorage.getItem('token_expiry_date'),
+      client_id: AppConstants.CLIENT_ID
+    };
+    const headers = new HttpHeaders(headersObject);
+    let user_details = {};
+
+    if (event !== undefined) {
+      // console.log(timeline);
+      const data = event.srcElement.className.split(' ');
+      const dataString = data[0];
+      // console.log(dataString);
+      const dataStringType = data[1];
+
+      if (!timeline.retweeted_status) {
+        const userDetails = timeline.entities.user_mentions.filter((userdata) => userdata.screen_name === dataString);
+        user_details = {
+          user_id: userDetails[0].id_str,
+          screen_name: userDetails[0].screen_name
+        };
+      } else {
+        console.log(timeline.retweeted_status.user.id_str);
+        user_details = {
+          user_id: timeline.retweeted_status.user.id_str,
+          screen_name: timeline.retweeted_status.user.screen_name
+        };
+      }
+
+      const profileData = await this.getUserDetails(headers, user_details);
+      this.openUserDescriptionModal(profileData);
+    } else {
+      // console.log(timeline);
+      user_details = {
+        user_id: timeline.user.id_str,
+        screen_name: timeline.user.screen_name
+      };
+      const profileData = await this.getUserDetails(headers, user_details);
+      this.openUserDescriptionModal(profileData);
+    }
+  }
+
+  /**
+   * @param headers this takes headers object to make an api call for getting user details
+   * @param user_details this takes user details as id_str and screen name of user
+   */
+  public getUserDetails(headers, user_details): Promise<ITwitterUserProfile> {
+
+    return new Promise((resolve, reject) => {
+      this.twitterService.getTwitterUserProfiles(headers, user_details)
+        .subscribe(
+          result => {
+            if (!result.error) {
+              resolve(result.data[0]);
+            }
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
+  }
+
+  /**
+   * this function is to open the model dialog to show user details
+   * @param obj this takse the twitter user object as user data
+   */
+  public openUserDescriptionModal(obj: ITwitterUser | ITwitterUserProfile) {
+    if (obj) {
+      let dialogInput: { platform: string, data: ITwitterUser | ITwitterUserProfile };
+      dialogInput = <any>{};
+      dialogInput.platform = 'twitter';
+      dialogInput.data = obj;
+      const dialogRef = this.dialog.open(ProfileInfoDialog, {
+        panelClass: 'app-full-bleed-dialog',
+        width: '45vw',
+        height: '61vh',
+        data: dialogInput,
+      });
+
+      // this.highLighted = 'show-class';
+      dialogRef.afterClosed().subscribe(() => {
+        console.log('profile dialog closed');
+      });
+    }
   }
 
 

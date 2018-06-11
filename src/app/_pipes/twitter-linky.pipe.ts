@@ -21,7 +21,7 @@ export class TwitterLinkyPipe implements PipeTransform {
     if (timeline.entities.hashtags && timeline.entities.hashtags.length > 0) {
       timeline.entities.hashtags.map((hashtag) => {
         replaceableArray.push({
-          replaceString: '<a href="" target="_blank">' + '#' + hashtag.text + '</a>',
+          replaceString: '<a class="' + hashtag.text + ' hashtag' + '" target="_blank">' + '#' + hashtag.text + '</a>',
           matchableString: '#' + hashtag.text
         });
       });
@@ -30,7 +30,8 @@ export class TwitterLinkyPipe implements PipeTransform {
     if (timeline.entities.user_mentions && timeline.entities.user_mentions.length > 0) {
       timeline.entities.user_mentions.map((mention) => {
         replaceableArray.push({
-          replaceString: '<a href="" target="_blank">' + '@' + mention.screen_name + '</a>',
+          replaceString:
+            '<a class="' + mention.screen_name + ' mention' + '"target="_blank">' + '@' + mention.screen_name + '</a>',
           matchableString: '@' + mention.screen_name
         });
       });

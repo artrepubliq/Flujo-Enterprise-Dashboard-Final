@@ -148,8 +148,8 @@ export class TwitterComponent implements OnInit, OnDestroy {
         });
   }
 
-  /** this is an event triggered when scrolled to end
-   *
+  /**
+   * this is an event triggered when scrolled to end
   */
 
   public homeTimeLineScrollEvent(event): void {

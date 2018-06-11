@@ -67,6 +67,7 @@ export interface ITwitterTimelineObject {
     possibly_sensitive_appealable?: boolean;
     retweet_count: number;
     retweeted: boolean;
+    retweeted_status: IUser;
     source: string;
     text: string;
     truncated: boolean;
@@ -74,6 +75,9 @@ export interface ITwitterTimelineObject {
     header_title?: string;
 }
 
+// export interface IRetweetedStatus {
+
+// }
 export interface ITwitterEntities {
 
     hashtags: Array<ITwitterHashTags>;
@@ -152,6 +156,9 @@ export interface ITwitterUserMentions {
     indices: Array<any>;
     name: string;
     screen_name: string;
+}
+export interface IUser {
+    user: ITwitterUser;
 }
 export interface ITwitterUser {
     contributors_enabled: boolean;
@@ -357,7 +364,8 @@ export interface ITStatusResponse {
         source: string;
         text: string;
         truncated: boolean;
-        user: {}
+        user: ITwitterUser
     };
 
 }
+

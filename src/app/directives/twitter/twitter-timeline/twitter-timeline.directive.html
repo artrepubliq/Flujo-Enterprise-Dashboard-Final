@@ -33,17 +33,18 @@
             </div>
           </div>
           <ul class="pos-post-cards">
-            <li *ngFor="let timeline of twitHomeTimeLine">
+            <li *ngFor="let timeline of twitHomeTimeLine; let i = index;">
               <mat-card class="example-card">
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
-                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-title>
+                    <span (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
+                  </mat-card-title>
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <!-- <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span> -->
-                  <span [innerHTML]="timeline | twitterLinky"></span>
+                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -52,6 +53,12 @@
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
                 </video>
+                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline.in_reply_to_status_id_str, i)">Show conversation</p>
+                <mat-card-content>
+                  <span>
+
+                  </span>
+                </mat-card-content>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
                     <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
@@ -131,7 +138,7 @@
             </div>
           </div>
           <ul class="pos-post-cards">
-            <li *ngFor="let timeline of twitUserTimeLine">
+            <li *ngFor="let timeline of twitUserTimeLine; let i = index;">
               <mat-card class="example-card">
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
@@ -140,8 +147,7 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <!-- <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span> -->
-                  <span [innerHTML]="timeline | twitterLinky"></span>
+                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -150,6 +156,12 @@
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
                 </video>
+                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline.in_reply_to_status_id_str, i)">Show conversation</p>
+                <mat-card-content>
+                  <span>
+
+                  </span>
+                </mat-card-content>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
                     <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
@@ -229,7 +241,7 @@
             </div>
           </div>
           <ul class="pos-post-cards">
-            <li *ngFor="let timeline of twitMentionsTimeLine">
+            <li *ngFor="let timeline of twitMentionsTimeLine; let i = index;">
               <mat-card class="example-card">
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
@@ -238,8 +250,7 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <!-- <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span> -->
-                  <span [innerHTML]="timeline | twitterLinky"></span>
+                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -248,6 +259,12 @@
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
                 </video>
+                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline.in_reply_to_status_id_str, i)">Show conversation</p>
+                <mat-card-content>
+                  <span>
+
+                  </span>
+                </mat-card-content>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
                     <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
@@ -327,7 +344,7 @@
             </div>
           </div>
           <ul class="pos-post-cards">
-            <li *ngFor="let timeline of tweetsTimeLine">
+            <li *ngFor="let timeline of tweetsTimeLine; let i = index;">
               <mat-card class="example-card">
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
@@ -336,8 +353,7 @@
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <!-- <span [innerHTML]="timeline.text | linky:{hashtag:'twitter'}"></span> -->
-                  <span [innerHTML]="timeline | twitterLinky"></span>
+                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -346,6 +362,12 @@
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
                 </video>
+                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline.in_reply_to_status_id_str, i)">Show conversation</p>
+                <mat-card-content>
+                  <span>
+
+                  </span>
+                </mat-card-content>
                 <mat-card-actions>
                   <div class="social-card-footer" fxLayout="row" fxLayoutAlign="space-between center">
                     <div class="btn-likes" (click)="favorite(timeline)" fxLayout=row fxLayoutGap="5px" fxLayoutAlign="center center">
