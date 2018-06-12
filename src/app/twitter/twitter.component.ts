@@ -97,7 +97,7 @@ export class TwitterComponent implements OnInit, OnDestroy {
       { headers: headers })
       .subscribe(
         result => {
-          console.log(result);
+          // console.log(result);
           if (result.error === false && result.token_data.oauth_callback_confirmed === 'true') {
             this.twitterUserLogin = AppConstants.TWITTER_API_URL + '/oauth/authenticate' +
               '?oauth_token=' + result.token_data.oauth_token;
@@ -144,7 +144,7 @@ export class TwitterComponent implements OnInit, OnDestroy {
             this.twitUserTimeLine = result.data[1];
             this.twitMentionsTimeLine = result.data[2];
             this.twitRetweets = result.data[3];
-            console.log(this.twitHomeTimeLine);
+            // console.log(this.twitHomeTimeLine);
           } else {
             this.showSignIn = true;
             console.log(result.data);
@@ -167,12 +167,9 @@ export class TwitterComponent implements OnInit, OnDestroy {
     this.twitterService.getOldHomeTimeline(this.twitHomeTimeLine[last_index].id)
       .subscribe(
         result => {
-          console.log(result.data);
           if (!result.error) {
             this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
           }
-          console.log(this.twitHomeTimeLine);
-          console.log(this.twitHomeTimeLine);
         },
         error => {
           console.log(error);

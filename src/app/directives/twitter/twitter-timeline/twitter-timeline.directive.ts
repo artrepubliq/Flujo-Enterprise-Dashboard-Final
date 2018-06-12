@@ -61,19 +61,16 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
     this.twitterUserService.getTwitusers().takeUntil(this.ngUnSubScribe)
       .subscribe(
         result => {
-          console.log(result);
+
         },
         error => {
-          console.log(error);
+
         },
     );
 
     this.twitterUserObject = this.twitterUserService.getTwitterUserData;
     this.twitterUser = this.twitterUserObject.data;
-    // console.log(this.twitTimeLine);
-    // this.autolinker = Autolinker.link('www.hii.com #hahahahah im in anotation',
-    // { twitter: true, className: 'hai', hashtag: true, urls: true });
-    // console.log(autolinker);
+
   }
 
   /**
@@ -81,26 +78,22 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
    * @param tweetid this is the tweet id we need to delete
    */
   public deleteTweet(timeline: ITwitterTimelineObject): void {
-    console.log(timeline);
     const params = { id: timeline.id_str };
     this.showProgressBar = true;
     this.twitterService.deleteTweetOfId(params)
       .subscribe(
         result => {
           if (!result.data.errors) {
-            console.log(result.data);
             this.snackBar.open('Tweet deleted', 'Dismiss');
           } else {
             if (result.data.errors[0].code === 144) {
               this.snackBar.open('Tweet not found on Twitter.com', 'Dismiss');
             }
-            console.log(result.data.errors);
           }
           this.showProgressBar = false;
         },
         error => {
           this.showProgressBar = false;
-          console.log(error);
         }
       );
   }
@@ -122,7 +115,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
             timeline.retweet_count = timeline.retweet_count + 1;
             this.refresh(this.userTimeLine);
           } else {
-            console.log(result.data.errors);
+
           }
         },
         error => {
@@ -138,18 +131,16 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
    * @param timeline this is the timeline object(tweet or status object)
    */
   public favorite(timeline: ITwitterTimelineObject) {
-    console.log(timeline);
+
     const params = { id: timeline.id_str };
     if (timeline.favorited) {
       // postUndoFavorite
       this.twitterService.postUndoFavorite(params).subscribe(
         result => {
           if (!result.data.errors) {
-            console.log(result);
             timeline.favorited = false;
             timeline.favorite_count = timeline.favorite_count - 1;
           } else {
-            console.log(result.data.errors);
           }
         },
         error => {
@@ -160,11 +151,9 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       this.twitterService.postFavorite(params).subscribe(
         result => {
           if (!result.data.errors) {
-            console.log(result);
             timeline.favorited = true;
             timeline.favorite_count = timeline.favorite_count + 1;
           } else {
-            console.log(result.data.errors);
           }
         },
         error => {
@@ -195,7 +184,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
    */
   public submitReplyTo(timeline: ITwitterTimelineObject): void {
 
-    console.log(timeline);
+
     const dialogRef = this.dialog.open(PostCommentTwitterCompose, {
       panelClass: 'app-full-bleed-dialog',
       width: '45vw',
@@ -215,7 +204,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public homeTimeLineScrollEvent(event): void {
     if (this.twitHomeTimeLine && this.twitHomeTimeLine.length > 0) {
       const last_index = this.twitHomeTimeLine.length - 1;
-      console.log(this.twitHomeTimeLine[last_index].id);
+
       this.showProgressBar = true;
       this.twitterService.getOldHomeTimeline(this.twitHomeTimeLine[last_index].id)
         .subscribe(
@@ -244,12 +233,12 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public userTimeLineScrollEvent(event): void {
     if (this.twitUserTimeLine && this.twitUserTimeLine.length > 0) {
       const last_index = this.twitUserTimeLine.length - 1;
-      console.log(this.twitUserTimeLine[last_index].id);
+
       this.showProgressBar = true;
       this.twitterService.getOldUserTimeline(this.twitUserTimeLine[last_index].id)
         .subscribe(
           result => {
-            console.log(result.data);
+
             if (!result.error && result.data.length > 0) {
               this.twitUserTimeLine = [...this.twitUserTimeLine, ...result.data];
             }
@@ -270,12 +259,12 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public mentionsTimeLineScrollEvent(event): void {
     if (this.twitMentionsTimeLine && this.twitMentionsTimeLine.length > 0) {
       const last_index = this.twitMentionsTimeLine.length - 1;
-      console.log(this.twitMentionsTimeLine[last_index].id);
+
       this.showProgressBar = true;
       this.twitterService.getOldMentionsTimeline(this.twitMentionsTimeLine[last_index].id)
         .subscribe(
           result => {
-            console.log(result.data);
+
             if (!result.error && result.data.length > 0) {
               this.twitMentionsTimeLine = [...this.twitMentionsTimeLine, ...result.data];
             }
@@ -292,7 +281,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
    * @param id_str it takes twit id string object
    */
   getConversation(timeline: ITwitterTimelineObject, index: number): void {
-    console.log(timeline);
+
     this.showProgressBar = true;
     this.twitterService.getTweetStatusById(timeline.id_str)
       .subscribe(
@@ -315,12 +304,12 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public retweetsOfMeTimeLineScrollEvent(event): void {
     if (this.tweetsTimeLine && this.tweetsTimeLine.length > 0) {
       const last_index = this.tweetsTimeLine.length - 1;
-      console.log(this.tweetsTimeLine[last_index].id);
+
       this.showProgressBar = true;
       this.twitterService.getOldRetweetsOfMeTimeline(this.tweetsTimeLine[last_index].id)
         .subscribe(
           result => {
-            console.log(result.data);
+
             if (!result.error && result.data.length > 0) {
               this.tweetsTimeLine = [...this.tweetsTimeLine, ...result.data];
             }
@@ -344,7 +333,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       this.twitterService.getRetweetsTimeline()
         .subscribe(
           response => {
-            console.log(response);
+
             this.showProgressBar = false;
             this.tweetsTimeLine = response.data;
           },
@@ -361,12 +350,12 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
         .subscribe(
           response => {
             this.showProgressBar = false;
-            console.log(response);
+
             this.twitUserTimeLine = response.data;
           },
           error => {
             this.showProgressBar = false;
-            console.log(error);
+
           }
         );
 
@@ -376,12 +365,12 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
         .subscribe(
           response => {
             this.showProgressBar = false;
-            console.log(response);
+
             this.twitHomeTimeLine = response.data;
           },
           error => {
             this.showProgressBar = false;
-            console.log(error);
+
           }
         );
 
@@ -390,13 +379,13 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       this.twitterService.getMentionsTimeline()
         .subscribe(
           response => {
-            console.log(response);
+
             this.showProgressBar = false;
             this.twitMentionsTimeLine = response.data;
           },
           error => {
             this.showProgressBar = false;
-            console.log(error);
+
           }
         );
     }
@@ -410,7 +399,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public previewImage(timelineObject: ITwitterTimelineObject): void {
 
     let arrayOfImages: String[];
-    console.log(timelineObject);
+
     if (
       timelineObject.extended_entities &&
       timelineObject.extended_entities.media &&
@@ -418,7 +407,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       arrayOfImages = timelineObject.extended_entities.media.map(
         image => image.media_url
       );
-      console.log(arrayOfImages);
+
     } else if (
       !timelineObject.extended_entities
       && timelineObject.entities.media
@@ -433,7 +422,6 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       data: arrayOfImages,
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
   /**
@@ -464,10 +452,10 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
     const headers = new HttpHeaders(headersObject);
     let user_details = {};
     if (event !== undefined) {
-      // console.log(timeline);
+
       const data = event.srcElement.className.split(' ');
       const dataString = data[0];
-      // console.log(dataString);
+
       const dataStringType = data[1];
 
       if (!timeline.retweeted_status) {
@@ -487,7 +475,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       const profileData = await this.getUserDetails(headers, user_details);
       this.openUserDescriptionModal(profileData);
     } else {
-      // console.log(timeline);
+
       user_details = {
         user_id: timeline.user.id_str,
         screen_name: timeline.user.screen_name
@@ -539,7 +527,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
 
       // this.highLighted = 'show-class';
       dialogRef.afterClosed().subscribe(() => {
-        console.log('profile dialog closed');
+
       });
     }
   }
