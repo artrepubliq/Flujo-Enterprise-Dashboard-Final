@@ -1,5 +1,6 @@
 <!-- This is for twitter home time line -->
 <div class="social-tabs-inner">
+  <mat-progress-bar mode="indeterminate" *ngIf="showProgressBar" value=""></mat-progress-bar>
   <div fxLayout="column" fxLayoutGap="10px" class="social-tabs-hub-inner">
     <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
       <div class="col-md-4" *ngIf="twitHomeTimeLine">
@@ -53,7 +54,7 @@
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
                 </video>
-                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline.in_reply_to_status_id_str, i)">Show conversation</p>
+                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline, i)">Show conversation</p>
                 <mat-card-content>
                   <span>
 
@@ -99,7 +100,7 @@
                 <mat-card-header>
                   <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
-                  <input class="d-inline input-commet" type="text" (keyup.enter)="submitReplyTo($event, timeline)" placeholder="Comment">
+                  <input class="d-inline input-commet" type="text" (click)="submitReplyTo(timeline)" placeholder="Comment">
                 </mat-card-header>
               </mat-card>
             </li>
@@ -156,7 +157,7 @@
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
                 </video>
-                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline.in_reply_to_status_id_str, i)">Show conversation</p>
+                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline, i)">Show conversation</p>
                 <mat-card-content>
                   <span>
 
@@ -202,7 +203,7 @@
                 <mat-card-header>
                   <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
-                  <input class="d-inline input-commet" type="text" (keyup.enter)="submitReplyTo($event, timeline)" placeholder="Comment">
+                  <input class="d-inline input-commet" type="text" (click)="submitReplyTo(timeline)" placeholder="Comment">
                 </mat-card-header>
               </mat-card>
             </li>
@@ -259,7 +260,7 @@
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
                 </video>
-                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline.in_reply_to_status_id_str, i)">Show conversation</p>
+                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline, i)">Show conversation</p>
                 <mat-card-content>
                   <span>
 
@@ -305,7 +306,7 @@
                 <mat-card-header>
                   <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
-                  <input class="d-inline input-commet" type="text" (keyup.enter)="submitReplyTo($event, timeline)" placeholder="Comment">
+                  <input class="d-inline input-commet" type="text" (click)="submitReplyTo(timeline)" placeholder="Comment">
                 </mat-card-header>
               </mat-card>
             </li>
@@ -362,7 +363,7 @@
                 <video *ngIf="timeline.extended_entities?.media[0]?.video_info" width="100%" height="auto" controls>
                   <source [src]="timeline.extended_entities?.media[0]?.video_info?.variants[0]?.url" type="video/mp4">
                 </video>
-                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline.in_reply_to_status_id_str, i)">Show conversation</p>
+                <p *ngIf="timeline?.in_reply_to_status_id_str" (click)="getConversation(timeline, i)">Show conversation</p>
                 <mat-card-content>
                   <span>
 
@@ -408,7 +409,7 @@
                 <mat-card-header>
                   <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
-                  <input class="d-inline input-commet" type="text" (keyup.enter)="submitReplyTo($event, timeline)" placeholder="Comment">
+                  <input class="d-inline input-commet" type="text" (click)="submitReplyTo(timeline)" placeholder="Comment">
                 </mat-card-header>
               </mat-card>
             </li>
