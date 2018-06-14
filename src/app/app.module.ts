@@ -138,7 +138,6 @@ import { TwitterLinkyPipe } from './_pipes/twitter-linky.pipe';
 import { ProfileInfoDialog } from './dialogs/profile-info/profile-info.dialog';
 import { PostCommentTwitterCompose } from './dialogs/post-comment/post-comment-twitter.dialog';
 import { FacebookLinkyPipe } from './_pipes/facebook-linky.pipe';
-import { ProfileInfoDialog } from './dialogs/profile-info/profile-info.dialog';
 import { PostCommentCompose } from './dialogs/post-comment/post-comment.dialog';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -225,7 +224,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MessageCompose,
     TwitterLinkyPipe,
     ProfileInfoDialog,
-    PostCommentTwitterCompose
+    PostCommentTwitterCompose,
     FacebookLinkyPipe,
     ProfileInfoDialog,
     PostCommentCompose,
