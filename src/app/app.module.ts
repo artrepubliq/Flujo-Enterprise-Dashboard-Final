@@ -134,6 +134,9 @@ import { ImagePreviewDialogComponent } from './dialogs/image-preview-dialog/imag
 import { EditFacebookMessage } from './dialogs/edit-fb-post/edit-fb-post-dialog';
 import { AddSocialStreemDialog } from './dialogs/social-addstreem/social-addstreem.dialog';
 import { FacebookComponent } from './facebook/facebook.component';
+import { FacebookLinkyPipe } from './_pipes/facebook-linky.pipe';
+import { ProfileInfoDialog } from './dialogs/profile-info/profile-info.dialog';
+import { PostCommentCompose } from './dialogs/post-comment/post-comment.dialog';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -217,6 +220,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AddSocialStreemDialog,
     // FlujodatepickerDirective
     MessageCompose,
+    FacebookLinkyPipe,
+    ProfileInfoDialog,
+    PostCommentCompose,
   ],
   imports: [
     CommonModule,
@@ -281,7 +287,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
-    MessageCompose, ImagePreviewDialogComponent, EditFacebookMessage, AddSocialStreemDialog],
+    MessageCompose, ImagePreviewDialogComponent, EditFacebookMessage, AddSocialStreemDialog, ProfileInfoDialog,
+    PostCommentCompose],
   providers: [
     // AuthService,
     HttpService,

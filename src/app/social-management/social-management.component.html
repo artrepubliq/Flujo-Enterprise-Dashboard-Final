@@ -5,7 +5,7 @@
           <button  name="options" id="option1" autocomplete="off" checked (click)="addSocialStreem()">
         Add Stream
       </button>
-      <button name="options" id="option2" autocomplete="off">
+      <button (click)="addSocialNetwork()" name="options" id="option2" autocomplete="off">
         Add Social Network
       </button>
     </div>
@@ -45,7 +45,7 @@
       <mat-tab-group class="posts-card-row" [selectedIndex]="selectedIndex" (selectedTabChange)="tabChanged($event)">
         <mat-tab label="Facebook">
           <br/>
-          <app-facebook *ngIf="FbLongLivedToken && userAccountId" [FbLongLivedToken]="FbLongLivedToken"></app-facebook>
+          <app-facebook *ngIf="FbLongLivedToken" [FbLongLivedToken]="FbLongLivedToken" [tabIndex]="tab_index"></app-facebook>
         </mat-tab>
         <mat-tab label="Twitter">
             <br/>

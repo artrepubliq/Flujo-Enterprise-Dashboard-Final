@@ -22,7 +22,7 @@ export class MessageCompose implements OnInit {
     settings = {
         bigBanner: true,
         timePicker: true,
-        format: 'dd-MM-yyyy hh:mm:ss',
+        format: 'yyyy-MM-dd hh:mm:ss',
         defaultOpen: false,
         closeOnSelect: true,
         rangepicker: false,
@@ -55,8 +55,6 @@ export class MessageCompose implements OnInit {
     public onCheckEvent(stream: IStreamDetails): void {
         let composedPostObject: IStreamDetails;
         composedPostObject = <IStreamDetails>{};
-        composedPostObject.social_id = stream.id;
-        composedPostObject.id = stream.id;
         composedPostObject.social_id = stream.social_id;
         composedPostObject.name = stream.name;
         composedPostObject.access_token = stream.access_token;

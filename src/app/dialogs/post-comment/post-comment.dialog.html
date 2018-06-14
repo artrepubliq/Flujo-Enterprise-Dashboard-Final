@@ -1,0 +1,78 @@
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<div class="message-compose-pop">
+    <div class="header">
+        Comment
+    </div>
+    <div class="profile__data">
+        <div class="img">
+            <img src="{{profileData.picture.data.url}}" >
+        </div>
+        <div class="profile__name">
+            <div> {{profileData.name}}</div>
+            <div class="time">{{postDetils.created_time}}</div>
+        </div>
+    </div>
+    <div class="old__message">
+        <div>{{postDetils.message}}</div>
+    </div>
+    <div class="post__img">
+        <!-- <img src="{{feedItem?.full_picture}}" > -->
+        <img src="{{postDetils?.full_picture}}" alt="">
+    </div>
+    <div class="user__actions">
+        <div>
+            <p class="action_title">Comments</p>
+            <p class="action_count">
+                {{postDetils.comments?.summary.total_count}}
+            </p>
+        </div>
+        <div>
+            <p class="action_title">Likes</p>
+            <p class="action_count">
+                {{postDetils.likes?.summary.total_count}}
+            </p>
+        </div>
+        <div>
+            <p class="action_title">Shares</p>
+            <p class="action_count">
+                {{postDetils.shares?.count}}
+            </p>
+        </div>
+    </div>
+    <form fxLayout="column" [formGroup]="postStatusForm">
+        <div fxLayout="column" fxLayoutGap="0.5rem" class="message-config-box">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="head-msg">
+                    <p>Compose message</p>
+                </div>
+            </div>
+            <div class="postt-msg" fxLayout="row" fxLayoutAlign="space-between center">
+                <span fxFlex="100%" class="d-inline">
+                    <textarea placeholder="Type here" rows="5" cols="55" formControlName="message"></textarea>
+                </span>
+                <div class="emoji-stack" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
+                    <span class="icons-default">
+                        <img src="../assets/social/emoji-icon-default@3x.png" />
+                    </span>
+                    <span class="icons-default attachment">
+                        <img src="../assets/social/image-icon-default@3x.png" />
+                        <input mat-raised-button type="file" (change)="onFileChange($event)" accept=".jpg, .png, .jpeg" #fileInput>
+                    </span>
+                    <span class="icons-default">
+                        <img class="img3" src="../assets/social/video-icon-default@3x.png" />
+                    </span>
+                    <span class="icons-default">
+                        <img class="img4" src="../assets/social/location-icon-default@3x.png" />
+                    </span>
+                </div>
+            </div>
+            <br/>
+            <br/>
+        </div>
+        <div class="hor-line"></div>
+        <div fxFlex="100%" class="btn-stack-action" fxLayoutAlign="end end">
+            <button class="button_cancel" mat-button (click)="closeDialog()">Cancel</button>
+            <button class="button_submit pull-right" [disabled]="postStatusForm.invalid" (click)="submitSocialPost()">Submit</button>
+        </div>
+    </form>
+</div>
