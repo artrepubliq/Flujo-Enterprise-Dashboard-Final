@@ -1,18 +1,18 @@
 <div class="message-compose-pop" fxLayout="row">
     <div fxLayout="column" fxFlex="63">
         <!-- this is to display facebook profile info -->
-        <div fxLayout="column" *ngIf="!twitterplatform" fxLayoutGap="0.5rem" class="message-config-box">
+        <div fxLayout="column" *ngIf="facebookData" fxLayoutGap="0.5rem" class="message-config-box">
 
-            <div fxLayout="column" fxFlex="200px">
+            <div>
                <div>
         <div fxLayout="column" fxLayoutGap="0.5rem" class="message-config-box">
 
-            <div fxLayout="column" fxFlex="200px">
+            <div>
                 <div>
                     <img src="{{data.personDetail.pic_large}}">
-                    <p>person Id: {{data.personDetail.id}}</p>
-                    <p>Person Name: {{data.personDetail.name}}</p>
-                    <p>page link: {{data.personDetail.link}}</p>
+                    <p>person Id: {{facebookData.personDetail.id}}</p>
+                    <p>Person Name: {{facebookData.personDetail.name}}</p>
+                    <p>page link: {{facebookData.personDetail.link}}</p>
                 </div>
             </div>
             <br/>
@@ -20,7 +20,7 @@
         <!-- this is to show twitter profile info -->
         <div fxLayout="column" *ngIf="twitterplatform" fxLayoutGap="0.5rem" class="message-config-box">
 
-            <div fxLayout="column" fxFlex="200px">
+            <div>
                 <div>
                     <img src="{{twitProfileData.profile_image_url}}">
                     <!-- <p>person Id: {{twitProfileData.name}}</p> -->
