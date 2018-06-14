@@ -28,6 +28,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
+  doLoginConfirmed: any;
   FbLongLivedToken: any;
   userName: string;
   userAccountId: string;
@@ -55,17 +56,22 @@ export class SocialManagementComponent implements OnInit {
     private httpClient: HttpClient,
     private route: ActivatedRoute,
   ) {
+    this.doLoginConfirmed = fbCMPCommunicationService.FBLoginConfirmed$.subscribe(
+      fbLogin => {
+        console.log(fbLogin);
+        this.fbLogin();
+      });
     this.fbResponseData = <IFBFeedArray>{};
     this.fbResponseDataItems = [];
     fbService.FBInit();
-    this.fbLogin();
-    this.tab_index = 0;
+    // this.fbLogin();
+    this.getFacebookTokenFromOurServer();
   }
   ngOnInit(): void {
     const sub = this.route.params.subscribe(params => {
       console.log(params['id']);
       this.selectedIndex = params['id'];
-
+      this.tab_index = this.selectedIndex;
    });
     this.getTwitterUserProfiles();
     this.loggedInUserAccountsArray = [];
@@ -75,6 +81,10 @@ export class SocialManagementComponent implements OnInit {
 
     this.tab_index = event.index;
 
+  }
+  // THIS FUNCTION IS USED TO ADD SOCIAL NETWOK.
+  addSocialNetwork = () => {
+    this.router.navigate(['admin/social_login']);
   }
   openmessageComposeDialog(): void {
     let composeMessagePopUpInputArrayData: IUserAccountPages[];
@@ -118,16 +128,20 @@ export class SocialManagementComponent implements OnInit {
       profileData.social_platform = item.social_platform;
       composeMessagePopUpInputArrayData.push(profileData);
     });
-    _.each(fbaccounts, (account) => {
-      fbAccounts = <IUserAccountPages>{};
-      fbAccounts.access_token = account.access_token;
-      fbAccounts.name = account.name;
-      fbAccounts.id = account.id;
-      fbAccounts.social_id = account.id;
-      fbAccounts.social_platform = 'facebook';
-      composeMessagePopUpInputArrayData.push(fbAccounts);
-    });
-    return composeMessagePopUpInputArrayData;
+    if (fbaccounts && fbaccounts.length > 0) {
+      _.each(fbaccounts, (account) => {
+        fbAccounts = <IUserAccountPages>{};
+        fbAccounts.access_token = account.access_token;
+        fbAccounts.name = account.name;
+        fbAccounts.id = account.id;
+        fbAccounts.social_id = account.id;
+        fbAccounts.social_platform = 'facebook';
+        composeMessagePopUpInputArrayData.push(fbAccounts);
+      });
+      return composeMessagePopUpInputArrayData;
+    } else {
+      return composeMessagePopUpInputArrayData;
+    }
   }
 
   /**
@@ -143,7 +157,7 @@ export class SocialManagementComponent implements OnInit {
     };
 
     const headers = new HttpHeaders(headersObject);
-    this.twitterService.getTwitterUserProfiles(headers)
+    this.twitterService.getTwitterUserProfiles(headers, undefined)
       .subscribe(
         result => {
           if (result.data && result.data.length > 0) {
@@ -182,11 +196,55 @@ export class SocialManagementComponent implements OnInit {
     this.fb.api('https://graph.facebook.com/v3.0/oauth/access_token?grant_type=fb_exchange_token&client_id=208023236649331&client_secret=294c39db380eab8dbe3ed39125d60eab&fb_exchange_token=' + response.authResponse.accessToken, 'get')
       .then((resp) => {
         this.FbLongLivedToken = resp.access_token;
+        this.saveFacebookAccessTokenIntoOurServer(resp);
         this.getFBUserAccounts(this.FbLongLivedToken);
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+  // THIS FUNCTION IS USED TO SAVE THE FB ACCESS TOKEN INTO OUR SERVER
+  saveFacebookAccessTokenIntoOurServer = (tokenDetails) => {
+    let postData: {'client_id': string, 'social_appname': string, 'social_keys': any};
+    postData = <any>{};
+    postData.client_id = AppConstants.CLIENT_ID;
+    postData.social_appname = 'facebook';
+    postData.social_keys = tokenDetails;
+    this.httpClient.post('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_postsocialtokens', postData).subscribe(
+      saveResp => {
+        console.log(saveResp);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  // THIS FUNCTION IS USED TO GET THE FACEBOOK TOKENS FROM OUR SERVER.
+  getFacebookTokenFromOurServer = () => {
+    // tslint:disable-next-line:max-line-length
+    this.httpClient.get<ICommonInterface>('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_getsocialtokens/' + AppConstants.CLIENT_ID)
+    .subscribe(
+      respData => {
+        const currentDate = moment();
+        if (respData.access_token && respData.custom_status_code === 100 && !respData.error ) {
+          respData.result.forEach((iteratee) => {
+            // tslint:disable-next-line:max-line-length
+            if (iteratee.social_appname === 'facebook' &&  (moment(currentDate).valueOf()) < (moment(moment(moment.unix(iteratee.submitted_at)).add(3, 'months')).valueOf())) {
+              this.FbLongLivedToken = iteratee.social_keys ? iteratee.social_keys.access_token : false ;
+              this.getFBUserAccounts(this.FbLongLivedToken);
+            }
+          });
+          if (!this.FbLongLivedToken) {
+            this.fbLogin();
+          }
+        }
+        console.log(respData);
+      },
+      errData => {
+        console.log(errData);
+      }
+    );
   }
   // THIS FUNCTION IS USED FOR GET ALL THE ACCOUNTS OF LOGGED IN USER
   getFBUserAccounts = (access_token) => {
@@ -244,7 +302,6 @@ export class SocialManagementComponent implements OnInit {
         composedPostData.composedMessage.media = successresp.result;
         this.fbCMPCommunicationService.FBSocialComposedPostAnnounce(composedPostData);
         }
-
       }, errorrsp => {
         console.log(errorrsp);
       }

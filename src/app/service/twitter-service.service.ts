@@ -89,9 +89,9 @@ export class TwitterServiceService {
    * @param headers Headers we need to pass twitter feature token and expiry date
    * it returns the various timelines like user, home, mentions, retweets
    */
-  public getTwitterUserProfiles(headers): Observable<ITwitUser> {
-    return this.httpClient.get<ITwitUser>(
-      AppConstants.EXPRESS_URL + 'userprofile/' + AppConstants.CLIENT_ID, { headers: headers }
+  public getTwitterUserProfiles(headers, body: { user_id: string, screen_name: string }| undefined): Observable<ITwitUser> {
+    return this.httpClient.post<ITwitUser>(
+      AppConstants.EXPRESS_URL + 'userprofile', body, { headers: headers }
     );
   }
 
@@ -188,13 +188,33 @@ export class TwitterServiceService {
    * @param tweetMedia this has info of tweet media and status
    */
   public postTweetMedia(tweetMedia): Observable<any> {
-    // return this.httpClient.post<Observable<any>>('http://localhost:3000/postmediastatus', tweetMedia, { headers: this.headers });
-    return this.httpClient.post<Observable<any>>(AppConstants.EXPRESS_URL + 'postmediastatus', tweetMedia, { headers: this.headers });
+    // tslint:disable-next-line:max-line-length
+    // return this.httpClient.post<Observable<any>>('http://192.168.1.35:3000/scheduler/twitter/media', tweetMedia, { headers: this.headers });
+    return this.httpClient.post<Observable<any>>(
+      AppConstants.EXPRESS_URL + 'postmediastatus', tweetMedia, { headers: this.headers });
   }
 
+  /**
+   * this is to post tweet with media
+   * @param tweetMedia this has info of tweet media and status
+   */
+  public postTweetMediaSchedule(tweetMedia): Observable<any> {
+    return this.httpClient.post<Observable<any>>('http://192.168.1.35:3000/scheduler/twitter/media', tweetMedia, { headers: this.headers });
+    // return this.httpClient.post<Observable<any>>(AppConstants.EXPRESS_URL + 'postmediastatus', tweetMedia, { headers: this.headers });
+  }
+  /**
+   * this is to schedule the tweet post with media
+   * @param data this takes twitter media post data
+   */
   public postScheduleTweet(data): Observable<ITwitterUser> {
     return this.httpClient.post<ITwitterUser>(
       'http://192.168.1.35:3000/scheduler/twitter/', data, { headers: this.headers }
+    );
+  }
+
+  public getTweetStatusById(twit_id_str): Observable<ITwitterTimelineObject> {
+    return this.httpClient.get<ITwitterTimelineObject>(
+      AppConstants.EXPRESS_URL + 'gettweetstatusbytwtid/' + twit_id_str, { headers: this.headers }
     );
   }
 

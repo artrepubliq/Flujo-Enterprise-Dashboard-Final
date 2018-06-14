@@ -5,7 +5,7 @@
   <a [attr.href]="twitterUserLogin" target="_blank"> sign in for twitter</a>
 </div>
 
-
+<mat-progress-bar mode="indeterminate" *ngIf="showProgressBar" value=""></mat-progress-bar>
 <div *ngIf="twitHomeTimeLine && twitUserTimeLine && twitMentionsTimeLine && twitRetweets">
   <app-twitter-timeline [twitHomeTimeLine]="twitHomeTimeLine" [twitUserTimeLine]="twitUserTimeLine" [twitMentionsTimeLine]="twitMentionsTimeLine"
     [tweetsTimeLine]="twitRetweets"></app-twitter-timeline>
