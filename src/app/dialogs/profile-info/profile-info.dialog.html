@@ -1,42 +1,43 @@
 <div class="message-compose-pop" fxLayout="row">
-    <div fxLayout="column" fxFlex="63">
+    <div fxLayout="column">
         <!-- this is to display facebook profile info -->
         <div fxLayout="column" *ngIf="facebookData" fxLayoutGap="0.5rem" class="message-config-box">
 
             <div>
-               <div>
-        <div fxLayout="column" fxLayoutGap="0.5rem" class="message-config-box">
-
-            <div>
                 <div>
-                    <img src="{{data.personDetail.pic_large}}">
-                    <p>person Id: {{facebookData.personDetail.id}}</p>
-                    <p>Person Name: {{facebookData.personDetail.name}}</p>
-                    <p>page link: {{facebookData.personDetail.link}}</p>
+                    <div fxLayout="column" fxLayoutGap="0.5rem" class="">
+
+                        <div>
+                            <div>
+                                <img src="{{data.personDetail.pic_large}}">
+                                <p>person Id: {{facebookData.personDetail.id}}</p>
+                                <p>Person Name: {{facebookData.personDetail.name}}</p>
+                                <p>page link: {{facebookData.personDetail.link}}</p>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                    <!-- this is to show twitter profile info -->
+                    <div fxLayout="column" *ngIf="twitterplatform" fxLayoutGap="0.5rem" class="">
+
+                        <div>
+                            <div>
+                                <img src="{{twitProfileData.profile_image_url}}">
+                                <!-- <p>person Id: {{twitProfileData.name}}</p> -->
+                                <p>Person Name: {{twitProfileData.name}}</p>
+                                <span>
+                                    <p>page link:</p>
+                                </span>
+                                <a [attr.href]="twitProfileData.url" target="_blank">{{twitProfileData.url}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="hor-line"></div> -->
+                    <div fxFlex="100%" class="btn-stack-action" fxLayoutAlign="end end">
+                        <button class="button_cancel" mat-button (click)="closeDialog()">Close</button>
+                    </div>
                 </div>
             </div>
-            <br/>
-        </div>
-        <!-- this is to show twitter profile info -->
-        <div fxLayout="column" *ngIf="twitterplatform" fxLayoutGap="0.5rem" class="message-config-box">
-
-            <div>
-                <div>
-                    <img src="{{twitProfileData.profile_image_url}}">
-                    <!-- <p>person Id: {{twitProfileData.name}}</p> -->
-                    <p>Person Name: {{twitProfileData.name}}</p>
-                    <span>
-                        <p>page link:</p>
-                    </span>
-                    <a [attr.href]="twitProfileData.url" target="_blank">{{twitProfileData.url}}</a>
-                </div>
-            </div>
-            <br/>
-        </div>
-        <div class="hor-line"></div>
-        <div fxFlex="100%" class="btn-stack-action" fxLayoutAlign="end end">
-            <button class="button_cancel" mat-button (click)="closeDialog()">Cancel</button>
-            <button class="button_submit pull-right" type="submit" (click)="closeDialog()">Save</button>
         </div>
     </div>
 </div>
