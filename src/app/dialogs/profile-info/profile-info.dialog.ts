@@ -2,6 +2,9 @@ import { Inject, Component, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ITwitterUser, ITwitterUserProfile } from '../../model/twitter/twitter.model';
 // import { IToPersonDetails } from '../../model/facebook.model';
+import { Inject, Component } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { IToPersonDetails } from '../../model/facebook.model';
 
 @Component({
     selector: 'app-profile-info.dialog',
@@ -12,6 +15,7 @@ import { ITwitterUser, ITwitterUserProfile } from '../../model/twitter/twitter.m
 export class ProfileInfoDialog implements OnInit {
     twitterplatform: boolean;
     twitProfileData: ITwitterUser | ITwitterUserProfile;
+export class ProfileInfoDialog {
     constructor(
         public dialogRef: MatDialogRef<ProfileInfoDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -19,7 +23,6 @@ export class ProfileInfoDialog implements OnInit {
     closeDialog() {
         this.dialogRef.close();
     }
-
     ngOnInit(): void {
         if (this.data.platform === 'twitter') {
             this.twitterplatform = true;
@@ -30,5 +33,4 @@ export class ProfileInfoDialog implements OnInit {
         }
         console.log(this.data);
     }
-
 }

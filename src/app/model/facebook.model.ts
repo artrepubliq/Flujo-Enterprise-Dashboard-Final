@@ -18,6 +18,7 @@ export interface IFBFeedArray {
     parent_id: string;
     access_token?: string;
     link?: any;
+    to?: IToData;
     // status_type: string;
 }
 
@@ -45,6 +46,8 @@ export interface IMessageLikes {
 }
 export interface ILikesSummary {
     total_count: number;
+    has_liked?: boolean;
+    can_like?: boolean;
 }
 // THIS INTERFACE IS FOR GETTING THE SHARES COUNT
 export interface IShares {
@@ -73,7 +76,18 @@ export interface IPicURLData {
 export interface IPicURL {
     url: any;
 }
-
+// THIS INTERFACE IS FOR GETTING THE TAGGED PERSONS
+export interface IToData {
+    data?: IToPersonDetails[];
+}
+export interface IToPersonDetails {
+id: string;
+name: string;
+link: any;
+pic_large: any;
+profile_type: string;
+username: string;
+}
 /*
     FOLLOWING INTERFACES ARE USED TO GET THE IMAGES FOR THE POST
 */
@@ -123,5 +137,11 @@ export interface IFBPageDetails {
     id: string;
     name: string;
 }
-
+// THIS INTERFACE IS TO HANDLE FACEBOOK SESSION EXPIRE
+export interface IFBSessionExpired {
+    error: IFBError;
+}
+export interface IFBError {
+    code: number;
+}
 

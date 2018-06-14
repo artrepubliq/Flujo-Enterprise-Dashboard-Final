@@ -4,7 +4,7 @@ export interface IStreamComposeData {
 }
 export interface IStreamDetails {
     social_platform?: string;
-    id: string;
+    post_id: string;
     access_token?: any;
     name: string;
     social_id: string;
