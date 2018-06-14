@@ -157,7 +157,7 @@ export class SocialManagementComponent implements OnInit {
     };
 
     const headers = new HttpHeaders(headersObject);
-    this.twitterService.getTwitterUserProfiles(headers)
+    this.twitterService.getTwitterUserProfiles(headers, undefined)
       .subscribe(
         result => {
           if (result.data && result.data.length > 0) {

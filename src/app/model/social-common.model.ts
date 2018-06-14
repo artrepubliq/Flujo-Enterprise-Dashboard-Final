@@ -21,7 +21,7 @@ export interface IComposePost {
     to_date?: string;
     from_time?: string;
     to_time?: string;
-    status_id?: string | number;
+    status_id?: string;
 }
 
 export interface IImageIds {
