@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Inject, Injectable, EventEmitter } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatTabChangeEvent } from '@angular/material';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'underscore';
@@ -8,8 +8,10 @@ import { AppConstants } from '../app.constants';
 import { MatIconModule } from '@angular/material/icon';
 import { IActiveUsers } from '../model/createUser.model';
 import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute, NavigationEnd, ActivatedRouteSnapshot,
-   Event, NavigationStart, NavigationCancel, NavigationError } from '@angular/router';
+import {
+  Router, ActivatedRoute, NavigationEnd, ActivatedRouteSnapshot,
+  Event, NavigationStart, NavigationCancel, NavigationError
+} from '@angular/router';
 import { CreateUserComponentComponent, AccessLevelPopup } from '../create-user-component/create-user-component.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
@@ -17,6 +19,7 @@ import { IAccessLevelModel } from '../model/accessLevel.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { WindowRef } from './window.service';
+import { Pipe, PipeTransform } from '@angular/core';
 declare var jquery: any;
 declare var $window: any;
 declare var $: any;
@@ -28,6 +31,10 @@ declare var $: any;
 
 })
 export class AdminComponent implements OnInit {
+  groupChatIndex: number;
+  test: boolean;
+  heroes = [{name: 'UI', color: this.getRandomColor()}, {name: 'Design', color: this.getRandomColor()}
+];
   // cc: any; ChatCampUI: any;
   feature_id = 0;
   userAccessData: any;
@@ -45,6 +52,13 @@ export class AdminComponent implements OnInit {
   config: any;
   loggedinIds: Array<string>;
   public user_id: string;
+  label: boolean;
+  letters: any;
+  public color: any;
+  stories: any;
+  randombgcolors: any;
+  randombgcolor: string;
+  doSearch: boolean;
   // Arrays for Side nav menu and admin menu
   // tslint:disable-next-line:max-line-length
   editor = [{ feature_id: 1, title: 'Editor', router: 'admin/chooseplatform', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
@@ -164,11 +178,11 @@ export class AdminComponent implements OnInit {
         data => {
           this.activeUsers = data.result;
           this.loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
-            return  activeUserData.id !== localStorage.getItem('user_id') ;
-        });
-        if (this.loggedinUsersList) {
+            return activeUserData.id !== localStorage.getItem('user_id');
+          });
+          if (this.loggedinUsersList) {
             this.StoredLoggedinIds();
-        }
+          }
         },
         error => {
           console.log(error);
@@ -187,7 +201,7 @@ export class AdminComponent implements OnInit {
       if (Date.now() > Number(localStorage.getItem('expires_at'))) {
         this.loginAuthService.logout(false);
         clearInterval(interval);
-        }
+      }
       this.getUserList();
 
     }, 5000);
@@ -202,22 +216,22 @@ export class AdminComponent implements OnInit {
         this.ChatIO();
       }
     }, 3000);
- }
+  }
 
-// ngAfterViewInit(): void {
-//   const interval2 = setInterval(() => {
-//     if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
-//       this.isChatStarted = true;
-//       console.log('enter the dragan');
-//       // this.loadScript('/widget-example/static/js/main.428ae54a.js');
-//       // this.windowRef.cc = window.cc || {};
-//       // window.ChatCampUI = window.ChatCampUI || {};
-//       // console.log(window);
-//       this.ChatIO();
-//     }
-//   }, 3000);
+  // ngAfterViewInit(): void {
+  //   const interval2 = setInterval(() => {
+  //     if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
+  //       this.isChatStarted = true;
+  //       console.log('enter the dragan');
+  //       // this.loadScript('/widget-example/static/js/main.428ae54a.js');
+  //       // this.windowRef.cc = window.cc || {};
+  //       // window.ChatCampUI = window.ChatCampUI || {};
+  //       // console.log(window);
+  //       this.ChatIO();
+  //     }
+  //   }, 3000);
 
-//   }
+  //   }
 
   // page navigations
   navigatePage = (page, index, menuid) => {
@@ -238,7 +252,7 @@ export class AdminComponent implements OnInit {
   ChatIO = () => {
     // console.log(this.window);
 
-    /* tslint:disable */ 
+    /* tslint:disable */
     window.cc.GroupChannel.create('Team', this.loggedinIds, true, function (error, groupChannel) {
       if (error == null) {
         console.log('New Group Channel has been created', groupChannel);
@@ -259,9 +273,9 @@ export class AdminComponent implements OnInit {
     this.loggedinIds = [this.user_id];
     _.each(this.loggedinUsersList, (loggedinUser: IActiveUsers) => {
       if (loggedinUser.is_logged_in === '1' && loggedinUser.can_chat) {
-         this.loggedinIds.push(loggedinUser.id);
-        }
-     });
+        this.loggedinIds.push(loggedinUser.id);
+      }
+    });
   }
 
   OnetoOne = (chatItem) => {
@@ -269,11 +283,11 @@ export class AdminComponent implements OnInit {
     // console.log(this.window);
     const OnetoOne = [this.user_id];
     OnetoOne.push(chatItem.id);
-    /* tslint:disable */ 
+    /* tslint:disable */
     window.cc.GroupChannel.create('Team', OnetoOne, true, (error, groupChannel) => {
-     if (error == null) {
-       console.log('New one to one Channel has been created', groupChannel);
-       window.ChatCampUI.startChat(groupChannel.id);
+      if (error == null) {
+        console.log('New one to one Channel has been created', groupChannel);
+        window.ChatCampUI.startChat(groupChannel.id);
       }
     });
     /* tslint:enable */
@@ -298,6 +312,51 @@ export class AdminComponent implements OnInit {
   }
   sidebarToggleClose() {
     this.sidebarToggledButton = false;
+  }
+
+  onLinkClick(event: MatTabChangeEvent) {
+    this.groupChatIndex = event.index;
+    this.randombgcolor = this.getRandomColor();
+    console.log('event => ', event);
+    console.log('index => ', event.index);
+    if (event.index === 1) {
+      this.label = true;
+    } else {
+      this.label = false;
+    }
+    console.log('tab => ', event.tab);
+    // this.router.navigate(['contacts']);
+  }
+  public getrandomBackground() {
+      const letters = '0123456789ABCDEF'.split('');
+      let color = '#';
+      for (let i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+
+  }
+  public searchChatData($event) {
+    this.doSearch = true;
+    $event.stopPropagation();
+  }
+  public gobacktoChatUsers($event) {
+    this.doSearch = false;
+    $event.stopPropagation();
+  }
+  // getRandomColor2() {
+  //   let length = 6;
+  //   const chars = '0123456789ABCDEF';
+  //   let hex = '#';
+  //   // tslint:disable-next-line:curly
+  //   while (length--) hex += chars[(Math.random() * 16) | 0];
+  //   return hex;
+  // }
+
+  getRandomColor() {
+    const color = Math.floor(0x1000000 * Math.random()).toString(16);
+    const randcolor = '#' + ('000000' + color).slice(-6);
+    return randcolor;
   }
 }
 @Component({
