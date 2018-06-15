@@ -2,8 +2,6 @@ import { Inject, Component, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ITwitterUser, ITwitterUserProfile } from '../../model/twitter/twitter.model';
 // import { IToPersonDetails } from '../../model/facebook.model';
-import { Inject, Component } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { IToPersonDetails } from '../../model/facebook.model';
 
 @Component({
@@ -15,7 +13,7 @@ import { IToPersonDetails } from '../../model/facebook.model';
 export class ProfileInfoDialog implements OnInit {
     twitterplatform: boolean;
     twitProfileData: ITwitterUser | ITwitterUserProfile;
-export class ProfileInfoDialog {
+
     constructor(
         public dialogRef: MatDialogRef<ProfileInfoDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
