@@ -4,8 +4,8 @@
     <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
       <div class="col-md-4" *ngIf="twitHomeTimeLine">
         <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}" (psYReachEnd)="homeTimeLineScrollEvent($event)">
-          <div class="nav-social">
-            <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center"
+          <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social">
+            <div  class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center"
               (psScrollY)="doApplyFixedPosition($event)">
               <div class="social-cards-header">
                 <h6>Twitter Timeline</h6>

@@ -1290,3 +1290,26 @@ control-messages,
     transform: skewX(45deg);
 }
 }
+.chat-dropdown-wind{
+  .mat-tab-label {
+    height: 70px;
+    padding: 0 20px;
+    cursor: pointer;
+    box-sizing: border-box;
+    opacity: .6;
+    min-width: 50px;
+  }
+  .mat-tab-header, .mat-tab-nav-bar {
+    border-bottom: 1.5px solid #f7f7f7;
+  }
+  .mat-ink-bar{
+    height: 2.5px;
+  }
+  .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    border-radius: 1.7px;
+    background-color: #ee286b;
+  }
+  .mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus{
+    background-color: transparent;
+  }
+}
