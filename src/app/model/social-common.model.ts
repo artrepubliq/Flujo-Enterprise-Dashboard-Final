@@ -4,7 +4,7 @@ export interface IStreamComposeData {
 }
 export interface IStreamDetails {
     social_platform?: string;
-    id: string;
+    post_id: string;
     access_token?: any;
     name: string;
     social_id: string;
@@ -21,7 +21,7 @@ export interface IComposePost {
     to_date?: string;
     from_time?: string;
     to_time?: string;
-    status_id?: string | number;
+    status_id?: string;
 }
 
 export interface IImageIds {

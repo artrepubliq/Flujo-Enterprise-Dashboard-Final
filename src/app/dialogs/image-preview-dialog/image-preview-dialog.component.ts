@@ -22,10 +22,10 @@ export class ImagePreviewDialogComponent implements OnInit {
   }
   ngOnInit(): void {
     if (this.data && this.data[this.index]) {
-      console.log(this.data);
+      // console.log(this.data);
       this.image = this.data[this.index];
     }
-    console.log(this.data);
+    // console.log(this.data);
   }
 
   /**

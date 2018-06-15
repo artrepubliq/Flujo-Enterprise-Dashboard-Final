@@ -1,100 +1,79 @@
 import { Inject, Component, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { IComposePost, IStreamDetails, IStreamComposeData } from '../../model/social-common.model';
 import { AlertService } from 'ngx-alerts';
+import { IFBFeedArray, IProfile } from '../../model/facebook.model';
+import { AppConstants } from '../../app.constants';
+import { ICommonInterface } from '../../model/commonInterface.model';
+import { HttpClient } from '@angular/common/http';
+import { FacebookService } from 'ngx-facebook/dist/esm';
+import { ITwitterTimelineObject } from '../../model/twitter/twitter.model';
 @Component({
-    // tslint:disable-next-line:component-selector
-    selector: 'message-compose',
-    templateUrl: 'social-compose-message.html',
-    styleUrls: ['social-compose-message.scss']
+    selector: 'app-post-comment-twitter.dialog',
+    templateUrl: 'post-comment-twitter.dialog.html',
+    styleUrls: ['post-comment-twitter.dialog.scss']
 })
+
 // tslint:disable-next-line:component-class-suffix
-export class MessageCompose implements OnInit {
+export class PostCommentTwitterCompose implements OnInit {
+    public errors: any;
     public maxSize = 4;
     public mediaFile: any;
-    checkboxGroup: FormArray;
-    doSchedule: boolean;
-    postStatusForm: any;
-    public errors: Array<string> = [];
-    public date: Date = new Date();
-    settings = {
-        bigBanner: true,
-        timePicker: true,
-        format: 'yyyy-MM-dd hh:mm:ss',
-        defaultOpen: false,
-        closeOnSelect: true,
-        rangepicker: false,
-    };
-    selectedStreamsArray: IStreamDetails[];
+    public postStatusForm: any;
+    public selectedStreamsArray: IStreamDetails[];
     constructor(
-        public dialogRef: MatDialogRef<MessageCompose>,
-        @Inject(MAT_DIALOG_DATA) public data: IComposePost[],
+        public dialogRef: MatDialogRef<PostCommentTwitterCompose>,
+        @Inject(MAT_DIALOG_DATA) public data: ITwitterTimelineObject,
         private formBuilder: FormBuilder,
         private alertService: AlertService,
+
     ) {
         this.postStatusForm = this.formBuilder.group({
             'message': ['', Validators.compose([Validators.required])],
-            'from_date': [new Date()],
-            'to_date': [new Date()],
-            'link': [''],
-            'user_id': [localStorage.getItem('user_id')]
+            'status_id': [this.data.id_str]
         });
-        this.doSchedule = false;
+
     }
+
     ngOnInit(): void {
+
         this.selectedStreamsArray = [];
+        const replyToUser = '@' + this.data.user.screen_name + ' ';
+        this.postStatusForm.controls['message'].setValue(replyToUser);
+
     }
+
     onNoClick(): void {
         this.dialogRef.close();
     }
     closeDialog(): void {
         this.dialogRef.close();
     }
-    public onCheckEvent(stream: IStreamDetails): void {
-        let composedPostObject: IStreamDetails;
-        composedPostObject = <IStreamDetails>{};
-        composedPostObject.social_id = stream.social_id;
-        composedPostObject.name = stream.name;
-        composedPostObject.access_token = stream.access_token;
-        composedPostObject.imageUploadSuccessItem = [];
-        composedPostObject.imageUploadFailedItem = [];
-        composedPostObject.postStatus = false;
-        composedPostObject.social_platform = stream.social_platform;
-        this.selectedStreamsArray.push(composedPostObject);
-    }
-    public submitSocialPost(): void {
+
+    public async submitSocialPost() {
+
         let composedPostData: IStreamComposeData;
+        let composedPostObject: IStreamDetails;
+
+        composedPostObject = <IStreamDetails>{};
         composedPostData = <IStreamComposeData>{};
+
         composedPostData.streamDetails = this.selectedStreamsArray;
         composedPostData.composedMessage = this.postStatusForm.value;
+
+        composedPostObject.social_platform = 'twitter';
+        this.selectedStreamsArray.push(composedPostObject);
+
         if (this.mediaFile !== undefined && this.errors.length === 0) {
             composedPostData.composedMessage.media = this.mediaFile;
+            this.dialogRef.close(composedPostData);
         } else if (this.mediaFile === undefined || this.mediaFile === null) {
-            // if media is not opted then setting the media value to an empty array.
-            composedPostData.composedMessage.media = [];
-        } else {
-            return;
-        }
-        /** if scheduling isn't opted then settting from_date and to_date to undefined */
-        if (this.doSchedule === false) {
-            composedPostData.composedMessage.from_date = undefined;
-            composedPostData.composedMessage.to_date = undefined;
+            this.dialogRef.close(composedPostData);
         }
 
-        console.log(composedPostData);
-        this.dialogRef.close(composedPostData);
     }
 
-    public scheduleCheckBox(event): void {
-        if (event.target.checked) {
-            this.doSchedule = true;
-        } else {
-            this.doSchedule = false;
-        }
-        console.log(event.target.checked);
-    }
 
     /**
      *
@@ -112,8 +91,12 @@ export class MessageCompose implements OnInit {
         }
     }
 
-    /* this is for checking valid size of the file */
+    /**
+     * this is for checking valid size of the file *
+     * @param files this takes files object as a parameter to validate file
+     */
     private isValidFileSize(files: Array<any>) {
+        this.errors = '';
         files.map((file, index) => {
             const fileSizeinMB = file.size / (1024 * 1000);
             const size = Math.round(fileSizeinMB * 100) / 100; // convert upto 2 decimal place

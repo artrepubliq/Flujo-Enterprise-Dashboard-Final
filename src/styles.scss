@@ -1290,6 +1290,7 @@ control-messages,
     transform: skewX(45deg);
 }
 }
+
 .chat-dropdown-wind{
   .mat-tab-label {
     height: 70px;
@@ -1311,5 +1312,13 @@ control-messages,
   }
   .mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus{
     background-color: transparent;
+
+
+
+.post__content {
+  a {
+      color: #009cfa !important;
+      cursor: pointer;
+
   }
 }
