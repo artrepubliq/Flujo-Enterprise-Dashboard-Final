@@ -13,6 +13,7 @@ export class ProfileInfoDialog implements OnInit {
     facebookData: any;
     twitterplatform: boolean;
     twitProfileData: ITwitterUser | ITwitterUserProfile;
+  
     constructor(
         public dialogRef: MatDialogRef<ProfileInfoDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
