@@ -5,13 +5,19 @@ export class AppConstants {
     // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo.in_api_client/'; }
 
     /*Staging*/
-    public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/v1/'; }
+
+    //public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/v1/'; }
 
     /**this is heroku cloud url for production */
     // public static get API_URL(): string { return 'https://flujo-api-pro.herokuapp.com'; }
 
     /**this is heroku cloud url for staging */
     // public static get API_URL(): string { return 'https://flujo-client-api.herokuapp.com'; }
+
+    // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/v1/'; }
+
+    /*Heroku */
+    public static get API_URL(): string { return 'http://flujo-client-api.herokuapp.com/v1/'; }
 
     public static get CLIENT_ID(): string { return '1232'; }
     public static get THEME_ID(): string { return '32'; }

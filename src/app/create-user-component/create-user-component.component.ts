@@ -122,7 +122,7 @@ export class CreateUserComponentComponent implements OnInit {
 
   getUsersList() {
     this.spinnerService.show();
-    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getcreateuser/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getcreateuser/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
             if (data.custom_status_code === 100 && data.result.length > 0) {
