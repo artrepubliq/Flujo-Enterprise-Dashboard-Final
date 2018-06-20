@@ -81,6 +81,9 @@ export class MessageCompose implements OnInit {
         if (this.doSchedule === false) {
             composedPostData.composedMessage.from_date = undefined;
             composedPostData.composedMessage.to_date = undefined;
+        } else {
+            composedPostData.composedMessage.from_date = Math.floor(new Date(composedPostData.composedMessage.from_date).getTime() / 1000);
+            composedPostData.composedMessage.to_date = Math.floor(new Date(composedPostData.composedMessage.to_date).getTime() / 1000);
         }
 
         console.log(composedPostData);

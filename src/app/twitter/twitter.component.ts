@@ -225,9 +225,9 @@ export class TwitterComponent implements OnInit, OnDestroy {
     if (tweetData.media) {
       formData.append('link', tweetData.link);
     } if (tweetData.from_date) {
-      formData.append('from_date', tweetData.from_date);
+      formData.append('from_date', tweetData.from_date.toString());
     } if (tweetData.to_date) {
-      formData.append('to_date', tweetData.to_date);
+      formData.append('to_date', tweetData.to_date.toString());
     } if (tweetData.status_id) {
       formData.append('status_id', tweetData.status_id);
     }
