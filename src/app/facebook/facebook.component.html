@@ -40,13 +40,14 @@
                   <mat-card-subtitle>{{feedItem?.created_time | myDate}}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                    <span class="post__content" (click)="openProfileInfoDialog(feedItem, $event)" [innerHtml]= "feedItem | facebookLinky"></span>
-                  <p >
+                    <div class="post__content" (click)="openProfileInfoDialog(feedItem, $event)" [innerHtml]= "feedItem | facebookLinky"></div>
+
+                  <a href="{{feedItem?.link}}" target="_blank" >
                     {{feedItem?.description}}
-                  </p>
-                  <p >
+                  </a>
+                  <!-- <p >
                       {{feedItem?.link}}
-                  </p>
+                  </p> -->
                 </mat-card-content>
                 <br/>
                 <div (click)="previewImage(feedItem?.attachments?.data[0].subattachments.data, feedItem.full_picture)" *ngIf="!displayTextOnlyForHomeTimeline" class="social-image">
@@ -77,10 +78,10 @@
                           <img src="../assets/social/more-so-icon-normal@3x.png" class="img-more-footer">
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a (click)="editFacebookPost(feedItem, currentStreamDetails)" class="dropdown-item">Edit</a>
+                          <a (click)="editFacebookPost(feedItem)" class="dropdown-item">Edit</a>
                           <a class="dropdown-item">Send Email</a>
                           <a class="dropdown-item">Create Stream</a>
-                          <a (click)="deleteFBPostFromUserHomeOrPageTimeline(feedItem, currentStreamDetails, 1)" class="dropdown-item">Delete Post</a>
+                          <a (click)="deleteFBPostFromUserHomeOrPageTimeline(feedItem)" class="dropdown-item">Delete Post</a>
                         </div>
                       </span>
                     </div>
@@ -203,7 +204,7 @@
                             <a (click)="editFacebookPost(feedItem, currentStreamDetails)" class="dropdown-item">Edit</a>
                             <a class="dropdown-item">Send Email</a>
                             <a class="dropdown-item">Create Stream</a>
-                            <a (click)="deleteFBPostFromUserHomeOrPageTimeline(feedItem, currentStreamDetails, 2)" class="dropdown-item">Delete Post</a>
+                            <a (click)="deleteFBPostFromUserHomeOrPageTimeline(feedItem)" class="dropdown-item">Delete Post</a>
                           </div>
                         </span>
                     </div>
@@ -326,7 +327,7 @@
                             <a (click)="editFacebookPost(feedItem, currentStreamDetails)" class="dropdown-item">Edit</a>
                             <a class="dropdown-item">Send Email</a>
                             <a class="dropdown-item">Create Stream</a>
-                            <a (click)="deleteFBPostFromUserHomeOrPageTimeline(feedItem, currentStreamDetails, 3)" class="dropdown-item">Delete Post</a>
+                            <a (click)="deleteFBPostFromUserHomeOrPageTimeline(feedItem)" class="dropdown-item">Delete Post</a>
                           </div>
                         </span>
                     </div>
