@@ -89,7 +89,7 @@ export class TwitterServiceService {
    * @param headers Headers we need to pass twitter feature token and expiry date
    * it returns the various timelines like user, home, mentions, retweets
    */
-  public getTwitterUserProfiles(headers, body: { user_id: string, screen_name: string }| undefined): Observable<ITwitUser> {
+  public getTwitterUserProfiles(headers, body: { user_id: string, screen_name: string } | undefined): Observable<ITwitUser> {
     return this.httpClient.post<ITwitUser>(
       AppConstants.EXPRESS_URL + 'userprofile', body, { headers: headers }
     );
@@ -199,7 +199,8 @@ export class TwitterServiceService {
    * @param tweetMedia this has info of tweet media and status
    */
   public postTweetMediaSchedule(tweetMedia): Observable<any> {
-    return this.httpClient.post<Observable<any>>('http://192.168.1.35:3000/scheduler/twitter/media', tweetMedia, { headers: this.headers });
+    return this.httpClient.post<Observable<any>>(AppConstants.EXPRESS_URL_SCHEDULE + 'media',
+      tweetMedia, { headers: this.headers });
     // return this.httpClient.post<Observable<any>>(AppConstants.EXPRESS_URL + 'postmediastatus', tweetMedia, { headers: this.headers });
   }
   /**
@@ -208,7 +209,7 @@ export class TwitterServiceService {
    */
   public postScheduleTweet(data): Observable<ITwitterUser> {
     return this.httpClient.post<ITwitterUser>(
-      'http://192.168.1.35:3000/scheduler/twitter/', data, { headers: this.headers }
+      AppConstants.EXPRESS_URL_SCHEDULE, data, { headers: this.headers }
     );
   }
 
