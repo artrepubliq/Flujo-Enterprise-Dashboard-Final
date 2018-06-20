@@ -47,6 +47,7 @@ export class SocialManagementComponent implements OnInit {
   highLighted = '';
   public tab_index: number;
   selectedIndex: any;
+  showProgressBarValue = 0;
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
     private spinnerService: Ng4LoadingSpinnerService, public adminComponent: AdminComponent,
@@ -114,36 +115,54 @@ export class SocialManagementComponent implements OnInit {
     let composeMessagePopUpInputArrayData: IUserAccountPages[];
     composeMessagePopUpInputArrayData = [];
     let profileData: IUserAccountPages;
-    let fbAccounts: IUserAccountPages;
+    let fbUserAccounts: IUserAccountPages[];
+    fbUserAccounts = [];
     // let twitterData: IUserAccountPages;
-    let fbaccounts = [];
     _.each(loggedInUserAccountsArray, (item: ILoggedInUsersAccounts, index) => {
       profileData = <IUserAccountPages>{};
       // composeMessagePopUpInputObject.id = index;
       profileData.access_token = item.access_token;
       profileData.name = item.name;
-      profileData.id = item.id;
-      profileData.social_id = item.id;
-      fbaccounts = item.accounts;
+      profileData.id = item.social_id;
+      profileData.social_id = item.social_id;
+      if (item.accounts && item.accounts.length > 0) {
+        fbUserAccounts = this.prepareFacebookUserAccountsObject(item.accounts);
+      }
       profileData.social_platform = item.social_platform;
       composeMessagePopUpInputArrayData.push(profileData);
     });
-    if (fbaccounts && fbaccounts.length > 0) {
-      _.each(fbaccounts, (account) => {
-        fbAccounts = <IUserAccountPages>{};
-        fbAccounts.access_token = account.access_token;
-        fbAccounts.name = account.name;
-        fbAccounts.id = account.id;
-        fbAccounts.social_id = account.id;
-        fbAccounts.social_platform = 'facebook';
-        composeMessagePopUpInputArrayData.push(fbAccounts);
-      });
-      return composeMessagePopUpInputArrayData;
-    } else {
-      return composeMessagePopUpInputArrayData;
-    }
+    composeMessagePopUpInputArrayData = [ ...composeMessagePopUpInputArrayData, ...fbUserAccounts];
+    return composeMessagePopUpInputArrayData;
+    // if (fbaccounts && fbaccounts.length > 0) {
+    //   _.each(fbaccounts, (account) => {
+    //     fbAccounts = <IUserAccountPages>{};
+    //     fbAccounts.access_token = account.access_token;
+    //     fbAccounts.name = account.name;
+    //     fbAccounts.id = account.id;
+    //     fbAccounts.social_id = account.id;
+    //     fbAccounts.social_platform = 'facebook';
+    //     composeMessagePopUpInputArrayData.push(fbAccounts);
+    //   });
+    //   return composeMessagePopUpInputArrayData;
+    // } else {
+    //   return composeMessagePopUpInputArrayData;
+    // }
   }
-
+// PREPARE FACEBOOK USER ACCOUNTS OBJECT
+prepareFacebookUserAccountsObject = (accounts) => {
+  let fbAccounts: IUserAccountPages;
+  const  fbAccountsData = [];
+  _.each(accounts, (account) => {
+    fbAccounts = <IUserAccountPages>{};
+    fbAccounts.access_token = account.access_token;
+    fbAccounts.name = account.name;
+    fbAccounts.id = account.id;
+    fbAccounts.social_id = account.id;
+    fbAccounts.social_platform = 'facebook';
+    fbAccountsData.push(fbAccounts);
+  });
+  return fbAccountsData;
+}
   /**
    * this is to get twittter user profile data.
    */
@@ -160,12 +179,14 @@ export class SocialManagementComponent implements OnInit {
     this.twitterService.getTwitterUserProfiles(headers, undefined)
       .subscribe(
         result => {
+          this.showProgressBarValue = 100;
           if (result.data && result.data.length > 0) {
             this.prepareLoggedInUserAccountDetails('twitter', result);
           }
           this.twitterUserService.addUser(result);
         },
         error => {
+          this.showProgressBarValue = 100;
           console.log(error);
         }
       );
@@ -173,7 +194,6 @@ export class SocialManagementComponent implements OnInit {
   addSocialStreem = () => {
     this.fbCMPCommunicationService.socialaddSocialStreamAnnounceCall(this.loggedInUserAccountsArray);
   }
-  // THE FOLLOWING CODE IS FOR FACEBOOK FUNCTIONALITY
 
   fbLogin = () => {
     // login with options
@@ -226,6 +246,7 @@ export class SocialManagementComponent implements OnInit {
     this.httpClient.get<ICommonInterface>('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_getsocialtokens/' + AppConstants.CLIENT_ID)
     .subscribe(
       respData => {
+        this.showProgressBarValue = 100;
         const currentDate = moment();
         if (respData.access_token && respData.custom_status_code === 100 && !respData.error ) {
           respData.result.forEach((iteratee) => {
@@ -242,6 +263,7 @@ export class SocialManagementComponent implements OnInit {
         console.log(respData);
       },
       errData => {
+        this.showProgressBarValue = 100;
         console.log(errData);
       }
     );
@@ -267,7 +289,7 @@ export class SocialManagementComponent implements OnInit {
     if (token === 'twitter') {
       accountResp.data.map((item: ITwitterUserProfile, index) => {
         loggedInUserAccountsObject.access_token = '';
-        loggedInUserAccountsObject.id = item.id_str;
+        loggedInUserAccountsObject.social_id = item.id_str;
         loggedInUserAccountsObject.name = item.screen_name;
         loggedInUserAccountsObject.streams = streamsArray;
         loggedInUserAccountsObject.accounts = [];
@@ -277,10 +299,10 @@ export class SocialManagementComponent implements OnInit {
       });
     } else {
       loggedInUserAccountsObject.access_token = token;
-      loggedInUserAccountsObject.id = accountResp.id;
+      loggedInUserAccountsObject.social_id = accountResp.id;
       loggedInUserAccountsObject.name = accountResp.name;
       loggedInUserAccountsObject.streams = streamsArray;
-      loggedInUserAccountsObject.accounts = accountResp.accounts.data;
+      loggedInUserAccountsObject.accounts = this.prepareFacebookUserAccountsObject(accountResp.accounts.data);
       loggedInUserAccountsObject.order = '1';
       loggedInUserAccountsObject.social_platform = 'facebook';
       this.loggedInUserAccountsArray.push(loggedInUserAccountsObject);

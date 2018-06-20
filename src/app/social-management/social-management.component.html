@@ -1,3 +1,4 @@
+<mat-progress-bar *ngIf="showProgressBarValue < 100" mode="indeterminate"></mat-progress-bar>
 
 <div fxLayout="column" fxLayoutGap="15px">
   <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -5,9 +6,9 @@
           <button  name="options" id="option1" autocomplete="off" checked (click)="addSocialStreem()">
         Add Stream
       </button>
-      <button (click)="addSocialNetwork()" name="options" id="option2" autocomplete="off">
+      <!-- <button (click)="addSocialNetwork()" name="options" id="option2" autocomplete="off">
         Add Social Network
-      </button>
+      </button> -->
     </div>
     <div [ngClass]="highLighted" class="new-postt-box" fxLayout="row" fxLayoutAlign="space-between center">
       <span fxFlex class="d-inline">

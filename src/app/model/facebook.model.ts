@@ -130,7 +130,7 @@ export interface IFBPages {
     category_list: Array<IFBPageDetails>;
     perms: any;
     name: string;
-    id: string;
+    social_id: string;
 }
 
 export interface IFBPageDetails {
