@@ -139,6 +139,7 @@ import { ProfileInfoDialog } from './dialogs/profile-info/profile-info.dialog';
 import { PostCommentTwitterCompose } from './dialogs/post-comment/post-comment-twitter.dialog';
 import { FacebookLinkyPipe } from './_pipes/facebook-linky.pipe';
 import { PostCommentCompose } from './dialogs/post-comment/post-comment.dialog';
+import { EmailConfigComponent } from './email-config/email-config.component';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -228,6 +229,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FacebookLinkyPipe,
     ProfileInfoDialog,
     PostCommentCompose,
+    EmailConfigComponent,
   ],
   imports: [
     CommonModule,

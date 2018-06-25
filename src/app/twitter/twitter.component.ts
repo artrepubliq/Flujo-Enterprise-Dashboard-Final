@@ -184,6 +184,9 @@ export class TwitterComponent implements OnInit, OnDestroy {
     console.log(tweetData);
     if (tweetData.from_date || tweetData.to_date) {
       this.showProgressBar = true;
+      tweetData.from_date = Math.floor(new Date(tweetData.from_date).getTime() / 1000).toString();
+      tweetData.to_date = Math.floor(new Date(tweetData.to_date).getTime() / 1000).toString();
+
       this.twitterService.postScheduleTweet(tweetData)
         .subscribe(
           result => {
@@ -225,9 +228,9 @@ export class TwitterComponent implements OnInit, OnDestroy {
     if (tweetData.media) {
       formData.append('link', tweetData.link);
     } if (tweetData.from_date) {
-      formData.append('from_date', tweetData.from_date.toString());
+      formData.append('from_date', Math.floor(new Date(tweetData.from_date).getTime() / 1000).toString());
     } if (tweetData.to_date) {
-      formData.append('to_date', tweetData.to_date.toString());
+      formData.append('to_date', Math.floor(new Date(tweetData.from_date).getTime() / 1000).toString());
     } if (tweetData.status_id) {
       formData.append('status_id', tweetData.status_id);
     }
