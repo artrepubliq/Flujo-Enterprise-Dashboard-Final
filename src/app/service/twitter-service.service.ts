@@ -15,17 +15,20 @@ import {
 export class TwitterServiceService {
 
   public headers: HttpHeaders;
-  public headersObject: { twitter_access_token: string; token_expiry_date: string; client_id: string; };
+  public headersObject: { twitter_access_token: string; token_expiry_date: string; client_id: string; feature_name: string };
   private subject = new Subject<ITwitUser>();
   userdata$ = this.subject.asObservable();
   private twit_user: ITwitUser;
   constructor(
     private httpClient: HttpClient
   ) {
-    this.headersObject = {
-      twitter_access_token: localStorage.getItem('twitter_access_token'),
-      token_expiry_date: localStorage.getItem('token_expiry_date'),
-      client_id: AppConstants.CLIENT_ID
+    const feature_access_tokens = JSON.parse(localStorage.getItem('feature_access_tokens'));
+
+    const headersObject = {
+      twitter_access_token: feature_access_tokens[0].feature_access_token,
+      token_expiry_date: feature_access_tokens[0].expiry_date,
+      client_id: AppConstants.CLIENT_ID,
+      feature_name: feature_access_tokens[0].feature_name
     };
     this.headers = new HttpHeaders(this.headersObject);
   }

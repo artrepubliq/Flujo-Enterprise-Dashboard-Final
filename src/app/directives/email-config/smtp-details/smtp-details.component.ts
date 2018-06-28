@@ -22,6 +22,8 @@ export class SmtpDetailsComponent implements OnInit, OnDestroy {
         if (result.error === false) {
           this.smtpDetails = JSON.parse(result.data[0].domain);
           // console.log(this.smtpDetails);
+        } else {
+          this.smtpDetails = undefined;
         }
       },
       error => {

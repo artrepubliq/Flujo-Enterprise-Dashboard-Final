@@ -9,15 +9,20 @@ import { Subject } from 'rxjs/Subject';
 export class EmailConfigService {
 
   public headers: HttpHeaders;
-  public headersObject: { client_id: string; };
+  public headersObject: { client_id: string; token_expiry_date: string; feature_name: string; access_token: string };
   public subject = new Subject<IDomainResponse>();
   public smtpDetails: IDomainResponse;
   constructor(
     private httpClient: HttpClient
   ) {
+    const feature_access_tokens = JSON.parse(localStorage.getItem('feature_access_tokens'));
     this.headersObject = {
-      client_id: AppConstants.CLIENT_ID
+      access_token: feature_access_tokens[1].feature_access_token,
+      token_expiry_date: 'feature_access_tokens[1].expiry_date',
+      client_id: AppConstants.CLIENT_ID,
+      feature_name: feature_access_tokens[1].feature_name
     };
+
     this.headers = new HttpHeaders(this.headersObject);
   }
 
@@ -45,8 +50,10 @@ export class EmailConfigService {
    * @param smtpDetails this takes smtp userdetails as an object
    */
   public addSmtpUserDetails(smtpDetails: IDomainResponse) {
+    // if (smtpDetails.error === false) {
     this.smtpDetails = smtpDetails;
     this.subject.next({ ...this.smtpDetails, ...smtpDetails });
+    // }
   }
 
   /**
@@ -54,6 +61,14 @@ export class EmailConfigService {
    */
   public getSmtpUserDetails(): Observable<IDomainResponse> {
     return this.subject.asObservable();
+  }
+  /**
+   * @param userDetails this takes userdetails like client_id, domain details
+   */
+  public deleteDomain(userDetails: any): Observable<any> {
+    return this.httpClient.post(
+      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/deletedomain', userDetails, { headers: this.headers }
+    );
   }
 
 }

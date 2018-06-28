@@ -21,9 +21,9 @@ export class EmailConfigComponent implements OnInit {
      */
     this.emailService.getMailgunSmtpDetails().subscribe(
       result => {
-        if (result.error === false) {
+        // if (result.error === false) {
           this.emailService.addSmtpUserDetails(result);
-        }
+        // }
       },
       error => {
         console.log(error);
