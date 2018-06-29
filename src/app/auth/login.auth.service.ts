@@ -49,6 +49,7 @@ export class LoginAuthService implements OnInit {
     const expTime = 60 * 60 * 1000 + Date.now();
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.access_token);
+    localStorage.setItem('token', authResult.client_id);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('domain_name', authResult.domain_name);
     localStorage.setItem('chat_token', authResult.chatcamp_accesstoken);
