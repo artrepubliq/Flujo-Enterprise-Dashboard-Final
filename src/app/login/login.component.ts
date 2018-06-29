@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit = (body) => {
     this.spinnerService.show();
+    localStorage.clear();
     const formModel = this.loginForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
       .subscribe(
