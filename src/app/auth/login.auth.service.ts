@@ -81,16 +81,17 @@ export class LoginAuthService implements OnInit {
   }
   clearLocalStorage = () => {
   // Remove tokens and profile and update login status subject
-  localStorage.removeItem('token');
-  localStorage.removeItem('id_token');
-  localStorage.removeItem('user_id');
-  localStorage.removeItem('name');
-  localStorage.removeItem('expires_at');
-  localStorage.removeItem('email');
-  localStorage.removeItem('editor_source');
-  localStorage.removeItem('chat_token');
+//   localStorage.removeItem('token');
+//   localStorage.removeItem('id_token');
+//   localStorage.removeItem('user_id');
+//   localStorage.removeItem('name');
+//   localStorage.removeItem('expires_at');
+//   localStorage.removeItem('email');
+//   localStorage.removeItem('editor_source');
+//   localStorage.removeItem('chat_token');
 
-  this.setLoggedInCustom(false);
+//   this.setLoggedInCustom(false);
+    localStorage.clear();
   }
   get authenticated(): boolean {
     // Check if current date is greater than expiration
