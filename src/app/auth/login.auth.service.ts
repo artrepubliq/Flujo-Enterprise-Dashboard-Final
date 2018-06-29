@@ -57,8 +57,10 @@ export class LoginAuthService implements OnInit {
     localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('name', authResult.name);
     localStorage.setItem('expires_at', String(expTime));
-    localStorage.setItem('twitter_access_token', authResult.feature[0].feature_access_token);
+    if ((authResult.feature && authResult.feature[0].feature_access_token) {
+        localStorage.setItem('twitter_access_token', authResult.feature[0].feature_access_token);
     localStorage.setItem('token_expiry_date', authResult.feature[0].expiry_date);
+        }
     this.router.navigate(['/admin']);
     this.setLoggedInCustom(true);
   }
