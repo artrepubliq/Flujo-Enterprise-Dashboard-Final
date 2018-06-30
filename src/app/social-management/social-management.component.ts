@@ -66,7 +66,6 @@ export class SocialManagementComponent implements OnInit {
     this.fbResponseDataItems = [];
     fbService.FBInit();
     // this.fbLogin();
-    this.getFacebookTokenFromOurServer();
   }
   ngOnInit(): void {
     const sub = this.route.params.subscribe(params => {
@@ -74,13 +73,22 @@ export class SocialManagementComponent implements OnInit {
       this.selectedIndex = params['id'];
       this.tab_index = this.selectedIndex;
    });
+   if (this.tab_index === 0) {
+    this.getFacebookTokenFromOurServer();
+   } else {
     this.getTwitterUserProfiles();
+   }
     this.loggedInUserAccountsArray = [];
   }
 
   public tabChanged(event: MatTabChangeEvent) {
 
     this.tab_index = event.index;
+    if (this.tab_index === 0) {
+      this.getFacebookTokenFromOurServer();
+     } else {
+      this.getTwitterUserProfiles();
+     }
 
   }
   // THIS FUNCTION IS USED TO ADD SOCIAL NETWOK.
@@ -328,5 +336,17 @@ prepareFacebookUserAccountsObject = (accounts) => {
         console.log(errorrsp);
       }
     );
+  }
+
+  facebookLogout = () => {
+    this.httpClient.delete('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_deletesocialtokens/facebook')
+      .subscribe(
+        response => {
+          console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 }
