@@ -1,7 +1,8 @@
 
 export interface IDomainResponse {
     error: boolean;
-    data: string | IDomainErrorResponse | IDomainDetails;
+    // data: string | IDomainErrorResponse | IDomainDetails | ICampaignDetails[];
+    data: any;
 }
 
 export interface IDomainErrorResponse {
@@ -42,4 +43,33 @@ export interface IDomain {
     web_scheme: string;
     wildcard: boolean;
 }
+
+export interface IDeleteDomain {
+    domain_name: string;
+    id: string;
+    client_id: string;
+}
+export interface ICreateCampaign {
+    address: string;
+    name: string;
+    description: String;
+}
+
+export interface ICampaignDetails {
+    campaign_address: string;
+    campaign_details: string;
+    client_id: string;
+    created_on: string;
+    domain: string;
+}
+
+export interface ICampaignListDetails {
+    access_level: string;
+    address: string;
+    created_at: string;
+    description: string;
+    members_count: number;
+    name: string;
+}
+
 

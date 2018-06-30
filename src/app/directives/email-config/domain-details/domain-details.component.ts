@@ -27,16 +27,15 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.emailService.getSmtpUserDetails().takeUntil(this.ngUnSubScribe).subscribe(
       result => {
-        console.log(result);
         if (result.error === false) {
           this.id = result.data[0].id;
           this.client_id = result.data[0].client_id;
           this.domain = JSON.parse(result.data[0].domain);
           this.receiving_dns_records = JSON.parse(result.data[0].receiving_dns_records);
           this.sending_dns_records = JSON.parse(result.data[0].sending_dns_records);
-          console.log(this.domain);
-          console.log(this.receiving_dns_records);
-          console.log(this.sending_dns_records);
+          // console.log(this.domain);
+          // console.log(this.receiving_dns_records);
+          // console.log(this.sending_dns_records);
         } else {
           this.id = undefined;
           this.domain = undefined;

@@ -1,11 +1,18 @@
-<mat-tab-group>
-  <mat-tab label="Create Domain">
+<mat-tab-group #tabGroup [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+  <mat-tab label="Create Domain" *ngIf="createDomain">
     <app-create-domain-email></app-create-domain-email>
   </mat-tab>
   <mat-tab label="Domain details">
     <app-domain-details> </app-domain-details>
   </mat-tab>
-  <mat-tab label="Smtp Details">
+  <!-- <mat-tab label="Smtp Details">
     <app-smtp-details></app-smtp-details>
+  </mat-tab> -->
+  <mat-tab label="Campaigns">
+    <app-mailing-list (tabIndex)="tabChanged($event)"></app-mailing-list>
   </mat-tab>
+  <mat-tab label="Email-List">
+    <app-create-mail-list></app-create-mail-list>
+  </mat-tab>
+
 </mat-tab-group>

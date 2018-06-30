@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AppConstants } from '../app.constants';
 import { Observable } from 'rxjs/Observable';
-import { IDomainDetails, IDomainResponse } from '../model/email.config.model';
+import { IDomainResponse, ICreateCampaign, IDeleteDomain } from '../model/email.config.model';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -30,7 +30,7 @@ export class EmailConfigService {
   /**
    * this is to create a mailgun domain.
    */
-  public createDomain(domainDetails): Observable<IDomainResponse> {
+  public createDomain(domainDetails: { domain_name: string }): Observable<IDomainResponse> {
     return this.httpClient.post<IDomainResponse>(
       AppConstants.EXPRESS_URL_LOCAL + 'mailgun/createdomain', domainDetails, { headers: this.headers }
     );
@@ -65,10 +65,28 @@ export class EmailConfigService {
   /**
    * @param userDetails this takes userdetails like client_id, domain details
    */
-  public deleteDomain(userDetails: any): Observable<any> {
-    return this.httpClient.post(
+  public deleteDomain(userDetails: IDeleteDomain): Observable<IDomainResponse> {
+    return this.httpClient.post<IDomainResponse>(
       AppConstants.EXPRESS_URL_LOCAL + 'mailgun/deletedomain', userDetails, { headers: this.headers }
     );
   }
+  /**
+   * @param campaignDetails takes below values
+   * @param name mailing list name
+   * @param address mailing list email id
+   * @param description mailing list description
+   */
+  public createCampaign(campaignDetails: ICreateCampaign): Observable<IDomainResponse> {
+    return this.httpClient.post<IDomainResponse>(
+      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/createmailinglist', campaignDetails, { headers: this.headers }
+    );
+  }
+
+  public getCampainDetailsOfClient(): Observable<IDomainResponse> {
+    return this.httpClient.get<IDomainResponse>(
+      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/mycampaigns', { headers: this.headers }
+    );
+  }
+
 
 }

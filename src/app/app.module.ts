@@ -144,6 +144,10 @@ import { EmailConfigService } from './service/email-config.service';
 import { CreateDomainEmailComponent } from './directives/email-config/create-domain-email/create-domain-email.component';
 import { DomainDetailsComponent } from './directives/email-config/domain-details/domain-details.component';
 import { SmtpDetailsComponent } from './directives/email-config/smtp-details/smtp-details.component';
+import { MailingListComponent } from './directives/email-config/mailing-list/mailing-list.component';
+import { CreateMailListComponent } from './directives/email-config/create-mail-list/create-mail-list.component';
+
+
 
 
 
@@ -240,6 +244,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CreateDomainEmailComponent,
     DomainDetailsComponent,
     SmtpDetailsComponent,
+    MailingListComponent,
+    CreateMailListComponent,
   ],
   imports: [
     CommonModule,

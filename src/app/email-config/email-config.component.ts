@@ -1,18 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { EmailConfigService } from '../service/email-config.service';
+import { MatTabChangeEvent } from '@angular/material';
 
 @Component({
   selector: 'app-email-config',
   templateUrl: './email-config.component.html',
   styleUrls: ['./email-config.component.scss']
 })
-export class EmailConfigComponent implements OnInit {
+
+export class EmailConfigComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('tabGroup') tabGroup;
+
+  public createDomain: boolean;
+  public selectedIndex: number;
+  // public tabindex: number;
+  public currentTab: number;
 
   constructor(
     private emailService: EmailConfigService
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
     /**
@@ -21,13 +28,33 @@ export class EmailConfigComponent implements OnInit {
      */
     this.emailService.getMailgunSmtpDetails().subscribe(
       result => {
-        // if (result.error === false) {
+        if (result.error === false && result.data && result.data.length > 0) {
+          this.createDomain = false;
           this.emailService.addSmtpUserDetails(result);
-        // }
+        }
       },
       error => {
         console.log(error);
       });
   }
 
+  /**
+   * @param event mat tab change event triggered when the tab are being switched
+   */
+  public onTabChange(event: MatTabChangeEvent): void {
+    this.currentTab = event.index;
+  }
+
+  /**
+   * @param event this is the tab number.
+   * this function invoked when the campaign is being create
+   */
+  public tabChanged(event: number): void {
+    this.selectedIndex = this.currentTab + event;
+  }
+
+  ngAfterViewInit() {
+    this.currentTab = this.tabGroup.selectedIndex;
+  }
 }
+
