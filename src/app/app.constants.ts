@@ -6,7 +6,7 @@ export class AppConstants {
 
     /*Staging*/
 
-    //public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/v1/'; }
+    // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/v1/'; }
 
     /**this is heroku cloud url for production */
     // public static get API_URL(): string { return 'https://flujo-api-pro.herokuapp.com'; }
@@ -28,7 +28,6 @@ export class AppConstants {
     // public static get EXPRESS_URL(): string { return 'https://flujo-node.herokuapp.com/twitter/'; }
     public static get EXPRESS_URL(): string { return 'http://localhost:8080/twitter/'; }
     public static get TWITTER_API_URL(): string { return 'https://api.twitter.com'; }
-    public static get JSONWEBTOKENKEY(): string { return 'jsonWebTokenSecreyKey1232##'; }
     public static get DEFAULT(): Array<IAccessLevelModel> {
         return [
             { name: 'Editor', feature_id: 1, enable: false, read: false, write: false, order: '1' },
