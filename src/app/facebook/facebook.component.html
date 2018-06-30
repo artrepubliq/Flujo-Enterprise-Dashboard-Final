@@ -24,7 +24,7 @@
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <a *ngIf="!displayTextOnlyForHomeTimeline" (click)="displayTextOnlyForHomeTimeline = !displayTextOnlyForHomeTimeline;" class="dropdown-item">Text Only</a>
                     <a *ngIf="displayTextOnlyForHomeTimeline" (click)="displayTextOnlyForHomeTimeline = !displayTextOnlyForHomeTimeline;" class="dropdown-item">Text + Images</a>
-                    <a class="dropdown-item">Remove Stream</a>
+                    <!-- <a class="dropdown-item">Remove Stream</a> -->
                   </div>
                 </span>
               </div>
@@ -109,7 +109,7 @@
                   <div *ngIf="feedItem?.comments?.data?.length > 0">
                     <div *ngFor="let comment of feedItem?.comments?.data" fxLayout="row" fxLayoutGap="10px">
                       <div mat-card-avatar class="d-inline">
-                        <img class="comments-avatar" src="../assets/profile_user.jpg">
+                        <!-- <img class="comments-avatar" src="../assets/profile_user.jpg"> -->
                       </div>
                       <div fxLayout="column" fxLayoutGap="5px" class="d-inline">
                         <div fxLayout="row" fxLayoutGap="5px">
@@ -155,7 +155,7 @@
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <a *ngIf="!displayTextOnlyForTaggedPosts" (click)="displayTextOnlyForTaggedPosts = !displayTextOnlyForTaggedPosts;" class="dropdown-item">Text Only</a>
                     <a *ngIf="displayTextOnlyForTaggedPosts" (click)="displayTextOnlyForTaggedPosts = !displayTextOnlyForTaggedPosts;" class="dropdown-item">Text + Images</a>
-                    <a class="dropdown-item">Remove Stream</a>
+                    <!-- <a class="dropdown-item">Remove Stream</a> -->
                   </div>
                 </span>
               </div>
@@ -278,7 +278,7 @@
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a *ngIf="!displayTextOnlyForMyPosts" (click)="displayTextOnlyForMyPosts = !displayTextOnlyForMyPosts;" class="dropdown-item">Text Only</a>
                     <a *ngIf="displayTextOnlyForMyPosts" (click)="displayTextOnlyForMyPosts = !displayTextOnlyForMyPosts;" class="dropdown-item">Text + Images</a>
-                    <a class="dropdown-item">Remove Stream</a>
+                    <!-- <a class="dropdown-item">Remove Stream</a> -->
                   </div>
                 </span>
               </div>
@@ -385,9 +385,17 @@
   </div>
 </div>
 
-<div *ngIf="!FbLongLivedToken" class="button__center">
-  <h4>Your facebook session has been expired.</h4>
-  <button (click)="announceLoginCallToSocialManagementComponent()">
-    Login with Facebook
-  </button>
+<div *ngIf="!FbLongLivedToken" class="button__center logIn_error">
+  <div style="width:70%">
+    <div class="logIn_header">
+      <h3 class="logIn_title">Not logged in yet</h3>
+      <p>be you, be social</p>
+    </div>
+    <div class="rounded-Rectangle-1176">
+      <h4>Your facebook session has been expired.</h4>
+      <button (click)="announceLoginCallToSocialManagementComponent()">
+        Login with Facebook
+      </button>
+    </div>
+  </div>
 </div>
