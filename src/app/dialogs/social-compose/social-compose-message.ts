@@ -81,16 +81,13 @@ export class MessageCompose implements OnInit {
         if (this.doSchedule === false) {
             composedPostData.composedMessage.from_date = undefined;
             composedPostData.composedMessage.to_date = undefined;
-        } else {
-
-            this.alertService.warning('Please select at least one stream.');
         }
-
         if (composedPostData.streamDetails.length < 0) {
             this.alertService.warning('Please select at least one stream.');
         } else {
             this.dialogRef.close(composedPostData);
         }
+
         console.log(composedPostData);
     }
 
