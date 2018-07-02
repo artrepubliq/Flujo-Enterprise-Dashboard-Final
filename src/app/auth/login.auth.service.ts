@@ -64,8 +64,6 @@ export class LoginAuthService implements OnInit {
       this.setLoggedInCustom(true);
     }
   }
-
-}
   getCustomLoginStatus() {
     return this.customLoggedIn;
   }
