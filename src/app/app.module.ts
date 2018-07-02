@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-alerts';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 // import { Chart } from 'chart.js';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -31,7 +31,8 @@ import {
   MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
   MatNativeDateModule, MatExpansionModule, DateAdapter,
   MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatTabsModule,
-  MatCardModule, MatTooltipModule, MatCheckboxModule, MatListModule, MatAutocompleteModule, MatSnackBarModule
+  MatCardModule, MatTooltipModule, MatCheckboxModule, MatListModule,
+  MatAutocompleteModule, MatSnackBarModule, MatProgressSpinnerModule
 } from '@angular/material';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
@@ -119,15 +120,25 @@ import { DataBaseResolver } from './database/database-resolver';
 import { DataBaseService } from './database/database-service';
 import { TwitterComponent } from './twitter/twitter.component';
 import { TwitterServiceService } from './service/twitter-service.service';
-import { FacebookComponent } from './facebook/facebook.component';
 import { MessageCompose } from './dialogs/social-compose/social-compose-message';
 import { TwitterTimelineDirective } from './directives/twitter/twitter-timeline/twitter-timeline.directive';
 import { WindowRef } from './admin/window.service';
 import { SocialLoginComponent } from './social-login/social-login.component';
-import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { TwitterUserService } from './service/twitter-user.service';
-import { MyDatePipe } from './directives/twitter/twitter-timeline/date-pipe';
-
+// import { LinkyModule } from 'angular-linky';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+import { FacebookComponentCommunicationService } from './service/social-comp-int.service';
+import { MyDatePipe } from './_pipes/date-pipe';
+import { ImagePreviewDialogComponent } from './dialogs/image-preview-dialog/image-preview-dialog.component';
+import { EditFacebookMessage } from './dialogs/edit-fb-post/edit-fb-post-dialog';
+import { AddSocialStreemDialog } from './dialogs/social-addstreem/social-addstreem.dialog';
+import { FacebookComponent } from './facebook/facebook.component';
+import { TwitterLinkyPipe } from './_pipes/twitter-linky.pipe';
+import { ProfileInfoDialog } from './dialogs/profile-info/profile-info.dialog';
+import { PostCommentTwitterCompose } from './dialogs/post-comment/post-comment-twitter.dialog';
+import { FacebookLinkyPipe } from './_pipes/facebook-linky.pipe';
+import { PostCommentCompose } from './dialogs/post-comment/post-comment.dialog';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -206,8 +217,20 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FacebookComponent,
     SocialLoginComponent,
     MyDatePipe,
+    ImagePreviewDialogComponent,
+    EditFacebookMessage,
+    AddSocialStreemDialog,
+    // FlujodatepickerDirective
+    MessageCompose,
+    TwitterLinkyPipe,
+    ProfileInfoDialog,
+    PostCommentTwitterCompose,
+    FacebookLinkyPipe,
+    ProfileInfoDialog,
+    PostCommentCompose,
   ],
   imports: [
+    CommonModule,
     RouterModule.forRoot([], { useHash: true }),
     BrowserModule,
     BrowserAnimationsModule,
@@ -259,13 +282,18 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatSortModule,
     MatPaginatorModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     PapaParseModule,
     ScrollDispatchModule,
+    // A2Edatetimepicker,
+    AngularDateTimePickerModule,
+    // LinkyModule,
   ],
   entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
-    MessageCompose],
+    MessageCompose, ImagePreviewDialogComponent, EditFacebookMessage, AddSocialStreemDialog, ProfileInfoDialog,
+    PostCommentCompose, PostCommentTwitterCompose],
   providers: [
     // AuthService,
     HttpService,
@@ -305,6 +333,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AuthInterceptorService,
     TwitterServiceService,
     TwitterUserService,
+    FacebookComponentCommunicationService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
@@ -319,6 +348,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     { provide: DateAdapter, useClass: DateFormat }
 
   ],
+  // exports: [
+  //   FlujodatepickerDirective,
+  // ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { mediaDetail } from '../model/feedback.model';
 import { AlertModule, AlertService } from 'ngx-alerts';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -90,8 +89,8 @@ export class SmsuiComponent implements OnInit {
       } else {
         this.multipleNumbers = true;
       }
-      console.log(errorNumbers);
-      console.log(this.multipleNumbers);
+      // console.log(errorNumbers);
+      // console.log(this.multipleNumbers);
     }
   }
   smsContactFormSubmit() {
@@ -121,7 +120,7 @@ export class SmsuiComponent implements OnInit {
   }
   /* Geting the data from api using sms template selection service */
   getSlectedTemplateData = () => {
-    this.smsSelectionService.getSmsSelectData('/flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
+    this.smsSelectionService.getSmsSelectData('flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           try {
@@ -148,9 +147,7 @@ export class SmsuiComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
         this.selectedSmsTemplateData = result;
-        console.log(this.selectedSmsTemplateData);
       } else {
         console.log('no template was selected');
       }

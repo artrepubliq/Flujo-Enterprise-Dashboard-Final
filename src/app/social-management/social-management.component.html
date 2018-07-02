@@ -1,12 +1,14 @@
+<mat-progress-bar *ngIf="showProgressBarValue < 100" mode="indeterminate"></mat-progress-bar>
+
 <div fxLayout="column" fxLayoutGap="15px">
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
-      <button name="options" id="option1" autocomplete="off" checked>
+          <button  name="options" id="option1" autocomplete="off" checked (click)="addSocialStreem()">
         Add Stream
       </button>
-      <button name="options" id="option2" autocomplete="off">
+      <!-- <button (click)="addSocialNetwork()" name="options" id="option2" autocomplete="off">
         Add Social Network
-      </button>
+      </button> -->
     </div>
     <div [ngClass]="highLighted" class="new-postt-box" fxLayout="row" fxLayoutAlign="space-between center">
       <span fxFlex class="d-inline">
@@ -30,6 +32,11 @@
         </span>
       </div>
     </div>
+    <div class="logOut__social">
+      <div (click)="facebookLogout()">
+        <p>Facebook Logout</p>
+      </div>
+    </div>
     <div fxLayoutAlign="center center" class="group_btns" data-toggle="buttons">
       <button class="" name="options" id="option1" autocomplete="off" checked>
         <img src="../assets/social/grid-view-icon-normal@3x.png" class="img5">
@@ -41,14 +48,14 @@
   </div>
   <div class="social-tabs-hub" fxLayout="column">
     <div class="social-tabs">
-      <mat-tab-group class="posts-card-row" (selectedTabChange)="tabChanged($event)">
+      <mat-tab-group class="posts-card-row" [selectedIndex]="selectedIndex" (selectedTabChange)="tabChanged($event)">
         <mat-tab label="Facebook">
           <br/>
-          <app-facebook></app-facebook>
+          <app-facebook *ngIf="FbLongLivedToken" [FbLongLivedToken]="FbLongLivedToken" [tabIndex]="tab_index"></app-facebook>
         </mat-tab>
         <mat-tab label="Twitter">
             <br/>
-          <app-twitter *ngIf="tab_index === 1"></app-twitter>
+          <app-twitter></app-twitter>
         </mat-tab>
         <mat-tab label="Instagram">Instagram</mat-tab>
         <mat-tab label="YouTube">YouTube</mat-tab>

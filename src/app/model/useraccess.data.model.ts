@@ -39,7 +39,7 @@ export class AccessDataModelComponent {
         return this.userAccessLevels;
     }
     getUserAccessLevelDataHttp = (feature_id, routURL): any => {
-        this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
+        this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getuseraccess/' + AppConstants.CLIENT_ID)
           .subscribe(
           data => {
             _.each(data.result, item => {

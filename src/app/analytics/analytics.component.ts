@@ -187,7 +187,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
   async getAgeData(params) {
     await this.http.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postagereportanalytics', params)
       .subscribe(
-        (data) => {
+        data => {
           if (!data.error) {
             this.ageData = data['result'];
             this.ageChart();
@@ -195,7 +195,7 @@ export class AnalyticsComponent implements OnInit, OnChanges {
             console.log('Error getting age data');
           }
         },
-        (error) => {
+        error => {
           console.log(error);
         });
   }

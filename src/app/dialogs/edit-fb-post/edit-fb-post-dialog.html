@@ -1,0 +1,34 @@
+<div class="message-compose-pop" fxLayout="row">
+    <div fxLayout="column"  fxFlex="63">
+        <div fxLayout="column" fxLayoutGap="0.5rem" class="message-config-box">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="head-msg">
+                    <p>Edit message</p>
+                </div>
+            </div>
+            <div class="postt-msg" fxLayout="row" fxLayoutAlign="space-between center">
+                <span fxFlex="100%" class="d-inline">
+                    <textarea placeholder="Type here" rows="5" cols="55" [(ngModel)]="message"></textarea>
+                </span>
+            </div>
+            <br/>
+            <div>
+                <input fxFlex="100%" type="text" placeholder="Add Link(optional)" [(ngModel)]="link">
+            </div>
+            <br/>
+            <div *ngIf="link && description">
+                <span>{{description}}</span>
+            </div>
+            <br/>
+            <span  *ngIf="fullPicture" class="icons-default attachment">
+                <img src="{{fullPicture}}"/>
+            </span>
+            <input  *ngIf="!link && !description" mat-raised-button type="file" (change)="onFileChange($event)" accept=".jpg, .png, .jpeg" multiple #fileInput>
+        </div>
+        <div class="hor-line"></div>
+        <div fxFlex="100%" class="btn-stack-action" fxLayoutAlign="end end">
+            <button class="button_cancel" mat-button (click)="closeDialog()">Cancel</button>
+            <button class="button_submit pull-right" (click)="submitSocialPost()">Save</button>
+        </div>
+    </div>
+</div>

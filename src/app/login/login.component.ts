@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit = (body) => {
     this.spinnerService.show();
+    localStorage.clear();
     const formModel = this.loginForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
       .subscribe(
@@ -61,11 +62,9 @@ export class LoginComponent implements OnInit {
           this.loginData = data.result;
             if (data.custom_status_code === 100) {
               this.loginForm.reset();
-              console.log(this.loginData);
-              console.log(data);
+                            this.loginAuthService._setSession(data.result[0]);
               // Dont remove reload
               window.location.reload();
-              this.loginAuthService._setSession(data.result[0]);
               if (this.loginData[0].email_verified === '0') {
                 const feature_id = 23;
                 this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');

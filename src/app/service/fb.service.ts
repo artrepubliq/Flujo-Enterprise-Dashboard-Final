@@ -10,9 +10,9 @@ export class FBService {
 
 FBInit = () => {
     const initParams: InitParams = {
-        appId: '149056292450936',
+        appId: '208023236649331', // 149056292450936
         xfbml: true,
-        version: 'v2.12'
+        version: 'v3.0'
       };
 
       this.fb.init(initParams);

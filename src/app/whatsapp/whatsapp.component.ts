@@ -54,7 +54,7 @@ export class WhatsappComponent implements OnInit {
       );
   }
   getWhatsAppSmsTemplateData = () => {
-    this.smsSelectTemplateService.getSmsSelectData('/flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
+    this.smsSelectTemplateService.getSmsSelectData('flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
       .subscribe(
         result => {
             if ((result.custom_status_code = 100) && (!result.error)) {

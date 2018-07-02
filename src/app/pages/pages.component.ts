@@ -9,7 +9,7 @@ import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { GalleryImagesService } from '../service/gallery-images.service';
-import { mediaDetail } from '../model/feedback.model';
+import { MediaDetail } from '../model/feedback.model';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, _MatProgressSpinnerMixinBase } from '@angular/material';
 import { AdminComponent } from '../admin/admin.component';
@@ -26,7 +26,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     popUpImageData: any;
     filteredUserAccessData: any;
     userAccessLevelObject: any;
-    imagesOfgallery: mediaDetail[];
+    imagesOfgallery: MediaDetail[];
     childDetails: any;
     ttt: any;
     form: FormGroup;
@@ -68,18 +68,21 @@ export class PagesComponent implements OnInit, OnDestroy {
         } else {
             this.router.navigate(['admin/chooseplatform']);
         }
+        this.getGalleryImageData();
     }
     ngOnInit() {
         setTimeout(function () {
             this.spinnerService.hide();
         }.bind(this), 3000);
-        this.galleryImagesService.getGalleryImagesComponent('/flujo_client_getgallery/', AppConstants.CLIENT_ID)
+    }
+    getGalleryImageData = () => {
+        this.galleryImagesService.getGalleryImagesComponent('flujo_client_getgallery/', AppConstants.CLIENT_ID)
             .subscribe(
                 data => {
-                    if (data.custom_status_code === 100) {
+                    if (data.custom_status_code === 100 && !data.error) {
                         this.imagesOfgallery = data.result;
                         console.log(this.imagesOfgallery);
-                    } else if (data.custom_status_code === 101) {
+                    } else if (data.custom_status_code === 101 && data.error) {
                         this.alertService.warning('Required parameters are missing');
                     }
                 },
@@ -324,7 +327,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 // tslint:disable-next-line:component-class-suffix
 export class MediaLocalImagePopupDialog {
     isActive: boolean;
-    total_images: Array<mediaDetail>;
+    total_images: Array<MediaDetail>;
     filteredLocalImages: object;
     constructor(
         public dialogRef: MatDialogRef<MediaLocalImagePopupDialog>,
