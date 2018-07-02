@@ -72,12 +72,12 @@ export class SocialManagementComponent implements OnInit {
       console.log(params['id']);
       this.selectedIndex = params['id'];
       this.tab_index = this.selectedIndex;
-   });
-   if (this.tab_index === 0) {
-    this.getFacebookTokenFromOurServer();
-   } else {
-    this.getTwitterUserProfiles();
-   }
+    });
+    if (Number(this.tab_index) === 0) {
+      this.getFacebookTokenFromOurServer();
+    } else {
+      this.getTwitterUserProfiles();
+    }
     this.loggedInUserAccountsArray = [];
   }
 
@@ -86,9 +86,9 @@ export class SocialManagementComponent implements OnInit {
     this.tab_index = event.index;
     if (this.tab_index === 0) {
       this.getFacebookTokenFromOurServer();
-     } else {
+    } else {
       this.getTwitterUserProfiles();
-     }
+    }
 
   }
   // THIS FUNCTION IS USED TO ADD SOCIAL NETWOK.
@@ -139,7 +139,7 @@ export class SocialManagementComponent implements OnInit {
       profileData.social_platform = item.social_platform;
       composeMessagePopUpInputArrayData.push(profileData);
     });
-    composeMessagePopUpInputArrayData = [ ...composeMessagePopUpInputArrayData, ...fbUserAccounts];
+    composeMessagePopUpInputArrayData = [...composeMessagePopUpInputArrayData, ...fbUserAccounts];
     return composeMessagePopUpInputArrayData;
     // if (fbaccounts && fbaccounts.length > 0) {
     //   _.each(fbaccounts, (account) => {
@@ -156,21 +156,21 @@ export class SocialManagementComponent implements OnInit {
     //   return composeMessagePopUpInputArrayData;
     // }
   }
-// PREPARE FACEBOOK USER ACCOUNTS OBJECT
-prepareFacebookUserAccountsObject = (accounts) => {
-  let fbAccounts: IUserAccountPages;
-  const  fbAccountsData = [];
-  _.each(accounts, (account) => {
-    fbAccounts = <IUserAccountPages>{};
-    fbAccounts.access_token = account.access_token;
-    fbAccounts.name = account.name;
-    fbAccounts.id = account.id;
-    fbAccounts.social_id = account.id;
-    fbAccounts.social_platform = 'facebook';
-    fbAccountsData.push(fbAccounts);
-  });
-  return fbAccountsData;
-}
+  // PREPARE FACEBOOK USER ACCOUNTS OBJECT
+  prepareFacebookUserAccountsObject = (accounts) => {
+    let fbAccounts: IUserAccountPages;
+    const fbAccountsData = [];
+    _.each(accounts, (account) => {
+      fbAccounts = <IUserAccountPages>{};
+      fbAccounts.access_token = account.access_token;
+      fbAccounts.name = account.name;
+      fbAccounts.id = account.id;
+      fbAccounts.social_id = account.id;
+      fbAccounts.social_platform = 'facebook';
+      fbAccountsData.push(fbAccounts);
+    });
+    return fbAccountsData;
+  }
   /**
    * this is to get twittter user profile data.
    */
@@ -189,17 +189,17 @@ prepareFacebookUserAccountsObject = (accounts) => {
     const headers = new HttpHeaders(headersObject);
     this.twitterService.getTwitterUserProfiles(headers, undefined)
       .subscribe(
-        result => {
-          this.showProgressBarValue = 100;
-          if (result.data && result.data.length > 0) {
-            this.prepareLoggedInUserAccountDetails('twitter', result);
-          }
-          this.twitterUserService.addUser(result);
-        },
-        error => {
-          this.showProgressBarValue = 100;
-          console.log(error);
+      result => {
+        this.showProgressBarValue = 100;
+        if (result.data && result.data.length > 0) {
+          this.prepareLoggedInUserAccountDetails('twitter', result);
         }
+        this.twitterUserService.addUser(result);
+      },
+      error => {
+        this.showProgressBarValue = 100;
+        console.log(error);
+      }
       );
   }
   addSocialStreem = () => {
@@ -252,7 +252,33 @@ prepareFacebookUserAccountsObject = (accounts) => {
   }
 
   // THIS FUNCTION IS USED TO GET THE FACEBOOK TOKENS FROM OUR SERVER.
-  
+  getFacebookTokenFromOurServer = () => {
+    // tslint:disable-next-line:max-line-length
+    this.httpClient.get<ICommonInterface>('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_getsocialtokens/' + AppConstants.CLIENT_ID)
+      .subscribe(
+      respData => {
+        this.showProgressBarValue = 100;
+        const currentDate = moment();
+        if (respData.access_token && respData.custom_status_code === 100 && !respData.error) {
+          respData.result.forEach((iteratee) => {
+            // tslint:disable-next-line:max-line-length
+            if (iteratee.social_appname === 'facebook' && (moment(currentDate).valueOf()) < (moment(moment(moment.unix(iteratee.submitted_at)).add(3, 'months')).valueOf())) {
+              this.FbLongLivedToken = iteratee.social_keys ? iteratee.social_keys.access_token : false;
+              this.getFBUserAccounts(this.FbLongLivedToken);
+            }
+          });
+          if (!this.FbLongLivedToken) {
+            this.fbLogin();
+          }
+        }
+        console.log(respData);
+      },
+      errData => {
+        this.showProgressBarValue = 100;
+        console.log(errData);
+      }
+      );
+  }
   // THIS FUNCTION IS USED FOR GET ALL THE ACCOUNTS OF LOGGED IN USER
   getFBUserAccounts = (access_token) => {
     this.fb.api('https://graph.facebook.com/v3.0/me?fields=accounts,id,name&access_token=' + access_token, 'get')
@@ -318,12 +344,12 @@ prepareFacebookUserAccountsObject = (accounts) => {
   facebookLogout = () => {
     this.httpClient.delete('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_deletesocialtokens/facebook')
       .subscribe(
-        response => {
-          console.log(response);
-        },
-        error => {
-          console.log(error);
-        }
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      }
       );
   }
 }
