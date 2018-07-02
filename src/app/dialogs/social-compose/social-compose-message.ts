@@ -65,35 +65,24 @@ export class MessageCompose implements OnInit {
         this.selectedStreamsArray.push(composedPostObject);
     }
     public submitSocialPost(): void {
-        if (this.selectedStreamsArray && this.selectedStreamsArray.length > 0) {
-            let composedPostData: IStreamComposeData;
-            composedPostData = <IStreamComposeData>{};
-            composedPostData.streamDetails = this.selectedStreamsArray;
-            composedPostData.composedMessage = this.postStatusForm.value;
-            if (this.mediaFile !== undefined && this.errors.length === 0) {
-                composedPostData.composedMessage.media = this.mediaFile;
-            } else if (this.mediaFile === undefined || this.mediaFile === null) {
-                // if media is not opted then setting the media value to an empty array.
-                composedPostData.composedMessage.media = [];
-            } else {
-                return;
-            }
-            /** if scheduling isn't opted then settting from_date and to_date to undefined */
-            if (this.doSchedule === false) {
-                composedPostData.composedMessage.from_date = undefined;
-                composedPostData.composedMessage.to_date = undefined;
-            }
-            this.dialogRef.close(composedPostData);
+        let composedPostData: IStreamComposeData;
+        composedPostData = <IStreamComposeData>{};
+        composedPostData.streamDetails = this.selectedStreamsArray;
+        composedPostData.composedMessage = this.postStatusForm.value;
+        if (this.mediaFile !== undefined && this.errors.length === 0) {
+            composedPostData.composedMessage.media = this.mediaFile;
+        } else if (this.mediaFile === undefined || this.mediaFile === null) {
+            // if media is not opted then setting the media value to an empty array.
+            composedPostData.composedMessage.media = [];
         } else {
-            this.alertService.warning('Please select at least one stream.');
+            return;
         }
         /** if scheduling isn't opted then settting from_date and to_date to undefined */
         if (this.doSchedule === false) {
             composedPostData.composedMessage.from_date = undefined;
             composedPostData.composedMessage.to_date = undefined;
-        } else {
-
         }
+
         console.log(composedPostData);
         this.dialogRef.close(composedPostData);
     }

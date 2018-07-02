@@ -20,12 +20,12 @@
                 <div>
                     <mat-select class="select_dropdown_mat" placeholder="Add Social Streem " (change)="changeClient($event.value)" required id="rolename">
                         <!-- <mat-option selected disabled>Select Target Audience</mat-option> -->
-                        <mat-option *ngFor="let streem of data[1].accounts" [value]="streem">
+                        <mat-option *ngFor="let streem of facebookData.accounts" [value]="streem">
                             {{ streem?.name }}
                           </mat-option>
-                          <mat-option *ngFor="let streem of data[0].accounts" [value]="streem">
+                          <!-- <mat-option *ngFor="let streem of facebookData.accounts" [value]="streem">
                                 {{ streem?.name }}
-                              </mat-option>
+                              </mat-option> -->
                     </mat-select>
                 </div>
                 <br/>

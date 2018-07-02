@@ -17,8 +17,8 @@ export interface IComposePost {
     message: string;
     link?: string;
     media?: any[];
-    from_date?: string | number;
-    to_date?: string | number;
+    from_date?: any;
+    to_date?: any;
     from_time?: string;
     to_time?: string;
     status_id?: string;
