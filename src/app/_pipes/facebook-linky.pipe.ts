@@ -15,10 +15,8 @@ export class FacebookLinkyPipe implements PipeTransform {
     let text = fbPost.message;
     const regex = /(?<=[\s>])#(\d*[A-Za-z_]+\d*)\b(?!;)/g;
     let hashTagsArray: any;
-    try {
+    if (text) {
        hashTagsArray  = text.match(regex);
-    } catch (err) {
-      console.log(err);
     }
     /** Appending Hastags, if atweet has any */
     if (hashTagsArray && hashTagsArray.length > 0) {

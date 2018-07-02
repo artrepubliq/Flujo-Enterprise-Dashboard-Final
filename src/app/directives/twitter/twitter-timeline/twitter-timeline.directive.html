@@ -5,8 +5,8 @@
     <div class="social-tabs-hub-inner-row" fxLayoutGap="0.5px" fxLayout="row">
       <div class="col-md-4" *ngIf="twitHomeTimeLine">
         <div class="social-card" [perfectScrollbar]="{suppressScrollX: true, wheelPropagation: true, swipeEasing: true}" (psYReachEnd)="homeTimeLineScrollEvent($event)">
-          <div class="nav-social">
-            <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center"
+          <div [ngClass]="{'fixed-nav-social': dofix}" class="nav-social">
+            <div  class="nav-social-inner" fxLayout="row" fxLayoutAlign="space-between center"
               (psScrollY)="doApplyFixedPosition($event)">
               <div class="social-cards-header">
                 <h6>Twitter Timeline</h6>
@@ -78,7 +78,7 @@
                     </div>
                     <div>
                       <img src="../assets/svg/004-retweet.svg" (click)="retweet(timeline)">&nbsp;
-                      <span>{{timeline.retweet_count}}</span>
+                      <span>{{timeline?.retweet_count}}</span>
                     </div>
                     <div>
                       <span class="dropdown">
@@ -99,7 +99,7 @@
                 </mat-card-actions>
                 <mat-card-header>
                   <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
-                  <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
+                  <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0]?.profile_image_url + ')'"></div>
                   <input class="d-inline input-commet" type="text" (click)="submitReplyTo(timeline)" placeholder="Comment">
                 </mat-card-header>
               </mat-card>

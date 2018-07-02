@@ -49,6 +49,7 @@ export class LoginAuthService implements OnInit {
     const expTime = 60 * 60 * 1000 + Date.now();
     // Save session data and update login status subject
     localStorage.setItem('token', authResult.access_token);
+    localStorage.setItem('client_id', authResult.client_id);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('domain_name', authResult.domain_name);
     localStorage.setItem('chat_token', authResult.chatcamp_accesstoken);
@@ -56,6 +57,7 @@ export class LoginAuthService implements OnInit {
     localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('name', authResult.name);
     localStorage.setItem('expires_at', String(expTime));
+if (authResult.feature && authResult.feature[0] && authResult.feature[0].feature_access_token) {
     localStorage.setItem('feature_access_tokens', JSON.stringify(authResult.feature));
     // localStorage.setItem('token_expiry_date', authResult.feature[0].expiry_date);
     this.router.navigate(['/admin']);
@@ -80,17 +82,8 @@ export class LoginAuthService implements OnInit {
     }
   }
   clearLocalStorage = () => {
-    // Remove tokens and profile and update login status subject
-    localStorage.removeItem('token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('name');
-    localStorage.removeItem('expires_at');
-    localStorage.removeItem('email');
-    localStorage.removeItem('editor_source');
-    localStorage.removeItem('chat_token');
-
-    this.setLoggedInCustom(false);
+  // Remove tokens and profile and update login status subject
+    localStorage.clear();
   }
   get authenticated(): boolean {
     // Check if current date is greater than expiration

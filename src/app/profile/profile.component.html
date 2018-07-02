@@ -31,19 +31,19 @@
         <div *ngIf="profileItems" fxLayout="column" fxFlex="40" fxLayoutGap="25px">
           <div fxLayout="column" class="input_box-view">
             <label>Company Name</label>
-            <p [ngClass]="{'wireframe-layout': !profileImage }">{{profileItems.company_name}}</p>
+            <p [ngClass]="{'wireframe-layout': !profileItems }">{{profileItems.company_name}}</p>
           </div>
           <div fxLayout="column" class="input_box-view">
             <label>Website URL</label>
-            <p [ngClass]="{'wireframe-layout': !profileImage }">{{profileItems.website_url}}</p>
+            <p [ngClass]="{'wireframe-layout': !profileItems }">{{profileItems.website_url}}</p>
           </div>
           <div fxLayout="column" class="input_box-view">
             <label>Mobile Number</label>
-            <p [ngClass]="{'wireframe-layout': !profileImage }">{{profileItems.mobile_number}}</p>
+            <p [ngClass]="{'wireframe-layout': !profileItems }">{{profileItems.mobile_number}}</p>
           </div>
           <div fxLayout="column" class="input_box-view">
             <label >Email</label>
-            <p [ngClass]="{'wireframe-layout': !profileImage }">{{profileItems.email}}</p>
+            <p [ngClass]="{'wireframe-layout': !profileItems }">{{profileItems.email}}</p>
           </div>
         </div>
       </div>

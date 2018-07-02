@@ -69,6 +69,8 @@ export class FacebookComponent implements OnInit {
       fbComposedPost => {
         this.handleComposedFBPost(fbComposedPost);
       });
+
+    this.showProgressBarValue = 0;
   }
 
   ngOnInit() {
@@ -134,7 +136,6 @@ export class FacebookComponent implements OnInit {
       data: arrayOfImages,
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
   // open the dialog for adding the social streams
@@ -149,6 +150,7 @@ export class FacebookComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: any) => {
       this.currentStreamDetails = result;
       if (result && result.id) {
+        this.clearCurrentStreamObjects();
         this.getUserPageProfile(result);
         this.getUserHomeORPageTimeline(result);
         this.getUserHomeORPageMyPosts(result);
@@ -156,6 +158,16 @@ export class FacebookComponent implements OnInit {
       }
       this.highLighted = 'hide-class';
     });
+  }
+  // THIS FUNCTION IS USED TO CLEAR ALL THE OBJECTS OF CURRENT STREAM
+  clearCurrentStreamObjects = () => {
+    this.ProfileData = null;
+    this.FBTaggedPosts = null;
+    this.FBHomeTimelinePosts = null;
+    this.FBMyPosts = null;
+    this.FBHomeTimelineNextPostURL = '';
+    this.FBMyPostsNextURL = '';
+    this.FBTaggedPostsNextURL = '';
   }
   openProfileInfoDialog = (stream: IFBFeedArray, event: any) => {
     const keyElemet: string = event.srcElement.className;
@@ -196,7 +208,7 @@ export class FacebookComponent implements OnInit {
         if (commentObj.media && commentObj.media.length > 0) {
           streamItem = <IStreamDetails>{};
           streamItem.access_token = this.currentStreamDetails.access_token;
-          streamItem.social_id = this.currentStreamDetails.id;
+          streamItem.social_id = this.currentStreamDetails.social_id;
           streamItem.imageUploadFailedItem = [];
           streamItem.imageUploadSuccessItem = [];
           const fbPhotoUploadResp: any = await this.asyncThreadToUploadTheImagesToFB(commentObj.media, streamItem);
@@ -212,7 +224,7 @@ export class FacebookComponent implements OnInit {
         } else {
           streamItem = <IStreamDetails>{};
           streamItem.access_token = this.currentStreamDetails.access_token;
-          streamItem.social_id = this.currentStreamDetails.id;
+          streamItem.social_id = this.currentStreamDetails.social_id;
           const newCommentObject = this.prepareCommentObject(streamItem, commentObj);
           console.log(newCommentObject);
           this.postCommentForAUserPagePost(postDetails, newCommentObject);
@@ -231,7 +243,7 @@ export class FacebookComponent implements OnInit {
           let useraccount: IFBPages;
           useraccount = <IFBPages>{};
           useraccount.access_token = FbLongLivedToken;
-          useraccount.id = profile_res.id;
+          useraccount.social_id = profile_res.id;
           useraccount.name = profile_res.name;
           this.showProgressBarValue = 100;
           resolve(useraccount);
@@ -247,7 +259,7 @@ export class FacebookComponent implements OnInit {
   }
   getUserPageProfile = (streamDetails: IFBPages) => {
     // tslint:disable-next-line:max-line-length
-    this.fb.api(this.FBAPI + streamDetails.id + '?fields=id,name,picture{url}&access_token=' + streamDetails.access_token, 'get')
+    this.fb.api(this.FBAPI + streamDetails.social_id + '?fields=id,name,picture{url}&access_token=' + streamDetails.access_token, 'get')
       .then((profile_res: IProfile) => {
         this.ProfileData = profile_res;
       })
@@ -281,7 +293,7 @@ export class FacebookComponent implements OnInit {
   getUserHomeORPageTimeline = (streamDetails: IFBPages) => {
     this.showProgressBarValue = 0;
     // tslint:disable-next-line:max-line-length
-    this.fb.api(this.FBAPI + streamDetails.id + '/feed?fields=parent_id,to{id,link,name,pic_large,pic_small,profile_type,username},created_time,description,full_picture,attachments{subattachments},message,shares,comments.summary(true),likes.summary(true)&limit=25&access_token=' + streamDetails.access_token, 'get')
+    this.fb.api(this.FBAPI + streamDetails.social_id + '/feed?fields=parent_id,link,to{id,link,name,pic_large,pic_small,profile_type,username},created_time,description,full_picture,attachments{subattachments},message,shares,comments.summary(true),likes.summary(true)&limit=25&access_token=' + streamDetails.access_token, 'get')
       .then((userHomeFeed: IFBFeedResponse) => {
         this.FBHomeTimelinePosts = userHomeFeed.data;
         if (userHomeFeed && userHomeFeed.paging && userHomeFeed.paging.next) {
@@ -300,7 +312,7 @@ export class FacebookComponent implements OnInit {
   getUserHomeORPageTaggedPosts = (streamDetails: IFBPages) => {
     this.showProgressBarValue = 0;
     // tslint:disable-next-line:max-line-length
-    this.fb.api(this.FBAPI + streamDetails.id + '/tagged?fields=parent_id,full_picture,to{id,link,name,pic_large,pic_small,profile_type,username},message,created_time,shares,comments.summary(true),likes.summary(true)&limit=25&access_token=' + streamDetails.access_token, 'get')
+    this.fb.api(this.FBAPI + streamDetails.social_id + '/tagged?fields=parent_id,link,full_picture,to{id,link,name,pic_large,pic_small,profile_type,username},message,created_time,shares,comments.summary(true),likes.summary(true)&limit=25&access_token=' + streamDetails.access_token, 'get')
       .then((taggedPosts: IFBFeedResponse) => {
         this.FBTaggedPosts = taggedPosts.data;
         console.log(this.FBTaggedPosts);
@@ -320,7 +332,7 @@ export class FacebookComponent implements OnInit {
   getUserHomeORPageMyPosts = (streamDetails: IFBPages) => {
     this.showProgressBarValue = 0;
     // tslint:disable-next-line:max-line-length
-    this.fb.api(this.FBAPI + streamDetails.id + '/posts?fields=parent_id,to{id,link,name,pic_large,pic_small,profile_type,username},created_time,description,full_picture,message,shares,comments.summary(true),likes.summary(true)&limit=25&access_token=' + streamDetails.access_token, 'get')
+    this.fb.api(this.FBAPI + streamDetails.social_id + '/posts?fields=parent_id,link,to{id,link,name,pic_large,pic_small,profile_type,username},created_time,description,full_picture,message,shares,comments.summary(true),likes.summary(true)&limit=25&access_token=' + streamDetails.access_token, 'get')
       .then((myPost: IFBFeedResponse) => {
         if (myPost && myPost.paging && myPost.paging.next) {
           this.FBMyPostsNextURL = myPost.paging.next;
@@ -372,7 +384,7 @@ export class FacebookComponent implements OnInit {
     this.showProgressBarValue = 0;
     this.fb.api(this.FBAPI + post.id + '/likes?access_token=' + this.currentStreamDetails.access_token, 'post')
       .then((res: any) => {
-        this.refreshAllCurrentStreamsStreams();
+        this.refreshAllCurrentStreams([]);
         console.log(res);
         this.showProgressBarValue = 100;
         this.alertService.success('You have Liked the post Successfully.');
@@ -388,7 +400,7 @@ export class FacebookComponent implements OnInit {
     this.showProgressBarValue = 0;
     this.fb.api(this.FBAPI + post.id + '/likes?access_token=' + this.currentStreamDetails.access_token, 'delete')
       .then((res: any) => {
-        this.refreshAllCurrentStreamsStreams();
+        this.refreshAllCurrentStreams([]);
         console.log(res);
         this.showProgressBarValue = 100;
         this.alertService.success('You have Un-Liked the post Successfully.');
@@ -406,7 +418,7 @@ export class FacebookComponent implements OnInit {
     this.fb.api('https://graph.facebook.com/' + postDetails.id + '/comments?access_token=' + this.currentStreamDetails.access_token,
       'post', newCommentObject)
       .then((respo: any) => {
-        this.refreshAllCurrentStreamsStreams();
+        this.refreshAllCurrentStreams([]);
         this.commentInput = '';
         console.log(respo);
         this.showProgressBarValue = 100;
@@ -428,7 +440,7 @@ export class FacebookComponent implements OnInit {
       this.fb.api(this.FBAPI + postID[0] + '/feed?link=https://www.facebook.com/' + postID[1] + '&access_token=' + this.currentStreamDetails.access_token, 'post')
         .then((res: any) => {
           console.log(res.data);
-          this.refreshAllCurrentStreamsStreams();
+          this.refreshAllCurrentStreams([]);
           this.showProgressBarValue = 100;
           this.alertService.success('You have Shared this post Successfully');
         })
@@ -450,7 +462,7 @@ export class FacebookComponent implements OnInit {
         const addFBPostResp: any[] = await this.asyncThreadToAddFacebookPost(photoUploadResp);
         console.log(addFBPostResp);
         this.showProgressBarValue = 100;
-        this.refreshAllCurrentStreamsStreams();
+        this.refreshAllCurrentStreams(composedFBPost.streamDetails);
         if (addFBPostResp.length === composedFBPost.streamDetails.length) {
           this.deleteuploadedImagesFromServer(composedFBPost.composedMessage.media);
         } else {
@@ -461,17 +473,29 @@ export class FacebookComponent implements OnInit {
       } else {
         const addFBPostResp: any[] = await this.asyncThreadToAddFacebookPost(composedFBPost);
         this.showProgressBarValue = 100;
-        this.refreshAllCurrentStreamsStreams();
+        if (addFBPostResp[0].postStatus) {
+          this.alertService.success('Post has been published successfully.');
+        } else {
+          this.alertService.danger('post has not published. Please try again...');
+        }
+        this.refreshAllCurrentStreams(composedFBPost.streamDetails);
       }
     } catch (err) {
       console.log(err);
     }
 
   }
-  refreshAllCurrentStreamsStreams = () => {
+  refreshAllCurrentStreams = (inputStreamDetails: IStreamDetails[]) => {
+   if (_.some(inputStreamDetails, (item: IStreamDetails) => {
+     console.log(item.social_id);
+    return item.social_id === this.currentStreamDetails.social_id;
+  })) {
     this.getUserHomeORPageMyPosts(this.currentStreamDetails);
     this.getUserHomeORPageTaggedPosts(this.currentStreamDetails);
     this.getUserHomeORPageTimeline(this.currentStreamDetails);
+   } else {
+     console.log(inputStreamDetails);
+   }
   }
   // THIS FUNCTION IS USED TO POST THE FB POST IN ALL THE SELECTED STREAMS
   asyncThreadToAddFacebookPost = (fbPost: IStreamComposeData): Promise<any> => {
@@ -482,6 +506,7 @@ export class FacebookComponent implements OnInit {
           Promise.resolve([]));
         resolve(fbImgUploadResp);
       } catch (url) {
+        this.showProgressBarValue = 100;
         alert('Failed to publish the post');
       }
     });
@@ -490,14 +515,15 @@ export class FacebookComponent implements OnInit {
   asyncFBAPICALLThreadToPostTheFBPost = (streamItem: IStreamDetails, composedPost: IComposePost) => {
     return new Promise(async (resolve, reject) => {
       let fbPostObject: any;
-      if (streamItem.imageUploadFailedItem.length === 0 && streamItem.imageUploadSuccessItem.length > 0) {
+      if (streamItem.imageUploadFailedItem && streamItem.imageUploadFailedItem.length === 0 &&
+        streamItem.imageUploadSuccessItem && streamItem.imageUploadSuccessItem.length > 0) {
         fbPostObject = this.prepareFBPostObject(streamItem, composedPost);
 
       } else {
         fbPostObject = this.prepareFBPostObject(streamItem, composedPost);
       }
+      console.log(fbPostObject);
       if (fbPostObject) {
-        // prepareFBPostParamsObject.tags =
         this.fb.api(this.FBAPI + streamItem.social_id + '/feed?access_token=' + streamItem.access_token,
           'post', fbPostObject)
           .then((respo: any) => {
@@ -544,6 +570,7 @@ export class FacebookComponent implements OnInit {
   asyncThreadToUploadTheImagesToFB = async (mediaUrls, streamItem: IStreamDetails) => {
     return new Promise(async (resolve, reject) => {
       let fbImgUploadResp: any;
+      console.log(streamItem);
       try {
         fbImgUploadResp = await mediaUrls.reduce((promise, urlItem, index) =>
           promise.then(async (arr) => [...arr, await this.APICallToUploadLocalPhotosToFacebook(streamItem, urlItem)]), Promise.resolve([]));
@@ -585,34 +612,38 @@ export class FacebookComponent implements OnInit {
     });
   }
   // FUNCTION IS USED TO DELETE THE FACEBOOK POST FROM THE USER PAGE OR PROFILE
-  deleteFBPostFromUserHomeOrPageTimeline = (postDetails: IFBFeedArray, currentStreamDetails: IFBPages, streamSNo) => {
-    this.showProgressBarValue = 0;
-    this.fb.api(this.FBAPI + postDetails.id + '?access_token=' + currentStreamDetails.access_token, 'delete')
-      .then((respo: any) => {
-        this.showProgressBarValue = 100;
-        if (streamSNo === 1) {
-          this.getUserHomeORPageTimeline(currentStreamDetails);
-        } else if (streamSNo === 2) {
-          this.getUserHomeORPageTaggedPosts(currentStreamDetails);
-        } else {
-          this.getUserHomeORPageMyPosts(currentStreamDetails);
-        }
-        console.log(respo);
-        this.alertService.success('You have Deleted the post Successfully');
-      })
-      .catch((err: any) => {
-        console.log(err);
-        this.sessionExpiredSOGotoLogin(err);
-        this.showProgressBarValue = 100;
-        this.alertService.danger('Failed to Delete the post. Try Again...');
-      });
-  }
+  deleteFBPostFromUserHomeOrPageTimeline = async (postDetails: IFBFeedArray) => {
+    try {
 
-  editFacebookPost = (feedItem: IFBFeedArray, currentStreamDetails: IFBPages) => {
+      const result = await this.asyncThreadFBAPICallToDeleteTheFacebookPost(postDetails.id);
+      this.alertService.success('You have Deleted the post Successfully');
+    } catch (err) {
+      this.alertService.danger('Failed to Delete the post. Try Again...');
+    }
+  }
+  // FUNCTION IS USED TO DELETE THE FACEBOOK POST FROM THE USER PAGE OR PROFILE
+  asyncThreadFBAPICallToDeleteTheFacebookPost = (post_id) => {
+    return new Promise(async (resolve, reject) => {
+      this.showProgressBarValue = 0;
+      this.fb.api(this.FBAPI + post_id + '?access_token=' + this.currentStreamDetails.access_token, 'delete')
+        .then((respo: any) => {
+          this.showProgressBarValue = 100;
+          console.log(respo);
+          resolve(respo);
+        })
+        .catch((err: any) => {
+          console.log(err);
+          this.sessionExpiredSOGotoLogin(err);
+          this.showProgressBarValue = 100;
+          reject(err);
+        });
+    });
+  }
+  editFacebookPost = (feedItem: IFBFeedArray) => {
     let editPostObj: { 'postData': IFBFeedArray, 'streams': IFBPages };
     editPostObj = <any>{};
     editPostObj.postData = feedItem;
-    editPostObj.streams = currentStreamDetails;
+    editPostObj.streams = this.currentStreamDetails;
     const dialogRef = this.dialog.open(EditFacebookMessage, {
       panelClass: 'app-full-bleed-dialog',
       width: '45vw',
@@ -620,9 +651,46 @@ export class FacebookComponent implements OnInit {
       data: editPostObj,
     });
     this.highLighted = 'show-class';
-    dialogRef.afterClosed().subscribe((result: any) => {
-      console.log(result);
-    });
+    dialogRef.afterClosed().subscribe(
+      async (result: IStreamComposeData) => {
+        if (result && result.composedMessage && result.streamDetails) {
+        console.log(result);
+        const postDeleteResponse: any = await this.asyncThreadFBAPICallToDeleteTheFacebookPost(result.streamDetails[0].post_id);
+        console.log(postDeleteResponse);
+        if (postDeleteResponse.success && result.composedMessage.media && result.composedMessage.media.length > 0) {
+          const photoUploadResp: IStreamComposeData = await this.addPhotosToFBUserPageOrHomePhotos(result);
+          console.log(photoUploadResp);
+          const addFBPostResp: any[] = await this.asyncThreadToAddFacebookPost(photoUploadResp);
+          console.log(addFBPostResp);
+            if (addFBPostResp[0].postStatus) {
+              this.alertService.success('Post has been Updated successfully.');
+            } else {
+              this.alertService.danger('post update failed. Please try again...');
+            }
+          this.showProgressBarValue = 100;
+          this.refreshAllCurrentStreams(result.streamDetails);
+          if (addFBPostResp.length === result.streamDetails.length) {
+            this.deleteuploadedImagesFromServer(result.composedMessage.media);
+          } else {
+            console.log('error in facebook component handlecomposedPost');
+            this.alertService.danger('Failed to publish the post. Try Again...');
+            alert('failed to post the Post.');
+          }
+        } else {
+          if (postDeleteResponse.success) {
+            const Updateresult: any = await this.asyncFBAPICALLThreadToPostTheFBPost(result.streamDetails[0], result.composedMessage);
+            if (Updateresult.postStatus) {
+              this.alertService.success('Post has beed updated successfully');
+              this.refreshAllCurrentStreams(result.streamDetails);
+            } else {
+              this.alertService.danger('post update failed. Please try again...');
+            }
+          } else {
+            this.alertService.danger('post update failed. Please try again...');
+          }
+        }
+      }
+      });
   }
   /**
    * THE FOLLOWING METHODS ARE ALL CALLING FROM THE DEFINED METHODS AND WHICH RETURNS EXPECTED DATA TO THE CALLING METHOS.
@@ -630,7 +698,7 @@ export class FacebookComponent implements OnInit {
   // THIS FUNCTION IS USED TO PREPARE THE OBJECT WITH REQUIRED PARAMETERS FOR FB POST
   prepareFBPostObject = (post: IStreamDetails, fbPost: IComposePost): any => {
     const isScheduled: boolean = (fbPost.from_date && fbPost.to_date) ? true : false;
-    if (fbPost.media.length > 0) {
+    if (fbPost.media && fbPost.media.length > 0) {
       // tslint:disable-next-line:max-line-length
       let prepareFBPostParamsObject: { 'scheduled_publish_time': any, 'published': boolean, 'attached_media': any[], 'link': any, 'message': string, 'tags': any };
       prepareFBPostParamsObject = <any>{};
@@ -642,22 +710,30 @@ export class FacebookComponent implements OnInit {
         imgIDsArray.push(imgIDsObj);
       });
       prepareFBPostParamsObject.attached_media = imgIDsArray;
-      prepareFBPostParamsObject.link = fbPost.link;
-      prepareFBPostParamsObject.message = fbPost.message;
-      prepareFBPostParamsObject.published = !isScheduled;
+      if (fbPost.link) {
+        prepareFBPostParamsObject.link = fbPost.link;
+      }
+      if (fbPost.message) {
+        prepareFBPostParamsObject.message = fbPost.message;
+      }
       if (isScheduled) {
         prepareFBPostParamsObject.scheduled_publish_time = (moment(fbPost.from_date).valueOf() / 1000);
       }
+      prepareFBPostParamsObject.published = !isScheduled;
       return prepareFBPostParamsObject;
     } else {
       let prepareFBPostParamsObject: { 'scheduled_publish_time': any, 'published': boolean, 'link': any, 'message': string, 'tags': any };
       prepareFBPostParamsObject = <any>{};
-      prepareFBPostParamsObject.link = fbPost.link;
-      prepareFBPostParamsObject.message = fbPost.message;
-      prepareFBPostParamsObject.published = !isScheduled;
+      if (fbPost.link) {
+        prepareFBPostParamsObject.link = fbPost.link;
+      }
+      if (fbPost.message) {
+        prepareFBPostParamsObject.message = fbPost.message;
+      }
       if (isScheduled) {
         prepareFBPostParamsObject.scheduled_publish_time = (moment(fbPost.from_date).valueOf() / 1000);
       }
+      prepareFBPostParamsObject.published = !isScheduled;
       return prepareFBPostParamsObject;
     }
   }

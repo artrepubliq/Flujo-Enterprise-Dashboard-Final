@@ -43,7 +43,6 @@ export class ProfileComponent implements OnInit {
     private formBuilder: FormBuilder, private alertService: AlertService,
     private router: Router) {
     this.createForm();
-    localStorage.setItem('client_id', '1232');
     this.getProfileDetails();
     // if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
     //   this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
@@ -183,7 +182,8 @@ export class ProfileComponent implements OnInit {
             if ((!data.error) && (data.custom_status_code = 100)) {
               this.profileImageDetails = data.result;
               data.result ? this.isEdit = false : this.isEdit = true;
-              if (data.result != null) {
+              if (data.result != null && data.result.length > 0) {
+                this.isEdit = false;
                 this.setDefaultClientProfileDetails(this.profileImageDetails);
                 this.spinnerService.hide();
               } else {

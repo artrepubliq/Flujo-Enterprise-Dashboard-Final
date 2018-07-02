@@ -19,17 +19,16 @@ export class AppConstants {
     /*Heroku */
     public static get API_URL(): string { return 'http://flujo-client-api.herokuapp.com/v1/'; }
 
-    public static get CLIENT_ID(): string { return '1232'; }
+    public static get CLIENT_ID(): string { return localStorage.getItem('client_id'); }
     public static get THEME_ID(): string { return '32'; }
 
-    public static get ACCESS_TOKEN(): string { return 'keerthan_token'; }
+//     public static get ACCESS_TOKEN(): string { return 'keerthan_token'; }
     // public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/'; }
     // public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/twitter/'; }
     public static get EXPRESS_URL(): string { return 'https://flujo-node.herokuapp.com/twitter/'; }
     public static get EXPRESS_URL_SCHEDULE(): string { return 'https://flujo-node.herokuapp.com/sheduler/twitter/'; }
     public static get EXPRESS_URL_LOCAL(): string { return 'http://localhost:3000/'; }
     public static get TWITTER_API_URL(): string { return 'https://api.twitter.com'; }
-    public static get JSONWEBTOKENKEY(): string { return 'jsonWebTokenSecreyKey1232##'; }
     public static get DEFAULT(): Array<IAccessLevelModel> {
         return [
             { name: 'Editor', feature_id: 1, enable: false, read: false, write: false, order: '1' },

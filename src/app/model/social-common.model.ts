@@ -30,7 +30,7 @@ export interface IImageIds {
 
 export interface ILoggedInUsersAccounts {
     accounts: IUserAccountPages[];
-    id: string;
+    social_id: string;
     name: string;
     access_token: any;
     streams: string[];
