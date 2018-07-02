@@ -57,11 +57,12 @@ export class LoginAuthService implements OnInit {
     localStorage.setItem('user_id', authResult.user_id);
     localStorage.setItem('name', authResult.name);
     localStorage.setItem('expires_at', String(expTime));
-if (authResult.feature && authResult.feature[0] && authResult.feature[0].feature_access_token) {
-    localStorage.setItem('feature_access_tokens', JSON.stringify(authResult.feature));
-    // localStorage.setItem('token_expiry_date', authResult.feature[0].expiry_date);
-    this.router.navigate(['/admin']);
-    this.setLoggedInCustom(true);
+    if (authResult.feature && authResult.feature[0] && authResult.feature[0].feature_access_token) {
+      localStorage.setItem('feature_access_tokens', JSON.stringify(authResult.feature));
+      // localStorage.setItem('token_expiry_date', authResult.feature[0].expiry_date);
+      this.router.navigate(['/admin']);
+      this.setLoggedInCustom(true);
+    }
   }
   getCustomLoginStatus() {
     return this.customLoggedIn;
@@ -82,7 +83,7 @@ if (authResult.feature && authResult.feature[0] && authResult.feature[0].feature
     }
   }
   clearLocalStorage = () => {
-  // Remove tokens and profile and update login status subject
+    // Remove tokens and profile and update login status subject
     localStorage.clear();
   }
   get authenticated(): boolean {
