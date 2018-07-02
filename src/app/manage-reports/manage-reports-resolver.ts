@@ -9,6 +9,6 @@ import { AppConstants } from '../app.constants';
 export class ManageReportsResolver implements Resolve<Observable<ICommonInterface>> {
     constructor (private manageReportsService: ManageReportService) {}
     resolve(route: ActivatedRouteSnapshot): Observable<ICommonInterface> {
-    return this.manageReportsService.getManageReportData('/flujo_client_getreportproblem/', AppConstants.CLIENT_ID);
+    return this.manageReportsService.getManageReportData('flujo_client_getreportproblem/', AppConstants.CLIENT_ID);
     }
 }

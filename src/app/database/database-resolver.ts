@@ -8,6 +8,6 @@ import { AppConstants } from '../app.constants';
 export class DataBaseResolver implements Resolve<Observable<ICommonInterface>> {
 constructor (private dataBaseService: DataBaseService) {}
 resolve(route: ActivatedRouteSnapshot): Observable<ICommonInterface> {
-    return this.dataBaseService.getDataBaseData('/flujo_client_getdata/', AppConstants.CLIENT_ID);
+    return this.dataBaseService.getDataBaseData('flujo_client_getdata/', AppConstants.CLIENT_ID);
 }
 }

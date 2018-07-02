@@ -64,7 +64,7 @@ export class ProblemCategoryComponent implements OnInit {
 
   public getproblemData(): void {
     this.spinnerService.show();
-    this.problemService.getProblemData('/flujo_client_getreportproblemtype/', AppConstants.CLIENT_ID)
+    this.problemService.getProblemData('flujo_client_getreportproblemtype/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           if (data.custom_status_code === 100 && data.result.length > 0) {

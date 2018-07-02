@@ -53,7 +53,7 @@ export class AreasComponent implements OnInit {
   }
   public getAreaData(): void {
     this.spinnerService.show();
-    this.areaService.getAreaData('/flujo_client_getreportarea/', AppConstants.CLIENT_ID)
+    this.areaService.getAreaData('flujo_client_getreportarea/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
             if (data.custom_status_code === 100 && data.result.length > 0) {

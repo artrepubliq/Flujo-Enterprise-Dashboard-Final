@@ -256,6 +256,7 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     }
     // this function is used for getting reports data from the server
     getAllReports = (): void => {
+        this.spinnerService.show();
         this.activatedRoute.data.subscribe(data => {
             console.log(data);
                     if (!data.reportData.error) {

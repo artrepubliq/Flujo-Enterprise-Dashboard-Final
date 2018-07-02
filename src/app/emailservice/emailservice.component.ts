@@ -108,7 +108,7 @@ export class EmailserviceComponent implements OnInit {
     console.log(this.mailSendingForm.value);
     this.mailSendingForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
     this.spinnerService.show();
-    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_sendemaildbcsv', this.mailSendingForm.value)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_sendemaildbcsv', this.mailSendingForm.value)
       .subscribe(
         data => {
             if (!data.error && (data.custom_status_code = 100)) {
@@ -129,7 +129,7 @@ export class EmailserviceComponent implements OnInit {
   /*Getting of email template data from api using emailTemplateService*/
   getEmailTemplateData = (): void => {
     this.spinnerService.show();
-    this.emailTemplateService.getTemplateConfigData('/flujo_client_getemailtemplateconfig/', AppConstants.CLIENT_ID)
+    this.emailTemplateService.getTemplateConfigData('flujo_client_getemailtemplateconfig/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           this.spinnerService.hide();
