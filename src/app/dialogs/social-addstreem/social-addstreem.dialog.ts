@@ -8,13 +8,21 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 // tslint:disable-next-line:component-class-suffix
 export class AddSocialStreemDialog {
+    twitter: any;
+    facebookData: any;
     selectedPage: string;
     selectedStream: string;
     constructor(
         public dialogRef: MatDialogRef<AddSocialStreemDialog>,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+        @Inject(MAT_DIALOG_DATA) public data: any[]) {
+        data.forEach((item) => {
+            if (item.social_platform === 'facebook') {
+                this.facebookData = item;
+            }
+        });
 
-        }
+
+    }
 
     onNoClick(): void {
         this.dialogRef.close();
@@ -27,7 +35,7 @@ export class AddSocialStreemDialog {
     }
     closeDialog() {
         this.dialogRef.close(this.selectedPage);
-      }
+    }
 
 
 }

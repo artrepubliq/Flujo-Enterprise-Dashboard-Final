@@ -72,12 +72,9 @@ export class SocialManagementComponent implements OnInit {
       console.log(params['id']);
       this.selectedIndex = params['id'];
       this.tab_index = this.selectedIndex;
-   });
-   if (this.tab_index === 0) {
-    this.getFacebookTokenFromOurServer();
-   } else {
-    this.getTwitterUserProfiles();
-   }
+    });
+      this.getFacebookTokenFromOurServer();
+      this.getTwitterUserProfiles();
     this.loggedInUserAccountsArray = [];
   }
 
@@ -86,9 +83,9 @@ export class SocialManagementComponent implements OnInit {
     this.tab_index = event.index;
     if (this.tab_index === 0) {
       this.getFacebookTokenFromOurServer();
-     } else {
+    } else {
       this.getTwitterUserProfiles();
-     }
+    }
 
   }
   // THIS FUNCTION IS USED TO ADD SOCIAL NETWOK.
@@ -139,7 +136,7 @@ export class SocialManagementComponent implements OnInit {
       profileData.social_platform = item.social_platform;
       composeMessagePopUpInputArrayData.push(profileData);
     });
-    composeMessagePopUpInputArrayData = [ ...composeMessagePopUpInputArrayData, ...fbUserAccounts];
+    composeMessagePopUpInputArrayData = [...composeMessagePopUpInputArrayData, ...fbUserAccounts];
     return composeMessagePopUpInputArrayData;
     // if (fbaccounts && fbaccounts.length > 0) {
     //   _.each(fbaccounts, (account) => {
@@ -156,47 +153,50 @@ export class SocialManagementComponent implements OnInit {
     //   return composeMessagePopUpInputArrayData;
     // }
   }
-// PREPARE FACEBOOK USER ACCOUNTS OBJECT
-prepareFacebookUserAccountsObject = (accounts) => {
-  let fbAccounts: IUserAccountPages;
-  const  fbAccountsData = [];
-  _.each(accounts, (account) => {
-    fbAccounts = <IUserAccountPages>{};
-    fbAccounts.access_token = account.access_token;
-    fbAccounts.name = account.name;
-    fbAccounts.id = account.id;
-    fbAccounts.social_id = account.id;
-    fbAccounts.social_platform = 'facebook';
-    fbAccountsData.push(fbAccounts);
-  });
-  return fbAccountsData;
-}
+  // PREPARE FACEBOOK USER ACCOUNTS OBJECT
+  prepareFacebookUserAccountsObject = (accounts) => {
+    let fbAccounts: IUserAccountPages;
+    const fbAccountsData = [];
+    _.each(accounts, (account) => {
+      fbAccounts = <IUserAccountPages>{};
+      fbAccounts.access_token = account.access_token;
+      fbAccounts.name = account.name;
+      fbAccounts.id = account.id;
+      fbAccounts.social_id = account.id;
+      fbAccounts.social_platform = 'facebook';
+      fbAccountsData.push(fbAccounts);
+    });
+    return fbAccountsData;
+  }
   /**
    * this is to get twittter user profile data.
    */
 
   public getTwitterUserProfiles(): void {
 
+    const feature_access_tokens = JSON.parse(localStorage.getItem('feature_access_tokens'));
+
     const headersObject = {
-      twitter_access_token: localStorage.getItem('twitter_access_token'),
-      token_expiry_date: localStorage.getItem('token_expiry_date'),
-      client_id: AppConstants.CLIENT_ID
+      twitter_access_token: feature_access_tokens[0].feature_access_token,
+      token_expiry_date: feature_access_tokens[0].expiry_date,
+      client_id: AppConstants.CLIENT_ID,
+      feature_name: feature_access_tokens[0].feature_name
     };
 
     const headers = new HttpHeaders(headersObject);
     this.twitterService.getTwitterUserProfiles(headers, undefined)
       .subscribe(
-        result => {
-          this.showProgressBarValue = 100;
-          if (result.data && result.data.length > 0) {
-            this.prepareLoggedInUserAccountDetails('twitter', result);
-          }
-          this.twitterUserService.addUser(result);
-        },
-        error => {
-          this.showProgressBarValue = 100;
-          console.log(error);
+      result => {
+        this.showProgressBarValue = 100;
+        if (result.data && result.data.length > 0) {
+          this.prepareLoggedInUserAccountDetails('twitter', result);
         }
+        this.twitterUserService.addUser(result);
+      },
+      error => {
+        this.showProgressBarValue = 100;
+        console.log(error);
+      }
       );
   }
   addSocialStreem = () => {
@@ -233,7 +233,7 @@ prepareFacebookUserAccountsObject = (accounts) => {
   }
   // THIS FUNCTION IS USED TO SAVE THE FB ACCESS TOKEN INTO OUR SERVER
   saveFacebookAccessTokenIntoOurServer = (tokenDetails) => {
-    let postData: {'client_id': string, 'social_appname': string, 'social_keys': any};
+    let postData: { 'client_id': string, 'social_appname': string, 'social_keys': any };
     postData = <any>{};
     postData.client_id = AppConstants.CLIENT_ID;
     postData.social_appname = 'facebook';
@@ -252,15 +252,15 @@ prepareFacebookUserAccountsObject = (accounts) => {
   getFacebookTokenFromOurServer = () => {
     // tslint:disable-next-line:max-line-length
     this.httpClient.get<ICommonInterface>('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_getsocialtokens/' + AppConstants.CLIENT_ID)
-    .subscribe(
+      .subscribe(
       respData => {
         this.showProgressBarValue = 100;
         const currentDate = moment();
-        if (respData.access_token && respData.custom_status_code === 100 && !respData.error ) {
+        if (respData.access_token && respData.custom_status_code === 100 && !respData.error) {
           respData.result.forEach((iteratee) => {
             // tslint:disable-next-line:max-line-length
-            if (iteratee.social_appname === 'facebook' &&  (moment(currentDate).valueOf()) < (moment(moment(moment.unix(iteratee.submitted_at)).add(3, 'months')).valueOf())) {
-              this.FbLongLivedToken = iteratee.social_keys ? iteratee.social_keys.access_token : false ;
+            if (iteratee.social_appname === 'facebook' && (moment(currentDate).valueOf()) < (moment(moment(moment.unix(iteratee.submitted_at)).add(3, 'months')).valueOf())) {
+              this.FbLongLivedToken = iteratee.social_keys ? iteratee.social_keys.access_token : false;
               this.getFBUserAccounts(this.FbLongLivedToken);
             }
           });
@@ -274,21 +274,21 @@ prepareFacebookUserAccountsObject = (accounts) => {
         this.showProgressBarValue = 100;
         console.log(errData);
       }
-    );
+      );
   }
   // THIS FUNCTION IS USED FOR GET ALL THE ACCOUNTS OF LOGGED IN USER
   getFBUserAccounts = (access_token) => {
-      this.fb.api('https://graph.facebook.com/v3.0/me?fields=accounts,id,name&access_token=' + access_token, 'get')
-        .then((accountResp: IMyAccounts) => {
-          this.prepareLoggedInUserAccountDetails(access_token, accountResp);
-          this.FBUserAccountsArray = accountResp.accounts.data;
-          this.userName = accountResp.name;
-          this.userAccountId = accountResp.id;
+    this.fb.api('https://graph.facebook.com/v3.0/me?fields=accounts,id,name&access_token=' + access_token, 'get')
+      .then((accountResp: IMyAccounts) => {
+        this.prepareLoggedInUserAccountDetails(access_token, accountResp);
+        this.FBUserAccountsArray = accountResp.accounts.data;
+        this.userName = accountResp.name;
+        this.userAccountId = accountResp.id;
 
-        })
-        .catch((e: any) => {
-          console.log(e);
-        });
+      })
+      .catch((e: any) => {
+        console.log(e);
+      });
   }
   prepareLoggedInUserAccountDetails = (token: any, accountResp: any) => {
     const streamsArray = ['My Posts', 'Home TimeLine', 'Mentions'];
@@ -322,15 +322,15 @@ prepareFacebookUserAccountsObject = (accounts) => {
     const uploadPhotosformData = new FormData();
     composedPostData.composedMessage.media.map(file => {
       uploadPhotosformData.append('images[]', file);
-      });
-      uploadPhotosformData.append('client_id', AppConstants.CLIENT_ID);
+    });
+    uploadPhotosformData.append('client_id', AppConstants.CLIENT_ID);
     // tslint:disable-next-line:max-line-length
     this.httpClient.post<ICommonInterface>('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_postsocialimageupload', uploadPhotosformData).subscribe(
-       successresp => {
-         console.log(successresp);
-        if (successresp.access_token && successresp.custom_status_code === 100 && !successresp.error ) {
-        composedPostData.composedMessage.media = successresp.result;
-        this.fbCMPCommunicationService.FBSocialComposedPostAnnounce(composedPostData);
+      successresp => {
+        console.log(successresp);
+        if (successresp.access_token && successresp.custom_status_code === 100 && !successresp.error) {
+          composedPostData.composedMessage.media = successresp.result;
+          this.fbCMPCommunicationService.FBSocialComposedPostAnnounce(composedPostData);
         }
       }, errorrsp => {
         console.log(errorrsp);
@@ -341,12 +341,12 @@ prepareFacebookUserAccountsObject = (accounts) => {
   facebookLogout = () => {
     this.httpClient.delete('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_deletesocialtokens/facebook')
       .subscribe(
-        response => {
-          console.log(response);
-        },
-        error => {
-          console.log(error);
-        }
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      }
       );
   }
 }

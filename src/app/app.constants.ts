@@ -25,8 +25,10 @@ export class AppConstants {
 //     public static get ACCESS_TOKEN(): string { return 'keerthan_token'; }
     // public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/'; }
     // public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/twitter/'; }
-    // public static get EXPRESS_URL(): string { return 'https://flujo-node.herokuapp.com/twitter/'; }
-    public static get EXPRESS_URL(): string { return 'http://localhost:8080/twitter/'; }
+    public static get EXPRESS_URL(): string { return 'https://flujo-node.herokuapp.com/twitter/'; }
+    // public static get EXPRESS_URL(): string { return 'http://localhost:8080/twitter/'; }
+    public static get EXPRESS_URL_SCHEDULE(): string { return 'https://flujo-node.herokuapp.com/sheduler/twitter/'; }
+    public static get EXPRESS_URL_LOCAL(): string { return 'http://localhost:3000/'; }
     public static get TWITTER_API_URL(): string { return 'https://api.twitter.com'; }
     public static get DEFAULT(): Array<IAccessLevelModel> {
         return [

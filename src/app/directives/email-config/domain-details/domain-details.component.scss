@@ -1,0 +1,27 @@
+.domain_details {
+    border: 1px solid #eee;
+    display: flex;
+    > div {
+        flex: 1;
+    }
+    .detail_item {
+        margin: 0;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        * {
+            font-size: 14px;
+            margin: 0;
+        }
+        textarea {
+            padding: 0;
+            background-color: transparent !important;
+            border: none !important;
+            max-height: 130px;
+            resize: unset;
+            font-size: 14px;
+            outline: none;
+            min-height: 100px;
+        }
+    }
+}

@@ -33,19 +33,19 @@
               </div>
             </div>
           </div>
-          <ul class="pos-post-cards">
+          <ul *ngIf="twitHomeTimeLine" class="pos-post-cards">
             <li *ngFor="let timeline of twitHomeTimeLine; let i = index;">
               <mat-card class="example-card">
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
                   <mat-card-title>
-                    <span (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
+                    <span class="cursr" (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
                   </mat-card-title>
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
+                  <span class="post__content" (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -97,7 +97,7 @@
                   </div>
                   <br/>
                 </mat-card-actions>
-                <mat-card-header>
+                <mat-card-header *ngIf="twitterUser && twitterUser.length > 0">
                   <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0]?.profile_image_url + ')'"></div>
                   <input class="d-inline input-commet" type="text" (click)="submitReplyTo(timeline)" placeholder="Comment">
@@ -144,11 +144,13 @@
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
-                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-title>
+                    <span class="cursr" (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
+                  </mat-card-title>
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
+                  <span class="post__content" (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -170,8 +172,8 @@
                         <img src="../assets/social/like-icon-normal@3x.png" *ngIf="!timeline.favorited" class="like-icon">
                         <img src="../assets/social/liked-icon-normal@3x.png" *ngIf="timeline.favorited" class="liked-icon">
                       </span>
-                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">Like</span>
-                      <span class="d-inline" [ngClass]="{'liked': timeline.favorited }">{{timeline.favorite_count}}</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline?.favorited }">Like</span>
+                      <span class="d-inline" [ngClass]="{'liked': timeline?.favorited }">{{timeline?.favorite_count}}</span>
                     </div>
                     <div>
                       <span>
@@ -181,7 +183,7 @@
                     </div>
                     <div>
                       <img src="../assets/svg/004-retweet.svg" (click)="retweet(timeline)">&nbsp;
-                      <span>{{timeline.retweet_count}}</span>
+                      <span>{{timeline?.retweet_count}}</span>
                     </div>
                     <div>
                       <span class="dropdown">
@@ -200,7 +202,7 @@
                   </div>
                   <br/>
                 </mat-card-actions>
-                <mat-card-header>
+                <mat-card-header *ngIf="twitterUser">
                   <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
                   <input class="d-inline input-commet" type="text" (click)="submitReplyTo(timeline)" placeholder="Comment">
@@ -247,11 +249,13 @@
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
-                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-title>
+                    <span class="cursr" (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
+                  </mat-card-title>
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
+                  <span class="post__content" (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -303,7 +307,7 @@
                   </div>
                   <br/>
                 </mat-card-actions>
-                <mat-card-header>
+                <mat-card-header *ngIf="twitterUser">
                   <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
                   <input class="d-inline input-commet" type="text" (click)="submitReplyTo(timeline)" placeholder="Comment">
@@ -344,17 +348,19 @@
               </div>
             </div>
           </div>
-          <ul class="pos-post-cards">
+          <ul *ngIf="tweetsTimeLine" class="pos-post-cards">
             <li *ngFor="let timeline of tweetsTimeLine; let i = index;">
               <mat-card class="example-card">
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
-                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-title>
+                    <span class="cursr" (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
+                  </mat-card-title>
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
+                  <span class="post__content" (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -406,7 +412,7 @@
                   </div>
                   <br/>
                 </mat-card-actions>
-                <mat-card-header>
+                <mat-card-header *ngIf="twitterUser">
                   <!-- <div mat-card-avatar class="d-inline example-header-image"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + twitterUser[0].profile_image_url + ')'"></div>
                   <input class="d-inline input-commet" type="text" (click)="submitReplyTo(timeline)" placeholder="Comment">

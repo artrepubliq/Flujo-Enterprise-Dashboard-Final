@@ -139,6 +139,20 @@ import { ProfileInfoDialog } from './dialogs/profile-info/profile-info.dialog';
 import { PostCommentTwitterCompose } from './dialogs/post-comment/post-comment-twitter.dialog';
 import { FacebookLinkyPipe } from './_pipes/facebook-linky.pipe';
 import { PostCommentCompose } from './dialogs/post-comment/post-comment.dialog';
+import { EmailConfigComponent } from './email-config/email-config.component';
+import { EmailConfigService } from './service/email-config.service';
+import { CreateDomainEmailComponent } from './directives/email-config/create-domain-email/create-domain-email.component';
+import { DomainDetailsComponent } from './directives/email-config/domain-details/domain-details.component';
+import { SmtpDetailsComponent } from './directives/email-config/smtp-details/smtp-details.component';
+import { MailingListComponent } from './directives/email-config/mailing-list/mailing-list.component';
+import { AddUserListComponent } from './directives/email-config/create-mail-list/add-user-list.component';
+
+
+
+
+
+
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -228,6 +242,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FacebookLinkyPipe,
     ProfileInfoDialog,
     PostCommentCompose,
+    EmailConfigComponent,
+    CreateDomainEmailComponent,
+    DomainDetailsComponent,
+    SmtpDetailsComponent,
+    MailingListComponent,
+    AddUserListComponent,
   ],
   imports: [
     CommonModule,
@@ -334,6 +354,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     TwitterServiceService,
     TwitterUserService,
     FacebookComponentCommunicationService,
+    EmailConfigService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
