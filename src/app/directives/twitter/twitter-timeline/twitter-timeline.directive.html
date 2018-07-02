@@ -40,12 +40,12 @@
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
                   <mat-card-title>
-                    <span (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
+                    <span class="cursr" (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
                   </mat-card-title>
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
+                  <span class="post__content" (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -144,11 +144,13 @@
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
-                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-title>
+                    <span class="cursr" (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
+                  </mat-card-title>
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
+                  <span class="post__content" (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -247,11 +249,13 @@
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
-                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-title>
+                    <span class="cursr" (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
+                  </mat-card-title>
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
+                  <span class="post__content" (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">
@@ -350,11 +354,13 @@
                 <mat-card-header>
                   <!-- <div mat-card-avatar  class="example-header-image" [ngStyle]="{'background-image': url({{timeline.user.profile_image_url)}"></div> -->
                   <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + timeline.user.profile_image_url + ')'"></div>
-                  <mat-card-title>{{timeline.user.screen_name}}</mat-card-title>
+                  <mat-card-title>
+                    <span class="cursr" (click)="showDescription(undefined, timeline)">{{timeline.user.screen_name}}</span>
+                  </mat-card-title>
                   <mat-card-subtitle>{{timeline.created_at | myDate }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
+                  <span class="post__content" (click)="showDescription($event, timeline)" [innerHTML]="timeline | twitterLinky"></span>
                 </mat-card-content>
                 <br/>
                 <div class="social-image" *ngIf="timeline.entities.media && !timeline.extended_entities?.media[0]?.video_info">

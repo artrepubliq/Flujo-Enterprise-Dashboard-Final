@@ -1,9 +1,42 @@
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-<div class="message-compose-pop" fxLayout="column">
-    <div class="text-center" *ngIf="data.entities?.media">
-        <img  style="max-width: 70%; max-height: 200px" [src]="data.entities.media[0].media_url">
+<div class="message-compose-pop">
+    <div class="header">
+        Comment
     </div>
-    <form fxLayout="column" [formGroup]="postStatusForm" fxFlex="63">
+    <div class="profile__data">
+        <div class="img">
+            <img src="{{data.user.profile_image_url}}">
+        </div>
+        <div class="profile__name">
+            <div> {{data.user.screen_name}}</div>
+            <div class="time">{{data.created_at | myDate}}</div>
+        </div>
+    </div>
+    <div class="old__message">
+        <span class="post__content" [innerHTML]="data | twitterLinky"></span>
+        <!-- <div>{{data.text}}</div> -->
+    </div>
+    <div class="post__img">
+        <!-- <img src="{{feedItem?.full_picture}}" > -->
+        <div *ngIf="data.entities?.media">
+            <img src="{{data.entities.media[0].media_url}}" alt="">
+        </div>
+    </div>
+    <div class="user__actions">
+        <div>
+            <p class="action_title">Favorites</p>
+            <p class="action_count">
+                {{data.favorite_count}}
+            </p>
+        </div>
+        <div>
+            <p class="action_title">Re tweets</p>
+            <p class="action_count">
+                {{data.retweet_count}}
+            </p>
+        </div>
+    </div>
+    <form fxLayout="column" [formGroup]="postStatusForm">
         <div fxLayout="column" fxLayoutGap="0.5rem" class="message-config-box">
             <div fxLayout="row" fxLayoutAlign="space-between center">
                 <div class="head-msg">
@@ -18,7 +51,7 @@
                     <span class="icons-default">
                         <img src="../assets/social/emoji-icon-default@3x.png" />
                     </span>
-                    <span class="icons-default">
+                    <span class="icons-default attachment">
                         <img src="../assets/social/image-icon-default@3x.png" />
                         <input mat-raised-button type="file" (change)="onFileChange($event)" accept=".jpg, .png, .jpeg" #fileInput>
                     </span>

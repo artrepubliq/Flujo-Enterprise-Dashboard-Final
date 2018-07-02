@@ -87,6 +87,15 @@ export class MessageCompose implements OnInit {
         } else {
             this.alertService.warning('Please select at least one stream.');
         }
+        /** if scheduling isn't opted then settting from_date and to_date to undefined */
+        if (this.doSchedule === false) {
+            composedPostData.composedMessage.from_date = undefined;
+            composedPostData.composedMessage.to_date = undefined;
+        } else {
+
+        }
+        console.log(composedPostData);
+        this.dialogRef.close(composedPostData);
     }
 
     public scheduleCheckBox(event): void {

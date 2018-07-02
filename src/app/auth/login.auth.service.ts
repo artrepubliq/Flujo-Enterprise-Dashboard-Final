@@ -19,9 +19,9 @@ export class LoginAuthService implements OnInit {
     this.expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     if (Date.now() < this.expiresAt) {
       this.setLoggedInCustom(true);
-      } else {
-        this.setLoggedInCustom(false);
-      }
+    } else {
+      this.setLoggedInCustom(false);
+    }
   }
   ngOnInit() {
     // if (Date.now() < this.expiresAt) {
@@ -35,9 +35,9 @@ export class LoginAuthService implements OnInit {
     this.customLoggedIn$.next(value);
     this.customLoggedIn = value;
     if (!this.customLoggedIn) {
-        if (localStorage.getItem('isLoginPageLoads') === 'false') {
-          window.alert('close session');
-        }
+      if (localStorage.getItem('isLoginPageLoads') === 'false') {
+        window.alert('close session');
+      }
       this.router.navigate(['/login']);
       // this.clearLocalStorage();
     } else {
@@ -58,9 +58,8 @@ export class LoginAuthService implements OnInit {
     localStorage.setItem('name', authResult.name);
     localStorage.setItem('expires_at', String(expTime));
 if (authResult.feature && authResult.feature[0] && authResult.feature[0].feature_access_token) {
-        localStorage.setItem('twitter_access_token', authResult.feature[0].feature_access_token);
-    localStorage.setItem('token_expiry_date', authResult.feature[0].expiry_date);
-        }
+    localStorage.setItem('feature_access_tokens', JSON.stringify(authResult.feature));
+    // localStorage.setItem('token_expiry_date', authResult.feature[0].expiry_date);
     this.router.navigate(['/admin']);
     this.setLoggedInCustom(true);
   }
@@ -73,27 +72,17 @@ if (authResult.feature && authResult.feature[0] && authResult.feature[0].feature
     if (!status) {
       this.router.navigate(['/login']);
       this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.user_id)
-      .subscribe(
-        data => {
-        },
-        error => {
-        });
-        this.clearLocalStorage();
-        window.location.reload();
+        .subscribe(
+          data => {
+          },
+          error => {
+          });
+      this.clearLocalStorage();
+      window.location.reload();
     }
   }
   clearLocalStorage = () => {
   // Remove tokens and profile and update login status subject
-//   localStorage.removeItem('token');
-//   localStorage.removeItem('id_token');
-//   localStorage.removeItem('user_id');
-//   localStorage.removeItem('name');
-//   localStorage.removeItem('expires_at');
-//   localStorage.removeItem('email');
-//   localStorage.removeItem('editor_source');
-//   localStorage.removeItem('chat_token');
-
-//   this.setLoggedInCustom(false);
     localStorage.clear();
   }
   get authenticated(): boolean {

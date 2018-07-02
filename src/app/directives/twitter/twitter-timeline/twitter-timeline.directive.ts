@@ -444,10 +444,13 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public async showDescription(event: any, timeline: ITwitterTimelineObject) {
 
     this.showProgressBar = false;
+    const feature_access_tokens = JSON.parse(localStorage.getItem('feature_access_tokens'));
+
     const headersObject = {
-      twitter_access_token: localStorage.getItem('twitter_access_token'),
-      token_expiry_date: localStorage.getItem('token_expiry_date'),
-      client_id: AppConstants.CLIENT_ID
+      twitter_access_token: feature_access_tokens[0].feature_access_token,
+      token_expiry_date: feature_access_tokens[0].expiry_date,
+      client_id: AppConstants.CLIENT_ID,
+      feature_name: feature_access_tokens[0].feature_name
     };
     const headers = new HttpHeaders(headersObject);
     let user_details = {};

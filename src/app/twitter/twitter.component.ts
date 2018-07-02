@@ -86,9 +86,13 @@ export class TwitterComponent implements OnInit, OnDestroy {
    */
   public signInTwitter(): void {
 
+    const feature_access_tokens = JSON.parse(localStorage.getItem('feature_access_tokens'));
+
     const headersObject = {
-      twitter_access_token: localStorage.getItem('twitter_access_token'),
-      token_expiry_date: localStorage.getItem('token_expiry_date')
+      twitter_access_token: feature_access_tokens[0].feature_access_token,
+      token_expiry_date: feature_access_tokens[0].expiry_date,
+      client_id: AppConstants.CLIENT_ID,
+      feature_name: feature_access_tokens[0].feature_name
     };
 
     const headers = new HttpHeaders(headersObject);
@@ -130,10 +134,13 @@ export class TwitterComponent implements OnInit, OnDestroy {
   public getTimeLines(): void {
     this.showSignIn = false;
     this.showProgressBar = true;
+    const feature_access_tokens = JSON.parse(localStorage.getItem('feature_access_tokens'));
+
     const headersObject = {
-      twitter_access_token: localStorage.getItem('twitter_access_token'),
-      token_expiry_date: localStorage.getItem('token_expiry_date'),
-      client_id: AppConstants.CLIENT_ID
+      twitter_access_token: feature_access_tokens[0].feature_access_token,
+      token_expiry_date: feature_access_tokens[0].expiry_date,
+      client_id: AppConstants.CLIENT_ID,
+      feature_name: feature_access_tokens[0].feature_name
     };
     const headers = new HttpHeaders(headersObject);
     this.twitterService.getTimeLines(headers)
@@ -184,6 +191,9 @@ export class TwitterComponent implements OnInit, OnDestroy {
     console.log(tweetData);
     if (tweetData.from_date || tweetData.to_date) {
       this.showProgressBar = true;
+      tweetData.from_date = Math.floor(new Date(tweetData.from_date).getTime() / 1000).toString();
+      tweetData.to_date = Math.floor(new Date(tweetData.to_date).getTime() / 1000).toString();
+
       this.twitterService.postScheduleTweet(tweetData)
         .subscribe(
           result => {
@@ -225,9 +235,9 @@ export class TwitterComponent implements OnInit, OnDestroy {
     if (tweetData.media) {
       formData.append('link', tweetData.link);
     } if (tweetData.from_date) {
-      formData.append('from_date', tweetData.from_date);
+      formData.append('from_date', Math.floor(new Date(tweetData.from_date).getTime() / 1000).toString());
     } if (tweetData.to_date) {
-      formData.append('to_date', tweetData.to_date);
+      formData.append('to_date', Math.floor(new Date(tweetData.from_date).getTime() / 1000).toString());
     } if (tweetData.status_id) {
       formData.append('status_id', tweetData.status_id);
     }

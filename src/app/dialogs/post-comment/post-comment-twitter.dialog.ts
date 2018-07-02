@@ -37,7 +37,7 @@ export class PostCommentTwitterCompose implements OnInit {
     }
 
     ngOnInit(): void {
-
+        console.log(this.data);
         this.selectedStreamsArray = [];
         const replyToUser = '@' + this.data.user.screen_name + ' ';
         this.postStatusForm.controls['message'].setValue(replyToUser);
