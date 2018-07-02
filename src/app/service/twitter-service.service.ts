@@ -15,7 +15,12 @@ import {
 export class TwitterServiceService {
 
   public headers: HttpHeaders;
-  public headersObject: { twitter_access_token: string; token_expiry_date: string; client_id: string; feature_name: string };
+  public headersObject: {
+    twitter_access_token: string;
+    token_expiry_date: string;
+    client_id: string;
+    feature_name: string
+  };
   private subject = new Subject<ITwitUser>();
   userdata$ = this.subject.asObservable();
   private twit_user: ITwitUser;
@@ -30,7 +35,7 @@ export class TwitterServiceService {
       client_id: AppConstants.CLIENT_ID,
       feature_name: feature_access_tokens[0].feature_name
     };
-    this.headers = new HttpHeaders(this.headersObject);
+    this.headers = new HttpHeaders(headersObject);
   }
 
   /**
