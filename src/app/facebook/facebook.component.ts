@@ -464,6 +464,7 @@ export class FacebookComponent implements OnInit {
         this.showProgressBarValue = 100;
         this.refreshAllCurrentStreams(composedFBPost.streamDetails);
         if (addFBPostResp.length === composedFBPost.streamDetails.length) {
+          this.alertService.success('Post has been published successfully.');
           this.deleteuploadedImagesFromServer(composedFBPost.composedMessage.media);
         } else {
           console.log('error in facebook component handlecomposedPost');
@@ -486,16 +487,19 @@ export class FacebookComponent implements OnInit {
 
   }
   refreshAllCurrentStreams = (inputStreamDetails: IStreamDetails[]) => {
-   if (_.some(inputStreamDetails, (item: IStreamDetails) => {
-     console.log(item.social_id);
-    return item.social_id === this.currentStreamDetails.social_id;
-  })) {
-    this.getUserHomeORPageMyPosts(this.currentStreamDetails);
-    this.getUserHomeORPageTaggedPosts(this.currentStreamDetails);
-    this.getUserHomeORPageTimeline(this.currentStreamDetails);
-   } else {
-     console.log(inputStreamDetails);
-   }
+    if (_.some(inputStreamDetails, (item: IStreamDetails) => {
+      console.log(item.social_id);
+      return item.social_id === this.currentStreamDetails.social_id;
+    })) {
+      this.getUserHomeORPageMyPosts(this.currentStreamDetails);
+      this.getUserHomeORPageTaggedPosts(this.currentStreamDetails);
+      this.getUserHomeORPageTimeline(this.currentStreamDetails);
+    } else {
+      console.log(inputStreamDetails);
+      this.getUserHomeORPageMyPosts(this.currentStreamDetails);
+      this.getUserHomeORPageTaggedPosts(this.currentStreamDetails);
+      this.getUserHomeORPageTimeline(this.currentStreamDetails);
+    }
   }
   // THIS FUNCTION IS USED TO POST THE FB POST IN ALL THE SELECTED STREAMS
   asyncThreadToAddFacebookPost = (fbPost: IStreamComposeData): Promise<any> => {
@@ -616,6 +620,7 @@ export class FacebookComponent implements OnInit {
     try {
 
       const result = await this.asyncThreadFBAPICallToDeleteTheFacebookPost(postDetails.id);
+      this.refreshAllCurrentStreams([]);
       this.alertService.success('You have Deleted the post Successfully');
     } catch (err) {
       this.alertService.danger('Failed to Delete the post. Try Again...');
@@ -654,42 +659,42 @@ export class FacebookComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       async (result: IStreamComposeData) => {
         if (result && result.composedMessage && result.streamDetails) {
-        console.log(result);
-        const postDeleteResponse: any = await this.asyncThreadFBAPICallToDeleteTheFacebookPost(result.streamDetails[0].post_id);
-        console.log(postDeleteResponse);
-        if (postDeleteResponse.success && result.composedMessage.media && result.composedMessage.media.length > 0) {
-          const photoUploadResp: IStreamComposeData = await this.addPhotosToFBUserPageOrHomePhotos(result);
-          console.log(photoUploadResp);
-          const addFBPostResp: any[] = await this.asyncThreadToAddFacebookPost(photoUploadResp);
-          console.log(addFBPostResp);
+          console.log(result);
+          const postDeleteResponse: any = await this.asyncThreadFBAPICallToDeleteTheFacebookPost(result.streamDetails[0].post_id);
+          console.log(postDeleteResponse);
+          if (postDeleteResponse.success && result.composedMessage.media && result.composedMessage.media.length > 0) {
+            const photoUploadResp: IStreamComposeData = await this.addPhotosToFBUserPageOrHomePhotos(result);
+            console.log(photoUploadResp);
+            const addFBPostResp: any[] = await this.asyncThreadToAddFacebookPost(photoUploadResp);
+            console.log(addFBPostResp);
             if (addFBPostResp[0].postStatus) {
               this.alertService.success('Post has been Updated successfully.');
             } else {
               this.alertService.danger('post update failed. Please try again...');
             }
-          this.showProgressBarValue = 100;
-          this.refreshAllCurrentStreams(result.streamDetails);
-          if (addFBPostResp.length === result.streamDetails.length) {
-            this.deleteuploadedImagesFromServer(result.composedMessage.media);
+            this.showProgressBarValue = 100;
+            this.refreshAllCurrentStreams(result.streamDetails);
+            if (addFBPostResp.length === result.streamDetails.length) {
+              this.deleteuploadedImagesFromServer(result.composedMessage.media);
+            } else {
+              console.log('error in facebook component handlecomposedPost');
+              this.alertService.danger('Failed to publish the post. Try Again...');
+              alert('failed to post the Post.');
+            }
           } else {
-            console.log('error in facebook component handlecomposedPost');
-            this.alertService.danger('Failed to publish the post. Try Again...');
-            alert('failed to post the Post.');
-          }
-        } else {
-          if (postDeleteResponse.success) {
-            const Updateresult: any = await this.asyncFBAPICALLThreadToPostTheFBPost(result.streamDetails[0], result.composedMessage);
-            if (Updateresult.postStatus) {
-              this.alertService.success('Post has beed updated successfully');
-              this.refreshAllCurrentStreams(result.streamDetails);
+            if (postDeleteResponse.success) {
+              const Updateresult: any = await this.asyncFBAPICALLThreadToPostTheFBPost(result.streamDetails[0], result.composedMessage);
+              if (Updateresult.postStatus) {
+                this.alertService.success('Post has beed updated successfully');
+                this.refreshAllCurrentStreams(result.streamDetails);
+              } else {
+                this.alertService.danger('post update failed. Please try again...');
+              }
             } else {
               this.alertService.danger('post update failed. Please try again...');
             }
-          } else {
-            this.alertService.danger('post update failed. Please try again...');
           }
         }
-      }
       });
   }
   /**
