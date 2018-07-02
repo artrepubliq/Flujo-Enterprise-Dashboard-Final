@@ -73,7 +73,7 @@ export class SocialManagementComponent implements OnInit {
       this.selectedIndex = params['id'];
       this.tab_index = this.selectedIndex;
    });
-   if (this.tab_index === 0) {
+   if (Number(this.tab_index) === 0) {
     this.getFacebookTokenFromOurServer();
    } else {
     this.getTwitterUserProfiles();
