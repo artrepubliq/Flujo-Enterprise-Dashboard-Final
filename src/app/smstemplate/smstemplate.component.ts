@@ -116,7 +116,7 @@ export class SmstemplateComponent implements OnInit {
   getSMSTemplateConfigurationData = () => {
     this.spinnerService.show();
     this.options = [];
-    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_getsmstemplateconfig/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getsmstemplateconfig/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
             if (data.custom_status_code === 100 && !data.error) {
@@ -143,7 +143,7 @@ export class SmstemplateComponent implements OnInit {
   }
   deleteSmsTemplate = (item) => {
     this.spinnerService.show();
-    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + '/flujo_client_deletesmstemplateconfig/' + item)
+    this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletesmstemplateconfig/' + item)
       .subscribe(
         data => {
             if (!data.error && data.custom_status_code === 100) {

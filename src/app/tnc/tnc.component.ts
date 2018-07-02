@@ -57,7 +57,7 @@ export class TncComponent implements OnInit {
       this.tncSubmitForm.controls['termsconditions_id'].setValue(this.termsDetails[0].id);
     }
     const formModel = this.tncSubmitForm.value;
-    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + '/flujo_client_posttermsconditions', formModel)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_posttermsconditions', formModel)
       .subscribe(
         data => {
           if (!data.error && data.custom_status_code === 100) {
@@ -79,7 +79,7 @@ export class TncComponent implements OnInit {
       );
   }
   getTermsData = () => {
-    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + '/flujo_client_gettermsconditions/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_gettermsconditions/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           if (data.custom_status_code === 100) {

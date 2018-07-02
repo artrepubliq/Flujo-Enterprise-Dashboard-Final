@@ -89,8 +89,8 @@ export class SmsuiComponent implements OnInit {
       } else {
         this.multipleNumbers = true;
       }
-      console.log(errorNumbers);
-      console.log(this.multipleNumbers);
+      // console.log(errorNumbers);
+      // console.log(this.multipleNumbers);
     }
   }
   smsContactFormSubmit() {
@@ -120,7 +120,7 @@ export class SmsuiComponent implements OnInit {
   }
   /* Geting the data from api using sms template selection service */
   getSlectedTemplateData = () => {
-    this.smsSelectionService.getSmsSelectData('/flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
+    this.smsSelectionService.getSmsSelectData('flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
       .subscribe(
         data => {
           try {
@@ -147,9 +147,7 @@ export class SmsuiComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
         this.selectedSmsTemplateData = result;
-        console.log(this.selectedSmsTemplateData);
       } else {
         console.log('no template was selected');
       }

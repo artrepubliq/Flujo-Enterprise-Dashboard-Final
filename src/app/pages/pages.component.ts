@@ -68,18 +68,21 @@ export class PagesComponent implements OnInit, OnDestroy {
         } else {
             this.router.navigate(['admin/chooseplatform']);
         }
+        this.getGalleryImageData();
     }
     ngOnInit() {
         setTimeout(function () {
             this.spinnerService.hide();
         }.bind(this), 3000);
-        this.galleryImagesService.getGalleryImagesComponent('/flujo_client_getgallery/', AppConstants.CLIENT_ID)
+    }
+    getGalleryImageData = () => {
+        this.galleryImagesService.getGalleryImagesComponent('flujo_client_getgallery/', AppConstants.CLIENT_ID)
             .subscribe(
                 data => {
-                    if (data.custom_status_code === 100) {
+                    if (data.custom_status_code === 100 && !data.error) {
                         this.imagesOfgallery = data.result;
                         console.log(this.imagesOfgallery);
-                    } else if (data.custom_status_code === 101) {
+                    } else if (data.custom_status_code === 101 && data.error) {
                         this.alertService.warning('Required parameters are missing');
                     }
                 },

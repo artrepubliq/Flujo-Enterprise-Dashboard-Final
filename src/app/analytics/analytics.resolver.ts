@@ -9,6 +9,6 @@ import { AnalyticsService } from './analytics.service';
 export class AnalyticsResolver implements Resolve<Observable<ICommonInterface>> {
     constructor (private analyticService: AnalyticsService) {}
     resolve(route: ActivatedRouteSnapshot): Observable<ICommonInterface> {
-    return this.analyticService.getAnalyticsReportData('/flujo_client_getreportproblem/', AppConstants.CLIENT_ID);
+    return this.analyticService.getAnalyticsReportData('flujo_client_getreportproblem/', AppConstants.CLIENT_ID);
     }
 }
