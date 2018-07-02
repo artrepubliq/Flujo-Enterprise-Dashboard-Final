@@ -63,6 +63,8 @@ if (authResult.feature && authResult.feature[0] && authResult.feature[0].feature
     this.router.navigate(['/admin']);
     this.setLoggedInCustom(true);
   }
+
+}
   getCustomLoginStatus() {
     return this.customLoggedIn;
   }
