@@ -50,7 +50,7 @@ export class MailingListComponent implements OnInit, OnDestroy {
         console.log(error);
       });
 
-    this.getCampaignList();
+    // this.getCampaignList();
   }
 
   /**
@@ -71,23 +71,7 @@ export class MailingListComponent implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   * this is to get email campains from db
-   */
-  public getCampaignList(): void {
 
-    this.emailService.getCampainDetailsOfClient().subscribe(
-      result => {
-        this.campaignList = result.data;
-        this.campaignListDetails = this.campaignList.map(item => JSON.parse(item.campaign_details));
-        // console.log(this.campaignListDetails);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-
-  }
   public tabChanged(event) {
     console.log(event);
   }

@@ -1,0 +1,23 @@
+<h1>
+  Mail campaigns
+</h1>
+
+<table class="mail_campaign">
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let campaign of campaignListDetails">
+      <td> {{campaign.address}} </td>
+      <td> {{campaign.name}} </td>
+      <td> {{campaign.description}} </td>
+      <td> {{campaign.created_at}} </td>
+    </tr>
+  </tbody>
+
+</table>
