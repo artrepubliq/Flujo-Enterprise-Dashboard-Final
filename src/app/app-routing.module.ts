@@ -116,8 +116,12 @@ const routes: Routes = [
             path: 'themeconfiguration', loadChildren: './theme-config/theme-config.module#ThemeConfigModule',
             data: { title: 'Theme Configuration' }
           },
+          // {
+          //   path: 'email', loadChildren: './emailservice/emailservice.module#EmailserviceModule',
+          //   data: { title: 'Email Service' }
+          // },
           {
-            path: 'email', loadChildren: './emailservice/emailservice.module#EmailserviceModule',
+            path: 'email', component: EmailConfigComponent,
             data: { title: 'Email Service' }
           },
           {
@@ -190,10 +194,6 @@ const routes: Routes = [
             path: 'socialconfiguration', loadChildren: './socialconfiguration/socialconfiguration.module#SocialconfigurationModule',
             data: { title: 'Social Configuration' }
           },
-          {
-            path: 'emailconfig',
-            component: EmailConfigComponent
-          }
 
         ]
       }

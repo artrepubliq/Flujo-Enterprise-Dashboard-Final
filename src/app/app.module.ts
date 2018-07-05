@@ -23,6 +23,7 @@ import { ValidationService } from './service/validation.service';
 // import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { EmailTemplateSelectionPopup } from './emailservice/emailservice.component'; // EmailserviceComponent
+import { EmailTemplateSelectionModal } from './directives/email-config/send-emails/send-emails.component'; // EmailserviceComponent
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgxSmartLoaderModule, NgxSmartLoaderService } from 'ngx-smart-loader';
 import {
@@ -146,6 +147,7 @@ import { DomainDetailsComponent } from './directives/email-config/domain-details
 import { SmtpDetailsComponent } from './directives/email-config/smtp-details/smtp-details.component';
 import { MailingListComponent } from './directives/email-config/mailing-list/mailing-list.component';
 import { AddUserListComponent } from './directives/email-config/create-mail-list/add-user-list.component';
+import { SendEmailsComponent } from './directives/email-config/send-emails/send-emails.component';
 
 
 
@@ -248,6 +250,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmtpDetailsComponent,
     MailingListComponent,
     AddUserListComponent,
+    SendEmailsComponent,
+    EmailTemplateSelectionModal
   ],
   imports: [
     CommonModule,
@@ -313,6 +317,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
     MessageCompose, ImagePreviewDialogComponent, EditFacebookMessage, AddSocialStreemDialog, ProfileInfoDialog,
+    EmailTemplateSelectionModal,
     PostCommentCompose, PostCommentTwitterCompose],
   providers: [
     // AuthService,

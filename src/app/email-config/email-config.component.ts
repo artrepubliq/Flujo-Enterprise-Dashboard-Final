@@ -36,6 +36,20 @@ export class EmailConfigComponent implements OnInit, AfterViewInit {
       error => {
         console.log(error);
       });
+
+    /**
+     * this is to get Campaign details from Database
+     */
+    this.emailService.getCampainDetailsOfClient().subscribe(
+      result => {
+        const campaignList = result.data;
+        const campaignListDetails = campaignList.map(item => JSON.parse(item.campaign_details));
+        this.emailService.addCampaignDetails(campaignListDetails);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   /**

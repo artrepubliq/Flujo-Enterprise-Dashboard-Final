@@ -33,9 +33,9 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
           this.domain = JSON.parse(result.data[0].domain);
           this.receiving_dns_records = JSON.parse(result.data[0].receiving_dns_records);
           this.sending_dns_records = JSON.parse(result.data[0].sending_dns_records);
-          // console.log(this.domain);
-          // console.log(this.receiving_dns_records);
-          // console.log(this.sending_dns_records);
+          console.log(this.domain);
+          console.log(this.receiving_dns_records);
+          console.log(this.sending_dns_records);
         } else {
           this.id = undefined;
           this.domain = undefined;

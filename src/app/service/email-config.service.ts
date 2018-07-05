@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AppConstants } from '../app.constants';
 import { Observable } from 'rxjs/Observable';
-import { IDomainResponse, ICreateCampaign, IDeleteDomain } from '../model/email.config.model';
+import { IDomainResponse, ICreateCampaign, IDeleteDomain, ICampaignDetails, ICampaignListDetails } from '../model/email.config.model';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -11,7 +11,9 @@ export class EmailConfigService {
   public headers: HttpHeaders;
   public headersObject: { client_id: string; token_expiry_date: string; feature_name: string; access_token: string };
   public subject = new Subject<IDomainResponse>();
+  public campaignSubject = new Subject<ICampaignListDetails[]>();
   public smtpDetails: IDomainResponse;
+  public campaignDetails: ICampaignListDetails[];
   constructor(
     private httpClient: HttpClient
   ) {
@@ -81,12 +83,47 @@ export class EmailConfigService {
       AppConstants.EXPRESS_URL_LOCAL + 'mailgun/createmailinglist', campaignDetails, { headers: this.headers }
     );
   }
-
+  /**
+   * this is a service to get campaign details from database
+   */
   public getCampainDetailsOfClient(): Observable<IDomainResponse> {
     return this.httpClient.get<IDomainResponse>(
       AppConstants.EXPRESS_URL_LOCAL + 'mailgun/mycampaigns', { headers: this.headers }
     );
   }
 
+  /**
+   * this adds the campaign details to a subject
+   * @param campaignDetails[] it contains the array of campaign details
+   */
+  public addCampaignDetails(campaignDetails: ICampaignListDetails[]) {
+    if (this.campaignDetails !== undefined) {
+      this.campaignDetails = [...this.campaignDetails, ...campaignDetails];
+    } else {
+      this.campaignDetails = campaignDetails;
+    }
+    this.campaignSubject.next(this.campaignDetails);
+  }
+  /**
+   * this returns the campaign details as an observable
+   */
+  public getCampaignDetails(): Observable<ICampaignListDetails[]> {
+    return this.campaignSubject.asObservable();
+  }
+
+  /**
+   * @param emailDetails it has email details object
+   */
+  public sendEmail(emailDetails: any): Observable<any> {
+    return this.httpClient.post<Observable<any>>(
+      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/sendemail', emailDetails, { headers: this.headers }
+    );
+  }
+
+  public addMembersToACampaign(memberslist: any): Observable<IDomainResponse> {
+    return this.httpClient.post<IDomainResponse>(
+      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/addmembers', memberslist, { headers: this.headers }
+    );
+  }
 
 }
