@@ -98,7 +98,6 @@ export class SendEmailsComponent implements OnInit {
     this.emailService.getCampaignDetails().takeUntil(this.ngUnSubScribe).subscribe(
       result => {
         this.campaignListDetails = result;
-        console.log(result);
       },
       error => {
         console.log(error);
