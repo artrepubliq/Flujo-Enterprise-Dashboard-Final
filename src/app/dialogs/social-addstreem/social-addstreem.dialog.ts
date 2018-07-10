@@ -34,6 +34,7 @@ export class AddSocialStreemDialog {
         this.selectedStream = item;
     }
     closeDialog() {
+        this.facebookData = [];
         this.dialogRef.close(this.selectedPage);
     }
 

@@ -81,12 +81,6 @@ export class SocialManagementComponent implements OnInit {
   public tabChanged(event: MatTabChangeEvent) {
 
     this.tab_index = event.index;
-    if (this.tab_index === 0) {
-      this.getFacebookTokenFromOurServer();
-    } else {
-      this.getTwitterUserProfiles();
-    }
-
   }
   // THIS FUNCTION IS USED TO ADD SOCIAL NETWOK.
   addSocialNetwork = () => {

@@ -282,7 +282,7 @@ export class AdminComponent implements OnInit {
 
     // console.log(this.window);
     const OnetoOne = [this.user_id];
-    OnetoOne.push(chatItem.id);
+    OnetoOne.push(String(chatItem.id));
     /* tslint:disable */
     window.cc.GroupChannel.create('Team', OnetoOne, true, (error, groupChannel) => {
       if (error == null) {
