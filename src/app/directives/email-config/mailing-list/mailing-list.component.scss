@@ -1,0 +1,12 @@
+.details_frame{
+    display: flex;
+    justify-content: center;
+    .footer_button{
+        display: flex;
+        justify-content: flex-end;
+    }
+    form{
+        padding: 30px;
+        border: 1px solid #0f0f0f;
+    }
+}

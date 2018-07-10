@@ -15,14 +15,17 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
   public sending_dns_records: IDnsRecords;
   public receiving_dns_records: IDnsRecords;
   public domain: IDomain;
-  public ngUnSubScribe = new Subject();
+  // public ngUnSubScribe = new Subject();
+  public ngUnSubScribe: Subject<any>;
   public id: string;
   public client_id: string;
 
   constructor(
     private emailService: EmailConfigService,
     private emailCnfgComponent: EmailConfigComponent
-  ) { }
+  ) {
+    this.ngUnSubScribe = new Subject<any>();
+  }
 
   ngOnInit() {
     this.emailService.getSmtpUserDetails().takeUntil(this.ngUnSubScribe).subscribe(
@@ -33,9 +36,9 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
           this.domain = JSON.parse(result.data[0].domain);
           this.receiving_dns_records = JSON.parse(result.data[0].receiving_dns_records);
           this.sending_dns_records = JSON.parse(result.data[0].sending_dns_records);
-          // console.log(this.domain);
-          // console.log(this.receiving_dns_records);
-          // console.log(this.sending_dns_records);
+          console.log(this.domain);
+          console.log(this.receiving_dns_records);
+          console.log(this.sending_dns_records);
         } else {
           this.id = undefined;
           this.domain = undefined;

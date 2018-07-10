@@ -64,7 +64,6 @@ export class AccessDataModelComponent {
       checkAccessLevels = (data: Array<IAccessLevelModel>, feature_id, routURL) => {
         let result = '';
           if (feature_id === 0) {
-           console.log(feature_id);
            return true;
           } else {
              result = _.some(data, (iteratee) => {

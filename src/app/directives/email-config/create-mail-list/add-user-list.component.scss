@@ -1,0 +1,19 @@
+.form_container{
+    display: flex;
+    flex-direction: column;
+    .sub_header{
+        align-self: center
+    }
+    .mailist_form{
+        align-self: center;
+    }
+    .input_fields{
+        padding-bottom: 10px
+    }
+    .form__field {
+        margin-bottom: 20px;
+        .mat-form-field {
+            width: 100%;
+        }
+    }
+}

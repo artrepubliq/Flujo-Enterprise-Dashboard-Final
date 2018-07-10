@@ -1,23 +1,36 @@
+<mat-progress-bar mode="indeterminate" *ngIf="showProgressBar" value=""></mat-progress-bar>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <h1>
   Mail campaigns
 </h1>
-
-<table class="mail_campaign">
-  <thead>
-    <tr>
-      <th>Address</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Created At</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let campaign of campaignListDetails">
-      <td> {{campaign.address}} </td>
-      <td> {{campaign.name}} </td>
-      <td> {{campaign.description}} </td>
-      <td> {{campaign.created_at}} </td>
-    </tr>
-  </tbody>
-
-</table>
+<div class="form_container">
+  <div class="mailist_form">
+    <form enctype="single/form-data" [formGroup]="fileUploadForm">
+      <div class="form_details">
+        <div class="form__field">
+          <mat-form-field class="input_fields" >
+            <mat-select formControlName="campaign_address" placeholder="Select Campaign List">
+              <mat-option *ngFor="let campaign of campaignListDetails" [value]="campaign.address">{{campaign.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form__field">
+          <div class="input_fields" >
+            <input class="upload_csv" accept=".csv" type="file" (change)="onFileChange($event)" />
+          </div>
+          or
+          <mat-form-field class="input_fields" >
+            <mat-select placeholder="Select from DB" formControlName="database">
+              <mat-option *ngFor="let database of databases" [value]="database.database">{{database.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="submit_list input_fields">
+        <button (click)="submitFile()" [disabled]="fileUploadForm.invalid" mat-raised-button>
+          save & add users
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
