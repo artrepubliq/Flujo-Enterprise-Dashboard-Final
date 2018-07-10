@@ -140,9 +140,12 @@ export class SendEmailsComponent implements OnInit {
     this.mailSendingForm.controls['from'].setValue(this.from);
     this.emailService.sendEmail(this.mailSendingForm.value).subscribe(
       result => {
+        this.alertService.success('Email has been sent to the mail list');
+        this.mailSendingForm.reset();
         console.log(result);
       },
       error => {
+        this.alertService.warning('Somethig went wrong!');
         console.log(error);
       });
   }

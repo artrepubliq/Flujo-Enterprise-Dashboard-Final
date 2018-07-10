@@ -14,6 +14,7 @@ export class CreateDomainEmailComponent implements OnInit, OnDestroy {
   public domainForm: FormGroup;
   public ngUnSubScribe: Subject<any>;
   public domaindetails: boolean;
+  public showProgressBar: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private emailService: EmailConfigService,
@@ -26,14 +27,17 @@ export class CreateDomainEmailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.showProgressBar = true;
     this.emailService.getSmtpUserDetails().takeUntil(this.ngUnSubScribe).subscribe(
       result => {
         if (result.error === false && result.data.length > 0) {
           this.domainForm.controls['domain_name'].setValue(result.data[0].domain_name);
           this.domaindetails = true;
+          this.showProgressBar = false;
         }
       },
       error => {
+        this.showProgressBar = false;
         console.log(error);
       });
   }

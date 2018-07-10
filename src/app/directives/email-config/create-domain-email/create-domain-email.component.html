@@ -1,3 +1,4 @@
+<mat-progress-bar mode="indeterminate" *ngIf="showProgressBar" value=""></mat-progress-bar>
 <h1>
   Create Domain
 </h1>
@@ -6,9 +7,9 @@
   <p>
     We recommend using a subdomain, like “somthing.mydomain.com”. Using a subdomain you will still be able to send emails from
     your root domain e.g. “you@mydomain.com”. If using a subdomain please make sure that you configure MX records for the
+
     subdomain for optimal delivery.
   </p>
-
   <div>
     <mat-form-field [formGroup]="domainForm" class="example-full-width">
       <input matInput [readonly]="domaindetails" formControlName="domain_name" placeholder="Domain Name">

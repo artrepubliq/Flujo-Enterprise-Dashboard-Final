@@ -28,6 +28,7 @@ export class AddUserListComponent implements OnInit, OnDestroy {
     { name: 'Feedback', database: 'feedback' },
     { name: 'Report Problem', database: 'reportproblem' }
   ];
+  public showProgressBar: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private emailService: EmailConfigService,
@@ -48,13 +49,15 @@ export class AddUserListComponent implements OnInit, OnDestroy {
    * this is to get campaign details from the service
    */
   public getCampaignList(): void {
-
+    this.showProgressBar = true;
     this.emailService.getCampaignDetails().takeUntil(this.ngUnSubScribe).subscribe(
       result => {
+        this.showProgressBar = false;
         this.campaignListDetails = result;
         console.log(this.campaignListDetails);
       },
       error => {
+        this.showProgressBar = false;
         console.log(error);
       }
     );
@@ -116,11 +119,16 @@ export class AddUserListComponent implements OnInit, OnDestroy {
    */
   public submitFile(): void {
     console.log(this.fileUploadForm.value);
+    this.showProgressBar = true;
     this.emailService.addMembersToACampaign(this.fileUploadForm.value).subscribe(
       result => {
+        this.showProgressBar = false;
+        this.alertService.success(result.data);
         console.log(result);
       },
       error => {
+        this.alertService.danger(error);
+        this.showProgressBar = false;
         console.log(error);
       });
   }
