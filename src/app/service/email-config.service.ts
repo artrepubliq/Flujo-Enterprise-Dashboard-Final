@@ -14,6 +14,8 @@ export class EmailConfigService {
   public campaignSubject = new Subject<ICampaignListDetails[]>();
   public smtpDetails: IDomainResponse;
   public campaignDetails: ICampaignListDetails[];
+  public campaignAddressSubject = new Subject<string>();
+
   constructor(
     private httpClient: HttpClient
   ) {
@@ -34,7 +36,7 @@ export class EmailConfigService {
    */
   public createDomain(domainDetails: { domain_name: string }): Observable<IDomainResponse> {
     return this.httpClient.post<IDomainResponse>(
-      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/createdomain', domainDetails, { headers: this.headers }
+      AppConstants.EXPRESS_URL_MAILGUN + 'mailgun/createdomain', domainDetails, { headers: this.headers }
     );
   }
 
@@ -43,7 +45,7 @@ export class EmailConfigService {
    */
   public getMailgunSmtpDetails(): Observable<IDomainResponse> {
     return this.httpClient.get<IDomainResponse>(
-      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/details', { headers: this.headers }
+      AppConstants.EXPRESS_URL_MAILGUN + 'mailgun/details', { headers: this.headers }
     );
   }
 
@@ -69,7 +71,7 @@ export class EmailConfigService {
    */
   public deleteDomain(userDetails: IDeleteDomain): Observable<IDomainResponse> {
     return this.httpClient.post<IDomainResponse>(
-      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/deletedomain', userDetails, { headers: this.headers }
+      AppConstants.EXPRESS_URL_MAILGUN + 'mailgun/deletedomain', userDetails, { headers: this.headers }
     );
   }
   /**
@@ -80,7 +82,7 @@ export class EmailConfigService {
    */
   public createCampaign(campaignDetails: ICreateCampaign): Observable<IDomainResponse> {
     return this.httpClient.post<IDomainResponse>(
-      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/createmailinglist', campaignDetails, { headers: this.headers }
+      AppConstants.EXPRESS_URL_MAILGUN + 'mailgun/createmailinglist', campaignDetails, { headers: this.headers }
     );
   }
   /**
@@ -88,7 +90,7 @@ export class EmailConfigService {
    */
   public getCampainDetailsOfClient(): Observable<IDomainResponse> {
     return this.httpClient.get<IDomainResponse>(
-      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/mycampaigns', { headers: this.headers }
+      AppConstants.EXPRESS_URL_MAILGUN + 'mailgun/mycampaigns', { headers: this.headers }
     );
   }
 
@@ -103,8 +105,6 @@ export class EmailConfigService {
     } else {
       this.campaignDetails = campaignDetails;
     }
-
-    // console.log(result, 115);
     console.log(this.campaignDetails, 116);
     this.campaignSubject.next(this.campaignDetails);
   }
@@ -114,19 +114,31 @@ export class EmailConfigService {
   public getCampaignDetails(): Observable<ICampaignListDetails[]> {
     return this.campaignSubject.asObservable();
   }
+  /**
+   * @param campaignAddres this takes campaign adderss as string
+   */
+  public addCampaignAddress(campaignAddres: string): void {
+    this.campaignAddressSubject.next(campaignAddres);
+  }
+  /**
+   * this returns the campain address as observable
+   */
+  public getCampaignAddress(): Observable<String> {
+    return this.campaignAddressSubject.asObservable();
+  }
 
   /**
    * @param emailDetails it has email details object
    */
   public sendEmail(emailDetails: any): Observable<any> {
     return this.httpClient.post<Observable<any>>(
-      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/sendemail', emailDetails, { headers: this.headers }
+      AppConstants.EXPRESS_URL_MAILGUN + 'mailgun/sendemail', emailDetails, { headers: this.headers }
     );
   }
 
   public addMembersToACampaign(memberslist: any): Observable<IDomainResponse> {
     return this.httpClient.post<IDomainResponse>(
-      AppConstants.EXPRESS_URL_LOCAL + 'mailgun/addmembers', memberslist, { headers: this.headers }
+      AppConstants.EXPRESS_URL_MAILGUN + 'mailgun/addmembers', memberslist, { headers: this.headers }
     );
   }
 

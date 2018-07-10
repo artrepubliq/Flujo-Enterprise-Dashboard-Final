@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { EmailConfigService } from '../../../service/email-config.service';
 import { ICampaignListDetails, ICampaignDetails } from '../../../model/email.config.model';
 import { Subject } from 'rxjs/Subject';
@@ -44,6 +44,15 @@ export class AddUserListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getCampaignList();
+    this.emailService.getCampaignAddress().takeUntil(this.ngUnSubScribe).subscribe(
+      result => {
+        console.log(result);
+        this.fileUploadForm.controls['campaign_address'].setValue(result);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
   /**
    * this is to get campaign details from the service

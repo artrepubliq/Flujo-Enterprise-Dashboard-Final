@@ -71,6 +71,7 @@ export class MailingListComponent implements OnInit, OnDestroy {
         this.alertService.success(`"${result.data.body.list.address}" ${result.data.body.message}`);
         this.mailingListForm.reset();
         this.emailService.addCampaignDetails(result.data.body.list);
+        this.emailService.addCampaignAddress(result.data.body.list.address);
         this.tabIndex.emit(1);
       },
       error => {
