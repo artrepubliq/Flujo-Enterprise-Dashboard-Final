@@ -1,20 +1,21 @@
 <h1>
   Create Domain
 </h1>
+<div class="container">
 
-<p>
-  We recommend using a subdomain, like “somthing.mydomain.com”. Using a subdomain you will still be able to send emails from
-  your root domain e.g. “you@mydomain.com”. If using a subdomain please make sure that you configure MX records for the subdomain
-  for optimal delivery.
+  <p>
+    We recommend using a subdomain, like “somthing.mydomain.com”. Using a subdomain you will still be able to send emails from
+    your root domain e.g. “you@mydomain.com”. If using a subdomain please make sure that you configure MX records for the
+    subdomain for optimal delivery.
+  </p>
 
-</p>
+  <div>
+    <mat-form-field [formGroup]="domainForm" class="example-full-width">
+      <input matInput [readonly]="domaindetails" formControlName="domain_name" placeholder="Domain Name">
+    </mat-form-field>
+  </div>
 
-<div>
-  <mat-form-field [formGroup]="domainForm" class="example-full-width">
-    <input matInput formControlName="domain_name" placeholder="Domain Name">
-  </mat-form-field>
-</div>
-
-<div>
-  <button mat-raised-button (click)="onSubmit()" [disabled]="domainForm.invalid">Submit</button>
+  <div>
+    <button mat-raised-button [disabled]="domaindetails" (click)="onSubmit()" [disabled]="domainForm.invalid">Submit</button>
+  </div>
 </div>

@@ -99,9 +99,13 @@ export class EmailConfigService {
   public addCampaignDetails(campaignDetails: ICampaignListDetails[]) {
     if (this.campaignDetails !== undefined) {
       this.campaignDetails = [...this.campaignDetails, ...campaignDetails];
+      this.campaignDetails = Object.values(this.campaignDetails.reduce((cum, val) => Object.assign(cum, { [val.address]: val }), {}));
     } else {
       this.campaignDetails = campaignDetails;
     }
+
+    // console.log(result, 115);
+    console.log(this.campaignDetails, 116);
     this.campaignSubject.next(this.campaignDetails);
   }
   /**

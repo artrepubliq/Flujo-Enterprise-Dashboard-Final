@@ -43,8 +43,9 @@ export class EmailConfigComponent implements OnInit, AfterViewInit {
     this.emailService.getCampainDetailsOfClient().subscribe(
       result => {
         const campaignList = result.data;
-        const campaignListDetails = campaignList.map(item => JSON.parse(item.campaign_details));
-        this.emailService.addCampaignDetails(campaignListDetails);
+        console.log(campaignList);
+        // const campaignListDetails = campaignList.map(item => JSON.parse(item.campaign_details));
+        this.emailService.addCampaignDetails(campaignList);
       },
       error => {
         console.log(error);

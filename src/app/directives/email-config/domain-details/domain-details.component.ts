@@ -15,14 +15,17 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
   public sending_dns_records: IDnsRecords;
   public receiving_dns_records: IDnsRecords;
   public domain: IDomain;
-  public ngUnSubScribe = new Subject();
+  // public ngUnSubScribe = new Subject();
+  public ngUnSubScribe: Subject<any>;
   public id: string;
   public client_id: string;
 
   constructor(
     private emailService: EmailConfigService,
     private emailCnfgComponent: EmailConfigComponent
-  ) { }
+  ) {
+    this.ngUnSubScribe = new Subject<any>();
+  }
 
   ngOnInit() {
     this.emailService.getSmtpUserDetails().takeUntil(this.ngUnSubScribe).subscribe(

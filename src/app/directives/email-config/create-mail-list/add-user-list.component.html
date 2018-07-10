@@ -2,29 +2,35 @@
   Mail campaigns
 </h1>
 
-<div>
-  Select Campaign to add users
+
+<div class="form_container">
+  <div class="mailist_form">
+    <form enctype="single/form-data" [formGroup]="fileUploadForm">
+      <div class="form_details">
+        <div class="form__field">
+          <mat-form-field class="input_fields" >
+            <mat-select formControlName="campaign_address" placeholder="Select Campaign List">
+              <mat-option *ngFor="let campaign of campaignListDetails" [value]="campaign.address">{{campaign.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form__field">
+          <div class="input_fields" >
+            <input class="upload_csv" accept=".csv" type="file" (change)="onFileChange($event)" />
+          </div>
+          or
+          <mat-form-field class="input_fields" >
+            <mat-select placeholder="Select from DB" formControlName="database">
+              <mat-option *ngFor="let database of databases" [value]="database.database">{{database.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="submit_list input_fields">
+        <button (click)="submitFile()" [disabled]="fileUploadForm.invalid" mat-raised-button>
+          save & add users
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
-<form enctype="single/form-data" [formGroup]="fileUploadForm">
-  <mat-form-field display="flex">
-    <mat-select formControlName="campaign_address" placeholder="Select Campaign List">
-      <mat-option *ngFor="let campaign of campaignListDetails" [value]="campaign.address">{{campaign.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <div>
-    <div>
-      <input class="upload_csv" accept=".csv" type="file" (change)="onFileChange($event)" />
-    </div>
-    or
-    <mat-form-field>
-      <mat-select placeholder="Select from DB" formControlName="database" >
-        <mat-option *ngFor="let database of databases" [value]="database.database">{{database.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div>
-    <button (click)="submitFile()" [disabled]="fileUploadForm.invalid" mat-raised-button>
-      save & add users
-    </button>
-  </div>
-</form>

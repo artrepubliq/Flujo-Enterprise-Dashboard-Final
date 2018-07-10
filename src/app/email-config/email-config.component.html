@@ -1,6 +1,7 @@
 <mat-tab-group #tabGroup [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-  <mat-tab label="Create Domain" *ngIf="createDomain">
-    <app-create-domain-email></app-create-domain-email>
+  <mat-tab label="Create Domain">
+  <!-- <mat-tab label="Create Domain" *ngIf="createDomain"> -->
+  <app-create-domain-email></app-create-domain-email>
   </mat-tab>
   <mat-tab label="Domain details">
     <app-domain-details> </app-domain-details>

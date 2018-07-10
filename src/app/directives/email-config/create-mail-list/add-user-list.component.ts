@@ -52,6 +52,7 @@ export class AddUserListComponent implements OnInit, OnDestroy {
     this.emailService.getCampaignDetails().takeUntil(this.ngUnSubScribe).subscribe(
       result => {
         this.campaignListDetails = result;
+        console.log(this.campaignListDetails);
       },
       error => {
         console.log(error);

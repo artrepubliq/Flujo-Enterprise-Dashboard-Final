@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmailConfigService } from '../../../service/email-config.service';
 import { EmailConfigComponent } from '../../../email-config/email-config.component';
+import { Subject } from '../../../../../node_modules/rxjs/Subject';
 
 @Component({
   selector: 'app-create-domain-email',
   templateUrl: './create-domain-email.component.html',
   styleUrls: ['./create-domain-email.component.scss']
 })
-export class CreateDomainEmailComponent implements OnInit {
+export class CreateDomainEmailComponent implements OnInit, OnDestroy {
 
   public domainForm: FormGroup;
+  public ngUnSubScribe: Subject<any>;
+  public domaindetails: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private emailService: EmailConfigService,
@@ -19,9 +22,20 @@ export class CreateDomainEmailComponent implements OnInit {
     this.domainForm = this.formBuilder.group({
       'domain_name': ['', Validators.required]
     });
+    this.ngUnSubScribe = new Subject<any>();
   }
 
   ngOnInit() {
+    this.emailService.getSmtpUserDetails().takeUntil(this.ngUnSubScribe).subscribe(
+      result => {
+        if (result.error === false && result.data.length > 0) {
+          this.domainForm.controls['domain_name'].setValue(result.data[0].domain_name);
+          this.domaindetails = true;
+        }
+      },
+      error => {
+        console.log(error);
+      });
   }
 
   public onSubmit(): void {
@@ -36,6 +50,9 @@ export class CreateDomainEmailComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+  ngOnDestroy(): void {
+    this.ngUnSubScribe.complete();
   }
 
 
