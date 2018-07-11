@@ -116,10 +116,10 @@ const routes: Routes = [
             path: 'themeconfiguration', loadChildren: './theme-config/theme-config.module#ThemeConfigModule',
             data: { title: 'Theme Configuration' }
           },
-          // {
-          //   path: 'email', loadChildren: './emailservice/emailservice.module#EmailserviceModule',
-          //   data: { title: 'Email Service' }
-          // },
+          {
+            path: 'emailconfig', loadChildren: './emailservice/emailservice.module#EmailserviceModule',
+            data: { title: 'Email Service' }
+          },
           {
             path: 'email', component: EmailConfigComponent,
             data: { title: 'Email Service' }

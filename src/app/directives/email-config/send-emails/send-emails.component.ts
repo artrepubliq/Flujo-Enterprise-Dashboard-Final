@@ -1,5 +1,4 @@
 import { Component, OnChanges, OnInit, ElementRef, ViewChild, SimpleChanges, Inject } from '@angular/core';
-import { CKEditorModule } from 'ngx-ckeditor';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../../../service/httpClient.service';
 import { ValidationService } from '../../../service/validation.service';
@@ -78,6 +77,7 @@ export class SendEmailsComponent implements OnInit {
       'check': [''],
       'client_id': null
     });
+    this.editorValue = '';
     if (Number(localStorage.getItem('feature_id')) !== 3) {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
       this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/email');
