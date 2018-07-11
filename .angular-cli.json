@@ -28,6 +28,14 @@
       ],
       "scripts": [
         "../widget-example/static/js/main.428ae54a.js",
+
+        // "../flujo-social-dist/Flujo-Social/main.js",
+        // "../flujo-social-dist/Flujo-Social/polyfills.js",
+        // "../flujo-social-dist/Flujo-Social/runtime.js",
+        // "../flujo-social-dist/Flujo-Social/styles.js",
+        // "../flujo-social-dist/Flujo-Social/vendor.js",
+      
+
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
         "../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js",

@@ -19,7 +19,7 @@ import { IAccessLevelModel } from '../model/accessLevel.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { WindowRef } from './window.service';
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, HostListener } from '@angular/core';
 declare var jquery: any;
 declare var $window: any;
 declare var $: any;

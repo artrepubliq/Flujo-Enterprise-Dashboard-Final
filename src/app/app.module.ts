@@ -147,12 +147,6 @@ import { SmtpDetailsComponent } from './directives/email-config/smtp-details/smt
 import { MailingListComponent } from './directives/email-config/mailing-list/mailing-list.component';
 import { AddUserListComponent } from './directives/email-config/create-mail-list/add-user-list.component';
 
-
-
-
-
-
-
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
