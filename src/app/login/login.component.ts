@@ -79,6 +79,8 @@ export class LoginComponent implements OnInit {
               this.spinnerService.hide();
               this.alertService.danger('Please enter valid details');
           }
+        }, loginResp => {
+          console.log(loginResp);
         });
   }
   redirectUrlForChatCamp = (data: IcustomLoginModelDetails) => {

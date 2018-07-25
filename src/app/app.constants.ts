@@ -17,7 +17,7 @@ export class AppConstants {
     // public static get API_URL(): string { return 'http://flujo.in/dashboard/flujo_staging/v1/'; }
 
     /*Heroku */
-    public static get API_URL(): string { return 'http://flujo-client-api.herokuapp.com/v1/'; }
+    public static get API_URL(): string { return 'https://flujo-client-api.herokuapp.com/v1/'; }
 
     public static get CLIENT_ID(): string { return localStorage.getItem('client_id'); }
     public static get THEME_ID(): string { return '32'; }
