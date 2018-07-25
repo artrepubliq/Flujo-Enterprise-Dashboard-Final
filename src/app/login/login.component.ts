@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   chatCampUrlData: any;
   accessDataModel: AccessDataModelComponent;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
-  loginForm: any;
+  loginForm: FormGroup;
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private loginAuthService: LoginAuthService,
@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
       // 'user_name': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'password': ['', Validators.required],
+      'origin_url': [null]
     });
     if (this.loginAuthService.authenticated) {
       this.router.navigate(['/admin']);
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit {
   onSubmit = (body) => {
     this.spinnerService.show();
     localStorage.clear();
+    this.loginForm.controls['origin_url'].setValue(window.location.href);
     const formModel = this.loginForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
       .subscribe(
