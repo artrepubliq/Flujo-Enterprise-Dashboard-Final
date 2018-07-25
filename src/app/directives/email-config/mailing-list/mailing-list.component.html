@@ -1,40 +1,46 @@
-<div class="wrapper">
-  <h1>
-    Create a Campaign to send bulk emails.
+<mat-progress-bar mode="indeterminate" *ngIf="showProgressBar" value=""></mat-progress-bar>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<div class="wrapper mailing_list_block">
+  <h1 class="header">
+    Create a Campaign to send bulk emails
   </h1>
-  <form class="body_wrapper" display="flex" [formGroup]="mailingListForm">
-    <div>
-      <span>
-        <p> Name of the Campaign:</p>
-      </span>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Campaign Name" formControlName="name" value="">
-      </mat-form-field>
-    </div>
-    <br>
-    <div>
-      <span>
-        <p>Campaign Email Address</p>
-      </span>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Alias Address" formControlName="address" value="">
-      </mat-form-field>{{domain_name}}
-    </div>
-    <br>
-    <div>
-      <span>
-        <p>Description</p>
-      </span>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Description" formControlName="description" value="">
-      </mat-form-field>
-    </div>
-    <button mat-raised-button (click)="onSubmit()" [disabled]="mailingListForm.invalid">Submit</button>
-  </form>
+  <div class="details_frame">
+    <form class="body_wrapper" display="flex" [formGroup]="mailingListForm">
+      <div>
+        <span>
+          <p> Name of the Campaign:</p>
+        </span>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Campaign Name" formControlName="name" value="">
+        </mat-form-field>
+      </div>
+      <br>
+      <div>
+        <span>
+          <p>Campaign Email Address</p>
+        </span>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Alias Address" formControlName="address" value="">
+        </mat-form-field>{{domain_name}}
+      </div>
+      <br>
+      <div>
+        <span>
+          <p>Description</p>
+        </span>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Description" formControlName="description" value="">
+        </mat-form-field>
+      </div>
+      <div class="footer_button">
+        <button mat-raised-button (click)="onSubmit()" [disabled]="mailingListForm.invalid">Save & Add users</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div class="listDetails">
   <div class="wrapper" *ngIf="campaignListDetails">
-    
+
   </div>
 </div>

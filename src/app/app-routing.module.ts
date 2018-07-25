@@ -117,7 +117,11 @@ const routes: Routes = [
             data: { title: 'Theme Configuration' }
           },
           {
-            path: 'email', loadChildren: './emailservice/emailservice.module#EmailserviceModule',
+            path: 'emailconfig', loadChildren: './emailservice/emailservice.module#EmailserviceModule',
+            data: { title: 'Email Service' }
+          },
+          {
+            path: 'email', component: EmailConfigComponent,
             data: { title: 'Email Service' }
           },
           {
@@ -190,10 +194,6 @@ const routes: Routes = [
             path: 'socialconfiguration', loadChildren: './socialconfiguration/socialconfiguration.module#SocialconfigurationModule',
             data: { title: 'Social Configuration' }
           },
-          {
-            path: 'emailconfig',
-            component: EmailConfigComponent
-          }
 
         ]
       }

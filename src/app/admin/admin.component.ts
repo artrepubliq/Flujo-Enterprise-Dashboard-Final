@@ -120,7 +120,7 @@ export class AdminComponent implements OnInit {
     this.getUserAccessLevelsHttpClient().subscribe(
       resp => {
         _.each(resp.result, item => {
-          console.log(localStorage.getItem('user_id'));
+          // console.log(localStorage.getItem('user_id'));
           if (item.user_id === localStorage.getItem('user_id')) {
             this.userAccessLevelObject = item.access_levels;
           } else {
@@ -208,7 +208,7 @@ export class AdminComponent implements OnInit {
     const interval2 = setInterval(() => {
       if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
         this.isChatStarted = true;
-        console.log('enter the dragan');
+        // console.log('enter the dragan');
         // this.loadScript('/widget-example/static/js/main.428ae54a.js');
         // this.window.cc = window.cc || {};
         // this.window.ChatCampUI = window.ChatCampUI || {};
@@ -255,7 +255,7 @@ export class AdminComponent implements OnInit {
     /* tslint:disable */
     window.cc.GroupChannel.create('Team', this.loggedinIds, true, function (error, groupChannel) {
       if (error == null) {
-        console.log('New Group Channel has been created', groupChannel);
+        // console.log('New Group Channel has been created', groupChannel);
         window.ChatCampUI.startChat(groupChannel.id);
       }
     });
@@ -286,7 +286,7 @@ export class AdminComponent implements OnInit {
     /* tslint:disable */
     window.cc.GroupChannel.create('Team', OnetoOne, true, (error, groupChannel) => {
       if (error == null) {
-        console.log('New one to one Channel has been created', groupChannel);
+        // console.log('New one to one Channel has been created', groupChannel);
         window.ChatCampUI.startChat(groupChannel.id);
       }
     });
@@ -298,7 +298,7 @@ export class AdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }
   getUserAccessLevelsHttpClient() {
@@ -317,14 +317,14 @@ export class AdminComponent implements OnInit {
   onLinkClick(event: MatTabChangeEvent) {
     this.groupChatIndex = event.index;
     this.randombgcolor = this.getRandomColor();
-    console.log('event => ', event);
-    console.log('index => ', event.index);
+    // console.log('event => ', event);
+    // console.log('index => ', event.index);
     if (event.index === 1) {
       this.label = true;
     } else {
       this.label = false;
     }
-    console.log('tab => ', event.tab);
+    // console.log('tab => ', event.tab);
     // this.router.navigate(['contacts']);
   }
   public getrandomBackground() {
