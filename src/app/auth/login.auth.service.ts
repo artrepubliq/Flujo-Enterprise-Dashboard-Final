@@ -90,6 +90,7 @@ export class LoginAuthService implements OnInit {
     // Check if current date is greater than expiration
     if (this.customLoggedIn) {
       this.setLoggedInCustom(Date.now() < this.expiresAt);
+      return true;
     } else {
       return;
     }
