@@ -191,6 +191,7 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.name = localStorage.getItem('name');
     this.user_id = localStorage.getItem('user_id');
 
