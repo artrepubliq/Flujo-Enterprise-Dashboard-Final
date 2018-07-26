@@ -33,8 +33,8 @@ declare var $: any;
 export class AdminComponent implements OnInit {
   groupChatIndex: number;
   test: boolean;
-  heroes = [{name: 'UI', color: this.getRandomColor()}, {name: 'Design', color: this.getRandomColor()}
-];
+  heroes = [{ name: 'UI', color: this.getRandomColor() }, { name: 'Design', color: this.getRandomColor() }
+  ];
   // cc: any; ChatCampUI: any;
   feature_id = 0;
   userAccessData: any;
@@ -59,6 +59,7 @@ export class AdminComponent implements OnInit {
   randombgcolors: any;
   randombgcolor: string;
   doSearch: boolean;
+  clientName: string;
   // Arrays for Side nav menu and admin menu
   // tslint:disable-next-line:max-line-length
   editor = [{ feature_id: 1, title: 'Editor', router: 'admin/chooseplatform', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
@@ -175,23 +176,39 @@ export class AdminComponent implements OnInit {
   getUserList = () => {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
       .subscribe(
-        data => {
-          this.activeUsers = data.result;
-          this.loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
-            return activeUserData.id !== localStorage.getItem('user_id');
-          });
-          if (this.loggedinUsersList) {
-            this.StoredLoggedinIds();
-          }
-        },
-        error => {
-          console.log(error);
+      data => {
+        this.activeUsers = data.result;
+        this.loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
+          return activeUserData.id !== localStorage.getItem('user_id');
+        });
+        if (this.loggedinUsersList) {
+          this.StoredLoggedinIds();
         }
+      },
+      error => {
+        console.log(error);
+      }
       );
   }
 
   ngOnInit(): void {
+    const hostName: string = window.location.href;
+    if (hostName.includes('http://')) {
+      const split = hostName.split('http://');
+      if (split && split[1].includes('.flujo.in')) {
+        const splitHostName = split[1].split('.flujo.in');
+        this.clientName = splitHostName[0];
+      }
+    } else if (hostName.includes('https://')) {
+      const split = hostName.split('https://');
+      if (split && split[1].includes('.flujo.in')) {
+        const splitHostName = split[1].split('.flujo.in');
+        this.clientName = splitHostName[0];
+      }
 
+    } else {
+      this.clientName = 'Not Assigned';
+    }
     this.name = localStorage.getItem('name');
     this.user_id = localStorage.getItem('user_id');
 
@@ -329,12 +346,12 @@ export class AdminComponent implements OnInit {
     // this.router.navigate(['contacts']);
   }
   public getrandomBackground() {
-      const letters = '0123456789ABCDEF'.split('');
-      let color = '#';
-      for (let i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
+    const letters = '0123456789ABCDEF'.split('');
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 
   }
   public searchChatData($event) {
