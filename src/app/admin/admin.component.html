@@ -1,7 +1,6 @@
 <!-- TopNav -->
-<ng4-loading-spinner></ng4-loading-spinner>
 <nav class="navbar navbarTop" role="navigation">
-  <div class="navbar-header navbar-header-open" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()" [ngClass]="{'navbar-header-open12':sidebarToggledButton}">
+  <div class="navbar-header" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()" [ngClass]="{'navbar-header-open':sidebarToggledButton}">
     <div fxLayout="row" fxLayoutGap="0.1rem" fxLayoutAlign="start center">
       <a class="navbar-brand" fxLayoutAlign="center center" (click)="sidebarToggledButton=sidebarToggledButton">
         <img src="assets/flujo-logo-dashboard.svg" class="img-fluid" alt="Logo">
@@ -10,7 +9,7 @@
         <div class="nav-item userpopup dropdown">
           <a class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">
             <!-- <img src="assets/icons/web-icon-normal@2x.png" alt="web icon"> -->
-            <span>{{clientName}}</span>
+            <span>Art Republiq</span>
             <span class="active-indication">
               <span class="nickname">{{name}}</span>
               <span class="active-info">
@@ -73,7 +72,7 @@
   <div class="navbar-content" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
     <div class="admin-website mr-auto">
       <p class="title">
-        <span>{{clientName}} : </span>
+        <span>DVB Website : </span>
         <span class="page-title">{{CurrentPageName}}</span>
       </p>
     </div>
