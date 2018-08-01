@@ -55,8 +55,8 @@ export class LoginComponent implements OnInit {
   onSubmit = (body) => {
     this.spinnerService.show();
     localStorage.clear();
-    this.loginForm.controls['origin_url'].setValue(window.location.href);
-    // this.loginForm.controls['origin_url'].setValue('https://inktalks.flujo.in/#/login');
+    // this.loginForm.controls['origin_url'].setValue(window.location.href);
+    this.loginForm.controls['origin_url'].setValue('https://inktalks.flujo.in/#/login');
     const formModel = this.loginForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
       .subscribe(
