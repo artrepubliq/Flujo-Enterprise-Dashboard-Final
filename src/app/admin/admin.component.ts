@@ -59,11 +59,12 @@ export class AdminComponent implements OnInit {
   randombgcolors: any;
   randombgcolor: string;
   doSearch: boolean;
-  clientName: string;
   // Arrays for Side nav menu and admin menu
   // tslint:disable-next-line:max-line-length
   editor = [{ feature_id: 1, title: 'Editor', router: 'admin/chooseplatform', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
 
+  // tslint:disable-next-line:max-line-length
+  domain = [{ feature_id: 33, title: 'Domain', router: 'admin/domain', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
   // tslint:disable-next-line:max-line-length
   drive = [{ feature_id: 11, title: 'Drive', router: 'admin/filerepository', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
   // tslint:disable-next-line:max-line-length
@@ -176,39 +177,22 @@ export class AdminComponent implements OnInit {
   getUserList = () => {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.activeUsers = data.result;
-        this.loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
-          return activeUserData.id !== localStorage.getItem('user_id');
-        });
-        if (this.loggedinUsersList) {
-          this.StoredLoggedinIds();
+        data => {
+          this.activeUsers = data.result;
+          this.loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
+            return activeUserData.id !== localStorage.getItem('user_id');
+          });
+          if (this.loggedinUsersList) {
+            this.StoredLoggedinIds();
+          }
+        },
+        error => {
+          console.log(error);
         }
-      },
-      error => {
-        console.log(error);
-      }
       );
   }
 
   ngOnInit(): void {
-    const hostName: string = window.location.href;
-    if (hostName.includes('http://')) {
-      const split = hostName.split('http://');
-      if (split && split[1].includes('.flujo.in')) {
-        const splitHostName = split[1].split('.flujo.in');
-        this.clientName = splitHostName[0];
-      }
-    } else if (hostName.includes('https://')) {
-      const split = hostName.split('https://');
-      if (split && split[1].includes('.flujo.in')) {
-        const splitHostName = split[1].split('.flujo.in');
-        this.clientName = splitHostName[0];
-      }
-
-    } else {
-      this.clientName = 'Not Assigned';
-    }
     this.name = localStorage.getItem('name');
     this.user_id = localStorage.getItem('user_id');
 

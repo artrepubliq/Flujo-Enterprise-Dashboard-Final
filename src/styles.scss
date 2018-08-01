@@ -1327,3 +1327,12 @@ control-messages,
 .editor-mail {
   min-height: 300px;
 }
+
+.chat-dropdown-wind {
+  .mat-tab-label-active {
+    border-bottom: 2px solid #ee286b;
+  }
+  .chat-dropdown-wind .mat-ink-bar {
+    display: none;
+  }
+}
