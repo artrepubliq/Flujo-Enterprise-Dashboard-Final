@@ -22,7 +22,7 @@ export class AppConstants {
     public static get CLIENT_ID(): string { return localStorage.getItem('client_id'); }
     public static get THEME_ID(): string { return '32'; }
 
-//     public static get ACCESS_TOKEN(): string { return 'keerthan_token'; }
+    // public static get ACCESS_TOKEN(): string { return 'keerthan_token'; }
     // public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/'; }
     // public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/twitter/'; }
     public static get EXPRESS_URL(): string { return 'https://flujo-node.herokuapp.com/twitter/'; }
