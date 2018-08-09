@@ -1,0 +1,23 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<div class="container">
+  <div class="headline">
+    <h2>Add Domians for free</h2>
+  </div>
+  <div class="message">
+    <p>
+      You can add a domain for free if you already purchased a domain at any of the Domain registrars.
+    </p>
+  </div>
+
+  <form class="add_domain" [formGroup]="domain_details_form">
+    <div>
+      <mat-form-field class="domain_name">
+        <input matInput placeholder="Enter an existing Domain" formControlName="domain_name">
+      </mat-form-field>
+    </div>
+    <div class="submit_domain">
+      <button mat-button (click)="onSubmit()" [disabled]="domain_details_form.invalid" color="primary">Add Domain</button>
+    </div>
+  </form>
+</div>

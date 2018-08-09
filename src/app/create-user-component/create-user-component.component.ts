@@ -326,7 +326,9 @@ export class AccessLevelPopup {
       { name: 'Social Configuration', feature_id: 29, enable: true, read: true, write: true, order: '29' },
       { name: 'Choose platform', feature_id: 30, enable: true, read: true, write: true, order: '30' },
       { name: 'profile', feature_id: 31, enable: true, read: true, write: true, order: '31' },
-      { name: 'WhatsApp', feature_id: 32, enable: true, read: true, write: true, order: '32' }
+      { name: 'WhatsApp', feature_id: 32, enable: true, read: true, write: true, order: '32' },
+      { name: 'Domain', feature_id: 33, enable: true, read: true, write: true, order: '33' }
+
     ];
     return defaultData;
   }

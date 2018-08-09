@@ -105,7 +105,8 @@ export class AdminComponent implements OnInit {
     { feature_id: 25, title: 'Area Category', router: 'admin/areacategory' },
     { feature_id: 27, title: 'SMS Template Configuration', router: 'admin/smsconfiguration' },
     { feature_id: 28, title: 'Email Template', router: 'admin/emailconfiguration' },
-    { feature_id: 29, title: 'Social Configuration', router: 'admin/socialconfiguration' }
+    { feature_id: 29, title: 'Social Configuration', router: 'admin/socialconfiguration' },
+    { feature_id: 33, title: 'Domain Management', router: 'admin/domain' }
   ];
   accessDataModel: AccessDataModelComponent;
   isChatStarted: boolean;

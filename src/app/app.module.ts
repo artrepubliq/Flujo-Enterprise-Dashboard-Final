@@ -31,10 +31,11 @@ import {
   MatDialogModule, MatSlideToggleModule, MatProgressBarModule,
   MatDatepickerModule, MatPaginatorModule, MatTableModule, MatSortModule,
   MatNativeDateModule, MatExpansionModule, DateAdapter,
-  MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatTabsModule,
+  MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatMenuModule, MatTabsModule,
   MatCardModule, MatTooltipModule, MatCheckboxModule, MatListModule,
   MatAutocompleteModule, MatSnackBarModule, MatProgressSpinnerModule
 } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 // this includes the core NgIdleModule but includes keepalive providers for easy wireup
 import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
@@ -148,6 +149,14 @@ import { SmtpDetailsComponent } from './directives/email-config/smtp-details/smt
 import { MailingListComponent } from './directives/email-config/mailing-list/mailing-list.component';
 import { AddUserListComponent } from './directives/email-config/create-mail-list/add-user-list.component';
 import { SendEmailsComponent } from './directives/email-config/send-emails/send-emails.component';
+import { AddDomainsComponent } from './domain/add-domains/add-domains.component';
+import { CertificatesComponent } from './domain/certificates/certificates.component';
+import { CreateDomainComponent } from './domain/create-domain/create-domain.component';
+import { DomainDeploymentsComponent } from './domain/domain-deployments/domain-deployments.component';
+import { DomainManagementComponent } from './domain/domain-management/domain-management.component';
+import { ListOfDomainsComponent } from './domain/list-of-domains/list-of-domains.component';
+import { DomainsService } from './domain/services/domains.service';
+import { GloblalSmsService } from './service/global-sms.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -245,7 +254,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MailingListComponent,
     AddUserListComponent,
     SendEmailsComponent,
-    EmailTemplateSelectionModal
+    EmailTemplateSelectionModal,
+    AddDomainsComponent,
+    CertificatesComponent,
+    CreateDomainComponent,
+    DomainDeploymentsComponent,
+    DomainManagementComponent,
+    ListOfDomainsComponent
   ],
   imports: [
     CommonModule,
@@ -354,6 +369,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     TwitterUserService,
     FacebookComponentCommunicationService,
     EmailConfigService,
+    DomainsService,
+    GloblalSmsService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

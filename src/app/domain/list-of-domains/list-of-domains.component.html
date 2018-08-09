@@ -1,0 +1,67 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<div class="accordion" id="accordionExample" *ngIf="arrayDomainsList">
+  <div class="card" *ngFor="let domainItem of arrayDomainsList; let i = index;">
+    <div class="card-header" [id]="domainItem.name">
+      <div class="mb-0" style="display: flex">
+        <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#'+domainItem.uid" aria-expanded="true"
+          [attr.aria-controls]="domainItem.uid">
+          {{domainItem.name}}
+        </button>
+        <div style="display: flex">
+          <h4 *ngIf="domainItem.verified">Domain Verified</h4>
+          <h4 *ngIf="!domainItem.verified">Domain not Verified</h4>
+        </div>
+      </div>
+    </div>
+
+    <div [id]="domainItem.uid" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body" *ngIf="!domainItem.dnsDetailsDisplayed">
+        <h5 class="card-title">uid: {{domainItem.uid}} </h5>
+        <p class="card-text">created: {{domainItem.created}} </p>
+        <p class="card-text">expiresAt: {{domainItem.expiresAt}} </p>
+        <p class="card-text">serviceType: {{domainItem.serviceType}} </p>
+        <p class="card-text">verified: {{domainItem.verified}} </p>
+        <button (click)="setUpBulkEmailConfig(domainItem, i)" [disabled]="domainItem.registered" class="btn btn-primary">SetUp Bulk Email</button>
+        <a (click)="getDnsRecords(domainItem, i)" class="btn btn-primary">DNS Records</a>
+      </div>
+      <div class="card-body" *ngIf="domainItem.dnsDetailsDisplayed">
+        <div *ngIf="domainItem.dnsDetails.length > 0">
+          <div class="dns_records" *ngFor="let dns of domainItem.dnsDetails">
+            <h5 class="card-title">Name: {{dns.name}} </h5>
+            <p class="card-text">Type: {{dns.type}} </p>
+          </div>
+          <a (click)="showDomainList(i)" class="btn btn-primary">Go Back</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div *ngIf="DomainsList">
+  <mat-accordion>
+    <div *ngFor="let domainItem of DomainsList">
+      <mat-expansion-panel [expanded]="expand">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{domainItem.name}}
+          </mat-panel-title>
+          <mat-panel-description>
+            created: {{domainItem.created}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="card-body">
+          <h5 class="card-title">uid: {{domainItem.uid}} </h5>
+          <p class="card-text">created: {{domainItem.created}} </p>
+          <p class="card-text">expiresAt: {{domainItem.expiresAt}} </p>
+          <p class="card-text">serviceType: {{domainItem.serviceType}} </p>
+          <p class="card-text">verified: {{domainItem.verified}} </p>
+
+          <a (click)="setUpBulkEmailConfig(domainItem)" class="btn btn-primary">SetUp Bulk Email</a>
+
+        </div>
+      </mat-expansion-panel>
+    </div>
+
+  </mat-accordion>
+</div> -->

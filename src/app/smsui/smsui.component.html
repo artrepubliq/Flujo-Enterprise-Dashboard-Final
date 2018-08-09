@@ -1,13 +1,21 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000">
 </ngx-alerts>
-
-<div class="smsContact page_padding-2" fxLayout="column" fxLayoutGap="30px">
+<form class="wrapper" [formGroup]="createAccountForm" *ngIf="sendSms">
+  <div class="p-rel input_box page_input" style="max-width: 50%;">
+    <input type="text" placeholder="Add Account" formControlName="account_name">
+  </div>
+  <div class="submitDiv">
+    <button type="submit" class="button_submit" (click)="createAccount()" [disabled]="!createAccountForm.valid">Create Account</button>
+  </div>
+</form>
+<div class="smsContact page_padding-2" fxLayout="column" fxLayoutGap="30px" *ngIf="!sendSms">
 
   <div fxLayout="row" fxLayoutGap="25px" fxLayoutAlign="space-between center">
     <div fxFlex class="page-header">
       SMS
     </div>
+    <button class="choose_button" (click)="createSenderId()">Create Sender Id</button>
     <button class="choose_button" (click)="downLoadPhoneCsvFormat()">Download Csv Format</button>
     <div>
       <button class="choose_button" (click)="openDialog()">Choose Template
@@ -18,17 +26,23 @@
     </div>
   </div>
 
-  <form role="form" class="admin-form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
+  <form *ngIf="!showSenderCreation" role="form" class="admin-form" [formGroup]="smsContactForm" method="post" enctype="multipart/form-data">
+
+    <div class="form__field">
+      <mat-form-field class="input_fields">
+        <mat-select formControlName="sender_id" placeholder="Select Sender ID">
+          <mat-option [value]="sender_id" *ngFor="let sender_id of senderIds">{{sender_id}}</mat-option>
+          <!-- <mat-option [value]="sender_id?.sender_id" *ngFor="let sender_id of senderIds" >{{sender_id?.sender_id}}</mat-option> -->
+        </mat-select>
+      </mat-form-field>
+    </div>
+
     <div fxLayout="row" fxLayoutGap="48px">
       <div fxFlex fxLayout="column" fxLayoutGap="13px" class="input_box page_input">
         <label for="phone">Mobile Number</label>
         <div class="p-rel">
-
-          <input type="text" formControlName="phone" (ngModelChange)="checkValidNumbers($event)" 
-            id="phone" placeholder="Add Number(s)" oninput="this.value = this.value.replace(/^[789]\\d{9}$/g, '').replace(/(\..*)\./g, '$1');">
-          <!-- <div [hidden]="smsContactForm.controls.phone.valid || (smsContactForm.controls.phone.pristine && !submitted)" class="form-error-msg">
-            enter valid phone number
-          </div> -->
+          <input type="text" formControlName="phone" (ngModelChange)="checkValidNumbers($event)" id="phone" placeholder="Add Number(s)"
+            oninput="this.value = this.value.replace(/^[789]\\d{9}$/g, '').replace(/(\..*)\./g, '$1');">
           <div *ngIf="!multipleNumbers" class="form-error-msg">
             enter valid phone numbers
           </div>
@@ -71,8 +85,8 @@
         <textarea *ngIf="!selectedSmsTemplateData" formControlName="message" id="message" placeholder="Message"></textarea>
         <!-- <control-messages [control]="smsContactForm.controls.message"></control-messages> -->
         <div [hidden]="smsContactForm.controls.message.valid || (smsContactForm.controls.message.pristine && !submitted)" class="form-error-msg">
-            Message minimum 10 characters
-          </div>
+          Message minimum 10 characters
+        </div>
       </div>
     </div>
 
@@ -85,6 +99,78 @@
     <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
       <button type="button" mat-button (click)="cancelSmsEdit()" class="button_cancel">Cancel</button>
       <button type="submit" class="button_submit" (click)="smsContactFormSubmit()" [disabled]="(!smsContactForm.valid || !multipleNumbers)">Send</button>
+    </div>
+  </form>
+
+  <form *ngIf="showSenderCreation" class="admin-form" [formGroup]="createSenderIdForm">
+    <!-- <div>
+      <span>
+        <p> Website Name :</p>
+      </span>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Website Name" formControlName="website_name" value="">
+      </mat-form-field>
+    </div>
+    <br>
+    <div>
+      <span>
+        <p>Company Name :</p>
+      </span>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Company Name" formControlName="company_name" value="">
+      </mat-form-field>
+    </div>
+    <br> -->
+    <div>
+      <div class="form__field">
+        <div>
+          <h3>
+            Sender Id:
+          </h3>
+        </div>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Sender id" formControlName="sender_id" [ngStyle]="{'text-transform': 'uppercase'}" value="">
+        </mat-form-field>
+      </div>
+      <div class="form__field">
+        <div>
+          <h3>
+            SMS Type:
+          </h3>
+        </div>
+        <mat-form-field class="input_fields">
+          <mat-select formControlName="sms_plan" placeholder="Choose Sms Type">
+            <mat-option [value]="sms_plan" *ngFor="let sms_plan of sms_plans">{{sms_plan}}</mat-option>
+            <!-- <mat-option [value]="sender_id?.sender_id" *ngFor="let sender_id of senderIds" >{{sender_id?.sender_id}}</mat-option> -->
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form__field">
+        <div>
+          <h3>
+            Country Name:
+          </h3>
+        </div>
+        <mat-form-field class="input_fields">
+          <mat-select formControlName="country_name" placeholder="Choose Country">
+            <mat-option [value]="countryName" *ngFor="let countryName of countryNames">{{countryName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form__field" style="align-items: strart">
+        <div>
+          <h3>
+            Message
+          </h3>
+        </div>
+        <div class="email_message">
+          <textarea [(ngModel)]="creation_message" [value]="creation_message" formControlName="creation_message" placeholder="Message"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="footer_button">
+      <button mat-raised-button (click)="cancel()">Cancel</button>
+      <button mat-raised-button (click)="onSubmitSenderId()" [disabled]="createSenderIdForm.invalid">Create Sender Id</button>
     </div>
   </form>
 </div>

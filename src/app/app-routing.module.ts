@@ -45,6 +45,7 @@ import { DataBaseResolver } from './database/database-resolver';
 import { SocialLoginComponent } from './social-login/social-login.component';
 import { EmailConfigService } from './service/email-config.service';
 import { EmailConfigComponent } from './email-config/email-config.component';
+import { DomainManagementComponent } from './domain/domain-management/domain-management.component';
 
 const routes: Routes = [
   {
@@ -87,8 +88,10 @@ const routes: Routes = [
             path: 'profile', component: ProfileComponent,
             data: { title: 'Profile' }
           },
-          { path: 'changepassword', loadChildren: './changepassword/changepassword.module#ChangepasswordModule',
-           data: { title: 'Change Password' } },
+          {
+            path: 'changepassword', loadChildren: './changepassword/changepassword.module#ChangepasswordModule',
+            data: { title: 'Change Password' }
+          },
           { path: '', component: AdminDashboardComponent, data: { title: 'Admin Dashboard' } },
           {
             path: 'pages', loadChildren: './pages/pages.module#PagesModule',
@@ -130,8 +133,10 @@ const routes: Routes = [
           },
           { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat Box' } },
           { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat box' } },
-          { path: 'user', loadChildren: './create-user-component/create-user-component.module#CreateUserComponentModule',
-           data: { title: 'Create User' } },
+          {
+            path: 'user', loadChildren: './create-user-component/create-user-component.module#CreateUserComponentModule',
+            data: { title: 'Create User' }
+          },
           {
             path: 'media/gallery', component: ViewGalleryComponent,
             data: { title: 'Gallery' }
@@ -154,6 +159,11 @@ const routes: Routes = [
             data: { title: 'Manage Reports' }
           },
           { path: 'analytics', component: AnalyticsComponent, data: { title: 'Analytics' } },
+          {
+            path: 'domain',
+            component: DomainManagementComponent,
+            data: { title: 'Domain Management' }
+          },
           {
             path: 'problemcategory', loadChildren: './problem-category/problem-category.module#ProblemCategoryModule',
             data: { title: 'Problem Category' }

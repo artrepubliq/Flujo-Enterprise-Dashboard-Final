@@ -5,3 +5,8 @@ export interface ICommonInterface {
     http_status_code: number;
     custom_status_code: number;
 }
+
+export interface ICommonInterfaceNode {
+    error: boolean;
+    data: Array<any>;
+}

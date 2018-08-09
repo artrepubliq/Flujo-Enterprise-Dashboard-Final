@@ -4,6 +4,7 @@ import { AppConstants } from '../app.constants';
 import { Observable } from 'rxjs/Observable';
 import { IDomainResponse, ICreateCampaign, IDeleteDomain, ICampaignDetails, ICampaignListDetails } from '../model/email.config.model';
 import { Subject } from 'rxjs/Subject';
+import { ICommonInterfaceNode } from '../model/commonInterface.model';
 
 @Injectable()
 export class EmailConfigService {
@@ -140,6 +141,13 @@ export class EmailConfigService {
     return this.httpClient.post<IDomainResponse>(
       AppConstants.EXPRESS_URL_MAILGUN + 'mailgun/addmembers', memberslist, { headers: this.headers }
     );
+  }
+
+  /**
+   * this is a service to get registerd domains in mailgun
+   */
+  public getRegisteredMailgunDomains(client_id: string): Observable<ICommonInterfaceNode> {
+    return this.httpClient.get<ICommonInterfaceNode>(`${AppConstants.EXPRESS_URL_MAILGUN}mailgun/registereddomains/${client_id}`);
   }
 
 }
