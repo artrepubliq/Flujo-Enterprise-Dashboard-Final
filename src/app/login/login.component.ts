@@ -27,6 +27,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
 export class LoginComponent implements OnInit {
   loginData: IcustomLoginModelDetails[];
   chatCampUrlData: any;
+  public isLoggedIn = true;
   accessDataModel: AccessDataModelComponent;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   loginForm: FormGroup;
@@ -53,14 +54,16 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit = (body) => {
-    this.spinnerService.show();
+    // this.spinnerService.show();
+    this.isLoggedIn = false;
     localStorage.clear();
-    this.loginForm.controls['origin_url'].setValue(window.location.href);
-//     this.loginForm.controls['origin_url'].setValue('https://dashboard.vinaybhaskar.in');
+    // this.loginForm.controls['origin_url'].setValue(window.location.href);
+    this.loginForm.controls['origin_url'].setValue('https://dashboard.vinaybhaskar.in');
     const formModel = this.loginForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
       .subscribe(
         data => {
+          this.isLoggedIn = true;
           console.log(data.result);
           this.loginData = data.result;
             if (data.custom_status_code === 100) {

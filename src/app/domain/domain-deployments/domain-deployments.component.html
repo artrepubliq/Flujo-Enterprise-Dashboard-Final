@@ -1,0 +1,36 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<div class="accordion" id="accordionExample" *ngIf="domainDetailsArray">
+    <div class="card" *ngFor="let domain of domainDetailsArray">
+      <div class="card-header" [id]="'domain-'+domain.domain_name">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#'+domain.domain_name" aria-expanded="true"
+            [attr.aria-controls]="domain.domain_name">
+            <div style="display: flex">
+              <div style="margin-right: 8px ">
+                {{domain.domain_name}}
+              </div>
+            </div>
+          </button>
+        </h5>
+      </div>
+  
+      <div [id]="domain.domain_name" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+        <div class="card-body">
+          <!-- <h5 class="card-title">Domain name: {{domain.domain_name}} </h5> -->
+          <p class="card-text">Name: {{domain.html.name}} </p>
+          <p class="card-text">Mode: {{domain.html.mode}} </p>
+          <p class="card-text">Type: {{domain.html.type}} </p>
+          <p class="card-text">Uid: {{domain.html.uid}} </p>
+        </div>
+        <div class="card-body">
+          <!-- <h5 class="card-title">Domain name: {{domain.domain_name}} </h5> -->
+          <p class="card-text">Name: {{domain.css.name}} </p>
+          <p class="card-text">Mode: {{domain.css.mode}} </p>
+          <p class="card-text">Type: {{domain.css.type}} </p>
+          <p class="card-text">Uid: {{domain.css.uid}} </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

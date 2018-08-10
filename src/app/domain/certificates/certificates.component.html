@@ -1,0 +1,24 @@
+<div class="accordion" id="accordionExample" *ngIf="certificates_array">
+  <div class="card" *ngFor="let certificate of certificates_array">
+    <div class="card-header" [id]="'certi-id-'+certificate.uid">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#'+certificate.uid" aria-expanded="true"
+          [attr.aria-controls]="certificate.uid">
+          <div style="display: flex">
+            <div style="margin-right: 8px " *ngFor="let cnsName of certificate.cns">
+              {{cnsName}}
+            </div>
+          </div>
+        </button>
+      </h5>
+    </div>
+
+    <div [id]="certificate.uid" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        <h5 class="card-title">uid: {{certificate.uid}} </h5>
+        <p class="card-text">created: {{certificate.created}} </p>
+        <p class="card-text">expiresAt: {{certificate.expiration}} </p>
+      </div>
+    </div>
+  </div>
+</div>

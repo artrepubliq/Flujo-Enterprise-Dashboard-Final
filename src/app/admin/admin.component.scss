@@ -730,6 +730,10 @@
           color: #c1c1c1;
         }
       }
+      .overflow_box {
+        max-height: 300px;
+        overflow-y: auto;
+      }
       ul{
         padding-left: 0px;
         li:nth-child(2n){
@@ -771,11 +775,14 @@
               display: block;
               height: 12px;
               border-radius: 50% !important;
-              background-color: #50d166;
+              background-color: #fdd10c;
               border: solid 1.5px #ffffff;
               position: absolute;
               top:0;
               left:75%;
+              &.active {
+                background-color: #50d166 !important;
+              }
             }
       }
       .user-avatar-chat-group{
@@ -870,6 +877,3 @@
     }
   }
 }
-
-
-
