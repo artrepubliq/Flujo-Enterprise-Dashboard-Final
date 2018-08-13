@@ -23,6 +23,7 @@ import { ICsvData } from '../model/emailThemeConfig.model';
 import { isNumber } from 'util';
 import { MessageArchivedComponent } from '../directives/snackbar-sms-email/snackbar-email-sms';
 import { ICommonInterface } from '../model/commonInterface.model';
+import { GloblalSmsService } from '../service/global-sms.service';
 @Component({
   selector: 'app-smsui',
   templateUrl: './smsui.component.html',
@@ -47,20 +48,51 @@ export class SmsuiComponent implements OnInit {
   cancelFileEdit: boolean;
   userAccessDataModel: AccessDataModelComponent;
   feature_id = 4;
+
+  public createAccountForm: FormGroup;
+  public sendSms = false;
+  public createSenderIdForm: FormGroup;
+  showSenderCreation = false;
+  public senderIds = ['AFLUJO', 'AFLUJO'];
+  public sms_plans = ['Promotional', 'Transactional'];
+  public creation_message = 'Approve the following sender id';
+  public countryNames: string[];
+  public cap_reg_ex = /\b([A - Z]+)\b/;
   constructor(private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient,
     private formBuilder: FormBuilder, private alertService: AlertService,
     public adminComponent: AdminComponent, private router: Router,
     public smsSelectionService: SmsTemplateSelectService,
     public dialog: MatDialog,
     private papa: PapaParseService,
+    private smsService: GloblalSmsService,
     public snackBar: MatSnackBar) {
     this.smsContactForm = this.formBuilder.group({
       'phone': ['', Validators.compose([Validators.required])],
       'message': ['', [Validators.required, Validators.minLength(10)]],
       'check': [''],
       'file': [''],
-      'client_id': []
+      'client_id': [AppConstants.CLIENT_ID],
+      'sender_id': ['', Validators.required]
     });
+    const subject = 'Sender Id approval';
+    this.createSenderIdForm = this.formBuilder.group({
+      // 'website_name': ['', Validators.required],
+      // 'company_name': ['', Validators.required],
+      'sender_id': ['', Validators.compose(
+        [
+          Validators.required,
+          // Validators.pattern(this.cap_reg_ex),
+          Validators.maxLength(6),
+          Validators.minLength(6),
+        ]
+      )],
+      'client_id': [''],
+      'creation_message': [this.creation_message, Validators.required],
+      'subject': [subject],
+      'sms_plan': ['', Validators.required],
+      'country_name': ['', Validators.required]
+    });
+
     this.getSlectedTemplateData();
     if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
       this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
@@ -69,11 +101,36 @@ export class SmsuiComponent implements OnInit {
     this.phoneContactsArray = [];
     this.errorPhoneContacts = [];
     this.multipleNumbers = true;
+
+    /** this is to create account for client to use sms */
+    this.createAccountForm = this.formBuilder.group({
+      'account_name': ['', Validators.required],
+      'client_id': [AppConstants.CLIENT_ID, Validators.required],
+    });
+
   }
   ngOnInit() {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
+
+    this.smsService.getCountryCodes().subscribe(
+      result => {
+        if (result && result.length > 0) {
+          this.countryNames = result;
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.smsService.getSMSSenderIds(AppConstants.CLIENT_ID).subscribe(
+      result => {
+        // this.senderIds = result.result;
+      },
+      error => {
+        console.log(error);
+      });
   }
   public checkValidNumbers(event) {
     if (event != null) {
@@ -93,22 +150,23 @@ export class SmsuiComponent implements OnInit {
       // console.log(this.multipleNumbers);
     }
   }
-  smsContactFormSubmit() {
+  public smsContactFormSubmit(): void {
     this.spinnerService.show();
     console.log(this.smsContactForm.value);
     this.smsContactForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_sendsmsdbcsv', this.smsContactForm.value)
+    this.httpClient.post<ICommonInterface>(AppConstants.SMS_API_URL + 'flujo_client_sendsmsdbcsv', this.smsContactForm.value)
       .subscribe(
         data => {
+          console.log(data);
           this.spinnerService.hide();
-            if ((!data.error) && (data.custom_status_code = 100)) {
-              this.alertService.success('Message has been sent successfully');
-              this.smsContactForm.reset();
-              this.file.nativeElement.value = null;
-            } else if (data.custom_status_code = 101) {
-              this.alertService.danger('Required parameters are missing');
-              this.smsContactForm.reset();
-            }
+          if ((!data.error) && (data.custom_status_code = 100)) {
+            this.alertService.success('Message has been sent successfully');
+            this.smsContactForm.reset();
+            this.file.nativeElement.value = null;
+          } else if (data.custom_status_code = 101) {
+            this.alertService.danger('Required parameters are missing');
+            this.smsContactForm.reset();
+          }
         },
         error => {
           this.spinnerService.hide();
@@ -124,13 +182,13 @@ export class SmsuiComponent implements OnInit {
       .subscribe(
         data => {
           try {
-              if ((!data.error) && (data.custom_status_code = 100)) {
-                this.smsTemplateSelectionData = data.result;
-                this.smsTemplateSelectionData.map((smsData) => {
-                  smsData.isActive = false;
-                });
-                console.log(this.smsTemplateSelectionData);
-              }
+            if ((!data.error) && (data.custom_status_code = 100)) {
+              this.smsTemplateSelectionData = data.result;
+              this.smsTemplateSelectionData.map((smsData) => {
+                smsData.isActive = false;
+              });
+              console.log(this.smsTemplateSelectionData);
+            }
           } catch (e) {
             console.log(e);
           }
@@ -194,7 +252,6 @@ export class SmsuiComponent implements OnInit {
         }
       });
     });
-    // return this.emailContactsArray;
   }
   continue() {
     this.errorInFormat = false;
@@ -212,6 +269,37 @@ export class SmsuiComponent implements OnInit {
     const exporter = CSVExportService.create();
     exporter.downloadCSV(csvPhoneFormatData);
   }
+
+
+  // this is to create sender id
+  createSenderId = () => {
+    this.showSenderCreation = true;
+  }
+
+  onSubmitSenderId(): void {
+    this.spinnerService.show();
+    this.createSenderIdForm.controls['creation_message'].setValue(
+      // tslint:disable-next-line:max-line-length
+      `${this.createSenderIdForm.controls['creation_message'].value} for country name ${this.createSenderIdForm.controls['country_name'].value} and of type ${this.createSenderIdForm.controls['sms_plan'].value}`);
+    this.createSenderIdForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    this.createSenderIdForm.controls['sender_id'].setValue(this.createSenderIdForm.controls['sender_id'].value.toUpperCase());
+    console.log(this.createSenderIdForm.value);
+    this.smsService.createSenderId(this.createSenderIdForm.value).subscribe(
+      result => {
+        console.log(result);
+        if (result.error === false) {
+          this.showSenderCreation = false;
+        }
+        this.spinnerService.hide();
+      },
+      error => {
+        this.spinnerService.hide();
+        console.log(error);
+      });
+  }
+
+  // hide creating sender id
+  cancel(): void { this.showSenderCreation = !this.showSenderCreation; }
 }
 
 /* Popup for selection of templates*/

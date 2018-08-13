@@ -1,0 +1,52 @@
+<mat-progress-bar mode="indeterminate" *ngIf="false" value=""></mat-progress-bar>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<ng4-loading-spinner></ng4-loading-spinner>
+<div class="container">
+
+  <p>
+    Please enter the domain name and select a domain suffix
+  </p>
+  <div>
+    <form action="" [formGroup]="domainForm">
+      <mat-form-field class="example-full-width">
+        <!-- <input matInput formControlName="domain_name" (ngModelChange)="validateDomain($event)" placeholder="Domain Name"> -->
+        <input matInput formControlName="domain_name" (input)="onSearchChange($event.target.value)" placeholder="Domain Name">
+      </mat-form-field>
+      <b>.</b>
+      <mat-form-field>
+        <mat-select formControlName="domain_suffix" placeholder="Domain suffix">
+          <mat-option *ngFor="let suffix of suffixes" [value]="suffix">
+            {{suffix}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div *ngIf="domainAvalabilityObject">
+    <h1 *ngIf="domainAvalabilityObject.available">Domain Status: {{domainAvalabilityObject.domain_name}} is Available</h1>
+    <h1 *ngIf="!domainAvalabilityObject.available">Domain Status: {{domainAvalabilityObject.domain_name}} is Not-Available</h1>
+    <div *ngIf="domainAvalabilityObject.price">
+      <button mat-raised-button (click)="buyAvailableDomain()">Buy Domain For {{domainAvalabilityObject.price}}$/year</button>
+    </div>
+    <div class="available_domain" display="flex" *ngIf="domainDetails">
+      <div class="name">
+        <p>Domian Available for the name</p>
+        <h3>
+          {{confirmed_domain}}
+        </h3>
+      </div>
+      <div class="name">
+        <h3>Availablity</h3> :
+        <p>{{domainDetails.available}}</p>
+      </div>
+      <div class="name">
+        <h3>Price</h3> :
+        <p>{{domainDetails?.price}}</p>
+      </div>
+    </div>
+    <!-- 
+  <div>
+    <button mat-raised-button [disabled]="domainForm.invalid || validDomain" (click)="onSubmit()">Submit</button>
+  </div> -->
+  </div>
+</div>

@@ -59,11 +59,12 @@ export class AdminComponent implements OnInit {
   randombgcolors: any;
   randombgcolor: string;
   doSearch: boolean;
-  clientName: string;
   // Arrays for Side nav menu and admin menu
   // tslint:disable-next-line:max-line-length
   editor = [{ feature_id: 1, title: 'Editor', router: 'admin/chooseplatform', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
 
+  // tslint:disable-next-line:max-line-length
+  domain = [{ feature_id: 33, title: 'Domain', router: 'admin/domain', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
   // tslint:disable-next-line:max-line-length
   drive = [{ feature_id: 11, title: 'Drive', router: 'admin/filerepository', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
   // tslint:disable-next-line:max-line-length
@@ -104,7 +105,8 @@ export class AdminComponent implements OnInit {
     { feature_id: 25, title: 'Area Category', router: 'admin/areacategory' },
     { feature_id: 27, title: 'SMS Template Configuration', router: 'admin/smsconfiguration' },
     { feature_id: 28, title: 'Email Template', router: 'admin/emailconfiguration' },
-    { feature_id: 29, title: 'Social Configuration', router: 'admin/socialconfiguration' }
+    { feature_id: 29, title: 'Social Configuration', router: 'admin/socialconfiguration' },
+    { feature_id: 33, title: 'Domain Management', router: 'admin/domain' }
   ];
   accessDataModel: AccessDataModelComponent;
   isChatStarted: boolean;
@@ -176,18 +178,18 @@ export class AdminComponent implements OnInit {
   getUserList = () => {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
       .subscribe(
-      data => {
-        this.activeUsers = data.result;
-        this.loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
-          return activeUserData.id !== localStorage.getItem('user_id');
-        });
-        if (this.loggedinUsersList) {
-          this.StoredLoggedinIds();
+        data => {
+          this.activeUsers = data.result;
+          this.loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
+            return activeUserData.id !== localStorage.getItem('user_id');
+          });
+          if (this.loggedinUsersList) {
+            this.StoredLoggedinIds();
+          }
+        },
+        error => {
+          console.log(error);
         }
-      },
-      error => {
-        console.log(error);
-      }
       );
   }
 
