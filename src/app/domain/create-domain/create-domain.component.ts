@@ -81,6 +81,8 @@ export class CreateDomainComponent implements OnInit {
             this.domainAvalabilityObject = successResp.result[0];
             this.domainAvalabilityObject.domain_name = domain_name;
             console.log(successResp);
+          } else if (successResp.custom_status_code === 160) {
+            this.alertService.danger('Internal server Error');
           } else {
             this.spinnerService.hide();
             this.alertService.danger('Something went wrong!');
@@ -103,6 +105,8 @@ export class CreateDomainComponent implements OnInit {
             this.spinnerService.hide();
             this.domainAvalabilityObject = successResp.result[0];
             console.log(successResp);
+          } else if (successResp.custom_status_code === 160) {
+            this.alertService.danger('Internal server Error');
           } else {
             this.alertService.danger('Something went Wrong!');
             this.spinnerService.hide();

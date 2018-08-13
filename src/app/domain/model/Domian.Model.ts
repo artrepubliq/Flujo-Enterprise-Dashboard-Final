@@ -4,7 +4,7 @@ export interface IListOfAllDomainDetailsObject {
 
 export interface IDomainsList {
     uid: string;
-    name: string;
+    domain_name: string;
     created: Date;
     boughtAt: Date;
     expiresAt: Date;

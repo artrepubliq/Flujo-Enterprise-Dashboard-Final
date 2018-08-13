@@ -28,7 +28,9 @@ export class DomainDeploymentsComponent implements OnInit {
           this.spinnerService.hide();
           if (!result.error && result.custom_status_code === 100) {
             this.domainDetailsArray = result.result;
-          } else {
+          } else if (result.custom_status_code === 160) {
+            this.alertService.danger('Internal server Error');
+          }  else {
             this.alertService.warning('Something went Wrong!');
           }
         },
