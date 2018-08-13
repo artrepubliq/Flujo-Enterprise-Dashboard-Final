@@ -31,6 +31,7 @@ declare var $: any;
 
 })
 export class AdminComponent implements OnInit {
+  clientName: string;
   groupChatIndex: number;
   test: boolean;
   heroes = [{ name: 'UI', color: this.getRandomColor() }, { name: 'Design', color: this.getRandomColor() }
