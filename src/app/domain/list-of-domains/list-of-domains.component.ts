@@ -39,13 +39,28 @@ export class ListOfDomainsComponent implements OnInit {
       this.emailService.getRegisteredMailgunDomains(AppConstants.CLIENT_ID)
     ).subscribe(combinedResult => {
       this.spinnerService.hide();
-      if (!combinedResult[0].error && combinedResult[0].custom_status_code === 100 && !combinedResult[1].error) {
-        this.arrayDomainsList = combinedResult[0].result[0].domains;
+      if (!combinedResult[0].error && !combinedResult[1].error) {
+        console.log(combinedResult);
+        this.arrayDomainsList = combinedResult[0].result;
+        this.arrayDomainsList.map(item => {
+          item.dnsDetails = [];
+          item.dnsDetailsDisplayed = false;
+          if (item.domain_name.includes('www.')) {
+            item.domain_name.replace('www.', '');
+          } else if (item.domain_name.includes('http://www.')) {
+            item.domain_name.replace('http://www.', '');
+          } else if (item.domain_name.includes('http://www')) {
+            item.domain_name.replace('http://www', '');
+          }
+        });
+        // console.log(this.arrayDomainsList);
         this.registerdDomains = combinedResult[1].data;
         this.arrayDomainsList.map((domains, index) => {
           this.registerdDomains.map(regDomain => {
-            if (domains.name === regDomain.domain_name) {
-              this.arrayDomainsList[index]['registered'] = true;
+            if (regDomain.domain_name === domains.domain_name) {
+              domains.registered = true;
+            } else {
+              domains.registered = false;
             }
           });
         });
@@ -98,7 +113,7 @@ export class ListOfDomainsComponent implements OnInit {
     // console.log(domainItem);
     // console.log(index);
     this.spinnerService.show();
-    const domainObject = { domain_name: `${domainItem.name}` };
+    const domainObject = { domain_name: `${domainItem.domain_name}` };
     this.emailService.createDomain(domainObject).subscribe(
       result => {
         if (result.error === false) {
@@ -111,6 +126,7 @@ export class ListOfDomainsComponent implements OnInit {
         }
       },
       error => {
+        this.spinnerService.hide();
         console.log(error);
       }
     );
@@ -120,7 +136,7 @@ export class ListOfDomainsComponent implements OnInit {
   getDnsRecords = (domianObject: IDomainsList, index: number) => {
     const options = {
       client_id: AppConstants.CLIENT_ID,
-      domain_name: domianObject.name
+      domain_name: domianObject.domain_name
     };
     if (this.arrayDomainsList[index].dnsDetails.length === 0) {
       this.httpClient.post<ICommonInterface>(`${AppConstants.DOMAINS_API_URL}dns/dnsrecordsbydomain/list`, options).subscribe(
@@ -129,7 +145,14 @@ export class ListOfDomainsComponent implements OnInit {
             this.arrayDomainsList[index].dnsDetails = result.result;
             this.arrayDomainsList[index].dnsDetailsDisplayed = true;
             console.log(this.arrayDomainsList);
+          } else if (result.custom_status_code === 160) {
+            this.alertService.danger('Internal server Error');
+          } else {
+            this.alertService.danger('Something went Wrong');
           }
+        },
+        error => {
+          console.log(error);
         });
     } else {
       this.arrayDomainsList[index].dnsDetailsDisplayed = true;

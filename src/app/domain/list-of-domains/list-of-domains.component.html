@@ -1,27 +1,27 @@
+
 <ng4-loading-spinner></ng4-loading-spinner>
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="accordion" id="accordionExample" *ngIf="arrayDomainsList">
   <div class="card" *ngFor="let domainItem of arrayDomainsList; let i = index;">
-    <div class="card-header" [id]="domainItem.name">
+    <div class="card-header" [id]="domainItem.domain_name">
       <div class="mb-0" style="display: flex">
-        <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#'+domainItem.uid" aria-expanded="true"
-          [attr.aria-controls]="domainItem.uid">
-          {{domainItem.name}}
+        <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#'+domainItem.id" aria-expanded="true"
+          [attr.aria-controls]="domainItem.id">
+          {{domainItem.domain_name}}
         </button>
         <div style="display: flex">
-          <h4 *ngIf="domainItem.verified">Domain Verified</h4>
-          <h4 *ngIf="!domainItem.verified">Domain not Verified</h4>
+          <h4 *ngIf="domainItem.is_verified">Domain Verified</h4>
+          <h4 *ngIf="!domainItem.is_verified">Domain not Verified</h4>
         </div>
       </div>
     </div>
-
-    <div [id]="domainItem.uid" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+    <div [id]="domainItem.id" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body" *ngIf="!domainItem.dnsDetailsDisplayed">
-        <h5 class="card-title">uid: {{domainItem.uid}} </h5>
-        <p class="card-text">created: {{domainItem.created}} </p>
-        <p class="card-text">expiresAt: {{domainItem.expiresAt}} </p>
-        <p class="card-text">serviceType: {{domainItem.serviceType}} </p>
-        <p class="card-text">verified: {{domainItem.verified}} </p>
+        <!-- <h5 class="card-title">uid: {{domainItem.uid}} </h5> -->
+        <p class="card-text">created: {{domainItem.submitted_at}} </p>
+        <!-- <p class="card-text">expiresAt: {{domainItem.expiresAt}} </p> -->
+        <!-- <p class="card-text">serviceType: {{domainItem.serviceType}} </p> -->
+        <p class="card-text">verified: {{domainItem.is_verified}} </p>
         <button (click)="setUpBulkEmailConfig(domainItem, i)" [disabled]="domainItem.registered" class="btn btn-primary">SetUp Bulk Email</button>
         <a (click)="getDnsRecords(domainItem, i)" class="btn btn-primary">DNS Records</a>
       </div>
