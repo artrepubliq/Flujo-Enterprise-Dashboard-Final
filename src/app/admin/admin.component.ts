@@ -198,12 +198,16 @@ export class AdminComponent implements OnInit {
       if (split && split[1].includes('.flujo.in')) {
         const splitHostName = split[1].split('.flujo.in');
         this.clientName = splitHostName[0];
+      } else {
+        this.clientName = 'Not Assigned';
       }
     } else if (hostName.includes('https://')) {
       const split = hostName.split('https://');
       if (split && split[1].includes('.flujo.in')) {
         const splitHostName = split[1].split('.flujo.in');
         this.clientName = splitHostName[0];
+      } else {
+        this.clientName = 'Not Assigned';
       }
 
     } else {
