@@ -170,12 +170,12 @@ export class MediaComponent implements OnInit {
         .subscribe(
           resp => {
             this.spinnerService.hide();
-            _.each(resp, item => {
+            _.each(resp.result, item => {
               if (item.user_id === localStorage.getItem('user_id')) {
                 this.userAccessLevelObject = item.access_levels;
               }
             });
-            this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
+            this.adminComponent.userAccessLevelData = this.userAccessLevelObject;
             this.userRestrict();
           },
           error => {
@@ -928,6 +928,9 @@ export class FileSelectPopup {
               this.spinnerService.hide();
               this.dialogRef.close();
             }
+          },
+          errorResp => {
+            console.log(errorResp);
           }
         );
     }
