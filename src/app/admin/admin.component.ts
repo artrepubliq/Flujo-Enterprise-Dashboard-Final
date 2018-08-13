@@ -194,6 +194,27 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const hostName: string = window.location.href;
+    if (hostName.includes('http://')) {
+      const split = hostName.split('http://');
+      if (split && split[1].includes('.flujo.in')) {
+        const splitHostName = split[1].split('.flujo.in');
+        this.clientName = splitHostName[0];
+      } else {
+        this.clientName = 'Not Assigned';
+      }
+    } else if (hostName.includes('https://')) {
+      const split = hostName.split('https://');
+      if (split && split[1].includes('.flujo.in')) {
+        const splitHostName = split[1].split('.flujo.in');
+        this.clientName = splitHostName[0];
+      } else {
+        this.clientName = 'Not Assigned';
+      }
+
+    } else {
+      this.clientName = 'Not Assigned';
+    }
     this.name = localStorage.getItem('name');
     this.user_id = localStorage.getItem('user_id');
 
