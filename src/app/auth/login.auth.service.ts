@@ -70,16 +70,21 @@ export class LoginAuthService implements OnInit {
 
   logout(status) {
     console.log(status);
+    console.log(localStorage);
     if (!status) {
       this.router.navigate(['/login']);
-      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.user_id)
+      this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deleteloginuser/' + localStorage.getItem('user_id'))
         .subscribe(
           data => {
+            console.log(data);
+            window.location.reload();
+            this.clearLocalStorage();
           },
           error => {
+            console.log(error);
+            window.location.reload();
+            this.clearLocalStorage();
           });
-      this.clearLocalStorage();
-      window.location.reload();
     }
   }
   clearLocalStorage = () => {

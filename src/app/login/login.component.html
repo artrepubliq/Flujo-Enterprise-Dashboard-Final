@@ -24,7 +24,7 @@
         </div>
         <div>
           <mat-card-actions class="logIn_button" fxLayoutAlign="center stretch">
-            <button fxFlex fxLayoutAlign="center" type="submit" [disabled]="!isLoggedIn" class="btn-login" color="default">
+            <button fxFlex fxLayoutAlign="center" type="submit" [disabled]="!isLoggedIn || loginForm.invalid" class="btn-login" color="default">
               <h6 class="d-inline">LOG IN
                 <i class="d-inline">
                   <img class="arrow-right" src="../assets/icons/headings-down-arrow-icon@3x.png">
