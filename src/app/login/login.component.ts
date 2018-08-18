@@ -66,24 +66,25 @@ export class LoginComponent implements OnInit {
           this.isLoggedIn = true;
           console.log(data.result);
           this.loginData = data.result;
-            if (data.custom_status_code === 100) {
-              this.loginForm.reset();
-                            this.loginAuthService._setSession(data.result[0]);
-              // Dont remove reload
-              window.location.reload();
-              if (this.loginData[0].email_verified === '0') {
-                const feature_id = 23;
-                this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
-                this.redirectUrlForChatCamp(this.loginData[0]);
-              }
-              this.alertService.success('User logged in successfully');
-            } else if (data.custom_status_code === 140) {
-              this.alertService.danger('Not a valid user!');
-            } else {
-              this.spinnerService.hide();
-              this.alertService.danger('Please enter valid details');
+          if (data.custom_status_code === 100) {
+            this.loginForm.reset();
+            this.loginAuthService._setSession(data.result[0]);
+            // Dont remove reload
+            window.location.reload();
+            if (this.loginData[0].email_verified === '0') {
+              const feature_id = 23;
+              this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
+              this.redirectUrlForChatCamp(this.loginData[0]);
+            }
+            this.alertService.success('User logged in successfully');
+          } else if (data.custom_status_code === 140) {
+            this.alertService.danger('Not a valid user!');
+          } else {
+            this.spinnerService.hide();
+            this.alertService.danger('Please enter valid details');
           }
         }, loginResp => {
+          this.isLoggedIn = false;
           console.log(loginResp);
         });
   }
