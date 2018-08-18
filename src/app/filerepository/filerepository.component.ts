@@ -22,6 +22,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
+import { FileRepositoryPopup } from './filerepository.popup.component';
+import { FileViewerPopUp } from './FileViewer.PopUp.component';
 
 @Component({
     selector: 'app-filerepository',
@@ -143,16 +145,16 @@ export class FilerepositoryComponent implements OnInit {
             this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postfilerepository', formData)
                 .subscribe(
                     data => {
-                            if (data.custom_status_code === 100 && data.result.length > 0) {
-                                this.alertService.success('File uploaded successfully');
-                                this.foldersdata = [];
-                                console.log(data);
-                                this.getFolders(AppConstants.CLIENT_ID);
-                            } else if (data.custom_status_code === 101) {
-                                this.alertService.warning('Required parameters are missing!');
-                            } else if (data.custom_status_code === 102) {
-                                this.alertService.warning('Every thing is upto date!');
-                            }
+                        if (data.custom_status_code === 100 && data.result.length > 0) {
+                            this.alertService.success('File uploaded successfully');
+                            this.foldersdata = [];
+                            console.log(data);
+                            this.getFolders(AppConstants.CLIENT_ID);
+                        } else if (data.custom_status_code === 101) {
+                            this.alertService.warning('Required parameters are missing!');
+                        } else if (data.custom_status_code === 102) {
+                            this.alertService.warning('Every thing is upto date!');
+                        }
                         this.spinnerService.hide();
                         // if (data.error) {
                         //     this.alertService.warning(data.result);
@@ -356,42 +358,42 @@ export class FilerepositoryComponent implements OnInit {
             .subscribe(
                 data => {
                     try {
-                            if (data.result[1].result && data.result[0].size) {
-                                this.allFiles = [];
-                                this.repositories = data.result[1].result;
-                                // console.log(this.repositories);
-                                this.total_size = data.result[0].size;
-                                this.total_size_in_mb = (this.total_size / 1048576).toFixed(2);
-                                this.repositories.forEach(allFiles => {
-                                    this.allFiles.push(allFiles.files);
-                                });
-                                if (parseFloat((this.total_size / 1048576).toFixed(2)) >= 1.0) {
-                                    this.showInMb = true;
-                                    this.showInKb = false;
-                                } else if (parseFloat((this.total_size / 1048576).toFixed(2)) < 1.0) {
-                                    this.showInMb = false;
-                                    this.showInKb = true;
+                        if (data.result[1].result && data.result[0].size) {
+                            this.allFiles = [];
+                            this.repositories = data.result[1].result;
+                            // console.log(this.repositories);
+                            this.total_size = data.result[0].size;
+                            this.total_size_in_mb = (this.total_size / 1048576).toFixed(2);
+                            this.repositories.forEach(allFiles => {
+                                this.allFiles.push(allFiles.files);
+                            });
+                            if (parseFloat((this.total_size / 1048576).toFixed(2)) >= 1.0) {
+                                this.showInMb = true;
+                                this.showInKb = false;
+                            } else if (parseFloat((this.total_size / 1048576).toFixed(2)) < 1.0) {
+                                this.showInMb = false;
+                                this.showInKb = true;
 
-                                }
-                                // console.log(this.total_size);
-                                // this.repositories = [];
-
-                                this.filtered_repositories = [].concat.apply([], this.allFiles);
-                                // this.filtered_repositories.map((object, index) => {
-                                //     console.log(this.filtered_repositories[index]);
-                                //     if (this.filtered_repositories[index].file_path) {
-                                //         // tslint:disable-next-line:max-line-length
-                                // tslint:disable-next-line:max-line-length
-                                //         this.filtered_repositories[index].file_path = 'http://' + this.filtered_repositories[index].file_path;
-                                //     }
-                                // });
-
-                                this.getFileSizes();
-                            } else {
-                                console.log(data);
-                                this.repositories = [];
                             }
-                            this.spinnerService.hide();
+                            // console.log(this.total_size);
+                            // this.repositories = [];
+
+                            this.filtered_repositories = [].concat.apply([], this.allFiles);
+                            // this.filtered_repositories.map((object, index) => {
+                            //     console.log(this.filtered_repositories[index]);
+                            //     if (this.filtered_repositories[index].file_path) {
+                            //         // tslint:disable-next-line:max-line-length
+                            // tslint:disable-next-line:max-line-length
+                            //         this.filtered_repositories[index].file_path = 'http://' + this.filtered_repositories[index].file_path;
+                            //     }
+                            // });
+
+                            this.getFileSizes();
+                        } else {
+                            console.log(data);
+                            this.repositories = [];
+                        }
+                        this.spinnerService.hide();
                     } catch (error) {
                         console.log(error);
                         this.spinnerService.hide();
@@ -464,15 +466,15 @@ export class FilerepositoryComponent implements OnInit {
         this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deletefilerepository/' + id)
             .subscribe(
                 data => {
-                        if (data.custom_status_code === 100) {
-                            this.alertService.success('File deleted successfully');
-                            this.filtered_repositories = [];
-                            this.getFolders(AppConstants.CLIENT_ID);
-                        } else if (data.custom_status_code === 101) {
-                            this.alertService.warning('Required parameters are missing!');
-                        } else if (data.custom_status_code === 102) {
-                            this.alertService.warning('Every thing is upto date!');
-                        }
+                    if (data.custom_status_code === 100) {
+                        this.alertService.success('File deleted successfully');
+                        this.filtered_repositories = [];
+                        this.getFolders(AppConstants.CLIENT_ID);
+                    } else if (data.custom_status_code === 101) {
+                        this.alertService.warning('Required parameters are missing!');
+                    } else if (data.custom_status_code === 102) {
+                        this.alertService.warning('Every thing is upto date!');
+                    }
                     this.spinnerService.hide();
                     // this.alertService.success('File deleted successfully');
                     // this.filtered_repositories = [];
@@ -515,15 +517,15 @@ export class FilerepositoryComponent implements OnInit {
         this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleterepositories/' + folderId)
             .subscribe(
                 data => {
-                        if (data.custom_status_code === 100) {
-                            this.alertService.success('Folder deleted successfully');
-                            this.filtered_repositories = [];
-                            this.getFolders(AppConstants.CLIENT_ID);
-                        } else if (data.custom_status_code === 101) {
-                            this.alertService.warning('Required parameters are missing!');
-                        } else if (data.custom_status_code === 102) {
-                            this.alertService.warning('Every thing is upto date!');
-                        }
+                    if (data.custom_status_code === 100) {
+                        this.alertService.success('Folder deleted successfully');
+                        this.filtered_repositories = [];
+                        this.getFolders(AppConstants.CLIENT_ID);
+                    } else if (data.custom_status_code === 101) {
+                        this.alertService.warning('Required parameters are missing!');
+                    } else if (data.custom_status_code === 102) {
+                        this.alertService.warning('Every thing is upto date!');
+                    }
                     this.spinnerService.hide();
                     // this.alertService.success('Folder deleted successfully');
                     // this.filtered_repositories = [];
@@ -535,142 +537,5 @@ export class FilerepositoryComponent implements OnInit {
                     console.log(error);
                 }
             );
-    }
-}
-/* this is the component for file name and folder name popup input*/
-@Component({
-    // tslint:disable-next-line:component-selector
-    selector: 'dialog-overview-example-dialog',
-    templateUrl: 'filerepository.popup.html',
-    styleUrls: ['./filerepository.component.scss']
-})
-// tslint:disable-next-line:component-class-suffix
-export class FileRepositoryPopup {
-
-    isImage: boolean;
-    image_base64: string;
-    fileUploadForm: FormGroup;
-    dialogform: FormControl;
-    foldername: Observable<any[]>;
-    foldersObject: any = this.data;
-    client_id = AppConstants.CLIENT_ID;
-    myControl: FormControl = new FormControl();
-    file_name_control: FormControl = new FormControl();
-    options = [];
-    file_path;
-    display_file_name: string;
-    disable = true;
-    filteredOptions: Observable<string[]>;
-    folderObject = this.data;
-    fileRepository: FilerepositoryComponent;
-    formData = new FormData();
-    // console.log(folderObject);
-    constructor(
-        public dialogRef: MatDialogRef<FileRepositoryPopup>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-        private formBuilder: FormBuilder,
-        private httpClient: HttpClient,
-        public loader: NgxSmartLoaderService,
-        private spinnerService: Ng4LoadingSpinnerService,
-        private alertService: AlertService,
-        // private filerepositoryComponent: FilerepositoryComponent
-    ) {
-        this.isImage = false;
-        this.filteredOptions = this.myControl.valueChanges.pipe(
-            startWith(''),
-            map(val => this.filter(val))
-        );
-        const folderObject = this.data;
-        this.file_path = folderObject['file_path'];
-        if (this.file_path) {
-            this.display_file_name = this.file_path.name;
-            const ext = this.file_path.name.toUpperCase().split('.').pop() || this.file_path.name;
-            console.log(ext);
-            if ((ext === 'PNG') || (ext === 'JPEG') || (ext === 'JPG')) {
-                const reader = new FileReader();
-                reader.readAsDataURL(this.file_path);
-                reader.onload = () => {
-                    // console.log(reader.result.split(',')[1]);
-                    this.image_base64 = reader.result;
-                    console.log(this.image_base64);
-                    this.isImage = true;
-                };
-            }
-        }
-        delete folderObject['file_path'];
-        this.options = folderObject;
-        this.fileUploadForm = this.formBuilder.group({
-            'file_name': ['', Validators.required],
-            'folder': ['', Validators.required],
-            'file_path': null,
-            'client_id': null
-        });
-        // console.log(this.options);
-    }
-
-    filter(val: string): string[] {
-        return this.options.filter(option => option.toLowerCase().indexOf(val.toLowerCase()) === 0);
-    }
-
-    onNoClick(): void {
-        this.dialogRef.close();
-    }
-    closeDialog(): void {
-        this.dialogRef.close();
-    }
-
-    submitForm = () => {
-        this.fileUploadForm.controls['client_id'].setValue(this.client_id);
-        this.fileUploadForm.controls['file_path'].setValue(this.file_path);
-        this.fileUploadForm.controls['folder'].setValue(this.myControl.value);
-        this.fileUploadForm.controls['file_name'].setValue(this.file_name_control.value);
-        const formModel = this.fileUploadForm.value;
-
-        this.formData.append('file_path', formModel.file_path);
-        this.formData.append('file_name', formModel.file_name);
-        this.formData.append('folder', formModel.folder);
-        this.formData.append('client_id', formModel.client_id);
-        if (this.fileUploadForm.invalid) {
-            return false;
-        } else if (formModel.file_name.match(/^[^a-zA-Z0-9]+$/) || formModel.folder.match(/^[^a-zA-Z0-9]+$/)) {
-            return false;
-        } else {
-            this.dialogRef.close(this.fileUploadForm.value);
-        }
-    }
-}
-/* this is the component for file view popup*/
-@Component({
-    // tslint:disable-next-line:component-selector
-    selector: 'fileviewer-dialog',
-    templateUrl: 'fileviewer.popup.html',
-    styleUrls: ['./filerepository.component.scss']
-})
-// tslint:disable-next-line:component-class-suffix
-export class FileViewerPopUp {
-    file_path: string;
-    file_extension: string;
-    file_name: string;
-    constructor(
-        public dialogRef: MatDialogRef<FileViewerPopUp>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-        @Inject(MAT_DIALOG_DATA) public fileExtension: string,
-        private formBuilder: FormBuilder,
-        private httpClient: HttpClient,
-        public loader: NgxSmartLoaderService,
-        private spinnerService: Ng4LoadingSpinnerService,
-        private alertService: AlertService,
-        // private filerepositoryComponent: FilerepositoryComponent
-    ) {
-        console.log(this.data);
-        console.log(this.data.file);
-        console.log(this.data.file_extension);
-        this.file_path = this.data.file;
-        this.file_name = this.data.file_name;
-        this.file_extension = this.data.file_extension.toLowerCase();
-    }
-
-    public closeWindow(): void {
-        this.dialogRef.close();
     }
 }

@@ -79,7 +79,6 @@ import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
 import { DateFormat } from './model/date.formatt';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
-import { FileRepositoryPopup, FileViewerPopUp } from './filerepository/filerepository.component'; // FilerepositoryComponent
 // import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AnalyticsComponent } from './analytics/analytics.component';
@@ -157,6 +156,8 @@ import { DomainManagementComponent } from './domain/domain-management/domain-man
 import { ListOfDomainsComponent } from './domain/list-of-domains/list-of-domains.component';
 import { DomainsService } from './domain/services/domains.service';
 import { GloblalSmsService } from './service/global-sms.service';
+import { FileRepositoryPopup } from './filerepository/filerepository.popup.component';
+import { FileViewerPopUp } from './filerepository/FileViewer.PopUp.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
