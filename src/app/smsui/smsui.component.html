@@ -153,7 +153,7 @@
         </div>
         <mat-form-field class="input_fields">
           <mat-select formControlName="country_name" placeholder="Choose Country">
-            <mat-option [value]="countryName" *ngFor="let countryName of countryNames">{{countryName}}</mat-option>
+            <mat-option [value]="countryName.name" *ngFor="let countryName of countryNames">{{countryName.name}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
