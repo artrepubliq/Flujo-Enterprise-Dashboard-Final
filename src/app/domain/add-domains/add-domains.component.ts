@@ -15,13 +15,16 @@ import { AlertService } from '../../../../node_modules/ngx-alerts';
 export class AddDomainsComponent implements OnInit {
   public domain_details_form: FormGroup;
   public addedDomain: IAddedDomainResponse[];
+  // public domain_reg_exp = /^[_A-z0-9.]*((-|)*[_A-z0-9]*)*$/;
+  // public domain_reg_exp = /^[_A-z0-9.]*((-|)*[_A-z0-9.]*)*$/;
+  public domain_reg_exp = /(?:www\.)?(\w+)\.[A-z0-9]/;
   constructor(
     private httpClient: HttpClient,
     private spinnerService: Ng4LoadingSpinnerService,
     private alertService: AlertService,
     public fb: FormBuilder) {
     this.domain_details_form = this.fb.group({
-      'domain_name': ['', Validators.required],
+      'domain_name': ['', Validators.compose([Validators.pattern(this.domain_reg_exp), Validators.required])],
       'client_id': [AppConstants.CLIENT_ID]
     });
   }
@@ -46,6 +49,8 @@ export class AddDomainsComponent implements OnInit {
                   console.log(res);
                   if (!res.error && res.custom_status_code === 100) {
                     this.alertService.info('Domain added sucessfully');
+                  } else if (res.custom_status_code === 160) {
+                    this.alertService.danger('Internal server Error');
                   } else {
                     this.alertService.warning('Something went wrong');
                   }
@@ -53,6 +58,15 @@ export class AddDomainsComponent implements OnInit {
                 err => {
                   console.log(err);
                 });
+          } else if (result.custom_status_code === 150) {
+            this.spinnerService.hide();
+            this.alertService.warning('Sorry You dont have proper access!!');
+          } else if (result.custom_status_code === 101) {
+            this.spinnerService.hide();
+            this.alertService.danger('Requiered parameters are missing!');
+          } else if (result.custom_status_code === 160) {
+            this.spinnerService.hide();
+            this.alertService.danger('Internal server occured');
           } else {
             this.spinnerService.hide();
             this.alertService.warning('Please enter existing domain!!');

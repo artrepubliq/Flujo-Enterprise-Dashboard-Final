@@ -19,7 +19,6 @@
   .file-box {
     box-shadow: none;
     border: none;
-
   } // control-messages,
   .form-error-msg {
     color: #E82C0C;
@@ -29,15 +28,24 @@
   }
 }
 
+.wrapper {
+  .button_submit {
+    width: auto;
+  }
+  .submitDiv {
+    margin-top: 20px
+  }
+}
 
 .button_submit {
   width: 100px;
 }
 
 /* Popup */
+
 .sms_popup {
   padding: 2vh 3vw;
-  max-height:100%;
+  max-height: 100%;
   overflow-y: scroll;
   .head {
     font-size: 15px;
@@ -62,14 +70,14 @@
     position: relative;
   }
   .sms_msg_item.selected:after {
-      content: "\f00c";
-      font-family: 'fontAwesome';
-      color: #50d166;
-      font-size: 26px;
-      border-radius: 50px;
-      position: absolute;
-      top: 10px;
-      right: 10px;
+    content: "\f00c";
+    font-family: 'fontAwesome';
+    color: #50d166;
+    font-size: 26px;
+    border-radius: 50px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
   }
   .sms_msg_item.selected {
     border-color: #4a2565;
@@ -99,6 +107,7 @@
     margin: 0;
   }
 }
+
 .error_box {
   // border: 1px solid #ee286b;
   box-shadow: 0px 1.5px 18px 0 rgba(238, 40, 107, 0.15);
@@ -128,8 +137,36 @@
     font-style: normal;
     font-stretch: normal;
     line-height: normal;
-    letter-spacing: normal;
-    // text-align: center;
+    letter-spacing: normal; // text-align: center;
     color: #ee286b;
+  }
+}
+
+.footer_button {
+  display: flex;
+  justify-content: flex-end;
+  button {
+    margin-left: 30px;
+  }
+}
+
+.form__field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  > div {
+    min-width: 250px;
+  }
+  input,textarea {
+    margin: 0;
+    padding: 0;
+  }
+  .email_message {
+    width: 100%;
+    textarea {
+      height: 80px;
+      resize: none;
+      padding: 12px;
+    }
   }
 }

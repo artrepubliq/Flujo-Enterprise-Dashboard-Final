@@ -78,7 +78,6 @@ import { NgxTwitterTimelineModule } from 'ngx-twitter-timeline';
 import { DateFormat } from './model/date.formatt';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ChangemakerComponent } from './changemaker/changemaker.component';
-import { FileRepositoryPopup, FileViewerPopUp } from './filerepository/filerepository.component'; // FilerepositoryComponent
 // import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AnalyticsComponent } from './analytics/analytics.component';
