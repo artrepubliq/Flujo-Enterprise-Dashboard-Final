@@ -53,8 +53,7 @@ export class FilerepositoryComponent implements OnInit {
     showInMb: boolean;
     showInKb: boolean;
     file_path: Object;
-    // disabled = false;
-    // mahesh = 'http://flujo.in/dashboard/flujo_staging/src/uploads/1232/HARISH/53bc64a0-download.jpeg';
+
     @Input() projectId: number;
     @Input() sectionId: number;
     @Input() fileExt = 'JPG, PDF, PNG, JPEG, CSV, DOCX, DOC';
@@ -91,7 +90,6 @@ export class FilerepositoryComponent implements OnInit {
                             if (item.user_id === localStorage.getItem('user_id')) {
                                 this.userAccessLevelObject = item.access_levels;
                             } else {
-                                // this.userAccessLevelObject = null;
                             }
                         });
                         this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
@@ -107,8 +105,8 @@ export class FilerepositoryComponent implements OnInit {
     // this for restrict user on root access level
     userRestrict() {
         _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-            // tslint:disable-next-line:max-line-length
-            if (this.adminComponent.userAccessLevelData[iterate].name === 'Drive' && this.adminComponent.userAccessLevelData[iterate].enable) {
+            if (this.adminComponent.userAccessLevelData[iterate].name === 'Drive'
+                && this.adminComponent.userAccessLevelData[iterate].enable) {
                 this.filteredUserAccessData = item;
             } else {
 
@@ -122,9 +120,7 @@ export class FilerepositoryComponent implements OnInit {
     }
     /* this is when we submit the form */
     onSubmit(filedata) {
-        // const fileData = this.FileUploadControl.value;
-        // fileData.client_id = AppConstants.CLIENT_ID;
-        // console.log(fileData);
+
         this.spinnerService.show();
         const formData = new FormData();
         const fileSizeinMB = filedata.file_path.size / (1024 * 1000);
@@ -134,9 +130,7 @@ export class FilerepositoryComponent implements OnInit {
         formData.append('file_name', filedata.file_name);
         formData.append('client_id', filedata.client_id);
         formData.append('file_size', '' + filedata.file_path.size);
-        // console.log(size);
-        // console.log(this.total_size);
-        // tslint:disable-next-line:radix
+
         console.log(size + parseFloat(this.total_size_in_mb));
         if ((size + parseFloat(this.total_size_in_mb)) >= 1024.00) {
             this.spinnerService.hide();
@@ -156,16 +150,7 @@ export class FilerepositoryComponent implements OnInit {
                             this.alertService.warning('Every thing is upto date!');
                         }
                         this.spinnerService.hide();
-                        // if (data.error) {
-                        //     this.alertService.warning(data.result);
-                        //     // console.log(data);
-                        //     this.spinnerService.hide();
-                        // } else {
-                        //     this.alertService.success('File uploaded successfully');
-                        //     this.foldersdata = [];
-                        //     // console.log(data);
-                        //     this.getFolders(AppConstants.CLIENT_ID);
-                        // }
+
                     },
                     error => {
                         console.log(error);
@@ -183,13 +168,13 @@ export class FilerepositoryComponent implements OnInit {
     onFileChange(event) {
         const files = event.target.files;
         this.fileName = files;
-        // console.log(files.name);
+
         this.saveFiles(files);
-        // console.log(this.repositories);
+
         this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
-        // console.log(this.errors);
+
         if (this.errors.length === 0) {
-            // console.log(this.foldersdata);
+
             this.foldersdata['file_path'] = files[0];
             this.openDialog(this.foldersdata);
             event.target.value = null;
@@ -228,7 +213,6 @@ export class FilerepositoryComponent implements OnInit {
         const files = event.dataTransfer.files;
         this.saveFiles(files);
         this.repositories.forEach(folders => this.foldersdata.push(folders.folder));
-        // console.log(this.foldersdata);
         if (this.errors.length === 0) {
             this.foldersdata['file_path'] = files[0];
             this.openDialog(this.foldersdata);
@@ -246,8 +230,6 @@ export class FilerepositoryComponent implements OnInit {
         }
         const fileSizeinMB = files[0].size / (1024 * 1000);
         const size = Math.round(fileSizeinMB * 100) / 100;
-        // console.log(fileSizeinMB);
-        // console.log(size);
         this.FileUploadControl.controls['file_path'].setValue(files[0]);
         this.foldersdata['file_path'] = files[0];
         this.FileUploadControl.controls['file_size'].setValue(size);
@@ -271,20 +253,20 @@ export class FilerepositoryComponent implements OnInit {
     openViewDialog = (file, fileExtension, fileName) => {
         console.log(fileExtension);
         console.log(fileExtension.toLowerCase());
-        // console.log(file);
+
         if (fileExtension.toLowerCase() === 'png') {
             this.openFileViewDialog(file, fileExtension, fileName);
-            // return;
+
         } else if (fileExtension.toLowerCase() === 'jpeg') {
             this.openFileViewDialog(file, fileExtension, fileName);
-            // return;
+
         } else if (fileExtension.toLowerCase() === 'jpg') {
             this.openFileViewDialog(file, fileExtension, fileName);
-            // return;
+
         } else if (fileExtension.toLowerCase() === 'pdf') {
 
             this.openFileViewDialog(file, fileExtension, fileName);
-            // return;
+
         } else {
             this.alertService.warning('Sorry No preview available');
         }
@@ -352,16 +334,15 @@ export class FilerepositoryComponent implements OnInit {
     getFolders(client_id) {
         this.showInKb = false;
         this.showInMb = false;
-        // console.log(client_id);
+
         this.spinnerService.show();
         this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getfilerepository/' + client_id)
             .subscribe(
                 data => {
                     try {
-                        if (data.result[1].result && data.result[0].size) {
+                        if (data.result[1].result && data.result[0].size >= 0) {
                             this.allFiles = [];
                             this.repositories = data.result[1].result;
-                            // console.log(this.repositories);
                             this.total_size = data.result[0].size;
                             this.total_size_in_mb = (this.total_size / 1048576).toFixed(2);
                             this.repositories.forEach(allFiles => {
@@ -375,19 +356,8 @@ export class FilerepositoryComponent implements OnInit {
                                 this.showInKb = true;
 
                             }
-                            // console.log(this.total_size);
-                            // this.repositories = [];
 
                             this.filtered_repositories = [].concat.apply([], this.allFiles);
-                            // this.filtered_repositories.map((object, index) => {
-                            //     console.log(this.filtered_repositories[index]);
-                            //     if (this.filtered_repositories[index].file_path) {
-                            //         // tslint:disable-next-line:max-line-length
-                            // tslint:disable-next-line:max-line-length
-                            //         this.filtered_repositories[index].file_path = 'http://' + this.filtered_repositories[index].file_path;
-                            //     }
-                            // });
-
                             this.getFileSizes();
                         } else {
                             console.log(data);
@@ -409,7 +379,7 @@ export class FilerepositoryComponent implements OnInit {
     getFileSizes = () => {
         let size = 0;
         this.repositories.map((object) => {
-            // console.log(object.files);
+
             object.files.map((file) => {
                 size = size + Number(file.file_size);
             });
@@ -476,9 +446,6 @@ export class FilerepositoryComponent implements OnInit {
                         this.alertService.warning('Every thing is upto date!');
                     }
                     this.spinnerService.hide();
-                    // this.alertService.success('File deleted successfully');
-                    // this.filtered_repositories = [];
-                    // this.getFolders(AppConstants.CLIENT_ID);
                 },
                 error => {
                     this.alertService.warning('something went wrong');
@@ -491,7 +458,7 @@ export class FilerepositoryComponent implements OnInit {
     public deleteFolder(repositoryitem) {
         console.log(repositoryitem);
         if (repositoryitem.files.length === 0) {
-            // console.log(repositoryitem.files.length);
+
             this.deleteFoldersAndFiles(repositoryitem.folder_id);
         } else {
             console.log(repositoryitem);
@@ -527,9 +494,7 @@ export class FilerepositoryComponent implements OnInit {
                         this.alertService.warning('Every thing is upto date!');
                     }
                     this.spinnerService.hide();
-                    // this.alertService.success('Folder deleted successfully');
-                    // this.filtered_repositories = [];
-                    // this.getFolders(AppConstants.CLIENT_ID);
+
                 },
                 error => {
                     this.spinnerService.hide();

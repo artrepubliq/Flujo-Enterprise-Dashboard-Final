@@ -24,6 +24,8 @@ import { isNumber } from 'util';
 import { MessageArchivedComponent } from '../directives/snackbar-sms-email/snackbar-email-sms';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { GloblalSmsService } from '../service/global-sms.service';
+import { ISMSResponse, IGetSenderIds } from '../model/twitter/sms.gateway.model';
+import { countryCodes } from './countries';
 @Component({
   selector: 'app-smsui',
   templateUrl: './smsui.component.html',
@@ -53,10 +55,12 @@ export class SmsuiComponent implements OnInit {
   public sendSms = false;
   public createSenderIdForm: FormGroup;
   showSenderCreation = false;
-  public senderIds = ['AFLUJO', 'AFLUJO'];
+  // senderIds: IGetSenderIds[];
+  // public uppercase
+  public senderIds = ['AFLUJO', 'DASYAM'];
   public sms_plans = ['Promotional', 'Transactional'];
   public creation_message = 'Approve the following sender id';
-  public countryNames: string[];
+  public countryNames: { name: string, dial_code: string, code: string }[];
   public cap_reg_ex = /\b([A - Z]+)\b/;
   constructor(private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient,
     private formBuilder: FormBuilder, private alertService: AlertService,
@@ -113,17 +117,7 @@ export class SmsuiComponent implements OnInit {
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
-
-    this.smsService.getCountryCodes().subscribe(
-      result => {
-        if (result && result.length > 0) {
-          this.countryNames = result;
-        }
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    this.countryNames = countryCodes;
     this.smsService.getSMSSenderIds(AppConstants.CLIENT_ID).subscribe(
       result => {
         // this.senderIds = result.result;
@@ -289,6 +283,8 @@ export class SmsuiComponent implements OnInit {
         console.log(result);
         if (result.error === false) {
           this.showSenderCreation = false;
+        } else {
+          this.alertService.warning('Something went Wrong');
         }
         this.spinnerService.hide();
       },
