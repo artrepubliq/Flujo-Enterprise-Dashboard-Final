@@ -1,0 +1,36 @@
+<div class="upload_popup" fxLayout="row" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="15px">
+    <div fxFlex.lg="30%" fxFlex class="uploaded_files" fxLayoutAlign="center center">
+      <div *ngFor="let item of image_base64">
+        <img src='data:image/png;base64,{{item}}' width="100px" height="100px">
+      </div>
+      <p *ngIf="isApply">{{data.images.length}}</p>
+    </div>
+  
+    <div fxFlex fxLayout="column" fxLayoutGap="20px">
+  
+      <div class="custom_input_mat select_folder" fxLayout="column" fxLayoutGap="12px" *ngIf="data.images?.length > 1">
+        <p>Image / Gallery Name</p>
+        <mat-form-field class="select_dropdown">
+          <input matInput placeholder="Enter image / gallery name" aria-label="State" [matAutocomplete]="auto" [formControl]="myControl">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+  
+      <div class="custom_input_mat popup_description" fxLayout="column" fxLayoutGap="12px">
+        <p>Description</p>
+        <mat-form-field class="select_dropdown">
+          <input type="text"  placeholder="Enter text" matInput [(ngModel)]="albumdescription">
+        </mat-form-field>
+      </div>
+  
+      <div class="file_action" fxLayoutAlign="end center">
+        <button class="button_cancel" (click)="closeDialog()">Cancel</button>
+        <button class="button_submit" (click)="saveFiles()">Save</button>
+      </div>
+    </div>
+  
+  </div>
