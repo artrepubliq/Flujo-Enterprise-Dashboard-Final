@@ -49,7 +49,6 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { DialogOverviewExampleDialog, FileSelectPopup } from './media/media.component'; // FileSelectPopup // MediaComponent
 import { SmsTemplateSelectionDialog } from './smsui/smsui.component'; // SmsuiComponent
 import { MessageArchivedComponent } from '../app/directives/snackbar-sms-email/snackbar-email-sms';
 import { AccessLevelPopup } from './create-user-component/create-user-component.component'; // CreateUserComponentComponent
@@ -157,6 +156,8 @@ import { DomainManagementComponent } from './domain/domain-management/domain-man
 import { ListOfDomainsComponent } from './domain/list-of-domains/list-of-domains.component';
 import { DomainsService } from './domain/services/domains.service';
 import { GloblalSmsService } from './service/global-sms.service';
+import { FileSelectPopup } from './dialogs/media-file-select.popup/media-file-select.popup';
+import { MediaDeletePopup } from './dialogs/media-delete-popup/media-delete.popup';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
@@ -187,11 +188,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     // directives
     EditGalleryItems,
     GalleryDirective,
-    DialogOverviewExampleDialog,
     LogoutPopUpDialog,
     // ChangepasswordComponent,
     // BiographyComponent,
     FileSelectPopup,
+    MediaDeletePopup,
     AccessLevelPopup,
     FileRepositoryPopup,
     FileViewerPopUp,
@@ -322,7 +323,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AngularDateTimePickerModule,
     // LinkyModule,
   ],
-  entryComponents: [EditGalleryItems, DialogOverviewExampleDialog, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
+  entryComponents: [EditGalleryItems, MediaDeletePopup, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
     AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
     MessageCompose, ImagePreviewDialogComponent, EditFacebookMessage, AddSocialStreemDialog, ProfileInfoDialog,
