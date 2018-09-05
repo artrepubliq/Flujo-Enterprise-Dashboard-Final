@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { MediaRoutingModule } from './media-routing.module';
 import { MediaComponent } from './media.component';
 import { FileUploadModule } from 'ng2-file-upload';
-import { ImageUploadModule } from 'angular2-image-upload';
 import { MatDialogModule, MatButtonModule, MatOptionModule,
   MatSelectModule,
   MatTabsModule,
@@ -22,7 +21,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MediaRoutingModule,
     HttpModule,
     FileUploadModule,
-    ImageUploadModule,
     MatDialogModule,
     MatButtonModule,
     MatAutocompleteModule,

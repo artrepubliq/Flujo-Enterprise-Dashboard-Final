@@ -9,10 +9,11 @@ import {
   MatFormFieldModule, MatInputModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AlertModule } from 'ngx-alerts';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AuthHttp } from 'angular2-jwt/angular2-jwt';
 
 @NgModule({
   imports: [
@@ -23,11 +24,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSnackBarModule,
     MatDialogModule,
     MatInputModule,
+    HttpClientModule,
     FormsModule,
     MatSelectModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    HttpModule,
     Ng4LoadingSpinnerModule.forRoot(),
     AlertModule.forRoot(),
     FlexLayoutModule

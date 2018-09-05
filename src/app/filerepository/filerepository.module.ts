@@ -13,7 +13,6 @@ import { MatInputModule, MatFormFieldModule, MatCheckboxModule,
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { ImageUploadModule } from 'angular2-image-upload';
 
 @NgModule({
   imports: [
@@ -30,7 +29,6 @@ import { ImageUploadModule } from 'angular2-image-upload';
     FlexLayoutModule,
     FileUploadModule,
     PdfViewerModule,
-    ImageUploadModule,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
