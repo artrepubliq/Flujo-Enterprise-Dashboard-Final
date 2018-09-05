@@ -6,7 +6,7 @@ export interface ICreateUserDetails {
     role: string;
 }
 export interface IActiveUsers {
-    id: string;
+    id: string | number;
     access_token: string;
     is_logged_in: string;
     isUserActive: boolean;

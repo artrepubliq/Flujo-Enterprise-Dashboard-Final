@@ -376,3 +376,17 @@ button i {
 .user_width {
   max-width: 80vw;
 }
+.featue_details{
+  padding-left: 3rem; 
+}
+.features{
+  display: flex;
+  align-items: center;
+  -webkit-box-align: baseline;
+}
+.toggle_features{
+  margin: auto;
+}
+.feature_name_details{
+  margin-top: 10px;
+}

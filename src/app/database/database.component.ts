@@ -6,7 +6,6 @@ import { AppConstants } from '../app.constants';
 import { Element, ElementResult } from '../model/database.model';
 import { FormGroup, FormControl, EmailValidator } from '@angular/forms';
 import { ElementData } from '@angular/core/src/view';
-// import { Angular2Csv } from 'angular2-csv';
 import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';

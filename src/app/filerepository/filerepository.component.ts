@@ -11,7 +11,6 @@ import { IHttpResponse } from '../model/httpresponse.model';
 import { RequestOptions, Headers } from '@angular/http';
 import { IRepositories, IFiles, IResult } from '../model/repositories.model';
 import * as _ from 'underscore';
-import { FileHolder } from 'angular2-image-upload';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { DeletefolderDialog } from '../filerepository/deletefolder.dialog';
 
@@ -179,10 +178,6 @@ export class FilerepositoryComponent implements OnInit {
             this.openDialog(this.foldersdata);
             event.target.value = null;
         }
-    }
-    onRemoved(file: FileHolder) {
-        this.ishide = true;
-        // do some stuff with the removed file.
     }
     onUploadStateChanged(state: boolean) {
         console.log(JSON.stringify(state));

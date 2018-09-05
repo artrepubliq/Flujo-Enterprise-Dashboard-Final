@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
     localStorage.clear();
     // this.loginForm.controls['origin_url'].setValue(window.location.href);
     this.loginForm.controls['origin_url'].setValue('https://dashboard.vinaybhaskar.in');
+    // this.loginForm.controls['origin_url'].setValue('https://dashboard.sarvodaya.in');
     const formModel = this.loginForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
       .subscribe(
@@ -69,8 +70,6 @@ export class LoginComponent implements OnInit {
           if (data.custom_status_code === 100) {
             this.loginForm.reset();
             this.loginAuthService._setSession(data.result[0]);
-            // Dont remove reload
-            window.location.reload();
             if (this.loginData[0].email_verified === '0') {
               const feature_id = 23;
               this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');

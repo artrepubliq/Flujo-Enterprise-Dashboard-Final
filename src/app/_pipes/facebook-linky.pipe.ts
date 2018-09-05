@@ -13,7 +13,7 @@ export class FacebookLinkyPipe implements PipeTransform {
     replaceableArray = [];
     // tslint:disable-next-line:prefer-const
     let text = fbPost.message;
-    const regex = /(?<=[\s>])#(\d*[A-Za-z_]+\d*)\b(?!;)/g;
+    const regex = /\W(\#[a-zA-Z]+\b)(?!;)/g;
     let hashTagsArray: any;
     if (text) {
        hashTagsArray  = text.match(regex);

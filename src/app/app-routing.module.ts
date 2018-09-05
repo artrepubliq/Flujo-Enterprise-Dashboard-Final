@@ -46,6 +46,7 @@ import { SocialLoginComponent } from './social-login/social-login.component';
 import { EmailConfigService } from './service/email-config.service';
 import { EmailConfigComponent } from './email-config/email-config.component';
 import { DomainManagementComponent } from './domain/domain-management/domain-management.component';
+import { BASE_ROUTER_CONFIG } from './app.router-contstants';
 
 const routes: Routes = [
   {
@@ -80,13 +81,13 @@ const routes: Routes = [
         ],
         children: [
           {
-            path: 'logo',
+            path: BASE_ROUTER_CONFIG.F_11_SF_2.token,
             loadChildren: './logo/logo.module#LogoModule',
-            data: { title: 'Logo' }
+            data: { title: BASE_ROUTER_CONFIG.F_11_SF_2.title }
           },
           {
             path: 'profile', component: ProfileComponent,
-            data: { title: 'Profile' }
+            data: { title: BASE_ROUTER_CONFIG.F_11_SF_2.title }
           },
           {
             path: 'changepassword', loadChildren: './changepassword/changepassword.module#ChangepasswordModule',
@@ -132,7 +133,6 @@ const routes: Routes = [
             data: { title: 'SMS' }
           },
           { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat Box' } },
-          { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat box' } },
           {
             path: 'user', loadChildren: './create-user-component/create-user-component.module#CreateUserComponentModule',
             data: { title: 'Create User' }
@@ -218,3 +218,130 @@ const routes: Routes = [
 })
 export class AppRoutingModule {
 }
+
+
+// {
+//   path: 'logo',
+//   loadChildren: './logo/logo.module#LogoModule',
+//   data: { title: 'Logo' }
+// },
+// {
+//   path: 'profile', component: ProfileComponent,
+//   data: { title: 'Profile' }
+// },
+// {
+//   path: 'changepassword', loadChildren: './changepassword/changepassword.module#ChangepasswordModule',
+//   data: { title: 'Change Password' }
+// },
+// { path: '', component: AdminDashboardComponent, data: { title: 'Admin Dashboard' } },
+// {
+//   path: 'pages', loadChildren: './pages/pages.module#PagesModule',
+//   data: { title: 'Pages Component' }
+// },
+// {
+//   path: 'media', loadChildren: './media/media.module#MediaModule',
+//   data: { title: 'Media Dashboard' }
+// },
+// {
+//   path: 'sociallinks', loadChildren: './sociallinks/sociallinks.module#SociallinksModule',
+//   data: { title: 'Social links' }
+// },
+// {
+//   path: 'smtpconfiguration', loadChildren: './smtpconfiguration/smtpconfiguration.module#SmtpconfigurationModule',
+//   data: { title: 'SMTP Configuration' }
+// },
+// {
+//   path: 'feedback', component: FeedbackComponent,
+//   resolve: { feedbackReportData: FeedbackResolver },
+//   data: { title: 'Feedback' }
+// },
+// { path: 'changemakerreport', component: ChangemakerComponent, data: { title: 'Change Maker' } },
+// {
+//   path: 'themeconfiguration', loadChildren: './theme-config/theme-config.module#ThemeConfigModule',
+//   data: { title: 'Theme Configuration' }
+// },
+// {
+//   path: 'emailconfig', loadChildren: './emailservice/emailservice.module#EmailserviceModule',
+//   data: { title: 'Email Service' }
+// },
+// {
+//   path: 'email', component: EmailConfigComponent,
+//   data: { title: 'Email Service' }
+// },
+// {
+//   path: 'sms', loadChildren: './smsui/smsui.module#SmsuiModule',
+//   data: { title: 'SMS' }
+// },
+// { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat Box' } },
+// { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat box' } },
+// {
+//   path: 'user', loadChildren: './create-user-component/create-user-component.module#CreateUserComponentModule',
+//   data: { title: 'Create User' }
+// },
+// {
+//   path: 'media/gallery', component: ViewGalleryComponent,
+//   data: { title: 'Gallery' }
+// },
+// { path: 'social_management/:id', component: SocialManagementComponent, data: { title: 'Social Management' } },
+// { path: 'social_login', component: SocialLoginComponent, data: { title: 'Social Login' } },
+// { path: 'biography', loadChildren: './biography/biography.module#BiographyModule', data: { title: 'Biography' } },
+// {
+//   path: 'module',
+//   loadChildren: 'app/create-module/create-module.module#CreateModuleModule',
+//   data: { title: 'Create Module' }
+// },
+// {
+//   path: 'filerepository', loadChildren: './filerepository/filerepository.module#FilerepositoryModule',
+//   data: { title: 'Drive' }
+// },
+// {
+//   path: 'managereports', loadChildren: './manage-reports/manage-reports.module#ManageReportsModule',
+//   resolve: { reportData: ManageReportsResolver },
+//   data: { title: 'Manage Reports' }
+// },
+// { path: 'analytics', component: AnalyticsComponent, data: { title: 'Analytics' } },
+// {
+//   path: 'domain',
+//   component: DomainManagementComponent,
+//   data: { title: 'Domain Management' }
+// },
+// {
+//   path: 'problemcategory', loadChildren: './problem-category/problem-category.module#ProblemCategoryModule',
+//   data: { title: 'Problem Category' }
+// },
+// { path: 'areacategory', component: AreasComponent, data: { title: 'Areas' } },
+// {
+//   path: 'termsnconditions', loadChildren: './tnc/tnc.module#TncModule',
+//   data: { title: 'Terms and Conditions' }
+// },
+// {
+//   path: 'privacynpolicy', loadChildren: './pnp/pnp.module#PnpModule',
+//   data: { title: 'Privacy and Policy' }
+// },
+// {
+//   path: 'database', component: DatabaseComponent,
+//   resolve: { databaseReportData: DataBaseResolver },
+//   data: { title: 'Database' }
+// },
+// {
+//   path: 'smsconfiguration', loadChildren: './smstemplate/smstemplate.module#SmstemplateModule',
+//   data: { title: 'SMS Template' }
+// },
+// {
+//   path: 'whatsappflujo', loadChildren: './whatsapp/whatsapp.module#WhatsappModule',
+//   data: { title: 'Whatsapp' }
+// },
+// {
+//   path: 'emailconfiguration',
+//   component: EmailTemplateComponent,
+//   resolve: { themedata: EmailTemplateResolver },
+//   data: { title: 'Email template' }
+// },
+// {
+//   path: 'chooseplatform', loadChildren: './chooseplatform/chooseplatform.module#ChooseplatformModule',
+//   data: { title: 'Platform\'s' }
+// },
+// {
+//   path: 'socialconfiguration', loadChildren: './socialconfiguration/socialconfiguration.module#SocialconfigurationModule',
+//   data: { title: 'Social Configuration' }
+// },
