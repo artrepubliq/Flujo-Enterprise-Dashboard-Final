@@ -1,7 +1,7 @@
 interface IFeature {
-    id: string | number;
-    title: string;
-    token: string;
+    id: any;
+    title: any;
+    token: any;
 }
 interface BaseURLConfig {
 
@@ -29,18 +29,37 @@ interface BaseURLConfig {
     F_2_SF_7: IFeature;
     F_2_SF_8: IFeature;
     F_2_SF_9: IFeature;
+    F_2_SF_10: IFeature;
+    F_2_SF_11: IFeature;
+    F_2_SF_12: IFeature;
+    F_2_SF_13: IFeature;
+    F_2_SF_14: IFeature;
+    F_2_SF_15: IFeature;
+    F_2_SF_16: IFeature;
 
+    F_3_SF_1: IFeature;
+    F_3_SF_2: IFeature;
     // EMAIL
     F_4_SF_1: IFeature;
-
+    F_4_SF_2: IFeature;
     // SMS
     F_5_SF_1: IFeature;
+    F_5_SF_2: IFeature;
+
+    F_6_SF_1: IFeature;
+
+    F_8_SF_1: IFeature;
+
+    F_9_SF_1: IFeature;
+
+    F_10_SF_1: IFeature;
 
     // BASIC FEATURES
     F_11_SF_1: IFeature;
     F_11_SF_2: IFeature;
     F_11_SF_3: IFeature;
     F_11_SF_4: IFeature;
+    F_11_SF_5: IFeature;
   }
 //  interface IF_3SubFeatures {
 //       SF_
@@ -68,14 +87,35 @@ interface BaseURLConfig {
     F_2_SF_7: <IFeature>{},
     F_2_SF_8: <IFeature>{},
     F_2_SF_9: <IFeature>{},
+    F_2_SF_10: <IFeature>{},
+    F_2_SF_11: <IFeature>{},
+    F_2_SF_12: <IFeature>{},
+    F_2_SF_13: <IFeature>{},
+    F_2_SF_14: <IFeature>{},
+    F_2_SF_15: <IFeature>{},
+    F_2_SF_16: <IFeature>{},
+
+    F_3_SF_1: <IFeature>{},
+    F_3_SF_2: <IFeature>{},
 
     F_4_SF_1: <IFeature>{},
+    F_4_SF_2: <IFeature>{},
 
     F_5_SF_1: <IFeature>{},
+    F_5_SF_2: <IFeature>{},
+
+    F_6_SF_1: <IFeature>{},
+
+    F_8_SF_1: <IFeature>{},
+
+    F_9_SF_1: <IFeature>{},
+
+    F_10_SF_1: <IFeature>{},
 
     F_11_SF_1: <IFeature>{},
     F_11_SF_2: <IFeature>{},
     F_11_SF_3: <IFeature>{},
     F_11_SF_4: <IFeature>{},
+    F_11_SF_5: <IFeature>{},
 
   };

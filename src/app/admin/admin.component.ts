@@ -23,6 +23,7 @@ import { Pipe, PipeTransform, HostListener } from '@angular/core';
 import { ClientUserAccessDenied } from '../dialogs/client-useraccess-denied/client-useraccess-denied.popup';
 import { IUserFeatures, IUserAccessLevels } from '../model/user-accesslevels.model';
 import { UserAccesslevelsService } from '../service/user-accesslevels.service';
+import { BASE_ROUTER_CONFIG } from '../app.router-contstants';
 declare var jquery: any;
 declare var $window: any;
 declare var $: any;
@@ -332,7 +333,9 @@ export class AdminComponent implements OnInit {
 
   // page navigations
   navigatePage = (router) => {
-    this.router.navigate([router]);
+    console.log(BASE_ROUTER_CONFIG);
+    console.log(BASE_ROUTER_CONFIG[`F_${router.feature_id}`].token);
+    this.router.navigate([BASE_ROUTER_CONFIG[`F_${router.feature_id}`].token]);
     // _.each(this.flow, (iteratee, i) => { this.flow[i].isActive = false; });
     // _.each(this.nucleus, (iteratee, i) => { this.nucleus[i].isActive = false; });
     // _.each(this.drive, (iteratee, i) => { this.nucleus[i].isActive = false; });

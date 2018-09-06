@@ -81,129 +81,133 @@ const routes: Routes = [
         ],
         children: [
           {
-            path: BASE_ROUTER_CONFIG.F_11_SF_2.token,
+            path: `${BASE_ROUTER_CONFIG.F_11_SF_5.token}`,
             loadChildren: './logo/logo.module#LogoModule',
             data: { title: BASE_ROUTER_CONFIG.F_11_SF_2.title }
           },
           {
-            path: 'profile', component: ProfileComponent,
-            data: { title: BASE_ROUTER_CONFIG.F_11_SF_2.title }
+            path: `${BASE_ROUTER_CONFIG.F_11_SF_1.token}`, component: ProfileComponent,
+            data: { title: BASE_ROUTER_CONFIG.F_11_SF_1.title }
           },
           {
-            path: 'changepassword', loadChildren: './changepassword/changepassword.module#ChangepasswordModule',
-            data: { title: 'Change Password' }
+            path: `${BASE_ROUTER_CONFIG.F_11_SF_2.token}`, loadChildren: './changepassword/changepassword.module#ChangepasswordModule',
+            data: { title: BASE_ROUTER_CONFIG.F_11_SF_2.title }
           },
           { path: '', component: AdminDashboardComponent, data: { title: 'Admin Dashboard' } },
           {
-            path: 'pages', loadChildren: './pages/pages.module#PagesModule',
-            data: { title: 'Pages Component' }
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_9.token}`, loadChildren: './pages/pages.module#PagesModule',
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_9.title }
           },
           {
-            path: 'media', loadChildren: './media/media.module#MediaModule',
-            data: { title: 'Media Dashboard' }
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_10.token}`, loadChildren: './media/media.module#MediaModule',
+            data: { title:  BASE_ROUTER_CONFIG.F_2_SF_10.title}
           },
           {
-            path: 'sociallinks', loadChildren: './sociallinks/sociallinks.module#SociallinksModule',
-            data: { title: 'Social links' }
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_2.token}`, loadChildren: './sociallinks/sociallinks.module#SociallinksModule',
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_2.title }
           },
+          // {
+          //   path: 'smtpconfiguration', loadChildren: './smtpconfiguration/smtpconfiguration.module#SmtpconfigurationModule',
+          //   data: { title: 'SMTP Configuration' }
+          // },
           {
-            path: 'smtpconfiguration', loadChildren: './smtpconfiguration/smtpconfiguration.module#SmtpconfigurationModule',
-            data: { title: 'SMTP Configuration' }
-          },
-          {
-            path: 'feedback', component: FeedbackComponent,
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_11.token}`, component: FeedbackComponent,
             resolve: { feedbackReportData: FeedbackResolver },
-            data: { title: 'Feedback' }
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_11.title }
           },
-          { path: 'changemakerreport', component: ChangemakerComponent, data: { title: 'Change Maker' } },
+          { path: `${BASE_ROUTER_CONFIG.F_2_SF_12.token}`, component: ChangemakerComponent,
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_12.title } },
           {
-            path: 'themeconfiguration', loadChildren: './theme-config/theme-config.module#ThemeConfigModule',
-            data: { title: 'Theme Configuration' }
-          },
-          {
-            path: 'emailconfig', loadChildren: './emailservice/emailservice.module#EmailserviceModule',
-            data: { title: 'Email Service' }
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_1.token}`, loadChildren: './theme-config/theme-config.module#ThemeConfigModule',
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_1.title }
           },
           {
-            path: 'email', component: EmailConfigComponent,
-            data: { title: 'Email Service' }
+            path: `${BASE_ROUTER_CONFIG.F_4_SF_1.token}`, component: EmailConfigComponent,
+            data: { title: BASE_ROUTER_CONFIG.F_4_SF_1 }
           },
           {
-            path: 'sms', loadChildren: './smsui/smsui.module#SmsuiModule',
-            data: { title: 'SMS' }
+            path: `${BASE_ROUTER_CONFIG.F_5_SF_1}`, loadChildren: './smsui/smsui.module#SmsuiModule',
+            data: { title: BASE_ROUTER_CONFIG.F_5_SF_1.title }
           },
-          { path: 'chat', component: ChatBoxComponent, data: { title: 'Chat Box' } },
+          { path: `${BASE_ROUTER_CONFIG.F_10_SF_1.token}`, component: ChatBoxComponent,
+            data: { title: BASE_ROUTER_CONFIG.F_10_SF_1.title } },
           {
-            path: 'user', loadChildren: './create-user-component/create-user-component.module#CreateUserComponentModule',
-            data: { title: 'Create User' }
+             // tslint:disable-next-line:max-line-length
+            path: `${BASE_ROUTER_CONFIG.F_11_SF_3.token}`, loadChildren: './create-user-component/create-user-component.module#CreateUserComponentModule',
+            data: { title: BASE_ROUTER_CONFIG.F_11_SF_3.title }
           },
           {
-            path: 'media/gallery', component: ViewGalleryComponent,
-            data: { title: 'Gallery' }
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_13.token}`, component: ViewGalleryComponent,
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_13.title }
           },
-          { path: 'social_management/:id', component: SocialManagementComponent, data: { title: 'Social Management' } },
-          { path: 'social_login', component: SocialLoginComponent, data: { title: 'Social Login' } },
-          { path: 'biography', loadChildren: './biography/biography.module#BiographyModule', data: { title: 'Biography' } },
+          { path: `${BASE_ROUTER_CONFIG.F_3_SF_1.token}` + '/:id', component: SocialManagementComponent,
+            data: { title: BASE_ROUTER_CONFIG.F_3_SF_1.title} },
+          { path: `${BASE_ROUTER_CONFIG.F_3.token}`, component: SocialLoginComponent,
+              data: { title: BASE_ROUTER_CONFIG.F_3_SF_2.title } },
+
+          { path: `${BASE_ROUTER_CONFIG.F_2_SF_3.token}`, loadChildren: './biography/biography.module#BiographyModule',
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_3.title } },
           {
-            path: 'module',
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_4.token}`,
             loadChildren: 'app/create-module/create-module.module#CreateModuleModule',
-            data: { title: 'Create Module' }
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_4.title }
           },
           {
-            path: 'filerepository', loadChildren: './filerepository/filerepository.module#FilerepositoryModule',
-            data: { title: 'Drive' }
+            path: `${BASE_ROUTER_CONFIG.F_9_SF_1.token}`, loadChildren: './filerepository/filerepository.module#FilerepositoryModule',
+            data: { title: BASE_ROUTER_CONFIG.F_9_SF_1.title }
           },
           {
-            path: 'managereports', loadChildren: './manage-reports/manage-reports.module#ManageReportsModule',
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_14.token}`, loadChildren: './manage-reports/manage-reports.module#ManageReportsModule',
             resolve: { reportData: ManageReportsResolver },
-            data: { title: 'Manage Reports' }
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_14.title }
           },
-          { path: 'analytics', component: AnalyticsComponent, data: { title: 'Analytics' } },
+          { path: `${BASE_ROUTER_CONFIG.F_8_SF_1.token}`, component: AnalyticsComponent,
+              data: { title: BASE_ROUTER_CONFIG.F_8_SF_1.title } },
           {
-            path: 'domain',
+            path: `${BASE_ROUTER_CONFIG.F_11_SF_4.token}`,
             component: DomainManagementComponent,
-            data: { title: 'Domain Management' }
+            data: { title: BASE_ROUTER_CONFIG.F_11_SF_4.title }
           },
           {
-            path: 'problemcategory', loadChildren: './problem-category/problem-category.module#ProblemCategoryModule',
-            data: { title: 'Problem Category' }
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_7.token}`, loadChildren: './problem-category/problem-category.module#ProblemCategoryModule',
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_7.title }
           },
-          { path: 'areacategory', component: AreasComponent, data: { title: 'Areas' } },
+          { path: `${BASE_ROUTER_CONFIG.F_2_SF_8.token}`, component: AreasComponent, data: { title: BASE_ROUTER_CONFIG.F_2_SF_8.title } },
           {
-            path: 'termsnconditions', loadChildren: './tnc/tnc.module#TncModule',
-            data: { title: 'Terms and Conditions' }
-          },
-          {
-            path: 'privacynpolicy', loadChildren: './pnp/pnp.module#PnpModule',
-            data: { title: 'Privacy and Policy' }
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_5.token}`, loadChildren: './tnc/tnc.module#TncModule',
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_5.title }
           },
           {
-            path: 'database', component: DatabaseComponent,
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_6.token}`, loadChildren: './pnp/pnp.module#PnpModule',
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_6.title }
+          },
+          {
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_15.token}`, component: DatabaseComponent,
             resolve: { databaseReportData: DataBaseResolver },
-            data: { title: 'Database' }
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_15.title }
           },
           {
-            path: 'smsconfiguration', loadChildren: './smstemplate/smstemplate.module#SmstemplateModule',
-            data: { title: 'SMS Template' }
+            path: `${BASE_ROUTER_CONFIG.F_5_SF_2.token}`, loadChildren: './smstemplate/smstemplate.module#SmstemplateModule',
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_5.title }
           },
           {
-            path: 'whatsappflujo', loadChildren: './whatsapp/whatsapp.module#WhatsappModule',
-            data: { title: 'Whatsapp' }
+            path: `${BASE_ROUTER_CONFIG.F_6_SF_1.token}`, loadChildren: './whatsapp/whatsapp.module#WhatsappModule',
+            data: { title: BASE_ROUTER_CONFIG.F_6_SF_1.title }
           },
           {
-            path: 'emailconfiguration',
+            path: `${BASE_ROUTER_CONFIG.F_4_SF_2.token}`,
             component: EmailTemplateComponent,
             resolve: { themedata: EmailTemplateResolver },
-            data: { title: 'Email template' }
+            data: { title: BASE_ROUTER_CONFIG.F_4_SF_2.title }
           },
           {
-            path: 'chooseplatform', loadChildren: './chooseplatform/chooseplatform.module#ChooseplatformModule',
-            data: { title: 'Platform\'s' }
+            path: `${BASE_ROUTER_CONFIG.F_2_SF_16.token}`, loadChildren: './chooseplatform/chooseplatform.module#ChooseplatformModule',
+            data: { title: BASE_ROUTER_CONFIG.F_2_SF_16.title }
           },
-          {
-            path: 'socialconfiguration', loadChildren: './socialconfiguration/socialconfiguration.module#SocialconfigurationModule',
-            data: { title: 'Social Configuration' }
-          },
+          // {
+          //   path: BASE_ROUTER_C loadChildren: './socialconfiguration/socialconfiguration.module#SocialconfigurationModule',
+          //   data: { title: 'Social Configuration' }
+          // },
 
         ]
       }
