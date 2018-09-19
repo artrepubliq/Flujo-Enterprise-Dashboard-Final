@@ -33,7 +33,7 @@
         </mat-form-field>
       </div>
       <div class="footer_button">
-        <button mat-raised-button (click)="onSubmit()" [disabled]="mailingListForm.invalid">Save & Add users</button>
+        <button mat-raised-button (click)="onSubmit()" [disabled]="mailingListForm.invalid || showProgressBar">Save & Add users</button>
       </div>
     </form>
   </div>

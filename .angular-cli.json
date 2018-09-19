@@ -23,14 +23,21 @@
         "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
         "../node_modules/froala-editor/css/froala_style.min.css",
         "../node_modules/font-awesome/css/font-awesome.css",
-        "../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css"
+        "../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css",
+        "../node_modules/grapesjs/dist/css/grapes.min.css",
+        "../node_modules/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
         "../node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js",
         "../node_modules/chart.js/dist/Chart.min.js",
-        "../node_modules/underscore/underscore.js"
+        "../node_modules/underscore/underscore.js",
+        "../node_modules/grapesjs/dist/grapes.min.js",
+        "../node_modules/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js",
+        "../node_modules/grapesjs-plugin-social/dist/grapesjs-plugin-social.min.js",
+        "../node_modules/grapesjs-aviary/dist/grapesjs-aviary.min.js",
+        "../node_modules/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

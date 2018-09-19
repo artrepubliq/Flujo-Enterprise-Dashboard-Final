@@ -11,7 +11,6 @@ import * as _ from 'underscore';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 // import 'styles.scss';
 @Component({
   templateUrl: './logo.component.html',
@@ -34,17 +33,12 @@ export class LogoComponent implements OnInit {
   isHide: boolean;
   logoImageDetails?: any;
   logoDetail: Array<object>;
-  userAccessDataModel: AccessDataModelComponent;
   @ViewChild('fileInput') fileInput: ElementRef;
   feature_id = 13;
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
     private httpClient: HttpClient, private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
     this.createForm();
     this.getLogoDetails();
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/logo');
-    }
   }
   ngOnInit() {
     setTimeout(function () {

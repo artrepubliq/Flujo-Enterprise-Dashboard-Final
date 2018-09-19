@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BASE_ROUTER_CONFIG } from '../app.router-contstants';
 
 @Component({
   selector: 'app-social-login',
@@ -7,7 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./social-login.component.scss']
 })
 export class SocialLoginComponent implements OnInit {
+  selectedIndex: any;
   social: any;
+  isShowSocialManagement = false;
   constructor( private router: Router) {
     this.social = [
       { id: 0, social_name: 'Facebook' },
@@ -21,6 +24,8 @@ export class SocialLoginComponent implements OnInit {
   ngOnInit() {
   }
   navigateToSocial = (item) => {
-    this.router.navigate(['admin/social_management', item.id]);
+    this.isShowSocialManagement = true;
+    this.selectedIndex = item.id;
+    // this.router.navigate(['admin/' + BASE_ROUTER_CONFIG.F_3_SF_1.token, item.id]);
   }
 }

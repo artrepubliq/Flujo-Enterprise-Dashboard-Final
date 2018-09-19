@@ -41,7 +41,7 @@ export class MailingListComponent implements OnInit, OnDestroy {
 
     this.emailService.getSmtpUserDetails().takeUntil(this.unSubscribe).subscribe(
       result => {
-        this.showProgressBar = true;
+        // this.showProgressBar = true;
         if (result.error === false) {
           this.showProgressBar = false;
           this.smtpDetails = JSON.parse(result.data[0].domain);
@@ -66,16 +66,23 @@ export class MailingListComponent implements OnInit, OnDestroy {
     this.mailingListForm.controls['address'].setValue(this.mailingListForm.controls['address'].value + this.domain_name);
     this.emailService.createCampaign(this.mailingListForm.value).subscribe(
       result => {
-        console.log(result);
-        this.showProgressBar = false;
-        this.alertService.success(`"${result.data.body.list.address}" ${result.data.body.message}`);
-        this.mailingListForm.reset();
-        this.emailService.addCampaignDetails(result.data.body.list);
-        this.emailService.addCampaignAddress(result.data.body.list.address);
-        this.tabIndex.emit(1);
+        if (!result.error) {
+          this.showProgressBar = false;
+          this.alertService.success(`"${result.data.body.list.address}" ${result.data.body.message}`);
+          this.mailingListForm.reset();
+          this.emailService.addCampaignDetails([result.data.body.list]);
+          this.emailService.addCampaignAddress(result.data.body.list.address);
+          this.tabIndex.emit(1);
+        } else if (result.error && (result.status === 101 || result.status === 102 || result.status === 103)) {
+          this.showProgressBar = false;
+          this.alertService.warning(`${result.data}`);
+        } else {
+          this.alertService.warning('something went wrong!');
+          this.mailingListForm.reset();
+          this.showProgressBar = false;
+        }
       },
       error => {
-        this.alertService.warning('something went wrong!');
         this.showProgressBar = false;
         console.log(error);
       }

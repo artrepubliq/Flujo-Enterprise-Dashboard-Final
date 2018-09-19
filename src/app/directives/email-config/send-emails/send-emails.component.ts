@@ -8,7 +8,6 @@ import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { AdminComponent } from '../../../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
-import { AccessDataModelComponent } from '../../../model/useraccess.data.model';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { EmailTemplateService } from '../../../email-template/email-template-service';
@@ -22,6 +21,10 @@ import { EmailConfigService } from '../../../service/email-config.service';
 import { resource } from 'selenium-webdriver/http';
 import { ICampaignListDetails, IDomain } from '../../../model/email.config.model';
 import { Subject } from 'rxjs/Subject';
+// import grapesjs from 'grapesjs';
+declare var require: any;
+// declare var grapesjs: any;
+// import grapesjs from 'grapesjs';
 @Component({
   selector: 'app-send-emails',
   templateUrl: './send-emails.component.html',
@@ -51,12 +54,14 @@ export class SendEmailsComponent implements OnInit {
   Ishide3: boolean;
   feature_id: number;
   @ViewChild('file') file: ElementRef;
-  userAccessDataModel: AccessDataModelComponent;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   public campaignListDetails: ICampaignListDetails[];
   public ngUnSubScribe = new Subject();
   public domain: IDomain;
   public from: string;
+  htmlString = `<h1>Please design your email template or choose from templates</h1>`;
+  selectedEmailTemplateHtml: any;
+  globalEditor: any;
 
   constructor(public loader: NgxSmartLoaderService, private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder,
@@ -71,49 +76,116 @@ export class SendEmailsComponent implements OnInit {
     this.mailSendingForm = this.formBuilder.group({
       'email': ['', Validators.compose([Validators.required])],
       'subject': ['', Validators.required],
-      'message': ['', Validators.required],
+      'message': [''],
       'from': [''],
       'file': [null],
       'check': [''],
       'client_id': null
     });
     this.editorValue = '';
-    if (Number(localStorage.getItem('feature_id')) !== 3) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/email');
-    }
     this.getEmailTemplateData();
     this.emailContactsArray = [];
     this.errorEmailContacts = [];
     this.multipleEmails = true;
+    // this.initEditor();
   }
 
   ngOnInit() {
+
+    this.initEditor(this.htmlString);
     setTimeout(function () {
       this.spinnerService.hide();
     }.bind(this), 3000);
-    /**
-     * this is to get campaign details from the service
-     */
-    this.emailService.getCampaignDetails().takeUntil(this.ngUnSubScribe).subscribe(
+    this.spinnerService.show();
+    this.emailService.getMailgunSmtpDetails().subscribe(
       result => {
-        this.campaignListDetails = result;
+        this.spinnerService.hide();
+        if (result.error === false && result.data && result.data.length > 0) {
+          this.domain = JSON.parse(result.data[0].domain);
+          if (this.domain.smtp_login.includes('flujo.')) {
+            this.from = `no-reply@${this.domain.smtp_login.split('flujo.')[1]}`;
+          } else {
+            this.from = `no-reply@sarvodaya.ngo`;
+          }
+        }
       },
       error => {
+        this.spinnerService.hide();
+        console.log(error);
+      });
+
+    /**
+     * this is to get Campaign details from Database
+     */
+    this.emailService.getCampainDetailsOfClient().subscribe(
+      result => {
+        this.spinnerService.hide();
+        if (result.error === false && result.data && result.data.length > 0) {
+          const campaignList = result.data;
+          this.campaignListDetails = campaignList;
+        }
+      },
+      error => {
+        this.spinnerService.hide();
         console.log(error);
       }
     );
-
-    this.emailService.getSmtpUserDetails().takeUntil(this.ngUnSubScribe).subscribe(
-      result => {
-        if (result.error === false) {
-          this.domain = JSON.parse(result.data[0].domain);
-          this.from = this.domain.smtp_login;
-        }
-      }
-    );
   }
-
+  initEditor = (emailDataOfSelected) => {
+    this.spinnerService.hide();
+    const grapesjs = require('grapesjs');
+    const nlPlugin = require('grapesjs-preset-newsletter');
+    grapesjs.plugins.add('gjs-preset-newsletter-3', nlPlugin.default);
+    const editor = grapesjs.init({
+      container: '#gjs',
+      fromElement: true,
+      height: '60vh',
+      storageManager: { autoload: 0 },
+      plugins: ['gjs-preset-newsletter-3', 'gjs-aviary'],
+      pluginsOpts: {
+        'gjs-preset-newsletter-3': {
+          modalLabelImport: 'Paste all your code here below and click import',
+          modalLabelExport: 'Copy the code and use it wherever you want',
+          codeViewerTheme: 'material',
+          importPlaceholder: '<table class="table"><tr><td class="cell">Hello world!</td></tr></table>',
+          cellStyle: {
+            'font-size': '12px',
+            'font-weight': 300,
+            'vertical-align': 'top',
+            color: 'rgb(111, 119, 125)',
+            margin: 0,
+            padding: 0,
+          }
+        },
+        'gjs-aviary': {}
+      },
+      assetManager: {
+        embedAsBase64: 1,
+        upload: 'https://test.page',
+        params: {
+          _token: 'pCYrSwjuiV0t5NVtZpQDY41Gn5lNUwo3it1FIkAj',
+        },
+        assets: [
+          { type: 'image', src: 'http://placehold.it/350x250/78c5d6/fff/image1.jpg', height: 350, width: 250 },
+          { type: 'image', src: 'http://placehold.it/350x250/459ba8/fff/image2.jpg', height: 350, width: 250 },
+          { type: 'image', src: 'http://placehold.it/350x250/79c267/fff/image3.jpg', height: 350, width: 250 },
+          { type: 'image', src: 'http://placehold.it/350x250/c5d647/fff/image4.jpg', height: 350, width: 250 },
+          { type: 'image', src: 'http://placehold.it/350x250/f28c33/fff/image5.jpg', height: 350, width: 250 },
+          { type: 'image', src: 'http://placehold.it/350x250/e868a2/fff/image6.jpg', height: 350, width: 250 },
+          { type: 'image', src: 'http://placehold.it/350x250/cc4360/fff/image7.jpg', height: 350, width: 250 },
+          { type: 'image', src: 'http://placehold.it/350x250/cc4360/fff/image7.jpg', date: '2015-02-01', height: 1080, width: 1728 },
+          { type: 'image', src: 'http://placehold.it/350x250/cc4360/fff/image7.jpg', date: '2015-02-01', height: 650, width: 320 },
+          { type: 'image', src: 'http://placehold.it/350x250/cc4360/fff/image7.jpg', date: '2015-02-01', height: 1, width: 1728 },
+        ]
+      },
+    });
+    this.globalEditor = editor;
+    // const interval = setInterval(() => {
+    //   this.selectedEmailTemplateHtml = editor.getHtml() + `<style>${editor.getCss()}</style>`;
+    //   console.log(this.selectedEmailTemplateHtml);
+    // }, 3000);
+    editor.setComponents(emailDataOfSelected);
+  }
   public checkValidEmails(event) {
     if (event != null) {
       const emailsArray = event.split(',');
@@ -136,18 +208,27 @@ export class SendEmailsComponent implements OnInit {
   /**
    * @param body this takes the email body subject details etc
    */
-  public mailSendingFormSubmit(body: any) {
+  public mailSendingFormSubmit() {
+    this.selectedEmailTemplateHtml = this.globalEditor.runCommand('gjs-get-inlined-html');
     this.mailSendingForm.controls['from'].setValue(this.from);
-    this.emailService.sendEmail(this.mailSendingForm.value).subscribe(
-      result => {
-        this.alertService.success('Email has been sent to the mail list');
-        this.mailSendingForm.reset();
-        console.log(result);
-      },
-      error => {
-        this.alertService.warning('Somethig went wrong!');
-        console.log(error);
-      });
+    this.mailSendingForm.controls['message'].setValue(this.selectedEmailTemplateHtml);
+    // console.log(this.mailSendingForm.value);
+    // console.log(this.domain);
+    if (this.mailSendingForm.controls['message'].value !== '') {
+      this.spinnerService.show();
+      console.log(this.mailSendingForm.value);
+      this.emailService.sendEmail(this.mailSendingForm.value).subscribe(
+        result => {
+          this.alertService.success('Email has been sent to the mail list');
+          this.mailSendingForm.reset();
+          console.log(result);
+          this.spinnerService.hide();
+        },
+        error => {
+          this.spinnerService.hide();
+          console.log(error);
+        });
+    }
   }
   /*Getting of email template data from api using emailTemplateService*/
   getEmailTemplateData = (): void => {
@@ -181,6 +262,7 @@ export class SendEmailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.selectedEmailTemplateData = result;
+        this.initEditor(this.selectedEmailTemplateData);
       } else {
         console.log('no template was selected');
       }
@@ -241,12 +323,13 @@ export class SendEmailsComponent implements OnInit {
   }
   downLoadCsvFormat = () => {
     const csvFormatData = [
-      { Email: 'test@flujo.in' },
-      { Email: 'test1@flujo.in' },
-      { Email: 'test2@flujo.in' }
+      { 'test@something.in': 'test1@somthing.com', 'test2@something.in': 'test4@something.in' },
     ];
     const exporter = CSVExportService.create();
     exporter.downloadCSV(csvFormatData, 'My Report');
+  }
+  configureBulkEmail = () => {
+    this.router.navigate(['admin/emailconfig']);
   }
 }
 @Component({

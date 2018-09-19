@@ -17,13 +17,13 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AlertService } from 'ngx-alerts';
 import { IAccessLevelModel } from '../model/accessLevel.model';
 import { ICommonInterface } from '../model/commonInterface.model';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { WindowRef } from './window.service';
 import { Pipe, PipeTransform, HostListener } from '@angular/core';
 import { ClientUserAccessDenied } from '../dialogs/client-useraccess-denied/client-useraccess-denied.popup';
 import { IUserFeatures, IUserAccessLevels } from '../model/user-accesslevels.model';
 import { UserAccesslevelsService } from '../service/user-accesslevels.service';
 import { BASE_ROUTER_CONFIG } from '../app.router-contstants';
+import { AccessLevelPopup } from "../dialogs/create-useraccesslevels-popup/create-useraccesslevels-popup";
 declare var jquery: any;
 declare var $window: any;
 declare var $: any;
@@ -36,6 +36,7 @@ declare var $: any;
 })
 export class AdminComponent implements OnInit {
   PreparedfeatureObject: IUserAccessLevels;
+  PreparedSubfeaturesObject: any;
   userFeatureObjects: any;
   userFeaturesNames: string[];
   userFeatures: any;
@@ -69,56 +70,6 @@ export class AdminComponent implements OnInit {
   randombgcolors: any;
   randombgcolor: string;
   doSearch: boolean;
-  // Arrays for Side nav menu and admin menu
-  // tslint:disable-next-line:max-line-length
-  editor = [{ feature_id: 1, title: 'Editor', router: 'admin/chooseplatform', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
-
-  // tslint:disable-next-line:max-line-length
-  domain = [{ feature_id: 33, title: 'Domain', router: 'admin/domain', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
-  // tslint:disable-next-line:max-line-length
-  drive = [{ feature_id: 11, title: 'Drive', router: 'admin/filerepository', activeicon: 'assets/icons/editor-color-nav-icon-active@2x.png', normalicon: 'assets/icons/editor-color-nav-icon-normal@2x.png', isActive: false }];
-  // tslint:disable-next-line:max-line-length
-  flow = [{ feature_id: 1, title: 'Social', router: 'admin/social_login', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png', isActive: false },
-  // tslint:disable-next-line:max-line-length
-  { feature_id: 3, title: 'Mail', router: 'admin/email', activeicon: 'assets/icons/mail-color-nav-icon-active@2x.png', normalicon: 'assets/icons/mail-color-nav-icon-normal@2x.png', isActive: false },
-  // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'SMS', router: 'admin/sms', activeicon: 'assets/icons/sms-color-nav-icon-active@2x.png', normalicon: 'assets/icons/sms-color-nav-icon-normal@2x.png', isActive: false },
-  // tslint:disable-next-line:max-line-length
-  { feature_id: 32, title: 'WhatsApp', router: 'admin/whatsappflujo', activeicon: 'assets/icons/social-color-nav-icon-active@2x.png', normalicon: 'assets/icons/social-color-nav-icon-normal@2x.png', isActive: false }
-  ];
-  // tslint:disable-next-line:max-line-length
-  nucleus = [{ feature_id: 1, title: 'Manage Reports', router: 'admin/managereports', activeicon: 'assets/icons/report-an-issue-color-nav-icon-active@2x.png', normalicon: 'assets/icons/report-an-issue-color-nav-icon-normal@2x.png', isActive: false },
-  // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Feedback', router: 'admin/feedback', activeicon: 'assets/icons/feedback-color-nav-icon-active@2x.png', normalicon: 'assets/icons/feedback-color-nav-icon-normal@2x.png', isActive: false },
-  // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Change Maker Report', router: 'admin/changemakerreport', activeicon: 'assets/icons/change-maker-color-nav-icon-active@2x.png', normalicon: 'assets/icons/change-maker-color-nav-icon-normal@2x.png', isActive: false },
-  // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Surveys', router: 'admin/surveys', activeicon: 'assets/icons/survey-color-nav-icon-active@2x.png', normalicon: 'assets/icons/survey-color-nav-icon-normal@2x.png', isActive: false },
-  // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Database', router: 'admin/database', activeicon: 'assets/icons/database-color-nav-icon-active@2x.png', normalicon: 'assets/icons/database-color-nav-icon-normal@2x.png', isActive: false },
-  // tslint:disable-next-line:max-line-length
-  { feature_id: 1, title: 'Analytics', router: 'admin/analytics', activeicon: 'assets/icons/analytics-color-nav-icon-active@2x.png', normalicon: 'assets/icons/analytics-color-nav-icon-normal@2x.png', isActive: false }
-  ];
-  adminMenu = [
-    { feature_id: 13, title: 'Logo', router: 'admin/logo' },
-    { feature_id: 14, title: 'Media Management', router: 'admin/media' },
-    { feature_id: 15, title: 'Theme Global Configuration', router: 'admin/themeconfiguration' },
-    { feature_id: 16, title: 'SMTP', router: 'admin/smtpconfiguration' },
-    { feature_id: 17, title: 'User Management', router: 'admin/user' },
-    { feature_id: 18, title: 'Social links update', router: 'admin/sociallinks' },
-    { feature_id: 19, title: 'Biography', router: 'admin/biography' },
-    { feature_id: 20, title: 'Create Module', router: 'admin/module' },
-    { feature_id: 21, title: 'Terms & Conditions', router: 'admin/termsnconditions' },
-    { feature_id: 22, title: 'Privacy & Policy', router: 'admin/privacynpolicy' },
-    { feature_id: 23, title: 'Change Password', router: 'admin/changepassword' },
-    { feature_id: 24, title: 'Problem Category', router: 'admin/problemcategory' },
-    { feature_id: 25, title: 'Area Category', router: 'admin/areacategory' },
-    { feature_id: 27, title: 'SMS Template Configuration', router: 'admin/smsconfiguration' },
-    { feature_id: 28, title: 'Email Template', router: 'admin/emailconfiguration' },
-    { feature_id: 29, title: 'Social Configuration', router: 'admin/socialconfiguration' },
-    { feature_id: 33, title: 'Domain Management', router: 'admin/domain' }
-  ];
-  accessDataModel: AccessDataModelComponent;
   isChatStarted: boolean;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
@@ -126,11 +77,9 @@ export class AdminComponent implements OnInit {
     private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
     private userAccesslevelsService: UserAccesslevelsService) {
-    this.accessDataModel = new AccessDataModelComponent(httpClient, router);
     this.router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });
-
     // GET FEATURE ACCESS, USER ACCESS LEVELS AND LOGDED IN USERS LIST
     this.getFeatureAndUserAccessLevels();
     router.events.subscribe(event => {
@@ -143,6 +92,7 @@ export class AdminComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.spinnerService.show();
     // this.name = localStorage.getItem('name');
     this.user_id = localStorage.getItem('user_id');
 
@@ -168,7 +118,16 @@ export class AdminComponent implements OnInit {
       }
     }, 3000);
   }
-
+  openAccessDialog(userItem): void {
+    const dialogRef = this.dialog.open(AccessLevelPopup, {
+      width: '45vw',
+      height: '70vh',
+      data: userItem,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log('The dialog was closed');
+    });
+  }
   // GET FEATIRE ACCESS AND USER ACCESS AND LOGGED IN USER LIST
   getFeatureAndUserAccessLevels = async () => {
     const clientName: any = await this.getHostOriginUrlFromBrowser();
@@ -190,10 +149,17 @@ export class AdminComponent implements OnInit {
     }
     if (!userAccessLevels.error && !clientFeatureAccessLevel.error) {
       // tslint:disable-next-line:max-line-length
-      this.PreparedfeatureObject = this.userAccesslevelsService.prepareExistingUserAccessLevels(clientFeatureAccessLevel.result[0], userAccessLevels.result[0].access_levels);
+      const filteredObj = this.userAccesslevelsService.prepareExistingUserAccessLevels(clientFeatureAccessLevel.result[0], userAccessLevels.result[0].access_levels);
+      this.PreparedSubfeaturesObject = filteredObj.filteredSubFeatures;
+      this.PreparedfeatureObject = filteredObj.filterFeatures;
       this.userFeatureObjects = this.PreparedfeatureObject.services[0];
       this.userFeaturesNames = Object.keys(this.PreparedfeatureObject.services[0]);
-      console.log(this.userFeatureObjects);
+      const activeRouterToken = localStorage.getItem('activeRouterToken');
+      // tslint:disable-next-line:max-line-length
+      if (activeRouterToken && activeRouterToken.length > 10 && BASE_ROUTER_CONFIG[localStorage.getItem('activeRouterId')].token === activeRouterToken) {
+        this.router.navigate(['admin/' + localStorage.getItem('activeRouterToken')]);
+      }
+      this.spinnerService.hide();
     } else {
       console.log('No proper access permisssions');
     }
@@ -333,9 +299,14 @@ export class AdminComponent implements OnInit {
 
   // page navigations
   navigatePage = (router) => {
-    console.log(BASE_ROUTER_CONFIG);
-    console.log(BASE_ROUTER_CONFIG[`F_${router.feature_id}`].token);
-    this.router.navigate([BASE_ROUTER_CONFIG[`F_${router.feature_id}`].token]);
+    console.log(this.router.config);
+    if (BASE_ROUTER_CONFIG[`F_${router.feature_id}`].token === router.feature_route) {
+      this.router.navigate(['admin/' + router.feature_route]);
+      localStorage.setItem('activeRouterToken', router.feature_route);
+      localStorage.setItem('activeRouterId', `F_${router.feature_id}`);
+    } else {
+      this.router.navigate(['admin/']);
+    }
     // _.each(this.flow, (iteratee, i) => { this.flow[i].isActive = false; });
     // _.each(this.nucleus, (iteratee, i) => { this.nucleus[i].isActive = false; });
     // _.each(this.drive, (iteratee, i) => { this.nucleus[i].isActive = false; });
@@ -349,6 +320,15 @@ export class AdminComponent implements OnInit {
     // localStorage.setItem('feature_id', page.feature_id);
     // this.CurrentPageName = page.title;
     // this.accessDataModel.setUserAccessLevels(this.userAccessLevelData, feature.feature_id, feature.feature_router);
+  }
+  navigateSubFeature = (item) => {
+    if (BASE_ROUTER_CONFIG[`F_${item.feature_id}_${item.subfeature_id}`].token === item.subfeature_route) {
+      this.router.navigate(['admin/' + item.subfeature_route]);
+      localStorage.setItem('activeRouterToken', item.subfeature_route);
+      localStorage.setItem('activeRouterId', `F_${item.feature_id}_${item.subfeature_id}`);
+    } else {
+      this.router.navigate(['admin/']);
+    }
   }
   // ChatIO = () => {
   //   // console.log(this.window);

@@ -15,21 +15,26 @@
               </mat-select>
             </mat-form-field>
           </div>
+          <div>
+            <div>
+              <button (click)="downLoadCsvFormat()">Download Csv format</button>
+            </div>
+          </div>
           <div class="form__field">
             <div class="input_fields">
               <input class="upload_csv" accept=".csv" type="file" (change)="onFileChange($event)" />
             </div>
-            or
+            <!-- or
             <mat-form-field class="input_fields">
               <mat-select placeholder="Select from DB" formControlName="database">
                 <mat-option *ngFor="let database of databases" [value]="database.database">{{database.name}}</mat-option>
               </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
           </div>
         </div>
         <div class="submit_list input_fields">
           <button (click)="submitFile()" [disabled]="fileUploadForm.invalid" mat-raised-button>
-            Save & Send emails 
+            Save & Send emails
           </button>
         </div>
       </form>

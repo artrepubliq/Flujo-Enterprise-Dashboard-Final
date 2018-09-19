@@ -9,7 +9,6 @@ import { NgxSmartLoaderService } from 'ngx-smart-loader';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { EmailTemplateService } from '../email-template/email-template-service';
@@ -48,7 +47,6 @@ export class EmailserviceComponent implements OnInit {
   Ishide3: boolean;
   feature_id: number;
   @ViewChild('file') file: ElementRef;
-  userAccessDataModel: AccessDataModelComponent;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
 
   constructor(public loader: NgxSmartLoaderService, private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
@@ -67,10 +65,7 @@ export class EmailserviceComponent implements OnInit {
       'check': [''],
       'client_id': null
     });
-    if (Number(localStorage.getItem('feature_id')) !== 3) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/email');
-    }
+
     this.getEmailTemplateData();
     this.emailContactsArray = [];
     this.errorEmailContacts = [];

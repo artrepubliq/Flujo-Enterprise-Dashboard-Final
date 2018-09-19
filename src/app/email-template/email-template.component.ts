@@ -1,7 +1,6 @@
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPostEmailTemplate } from '../model/emailThemeConfig.model';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { HttpClient } from '@angular/common/http';
 // import { IPostEmailTemplate, EmailThemeConfig } from '../model/emailThemeConfig.model';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -52,7 +51,6 @@ export class EmailTemplateComponent implements OnInit {
   public data: IPostEmailTemplate;
   public createEmailTemplateForm: any;
   public template_html: any;
-  userAccessDataModel: AccessDataModelComponent;
   feature_id = 28;
   constructor(
     private httpClient: HttpClient,
@@ -74,10 +72,6 @@ export class EmailTemplateComponent implements OnInit {
       'client_id': ['']
     });
     this.templateCategory = new FormControl('', Validators.required);
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/emailconfiguration');
-    }
     this.tempate_categories = [];
   }
 

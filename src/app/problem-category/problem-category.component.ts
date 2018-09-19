@@ -11,7 +11,6 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { HttpClient } from '@angular/common/http';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
@@ -35,8 +34,6 @@ export class ProblemCategoryComponent implements OnInit {
   problemForm: FormGroup;
   actionText: string;
   config: any;
-  feature_id = 24;
-  userAccessDataModel: AccessDataModelComponent;
   constructor(
     private httpService: HttpService,
     private problemService: ProblemTypeService,
@@ -52,10 +49,6 @@ export class ProblemCategoryComponent implements OnInit {
     this.selectProblem = true;
     this.actionText = 'Add New +';
     this.isEdit = false;
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/problemcategory');
-    }
   }
 
   ngOnInit() {

@@ -16,7 +16,6 @@ import { IcustomLoginModelDetails, IPostChatCampModel } from '../model/custom.lo
 import { error } from 'util';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { Location } from '@angular/common';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 
 @Component({
@@ -28,14 +27,12 @@ export class LoginComponent implements OnInit {
   loginData: IcustomLoginModelDetails[];
   chatCampUrlData: any;
   public isLoggedIn = true;
-  accessDataModel: AccessDataModelComponent;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   loginForm: FormGroup;
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private loginAuthService: LoginAuthService,
     public location: Location) {
-    this.accessDataModel = new AccessDataModelComponent(httpClient, router);
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
@@ -71,8 +68,6 @@ export class LoginComponent implements OnInit {
             this.loginForm.reset();
             this.loginAuthService._setSession(data.result[0]);
             if (this.loginData[0].email_verified === '0') {
-              const feature_id = 23;
-              this.accessDataModel.setUserAccessLevels(null, feature_id, 'admin/changepassword');
               this.redirectUrlForChatCamp(this.loginData[0]);
             }
             this.alertService.success('User logged in successfully');

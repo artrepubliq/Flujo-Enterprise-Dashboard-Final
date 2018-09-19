@@ -21,6 +21,7 @@ export interface Ifeatures {
 export interface ISubFeatures {
     feature_id: string;
     id: any;
+    subfeature_id: string;
     subfeature_name: string;
     subfeature_route: string;
     submitted_at: string;

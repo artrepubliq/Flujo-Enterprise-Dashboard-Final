@@ -8,7 +8,6 @@ import { AppConstants } from '../app.constants';
 import { AppComponent } from '../app.component';
 import { IPrivacyData } from '../model/IPrivacyData';
 import { ICommonInterface } from '../model/commonInterface.model';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-pnp',
@@ -26,8 +25,6 @@ export class PnpComponent implements OnInit {
   isEdit: boolean;
   privacyDetails: IPrivacyData[];
   pnpSubmitForm: FormGroup;
-  feature_id = 22;
-  userAccessDataModel: AccessDataModelComponent;
   constructor(private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder, private httpClient: HttpClient,
     private alertService: AlertService, private router: Router) {
@@ -38,10 +35,6 @@ export class PnpComponent implements OnInit {
       'privacypolicy_id': [null]
     });
     this.getPrivacyData();
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/privacynpolicy');
-    }
     this.privacyDetails = [];
   }
 

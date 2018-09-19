@@ -40,7 +40,6 @@ div.alert {
       background-color: #ffffff !important;
       border: solid 1px #d8d8d8 !important;
       }
-
   }
 }
 #createuserform .form-control {
@@ -49,17 +48,14 @@ div.alert {
 .table-bordered {
   background-color: rgb(255, 255, 255);
 }
-
 .table-bordered thead th,
 tbody td {
   vertical-align: middle !important;
 }
-
 .table-bordered thead tr,
 tbody tr {
   height: 70px;
 }
-
 .table-bordered th {
   font-size: 13px;
   font-weight: 500;
@@ -70,13 +66,11 @@ tbody tr {
   font-weight: 500;
   color: #919191;
 }
-
 .table-bordered td:first-child {
   font-size: 14px;
   font-weight: 500;
   color: #333333;
 }
-
 .table-bordered th,
 .table-bordered td {
   border-left: none;
@@ -117,11 +111,9 @@ td.btn-usert{
   font-weight: 300;
   color: #666666;
 }
-
 button i {
   font-family: FontAwesome !important;
 }
-
 .profile-edit {
   .form-group {
     margin-bottom: 15px;
@@ -144,7 +136,6 @@ button i {
     box-shadow: 4px 3px 8px rgba(0, 0, 0, 0.5);
   }
 }
-
 .profile_block {
   height: 100%;
   max-width: 52vw;
@@ -269,7 +260,6 @@ button i {
     }
   }
 }
-
 .defaultavatar {
   position: relative;
   max-width: 300px;
@@ -307,14 +297,12 @@ button i {
     vertical-align: middle;
   }
 }
-
 .defaultavatar:hover .hoverbuttons {
   // display:block;
   opacity: 1;
   transition: all 1s;
   -webkit-transition: all 1s;
 }
-
 // ========= Access Level Pop Styles ======
 .access-popUp {
   position: relative;
@@ -363,7 +351,6 @@ button i {
     }
   }
 }
-
 .input_box {
   position: relative;
   input {
@@ -377,16 +364,20 @@ button i {
   max-width: 80vw;
 }
 .featue_details{
-  padding-left: 3rem; 
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 .features{
   display: flex;
   align-items: center;
-  -webkit-box-align: baseline;
-}
-.toggle_features{
-  margin: auto;
-}
-.feature_name_details{
-  margin-top: 10px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-right: 20px;
+  .header_item {
+    font-size: 16px;
+    margin: 0;
+  }
+  &.sub_feature_item {
+    margin: 0;
+  }
 }

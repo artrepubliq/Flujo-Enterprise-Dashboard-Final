@@ -13,7 +13,6 @@ import { AppConstants } from '../app.constants';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { SmsTemplateSelectService } from './sms-template-select-service';
 import { ISmsTemplateData } from '../model/smsTemplateData';
 import { PapaParseService } from 'ngx-papaparse';
@@ -47,8 +46,6 @@ export class SmsuiComponent implements OnInit {
   PHONE_REGEXP = /^([0]|\+91)?[6789]\d{9}$/;
   submitted: boolean;
   cancelFileEdit: boolean;
-  userAccessDataModel: AccessDataModelComponent;
-  feature_id = 4;
 
   public createAccountForm: FormGroup;
   public sendSms = false;
@@ -97,10 +94,6 @@ export class SmsuiComponent implements OnInit {
     });
 
     this.getSlectedTemplateData();
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/sms');
-    }
     this.phoneContactsArray = [];
     this.errorPhoneContacts = [];
     this.multipleNumbers = true;

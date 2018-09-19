@@ -240,15 +240,13 @@
             <a class="activity">
               <i class="fa fa-user"></i>{{name}}</a>
           </li>
-          <div *ngFor="let item of adminMenu; let i = index">
-            <div *ngFor="let useraccesitem of userAccessLevelData">
+            <div *ngFor="let item of PreparedSubfeaturesObject">
               <li>
-                <a class="activity" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i)">
-                  {{item.title}}
+                <a class="activity"  (click)="navigateSubFeature(item)">
+                  {{item.subfeature_name}}
                 </a>
               </li>
             </div>
-          </div>
 
           <li>
             <a class="activity" (click)="loginAuthService.logout(false)">

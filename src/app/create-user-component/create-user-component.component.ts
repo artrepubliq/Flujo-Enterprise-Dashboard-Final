@@ -14,7 +14,6 @@ import { json } from 'body-parser';
 import { Injectable } from '@angular/core';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessLevelPopup } from '../dialogs/create-useraccesslevels-popup/create-useraccesslevels-popup';
 import { UserAccesslevelsService } from '../service/user-accesslevels.service';
@@ -37,8 +36,6 @@ export class CreateUserComponentComponent implements OnInit {
   button_text = 'save';
   config: any;
   feature_id = 17;
-  // model=new User(1,'','','','');
-  userAccessDataModel: AccessDataModelComponent;
   PHONE_REGEXP = /^([0]|\+91)?[6789]\d{9}$/;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   constructor(public dialog: MatDialog, private alertService: AlertService,
@@ -46,12 +43,7 @@ export class CreateUserComponentComponent implements OnInit {
     private userAccessLevelService: UserAccesslevelsService,
     private httpClient: HttpClient, private router: Router, public adminComponent: AdminComponent) {
     this.CreateUserForm = this.formBuilder.group({
-
       'name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
-      // 'first_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
-      //  'last_name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
-      // 'user_password': ['', Validators.required],
-
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'phone': ['', Validators.compose([Validators.required, Validators.pattern(this.PHONE_REGEXP)])],
       'role': ['', Validators.required],
@@ -60,15 +52,10 @@ export class CreateUserComponentComponent implements OnInit {
       'user_id': [null]
     });
     this.getUsersList();
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/user');
-    }
   }
 
 
   ngOnInit() {
-    this.getClientAccessLevelsFeatures();
   }
   onSubmit = (body) => {
     this.spinnerService.show();
@@ -131,10 +118,8 @@ export class CreateUserComponentComponent implements OnInit {
         data => {
           if (data.custom_status_code === 100 && data.result.length > 0) {
             data.result ? this.isEdit = false : this.isEdit = true;
-            // console.log(data);
+            console.log(data);
             this.userDetails = data.result;
-            // console.log(this.userDetails);
-            // console.log(localStorage.getItem('user_id'));
           }
           this.spinnerService.hide();
         },
@@ -206,17 +191,6 @@ export class CreateUserComponentComponent implements OnInit {
     } else if (data.custom_status_code === 130) {
       this.alertService.warning('Failed to create user!!!');
     }
-
-    // if (response.result) {
-    //   this.alertService.danger('Email ID already existed');
-    // } else {
-    //   this.alertService.info('User data submitted successfully.');
-    //   this.CreateUserForm.reset();
-    //   this.getUsersList();
-    //   this.isEdit = false;
-    //   this.button_text = 'save';
-
-    // }
   }
   selectAll() {
     for (let i = 0; i < this.userDetails.length; i++) {
@@ -234,25 +208,6 @@ export class CreateUserComponentComponent implements OnInit {
       return true;
     }
     return false;
-  }
-
-  getClientAccessLevelsFeatures = () => {
-    this.httpClient.get<ICommonInterface>('https://enterprise-api.flujo.in/v1/flujo_client_getfat/' + AppConstants.CLIENT_ID)
-      .subscribe(
-        sucsResp => {
-          if (!sucsResp.error) {
-            // console.log(sucsResp.result[0]);
-            const userAccessObject = this.userAccessLevelService.prepareUserAccessLevels(sucsResp.result[0]);
-            // console.log(userAccessObject);
-            this.openAccessDialog(userAccessObject);
-          }
-          this.spinnerService.hide();
-        },
-        error => {
-          // console.log(error);
-          this.spinnerService.hide();
-        }
-      );
   }
 
 }

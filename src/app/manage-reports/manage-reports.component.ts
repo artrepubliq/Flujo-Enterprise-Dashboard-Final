@@ -19,7 +19,6 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
     templateUrl: './manage-reports.component.html',
@@ -62,7 +61,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
     picker: any;
     p: number;
     feature_id = 5;
-    userAccessDataModel: AccessDataModelComponent;
     private filterSubject: Subject<string> = new Subject<string>();
     constructor(public httpClient: HttpClient,
         private spinnerService: Ng4LoadingSpinnerService,
@@ -81,10 +79,6 @@ export class ManageReportsComponent implements OnInit, AfterViewInit, OnDestroy 
         this.showReports.inProgressActive = false;
         this.filterSubject.debounceTime(300).distinctUntilChanged().subscribe(searchItem =>
             this.onChange2(searchItem));
-        if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-            this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-            this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/managereports');
-        }
         this.filterReportProblemData = [];
     }
     ngOnInit() {

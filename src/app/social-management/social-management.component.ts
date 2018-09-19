@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FacebookService, InitParams, LoginResponse, LoginOptions } from 'ngx-facebook';
 import { FBService } from '../service/fb.service';
 import * as _ from 'underscore';
@@ -23,11 +23,12 @@ import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-social-management',
   templateUrl: './social-management.component.html',
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
+  @Input() selectedIndex: any;
   doLoginConfirmed: any;
   FbLongLivedToken: any;
   userName: string;
@@ -46,7 +47,6 @@ export class SocialManagementComponent implements OnInit {
   config: any;
   highLighted = '';
   public tab_index: number;
-  selectedIndex: any;
   showProgressBarValue = 0;
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
@@ -68,11 +68,12 @@ export class SocialManagementComponent implements OnInit {
     // this.fbLogin();
   }
   ngOnInit(): void {
-    const sub = this.route.params.subscribe(params => {
-      console.log(params['id']);
-      this.selectedIndex = params['id'];
-      this.tab_index = this.selectedIndex;
-    });
+    this.tab_index = this.selectedIndex;
+    // const sub = this.route.params.subscribe(params => {
+    //   console.log(params['id']);
+    //   this.selectedIndex = params['id'];
+    //   this.tab_index = this.selectedIndex;
+    // });
       this.getFacebookTokenFromOurServer();
       this.getTwitterUserProfiles();
     this.loggedInUserAccountsArray = [];

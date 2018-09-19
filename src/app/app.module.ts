@@ -101,7 +101,6 @@ import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-tem
 // import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
-import { AccessDataModelComponent } from './model/useraccess.data.model';
 // import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsAppTemplatePopup } from './whatsapp/whatsapp.component'; // WhatsappComponent
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
@@ -157,6 +156,11 @@ import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { ClientUserAccessDenied } from './dialogs/client-useraccess-denied/client-useraccess-denied.popup';
 import { AccessLevelPopup } from './dialogs/create-useraccesslevels-popup/create-useraccesslevels-popup';
 import { UserAccesslevelsService } from './service/user-accesslevels.service';
+import { WebBuilderComponent } from './web-builder/web-builder.component';
+import { EmailBuilderComponent } from './email-builder/email-builder.component';
+import { MailSetupComponent } from './mail-setup/mail-setup.component';
+import { DefaultEmailTemplatesComponent } from './default-email-templates/default-email-templates.component';
+import { EmailTemplatePreviewDialog } from './dialogs/email-template-dialogs/email-template-preview.dialog';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -213,14 +217,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ClientUserAccessDenied,
     AccessdeniedComponent,
     MediaLocalImagePopupDialog,
-    // SmstemplateComponent,
     EmailTemplateComponent,
-    // ChooseplatformComponent,
-    // SocialconfigurationComponent,
-    // WhatsappComponent,
-    AccessDataModelComponent,
-    // WhatsappComponent,
-    // SocialconfigurationComponent,
     WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup,
     ChartAgeDirective,
@@ -259,7 +256,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CreateDomainComponent,
     DomainDeploymentsComponent,
     DomainManagementComponent,
-    ListOfDomainsComponent
+    ListOfDomainsComponent,
+    WebBuilderComponent,
+    EmailBuilderComponent,
+    MailSetupComponent,
+    DefaultEmailTemplatesComponent,
+    EmailTemplatePreviewDialog
   ],
   imports: [
     CommonModule,
@@ -322,7 +324,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AccessLevelPopup, DeletefolderDialog, ClientUserAccessDenied, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
     MessageCompose, ImagePreviewDialogComponent, EditFacebookMessage, AddSocialStreemDialog, ProfileInfoDialog,
-    EmailTemplateSelectionModal,
+    EmailTemplateSelectionModal, EmailTemplatePreviewDialog,
     PostCommentCompose, PostCommentTwitterCompose],
   providers: [
     UserAccesslevelsService,

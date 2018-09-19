@@ -1,4 +1,4 @@
-<div class="logins" fxLayoutGap="2rem" fxLayoutAlign="start center" fxLayout="column" >
+<div *ngIf="!isShowSocialManagement" class="logins" fxLayoutGap="2rem" fxLayoutAlign="start center" fxLayout="column" >
   <div fxFlex="100%">
     <P fxFlex class="Explore-your-networks">
       Explore your networks
@@ -20,5 +20,8 @@
         <button *ngFor="let item of social" (click)="navigateToSocial(item)" class="btn btn-login btn-fb">{{item.social_name}}</button>
     </div>
   </div>
+</div>
+<div *ngIf="isShowSocialManagement">
+    <app-social-management [selectedIndex]="selectedIndex"></app-social-management>
 </div>
 <router-outlet></router-outlet>
