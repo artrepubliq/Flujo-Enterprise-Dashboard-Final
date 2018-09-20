@@ -52,6 +52,7 @@ import { WebBuilderComponent } from './web-builder/web-builder.component';
 import { MailSetupComponent } from './mail-setup/mail-setup.component';
 import { DefaultEmailTemplatesComponent } from './default-email-templates/default-email-templates.component';
 import { SendEmailsComponent } from './directives/email-config/send-emails/send-emails.component';
+import { PagesComponent } from "./pages/pages.component";
 const routes: Routes = [
   {
     path: '',
@@ -95,8 +96,7 @@ const routes: Routes = [
           // MULTI EDITOR ROUTERS CONFIG
           {
             path: 'F_2',
-            component: WebBuilderComponent,
-            resolve: { themedata: EmailTemplateResolver },
+            component: PagesComponent,
             data: { title: 'F_2' }
           },
           {

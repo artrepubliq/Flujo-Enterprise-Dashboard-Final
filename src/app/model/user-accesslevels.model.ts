@@ -16,6 +16,7 @@ export interface Ifeatures {
     sub_features: ISubFeatures[];
     isEnabled: boolean;
     isActive: boolean;
+    view: string;
 }
 
 export interface ISubFeatures {
@@ -26,6 +27,7 @@ export interface ISubFeatures {
     subfeature_route: string;
     submitted_at: string;
     isEnabled: boolean;
+    view: string;
 }
 
 export interface Iservices {
