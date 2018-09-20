@@ -96,12 +96,6 @@ import { ChartsStatusDirective } from './directives/charts-status/charts-status.
 import { ChartsLoyalityDirective } from './directives/charts-loyality/charts-loyality.directive';
 import { ChartsProblemCategoryDirective } from './directives//charts-problem-category/charts-problem-category.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
-// import { SmstemplateComponent } from './smstemplate/smstemplate.component';
-import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
-// import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
-import { EmailTemplateResolver } from './email-template/email-template.resolver';
-import { EmailTemplateService } from './email-template/email-template-service';
-// import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsAppTemplatePopup } from './whatsapp/whatsapp.component'; // WhatsappComponent
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
 import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
@@ -161,6 +155,9 @@ import { EmailBuilderComponent } from './email-builder/email-builder.component';
 import { MailSetupComponent } from './mail-setup/mail-setup.component';
 import { DefaultEmailTemplatesComponent } from './default-email-templates/default-email-templates.component';
 import { EmailTemplatePreviewDialog } from './dialogs/email-template-dialogs/email-template-preview.dialog';
+import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
+import { EmailTemplateResolver } from './email-template/email-template.resolver';
+import { EmailTemplateService } from './email-template/email-template-service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }

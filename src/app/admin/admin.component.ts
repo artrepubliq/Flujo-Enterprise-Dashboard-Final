@@ -23,7 +23,7 @@ import { ClientUserAccessDenied } from '../dialogs/client-useraccess-denied/clie
 import { IUserFeatures, IUserAccessLevels } from '../model/user-accesslevels.model';
 import { UserAccesslevelsService } from '../service/user-accesslevels.service';
 import { BASE_ROUTER_CONFIG } from '../app.router-contstants';
-import { AccessLevelPopup } from "../dialogs/create-useraccesslevels-popup/create-useraccesslevels-popup";
+import { AccessLevelPopup } from '../dialogs/create-useraccesslevels-popup/create-useraccesslevels-popup';
 declare var jquery: any;
 declare var $window: any;
 declare var $: any;
