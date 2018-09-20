@@ -19,15 +19,6 @@ import { PlatformLocation } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 // import { resolve } from 'q';
 declare var require: any;
-@Pipe({
-  name: 'safeHtml'
-})
-export class SafeHtmlPipe implements PipeTransform {
-  constructor(private sanitizer: DomSanitizer) { }
-  transform(html) {
-    return this.sanitizer.bypassSecurityTrustHtml(html);
-  }
-}
 const grapesjs = require('grapesjs');
 const nlPlugin = require('grapesjs-preset-newsletter');
 @Component({

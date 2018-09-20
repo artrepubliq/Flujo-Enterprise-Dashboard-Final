@@ -1,15 +1,7 @@
 import { Component, Inject, Pipe, PipeTransform } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
-@Pipe({
-    name: 'safeHtml'
-  })
-  export class SafeHtmlPipe implements PipeTransform {
-    constructor(private sanitizer: DomSanitizer) { }
-    transform(html) {
-      return this.sanitizer.bypassSecurityTrustHtml(html);
-    }
-  }
+
 @Component({
     // tslint:disable-next-line:component-selector
     selector: 'dialog-overview-example-dialog',

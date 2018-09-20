@@ -155,9 +155,10 @@ import { EmailBuilderComponent } from './email-builder/email-builder.component';
 import { MailSetupComponent } from './mail-setup/mail-setup.component';
 import { DefaultEmailTemplatesComponent } from './default-email-templates/default-email-templates.component';
 import { EmailTemplatePreviewDialog } from './dialogs/email-template-dialogs/email-template-preview.dialog';
-import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
+import { EmailTemplateComponent } from './email-template/email-template.component';
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
+import { SafeHtmlPipe } from './_pipes/safe-html-email.pipe';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
