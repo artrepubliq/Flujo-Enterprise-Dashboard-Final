@@ -22,6 +22,11 @@ export class SocialLoginComponent implements OnInit {
    }
 
   ngOnInit() {
+    const prevTabIndex = localStorage.getItem('social_tabindex');
+    if (prevTabIndex.length > 0) {
+      this.selectedIndex = Number(prevTabIndex);
+      this.isShowSocialManagement = true;
+    }
   }
   navigateToSocial = (item) => {
     this.isShowSocialManagement = true;

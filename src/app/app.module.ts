@@ -11,7 +11,7 @@ import { LoginComponent, } from './login/login.component';
 import { CallbackComponent } from './callback.component';
 import { GalleryImagesService } from './service/gallery-images.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MediaLocalImagePopupDialog } from './pages/pages.component'; // PagesComponent
+import { MediaLocalImagePopupDialog, PagesComponent } from './pages/pages.component'; // PagesComponent
 import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -171,7 +171,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ProfileComponent,
     AdminDashboardComponent,
     AdminComponent,
-    // PagesComponent,
+    PagesComponent,
     // SocialLinksComponent,
     ControlMessagesComponent,
     // SMTPConfigurationComponent,

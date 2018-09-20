@@ -18,7 +18,6 @@ import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { FileRepositoryPopup } from './filerepository.popup.component';
@@ -69,7 +68,6 @@ export class FilerepositoryComponent implements OnInit {
         public fileViewDialog: MatDialog,
         public deleteFolderDialog: MatDialog,
         private alertService: AlertService,
-        public adminComponent: AdminComponent,
         public router: Router) {
         this.FileUploadControl = this.formBuilder.group({
             'file_name': ['', Validators.required],
@@ -77,45 +75,6 @@ export class FilerepositoryComponent implements OnInit {
             'file_path': null,
             'file_size': null
         });
-        // this for restrict user on root access level
-        if (this.adminComponent.userAccessLevelData) {
-            this.userRestrict();
-        } else {
-            this.adminComponent.getUserAccessLevelsHttpClient()
-                .subscribe(
-                    resp => {
-                        this.spinnerService.hide();
-                        _.each(resp, item => {
-                            if (item.user_id === localStorage.getItem('user_id')) {
-                                this.userAccessLevelObject = item.access_levels;
-                            } else {
-                            }
-                        });
-                        this.adminComponent.userAccessLevelData = JSON.parse(this.userAccessLevelObject);
-                        this.userRestrict();
-                    },
-                    error => {
-                        console.log(error);
-                        this.spinnerService.hide();
-                    }
-                );
-        }
-    }
-    // this for restrict user on root access level
-    userRestrict() {
-        _.each(this.adminComponent.userAccessLevelData, (item, iterate) => {
-            if (this.adminComponent.userAccessLevelData[iterate].name === 'Drive'
-                && this.adminComponent.userAccessLevelData[iterate].enable) {
-                this.filteredUserAccessData = item;
-            } else {
-
-            }
-        });
-        if (this.filteredUserAccessData) {
-            this.router.navigate(['admin/filerepository']);
-        } else {
-            this.router.navigate(['/accessdenied']);
-        }
     }
     /* this is when we submit the form */
     onSubmit(filedata) {

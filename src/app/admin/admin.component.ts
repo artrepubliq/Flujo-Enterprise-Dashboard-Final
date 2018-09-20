@@ -29,12 +29,21 @@ declare var $window: any;
 declare var $: any;
 // import {ChatCamp} from './chatCamp';
 /*End Chat Camp window initializaion*/
+declare global {
+  interface Window { ChatCampUi: any; ChatCampUI: any; }
+}
+window.ChatCampUi = window.ChatCampUi || {};
+
+window.ChatCampUI = window.ChatCampUI || {};
+
+window.ChatCampUi.cc = window.ChatCampUi.cc || {};
 @Component({
   templateUrl: './admin.component.html',
   styleUrls: ['../app.component.scss']
 
 })
 export class AdminComponent implements OnInit {
+  getLoginUserinterval: NodeJS.Timer;
   PreparedfeatureObject: IUserAccessLevels;
   PreparedSubfeaturesObject: any;
   userFeatureObjects: any;
@@ -93,30 +102,110 @@ export class AdminComponent implements OnInit {
   }
   ngOnInit(): void {
     this.spinnerService.show();
-    // this.name = localStorage.getItem('name');
+    this.name = localStorage.getItem('name');
     this.user_id = localStorage.getItem('user_id');
-
+    this.InitChatIO();
     // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     // this.getUserList();
-    const interval = setInterval(() => {
+      this.getLoginUserinterval = setInterval(async () => {
       if (Date.now() > Number(localStorage.getItem('expires_at'))) {
         this.loginAuthService.logout(false);
-        clearInterval(interval);
+        clearInterval(this.getLoginUserinterval);
       }
-      this.getClientUsersList();
+      const usersList = await this.getClientUsersList();
 
     }, 5000);
     const interval2 = setInterval(() => {
       if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
         this.isChatStarted = true;
-        // console.log('enter the dragan');
-        // this.loadScript('/widget-example/static/js/main.428ae54a.js');
-        // this.window.cc = window.cc || {};
-        // this.window.ChatCampUI = window.ChatCampUI || {};
-        // console.log(window);
+        // this.ChatIO();
       }
     }, 3000);
+    // this.name = localStorage.getItem('name');
+    // this.user_id = localStorage.getItem('user_id');
+
+    // // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
+    // this.isUserActive = false;
+    // // this.getUserList();
+    // // const interval = setInterval(() => {
+    // //   if (Date.now() > Number(localStorage.getItem('expires_at'))) {
+    // //     this.loginAuthService.logout(false);
+    // //     clearInterval(interval);
+    // //   }
+    // //   this.getClientUsersList();
+
+    // // }, 5000);
+    // this.getLoginUserinterval = setInterval(async () => {
+    //   if (Date.now() > Number(localStorage.getItem('expires_at'))) {
+    //     this.loginAuthService.logout(false);
+    //     clearInterval(this.getLoginUserinterval);
+    //   }
+    //   const usersList = await this.getClientUsersList();
+
+    // }, 5000);
+    // const interval2 = setInterval(() => {
+    //   if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
+    //     this.isChatStarted = true;
+    //     // console.log('enter the dragan');
+    //     // this.loadScript('/widget-example/static/js/main.428ae54a.js');
+    //     // this.window.cc = window.cc || {};
+    //     // this.window.ChatCampUI = window.ChatCampUI || {};
+    //     // console.log(window);
+    //   }
+    // }, 3000);
+  }
+  // LOGOUT THE USER
+  onSubmitlogout = (status) => {
+    clearInterval(this.getLoginUserinterval);
+    this.loginAuthService.logout(status);
+    this.loginAuthService = null;
+  }
+  InitChatIO = () => {
+    window.ChatCampUi.init({
+      appId: '6433231869877153792',
+      user: {
+        id: this.user_id,
+        displayName: this.name, // optional
+        // accessToken: "Ymk3OFR0VFNsSkhML3ZYSUpNNnVzUT09" // optional
+      },
+      ui: {
+        theme: {
+          primaryBackground: '#3f45ad',
+          primaryText: '#ffffff',
+          secondaryBackground: '#ffffff',
+          secondaryText: '#000000',
+          tertiaryBackground: '#f4f7f9',
+          tertiaryText: '#263238'
+        },
+        roster: {
+          tabs: ['recent', 'rooms', this.loggedinUsersList],
+          render: false,
+          defaultMode: 'hidden' // other possible values are minimize, hidden
+        }
+      }
+    });
+  }
+  ChatIO = () => {
+    window.ChatCampUi.cc.GroupChannel.create('Flujo', this.loggedinIds, true, function (error, groupChannel) {
+      if (error == null) {
+        window.ChatCampUI.startChat(groupChannel.id);
+      }
+    });
+    /* tslint:enable */
+  }
+  OnetoOne = (chatItem) => {
+    // console.log(this.window);
+    const OnetoOne = [this.user_id];
+    OnetoOne.push(String(chatItem.id));
+    /* tslint:disable */
+    window.ChatCampUi.cc.GroupChannel.create('Flujo', OnetoOne, true, (error, groupChannel) => {
+      if (error == null) {
+        // console.log('New one to one Channel has been created', groupChannel);
+        window.ChatCampUI.startChat(groupChannel.id);
+      }
+    });
+    /* tslint:enable */
   }
   openAccessDialog(userItem): void {
     const dialogRef = this.dialog.open(AccessLevelPopup, {
@@ -161,11 +250,9 @@ export class AdminComponent implements OnInit {
       }
       this.spinnerService.hide();
     } else {
+      this.spinnerService.hide();
       console.log('No proper access permisssions');
     }
-    console.log(clientName);
-    console.log(clientFeatureAccessLevel);
-    console.log(this.loggedinUsersList);
   }
 
   // GET HOST ORIGIN URL FROM BROWSER
@@ -359,20 +446,20 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  OnetoOne = (chatItem) => {
+  // OnetoOne = (chatItem) => {
 
-    // console.log(this.window);
-    const OnetoOne = [this.user_id];
-    OnetoOne.push(String(chatItem.id));
-    /* tslint:disable */
-    window.cc.GroupChannel.create('Team', OnetoOne, true, (error, groupChannel) => {
-      if (error == null) {
-        // console.log('New one to one Channel has been created', groupChannel);
-        window.ChatCampUI.startChat(groupChannel.id);
-      }
-    });
-    /* tslint:enable */
-  }
+  //   // console.log(this.window);
+  //   const OnetoOne = [this.user_id];
+  //   OnetoOne.push(String(chatItem.id));
+  //   /* tslint:disable */
+  //   window.cc.GroupChannel.create('Team', OnetoOne, true, (error, groupChannel) => {
+  //     if (error == null) {
+  //       // console.log('New one to one Channel has been created', groupChannel);
+  //       window.ChatCampUI.startChat(groupChannel.id);
+  //     }
+  //   });
+  //   /* tslint:enable */
+  // }
   openClientUserAccessDeniedPopUp(): void {
     const dialogRef = this.dialog.open(ClientUserAccessDenied, {
       width: '40vw',

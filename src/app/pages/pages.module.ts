@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PagesRoutingModule } from './pages-routing.module';
-import { PagesComponent } from './pages.component';
+// import { PagesComponent } from './pages.component';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from 'ngx-alerts';
@@ -33,7 +33,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatSelectModule
   ],
   declarations: [
-    PagesComponent
+    // PagesComponent
   ]
 })
 export class PagesModule { }

@@ -1,39 +1,112 @@
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
-<div fxLayoutAlign="center center" class="loginfield" fxLayout>
-  <div class="flujo-overlay"></div>
-  <mat-card class="example-card p-0" fxLayout="column">
-    <mat-progress-bar class="progress_bar" mode="indeterminate" *ngIf="!isLoggedIn" value=""></mat-progress-bar>
-    <mat-card-header fxLayoutAlign="center center" fxLayout="column">
-      <div mat-card-avatar class="example-header-image"></div>
-    </mat-card-header>
-    <mat-card-content fxLayout="column" fxLayoutAlign="center center">
-      <form [formGroup]="loginForm" (submit)="onSubmit(loginForm.value)" class="w-100" fxLayout="column" method="POST">
-        <div class="logIn_inputs" fxLayout="column" fxFlex="100%">
-          <mat-form-field fxFlex>
-            <input matInput placeholder="Email" id="email" formControlName="email">
-            <span matPrefix>
-              <i class="fa fa-user">&nbsp;</i>
-            </span>
-          </mat-form-field>
-          <mat-form-field fxFlex>
-            <input type="password" id="password" matInput placeholder="Password" formControlName="password">
-            <span matPrefix>
-              <i class="fa fa-key">&nbsp;</i>
-            </span>
-          </mat-form-field>
+<div class="login__block">
+  <div class="login__form">
+    <div class="logos">
+      <div class="logo_item">
+        <svg width="20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+          y="0px" viewBox="0 0 14 21.2" style="enable-background:new 0 0 14 21.2;" xml:space="preserve">
+          <g>
+            <g>
+              <path fill="#452c59" d="M7.2,0.1c0.5,0,0.9,0.2,1.2,0.5C8.8,1,8.9,1.4,8.9,1.9S8.8,2.7,8.4,3.1C8.1,3.4,7.7,3.6,7.2,3.6h0l-3.7,0
+			v10.8c0,0.5-0.2,0.9-0.5,1.2c-0.3,0.3-0.8,0.5-1.2,0.5s-0.9-0.2-1.2-0.5C0.2,15.3,0,14.9,0,14.4V1.8c0-0.5,0.2-0.9,0.5-1.2
+			c0.3-0.3,0.7-0.5,1.2-0.5h0L7.2,0.1z" />
+            </g>
+            <path fill="#92d7e9" d="M3.5,19.4L3.5,19.4c0,1-0.8,1.7-1.7,1.7h0c-1,0-1.7-0.8-1.7-1.7v0c0-1,0.8-1.7,1.7-1.7h0
+		C2.8,17.6,3.5,18.4,3.5,19.4z" />
+            <path fill="#ee2f6b" d="M14,1.8L14,1.8c0,1-0.8,1.7-1.8,1.7l0,0c-1,0-1.7-0.8-1.7-1.7v0c0-1,0.8-1.7,1.8-1.7l0,0
+		C13.2,0.1,14,0.9,14,1.8z" />
+            <path fill="#fecd0f" d="M8.9,10.6L8.9,10.6c0,1-0.8,1.7-1.8,1.7l0,0c-1,0-1.7-0.8-1.7-1.7v0c0-1,0.8-1.7,1.8-1.7l0,0
+		C8.1,8.9,8.9,9.7,8.9,10.6z" />
+          </g>
+        </svg>
+
+      </div>
+      <div class="plus_icon">
+        <svg version="1.1" width="18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+          y="0px" viewBox="0 0 491.86 491.86" style="enable-background:new 0 0 491.86 491.86;" xml:space="preserve">
+          <path d="M465.167,211.614H280.245V26.691c0-8.424-11.439-26.69-34.316-26.69s-34.316,18.267-34.316,26.69v184.924H26.69
+			C18.267,211.614,0,223.053,0,245.929s18.267,34.316,26.69,34.316h184.924v184.924c0,8.422,11.438,26.69,34.316,26.69
+			s34.316-18.268,34.316-26.69V280.245H465.17c8.422,0,26.69-11.438,26.69-34.316S473.59,211.614,465.167,211.614z" />
+        </svg>
+      </div>
+      <div class="logo_item">
+        <img src="http://flujo-sarvodaya.herokuapp.com/assets/logo-bw@3x.png" class="img-fluid" alt="">
+      </div>
+    </div>
+    <!-- LogIn Form -->
+    <div [hidden]="hideLogin">
+      <form [formGroup]="loginForm" (submit)="onSubmit(loginForm.value)" method="POST">
+        <div class="login__title">
+          <p>Log In to Your Account</p>
         </div>
-        <div>
-          <mat-card-actions class="logIn_button" fxLayoutAlign="center stretch">
-            <button fxFlex fxLayoutAlign="center" type="submit" [disabled]="!isLoggedIn || loginForm.invalid" class="btn-login" color="default">
-              <h6 class="d-inline">LOG IN
-                <i class="d-inline">
-                  <img class="arrow-right" src="../assets/icons/headings-down-arrow-icon@3x.png">
-                </i>
-              </h6>
-            </button>
-          </mat-card-actions>
+        <div class="login_inputs">
+          <input type="email" placeholder="Enter Email address" id="email" formControlName="email">
+        </div>
+        <div class="login_inputs">
+          <input type="password" id="password" placeholder="Enter Password" formControlName="password">
+        </div>
+        <p class="forgot_password" (click)="showForgotPassword()">Forgot you password?</p>
+        <div class="login_submit">
+          <button [disabled]="!isLoggedIn || loginForm.invalid">
+            Log in
+          </button>
         </div>
       </form>
-    </mat-card-content>
-  </mat-card>
+    </div>
+    <!-- Reset Password -->
+    <div [hidden]="!hideLogin">
+      <form [formGroup]="passwordForm" (submit)="onformSubmit(passwordForm.value)" method="POST">
+        <div class="login__title">
+          <p>Rest your Password</p>
+        </div>
+        <div class="login_inputs">
+          <input type="email" placeholder="Enter Email address" id="forgotemail" formControlName="email_id">
+        </div>
+        <p class="forgot_password" (click)="showLogin()">Remember password?</p>
+        <div class="login_submit">
+          <button [disabled]="!isLoggedIn || passwordForm.invalid">
+            Rest Password
+          </button>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="!isLoggedIn" class="loader__login">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70.109 69.253">
+        <defs>
+          <style>
+            .svgLoader1,
+            .svgLoader2,
+            .svgLoader3 {
+              fill: none;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              stroke-miterlimit: 10;
+              stroke-width: 4px
+            }
+
+            .svgLoader1 {
+              stroke: #ed326c
+            }
+
+            .svgLoader2 {
+              stroke: #14c0de
+            }
+
+            .svgLoader3 {
+              stroke: #ffcd0e
+            }
+
+          </style>
+        </defs>
+        <g id="Group_15" data-name="Group 15" transform="translate(1.743 1.8)">
+          <path id="Path_8" d="M13.7 9.887a33 33 0 0 1 46.714 0" class="svgLoader1" data-name="Path 8" transform="translate(-3.8)" />
+          <path id="Path_9" d="M24.467 72.525a32.561 32.561 0 0 1-14.5-8.467 33.1 33.1 0 0 1-7.953-34.1" class="svgLoader2"
+            data-name="Path 9" transform="translate(0 -7.456)" />
+          <path id="Path_10" d="M77.91 28.359a32.764 32.764 0 0 1-7.526 35.062A33.137 33.137 0 0 1 54.1 72.344" class="svgLoader3"
+            data-name="Path 10" transform="translate(-13.769 -6.891)" />
+        </g>
+      </svg>
+
+    </div>
+  </div>
 </div>
