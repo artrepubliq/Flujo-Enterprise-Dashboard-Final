@@ -14,7 +14,6 @@ import { DataSource } from '@angular/cdk/collections';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { IActiveHeader } from '../model/active-header.model';
 @Component({
@@ -51,7 +50,6 @@ export class ChangemakerComponent implements OnInit {
   config: any;
   p: number;
   submitted: boolean;
-  userAccessDataModel: AccessDataModelComponent;
   pageChanged = new EventEmitter<number>();
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -62,10 +60,6 @@ export class ChangemakerComponent implements OnInit {
       'client_id': [null]
     });
     this.getChangemakerReportData();
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/changemakerreport');
-    }
     this.ActiveHeader = {
       feedback: false,
       change_maker: true,

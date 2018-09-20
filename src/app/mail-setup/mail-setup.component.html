@@ -1,0 +1,22 @@
+
+<div class="logins" fxLayoutGap="2rem" fxLayoutAlign="start center" fxLayout="column">
+  <div fxFlex="100%">
+    <P fxFlex class="Explore-your-networks">
+      Choose setup or send emails
+    </P>
+  </div>
+  <div fxLayout="column" fxLayoutGap="2rem" fxLayoutAlign="start center" class="Rounded-Rectangle-1176">
+    <div>
+      <p class="Login-to-your-networks-and-explore">Configure Bulk email setup or if all ready done proceed to send emails</p>
+    </div>
+    <div class="login-intro">
+      <p class="login-how-to">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+        in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur </p>
+    </div>
+    <div class="btn-ftyl" fxLayout="row" fxLayoutGap="15px">
+      <button  *ngFor="let item of emails" (click)="navigateToSocial(item.email_config)" class="btn btn-login btn-fb">{{item.name}}</button>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

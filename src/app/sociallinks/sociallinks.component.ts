@@ -12,7 +12,6 @@ import { AppConstants } from '../app.constants';
 import { IHttpResponse } from '../model/httpresponse.model';
 import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 
 @Component({
@@ -30,8 +29,6 @@ export class SocialLinksComponent implements OnInit {
   form_btntext = 'save';
   successMessage: string;
   deleteMessage: string;
-  userAccessDataModel: AccessDataModelComponent;
-  feature_id = 18;
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
     private alertService: AlertService, private router: Router, public adminComponent: AdminComponent) {
 
@@ -43,10 +40,6 @@ export class SocialLinksComponent implements OnInit {
     });
 
     this.getSocialLinksData();
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/sociallinks');
-    }
   }
   ngOnInit() {
     setTimeout(function () {

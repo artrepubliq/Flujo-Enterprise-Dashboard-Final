@@ -16,7 +16,7 @@ import { HttpService } from './service/httpClient.service';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 // import { LogoComponent } from './logo/logo.component';
-import { AdminComponent, EmptyAccessLevelDialog } from './admin/admin.component';
+import { AdminComponent } from './admin/admin.component';
 import { CKEditorModule } from 'ngx-ckeditor';
 import { ValidationService } from './service/validation.service';
 // import { SocialLinksComponent } from './sociallinks/sociallinks.component';
@@ -37,28 +37,24 @@ import {
 } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
-// this includes the core NgIdleModule but includes keepalive providers for easy wireup
-import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
 import { ControlMessagesComponent } from './directives/control-messages.component';
 import { GalleryDirective } from './directives/gallery/gallery.directive';
 import { EditGalleryItems } from './directives/edit-gallery-popup/editgallery.popup';
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ImageUploadModule } from 'angular2-image-upload';
 // Perfect Scroll Bar
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { SmsTemplateSelectionDialog } from './smsui/smsui.component'; // SmsuiComponent
 import { MessageArchivedComponent } from '../app/directives/snackbar-sms-email/snackbar-email-sms';
-import { AccessLevelPopup } from './create-user-component/create-user-component.component'; // CreateUserComponentComponent
 // import { ThemeConfigComponent } from './theme-config/theme-config.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
-import { Http, RequestOptions } from '@angular/http';
+import { Http, RequestOptions, HttpModule } from '@angular/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { AuthInterceptorService } from './auth/auth.interceptorservice';
@@ -100,13 +96,6 @@ import { ChartsStatusDirective } from './directives/charts-status/charts-status.
 import { ChartsLoyalityDirective } from './directives/charts-loyality/charts-loyality.directive';
 import { ChartsProblemCategoryDirective } from './directives//charts-problem-category/charts-problem-category.directive';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
-// import { SmstemplateComponent } from './smstemplate/smstemplate.component';
-import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
-// import { ChooseplatformComponent } from './chooseplatform/chooseplatform.component';
-import { EmailTemplateResolver } from './email-template/email-template.resolver';
-import { EmailTemplateService } from './email-template/email-template-service';
-import { AccessDataModelComponent } from './model/useraccess.data.model';
-// import { SocialconfigurationComponent } from './socialconfiguration/socialconfiguration.component';
 import { WhatsAppTemplatePopup } from './whatsapp/whatsapp.component'; // WhatsappComponent
 import { SmsTemplateSelectService } from './smsui/sms-template-select-service';
 import { ChartAgeDirective } from './directives/chart-age/chart-age.directive';
@@ -126,8 +115,6 @@ import { WindowRef } from './admin/window.service';
 import { SocialLoginComponent } from './social-login/social-login.component';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { TwitterUserService } from './service/twitter-user.service';
-// import { LinkyModule } from 'angular-linky';
-import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { FacebookComponentCommunicationService } from './service/social-comp-int.service';
 import { MyDatePipe } from './_pipes/date-pipe';
 import { ImagePreviewDialogComponent } from './dialogs/image-preview-dialog/image-preview-dialog.component';
@@ -157,7 +144,20 @@ import { DomainsService } from './domain/services/domains.service';
 import { GloblalSmsService } from './service/global-sms.service';
 import { FileSelectPopup } from './dialogs/media-file-select.popup/media-file-select.popup';
 import { MediaDeletePopup } from './dialogs/media-delete-popup/media-delete.popup';
-
+import { FileRepositoryPopup } from './filerepository/filerepository.popup.component';
+import { FileViewerPopUp } from './filerepository/FileViewer.PopUp.component';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+import { ClientUserAccessDenied } from './dialogs/client-useraccess-denied/client-useraccess-denied.popup';
+import { AccessLevelPopup } from './dialogs/create-useraccesslevels-popup/create-useraccesslevels-popup';
+import { UserAccesslevelsService } from './service/user-accesslevels.service';
+import { WebBuilderComponent } from './web-builder/web-builder.component';
+import { EmailBuilderComponent } from './email-builder/email-builder.component';
+import { MailSetupComponent } from './mail-setup/mail-setup.component';
+import { DefaultEmailTemplatesComponent } from './default-email-templates/default-email-templates.component';
+import { EmailTemplatePreviewDialog } from './dialogs/email-template-dialogs/email-template-preview.dialog';
+import { EmailTemplateComponent, SafeHtmlPipe } from './email-template/email-template.component';
+import { EmailTemplateResolver } from './email-template/email-template.resolver';
+import { EmailTemplateService } from './email-template/email-template-service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -211,17 +211,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ChartsStatusDirective,
     ChartsLoyalityDirective,
     ChartsProblemCategoryDirective,
-    EmptyAccessLevelDialog,
+    ClientUserAccessDenied,
     AccessdeniedComponent,
     MediaLocalImagePopupDialog,
-    // SmstemplateComponent,
     EmailTemplateComponent,
-    // ChooseplatformComponent,
-    // SocialconfigurationComponent,
-    // WhatsappComponent,
-    AccessDataModelComponent,
-    // WhatsappComponent,
-    // SocialconfigurationComponent,
     WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup,
     ChartAgeDirective,
@@ -260,7 +253,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CreateDomainComponent,
     DomainDeploymentsComponent,
     DomainManagementComponent,
-    ListOfDomainsComponent
+    ListOfDomainsComponent,
+    WebBuilderComponent,
+    EmailBuilderComponent,
+    MailSetupComponent,
+    DefaultEmailTemplatesComponent,
+    EmailTemplatePreviewDialog
   ],
   imports: [
     CommonModule,
@@ -269,6 +267,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    HttpModule,
     CKEditorModule,
     FormsModule,
     AlertModule.forRoot(),
@@ -278,13 +277,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FlexLayoutModule,
     PerfectScrollbarModule,
     ColorPickerModule,
-    ImageUploadModule.forRoot(),
     ColorPickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
     MatAutocompleteModule,
+    AngularDateTimePickerModule,
     MatMenuModule,
     ColorPickerModule,
     LoadingModule,
@@ -299,7 +298,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatCardModule,
     MatIconModule,
     MatListModule,
-    MomentModule,
     MatProgressBarModule,
     MatAutocompleteModule,
     NgIdleKeepaliveModule.forRoot(),
@@ -318,18 +316,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatProgressSpinnerModule,
     PapaParseModule,
     ScrollDispatchModule,
-    // A2Edatetimepicker,
-    AngularDateTimePickerModule,
-    // LinkyModule,
   ],
   entryComponents: [EditGalleryItems, MediaDeletePopup, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
-    AccessLevelPopup, DeletefolderDialog, EmptyAccessLevelDialog, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
+    AccessLevelPopup, DeletefolderDialog, ClientUserAccessDenied, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
     MessageCompose, ImagePreviewDialogComponent, EditFacebookMessage, AddSocialStreemDialog, ProfileInfoDialog,
-    EmailTemplateSelectionModal,
+    EmailTemplateSelectionModal, EmailTemplatePreviewDialog,
     PostCommentCompose, PostCommentTwitterCompose],
   providers: [
-    // AuthService,
+    UserAccesslevelsService,
     HttpService,
     ValidationService,
     NgxSmartLoaderService,

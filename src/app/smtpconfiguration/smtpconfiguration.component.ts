@@ -8,7 +8,6 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
 import { AdminComponent } from '../admin/admin.component';
 import * as _ from 'underscore';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   templateUrl: './smtpconfiguration.component.html',
@@ -22,8 +21,6 @@ export class SMTPConfigurationComponent implements OnInit {
   successMessage: string;
   smtpItems: any;
   public isEdit = false;
-  feature_id = 16;
-  userAccessDataModel: AccessDataModelComponent;
   constructor(private spinnerService: Ng4LoadingSpinnerService  , private formBuilder: FormBuilder,
      private httpClient: HttpClient, private alertService: AlertService,
      private router: Router, public adminComponent: AdminComponent) {
@@ -36,10 +33,6 @@ export class SMTPConfigurationComponent implements OnInit {
       'client_id': null
     });
     this.getuserSMTPConfigData();
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/smtpconfiguration');
-    }
    }
    ngOnInit() {
     setTimeout(function() {

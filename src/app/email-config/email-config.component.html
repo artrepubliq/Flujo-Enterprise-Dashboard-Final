@@ -1,9 +1,12 @@
+<div>
+  <button class="choose_button" (click)="sendEmails()" >Send Emails</button>
+</div>
 <mat-tab-group #tabGroup [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-  <mat-tab label="Create Domain">
+  <mat-tab label="Add Domain" *ngIf="createDomain" >
   <!-- <mat-tab label="Create Domain" *ngIf="createDomain"> -->
   <app-create-domain-email></app-create-domain-email>
   </mat-tab>
-  <mat-tab label="Domain details">
+  <mat-tab label="Domain details" *ngIf="createDomain">
     <app-domain-details> </app-domain-details>
   </mat-tab>
   <!-- <mat-tab label="Smtp Details">
@@ -15,9 +18,7 @@
   <mat-tab label="Email-List">
     <app-create-mail-list></app-create-mail-list>
   </mat-tab>
-  <mat-tab label="Send Emails">
+  <!-- <mat-tab label="Send Emails">
     <app-send-emails></app-send-emails>
-  </mat-tab>
-
-
+  </mat-tab> -->
 </mat-tab-group>

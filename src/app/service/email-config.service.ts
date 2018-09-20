@@ -5,12 +5,13 @@ import { Observable } from 'rxjs/Observable';
 import { IDomainResponse, ICreateCampaign, IDeleteDomain, ICampaignDetails, ICampaignListDetails } from '../model/email.config.model';
 import { Subject } from 'rxjs/Subject';
 import { ICommonInterfaceNode } from '../model/commonInterface.model';
+import { IFeatureAccessTokens } from '../model/featureAccessTokens.model';
 
 @Injectable()
 export class EmailConfigService {
 
   public headers: HttpHeaders;
-  public headersObject: { client_id: string; token_expiry_date: string; feature_name: string; access_token: string };
+  public headersObject: { client_id: string; token_expiry_date?: string; feature_name?: string; access_token?: string };
   public subject = new Subject<IDomainResponse>();
   public campaignSubject = new Subject<ICampaignListDetails[]>();
   public smtpDetails: IDomainResponse;
@@ -20,13 +21,21 @@ export class EmailConfigService {
   constructor(
     private httpClient: HttpClient
   ) {
-    const feature_access_tokens = JSON.parse(localStorage.getItem('feature_access_tokens'));
-    this.headersObject = {
-      access_token: feature_access_tokens[1].feature_access_token,
-      token_expiry_date: 'feature_access_tokens[1].expiry_date',
-      client_id: AppConstants.CLIENT_ID,
-      feature_name: feature_access_tokens[1].feature_name
-    };
+    // tslint:disable-next-line:max-line-length
+    const feature_access_tokens: IFeatureAccessTokens[] = JSON.parse(localStorage.getItem('feature_access_tokens'));
+    const mailgunTokens: IFeatureAccessTokens = feature_access_tokens.find((feature) => feature.feature_name === 'mailgun');
+    if (mailgunTokens) {
+      this.headersObject = {
+        access_token: mailgunTokens.feature_access_token,
+        token_expiry_date: mailgunTokens.expiry_date,
+        client_id: AppConstants.CLIENT_ID,
+        feature_name: mailgunTokens.feature_name
+      };
+    } else {
+      this.headersObject = {
+        client_id: AppConstants.CLIENT_ID,
+      };
+    }
 
     this.headers = new HttpHeaders(this.headersObject);
   }
@@ -38,6 +47,14 @@ export class EmailConfigService {
   public createDomain(domainDetails: { domain_name: string }): Observable<IDomainResponse> {
     return this.httpClient.post<IDomainResponse>(
       AppConstants.EXPRESS_URL_MAILGUN + 'mailgun/createdomain', domainDetails, { headers: this.headers }
+    );
+  }
+  /**
+   * this is to create domian for third party domains
+   */
+  public createDomainThirdparty(domainDetails: { domain_name: string }): Observable<IDomainResponse> {
+    return this.httpClient.post<IDomainResponse>(
+      AppConstants.EXPRESS_URL_MAILGUN + 'mailgun/createdomainthirdparty', domainDetails, { headers: this.headers }
     );
   }
 
@@ -106,7 +123,6 @@ export class EmailConfigService {
     } else {
       this.campaignDetails = campaignDetails;
     }
-    console.log(this.campaignDetails, 116);
     this.campaignSubject.next(this.campaignDetails);
   }
   /**

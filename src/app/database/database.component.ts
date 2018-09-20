@@ -6,8 +6,6 @@ import { AppConstants } from '../app.constants';
 import { Element, ElementResult } from '../model/database.model';
 import { FormGroup, FormControl, EmailValidator } from '@angular/forms';
 import { ElementData } from '@angular/core/src/view';
-// import { Angular2Csv } from 'angular2-csv';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -23,7 +21,6 @@ import { IActiveHeader } from '../model/active-header.model';
 export class DatabaseComponent implements OnInit, AfterViewInit {
   dataURL: any;
   public ActiveHeader: IActiveHeader;
-  userAccessDataModel: AccessDataModelComponent;
   ELEMENT_DATA: Array<ElementResult>;
   // tslint:disable-next-line:member-ordering
   displayedColumns = ['id', 'name', 'email', 'phone'];
@@ -41,11 +38,6 @@ export class DatabaseComponent implements OnInit, AfterViewInit {
      private alertService: AlertService,
      private activatedRoute: ActivatedRoute,
      private route: ActivatedRoute) {
-
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(http, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/database');
-    }
     this.ActiveHeader = {
       feedback: false,
       change_maker: false,

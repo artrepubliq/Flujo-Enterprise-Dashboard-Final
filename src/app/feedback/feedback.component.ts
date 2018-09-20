@@ -11,7 +11,6 @@ import { Router, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router'
 import { MatTableDataSource, MatSort, MatPaginator, SortDirection } from '@angular/material';
 import { AdminComponent } from '../admin/admin.component';
 import * as _ from 'underscore';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { EventEmitter } from 'events';
 import { IActiveHeader } from '../model/active-header.model';
@@ -48,7 +47,6 @@ export class FeedbackComponent implements OnInit, AfterViewInit {
   public reportProblemData: any;
   showEmailClickFeedback = false;
   showEmailClick = false;
-  userAccessDataModel: AccessDataModelComponent;
   showEmailClickReport = false;
   feature_id = 7;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
@@ -65,11 +63,6 @@ export class FeedbackComponent implements OnInit, AfterViewInit {
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
       'client_id': [null]
     });
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/feedback');
-    }
-
     this.ActiveHeader = {
       feedback: true,
       change_maker: false,

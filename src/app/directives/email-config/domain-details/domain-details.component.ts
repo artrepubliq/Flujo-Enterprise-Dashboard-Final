@@ -4,6 +4,7 @@ import { json } from 'body-parser';
 import { Subject } from 'rxjs/Subject';
 import { IDomainDetails, IDnsRecords, IDomain } from '../../../model/email.config.model';
 import { EmailConfigComponent } from '../../../email-config/email-config.component';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-domain-details',
@@ -22,8 +23,8 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private emailService: EmailConfigService,
-    private emailCnfgComponent: EmailConfigComponent
-  ) {
+    private emailCnfgComponent: EmailConfigComponent,
+    private spinnerService: Ng4LoadingSpinnerService) {
     this.ngUnSubScribe = new Subject<any>();
   }
 
@@ -52,6 +53,24 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
+  refresh = () => {
+    /**
+     * this is to add smtp user details to pass onto the children
+     * component
+     */
+    this.spinnerService.show();
+    this.emailService.getMailgunSmtpDetails().subscribe(
+      result => {
+        this.spinnerService.hide();
+        if (result.error === false && result.data && result.data.length > 0) {
+          this.emailService.addSmtpUserDetails(result);
+        }
+      },
+      error => {
+        this.spinnerService.hide();
+        console.log(error);
+      });
+  }
   /**
    * this is to delete user domain details
    */
@@ -72,4 +91,3 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
     this.ngUnSubScribe.complete();
   }
 }
-

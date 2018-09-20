@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { EmailConfigService } from '../service/email-config.service';
 import { MatTabChangeEvent } from '@angular/material';
+import { Router } from '@angular/router';
+import { BASE_ROUTER_CONFIG } from '../app.router-contstants';
 
 @Component({
   selector: 'app-email-config',
@@ -18,7 +20,8 @@ export class EmailConfigComponent implements OnInit, AfterViewInit {
   public currentTab: number;
 
   constructor(
-    private emailService: EmailConfigService
+    private emailService: EmailConfigService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -31,6 +34,8 @@ export class EmailConfigComponent implements OnInit, AfterViewInit {
         if (result.error === false && result.data && result.data.length > 0) {
           this.createDomain = false;
           this.emailService.addSmtpUserDetails(result);
+        } else {
+          this.createDomain = true;
         }
       },
       error => {
@@ -45,6 +50,7 @@ export class EmailConfigComponent implements OnInit, AfterViewInit {
         if (result.error === false && result.data && result.data.length > 0) {
           const campaignList = result.data;
           console.log(campaignList);
+
           // const campaignListDetails = campaignList.map(item => JSON.parse(item.campaign_details));
           this.emailService.addCampaignDetails(campaignList);
         }
@@ -68,6 +74,10 @@ export class EmailConfigComponent implements OnInit, AfterViewInit {
    */
   public tabChanged(event: number): void {
     this.selectedIndex = this.currentTab + event;
+  }
+
+  sendEmails = () => {
+    this.router.navigate(['admin/' + BASE_ROUTER_CONFIG.F_4_SF_3.token]);
   }
 
   ngAfterViewInit() {

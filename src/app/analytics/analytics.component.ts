@@ -11,7 +11,6 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 import { AlertService } from 'ngx-alerts';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
@@ -56,14 +55,9 @@ export class AnalyticsComponent implements OnInit, OnChanges {
     from_date: this.minDate,
     to_date: this.maxDate
   };
-  userAccessDataModel: AccessDataModelComponent;
   constructor(public http: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
     private alertService: AlertService, private router: Router,
     private activeRoute: ActivatedRoute, private route: ActivatedRoute) {
-      if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-        this.userAccessDataModel = new AccessDataModelComponent(http, router);
-        this.userAccessDataModel.setUserAccessLevels(null , this.feature_id, 'admin/analytics');
-       }
      }
 
   ngOnInit() {

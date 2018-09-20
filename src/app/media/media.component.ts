@@ -14,7 +14,6 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { EditGalleryItems } from '../directives/edit-gallery-popup/editgallery.popup';
 import * as _ from 'underscore';
-import { FileHolder } from 'angular2-image-upload';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 

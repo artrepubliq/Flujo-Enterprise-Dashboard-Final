@@ -1,0 +1,84 @@
+<div *ngIf="!isEmailBuilder">
+  <div>
+    <button class="choose_button" routerLink="../emailbuilder">Create Template </button>
+  </div>
+  <mat-tab-group #tabGroup [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+    <mat-tab label="Default Email Templates">
+      <div fxLayout="row" fxLayoutGap="50px">
+        <div class="email_templates row m-5" fxFlex>
+          <div class="col-md-4">
+            <div class="email_item">
+              <img src="../../assets/icons/Screenshot_2018-09-04 Business Meeting.png" class="img-fluid" alt="">
+              <div class="item_actions">
+                <div>
+                  <div>
+                    <a (click)="editEmailTemplate('email-template-5')">Edit</a>
+                    <a (click)="getEmailTemplateData('email-template-5')">Preview</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="email_item">
+              <img src="../../assets/icons/Screenshot_2018-09-04 Business Template.png" class="img-fluid" alt="">
+              <div class="item_actions">
+                <div>
+                  <div>
+                    <a (click)="editEmailTemplate('email-template-2')">Edit</a>
+                    <a (click)="getEmailTemplateData('email-template-2')">Preview</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="email_item">
+              <img src="../../assets/icons/Screenshot_2018-09-04 E Learning Template.png" class="img-fluid" alt="">
+              <div class="item_actions">
+                <div>
+                  <div>
+                    <a (click)="editEmailTemplate('email-template-3')">Edit</a>
+                    <a (click)="getEmailTemplateData('email-template-3')">Preview</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="email_item">
+              <img src="../../assets/icons/Screenshot_2018-09-04 Education Email Template.png" class="img-fluid" alt="">
+              <div class="item_actions">
+                <div>
+                  <div>
+                    <a (click)="editEmailTemplate('email-template-1')">Edit</a>
+                    <a (click)="getEmailTemplateData('email-template-1')">Preview</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="email_item">
+              <img src="../../assets/icons/Screenshot_2018-09-04 Global Market.png" class="img-fluid" alt="">
+              <div class="item_actions">
+                <div>
+                  <div>
+                    <a (click)="editEmailTemplate('email-template-4')">Edit</a>
+                    <a (click)="getEmailTemplateData('email-template-4')">Preview</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="My email templates">
+      <app-email-template></app-email-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+<div *ngIf="isEmailBuilder">
+  <app-email-builder *ngIf="editEmailTemplateData" [editEmailTemplateData]="editEmailTemplateData" (goBack)="showParent($event)"></app-email-builder>
+</div>

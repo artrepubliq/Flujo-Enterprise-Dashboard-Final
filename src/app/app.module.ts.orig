@@ -29,7 +29,6 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, M
 
 // Angular Flex Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ImageUploadModule } from "angular2-image-upload";
 // Perfect Scroll Bar
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';

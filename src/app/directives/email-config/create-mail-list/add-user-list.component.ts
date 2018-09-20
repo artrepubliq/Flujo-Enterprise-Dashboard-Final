@@ -6,7 +6,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PapaParseService } from 'ngx-papaparse';
 import { AlertService } from 'ngx-alerts';
 import { MatListAvatarCssMatStyler } from '@angular/material';
-
+import CSVExportService from 'json2csvexporter';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-mail-list',
   templateUrl: './add-user-list.component.html',
@@ -34,9 +35,10 @@ export class AddUserListComponent implements OnInit, OnDestroy {
     private emailService: EmailConfigService,
     private papa: PapaParseService,
     private alertService: AlertService,
+    private router: Router
   ) {
     this.fileUploadForm = this.formBuilder.group({
-      'members': [''],
+      'members': ['', Validators.required],
       'campaign_address': ['', Validators.required],
       'database': ['']
     });
@@ -46,7 +48,6 @@ export class AddUserListComponent implements OnInit, OnDestroy {
     this.getCampaignList();
     this.emailService.getCampaignAddress().takeUntil(this.ngUnSubScribe).subscribe(
       result => {
-        console.log(result);
         this.fileUploadForm.controls['campaign_address'].setValue(result);
       },
       error => {
@@ -58,15 +59,11 @@ export class AddUserListComponent implements OnInit, OnDestroy {
    * this is to get campaign details from the service
    */
   public getCampaignList(): void {
-    this.showProgressBar = true;
     this.emailService.getCampaignDetails().takeUntil(this.ngUnSubScribe).subscribe(
       result => {
-        this.showProgressBar = false;
         this.campaignListDetails = result;
-        console.log(this.campaignListDetails);
       },
       error => {
-        this.showProgressBar = false;
         console.log(error);
       }
     );
@@ -87,9 +84,17 @@ export class AddUserListComponent implements OnInit, OnDestroy {
       const filtereditems = arrayItems.filter(item => item.match(this.EMAIL_REGEXP) != null);
       if (filtereditems.length > 0) {
         arrayOfEmails = [...arrayOfEmails, ...filtereditems];
+      } else {
+        console.log(arrayOfEmails);
       }
     });
-    this.fileUploadForm.controls['members'].setValue(arrayOfEmails.join());
+    if (arrayOfEmails.length === 0) {
+      this.alertService.warning('File doesnt have any valid emails!');
+    } else {
+      this.fileUploadForm.controls['members'].setValue(arrayOfEmails.join());
+    }
+    event.target.value = null;
+    console.log(this.fileUploadForm.value);
   }
 
   /**
@@ -128,18 +133,31 @@ export class AddUserListComponent implements OnInit, OnDestroy {
    */
   public submitFile(): void {
     console.log(this.fileUploadForm.value);
-    this.showProgressBar = true;
-    this.emailService.addMembersToACampaign(this.fileUploadForm.value).subscribe(
-      result => {
-        this.showProgressBar = false;
-        this.alertService.success(result.data);
-        console.log(result);
-      },
-      error => {
-        this.alertService.danger(error);
-        this.showProgressBar = false;
-        console.log(error);
-      });
+    if (this.fileUploadForm.valid) {
+      this.showProgressBar = true;
+      this.emailService.addMembersToACampaign(this.fileUploadForm.value).subscribe(
+        result => {
+          this.fileUploadForm.reset();
+          this.showProgressBar = false;
+          this.alertService.success(result.data);
+          this.router.navigate([`admin/sendemail`]);
+          console.log(result);
+        },
+        error => {
+          this.fileUploadForm.reset();
+          this.alertService.danger(error);
+          this.showProgressBar = false;
+          console.log(error);
+        });
+    }
+  }
+
+  downLoadCsvFormat = () => {
+    const csvFormatData = [
+      { 'test@something.in': 'test1@somthing.com', 'test2@something.in': 'test4@something.in' },
+    ];
+    const exporter = CSVExportService.create();
+    exporter.downloadCSV(csvFormatData, 'My Report');
   }
 
   ngOnDestroy() {
