@@ -34,6 +34,7 @@ export class AccessLevelPopup {
     // accessLevelRawData:Array<IAccesLevels>;
     public eventCalls: Array<string> = [];
     config: any;
+    userName: string;
     public features: string[];
     public featureDetails: Iservices;
     // public userFeatures: IUserFeatures;
@@ -52,11 +53,11 @@ export class AccessLevelPopup {
         });
 
         // this.getAccessLevelData();
-        console.log(data);
         // this.features = Object.keys(data.services[0]);
         // this.featureDetails = data.services[0];
         this.spinnerService.show();
         this.prepareClientAndUserFeatureAccessLevels(data.id);
+        this.userName = 'test';
     }
     prepareClientAndUserFeatureAccessLevels = (userId) => {
         // const userAccesslevels = await this.getClientUserAccessLevels();
