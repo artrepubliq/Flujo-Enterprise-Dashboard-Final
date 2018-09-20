@@ -13,7 +13,7 @@
             <div fxLayout="column" class="choose-block" fxLayoutAlign="center center">
               <div class="choose_files">
                 <button>Choose</button>
-                <input type="file" #file [multiple]="(maxFiles == 1)" [value]="file_path" (change)="onFileChange($event)" id="file_path"
+                <input type="file" #file [multiple]="(maxFiles == 1)" (change)="onFileChange($event)" id="file_path"
                 />
               </div>
               <p>or drag ‘n’ drop here</p>
@@ -23,7 +23,7 @@
 
         <div class="uploader_content" fxLayout="column" fxLayoutAlign="center start">
           <h3>Feed me dude I’m hungry, will you?</h3>
-          <p>Shit man, What the ...!</p>
+          <!-- <p>Shit man, What the ...!</p> -->
         </div>
       </div>
     </div>
@@ -45,10 +45,10 @@
       <p class="file_storage_details" *ngIf="showInMb ">{{ (total_size/1048576).toFixed(2)}} MB used of 1 GB</p>
       <p class="file_storage_details" *ngIf="showInKb ">{{ (total_size/1024).toFixed(2)}} KB used of 1 GB</p>
       <!-- </div> -->
-      <div class="drive_buttonGroup">
+      <!-- <div class="drive_buttonGroup">
         <button class="active"><img src="../../assets/grid-view-icon-active.png" alt="grid"></button>
         <button><img src="../../assets/list-view-icon-normal.png" alt="list"></button>
-      </div>
+      </div> -->
       <div class="select_dropdown">
         <mat-select placeholder="Filter by">
           <mat-option class="myClass" value="option1" (click)='sortByFolderName()'>A to Z</mat-option>
@@ -65,8 +65,8 @@
       <div class="floder_block" [ngClass]="{'active' : repositoryitem.isActive}" fxLayout="row" fxLayoutGap="15px" (click)="getDocuments(repositories, repositoryitem.folder, i)">
         <!-- <i class="fa fa-folder-o"></i>
         <i class="fa fa-folder-open"></i> -->
-        <img class="asset-drive-flujo action folder-icon-normal" src="../assets/icons/folder-icon-normal@3x.png" (click)="deleteFolder(repositoryitem)">
-        <img class="asset-drive-flujo action folder-icon-hover" src="../assets/icons/folder-icon-hover@3x.png" (click)="deleteFolder(repositoryitem)">
+        <img class="asset-drive-flujo action folder-icon-normal" src="../assets/icons/folder-icon-normal@3x.png">
+        <img class="asset-drive-flujo action folder-icon-hover" src="../assets/icons/folder-icon-hover@3x.png">
         <p class="floder_name">{{repositoryitem.folder}}</p>
         <div class="trash-icon">
           <!-- <i class="fa fa-trash " ></i> -->

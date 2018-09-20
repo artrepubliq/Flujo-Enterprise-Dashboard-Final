@@ -20,6 +20,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { IFBFeedArray } from '../../../model/facebook.model';
 import { PostCommentTwitterCompose } from '../../../dialogs/post-comment/post-comment-twitter.dialog';
 import { FacebookComponentCommunicationService } from '../../../service/social-comp-int.service';
+import { IFeatureAccessTokens } from '../../../model/featureAccessTokens.model';
 
 @Component({
   selector: 'app-twitter-timeline',
@@ -45,6 +46,10 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   @Input() twitMentionsTimeLine: ITwitterTimelineObject[];
   @Input() tweetsTimeLine: ITwitterTimelineObject[];
   @Input() header_title: string;
+  displayTextOnlyForHomeTimeline = true;
+  displayTextOnlyUsertimeLine = true;
+  displayTextOnlyMentions = true;
+  displayTextOnlyRetweets = true;
   // @Output() replyTweetObject = new Subject<ITwitterTimelineObject>();
 
   constructor(
@@ -66,7 +71,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
         error => {
 
         },
-    );
+      );
 
     this.twitterUserObject = this.twitterUserService.getTwitterUserData;
     this.twitterUser = this.twitterUserObject.data;
@@ -209,7 +214,6 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
       this.twitterService.getOldHomeTimeline(this.twitHomeTimeLine[last_index].id)
         .subscribe(
           result => {
-            console.log(result.data);
             if (!result.error && result.data.length > 0) {
               this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
             }
@@ -302,14 +306,12 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   */
 
   public retweetsOfMeTimeLineScrollEvent(event): void {
-    if (this.tweetsTimeLine && this.tweetsTimeLine.length > 0) {
+    if (this.tweetsTimeLine && this.tweetsTimeLine.length > 15) {
       const last_index = this.tweetsTimeLine.length - 1;
-
       this.showProgressBar = true;
       this.twitterService.getOldRetweetsOfMeTimeline(this.tweetsTimeLine[last_index].id)
         .subscribe(
           result => {
-
             if (!result.error && result.data.length > 0) {
               this.tweetsTimeLine = [...this.tweetsTimeLine, ...result.data];
             }
@@ -444,14 +446,21 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
   public async showDescription(event: any, timeline: ITwitterTimelineObject) {
 
     this.showProgressBar = false;
-    const feature_access_tokens = JSON.parse(localStorage.getItem('feature_access_tokens'));
-
-    const headersObject = {
-      twitter_access_token: feature_access_tokens[0].feature_access_token,
-      token_expiry_date: feature_access_tokens[0].expiry_date,
-      client_id: AppConstants.CLIENT_ID,
-      feature_name: feature_access_tokens[0].feature_name
-    };
+    const feature_access_tokens: IFeatureAccessTokens[] = JSON.parse(localStorage.getItem('feature_access_tokens'));
+    const twitterTokens: IFeatureAccessTokens = feature_access_tokens.find((feature) => feature.feature_name === 'twitter');
+    let headersObject = {};
+    if (twitterTokens) {
+      headersObject = {
+        twitter_access_token: twitterTokens.feature_access_token,
+        token_expiry_date: twitterTokens.expiry_date,
+        client_id: AppConstants.CLIENT_ID,
+        feature_name: twitterTokens.feature_name
+      };
+    } else {
+      headersObject = {
+        client_id: AppConstants.CLIENT_ID,
+      };
+    }
     const headers = new HttpHeaders(headersObject);
     let user_details = {};
     if (event !== undefined) {
