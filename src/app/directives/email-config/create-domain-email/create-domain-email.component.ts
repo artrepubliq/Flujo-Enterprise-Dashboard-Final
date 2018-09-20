@@ -27,7 +27,6 @@ export class CreateDomainEmailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.showProgressBar = true;
     this.emailService.getSmtpUserDetails().takeUntil(this.ngUnSubScribe).subscribe(
       result => {
         if (result.error === false && result.data.length > 0) {
@@ -43,8 +42,10 @@ export class CreateDomainEmailComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
-    this.emailService.createDomain(this.domainForm.value).subscribe(
+    this.showProgressBar = true;
+    this.emailService.createDomainThirdparty(this.domainForm.value).subscribe(
       result => {
+        this.showProgressBar = false;
         console.log(result);
         if (result.error === false) {
           this.emailCnfgComponent.ngOnInit();

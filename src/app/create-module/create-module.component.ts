@@ -12,7 +12,6 @@ import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfi
 import { IModuleDetails } from '../model/accessLevel.model';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import 'styles.scss';
 @Component({
@@ -42,16 +41,11 @@ export class CreateModuleComponent implements OnInit {
     bgColor = '#3c3c3c';
     dummy: string;
     @ViewChild('fileInput') fileInput: ElementRef;
-    userAccessDataModel: AccessDataModelComponent;
     feature_id = '20';
     constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
         private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
         this.createForm();
         this.getModuleDetails();
-        if (Number(localStorage.getItem('feature_id') !== this.feature_id)) {
-        this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-        this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/module');
-    }
     }
     ngOnInit() {
         setTimeout(function () {

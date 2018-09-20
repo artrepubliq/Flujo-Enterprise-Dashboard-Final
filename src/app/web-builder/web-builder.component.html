@@ -1,0 +1,40 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
+<div class="publish_block">
+  <div>
+    <div class="about_website" *ngIf="!deploymentId">
+      <div *ngIf="deploymentTime" class="last-login">
+        <h3>Last Deployed On:</h3>
+        <p> {{deploymentTime}}: At <a href="https://smm.flujo.in/" target="_new">https://smm.flujo.in/</a></p>
+      </div>
+    </div>
+    <div class="about_website" *ngIf="deploymentId">
+      <div class="last-login">
+        <h3>Updated On:</h3>
+        <p> {{deploymentTime}}: At <a href="https://smm.flujo.in/" target="_new">https://smm.flujo.in/</a></p>
+      </div>
+      <div class="domainList">
+          <div class="dropdown">
+            <button class="dropdown-toggle" type="button" id="domainListDropDown" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
+              Domain List
+            </button>
+            <div class="dropdown-menu" aria-labelledby="domainListDropDown" *ngFor="let domainName of arrayDomainsListPopup">
+              <a class="dropdown-item" (click)="selectDoaminName(domainName.domain_name)" >{{domainName.domain_name}}</a>
+            </div>
+          </div>
+        </div>
+      <div>
+        <button class="live_button" (click)="postDataToLiveServer()" *ngIf="isDomainName">
+          Make it LIVE
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button *ngIf="!isUpdate" class="publish_button" (click)="postDomianData()"> Publish </button>
+    <button *ngIf="isUpdate" class="publish_button" (click)="updateDomainData()"> Update </button>
+  </div>
+</div>
+
+<div id="gjs"></div>

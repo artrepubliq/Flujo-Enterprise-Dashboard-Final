@@ -10,7 +10,6 @@ import { AppConstants } from '../app.constants';
 import * as _ from 'underscore';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { ICommonInterface } from '../model/commonInterface.model';
@@ -30,7 +29,6 @@ export class AreasComponent implements OnInit {
   areaForm: FormGroup;
   config: any;
   actionText = 'Add New +';
-  userAccessDataModel: AccessDataModelComponent;
   constructor(
     private httpService: HttpService,
     private areaService: AreaService,
@@ -42,10 +40,7 @@ export class AreasComponent implements OnInit {
     private httpClient: HttpClient,
     public dialog: MatDialog
   ) {
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/areacategory');
-    }
+
   }
 
   ngOnInit() {

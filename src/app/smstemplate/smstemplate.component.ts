@@ -11,7 +11,6 @@ import { AlertService } from 'ngx-alerts';
 import { ISmsTemplateData } from '../model/smsTemplateData';
 import * as _ from 'underscore';
 import { ICommonInterface } from '../model/commonInterface.model';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-smstemplate',
@@ -42,7 +41,6 @@ export class SmstemplateComponent implements OnInit {
   options = [];
   smsfilteredData: any;
   filteredOptions: Observable<string[]>;
-  userAccessDataModel: AccessDataModelComponent;
   constructor(private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
@@ -58,11 +56,6 @@ export class SmstemplateComponent implements OnInit {
       'smstemplateconfig_id': [null]
     });
     this.templateCategory = new FormControl('', Validators.required);
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/smsconfiguration');
-      // this.filteredOptions = [];
-    }
   }
   editTemplate(text) {
     this.templateText = text;

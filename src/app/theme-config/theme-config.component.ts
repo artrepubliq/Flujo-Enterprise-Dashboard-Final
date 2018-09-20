@@ -10,7 +10,6 @@ import { IThemeData } from '../model/themeData.model';
 import { AdminComponent } from '../admin/admin.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
   selector: 'app-theme-config',
@@ -32,10 +31,8 @@ export class ThemeConfigComponent implements OnInit {
   selectedBodyFont: string;
   selectedTitleFont: string;
   theme_id: number;
-  userAccessDataModel: AccessDataModelComponent;
   themeconfig_id: number;
   updatedThemeData: IThemeData;
-  feature_id = 15;
   TitleFontFamily: any = [
     { id: 1, name: 'Roboto' },
     { id: 2, name: 'Lato' },
@@ -75,10 +72,6 @@ export class ThemeConfigComponent implements OnInit {
       'child_menu_hover_color': ['', Validators.required],
       'themeconfig_id': [null]
     });
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/themeconfiguration');
-    }
   }
 
   /* this is for on submitting the form*/

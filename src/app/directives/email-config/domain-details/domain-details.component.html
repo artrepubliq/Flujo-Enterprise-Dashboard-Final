@@ -1,7 +1,11 @@
+<ng4-loading-spinner></ng4-loading-spinner>
 <div *ngIf="sending_dns_records">
-  <h1>
-    TXT records/Sending Records
-  </h1>
+  <div style="display: flex">
+    <h1>
+      TXT records/Sending Records
+    </h1>
+    <button mat-button raised color="primary" (click)="refresh()">Refresh</button>
+  </div>
   <div>
     <div class="domain_details">
       <div class="detail_item">
@@ -76,5 +80,5 @@
       </div>
     </div>
   </div>
-  <button mat-button color="warn" (click)="deleteDomain()" >Delete Details</button>
+  <!-- <button mat-button color="warn" (click)="deleteDomain()" >Delete Details</button> -->
 </div>

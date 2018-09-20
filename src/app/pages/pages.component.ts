@@ -13,7 +13,6 @@ import { MediaDetail } from '../model/feedback.model';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, _MatProgressSpinnerMixinBase } from '@angular/material';
 import { AdminComponent } from '../admin/admin.component';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
     templateUrl: './pages.component.html',
@@ -43,7 +42,6 @@ export class PagesComponent implements OnInit, OnDestroy {
     public web_description = '';
     public app_description = '';
     bgColor = '#3c3c3c';
-    userAccessDataModel: AccessDataModelComponent;
     feature_id = 1;
     dummy: string;
     @ViewChild('fileInput1') fileInput1: ElementRef;
@@ -53,10 +51,6 @@ export class PagesComponent implements OnInit, OnDestroy {
         private router: Router, public adminComponent: AdminComponent) {
         this.createForm();
         this.getPageDetails();
-        if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-            this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-            this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/pages');
-        }
         if (localStorage.getItem('editor_source') === 'editorWeb') {
             this.webEditor = true;
         }
@@ -66,7 +60,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (localStorage.getItem('editor_source')) {
             this.router.navigate(['admin/pages']);
         } else {
-            this.router.navigate(['admin/chooseplatform']);
+            // this.router.navigate(['admin/chooseplatform']);
         }
         this.getGalleryImageData();
     }

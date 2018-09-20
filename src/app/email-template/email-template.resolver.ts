@@ -10,6 +10,6 @@ import { ICommonInterface } from '../model/commonInterface.model';
 export class EmailTemplateResolver implements Resolve<Observable<ICommonInterface>> {
     constructor(private emailTemplateService: EmailTemplateService) { }
     resolve(route: ActivatedRouteSnapshot): Observable<ICommonInterface> {
-        return this.emailTemplateService.getTemplateConfigData('/flujo_client_getemailtemplateconfig/', AppConstants.CLIENT_ID);
+        return this.emailTemplateService.getTemplateConfigData('flujo_client_getemailtemplateconfig/', AppConstants.CLIENT_ID);
     }
 }

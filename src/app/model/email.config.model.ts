@@ -3,6 +3,7 @@ export interface IDomainResponse {
     error: boolean;
     // data: string | IDomainErrorResponse | IDomainDetails | ICampaignDetails[];
     data: any;
+    status?: number;
 }
 
 export interface IDomainErrorResponse {

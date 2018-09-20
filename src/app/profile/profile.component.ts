@@ -10,7 +10,6 @@ import { AppComponent } from '../app.component';
 import { AppConstants } from '../app.constants';
 import { HttpClient } from '@angular/common/http';
 import { IHttpResponse } from '../model/httpresponse.model';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { Router } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
 
@@ -36,18 +35,12 @@ export class ProfileComponent implements OnInit {
   ELEMENT_DATA: IProfileData;
   profileDetail: Array<object>;
   successMessage: string;
-  feature_id = 31;
   @ViewChild('fileInput') fileInput: ElementRef;
-  userAccessDataModel: AccessDataModelComponent;
   constructor(private httpClient: HttpClient, private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder, private alertService: AlertService,
     private router: Router) {
     this.createForm();
     this.getProfileDetails();
-    // if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-    //   this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-    //   this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/profile');
-    // }
   }
   PHONE_REGEXP = /^([0]|\+91)?[6789]\d{9}$/;
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;

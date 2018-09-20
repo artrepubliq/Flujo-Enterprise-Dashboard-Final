@@ -1,14 +1,9 @@
 <mat-progress-bar mode="indeterminate" *ngIf="showProgressBar" value=""></mat-progress-bar>
-<h1>
-  Create Domain
-</h1>
+
 <div class="container">
 
   <p>
-    We recommend using a subdomain, like “somthing.mydomain.com”. Using a subdomain you will still be able to send emails from
-    your root domain e.g. “you@mydomain.com”. If using a subdomain please make sure that you configure MX records for the
-
-    subdomain for optimal delivery.
+    Be in touch with your customers. Add your registered domain details here and send emails to your customers on the go.
   </p>
   <div>
     <mat-form-field [formGroup]="domainForm" class="example-full-width">
@@ -17,6 +12,8 @@
   </div>
 
   <div>
-    <button mat-raised-button [disabled]="domaindetails" (click)="onSubmit()" [disabled]="domainForm.invalid">Submit</button>
+    <button mat-raised-button [disabled]="domaindetails || domainForm.invalid || showProgressBar" (click)="onSubmit()">Submit</button>
   </div>
 </div>
+
+<app-list-of-domains></app-list-of-domains>

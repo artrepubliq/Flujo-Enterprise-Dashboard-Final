@@ -764,7 +764,7 @@ export class FacebookComponent implements OnInit {
     imageURL.map(urls => {
       formData.append('path[]', urls);
     });
-    this.httpClient.post('http://flujo.in/dashboard/flujo_staging/v1/flujo_client_deletesocialimageupload', formData).subscribe(
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_deletesocialimageupload', formData).subscribe(
       successresp => {
         console.log();
       }, errorrsp => {

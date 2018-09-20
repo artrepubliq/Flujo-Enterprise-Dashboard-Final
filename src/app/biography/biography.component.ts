@@ -11,7 +11,6 @@ import { ColorPickerModule, ColorPickerDirective } from 'ngx-color-picker';
 import { MatDatepickerInputEvent, NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
-import { AccessDataModelComponent } from '../model/useraccess.data.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 export class AppDateAdapter extends NativeDateAdapter {
 
@@ -69,7 +68,6 @@ export class BiographyComponent implements OnInit {
   startDate_edit = new Date(1980, 0, 1);
   minDate_edit = new Date(1980, 1, 1);
   maxDate_edit = new Date(2019, 1, 1);
-  userAccessDataModel: AccessDataModelComponent;
   feature_id = 19;
   @Output() add = new EventEmitter();
   constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder,
@@ -84,11 +82,6 @@ export class BiographyComponent implements OnInit {
       'client_id': [null],
       'biography_id': [null]
     });
-
-    if (Number(localStorage.getItem('feature_id')) !== this.feature_id) {
-      this.userAccessDataModel = new AccessDataModelComponent(httpClient, router);
-      this.userAccessDataModel.setUserAccessLevels(null, this.feature_id, 'admin/biography');
-    }
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FacebookService, InitParams, LoginResponse, LoginOptions } from 'ngx-facebook';
 import { FBService } from '../service/fb.service';
 import * as _ from 'underscore';
@@ -23,11 +23,12 @@ import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-social-management',
   templateUrl: './social-management.component.html',
   styleUrls: ['./social-management.component.scss']
 })
 export class SocialManagementComponent implements OnInit {
+  @Input() selectedIndex: any;
   doLoginConfirmed: any;
   FbLongLivedToken: any;
   userName: string;
@@ -46,7 +47,6 @@ export class SocialManagementComponent implements OnInit {
   config: any;
   highLighted = '';
   public tab_index: number;
-  selectedIndex: any;
   showProgressBarValue = 0;
   constructor(public dialog: MatDialog, private fb: FacebookService, private formBuilder: FormBuilder,
     private fbService: FBService, private router: Router,
@@ -68,11 +68,12 @@ export class SocialManagementComponent implements OnInit {
     // this.fbLogin();
   }
   ngOnInit(): void {
-    const sub = this.route.params.subscribe(params => {
-      console.log(params['id']);
-      this.selectedIndex = params['id'];
-      this.tab_index = this.selectedIndex;
-    });
+    this.tab_index = this.selectedIndex;
+    // const sub = this.route.params.subscribe(params => {
+    //   console.log(params['id']);
+    //   this.selectedIndex = params['id'];
+    //   this.tab_index = this.selectedIndex;
+    // });
       this.getFacebookTokenFromOurServer();
       this.getTwitterUserProfiles();
     this.loggedInUserAccountsArray = [];
@@ -182,7 +183,7 @@ export class SocialManagementComponent implements OnInit {
       .subscribe(
       result => {
         this.showProgressBarValue = 100;
-        if (result.data && result.data.length > 0) {
+        if (result.data && result.data.length > 0 && !result.error) {
           this.prepareLoggedInUserAccountDetails('twitter', result);
         }
         this.twitterUserService.addUser(result);
@@ -232,7 +233,7 @@ export class SocialManagementComponent implements OnInit {
     postData.client_id = AppConstants.CLIENT_ID;
     postData.social_appname = 'facebook';
     postData.social_keys = tokenDetails;
-    this.httpClient.post('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_postsocialtokens', postData).subscribe(
+    this.httpClient.post(AppConstants.API_URL + 'flujo_client_postsocialtokens', postData).subscribe(
       saveResp => {
         console.log(saveResp);
       },
@@ -245,7 +246,7 @@ export class SocialManagementComponent implements OnInit {
   // THIS FUNCTION IS USED TO GET THE FACEBOOK TOKENS FROM OUR SERVER.
   getFacebookTokenFromOurServer = () => {
     // tslint:disable-next-line:max-line-length
-    this.httpClient.get<ICommonInterface>('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_getsocialtokens/' + AppConstants.CLIENT_ID)
+    this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getsocialtokens/' + AppConstants.CLIENT_ID)
       .subscribe(
       respData => {
         this.showProgressBarValue = 100;
@@ -319,7 +320,7 @@ export class SocialManagementComponent implements OnInit {
     });
     uploadPhotosformData.append('client_id', AppConstants.CLIENT_ID);
     // tslint:disable-next-line:max-line-length
-    this.httpClient.post<ICommonInterface>('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_postsocialimageupload', uploadPhotosformData).subscribe(
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postsocialimageupload', uploadPhotosformData).subscribe(
       successresp => {
         console.log(successresp);
         if (successresp.access_token && successresp.custom_status_code === 100 && !successresp.error) {
@@ -333,7 +334,7 @@ export class SocialManagementComponent implements OnInit {
   }
 
   facebookLogout = () => {
-    this.httpClient.delete('http://www.flujo.in/dashboard/flujo_staging/v1/flujo_client_deletesocialtokens/facebook')
+    this.httpClient.delete(AppConstants.API_URL + 'flujo_client_deletesocialtokens/facebook')
       .subscribe(
       response => {
         console.log(response);

@@ -13,7 +13,7 @@
             <span>{{clientName}}</span>
             <span class="active-indication">
               <span class="nickname">{{name}}</span>
-              <span class="active-info">
+            <span class="active-info">
                 <sup>.</sup>
               </span>
             </span>
@@ -240,15 +240,13 @@
             <a class="activity">
               <i class="fa fa-user"></i>{{name}}</a>
           </li>
-          <div *ngFor="let item of adminMenu; let i = index">
-            <div *ngFor="let useraccesitem of userAccessLevelData">
+            <div *ngFor="let item of PreparedSubfeaturesObject">
               <li>
-                <a class="activity" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i)">
-                  {{item.title}}
+                <a class="activity"  (click)="navigateSubFeature(item)">
+                  {{item.subfeature_name}}
                 </a>
               </li>
             </div>
-          </div>
 
           <li>
             <a class="activity" (click)="loginAuthService.logout(false)">
@@ -271,104 +269,44 @@
   <aside id="sidebar-wrapper" class="sidebar-default" (mouseenter)="sidebarToggleOpen()" (mouseleave)="sidebarToggleClose()"
     [ngClass]="{'sidebar-menu-open':sidebarToggledButton}" [perfectScrollbar]="config">
     <ul class="nav flex-column">
-      <div *ngFor="let item of editor; let i = index">
-        <div *ngFor="let useraccesitem of userAccessLevelData">
-          <li class="nav-item" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i)">
-            <a class="nav-link editor-link" [ngClass]="{'active': item.isActive }">
-              <span class="link_img">
-                <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
-                <img src="assets/icons/editor-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
-              </span>
-              <span class="link_title">{{item.title}}</span>
-            </a>
-          </li>
-        </div>
-      </div>
-      <div *ngFor="let item of domain; let i = index">
-          <div *ngFor="let useraccesitem of userAccessLevelData">
-            <li class="nav-item" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i)">
-              <a class="nav-link editor-link" [ngClass]="{'active': item.isActive }">
-                <span class="link_img">
-                  <img src="assets/icons/editor-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
-                  <img src="assets/icons/editor-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
-                </span>
-                <span class="link_title">{{item.title}}</span>
-              </a>
+        <div *ngFor="let feature of userFeaturesNames">
+            <li class="divider-line"></li>
+            <li class="nav-title">{{feature}}<i class="fa fa-cog"></i>
             </li>
+            <div>
+              <div>
+                <li class="nav-item" *ngFor="let featureName of userFeatureObjects[feature]"  (click)="navigatePage(featureName)">
+                  <a class="nav-link flow_link">
+                  <span class="link_img">
+                    <!-- <img src="" class="normal_img" alt="buffer icon"> -->
+                    <!-- <img src="" class="active_img" alt="buffer icon"> -->
+                  </span>
+                  <span class="link_title">{{featureName.feature_name}}</span>
+                </a>
+                </li>
+              </div>
+            </div>
+            <li class="divider-line"></li>
           </div>
-        </div>
-      <li class="divider-line"></li>
-      <!-- Communication Block -->
-      <li class="nav-title">Flow
-        <i class="fa fa-cog"></i>
-      </li>
-      <div *ngFor="let flowitem of flow; let i = index">
-        <div *ngFor="let useraccesitem of userAccessLevelData">
-          <li class="nav-item" *ngIf="useraccesitem.name === flowitem.title && useraccesitem.enable" (click)="navigatePage(flowitem, i, 'flow')">
-            <a class="nav-link flow_link" [ngClass]="{'active': flowitem.isActive }">
+      <!-- <div>
+        <li class="divider-line"></li>
+        <li class="nav-title">Flow<i class="fa fa-cog"></i>
+        </li>
+        <div *ngFor="let flowitem of flow; let i = index">
+          <div *ngFor="let useraccesitem of userAccessLevelData">
+            <li class="nav-item" *ngIf="useraccesitem.name === flowitem.title && useraccesitem.enable" (click)="navigatePage(flowitem, i, 'flow')">
+              <a class="nav-link flow_link" [ngClass]="{'active': flowitem.isActive }">
               <span class="link_img">
                 <img src="{{flowitem.normalicon}}" class="normal_img" alt="buffer icon">
                 <img src="{{flowitem.activeicon}}" class="active_img" alt="buffer icon">
               </span>
               <span class="link_title">{{flowitem.title}}</span>
             </a>
-          </li>
+            </li>
+          </div>
         </div>
-      </div>
-      <li class="divider-line"></li>
-
-      <li class="nav-title">Nucleus
-        <i class="fa fa-cog"></i>
-      </li>
-      <div *ngFor="let item of nucleus; let i = index">
-        <div *ngFor="let useraccesitem of userAccessLevelData">
-          <li class="nav-item" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i, 'nucleus')">
-            <a class="nav-link" [ngClass]="{'active': item.isActive }">
-              <span class="link_img">
-                <img src="{{item.normalicon}}" class="normal_img" alt="buffer icon">
-                <img src="{{item.activeicon}}" class="active_img" alt="buffer icon">
-              </span>
-              <span class="link_title">{{item.title}}</span>
-            </a>
-          </li>
-        </div>
-      </div>
-      <li class="divider-line"></li>
-      <div *ngFor="let item of drive; let i = index">
-        <div *ngFor="let useraccesitem of userAccessLevelData">
-          <li class="nav-item" *ngIf="useraccesitem.name === item.title && useraccesitem.enable" (click)="navigatePage(item, i, 'drive')">
-            <a class="nav-link" [ngClass]="{'active': item.isActive }">
-              <span class="link_img">
-                <img src="assets/icons/drive-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
-                <img src="assets/icons/drive-color-nav-icon-active@2x.png" class="active_img" alt="buffer icon">
-              </span>
-              <span class="link_title">{{item.title}}</span>
-            </a>
-          </li>
-        </div>
-      </div>
-
-      <li class="divider-line"></li>
-
-      <!-- Team Chat -->
-      <!-- <li class="nav-title" *ngIf="userAccessLevelData && userAccessLevelData[11]?.enable">Your teams
-        <i class="fa fa-cog"></i>
-      </li>
-      <li class="team_icon">
-        <a class="nav-link">
-          <img src="assets/icons/teams-color-nav-icon-normal@2x.png" class="normal_img" alt="buffer icon">
-        </a>
-      </li>
-      <ul class="team-items">
-        <li *ngFor="let chatItem of loggedinUsersList">
-          <a class="team-user" routerLinkActive="active">
-            <i class="team-user-icon user-logo">
-              <img src="assets/team/abhi.jpeg" class="img-fluid" alt="K"> </i>
-            <span class="userStatus" (click)=OnetoOne(chatItem) [ngClass]="{'active': chatItem.is_logged_in==1}">{{chatItem.name}}</span>
-          </a>
-        </li>
-
-      </ul> -->
+        <li class="divider-line"></li>
+      </div> -->
     </ul>
 
   </aside>
