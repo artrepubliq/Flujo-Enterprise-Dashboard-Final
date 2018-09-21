@@ -115,6 +115,7 @@ export class FileSelectPopup implements OnInit {
       this.data.images.map(file => {
         singleData.append('images[]', file);
       });
+      this.albumdescription = this.albumdescription ? this.albumdescription : '';
       singleData.append('description', this.albumdescription);
       singleData.append('client_id', AppConstants.CLIENT_ID);
       singleData.append('album_id', null);
