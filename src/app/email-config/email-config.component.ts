@@ -39,7 +39,7 @@ export class EmailConfigComponent implements OnInit, AfterViewInit {
         }
       },
       error => {
-        console.log(error);
+        // console.log(error);
       });
 
     /**
@@ -49,14 +49,14 @@ export class EmailConfigComponent implements OnInit, AfterViewInit {
       result => {
         if (result.error === false && result.data && result.data.length > 0) {
           const campaignList = result.data;
-          console.log(campaignList);
+          // console.log(campaignList);
 
           // const campaignListDetails = campaignList.map(item => JSON.parse(item.campaign_details));
           this.emailService.addCampaignDetails(campaignList);
         }
       },
       error => {
-        console.log(error);
+        // console.log(error);
       }
     );
   }

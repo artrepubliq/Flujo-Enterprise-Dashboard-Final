@@ -89,7 +89,7 @@ export class FilerepositoryComponent implements OnInit {
         formData.append('client_id', filedata.client_id);
         formData.append('file_size', '' + filedata.file_path.size);
 
-        console.log(size + parseFloat(this.total_size_in_mb));
+        // console.log(size + parseFloat(this.total_size_in_mb));
         if ((size + parseFloat(this.total_size_in_mb)) >= 1024.00) {
             this.spinnerService.hide();
             this.alertService.warning('You have exceeded your limit 1 GB');
@@ -100,7 +100,7 @@ export class FilerepositoryComponent implements OnInit {
                         if (data.custom_status_code === 100 && data.result.length > 0) {
                             this.alertService.success('File uploaded successfully');
                             this.foldersdata = [];
-                            console.log(data);
+                            // console.log(data);
                             this.getFolders(AppConstants.CLIENT_ID);
                         } else if (data.custom_status_code === 101) {
                             this.alertService.warning('Required parameters are missing!');
@@ -111,7 +111,7 @@ export class FilerepositoryComponent implements OnInit {
 
                     },
                     error => {
-                        console.log(error);
+                        // console.log(error);
                     }
                 );
         }
@@ -139,7 +139,7 @@ export class FilerepositoryComponent implements OnInit {
         }
     }
     onUploadStateChanged(state: boolean) {
-        console.log(JSON.stringify(state));
+        // console.log(JSON.stringify(state));
     }
     @HostListener('dragover', ['$event']) onDragOver(event) {
         this.dragAreaClass = 'droparea';
@@ -195,7 +195,7 @@ export class FilerepositoryComponent implements OnInit {
             data: repositories,
         });
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
+            // console.log('The dialog was closed');
             this.foldersdata = [];
             if ((result) && (result.file_name !== null) && (result.folder !== null) && (result.file_path !== null)) {
                 this.onSubmit(result);
@@ -205,8 +205,8 @@ export class FilerepositoryComponent implements OnInit {
 
     /* this is aa function to open a dialog modal to view file*/
     openViewDialog = (file, fileExtension, fileName) => {
-        console.log(fileExtension);
-        console.log(fileExtension.toLowerCase());
+        // console.log(fileExtension);
+        // console.log(fileExtension.toLowerCase());
 
         if (fileExtension.toLowerCase() === 'png') {
             this.openFileViewDialog(file, fileExtension, fileName);
@@ -234,7 +234,7 @@ export class FilerepositoryComponent implements OnInit {
             data: { file: file_data, file_extension: file_extensison, file_name: fileName }
         });
         dialogReference.afterClosed().subscribe(result => {
-            console.log(`Dialog result: ${result}`);
+            // console.log(`Dialog result: ${result}`);
         });
     }
 
@@ -314,18 +314,18 @@ export class FilerepositoryComponent implements OnInit {
                             this.filtered_repositories = [].concat.apply([], this.allFiles);
                             this.getFileSizes();
                         } else {
-                            console.log(data);
+                            // console.log(data);
                             this.repositories = [];
                         }
                         this.spinnerService.hide();
                     } catch (error) {
-                        console.log(error);
+                        // console.log(error);
                         this.spinnerService.hide();
                     }
                 },
                 error => {
                     this.spinnerService.hide();
-                    console.log(error);
+                    // console.log(error);
                 }
             );
     }
@@ -357,7 +357,7 @@ export class FilerepositoryComponent implements OnInit {
     }
     /* this is to append classes for file icon dynamically*/
     getClass = (fileExtension) => {
-        console.log(fileExtension);
+        // console.log(fileExtension);
     }
     /* this is for getting documents*/
     getDocuments(repositories, folder_name, index) {
@@ -403,37 +403,37 @@ export class FilerepositoryComponent implements OnInit {
                 },
                 error => {
                     this.alertService.warning('something went wrong');
-                    console.log(error);
+                    // console.log(error);
                 }
             );
     }
 
     // this is to open dialog when clicked on delete folder icon
     public deleteFolder(repositoryitem) {
-        console.log(repositoryitem);
+        // console.log(repositoryitem);
         if (repositoryitem.files.length === 0) {
 
             this.deleteFoldersAndFiles(repositoryitem.folder_id);
         } else {
-            console.log(repositoryitem);
+            // console.log(repositoryitem);
             const delFolderdialog = this.deleteFolderDialog.open(DeletefolderDialog, {
                 width: '420px'
             });
 
             delFolderdialog.afterClosed().subscribe(result => {
-                console.log('The dialog was closed');
+                // console.log('The dialog was closed');
 
                 if (result === true) {
                     this.deleteFoldersAndFiles(repositoryitem.folder_id);
                 } else {
-                    console.log('i cannot');
+                    // console.log('i cannot');
                 }
             });
         }
     }
 
     deleteFoldersAndFiles(folderId) {
-        console.log(folderId);
+        // console.log(folderId);
         this.spinnerService.show();
         this.httpClient.delete<ICommonInterface>(AppConstants.API_URL + 'flujo_client_deleterepositories/' + folderId)
             .subscribe(
@@ -453,7 +453,7 @@ export class FilerepositoryComponent implements OnInit {
                 error => {
                     this.spinnerService.hide();
                     this.alertService.warning('something went wrong');
-                    console.log(error);
+                    // console.log(error);
                 }
             );
     }
