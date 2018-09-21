@@ -8,7 +8,6 @@ import { LoginComponent } from './login/login.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 // import { LogoComponent } from './logo/logo.component';
-import { PagesComponent } from './pages/pages.component';
 // import { EmailserviceComponent } from './emailservice/emailservice.component';
 // import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 // import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
@@ -52,7 +51,7 @@ import { WebBuilderComponent } from './web-builder/web-builder.component';
 import { MailSetupComponent } from './mail-setup/mail-setup.component';
 import { DefaultEmailTemplatesComponent } from './default-email-templates/default-email-templates.component';
 import { SendEmailsComponent } from './directives/email-config/send-emails/send-emails.component';
-import { PagesComponent } from "./pages/pages.component";
+import { PagesComponent } from './pages/pages.component';
 const routes: Routes = [
   {
     path: '',
