@@ -597,7 +597,7 @@ export class MediaComponent implements OnInit {
     if (albumItem) {
       console.log(this.parseAlbumGalleryData);
       const filteredimagesArray = _.filter(this.parseAlbumGalleryData, (num) => {
-        return num.media_id === albumItem.id;
+        return num.media_id === String(albumItem.id);
       });
       console.log(filteredimagesArray);
       const popupData = this.prepareAlbumBase64ImagesObject(filteredimagesArray, albumItem);
@@ -647,7 +647,7 @@ export class MediaComponent implements OnInit {
 
     _.each(albumdetals, (ablmbetail, item_index) => {
 
-      if (albumdetals[item_index].media_id === base64images.id) {
+      if (albumdetals[item_index].media_id === String(base64images.id)) {
         this.albumBase64imagesObject = {
           media_id: albumdetals[item_index].media_id,
           title: albumdetals[item_index].title, description: albumdetals[item_index].description,
