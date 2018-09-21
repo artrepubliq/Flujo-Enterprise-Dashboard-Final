@@ -21,6 +21,7 @@ import { EmailConfigService } from '../../../service/email-config.service';
 import { resource } from 'selenium-webdriver/http';
 import { ICampaignListDetails, IDomain } from '../../../model/email.config.model';
 import { Subject } from 'rxjs/Subject';
+import { BASE_ROUTER_CONFIG } from "../../../app.router-contstants";
 // import grapesjs from 'grapesjs';
 declare var require: any;
 // declare var grapesjs: any;
@@ -329,7 +330,7 @@ export class SendEmailsComponent implements OnInit {
     exporter.downloadCSV(csvFormatData, 'My Report');
   }
   configureBulkEmail = () => {
-    this.router.navigate(['admin/emailconfig']);
+    this.router.navigate(['admin/' + BASE_ROUTER_CONFIG.F_4_SF_1.token]);
   }
 }
 @Component({

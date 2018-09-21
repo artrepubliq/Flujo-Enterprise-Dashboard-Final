@@ -12,7 +12,6 @@ import { GalleryImagesService } from '../service/gallery-images.service';
 import { MediaDetail } from '../model/feedback.model';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, _MatProgressSpinnerMixinBase } from '@angular/material';
-import { AdminComponent } from '../admin/admin.component';
 import { ICommonInterface } from '../model/commonInterface.model';
 import grapesjs from 'grapesjs';
 declare var grapesjs: any;
@@ -52,7 +51,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     editedContent: any;
     constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
         private alertService: AlertService, private galleryImagesService: GalleryImagesService, public dialog: MatDialog,
-        private router: Router, public adminComponent: AdminComponent) {
+        private router: Router) {
         this.createForm();
         this.getPageDetails();
         if (localStorage.getItem('editor_source') === 'editorWeb') {

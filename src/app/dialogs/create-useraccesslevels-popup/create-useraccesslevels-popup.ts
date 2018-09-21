@@ -57,7 +57,7 @@ export class AccessLevelPopup {
         // this.featureDetails = data.services[0];
         this.spinnerService.show();
         this.prepareClientAndUserFeatureAccessLevels(data.id);
-        this.userName = 'test';
+        this.userName = this.data.name;
     }
     prepareClientAndUserFeatureAccessLevels = (userId) => {
         // const userAccesslevels = await this.getClientUserAccessLevels();
@@ -96,7 +96,7 @@ export class AccessLevelPopup {
         this.spinnerService.show();
         this.accessLevelsFormSubmit.controls['access_levels'].setValue(this.currentEditEnabledUserAccessLevels);
         this.accessLevelsFormSubmit.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-        this.accessLevelsFormSubmit.controls['user_id'].setValue(localStorage.getItem('user_id'));
+        this.accessLevelsFormSubmit.controls['user_id'].setValue(this.data.id);
         const formModel = this.accessLevelsFormSubmit.value;
         this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postuseraccess', formModel)
             .subscribe(

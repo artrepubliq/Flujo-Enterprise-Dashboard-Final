@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class UserAccesslevelsService {
-  allSubFeatures =  [];
+  allSubFeatures = [];
   constructor(private router: Router) { }
 
   prepareUserAccessLevels = (userFeatures: IUserFeatures, clientFeatures: IUserAccessLevels) => {
@@ -32,26 +32,26 @@ export class UserAccesslevelsService {
           const totalAvailableUserSubfeatures = [];
           const subFeatures: any[] = features.filter(subfeature => item.feature_id === subfeature.feature_id);
           // current_subfeatures.forEach((userSubFeaItem) => {
-            subFeatures.map((clientSubFeaItem: ISubFeatures, itemindex) => {
-              // tslint:disable-next-line:max-line-length
-              const isSubFeatureEnabled = current_subfeatures.some( (subFeatureItem) => {
-                if (subFeatureItem === clientSubFeaItem.subfeature_id) {
-                  totalAvailableUserSubfeatures.push(clientSubFeaItem);
-                  subFeatures[itemindex].isEnabled = true;
-                }
-              });
-              // if (isSubFeatureEnabled) {
-              //   subFeatures[itemindex].isEnabled = true;
-              // } else {
-              //   subFeatures[itemindex].isEnabled = false;
-              // }
-
-
-              // if (clientSubFeaItem.subfeature_id === `SF_${userSubFeaItem}`) {
-              //   test.push(`SF_${userSubFeaItem}`);
-              //   subFeatures[itemindex].isEnabled = true;
-              // }
+          subFeatures.map((clientSubFeaItem: ISubFeatures, itemindex) => {
+            // tslint:disable-next-line:max-line-length
+            const isSubFeatureEnabled = current_subfeatures.some((subFeatureItem) => {
+              if (subFeatureItem === clientSubFeaItem.subfeature_id) {
+                totalAvailableUserSubfeatures.push(clientSubFeaItem);
+                subFeatures[itemindex].isEnabled = true;
+              }
             });
+            // if (isSubFeatureEnabled) {
+            //   subFeatures[itemindex].isEnabled = true;
+            // } else {
+            //   subFeatures[itemindex].isEnabled = false;
+            // }
+
+
+            // if (clientSubFeaItem.subfeature_id === `SF_${userSubFeaItem}`) {
+            //   test.push(`SF_${userSubFeaItem}`);
+            //   subFeatures[itemindex].isEnabled = true;
+            // }
+          });
           // });
           subFeatures.map((itemtoaddFalse: ISubFeatures, falseindex) => {
             if (!itemtoaddFalse.isEnabled) {
@@ -70,7 +70,7 @@ export class UserAccesslevelsService {
           }
         } else {
           const dissabledsubFeatures: any[] = features.filter((subfeature) => {
-            if ( item.feature_id === subfeature.feature_id) {
+            if (item.feature_id === subfeature.feature_id) {
               return subfeature;
             }
           });
@@ -113,8 +113,8 @@ export class UserAccesslevelsService {
         delete clientFeatures.services[0][service];
       }
     });
-    const  finalFilteredObject = this.removeDissabledObjects(clientFeatures,  clientFeatures.services[0]);
-    const filteredObj =  {filterFeatures: finalFilteredObject, filteredSubFeatures: this.allSubFeatures};
+    const finalFilteredObject = this.removeDissabledObjects(clientFeatures, clientFeatures.services[0]);
+    const filteredObj = { filterFeatures: finalFilteredObject, filteredSubFeatures: this.allSubFeatures };
     return filteredObj;
   }
 
@@ -144,9 +144,9 @@ export class UserAccesslevelsService {
                 if (BASE_ROUTER_CONFIG[`F_${current_feature_id}_${clientSubFeaItem.subfeature_id}`]) {
                   // tslint:disable-next-line:max-line-length
                   this.configFeatureRouter(`F_${current_feature_id}_${clientSubFeaItem.subfeature_id}`, clientSubFeaItem, adminRouterIndex);
-                BASE_ROUTER_CONFIG[`F_${current_feature_id}_${clientSubFeaItem.subfeature_id}`].id = clientSubFeaItem.subfeature_id;
-                BASE_ROUTER_CONFIG[`F_${current_feature_id}_${clientSubFeaItem.subfeature_id}`].title = clientSubFeaItem.subfeature_name;
-                BASE_ROUTER_CONFIG[`F_${current_feature_id}_${clientSubFeaItem.subfeature_id}`].token = clientSubFeaItem.subfeature_route;
+                  BASE_ROUTER_CONFIG[`F_${current_feature_id}_${clientSubFeaItem.subfeature_id}`].id = clientSubFeaItem.subfeature_id;
+                  BASE_ROUTER_CONFIG[`F_${current_feature_id}_${clientSubFeaItem.subfeature_id}`].title = clientSubFeaItem.subfeature_name;
+                  BASE_ROUTER_CONFIG[`F_${current_feature_id}_${clientSubFeaItem.subfeature_id}`].token = clientSubFeaItem.subfeature_route;
                 }
                 this.allSubFeatures.push(clientSubFeaItem);
                 userSubFeatures.push(clientSubFeaItem);
@@ -161,7 +161,7 @@ export class UserAccesslevelsService {
           }
         } else {
           console.log(index);
-          services[serviceName][index] = {'isEnabled': false};
+          services[serviceName][index] = { 'isEnabled': false };
           // services[serviceName].splice(index, 1);
         }
 
@@ -171,16 +171,16 @@ export class UserAccesslevelsService {
   }
 
   configFeatureRouter = (featureId, featureDetails, adminRouterIndex) => {
-      const routerIndex = this.router.config[adminRouterIndex].children[0].children.findIndex(router => router.path === featureId);
-      if ( routerIndex >= 0) {
-        if (featureDetails.feature_route) {
-          this.router.config[adminRouterIndex].children[0].children[routerIndex].path = featureDetails.feature_route;
-          this.router.config[adminRouterIndex].children[0].children[routerIndex].data.title = featureDetails.feature_name;
-        } else {
-          this.router.config[adminRouterIndex].children[0].children[routerIndex].path = featureDetails.subfeature_route;
-          this.router.config[adminRouterIndex].children[0].children[routerIndex].data.title = featureDetails.subfeature_name;
-        }
+    const routerIndex = this.router.config[adminRouterIndex].children[0].children.findIndex(router => router.path === featureId);
+    if (routerIndex >= 0) {
+      if (featureDetails.feature_route) {
+        this.router.config[adminRouterIndex].children[0].children[routerIndex].path = featureDetails.feature_route;
+        this.router.config[adminRouterIndex].children[0].children[routerIndex].data.title = featureDetails.feature_name;
+      } else {
+        this.router.config[adminRouterIndex].children[0].children[routerIndex].path = featureDetails.subfeature_route;
+        this.router.config[adminRouterIndex].children[0].children[routerIndex].data.title = featureDetails.subfeature_name;
       }
+    }
   }
   removeDissabledObjects(clientFeatures, services) {
     Object.keys(clientFeatures.services[0]).map(service => {
