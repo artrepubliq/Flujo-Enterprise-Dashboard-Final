@@ -159,6 +159,7 @@ import { EmailTemplateComponent } from './email-template/email-template.componen
 import { EmailTemplateResolver } from './email-template/email-template.resolver';
 import { EmailTemplateService } from './email-template/email-template-service';
 import { SafeHtmlPipe } from './_pipes/safe-html-email.pipe';
+import { PagesContentEditor } from './directives/contentEditor/pages-content-editor';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -172,6 +173,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AdminDashboardComponent,
     AdminComponent,
     PagesComponent,
+    PagesContentEditor,
     // SocialLinksComponent,
     ControlMessagesComponent,
     // SMTPConfigurationComponent,

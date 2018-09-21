@@ -13,6 +13,8 @@ import { MediaDetail } from '../model/feedback.model';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, _MatProgressSpinnerMixinBase } from '@angular/material';
 import { ICommonInterface } from '../model/commonInterface.model';
+import grapesjs from 'grapesjs';
+declare var grapesjs: any;
 @Component({
     templateUrl: './pages.component.html',
     styleUrls: ['./pages.component.scss']
@@ -45,6 +47,8 @@ export class PagesComponent implements OnInit, OnDestroy {
     dummy: string;
     @ViewChild('fileInput1') fileInput1: ElementRef;
     @ViewChild('fileInput2') fileInput2: ElementRef;
+    webDescription: any;
+    editedContent: any;
     constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
         private alertService: AlertService, private galleryImagesService: GalleryImagesService, public dialog: MatDialog,
         private router: Router) {
@@ -147,6 +151,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.spinnerService.show();
         this.form.get('component_image').setValue(this.popUpImageData1);
         this.form.get('component_background_image').setValue(this.popUpImageData);
+        this.form.get('web_description').setValue(this.editedContent);
         const formModel = this.form.value;
         this.spinnerService.show();
         this.form.controls['client_id'].setValue(localStorage.getItem('client_id'));
@@ -237,7 +242,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     }
     getChild(childData) {
         this.childDetails = _.filter(this.pageDetails, (parentData) => {
-            return parentData.parent_id === childData.id;
+            return parentData.parent_id === JSON.stringify(childData.id);
         });
         // console.log(this.childDetails);
     }
@@ -246,6 +251,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     setDefaultClientPageDetails = (pageData) => {
         if (pageData) {
             // this.button_text = "Update";
+            this.webDescription = pageData.web_description;
             this.form.controls['component_id'].setValue(pageData.id);
             this.form.controls['component_name'].setValue(pageData.component_name);
             this.form.controls['component_menuname'].setValue(pageData.component_menuname);
@@ -309,6 +315,11 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (this.dialog) {
             this.dialog = null;
         }
+    }
+
+    edittedData = (event) => {
+        // console.log(event);
+        this.editedContent = event;
     }
 }
 @Component({

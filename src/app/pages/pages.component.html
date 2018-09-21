@@ -27,7 +27,8 @@
   </div>
   <!-- ===== Add Pages ======= -->
   <div *ngIf="isEdit" class="add-pages">
-    <form [formGroup]="form" (submit)="onSubmit(form.value)" fxLayout="column" fxLayout.xs="column" fxLayoutGap="45px" fxLayoutGap.xs="0px">
+    <form [formGroup]="form" (submit)="onSubmit(form.value)" fxLayout="column" fxLayout.xs="column" fxLayoutGap="45px"
+      fxLayoutGap.xs="0px">
       <!-- Input PageDetails -->
       <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px" fxLayoutGap.xs="30px" ngClass.xs="d-block">
         <div class="input_box page_input" fxFlex fxLayout="column" fxLayoutGap="12px">
@@ -36,7 +37,8 @@
         </div>
         <div class="input_box page_input" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="component_menu_name">Page Menu Title</label>
-          <input fxFlex type="text" class="input-feild" id="component_menuname" placeholder="Page menu title" formControlName="component_menuname">
+          <input fxFlex type="text" class="input-feild" id="component_menuname" placeholder="Page menu title"
+            formControlName="component_menuname">
         </div>
         <div class="input_box page_input" fxFlex fxLayout="column" fxLayoutGap="12px">
           <label for="parent_id">Page Parent</label>
@@ -52,7 +54,7 @@
           <div class="select_dropdown_mat">
             <mat-select placeholder="Select" formControlName="parent_id" id="parent_id">
               <mat-option *ngFor="let parent of parentPageDetails" [value]="parent.id">
-                  {{parent.id}}-{{parent.component_name}}
+                {{parent.id}}-{{parent.component_name}}
               </mat-option>
             </mat-select>
           </div>
@@ -65,9 +67,8 @@
           <label for="component_background_color" class="input_title">Background Color</label>
           <div fxFlex style="position:relative">
             <input class="colorPickerInput" [cpOKButton]="true" (colorPickerChange)="form.get('component_background_color').setValue($event)"
-              [(colorPicker)]="bgColor" formControlName="component_background_color" id="component_background_color" [style.background]="bgColor"
-              [style.color]="bgColor" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']"
-            />
+              [(colorPicker)]="bgColor" formControlName="component_background_color" id="component_background_color"
+              [style.background]="bgColor" [style.color]="bgColor" [cpPresetColors]="['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)']" />
             <font style="font-size: 14px; margin-left: 12px" color="{{bgColor}}">{{bgColor}}</font>
           </div>
         </div>
@@ -75,7 +76,8 @@
           <label for="component_image" class="input_title">Component Image</label>
           <div class="file_inputs">
             <div class="input_choose_button">
-              <input class="file" id="component_image" (click)="openDialog('componentImage')" #fileInput1 /> Choose file
+              <input class="file" id="component_image" (click)="openDialog('componentImage')" #fileInput1 /> Choose
+              file
               <label> No file selected</label>
             </div>
           </div>
@@ -85,7 +87,8 @@
           <label for="component_background_image" class="input_title">Component Background Image</label>
           <div class="file_inputs">
             <div class="input_choose_button">
-              <input class="file" id="component_image" (click)="openDialog('backgroundImage')" #fileInput1 /> Choose file
+              <input class="file" id="component_image" (click)="openDialog('backgroundImage')" #fileInput1 /> Choose
+              file
               <label> No file selected</label>
             </div>
           </div>
@@ -97,16 +100,20 @@
       </div>
 
       <!-- Web Description Block -->
-      <div class="input_box page_input" fxLayout="column" fxLayoutGap="12px" *ngIf="webEditor">
+      <div class="input_box page_input" fxLayout="column" fxLayoutGap="12px">
         <label for="web_description">Web Description</label>
-        <ck-editor fxFlex name="editor1" formControlName="web_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <!-- <ck-editor fxFlex name="editor1" formControlName="web_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor> -->
+        <app-page-content-editor [webDescription]="webDescription" (webData)="edittedData($event)"></app-page-content-editor>
       </div>
 
       <!-- App Description Block -->
-      <div class="input_box page_input" fxLayout="column" fxLayoutGap="12px" *ngIf="appEditor">
+      <!-- <div class="input_box page_input" fxLayout="column" fxLayoutGap="12px" *ngIf="appEditor">
         <label for="app_description">App Description</label>
         <ck-editor fxFlex name="editor1" formControlName="app_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
-      </div>
+        <div id="gjs">
+          <h1>Hello World Component!</h1>
+        </div>
+      </div> -->
 
       <!-- Action Buttons -->
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">
@@ -154,21 +161,21 @@
               </td>
               <td>{{page_item.component_order}}</td>
               <td>{{page_item.parent_id}}</td>
-  
+
               <td class="btn-pages btn-stack">
-                <button (click)="editCompnent(page_item)"  type="button" class="btn">
-                    <!-- <i class="fa fa-pencil"></i> -->
-                    <img class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
+                <button (click)="editCompnent(page_item)" type="button" class="btn">
+                  <!-- <i class="fa fa-pencil"></i> -->
+                  <img class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
                 </button>
               </td>
               <td class="btn-pages btn-stack">
-                <button (click)="onDelete(page_item)"  type="button" class="btn">
-                    <!-- <i class="fa fa-trash"></i> -->
-                    <img class="asset-btn-flujo" src="../assets/icons/remove-icon-active@2x.png">                    
+                <button (click)="onDelete(page_item)" type="button" class="btn">
+                  <!-- <i class="fa fa-trash"></i> -->
+                  <img class="asset-btn-flujo" src="../assets/icons/remove-icon-active@2x.png">
                 </button>
               </td>
             </tr>
-  
+
           </tbody>
         </table>
       </div>
@@ -205,11 +212,11 @@
           </div>
           <mat-card-content>
             <div id="pageheader">
-              <div  class="edit-title">
+              <div class="edit-title">
                 <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
                 <!-- <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i> -->
                 <i fxFlex="50%" fxLayoutAlign="end center">
-                  <img  (click)="editCompnent(detail)" class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
+                  <img (click)="editCompnent(detail)" class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
                 </i>
               </div>
             </div>
@@ -253,7 +260,7 @@
                   <h6 fxFlex="50%" id="page-title">{{detail.component_name}}</h6>
                   <!-- <i fxFlex="50%" fxLayoutAlign="end center" (click)="editCompnent(detail)" class="fa fa-pencil pull-right"></i> -->
                   <i fxFlex="50%" fxLayoutAlign="end center">
-                      <img  (click)="editCompnent(detail)" class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
+                    <img (click)="editCompnent(detail)" class="asset-btn-flujo" src="../assets/icons/edit-icon-active@2x.png">
                   </i>
                 </div>
               </div>
