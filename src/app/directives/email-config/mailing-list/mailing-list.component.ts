@@ -52,7 +52,7 @@ export class MailingListComponent implements OnInit, OnDestroy {
         }
       },
       error => {
-        console.log(error);
+        // console.log(error);
       });
 
     // this.getCampaignList();
@@ -84,14 +84,14 @@ export class MailingListComponent implements OnInit, OnDestroy {
       },
       error => {
         this.showProgressBar = false;
-        console.log(error);
+        // console.log(error);
       }
     );
   }
 
 
   public tabChanged(event) {
-    console.log(event);
+    // console.log(event);
   }
 
   ngOnDestroy() {

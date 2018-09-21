@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, ElementRef, ViewChild, SimpleChanges, Inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertModule, AlertService } from 'ngx-alerts';
@@ -46,6 +47,7 @@ export class SmsuiComponent implements OnInit {
   PHONE_REGEXP = /^([0]|\+91)?[6789]\d{9}$/;
   submitted: boolean;
   cancelFileEdit: boolean;
+  feature_id = 4;
 
   public createAccountForm: FormGroup;
   public sendSms = false;
@@ -53,11 +55,17 @@ export class SmsuiComponent implements OnInit {
   showSenderCreation = false;
   // senderIds: IGetSenderIds[];
   // public uppercase
-  public senderIds = ['AFLUJO', 'DASYAM'];
+  public senderIds: IGetSenderIds[];
   public sms_plans = ['Promotional', 'Transactional'];
-  public creation_message = 'Approve the following sender id';
+  public creation_message = 'Dear SMSGatewayHub, Please Approve the following sender id';
   public countryNames: { name: string, dial_code: string, code: string }[];
   public cap_reg_ex = /\b([A - Z]+)\b/;
+  public subject = 'Sender Id approval';
+  agreementFile: any;
+  @Input() fileExt = 'DOCX, DOC';
+  @Input() maxSize = 1;
+  errors: Array<string> = [];
+  // senderIdDetails: IGetSenderIds[];
   constructor(private spinnerService: Ng4LoadingSpinnerService, private httpClient: HttpClient,
     private formBuilder: FormBuilder, private alertService: AlertService,
     public adminComponent: AdminComponent, private router: Router,
@@ -71,10 +79,9 @@ export class SmsuiComponent implements OnInit {
       'message': ['', [Validators.required, Validators.minLength(10)]],
       'check': [''],
       'file': [''],
-      'client_id': [AppConstants.CLIENT_ID],
+      'client_id': [''],
       'sender_id': ['', Validators.required]
     });
-    const subject = 'Sender Id approval';
     this.createSenderIdForm = this.formBuilder.group({
       // 'website_name': ['', Validators.required],
       // 'company_name': ['', Validators.required],
@@ -87,10 +94,12 @@ export class SmsuiComponent implements OnInit {
         ]
       )],
       'client_id': [''],
-      'creation_message': [this.creation_message, Validators.required],
-      'subject': [subject],
+      'creation_message': [''],
+      'subject': [''],
+      'user_name': ['', Validators.required],
       'sms_plan': ['', Validators.required],
-      'country_name': ['', Validators.required]
+      'country_name': ['', Validators.required],
+      'website_url': ['', Validators.required]
     });
 
     this.getSlectedTemplateData();
@@ -112,10 +121,13 @@ export class SmsuiComponent implements OnInit {
     this.countryNames = countryCodes;
     this.smsService.getSMSSenderIds(AppConstants.CLIENT_ID).subscribe(
       result => {
-        // this.senderIds = result.result;
+        // console.log(result);
+        if (!result.error && result.custom_status_code === 100) {
+          this.senderIds = result.result;
+        }
       },
       error => {
-        console.log(error);
+        // console.log(error);
       });
   }
   public checkValidNumbers(event) {
@@ -132,18 +144,18 @@ export class SmsuiComponent implements OnInit {
       } else {
         this.multipleNumbers = true;
       }
-      // console.log(errorNumbers);
-      // console.log(this.multipleNumbers);
+      // // console.log(errorNumbers);
+      // // console.log(this.multipleNumbers);
     }
   }
   public smsContactFormSubmit(): void {
     this.spinnerService.show();
-    console.log(this.smsContactForm.value);
+    // console.log(this.smsContactForm.value);
     this.smsContactForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
-    this.httpClient.post<ICommonInterface>(AppConstants.SMS_API_URL + 'flujo_client_sendsmsdbcsv', this.smsContactForm.value)
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_sendsmsdbcsv', this.smsContactForm.value)
       .subscribe(
         data => {
-          console.log(data);
+          // console.log(data);
           this.spinnerService.hide();
           if ((!data.error) && (data.custom_status_code = 100)) {
             this.alertService.success('Message has been sent successfully');
@@ -156,7 +168,7 @@ export class SmsuiComponent implements OnInit {
         },
         error => {
           this.spinnerService.hide();
-          console.log(error);
+          // console.log(error);
         });
   }
   cancelSmsEdit = () => {
@@ -173,10 +185,10 @@ export class SmsuiComponent implements OnInit {
               this.smsTemplateSelectionData.map((smsData) => {
                 smsData.isActive = false;
               });
-              console.log(this.smsTemplateSelectionData);
+              // console.log(this.smsTemplateSelectionData);
             }
           } catch (e) {
-            console.log(e);
+            // console.log(e);
           }
         }
       );
@@ -193,7 +205,7 @@ export class SmsuiComponent implements OnInit {
       if (result) {
         this.selectedSmsTemplateData = result;
       } else {
-        console.log('no template was selected');
+        // console.log('no template was selected');
       }
     });
   }
@@ -205,7 +217,7 @@ export class SmsuiComponent implements OnInit {
     const file = event.target.files[0];
     const csvPhoneData = file;
     this.phoneContactsArray = await this.getCsvData(csvPhoneData);
-    console.log(this.phoneContactsArray);
+    // console.log(this.phoneContactsArray);
     if (this.phoneContactsArray.length > 0) {
       this.phoneContactsArray.map((item, index) => {
         if (item.Phone) {
@@ -216,7 +228,7 @@ export class SmsuiComponent implements OnInit {
             this.errorInFormat = true;
           }
         } else {
-          console.log('the uploaded format not follwoing our standards');
+          // console.log('the uploaded format not follwoing our standards');
           const snackBarRef = this.snackBar.open('The uploaded format not follwoing our standards', '', {
             duration: 3000,
             extraClasses: ['alert-snackbar']
@@ -263,29 +275,94 @@ export class SmsuiComponent implements OnInit {
   }
 
   onSubmitSenderId(): void {
-    this.spinnerService.show();
-    this.createSenderIdForm.controls['creation_message'].setValue(
-      // tslint:disable-next-line:max-line-length
-      `${this.createSenderIdForm.controls['creation_message'].value} for country name ${this.createSenderIdForm.controls['country_name'].value} and of type ${this.createSenderIdForm.controls['sms_plan'].value}`);
     this.createSenderIdForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    this.createSenderIdForm.controls['subject'].setValue(this.subject);
     this.createSenderIdForm.controls['sender_id'].setValue(this.createSenderIdForm.controls['sender_id'].value.toUpperCase());
-    console.log(this.createSenderIdForm.value);
-    this.smsService.createSenderId(this.createSenderIdForm.value).subscribe(
-      result => {
-        console.log(result);
-        if (result.error === false) {
-          this.showSenderCreation = false;
-        } else {
-          this.alertService.warning('Something went Wrong');
-        }
-        this.spinnerService.hide();
-      },
-      error => {
-        this.spinnerService.hide();
-        console.log(error);
-      });
+    this.createSenderIdForm.controls['creation_message'].setValue(
+      `<p>Dear SMSGatewayHub,</p>
+
+      <p>Please approve a sender id with the following details</p>
+
+      <p>Sender ID : <b>${this.createSenderIdForm.controls['sender_id'].value},</b><br>
+        Country Name : <b>${this.createSenderIdForm.controls['country_name'].value},</b><br>
+        Type : <b>${this.createSenderIdForm.controls['sms_plan'].value},</b><br>
+        User Name : <b>${this.createSenderIdForm.controls['user_name'].value}</b><br>
+        Website URL : <b>${this.createSenderIdForm.controls['website_url'].value}</b></p>
+        <p><b><u>Sample Text :</u></b>
+        <br><br> Dear User,<br> Please participate in our program at our office to donate.</p>
+      <br>
+      <p>
+      Regards,<br>
+      Flujo Team
+      </p>`);
+    const formData = new FormData();
+    formData.append('client_id', this.createSenderIdForm.controls['client_id'].value);
+    formData.append('subject', this.createSenderIdForm.controls['subject'].value);
+    formData.append('sender_id', this.createSenderIdForm.controls['sender_id'].value);
+    formData.append('creation_message', this.createSenderIdForm.controls['creation_message'].value);
+    formData.append('agreement_file', this.agreementFile);
+    if (this.agreementFile && this.errors.length === 0) {
+      this.spinnerService.show();
+      // console.log(this.createSenderIdForm.value);
+      this.smsService.createSenderId(formData).subscribe(
+        result => {
+          this.spinnerService.hide();
+          // this.createSenderIdForm.reset();
+          // console.log(result);
+          if (result.error === false && result.status === 100) {
+            this.showSenderCreation = false;
+            this.alertService.info('Request for creating senderId has been initiated succesfully!');
+          } else if (result.error && (result.status === 105 || result.status === 104)) {
+            this.alertService.warning(result.data);
+          } else {
+            this.alertService.warning('Something went wrong!');
+          }
+          this.spinnerService.hide();
+        },
+        error => {
+          this.spinnerService.hide();
+          // console.log(error);
+        });
+    }
   }
 
+  onFileChange = (event) => {
+    this.errors = [];
+    this.agreementFile = event.target.files[0];
+    // // console.log(event.target.files[0]);
+    this.isValidFileExtension(this.agreementFile);
+  }
+
+  private isValidFileExtension(file) {
+    // Make array of file extensions
+    const extensions = (this.fileExt.split(','))
+      .map(function (x) { return x.toLocaleUpperCase().trim(); });
+
+    // Get file extension
+    const ext = file.name.toUpperCase().split('.').pop() || file.name;
+    // Check the extension exists
+    const exists = extensions.includes(ext);
+    if (!exists) {
+      this.alertService.warning('Error (Extension): ' + file.name);
+      this.errors.push('Error (Extension): ' + file.name);
+      return;
+    }
+    // Check file size
+    this.isValidFileSize(file);
+
+  }
+
+  /* this is for checking valid size of the file */
+  private isValidFileSize(file) {
+    const fileSizeinMB = file.size / (1024 * 1000);
+    const size = Math.round(fileSizeinMB * 100) / 100; // convert upto 2 decimal place
+    if (size > this.maxSize) {
+      this.alertService.warning('Error (File Size): ' + file.name + ': exceed file size limit of '
+        + this.maxSize + 'MB ( ' + size + 'MB )');
+      this.errors.push('Error (File Size): ' + file.name + ': exceed file size limit of '
+        + this.maxSize + 'MB ( ' + size + 'MB )');
+    }
+  }
   // hide creating sender id
   cancel(): void { this.showSenderCreation = !this.showSenderCreation; }
 }
@@ -316,7 +393,7 @@ export class SmsTemplateSelectionDialog {
     });
     selectedSmsData.isActive = true;
     this.totalSmsTemplateData = selectedSmsData.template_text;
-    console.log(this.totalSmsTemplateData);
+    // console.log(this.totalSmsTemplateData);
   }
   /*Sending the selected data to assign in form of sms submission*/
   closeDialog = () => {

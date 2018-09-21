@@ -37,9 +37,9 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
           this.domain = JSON.parse(result.data[0].domain);
           this.receiving_dns_records = JSON.parse(result.data[0].receiving_dns_records);
           this.sending_dns_records = JSON.parse(result.data[0].sending_dns_records);
-          console.log(this.domain);
-          console.log(this.receiving_dns_records);
-          console.log(this.sending_dns_records);
+          // console.log(this.domain);
+          // console.log(this.receiving_dns_records);
+          // console.log(this.sending_dns_records);
         } else {
           this.id = undefined;
           this.domain = undefined;
@@ -49,7 +49,7 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
         }
       },
       error => {
-        console.log(error);
+        // console.log(error);
       });
   }
 
@@ -68,7 +68,7 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
       },
       error => {
         this.spinnerService.hide();
-        console.log(error);
+        // console.log(error);
       });
   }
   /**
@@ -81,10 +81,10 @@ export class DomainDetailsComponent implements OnInit, OnDestroy {
         if (result.error === false) {
           this.emailCnfgComponent.ngOnInit();
         }
-        console.log(result);
+        // console.log(result);
       },
       error => {
-        console.log(error);
+        // console.log(error);
       });
   }
   ngOnDestroy(): void {

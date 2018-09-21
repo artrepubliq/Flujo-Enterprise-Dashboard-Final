@@ -108,7 +108,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
    * @param timeline this is the timeline object(tweet or status object)
    */
   public retweet(timeline: ITwitterTimelineObject) {
-    console.log(timeline);
+    // console.log(timeline);
     if (timeline.retweeted) {
       return;
     } else {
@@ -124,7 +124,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           }
         },
         error => {
-          console.log(error);
+          // console.log(error);
         }
       );
       this.showProgressBar = false;
@@ -149,7 +149,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           }
         },
         error => {
-          console.log(error);
+          // console.log(error);
         }
       );
     } else {
@@ -162,7 +162,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           }
         },
         error => {
-          console.log(error);
+          // console.log(error);
         }
       );
     }
@@ -173,9 +173,9 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
    * @param timeline this is the timeline object
    */
   public ValidateUserForDeleteTweet(timeline: ITwitterTimelineObject): boolean {
-    // console.log(timeline.user.id);
-    // console.log(this.twitterUser[0].id)
-    // console.log(this.twitterUser);
+    // // console.log(timeline.user.id);
+    // // console.log(this.twitterUser[0].id)
+    // // console.log(this.twitterUser);
     if (this.twitterUser && (this.twitterUser[0].id === timeline.user.id)) {
       return true;
     }
@@ -217,11 +217,11 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
             if (!result.error && result.data.length > 0) {
               this.twitHomeTimeLine = [...this.twitHomeTimeLine, ...result.data];
             }
-            // console.log(this.twitHomeTimeLine);
-            // console.log(this.twitHomeTimeLine);
+            // // console.log(this.twitHomeTimeLine);
+            // // console.log(this.twitHomeTimeLine);
           },
           error => {
-            console.log(error);
+            // console.log(error);
           });
       this.showProgressBar = false;
     }
@@ -248,7 +248,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
             }
           },
           error => {
-            console.log(error);
+            // console.log(error);
           });
       this.showProgressBar = false;
     }
@@ -274,7 +274,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
             }
           },
           error => {
-            console.log(error);
+            // console.log(error);
           });
       this.showProgressBar = false;
     }
@@ -290,10 +290,10 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
     this.twitterService.getTweetStatusById(timeline.id_str)
       .subscribe(
         result => {
-          console.log(result);
+          // console.log(result);
         },
         error => {
-          console.log(error);
+          // console.log(error);
         }
       );
     this.showProgressBar = false;
@@ -317,7 +317,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
             }
           },
           error => {
-            console.log(error);
+            // console.log(error);
           });
       this.showProgressBar = false;
     }
@@ -341,7 +341,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           },
           error => {
             this.showProgressBar = false;
-            console.log(error);
+            // console.log(error);
           }
         );
 
@@ -477,7 +477,7 @@ export class TwitterTimelineDirective implements OnInit, OnDestroy {
           screen_name: userDetails[0].screen_name
         };
       } else {
-        console.log(timeline.retweeted_status.user.id_str);
+        // console.log(timeline.retweeted_status.user.id_str);
         user_details = {
           user_id: timeline.retweeted_status.user.id_str,
           screen_name: timeline.retweeted_status.user.screen_name
