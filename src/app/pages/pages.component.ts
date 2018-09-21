@@ -65,29 +65,29 @@ export class PagesComponent implements OnInit, OnDestroy {
         } else {
             // this.router.navigate(['admin/chooseplatform']);
         }
-        this.getGalleryImageData();
+        // this.getGalleryImageData();
     }
     ngOnInit() {
         setTimeout(function () {
             this.spinnerService.hide();
         }.bind(this), 3000);
     }
-    getGalleryImageData = () => {
-        this.galleryImagesService.getGalleryImagesComponent('flujo_client_getgallery/', AppConstants.CLIENT_ID)
-            .subscribe(
-                data => {
-                    if (data.custom_status_code === 100 && !data.error) {
-                        this.imagesOfgallery = data.result;
-                        console.log(this.imagesOfgallery);
-                    } else if (data.custom_status_code === 101 && data.error) {
-                        this.alertService.warning('Required parameters are missing');
-                    }
-                },
-                error => {
-                    console.log(error);
-                }
-            );
-    }
+    // getGalleryImageData = () => {
+    //     this.galleryImagesService.getGalleryImagesComponent('flujo_client_getgallery/', AppConstants.CLIENT_ID)
+    //         .subscribe(
+    //             data => {
+    //                 if (data.custom_status_code === 100 && !data.error) {
+    //                     this.imagesOfgallery = data.result;
+    //                     console.log(this.imagesOfgallery);
+    //                 } else if (data.custom_status_code === 101 && data.error) {
+    //                     this.alertService.warning('Required parameters are missing');
+    //                 }
+    //             },
+    //             error => {
+    //                 console.log(error);
+    //             }
+    //         );
+    // }
     createForm = () => {
         this.form = this.formBuilder.group({
             component_name: ['', Validators.required],
