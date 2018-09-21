@@ -71,7 +71,8 @@
       <!-- Module Description Block -->
       <div class="input_box" fxLayout="column" fxLayoutGap="12px">
         <label for="module_description">Module Description</label>
-        <ck-editor fxFlex name="editor1" formControlName="module_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <app-page-content-editor [moduleDescription]="moduleDescription" (moduleData)="editedModule($event)" ></app-page-content-editor>
+        <!-- <ck-editor fxFlex name="editor1" formControlName="module_description" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor> -->
         <!-- <input type="text" class="form-control" id="component_description" placeholder="Page Description" formControlName="component_description"> -->
       </div>
       <!-- Action Buttons -->

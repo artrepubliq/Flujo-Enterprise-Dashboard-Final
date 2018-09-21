@@ -28,7 +28,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatCardModule
   ],
   declarations: [
-    TncComponent
+    // TncComponent
   ]
 })
 export class TncModule { }

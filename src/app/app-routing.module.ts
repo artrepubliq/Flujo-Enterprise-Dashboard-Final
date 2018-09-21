@@ -25,11 +25,11 @@ import { FeedbackComponent } from './feedback/feedback.component';
 // import { FilerepositoryComponent } from './filerepository/filerepository.component';
 // import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
-// import { CreateModuleComponent } from './create-module/create-module.component';
+import { CreateModuleComponent } from './create-module/create-module.component';
 // import { ProblemCategoryComponent } from './problem-category/problem-category.component';
 import { AreasComponent } from './areas/areas.component';
-// import { TncComponent } from './tnc/tnc.component';
-// import { PnpComponent } from './pnp/pnp.component';
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
 import { DatabaseComponent } from './database/database.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 // import { SmstemplateComponent } from './smstemplate/smstemplate.component';
@@ -112,15 +112,16 @@ const routes: Routes = [
           },
           {
             path: 'F_2_SF_4',
-            loadChildren: 'app/create-module/create-module.module#CreateModuleModule',
+            // loadChildren: 'app/create-module/create-module.module#CreateModuleModule',
+            component: CreateModuleComponent,
             data: { title: 'F_2_SF_4' }
           },
           {
-            path: 'F_2_SF_5', loadChildren: './tnc/tnc.module#TncModule',
+            path: 'F_2_SF_5', component: TncComponent,
             data: { title: 'F_2_SF_5' }
           },
           {
-            path: 'F_2_SF_6', loadChildren: './pnp/pnp.module#PnpModule',
+            path: 'F_2_SF_6', component: PnpComponent,
             data: { title: 'F_2_SF_6' }
           },
           {

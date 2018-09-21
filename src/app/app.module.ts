@@ -80,14 +80,14 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import { DocumentViewModule } from 'ngx-document-view';
 import { NgxPaginationModule } from 'ngx-pagination';
-// import { CreateModuleComponent } from './create-module/create-module.component';
+import { CreateModuleComponent } from './create-module/create-module.component';
 import { HeaderurlsComponent } from './headerurls/headerurls.component';
 import { ProblemCategoryEditPopup } from './problem-category/problem-category.component'; // ProblemCategoryComponent
 import { ProblemTypeService } from './service/problem-type.service';
 import { AreaService } from './service/area.service';
 import { AreasComponent, AreaEditPopup } from './areas/areas.component';
-// import { TncComponent } from './tnc/tnc.component';
-// import { PnpComponent } from './pnp/pnp.component';
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
 import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { DatabaseComponent } from './database/database.component';
 import { ChartsGenderDirective } from './directives/charts-gender/charts-gender.directive';
@@ -201,10 +201,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FeedbackComponent,
     ChangemakerComponent,
     AnalyticsComponent,
-    // CreateModuleComponent,
+    CreateModuleComponent,
     DeletefolderDialog,
-    // TncComponent,
-    // PnpComponent,
+    TncComponent,
+    PnpComponent,
     HeaderurlsComponent,
     // ProblemCategoryComponent,
     AreasComponent,

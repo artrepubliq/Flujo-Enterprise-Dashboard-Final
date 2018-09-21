@@ -25,6 +25,8 @@ export class TncComponent implements OnInit {
   isEdit: boolean;
   termsDetails: ITermsData[];
   tncSubmitForm: FormGroup;
+  termsContent: any;
+  editedData: any;
   constructor(private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder, private httpClient: HttpClient,
     private alertService: AlertService,
@@ -46,6 +48,7 @@ export class TncComponent implements OnInit {
   onSubmit = () => {
     this.spinnerService.show();
     this.tncSubmitForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    this.tncSubmitForm.controls['terms_conditions'].setValue(this.editedData);
     if (this.termsDetails.length > 0) {
       this.tncSubmitForm.controls['termsconditions_id'].setValue(this.termsDetails[0].id);
     }
@@ -57,10 +60,13 @@ export class TncComponent implements OnInit {
             this.alertService.success('Data updated successfully');
             this.getTermsData();
             this.isGridView = true;
+            this.spinnerService.hide();
           } else if (data.custom_status_code === 101) {
             this.alertService.warning('Required parameters are missing!');
+            this.spinnerService.hide();
           } else if (data.custom_status_code === 102) {
             this.alertService.warning('Every thing is upto date!');
+            this.spinnerService.hide();
           }
         },
         err => {
@@ -123,6 +129,7 @@ export class TncComponent implements OnInit {
   setDefaultClientPrivacyData = (termsData) => {
     console.log(termsData);
     if (termsData) {
+      this.termsContent = termsData.terms_conditions;
       this.tncSubmitForm.controls['title'].setValue(termsData.title);
       this.tncSubmitForm.controls['terms_conditions'].setValue(termsData.terms_conditions);
       this.tncSubmitForm.controls['termsconditions_id'].setValue(termsData.id);
@@ -170,5 +177,9 @@ export class TncComponent implements OnInit {
     this.isEdit = false;
     this.isGridView = true;
     this.getTermsData();
+  }
+  editedTermsData = (event) => {
+    console.log(event);
+    this.editedData = event;
   }
 }

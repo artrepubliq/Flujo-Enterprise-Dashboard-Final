@@ -9,7 +9,13 @@ declare var grapesjs: any;
 // tslint:disable-next-line:component-class-suffix
 export class PagesContentEditor implements OnInit {
     @Input() webDescription: any;
+    @Input() moduleDescription: any;
+    @Input() termsContent: any;
+    @Input() pnpDescription: any;
     @Output() webData = new EventEmitter();
+    @Output() moduleData = new EventEmitter();
+    @Output() editedTermsContent = new EventEmitter();
+    @Output() editedPolicy = new EventEmitter();
     globalEditor: any;
     html: any;
     css: any;
@@ -56,8 +62,14 @@ export class PagesContentEditor implements OnInit {
                 },
             },
         });
-        if (this.webDescription.length > 0) {
+        if (this.webDescription !== undefined) {
             editor.setComponents(this.webDescription);
+        } if (this.moduleDescription !== undefined) {
+            editor.setComponents(this.moduleDescription);
+        } if (this.termsContent !== undefined) {
+            editor.setComponents(this.termsContent);
+        } if (this.pnpDescription !== undefined) {
+            editor.setComponents(this.pnpDescription);
         }
         const panelManager = editor.Panels;
         panelManager.removeButton('views', 'open-layers');
@@ -68,6 +80,9 @@ export class PagesContentEditor implements OnInit {
                 // console.log(changes);
                 // this.webData.emit(editor.getHtml());
                 this.webData.emit(editor.getHtml());
+                this.moduleData.emit(editor.getHtml());
+                this.editedTermsContent.emit(editor.getHtml());
+                this.editedPolicy.emit(editor.getHtml());
             }
         });
         // this.globalEditor = editor;

@@ -25,6 +25,8 @@ export class PnpComponent implements OnInit {
   isEdit: boolean;
   privacyDetails: IPrivacyData[];
   pnpSubmitForm: FormGroup;
+  pnpDescription: any;
+  editedContent: any;
   constructor(private spinnerService: Ng4LoadingSpinnerService,
     private formBuilder: FormBuilder, private httpClient: HttpClient,
     private alertService: AlertService, private router: Router) {
@@ -121,6 +123,7 @@ export class PnpComponent implements OnInit {
   // this method is used to update page detals to the form, if detalis exist
   setDefaultClientPrivacyData = (privacyData) => {
     if (privacyData) {
+      this.pnpDescription = privacyData.privacy_policy;
       this.pnpSubmitForm.controls['title'].setValue(privacyData.title);
       this.pnpSubmitForm.controls['privacy_policy'].setValue(privacyData.privacy_policy);
       this.pnpSubmitForm.controls['privacypolicy_id'].setValue(privacyData.id);
@@ -165,5 +168,8 @@ export class PnpComponent implements OnInit {
     this.isEdit = false;
     this.isGridView = true;
     this.getPrivacyData();
+  }
+  editedPolicyData = (event) => {
+    this.editedContent = event;
   }
 }

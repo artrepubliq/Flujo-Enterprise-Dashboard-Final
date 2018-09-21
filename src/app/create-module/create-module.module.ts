@@ -33,7 +33,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FlexLayoutModule
   ],
   declarations: [
-    CreateModuleComponent
+    // CreateModuleComponent,
   ],
   exports: [CreateModuleComponent, CreateModuleRoutingModule],
 })
