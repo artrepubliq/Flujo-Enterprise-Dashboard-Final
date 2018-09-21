@@ -133,6 +133,8 @@ export class LoginComponent implements OnInit {
     // this.loginForm.controls['origin_url'].setValue(window.location.href);
     // this.loginForm.controls['origin_url'].setValue('https://app.sarvodaya.in');
     this.loginForm.controls['origin_url'].setValue('https://dashboard.vinaybhaskar.in');
+    // this.loginForm.controls['origin_url'].setValue('https://dashboard.sarvodaya.ngo');
+    // this.loginForm.controls['origin_url'].setValue('https://dashboard.artrepubliq.com');
     const formModel = this.loginForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
       .subscribe(

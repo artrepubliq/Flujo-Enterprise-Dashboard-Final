@@ -31,7 +31,7 @@ export class CreateUserComponentComponent implements OnInit {
   isAddUser: boolean;
   userDetails: any;
   CreateUserForm: any;
-  public loading = false;
+  // public loading = false;
   public isEdit = true;
   button_text = 'save';
   config: any;
@@ -41,7 +41,7 @@ export class CreateUserComponentComponent implements OnInit {
   constructor(public dialog: MatDialog, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private userAccessLevelService: UserAccesslevelsService,
-    private httpClient: HttpClient, private router: Router, public adminComponent: AdminComponent) {
+    private httpClient: HttpClient, private router: Router) {
     this.CreateUserForm = this.formBuilder.group({
       'name': ['', Validators.pattern('^[a-zA-Z \-\']+')],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
@@ -102,7 +102,7 @@ export class CreateUserComponentComponent implements OnInit {
           if (data.custom_status_code === 100) {
             this.alertService.success('User deleted successfully');
             this.getUsersList();
-            this.loading = false;
+            // this.loading = false;
           } else if (data.custom_status_code === 102) {
             this.alertService.warning('Required parameters are missing!!!');
           }
@@ -110,27 +110,27 @@ export class CreateUserComponentComponent implements OnInit {
           // console.log(data);
         },
         error => {
-          this.loading = false;
+          // this.loading = false;
           this.spinnerService.hide();
           this.alertService.danger('Something went wrong');
         });
   }
 
   getUsersList() {
-    this.spinnerService.show();
+    // this.spinnerService.show();
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getcreateuser/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
+          // this.spinnerService.hide();
           if (data.custom_status_code === 100 && data.result.length > 0) {
             data.result ? this.isEdit = false : this.isEdit = true;
             console.log(data);
             this.userDetails = data.result;
           }
-          this.spinnerService.hide();
         },
         error => {
           // console.log(error);
-          this.spinnerService.hide();
+          // this.spinnerService.hide();
         }
       );
   }

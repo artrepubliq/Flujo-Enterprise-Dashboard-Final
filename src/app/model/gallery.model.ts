@@ -17,7 +17,7 @@ export interface IGalleryImageItem {
 // interface for update the single image details updation
 
 export interface IAlbumImageUpdate {
-  id: string;
+  media_id: string;
   title: string;
   description: string;
   images: string;

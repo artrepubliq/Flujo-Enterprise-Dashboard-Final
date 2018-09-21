@@ -60,9 +60,9 @@ export class LoginAuthService implements OnInit {
     if (authResult.feature && authResult.feature[0] && authResult.feature[0].feature_access_token) {
       localStorage.setItem('feature_access_tokens', JSON.stringify(authResult.feature));
       // localStorage.setItem('token_expiry_date', authResult.feature[0].expiry_date);
-      this.router.navigate(['/admin']);
-      this.setLoggedInCustom(true);
     }
+    this.router.navigate(['/admin']);
+    this.setLoggedInCustom(true);
   }
   getCustomLoginStatus() {
     return this.customLoggedIn;

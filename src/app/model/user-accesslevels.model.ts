@@ -46,3 +46,9 @@ export interface IUserFeatures {
     feature_id: string;
     sub_feature_ids?: string[];
 }
+
+// FILTERD FEATURES FOR DISPLAYING IN THE ADMIN DASHBOARD
+export interface IFilteredFeatures {
+    filterFeatures: any;
+    filteredSubFeatures: any;
+}

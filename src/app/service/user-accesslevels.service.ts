@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IUserAccessLevels, Ifeatures, Iservices, IUserFeatures, ISubFeatures } from '../model/user-accesslevels.model';
+import { IUserAccessLevels, Ifeatures, Iservices, IUserFeatures, ISubFeatures, IFilteredFeatures } from '../model/user-accesslevels.model';
 import { BASE_ROUTER_CONFIG } from '../app.router-contstants';
 import { Router } from '@angular/router';
 
@@ -103,6 +103,7 @@ export class UserAccesslevelsService {
 
   // CREATE ALREADY EXISTED USED OBJECT
   prepareExistingUserAccessLevels = (clientFeatures: IUserAccessLevels, userFeatures: IUserFeatures[]) => {
+    this.allSubFeatures = [];
     const adminRouterIndex = this.router.config.findIndex(item => item.path === 'admin');
     Object.keys(clientFeatures.services[0]).map(service => {
       // tslint:disable-next-line:max-line-length
@@ -114,7 +115,10 @@ export class UserAccesslevelsService {
       }
     });
     const finalFilteredObject = this.removeDissabledObjects(clientFeatures, clientFeatures.services[0]);
-    const filteredObj = { filterFeatures: finalFilteredObject, filteredSubFeatures: this.allSubFeatures };
+    const filteredObj = <IFilteredFeatures>{};
+    filteredObj.filterFeatures = finalFilteredObject;
+    filteredObj.filteredSubFeatures = this.allSubFeatures;
+    // const filteredObj = { filterFeatures: finalFilteredObject, filteredSubFeatures: this.allSubFeatures };
     return filteredObj;
   }
 

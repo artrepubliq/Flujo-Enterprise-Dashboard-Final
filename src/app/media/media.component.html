@@ -105,15 +105,15 @@
 
         <mat-tab *ngFor="let albumItem of albumGallery" label={{albumItem.title}}><button color='primary' (click)="deleteAlbum(albumItem)">Delete Album</button>
           <div class="row grid-gallery">
-            <div class="col-lg-4 col-md-4 col-xs-6 img-box" *ngFor="let albumItem of albumGalleryItem">
-              <div [hidden]="!albumItem">
+            <div class="col-lg-4 col-md-4 col-xs-6 img-box" *ngFor="let albumgalleryItem of albumGalleryItem">
+              <div [hidden]="!albumgalleryItem">
                 <div class="grid-item img-item">
                   <div class="img-block">
-                    <img src='{{albumItem.images}}' class="img-fluid" alt="Gallary Img">
+                    <img src='{{albumgalleryItem.images}}' class="img-fluid" alt="Gallary Img">
                     <div class="bg-layer"></div>
                     <div class="item-controls">
-                      <i class="fa fa-times" (click)="deleteGalleryItem(albumItem)"></i>
-                      <i class="fa fa-pencil" (click)="openDialog(albumItem)"></i>
+                      <i class="fa fa-times" (click)="deleteGalleryItem(albumgalleryItem)"></i>
+                      <i class="fa fa-pencil" (click)="openDialog(albumgalleryItem)"></i>
                     </div>
                   </div>
                 </div>
