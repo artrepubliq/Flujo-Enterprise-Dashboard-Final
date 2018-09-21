@@ -80,7 +80,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import { DocumentViewModule } from 'ngx-document-view';
 import { NgxPaginationModule } from 'ngx-pagination';
-// import { CreateModuleComponent } from './create-module/create-module.component';
+import { CreateModuleComponent } from './create-module/create-module.component';
 import { HeaderurlsComponent } from './headerurls/headerurls.component';
 import { ProblemCategoryEditPopup } from './problem-category/problem-category.component'; // ProblemCategoryComponent
 import { ProblemTypeService } from './service/problem-type.service';
@@ -201,7 +201,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FeedbackComponent,
     ChangemakerComponent,
     AnalyticsComponent,
-    // CreateModuleComponent,
+    CreateModuleComponent,
     DeletefolderDialog,
     // TncComponent,
     // PnpComponent,

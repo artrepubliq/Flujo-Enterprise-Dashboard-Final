@@ -42,6 +42,8 @@ export class CreateModuleComponent implements OnInit {
     dummy: string;
     @ViewChild('fileInput') fileInput: ElementRef;
     feature_id = '20';
+    moduleDescription: any;
+    editedModuleData: any;
     constructor(private spinnerService: Ng4LoadingSpinnerService, private formBuilder: FormBuilder, private httpClient: HttpClient,
         private alertService: AlertService, public adminComponent: AdminComponent, private router: Router) {
         this.createForm();
@@ -78,6 +80,7 @@ export class CreateModuleComponent implements OnInit {
     }
     onSubmit = (body) => {
         this.spinnerService.show();
+        this.moduleForm.controls['module_description'].setValue(this.editedModuleData);
         const formModel = this.moduleForm.value;
         this.spinnerService.show();
         this.moduleForm.controls['client_id'].setValue(localStorage.getItem('client_id'));
@@ -164,6 +167,7 @@ export class CreateModuleComponent implements OnInit {
     // this method is used to update page detals to the form, if detalis exist
     setDefaultClientPageDetails = (moduleData) => {
         if (moduleData) {
+            this.moduleDescription = moduleData.module_description;
             this.moduleForm.controls['module_name'].setValue(moduleData.module_name);
             this.moduleForm.controls['module_title'].setValue(moduleData.module_title);
             this.moduleForm.controls['module_id'].setValue(moduleData.id);
@@ -215,5 +219,9 @@ export class CreateModuleComponent implements OnInit {
     cancelFileEdit() {
         this.isEdit = false;
         this.isGridView = true;
+    }
+    editedModule = (event) => {
+        console.log(event);
+        this.editedModuleData = event;
     }
 }

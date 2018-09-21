@@ -26,7 +26,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 // import { FilerepositoryComponent } from './filerepository/filerepository.component';
 // import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
-// import { CreateModuleComponent } from './create-module/create-module.component';
+import { CreateModuleComponent } from './create-module/create-module.component';
 // import { ProblemCategoryComponent } from './problem-category/problem-category.component';
 import { AreasComponent } from './areas/areas.component';
 // import { TncComponent } from './tnc/tnc.component';
@@ -112,7 +112,8 @@ const routes: Routes = [
           },
           {
             path: 'F_2_SF_4',
-            loadChildren: 'app/create-module/create-module.module#CreateModuleModule',
+            // loadChildren: 'app/create-module/create-module.module#CreateModuleModule',
+            component: CreateModuleComponent,
             data: { title: 'F_2_SF_4' }
           },
           {
