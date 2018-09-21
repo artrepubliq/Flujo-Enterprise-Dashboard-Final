@@ -8,7 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 // import { LogoComponent } from './logo/logo.component';
-// import { PagesComponent } from './pages/pages.component';
+import { PagesComponent } from './pages/pages.component';
 // import { EmailserviceComponent } from './emailservice/emailservice.component';
 // import { SocialLinksComponent } from './sociallinks/sociallinks.component';
 // import { SMTPConfigurationComponent } from './smtpconfiguration/smtpconfiguration.component';
@@ -95,8 +95,7 @@ const routes: Routes = [
           // MULTI EDITOR ROUTERS CONFIG
           {
             path: 'F_2',
-            component: WebBuilderComponent,
-            resolve: { themedata: EmailTemplateResolver },
+            component: PagesComponent,
             data: { title: 'F_2' }
           },
           {

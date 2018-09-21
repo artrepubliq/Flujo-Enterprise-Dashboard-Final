@@ -33,7 +33,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatSelectModule
   ],
   declarations: [
-    PagesComponent
+    // PagesComponent
   ]
 })
 export class PagesModule { }
