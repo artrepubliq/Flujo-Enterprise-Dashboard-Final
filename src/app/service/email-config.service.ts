@@ -21,20 +21,24 @@ export class EmailConfigService {
   constructor(
     private httpClient: HttpClient
   ) {
-    // tslint:disable-next-line:max-line-length
-    const feature_access_tokens: IFeatureAccessTokens[] = JSON.parse(localStorage.getItem('feature_access_tokens'));
-    const mailgunTokens: IFeatureAccessTokens = feature_access_tokens.find((feature) => feature.feature_name === 'mailgun');
-    if (mailgunTokens) {
-      this.headersObject = {
-        access_token: mailgunTokens.feature_access_token,
-        token_expiry_date: mailgunTokens.expiry_date,
-        client_id: AppConstants.CLIENT_ID,
-        feature_name: mailgunTokens.feature_name
-      };
-    } else {
-      this.headersObject = {
-        client_id: AppConstants.CLIENT_ID,
-      };
+    try {
+      // tslint:disable-next-line:max-line-length
+      const feature_access_tokens: IFeatureAccessTokens[] = JSON.parse(localStorage.getItem('feature_access_tokens'));
+      const mailgunTokens: IFeatureAccessTokens = feature_access_tokens.find((feature) => feature.feature_name === 'mailgun');
+      if (mailgunTokens) {
+        this.headersObject = {
+          access_token: mailgunTokens.feature_access_token,
+          token_expiry_date: mailgunTokens.expiry_date,
+          client_id: AppConstants.CLIENT_ID,
+          feature_name: mailgunTokens.feature_name
+        };
+      } else {
+        this.headersObject = {
+          client_id: AppConstants.CLIENT_ID,
+        };
+      }
+    } catch (err) {
+      console.log('No feature_access_tokens available');
     }
 
     this.headers = new HttpHeaders(this.headersObject);

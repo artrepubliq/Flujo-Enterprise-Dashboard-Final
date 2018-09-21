@@ -477,6 +477,7 @@ export class MediaComponent implements OnInit {
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postalbum', reqData)
       .subscribe(
       data => {
+        this.parseAlbumGalleryData = null;
         this.spinnerService.hide();
         if (!data.error && data.custom_status_code === 100) {
           this.albumCreateoptions.push(reqData.title);
@@ -596,7 +597,7 @@ export class MediaComponent implements OnInit {
     if (albumItem) {
       console.log(this.parseAlbumGalleryData);
       const filteredimagesArray = _.filter(this.parseAlbumGalleryData, (num) => {
-        return num.id === albumItem.id;
+        return num.media_id === albumItem.id;
       });
       console.log(filteredimagesArray);
       const popupData = this.prepareAlbumBase64ImagesObject(filteredimagesArray, albumItem);
@@ -608,13 +609,17 @@ export class MediaComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-
+        const singleMediaObject = <IAlbumImageUpdate>{};
         // prepare POST request object for updating the particular album details
         if (result) {
+          singleMediaObject.description = result.description;
+          singleMediaObject.order = result.order;
+          singleMediaObject.title = result.title;
+          singleMediaObject.media_id = result.id;
           console.log(this.parseAlbumGalleryData);
           // tslint:disable-next-line:no-shadowed-variable
           const filteredimagesArray = _.filter(this.parseAlbumGalleryData, (num) => {
-            return num.id !== result.id;
+            return num.media_id !== result.media_id;
           });
           console.log(filteredimagesArray);
           console.log(filteredimagesArray);
@@ -642,9 +647,9 @@ export class MediaComponent implements OnInit {
 
     _.each(albumdetals, (ablmbetail, item_index) => {
 
-      if (albumdetals[item_index].id === base64images.id) {
+      if (albumdetals[item_index].media_id === base64images.id) {
         this.albumBase64imagesObject = {
-          id: albumdetals[item_index].id,
+          media_id: albumdetals[item_index].media_id,
           title: albumdetals[item_index].title, description: albumdetals[item_index].description,
           order: albumdetals[item_index].order, images: base64images.images
         };
