@@ -18,12 +18,12 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
      @Inject(MAT_DIALOG_DATA) public data: any) {
        console.log(this.data);
       this.albumItemForm = this.formBuilder.group({
-        id: [null],
+        media_id: [null],
         title: ['', Validators.required],
         description: ['', Validators.required],
         order: ['', Validators.required],
       });
-      this.albumItemForm.controls['id'].setValue(data[0].id);
+      this.albumItemForm.controls['media_id'].setValue(data[0].media_id);
       this.albumItemForm.controls['title'].setValue(data[0].title);
       this.albumItemForm.controls['description'].setValue(data[0].description);
       this.albumItemForm.controls['order'].setValue(data[0].order);

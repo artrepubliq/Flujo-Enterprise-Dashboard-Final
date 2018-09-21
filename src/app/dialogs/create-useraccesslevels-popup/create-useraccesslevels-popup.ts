@@ -157,7 +157,13 @@ export class AccessLevelPopup {
                     }, []);
                     enabledSubFeaturesObject.feature_id = featureItem.feature_id;
                     enabledSubFeaturesObject.sub_feature_ids = enabledSubFeatures;
-                    this.currentEditEnabledUserAccessLevels = ([...this.currentEditEnabledUserAccessLevels, enabledSubFeaturesObject]);
+                    // tslint:disable-next-line:max-line-length
+                    const isFeatureAvalableIndex = this.currentEditEnabledUserAccessLevels.findIndex(isFeatureAvailableCheck => isFeatureAvailableCheck.feature_id === featureItem.feature_id);
+                    if (isFeatureAvalableIndex >= 0) {
+                        this.currentEditEnabledUserAccessLevels[isFeatureAvalableIndex] = enabledSubFeaturesObject;
+                    } else {
+                        this.currentEditEnabledUserAccessLevels = ([...this.currentEditEnabledUserAccessLevels, enabledSubFeaturesObject]);
+                    }
                 } else {
                     this.featureDetails[feature][index].has_subfeature = false;
                     const enabledSubFeaturesObject = <IUserFeatures>{};

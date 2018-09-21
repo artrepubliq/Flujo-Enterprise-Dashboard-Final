@@ -187,7 +187,7 @@ export class AdminComponent implements OnInit {
     });
   }
   ChatIO = () => {
-    window.ChatCampUi.cc.GroupChannel.create('Flujo', this.loggedinIds, true, function (error, groupChannel) {
+    window.ChatCampUi.cc.GroupChannel.create(this.clientName, this.loggedinIds, true, function (error, groupChannel) {
       if (error == null) {
         window.ChatCampUI.startChat(groupChannel.id);
       }
@@ -199,7 +199,7 @@ export class AdminComponent implements OnInit {
     const OnetoOne = [this.user_id];
     OnetoOne.push(String(chatItem.id));
     /* tslint:disable */
-    window.ChatCampUi.cc.GroupChannel.create('Flujo', OnetoOne, true, (error, groupChannel) => {
+    window.ChatCampUi.cc.GroupChannel.create(this.name, OnetoOne, true, (error, groupChannel) => {
       if (error == null) {
         // console.log('New one to one Channel has been created', groupChannel);
         window.ChatCampUI.startChat(groupChannel.id);

@@ -330,11 +330,11 @@
                             <div fxLayoutAlign="start center" class="user-avatar-chat-group">
                               <span [ngStyle]="{'background-color': randombgcolor}" class="avatar-chat-group-img">
                                 <span class="avatar-text" fxLayoutAlign="center center">
-                                  Sarvodaya
+                                  {{clientName}}
                                 </span>
                               </span>
                             </div>
-                            <div fxLayoutAlign="start center">Sarvodaya</div>
+                            <div fxLayoutAlign="start center">{{clientName}}</div>
                             <div fxLayout="row" fxLayoutGap="-10px" fxLayoutAlign="center end" class="ml-auto user-avatar-chat-group">
   
                               <img *ngIf="loggedinIds && loggedinIds[0]" class="user-avatar-chat-group-img img-fluid" src="../assets/profile_user.jpg">
