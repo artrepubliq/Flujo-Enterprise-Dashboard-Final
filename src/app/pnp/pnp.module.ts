@@ -29,7 +29,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatCardModule
   ],
   declarations: [
-    PnpComponent
+    // PnpComponent
   ]
 })
 export class PnpModule { }

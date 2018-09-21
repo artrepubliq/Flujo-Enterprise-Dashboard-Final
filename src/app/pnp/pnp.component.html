@@ -58,7 +58,8 @@
       <!-- Module Description Block -->
       <div class="input_box" fxLayout="column" fxLayoutGap="12px">
         <label for="privacy_policy">Description</label>
-        <ck-editor fxFlex name="editor1" formControlName="privacy_policy" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor>
+        <!-- <ck-editor fxFlex name="editor1" formControlName="privacy_policy" skin="moono-lisa" lang="en" [fullPage]="true"></ck-editor> -->
+        <app-page-content-editor [pnpDescription]="pnpDescription" (moduleData)="editedPolicyData($event)" ></app-page-content-editor>
       </div>
       <!-- Action Buttons -->
       <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end center">

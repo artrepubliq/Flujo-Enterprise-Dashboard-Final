@@ -86,8 +86,8 @@ import { ProblemCategoryEditPopup } from './problem-category/problem-category.co
 import { ProblemTypeService } from './service/problem-type.service';
 import { AreaService } from './service/area.service';
 import { AreasComponent, AreaEditPopup } from './areas/areas.component';
-// import { TncComponent } from './tnc/tnc.component';
-// import { PnpComponent } from './pnp/pnp.component';
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
 import { DeletefolderDialog } from './filerepository/deletefolder.dialog';
 import { DatabaseComponent } from './database/database.component';
 import { ChartsGenderDirective } from './directives/charts-gender/charts-gender.directive';
@@ -203,8 +203,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AnalyticsComponent,
     CreateModuleComponent,
     DeletefolderDialog,
-    // TncComponent,
-    // PnpComponent,
+    TncComponent,
+    PnpComponent,
     HeaderurlsComponent,
     // ProblemCategoryComponent,
     AreasComponent,

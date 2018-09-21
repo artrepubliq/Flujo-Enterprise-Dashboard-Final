@@ -29,8 +29,8 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { CreateModuleComponent } from './create-module/create-module.component';
 // import { ProblemCategoryComponent } from './problem-category/problem-category.component';
 import { AreasComponent } from './areas/areas.component';
-// import { TncComponent } from './tnc/tnc.component';
-// import { PnpComponent } from './pnp/pnp.component';
+import { TncComponent } from './tnc/tnc.component';
+import { PnpComponent } from './pnp/pnp.component';
 import { DatabaseComponent } from './database/database.component';
 import { AccessdeniedComponent } from './accessdenied/accessdenied.component';
 // import { SmstemplateComponent } from './smstemplate/smstemplate.component';
@@ -52,7 +52,7 @@ import { WebBuilderComponent } from './web-builder/web-builder.component';
 import { MailSetupComponent } from './mail-setup/mail-setup.component';
 import { DefaultEmailTemplatesComponent } from './default-email-templates/default-email-templates.component';
 import { SendEmailsComponent } from './directives/email-config/send-emails/send-emails.component';
-import { PagesComponent } from "./pages/pages.component";
+// import { PagesComponent } from "./pages/pages.component";
 const routes: Routes = [
   {
     path: '',
@@ -118,11 +118,11 @@ const routes: Routes = [
             data: { title: 'F_2_SF_4' }
           },
           {
-            path: 'F_2_SF_5', loadChildren: './tnc/tnc.module#TncModule',
+            path: 'F_2_SF_5', component: TncComponent,
             data: { title: 'F_2_SF_5' }
           },
           {
-            path: 'F_2_SF_6', loadChildren: './pnp/pnp.module#PnpModule',
+            path: 'F_2_SF_6', component: PnpComponent,
             data: { title: 'F_2_SF_6' }
           },
           {
