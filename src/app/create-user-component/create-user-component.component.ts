@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { AccessLevelPopup } from '../dialogs/create-useraccesslevels-popup/create-useraccesslevels-popup';
 import { UserAccesslevelsService } from '../service/user-accesslevels.service';
-import { IUserAccessLevels } from '../model/user-accesslevels.model';
+import { IUserAccessLevels, IUserFeatures } from '../model/user-accesslevels.model';
 @Injectable()
 @Component({
   selector: 'app-create-user-component',
@@ -61,7 +61,12 @@ export class CreateUserComponentComponent implements OnInit {
     this.spinnerService.show();
     // console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
-    // this.CreateUserForm.controls['access_levels'].setValue(AppConstants.DEFAULT);
+    const accessLevelsArray = [];
+    const accessLevelsObject = <IUserFeatures>{};
+    accessLevelsObject.feature_id = '11';
+    accessLevelsObject.sub_feature_ids = ['SF_1', 'SF_2'];
+    accessLevelsArray.push(accessLevelsObject);
+    this.CreateUserForm.controls['access_levels'].setValue(accessLevelsArray);
     const formModel = this.CreateUserForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
       .subscribe(

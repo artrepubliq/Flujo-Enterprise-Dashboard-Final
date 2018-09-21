@@ -51,7 +51,7 @@ export class AddUserListComponent implements OnInit, OnDestroy {
         this.fileUploadForm.controls['campaign_address'].setValue(result);
       },
       error => {
-        console.log(error);
+        // console.log(error);
       }
     );
   }
@@ -64,7 +64,7 @@ export class AddUserListComponent implements OnInit, OnDestroy {
         this.campaignListDetails = result;
       },
       error => {
-        console.log(error);
+        // console.log(error);
       }
     );
   }
@@ -73,7 +73,7 @@ export class AddUserListComponent implements OnInit, OnDestroy {
    */
   public async onFileChange(event: any) {
     this.emailsArray = [];
-    console.log(event.target.files[0]);
+    // console.log(event.target.files[0]);
 
     // this.fileUploadForm.controls['file'].setValue(event.target.files[0]);
     this.validateFileSize(event.target.files[0]);
@@ -85,7 +85,7 @@ export class AddUserListComponent implements OnInit, OnDestroy {
       if (filtereditems.length > 0) {
         arrayOfEmails = [...arrayOfEmails, ...filtereditems];
       } else {
-        console.log(arrayOfEmails);
+        // console.log(arrayOfEmails);
       }
     });
     if (arrayOfEmails.length === 0) {
@@ -94,7 +94,7 @@ export class AddUserListComponent implements OnInit, OnDestroy {
       this.fileUploadForm.controls['members'].setValue(arrayOfEmails.join());
     }
     event.target.value = null;
-    console.log(this.fileUploadForm.value);
+    // console.log(this.fileUploadForm.value);
   }
 
   /**
@@ -122,7 +122,7 @@ export class AddUserListComponent implements OnInit, OnDestroy {
         + this.maxSize + 'MB ( ' + size + 'MB )');
       this.errors.push('Error (File Size): ' + file.name + ': exceed file size limit of '
         + this.maxSize + 'MB ( ' + size + 'MB )');
-      console.log(this.errors);
+      // console.log(this.errors);
       return false;
     } else {
       return true;
@@ -132,7 +132,7 @@ export class AddUserListComponent implements OnInit, OnDestroy {
    * this is to sumbit the csv file with campaign email
    */
   public submitFile(): void {
-    console.log(this.fileUploadForm.value);
+    // console.log(this.fileUploadForm.value);
     if (this.fileUploadForm.valid) {
       this.showProgressBar = true;
       this.emailService.addMembersToACampaign(this.fileUploadForm.value).subscribe(
@@ -141,13 +141,13 @@ export class AddUserListComponent implements OnInit, OnDestroy {
           this.showProgressBar = false;
           this.alertService.success(result.data);
           this.router.navigate([`admin/sendemail`]);
-          console.log(result);
+          // console.log(result);
         },
         error => {
           this.fileUploadForm.reset();
           this.alertService.danger(error);
           this.showProgressBar = false;
-          console.log(error);
+          // console.log(error);
         });
     }
   }

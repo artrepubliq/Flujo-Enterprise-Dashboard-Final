@@ -69,6 +69,7 @@ export class SocialManagementComponent implements OnInit {
   }
   ngOnInit(): void {
     this.tab_index = this.selectedIndex;
+    localStorage.setItem('social_tabindex', String(this.tab_index));
     // const sub = this.route.params.subscribe(params => {
     //   console.log(params['id']);
     //   this.selectedIndex = params['id'];
@@ -82,6 +83,7 @@ export class SocialManagementComponent implements OnInit {
   public tabChanged(event: MatTabChangeEvent) {
 
     this.tab_index = event.index;
+    localStorage.setItem('social_tabindex', String(this.tab_index));
   }
   // THIS FUNCTION IS USED TO ADD SOCIAL NETWOK.
   addSocialNetwork = () => {

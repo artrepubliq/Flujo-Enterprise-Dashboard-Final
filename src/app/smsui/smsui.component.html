@@ -31,7 +31,7 @@
     <div class="form__field">
       <mat-form-field class="input_fields">
         <mat-select formControlName="sender_id" placeholder="Select Sender ID">
-          <mat-option [value]="sender_id" *ngFor="let sender_id of senderIds">{{sender_id}}</mat-option>
+          <mat-option [value]="sender_id" *ngFor="let sender_id of senderIds">{{sender_id.sender_id}}</mat-option>
           <!-- <mat-option [value]="sender_id?.sender_id" *ngFor="let sender_id of senderIds" >{{sender_id?.sender_id}}</mat-option> -->
         </mat-select>
       </mat-form-field>
@@ -102,7 +102,7 @@
     </div>
   </form>
 
-  <form *ngIf="showSenderCreation" class="admin-form" [formGroup]="createSenderIdForm">
+  <form *ngIf="showSenderCreation" class="admin-form" [formGroup]="createSenderIdForm" enctype="single/form-data">
     <!-- <div>
       <span>
         <p> Website Name :</p>
@@ -148,6 +148,26 @@
       <div class="form__field">
         <div>
           <h3>
+            User Name:
+          </h3>
+        </div>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="User Name" formControlName="user_name" value="">
+        </mat-form-field>
+      </div>
+      <div class="form__field">
+        <div>
+          <h3>
+            Client Website URL:
+          </h3>
+        </div>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Website URL" formControlName="website_url" value="">
+        </mat-form-field>
+      </div>
+      <div class="form__field">
+        <div>
+          <h3>
             Country Name:
           </h3>
         </div>
@@ -157,16 +177,13 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="form__field" style="align-items: strart">
-        <div>
-          <h3>
-            Message
-          </h3>
-        </div>
-        <div class="email_message">
-          <textarea [(ngModel)]="creation_message" [value]="creation_message" formControlName="creation_message" placeholder="Message"></textarea>
-        </div>
+      <div>
+        <span> To create a sender id you must fill in the below document and re-upload </span>
+        <a target="_self" href="../../assets/LOA format.docx" download="loaformat.docx">Download Format</a>
       </div>
+    </div>
+    <div>
+      <input type="file" (change)="onFileChange($event)">
     </div>
     <div class="footer_button">
       <button mat-raised-button (click)="cancel()">Cancel</button>

@@ -37,18 +37,12 @@
 
   <script src="//cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
   <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
-  <script>
-     
-      window.ChatCampData = {}; 
-      window.ChatCampData.userId = localStorage.getItem('user_id');
-      window.ChatCampData.accessToken= localStorage.getItem('chat_token');
-
-</script>
+  <script type="text/javascript" src="https://cdn.chatcamp.io/js/chatcamp-ui.min.js"></script>
 </head>
 <body>
   <app-root></app-root>
   <!--Chat camp Chat window-->
-  <div id="app"></div>
+  <div id="cc-app"></div>
 </body>
 
 </html>

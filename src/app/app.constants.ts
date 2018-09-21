@@ -9,13 +9,17 @@ export class AppConstants {
     public static get DOMAINS_API_URL(): string { return 'https://enterprise-api.flujo.in/v1/'; }
     public static get SMS_API_URL(): string { return 'https://flujo-sms-staging.herokuapp.com/v1/'; }
     // public static get ACCESS_TOKEN(): string { return 'keerthan_token'; }
-    // public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/'; }
-    // public static get EXPRESS_URL(): string { return 'http://flujo-middleware.herokuapp.com/twitter/'; }
-    public static get EXPRESS_URL(): string { return 'https://flujo-node.herokuapp.com/twitter/'; }
+    /** express url for dev twitter */
+    public static get EXPRESS_URL(): string { return 'https://twitter-enterprise-dev.herokuapp.com/twitter/'; }
+    /** express url for production twitter */
+    // public static get EXPRESS_URL(): string { return 'https://twitter-enterprise-pro.herokuapp.com/twitter/'; }
     // public static get EXPRESS_URL(): string { return 'http://localhost:8080/twitter/'; }
-    public static get EXPRESS_URL_SCHEDULE(): string { return 'https://flujo-node.herokuapp.com/sheduler/twitter/'; }
+    public static get EXPRESS_URL_SCHEDULE(): string { return 'https://flujo-twitter-dev.herokuapp.com/sheduler/twitter/'; }
     // public static get EXPRESS_URL_MAILGUN(): string { return 'http://localhost:3000/'; }
-    public static get EXPRESS_URL_MAILGUN(): string { return 'https://bulk-email-enterprise.herokuapp.com/'; }
+    /** mailgun dev url */
+    public static get EXPRESS_URL_MAILGUN(): string { return 'https://bulk-email-enterprise-dev.herokuapp.com/'; }
+    /** mailgun pro url */
+    // public static get EXPRESS_URL_MAILGUN(): string { return 'https://bulk-email-enterprise-pro.herokuapp.com/'; }
     public static get TWITTER_API_URL(): string { return 'https://api.twitter.com'; }
 
 }

@@ -56,15 +56,15 @@ export class CreateDomainComponent implements OnInit {
           if (this.domainForm.controls['domain_suffix'].valid) {
             clearInterval(domainSuffixInterval);
             this.checkDomainAvailability();
-            console.log(this.domainForm.controls['domain_name'].valid);
-            console.log(this.domainForm.controls['domain_suffix'].valid);
+            // console.log(this.domainForm.controls['domain_name'].valid);
+            // console.log(this.domainForm.controls['domain_suffix'].valid);
           } else {
-            console.log('please select suffix.');
+            // console.log('please select suffix.');
           }
         }, 1000);
       }
-      console.log(this.domainForm.controls['domain_name'].valid);
-      console.log(this.domainForm.controls['domain_suffix'].valid);
+      // console.log(this.domainForm.controls['domain_name'].valid);
+      // console.log(this.domainForm.controls['domain_suffix'].valid);
     }, 2000);
 
   }
@@ -80,7 +80,7 @@ export class CreateDomainComponent implements OnInit {
             this.spinnerService.hide();
             this.domainAvalabilityObject = successResp.result[0];
             this.domainAvalabilityObject.domain_name = domain_name;
-            console.log(successResp);
+            // console.log(successResp);
           } else if (successResp.custom_status_code === 160) {
             this.alertService.danger('Internal server Error');
           } else {
@@ -90,7 +90,7 @@ export class CreateDomainComponent implements OnInit {
         },
         errorResp => {
           this.spinnerService.hide();
-          console.log(errorResp);
+          // console.log(errorResp);
         });
   }
 
@@ -104,7 +104,7 @@ export class CreateDomainComponent implements OnInit {
           if (!successResp.error && successResp.custom_status_code === 100) {
             this.spinnerService.hide();
             this.domainAvalabilityObject = successResp.result[0];
-            console.log(successResp);
+            // console.log(successResp);
           } else if (successResp.custom_status_code === 160) {
             this.alertService.danger('Internal server Error');
           } else {
@@ -114,7 +114,7 @@ export class CreateDomainComponent implements OnInit {
         },
         errorResp => {
           this.spinnerService.hide();
-          console.log(errorResp);
+          // console.log(errorResp);
         });
   }
 }
