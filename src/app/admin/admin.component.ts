@@ -115,7 +115,7 @@ export class AdminComponent implements OnInit {
       }
       const usersList = await this.getClientUsersList();
 
-    }, 5000);
+    }, 255000);
     const interval2 = setInterval(() => {
       if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
         this.isChatStarted = true;

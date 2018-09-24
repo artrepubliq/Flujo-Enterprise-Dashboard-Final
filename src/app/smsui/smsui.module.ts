@@ -9,11 +9,11 @@ import {
   MatFormFieldModule, MatInputModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AlertModule } from 'ngx-alerts';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AuthHttp } from 'angular2-jwt/angular2-jwt';
+import { TokenInterceptor } from '../auth/token.interceptor';
 
 @NgModule({
   imports: [
@@ -33,6 +33,13 @@ import { AuthHttp } from 'angular2-jwt/angular2-jwt';
     AlertModule.forRoot(),
     FlexLayoutModule
   ],
-  declarations: [SmsuiComponent]
+  declarations: [SmsuiComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+  ]
 })
 export class SmsuiModule { }
