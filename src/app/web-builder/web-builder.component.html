@@ -5,13 +5,13 @@
     <div class="about_website" *ngIf="!deploymentId">
       <div *ngIf="deploymentTime" class="last-login">
         <h3>Last Deployed On:</h3>
-        <p> {{deploymentTime}}: At <a href="{{deploymentUrl}}" target="_new">{{deploymentUrl}}</a></p>
+        <p> {{deploymentTime}}: At <a href="https://{{domain_name}}" target="_new">https://{{domain_name}}</a></p>
       </div>
     </div>
     <div class="about_website" *ngIf="deploymentId">
       <div class="last-login">
         <h3>Updated On:</h3>
-        <p> {{deploymentTime}}: At <a href="{{deploymentUrl}}" target="_new">{{deploymentUrl}}</a></p>
+        <p> {{deploymentTime}}: At <a href="https://{{domain_name}}" target="_new">https://{{domain_name}}</a></p>
       </div>
       <div class="domainList">
           <div class="dropdown">

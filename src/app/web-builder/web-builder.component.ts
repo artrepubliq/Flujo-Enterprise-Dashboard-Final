@@ -15,6 +15,7 @@ declare var grapesjs: any;
   styleUrls: ['./web-builder.component.scss']
 })
 export class WebBuilderComponent implements OnInit {
+  domain_name: string;
   html: string;
   css: string;
   preHtml = `<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -55,6 +56,7 @@ export class WebBuilderComponent implements OnInit {
   }
 
   ngOnInit() {
+     this.domain_name = (AppConstants.CLIENT_NAME + AppConstants.CLIENT_ID).toLowerCase() + '.flujo.in';
     this.getData();
   }
   getData = async () => {
@@ -175,10 +177,9 @@ export class WebBuilderComponent implements OnInit {
   }
   postDomianData = () => {
     this.spinnerService.show();
-    const domain_name = (AppConstants.CLIENT_NAME + AppConstants.CLIENT_ID).toLowerCase() + '.flujo.in';
     const formModel = {
       'client_id': localStorage.getItem('client_id'),
-      'domain_name':  domain_name,
+      'domain_name':  this.domain_name,
       'html': this.html,
       'css': this.css
     };
@@ -197,11 +198,10 @@ export class WebBuilderComponent implements OnInit {
   }
   getDomainData = (): Promise<any> => {
     this.spinnerService.show();
-    const domain_name = (AppConstants.CLIENT_NAME + AppConstants.CLIENT_ID).toLowerCase() + '.flujo.in';
     return new Promise((resolve, reject) => {
       const formModel = {
         'client_id': AppConstants.CLIENT_ID,
-        'domain_name': domain_name
+        'domain_name': this.domain_name
       };
       this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'deployments/deployment/deploymentfilecontent', formModel)
         .subscribe(
@@ -218,10 +218,9 @@ export class WebBuilderComponent implements OnInit {
   }
   updateDomainData = () => {
     this.spinnerService.show();
-    const domain_name = (AppConstants.CLIENT_NAME + AppConstants.CLIENT_ID).toLowerCase() + '.flujo.in';
     const formModel = {
       'client_id': localStorage.getItem('client_id'),
-      'domain_name': domain_name,
+      'domain_name': this.domain_name,
       'html': this.html1,
       'css': this.css
     };
