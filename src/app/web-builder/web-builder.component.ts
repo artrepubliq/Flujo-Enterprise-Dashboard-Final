@@ -218,9 +218,10 @@ export class WebBuilderComponent implements OnInit {
   }
   updateDomainData = () => {
     this.spinnerService.show();
+    const domain_name = (AppConstants.CLIENT_NAME + AppConstants.CLIENT_ID).toLowerCase() + '.flujo.in';
     const formModel = {
       'client_id': localStorage.getItem('client_id'),
-      'domain_name': 'smm.flujo.in',
+      'domain_name': domain_name,
       'html': this.html1,
       'css': this.css
     };
