@@ -32,13 +32,16 @@ export class LoginComponent implements OnInit {
   EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
   loginForm: FormGroup;
   passwordForm: FormGroup;
-  logoData = { 'logo_image': '' };
+  clientLogo: any;
   client_id: any;
+  originURL = 'Artrepubliq';
+  ORIGINS: string[] = ['Artrepubliq', 'DVB', 'SMM'];
   // private _headers = new HttpHeaders();
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private loginAuthService: LoginAuthService,
     public location: Location) {
+      this.setOriginURL(this.originURL);
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
@@ -64,13 +67,24 @@ export class LoginComponent implements OnInit {
     // this.loginData['logo_name'] = '';
   }
 
+  setOriginURL = (origin) => {
+    if (origin === 'Artrepubliq') {
+      this.originURL = 'https://dashboard.artrepubliq.com';
+    } else if (origin === 'DVB') {
+      this.originURL = 'https://dashboard.vinaybhaskar.in';
+    } else if (origin === 'SMM') {
+      this.originURL = 'https://dashboard.sarvodaya.ngo';
+
+    }
+    this.getLogoDetails();
+  }
   getLogoDetails = () => {
-    const data = { 'origin_url': 'https://app.sarvodaya.in' };
+    const data = { 'origin_url': this.originURL };
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_logodisplay', data)
       .subscribe(
         res => {
           if (!res.error) {
-            this.logoData['logo_image'] = res.result[0]['logo_image'];
+            this.clientLogo = res.result[0]['logo_image'];
             this.client_id = res.result[0]['client_id'];
           } else {
             console.log('Something went wrong with logo collection.');
@@ -132,9 +146,10 @@ export class LoginComponent implements OnInit {
     localStorage.clear();
     // this.loginForm.controls['origin_url'].setValue(window.location.href);
     // this.loginForm.controls['origin_url'].setValue('https://app.sarvodaya.in');
-    this.loginForm.controls['origin_url'].setValue('https://dashboard.vinaybhaskar.in');
+    // this.loginForm.controls['origin_url'].setValue('https://dashboard.vinaybhaskar.in');
     // this.loginForm.controls['origin_url'].setValue('https://dashboard.sarvodaya.ngo');
     // this.loginForm.controls['origin_url'].setValue('https://dashboard.artrepubliq.com');
+    this.loginForm.controls['origin_url'].setValue(this.originURL);
     const formModel = this.loginForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
       .subscribe(
