@@ -6,7 +6,6 @@ import { AlertModule, AlertService } from 'ngx-alerts';
 import { AppConstants } from '../app.constants';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { Router } from '@angular/router';
-import { AdminComponent } from '../admin/admin.component';
 import * as _ from 'underscore';
 import { ICommonInterface } from '../model/commonInterface.model';
 @Component({
@@ -23,7 +22,7 @@ export class SMTPConfigurationComponent implements OnInit {
   public isEdit = false;
   constructor(private spinnerService: Ng4LoadingSpinnerService  , private formBuilder: FormBuilder,
      private httpClient: HttpClient, private alertService: AlertService,
-     private router: Router, public adminComponent: AdminComponent) {
+     private router: Router) {
     this.smtpUpdationForm = this.formBuilder.group({
       'host_name': ['', Validators.required],
       'from_name': ['', Validators.required],

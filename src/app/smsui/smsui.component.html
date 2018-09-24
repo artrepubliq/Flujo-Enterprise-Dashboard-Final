@@ -30,7 +30,7 @@
 
     <div class="form__field">
       <mat-form-field class="input_fields">
-        <mat-select formControlName="sender_id" placeholder="Select Sender ID">
+        <mat-select formControlName="sender_id" placeholder="Select Sender ID" (selectionChange)="selectSenderID($event.value)">
           <mat-option [value]="sender_id" *ngFor="let sender_id of senderIds">{{sender_id.sender_id}}</mat-option>
           <!-- <mat-option [value]="sender_id?.sender_id" *ngFor="let sender_id of senderIds" >{{sender_id?.sender_id}}</mat-option> -->
         </mat-select>

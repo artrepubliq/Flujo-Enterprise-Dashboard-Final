@@ -31,6 +31,7 @@ import { countryCodes } from './countries';
   styleUrls: ['./smsui.component.scss']
 })
 export class SmsuiComponent implements OnInit {
+  selectedSMSSenderId: any;
   multipleNumbers: boolean;
   errorInFormat = false;
   errorPhoneContacts = [];
@@ -152,24 +153,25 @@ export class SmsuiComponent implements OnInit {
     this.spinnerService.show();
     // console.log(this.smsContactForm.value);
     this.smsContactForm.controls['client_id'].setValue(AppConstants.CLIENT_ID);
+    this.smsContactForm.controls['sender_id'].setValue(this.selectedSMSSenderId);
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_sendsmsdbcsv', this.smsContactForm.value)
       .subscribe(
-        data => {
-          // console.log(data);
-          this.spinnerService.hide();
-          if ((!data.error) && (data.custom_status_code = 100)) {
-            this.alertService.success('Message has been sent successfully');
-            this.smsContactForm.reset();
-            this.file.nativeElement.value = null;
-          } else if (data.custom_status_code = 101) {
-            this.alertService.danger('Required parameters are missing');
-            this.smsContactForm.reset();
-          }
-        },
-        error => {
-          this.spinnerService.hide();
-          // console.log(error);
-        });
+      data => {
+        // console.log(data);
+        this.spinnerService.hide();
+        if ((!data.error) && (data.custom_status_code = 100)) {
+          this.alertService.success('Message has been sent successfully');
+          this.smsContactForm.reset();
+          this.file.nativeElement.value = null;
+        } else if (data.custom_status_code = 101) {
+          this.alertService.danger('Required parameters are missing');
+          this.smsContactForm.reset();
+        }
+      },
+      error => {
+        this.spinnerService.hide();
+        // console.log(error);
+      });
   }
   cancelSmsEdit = () => {
     this.smsContactForm.reset();
@@ -178,19 +180,19 @@ export class SmsuiComponent implements OnInit {
   getSlectedTemplateData = () => {
     this.smsSelectionService.getSmsSelectData('flujo_client_getsmstemplateconfig/', AppConstants.CLIENT_ID)
       .subscribe(
-        data => {
-          try {
-            if ((!data.error) && (data.custom_status_code = 100)) {
-              this.smsTemplateSelectionData = data.result;
-              this.smsTemplateSelectionData.map((smsData) => {
-                smsData.isActive = false;
-              });
-              // console.log(this.smsTemplateSelectionData);
-            }
-          } catch (e) {
-            // console.log(e);
+      data => {
+        try {
+          if ((!data.error) && (data.custom_status_code = 100)) {
+            this.smsTemplateSelectionData = data.result;
+            this.smsTemplateSelectionData.map((smsData) => {
+              smsData.isActive = false;
+            });
+            // console.log(this.smsTemplateSelectionData);
           }
+        } catch (e) {
+          // console.log(e);
         }
+      }
       );
   }
   /* Pop up for template selection */
@@ -365,6 +367,12 @@ export class SmsuiComponent implements OnInit {
   }
   // hide creating sender id
   cancel(): void { this.showSenderCreation = !this.showSenderCreation; }
+
+  selectSenderID = (senderIdItem) => {
+
+    this.selectedSMSSenderId = senderIdItem.sender_id;
+  }
+
 }
 
 /* Popup for selection of templates*/
