@@ -1,6 +1,16 @@
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="login__block">
   <div class="login__form">
+      <!-- <mat-form-field>
+          <mat-select placeholder="Choose Dashboard">
+            <mat-option *ngFor="let state of ORIGINS" [value]="state" (click)="setOriginURL(state)">{{state}}</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+        <mat-form-field>
+            <mat-select>
+              <mat-option *ngFor="let option of ORIGINS" [value]="option" (click)="setOriginURL(option)">{{ option }}</mat-option>
+            </mat-select>
+          </mat-form-field>
     <div class="logos">
       <div class="logo_item">
         <svg width="20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -30,7 +40,7 @@
         </svg>
       </div>
       <div class="logo_item">
-        <img src="http://flujo-sarvodaya.herokuapp.com/assets/logo-bw@3x.png" class="img-fluid" alt="">
+        <img src="data:image/png;base64,{{clientLogo}}" class="img-fluid" alt="IMG">
       </div>
     </div>
     <!-- LogIn Form -->
