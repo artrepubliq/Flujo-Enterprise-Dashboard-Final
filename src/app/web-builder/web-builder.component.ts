@@ -36,7 +36,10 @@ export class WebBuilderComponent implements OnInit {
       }
       .smm_home_block .slick-arrow {
         background-repeat: no-repeat;
-      }`;
+      }
+.slick-arrow {
+  background-repeat: no-repeat;
+}`;
   editorData: any;
   isUpdate: boolean;
   html1: any;
