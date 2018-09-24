@@ -73,7 +73,8 @@ export class LogoComponent implements OnInit {
           let uploadImage;
           if (this.logoImageDetails) {
             uploadImage = {
-              logo_id: this.logoImageDetails.id, client_id: this.logoImageDetails.client_id,
+              logo_id: this.logoImageDetails.id,
+              client_id: this.logoImageDetails.client_id,
               logo_image: reader.result.split(',')[1]
             };
           } else {
@@ -176,7 +177,7 @@ export class LogoComponent implements OnInit {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogo/' + AppConstants.CLIENT_ID)
       .subscribe(
         data => {
-          this.logoImageDetails = data.result;
+          this.logoImageDetails = data.result[0];
           data ? this.isEdit = false : this.isEdit = true;
           // console.log(data);
             if (data.result != null && data.error === false && data.custom_status_code === 100) {

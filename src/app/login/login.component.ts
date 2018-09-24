@@ -34,14 +34,14 @@ export class LoginComponent implements OnInit {
   passwordForm: FormGroup;
   clientLogo: any;
   client_id: any;
-  originURL = 'Artrepubliq';
+  originURL = '';
   ORIGINS: string[] = ['Artrepubliq', 'DVB', 'SMM'];
   // private _headers = new HttpHeaders();
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private loginAuthService: LoginAuthService,
     public location: Location) {
-      this.setOriginURL(this.originURL);
+    // this.setOriginURL(this.originURL);
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.hideLogin = false;
     localStorage.setItem('isLoginPageLoads', 'true');
-    this.getLogoDetails();
+    // this.getLogoDetails();
     // this.loginData['logo_name'] = '';
   }
 
@@ -82,77 +82,70 @@ export class LoginComponent implements OnInit {
     const data = { 'origin_url': this.originURL };
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_logodisplay', data)
       .subscribe(
-        res => {
-          if (!res.error) {
-            this.clientLogo = res.result[0]['logo_image'];
-            this.client_id = res.result[0]['client_id'];
-          } else {
-            console.log('Something went wrong with logo collection.');
-          }
-          console.log(res);
-          // this.hideLogin = false;
-          // if (res.custom_status_code === 100) {
-          //   this.alertService.success('Password sent to your Email successfully');
-          // } else if (res.custom_status_code === 111) {
-          //   this.alertService.danger('Failed to send email');
-          // } else if (res.custom_status_code === 101) {
-          //   this.alertService.danger('Required parameters are missing');
-          // } else if (res.custom_status_code === 107) {
-          //   this.alertService.danger('Email does not exist');
-          // } else {
-          //   this.alertService.danger('Please enter valid details');
-          // }
-          // this.spinnerService.hide();
-        }, loginResp => {
-          console.log(loginResp);
-        });
+      res => {
+        if (!res.error) {
+          this.clientLogo = res.result[0]['logo_image'];
+          this.client_id = res.result[0]['client_id'];
+        } else {
+          console.log('Something went wrong with logo collection.');
+        }
+        console.log(res);
+        // this.hideLogin = false;
+        // if (res.custom_status_code === 100) {
+        //   this.alertService.success('Password sent to your Email successfully');
+        // } else if (res.custom_status_code === 111) {
+        //   this.alertService.danger('Failed to send email');
+        // } else if (res.custom_status_code === 101) {
+        //   this.alertService.danger('Required parameters are missing');
+        // } else if (res.custom_status_code === 107) {
+        //   this.alertService.danger('Email does not exist');
+        // } else {
+        //   this.alertService.danger('Please enter valid details');
+        // }
+        // this.spinnerService.hide();
+      }, loginResp => {
+        console.log(loginResp);
+      });
   }
 
   onformSubmit = (body) => {
-    console.log(body);
-
-    // const headers = this._headers.append('accept', 'sarvodaya');
-    const headers = new HttpHeaders({ 'FROM': 'sarvodaya' });
-    console.log(headers);
-    // 101 - parameters missing
-    // 107 - email doesnt exist
-    // 111 - failure to send email
     this.passwordForm.controls['client_id'].setValue(this.client_id);
     const formModel = this.passwordForm.value;
-    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postforgotpassword', formModel, { headers: headers })
+    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postforgotpassword', formModel)
       .subscribe(
-        data => {
-          // this.isLoggedIn = true;
-          console.log(data.result);
-          // this.loginData = data.result;
-          if (data.custom_status_code === 100) {
-            this.alertService.success('Email sent successfully');
-          } else if (data.custom_status_code === 111) {
-            this.alertService.danger('Failed to send email');
-          } else if (data.custom_status_code === 101) {
-            this.alertService.danger('Required parameters are missing');
-          } else if (data.custom_status_code === 107) {
-            this.alertService.danger('Email does not exist');
-          } else {
-            this.alertService.danger('Please enter valid details');
-          }
-          this.spinnerService.hide();
-        });
+      data => {
+        // this.isLoggedIn = true;
+        console.log(data.result);
+        // this.loginData = data.result;
+        if (data.custom_status_code === 100) {
+          this.alertService.success('Email sent successfully');
+        } else if (data.custom_status_code === 111) {
+          this.alertService.danger('Failed to send email');
+        } else if (data.custom_status_code === 101) {
+          this.alertService.danger('Required parameters are missing');
+        } else if (data.custom_status_code === 107) {
+          this.alertService.danger('Email does not exist');
+        } else {
+          this.alertService.danger('Please enter valid details');
+        }
+        this.spinnerService.hide();
+      });
   }
 
   onSubmit = (body) => {
-    // this.spinnerService.show();
-    this.isLoggedIn = false;
-    localStorage.clear();
-    // this.loginForm.controls['origin_url'].setValue(window.location.href);
-    // this.loginForm.controls['origin_url'].setValue('https://app.sarvodaya.in');
-    // this.loginForm.controls['origin_url'].setValue('https://dashboard.vinaybhaskar.in');
-    // this.loginForm.controls['origin_url'].setValue('https://dashboard.sarvodaya.ngo');
-    // this.loginForm.controls['origin_url'].setValue('https://dashboard.artrepubliq.com');
-    this.loginForm.controls['origin_url'].setValue(this.originURL);
-    const formModel = this.loginForm.value;
-    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
-      .subscribe(
+    if (this.originURL.length > 2) {
+      // this.spinnerService.show();
+      this.isLoggedIn = false;
+      localStorage.clear();
+      // this.loginForm.controls['origin_url'].setValue(window.location.href);
+      // this.loginForm.controls['origin_url'].setValue('https://app.sarvodaya.in');
+      // this.loginForm.controls['origin_url'].setValue('https://dashboard.vinaybhaskar.in');
+      // this.loginForm.controls['origin_url'].setValue('https://dashboard.sarvodaya.ngo');
+      // this.loginForm.controls['origin_url'].setValue('https://dashboard.artrepubliq.com');
+      this.loginForm.controls['origin_url'].setValue(this.originURL);
+      const formModel = this.loginForm.value;
+      this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_login', formModel)
+        .subscribe(
         data => {
           this.isLoggedIn = true;
           console.log(data.result);
@@ -176,6 +169,9 @@ export class LoginComponent implements OnInit {
           this.isLoggedIn = false;
           console.log(loginResp);
         });
+    } else {
+      this.alertService.info('Please select client');
+    }
   }
   redirectUrlForChatCamp = (data: IcustomLoginModelDetails) => {
     let chatCampPostObject: IPostChatCampModel;
@@ -184,12 +180,12 @@ export class LoginComponent implements OnInit {
     chatCampPostObject.user_id = data.user_id;
     this.httpClient.post<IcustomLoginModelDetails>(AppConstants.API_URL + 'flujo_client_postchatservice', chatCampPostObject)
       .subscribe(
-        chatResponse => {
-          console.log(chatResponse);
-        },
-        chatError => {
-          console.log(chatError);
-        }
+      chatResponse => {
+        console.log(chatResponse);
+      },
+      chatError => {
+        console.log(chatError);
+      }
       );
   }
 
