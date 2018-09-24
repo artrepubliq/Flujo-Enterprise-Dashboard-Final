@@ -220,6 +220,9 @@ export class AdminComponent implements OnInit {
   // GET FEATIRE ACCESS AND USER ACCESS AND LOGGED IN USER LIST
   getFeatureAndUserAccessLevels = async () => {
     // const clientName: any = await this.getHostOriginUrlFromBrowser();
+    console.log(AppConstants.CLIENT_NAME);
+    console.log(localStorage.getItem('client_name'));
+    console.log(AppConstants.CLIENT_NAME.toLowerCase());
     this.clientName = AppConstants.CLIENT_NAME;
     const clientFeatureAccessLevel: any = await this.getClientFeatureAccessLevels();
       let userAccessLevels: any;

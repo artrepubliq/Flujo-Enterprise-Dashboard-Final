@@ -77,8 +77,8 @@ export class ChangepasswordComponent implements OnInit {
             this.alertService.warning('Required Parameters are Missing!!!');
           } else if (data.custom_status_code === 119) {
             this.alertService.warning('Old password is incorrect!!!');
-          } else {
-            this.alertService.warning('You are not authorized person for this action');
+          } else if (data.custom_status_code === 120) {
+            this.alertService.warning('Password length Should be at least 6 characters');
           }
           this.changePasswordForm.reset();
           this.spinnerService.hide();

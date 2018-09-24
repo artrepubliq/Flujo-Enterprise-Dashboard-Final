@@ -25,6 +25,7 @@ import { ICommonInterface } from '../model/commonInterface.model';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  originClientName: any;
   hideLogin: boolean;
   loginData: IcustomLoginModelDetails[];
   chatCampUrlData: any;
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
   clientLogo: any;
   client_id: any;
   originURL = '';
-  ORIGINS: string[] = ['Artrepubliq', 'DVB', 'SMM'];
+  ORIGINS: string[] = ['Artrepubliq', 'vinaybhaskar', 'Sarvodaya'];
   // private _headers = new HttpHeaders();
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
@@ -68,14 +69,13 @@ export class LoginComponent implements OnInit {
   }
 
   setOriginURL = (origin) => {
-    localStorage.setItem('client_name', origin);
+    this.originClientName = origin;
     if (origin === 'Artrepubliq') {
       this.originURL = 'https://dashboard.artrepubliq.com';
-    } else if (origin === 'DVB') {
+    } else if (origin === 'vinaybhaskar') {
       this.originURL = 'https://dashboard.vinaybhaskar.in';
-    } else if (origin === 'SMM') {
+    } else if (origin === 'Sarvodaya') {
       this.originURL = 'https://dashboard.sarvodaya.ngo';
-
     }
     this.getLogoDetails();
   }
@@ -138,6 +138,7 @@ export class LoginComponent implements OnInit {
       // this.spinnerService.show();
       this.isLoggedIn = false;
       localStorage.clear();
+      localStorage.setItem('client_name', this.originClientName);
       // this.loginForm.controls['origin_url'].setValue(window.location.href);
       // this.loginForm.controls['origin_url'].setValue('https://app.sarvodaya.in');
       // this.loginForm.controls['origin_url'].setValue('https://dashboard.vinaybhaskar.in');

@@ -175,9 +175,10 @@ export class WebBuilderComponent implements OnInit {
   }
   postDomianData = () => {
     this.spinnerService.show();
+    const domain_name = (AppConstants.CLIENT_NAME + AppConstants.CLIENT_ID).toLowerCase() + '.flujo.in';
     const formModel = {
       'client_id': localStorage.getItem('client_id'),
-      'domain_name': 'smm.flujo.in',
+      'domain_name':  domain_name,
       'html': this.html,
       'css': this.css
     };
@@ -196,10 +197,11 @@ export class WebBuilderComponent implements OnInit {
   }
   getDomainData = (): Promise<any> => {
     this.spinnerService.show();
+    const domain_name = (AppConstants.CLIENT_NAME + AppConstants.CLIENT_ID).toLowerCase() + '.flujo.in';
     return new Promise((resolve, reject) => {
       const formModel = {
-        'client_id': localStorage.getItem('client_id'),
-        'domain_name': 'smm.flujo.in'
+        'client_id': AppConstants.CLIENT_ID,
+        'domain_name': domain_name
       };
       this.httpClient.post<IHttpResponse>(AppConstants.API_URL + 'deployments/deployment/deploymentfilecontent', formModel)
         .subscribe(
