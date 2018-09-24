@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
   }
 
   setOriginURL = (origin) => {
+    localStorage.setItem('client_name', origin);
     if (origin === 'Artrepubliq') {
       this.originURL = 'https://dashboard.artrepubliq.com';
     } else if (origin === 'DVB') {

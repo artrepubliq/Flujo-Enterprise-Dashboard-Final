@@ -5,6 +5,7 @@ export class AppConstants {
     public static get API_URL(): string { return 'https://enterprise-api.flujo.in/v1/'; }
 
     public static get CLIENT_ID(): string { return localStorage.getItem('client_id'); }
+    public static get CLIENT_NAME(): string { return localStorage.getItem('client_name'); }
     public static get THEME_ID(): string { return '32'; }
     public static get DOMAINS_API_URL(): string { return 'https://enterprise-api.flujo.in/v1/'; }
     public static get SMS_API_URL(): string { return 'https://flujo-sms-staging.herokuapp.com/v1/'; }
