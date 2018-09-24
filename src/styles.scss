@@ -1368,6 +1368,7 @@ control-messages,
     }
 }
 
+
 app-page-content-editor {
     .gjs-pn-panel.gjs-pn-commands,
     .gjs-pn-panel.gjs-pn-options.gjs-one-bg.gjs-two-color {
@@ -1399,5 +1400,15 @@ app-page-content-editor {
         display: flex;
         align-items: center;
       }
+    }
+}
+
+.gjs-pn-buttons {
+    .gjs-pn-btn {
+        font-size: 18px !important;
+        &:hover,
+        &.gjs-pn-active {
+            color: #ffffff;
+        }
     }
 }
