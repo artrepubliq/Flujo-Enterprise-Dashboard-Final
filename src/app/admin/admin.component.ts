@@ -219,8 +219,8 @@ export class AdminComponent implements OnInit {
   }
   // GET FEATIRE ACCESS AND USER ACCESS AND LOGGED IN USER LIST
   getFeatureAndUserAccessLevels = async () => {
-    const clientName: any = await this.getHostOriginUrlFromBrowser();
-    this.clientName = clientName;
+    // const clientName: any = await this.getHostOriginUrlFromBrowser();
+    this.clientName = AppConstants.CLIENT_NAME;
     const clientFeatureAccessLevel: any = await this.getClientFeatureAccessLevels();
       let userAccessLevels: any;
     try {
@@ -255,34 +255,34 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  // GET HOST ORIGIN URL FROM BROWSER
-  getHostOriginUrlFromBrowser = () => {
-    return new Promise((resolve, reject) => {
-      let clientName = '';
-      const hostName: string = window.location.href;
-      if (hostName.includes('http://')) {
-        const split = hostName.split('http://');
-        if (split && split[1].includes('.flujo.in')) {
-          const splitHostName = split[1].split('.flujo.in');
-          clientName = splitHostName[0];
-        } else {
-          clientName = 'Not Assigned';
-        }
-      } else if (hostName.includes('https://')) {
-        const split = hostName.split('https://');
-        if (split && split[1].includes('.flujo.in')) {
-          const splitHostName = split[1].split('.flujo.in');
-          clientName = splitHostName[0];
-        } else {
-          clientName = 'Not Assigned';
-        }
+  // // GET HOST ORIGIN URL FROM BROWSER
+  // getHostOriginUrlFromBrowser = () => {
+  //   return new Promise((resolve, reject) => {
+  //     let clientName = '';
+  //     const hostName: string = window.location.href;
+  //     if (hostName.includes('http://')) {
+  //       const split = hostName.split('http://');
+  //       if (split && split[1].includes('.flujo.in')) {
+  //         const splitHostName = split[1].split('.flujo.in');
+  //         clientName = splitHostName[0];
+  //       } else {
+  //         clientName = 'Not Assigned';
+  //       }
+  //     } else if (hostName.includes('https://')) {
+  //       const split = hostName.split('https://');
+  //       if (split && split[1].includes('.flujo.in')) {
+  //         const splitHostName = split[1].split('.flujo.in');
+  //         clientName = splitHostName[0];
+  //       } else {
+  //         clientName = 'Not Assigned';
+  //       }
 
-      } else {
-        clientName = 'Not Assigned';
-      }
-      resolve(clientName);
-    });
-  }
+  //     } else {
+  //       clientName = 'Not Assigned';
+  //     }
+  //     resolve(clientName);
+  //   });
+  // }
   // GET CLIENT FEATURE ACCESS LEVELS
   getClientFeatureAccessLevels = (): Promise<any> => {
     return new Promise((resolve, reject) => {

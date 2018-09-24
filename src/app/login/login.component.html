@@ -2,7 +2,7 @@
 <div class="login__block">
   <div class="login__form">
     <mat-form-field>
-        <mat-select placeholder="Slect your client" [(ngModel)]="originURL" name="originURL">
+        <mat-select placeholder="Select your client" [(ngModel)]="originURL" name="originURL">
           <mat-option *ngFor="let option of ORIGINS" [value]="option" (click)="setOriginURL(option)">
             {{option}}
           </mat-option>
