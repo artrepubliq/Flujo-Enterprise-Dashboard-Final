@@ -71,11 +71,11 @@ export class LoginComponent implements OnInit {
   setOriginURL = (origin) => {
     this.originClientName = origin;
     if (origin === 'Artrepubliq') {
-      this.originURL = 'https://dashboard.artrepubliq.com';
+      this.originURL = 'https://app.artrepubliq.com';
     } else if (origin === 'vinaybhaskar') {
-      this.originURL = 'https://dashboard.vinaybhaskar.in';
+      this.originURL = 'https://app.vinaybhaskar.in';
     } else if (origin === 'Sarvodaya') {
-      this.originURL = 'https://dashboard.sarvodaya.ngo';
+      this.originURL = 'https://app.sarvodaya.ngo';
     }
     this.getLogoDetails();
   }
