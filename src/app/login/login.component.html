@@ -1,20 +1,17 @@
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="login__block">
   <div class="login__form">
-      <!-- <mat-form-field>
-          <mat-select placeholder="Choose Dashboard">
-            <mat-option *ngFor="let state of ORIGINS" [value]="state" (click)="setOriginURL(state)">{{state}}</mat-option>
-          </mat-select>
-        </mat-form-field> -->
-        <mat-form-field>
-            <mat-select>
-              <mat-option *ngFor="let option of ORIGINS" [value]="option" (click)="setOriginURL(option)">{{ option }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder="Slect your client" [(ngModel)]="originURL" name="originURL">
+          <mat-option *ngFor="let option of ORIGINS" [value]="option" (click)="setOriginURL(option)">
+            {{option}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     <div class="logos">
       <div class="logo_item">
-        <svg width="20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-          y="0px" viewBox="0 0 14 21.2" style="enable-background:new 0 0 14 21.2;" xml:space="preserve">
+        <svg width="20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          viewBox="0 0 14 21.2" style="enable-background:new 0 0 14 21.2;" xml:space="preserve">
           <g>
             <g>
               <path fill="#452c59" d="M7.2,0.1c0.5,0,0.9,0.2,1.2,0.5C8.8,1,8.9,1.4,8.9,1.9S8.8,2.7,8.4,3.1C8.1,3.4,7.7,3.6,7.2,3.6h0l-3.7,0
@@ -32,15 +29,18 @@
 
       </div>
       <div class="plus_icon">
-        <svg version="1.1" width="18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-          y="0px" viewBox="0 0 491.86 491.86" style="enable-background:new 0 0 491.86 491.86;" xml:space="preserve">
+        <svg version="1.1" width="18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          viewBox="0 0 491.86 491.86" style="enable-background:new 0 0 491.86 491.86;" xml:space="preserve">
           <path d="M465.167,211.614H280.245V26.691c0-8.424-11.439-26.69-34.316-26.69s-34.316,18.267-34.316,26.69v184.924H26.69
 			C18.267,211.614,0,223.053,0,245.929s18.267,34.316,26.69,34.316h184.924v184.924c0,8.422,11.438,26.69,34.316,26.69
 			s34.316-18.268,34.316-26.69V280.245H465.17c8.422,0,26.69-11.438,26.69-34.316S473.59,211.614,465.167,211.614z" />
         </svg>
       </div>
-      <div class="logo_item">
+      <div class="logo_item" *ngIf="clientLogo">
         <img src="data:image/png;base64,{{clientLogo}}" class="img-fluid" alt="IMG">
+      </div>
+      <div class="logo_item" *ngIf="!clientLogo">
+        <img src="../assets/yourlogo.png"  class="img-fluid" alt="IMG">
       </div>
     </div>
     <!-- LogIn Form -->
@@ -105,13 +105,13 @@
             .svgLoader3 {
               stroke: #ffcd0e
             }
-
           </style>
         </defs>
         <g id="Group_15" data-name="Group 15" transform="translate(1.743 1.8)">
-          <path id="Path_8" d="M13.7 9.887a33 33 0 0 1 46.714 0" class="svgLoader1" data-name="Path 8" transform="translate(-3.8)" />
-          <path id="Path_9" d="M24.467 72.525a32.561 32.561 0 0 1-14.5-8.467 33.1 33.1 0 0 1-7.953-34.1" class="svgLoader2"
-            data-name="Path 9" transform="translate(0 -7.456)" />
+          <path id="Path_8" d="M13.7 9.887a33 33 0 0 1 46.714 0" class="svgLoader1" data-name="Path 8" transform="translate(-3.8)"
+          />
+          <path id="Path_9" d="M24.467 72.525a32.561 32.561 0 0 1-14.5-8.467 33.1 33.1 0 0 1-7.953-34.1" class="svgLoader2" data-name="Path 9"
+            transform="translate(0 -7.456)" />
           <path id="Path_10" d="M77.91 28.359a32.764 32.764 0 0 1-7.526 35.062A33.137 33.137 0 0 1 54.1 72.344" class="svgLoader3"
             data-name="Path 10" transform="translate(-13.769 -6.891)" />
         </g>
