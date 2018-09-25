@@ -45,9 +45,11 @@ export class LoginComponent implements OnInit {
     public location: Location) {
       const originAppURL = window.location.href;
       if (originAppURL.includes('https://app.')) {
+        const removeApp = originAppURL.split('https://app.');
+        const removeCom = removeApp[1].split('.');
         this.isOriginExist = true;
         this.originURL = originAppURL;
-        this.originClientName = originAppURL;
+        this.originClientName = removeCom[0];
         this.getLogoDetails();
       } else if (originAppURL.includes('https://flujo-enterprise-dev.herokuapp.com') &&
                   originAppURL.includes('localhost')) {
