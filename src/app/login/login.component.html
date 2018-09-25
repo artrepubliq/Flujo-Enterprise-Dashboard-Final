@@ -1,7 +1,7 @@
 <ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="login__block">
   <div class="login__form">
-    <mat-form-field>
+    <mat-form-field *ngIf="!isOriginExist">
         <mat-select placeholder="Select your client" [(ngModel)]="originClientName" name="originClientName">
           <mat-option *ngFor="let option of ORIGINS" [value]="option" (click)="setOriginURL(option)">
             {{option}}

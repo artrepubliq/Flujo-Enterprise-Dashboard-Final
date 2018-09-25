@@ -195,11 +195,10 @@ export class AdminComponent implements OnInit {
     /* tslint:enable */
   }
   OnetoOne = (chatItem) => {
-    // console.log(this.window);
     const OnetoOne = [this.user_id];
     OnetoOne.push(String(chatItem.id));
     /* tslint:disable */
-    window.ChatCampUi.cc.GroupChannel.create(this.name, OnetoOne, true, (error, groupChannel) => {
+    window.ChatCampUi.cc.GroupChannel.create(chatItem.name, OnetoOne, true, (error, groupChannel) => {
       if (error == null) {
         // console.log('New one to one Channel has been created', groupChannel);
         window.ChatCampUI.startChat(groupChannel.id);

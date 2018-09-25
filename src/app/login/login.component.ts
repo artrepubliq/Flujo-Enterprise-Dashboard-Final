@@ -36,13 +36,24 @@ export class LoginComponent implements OnInit {
   clientLogo: any;
   client_id: any;
   originURL = '';
+  isOriginExist: boolean;
   ORIGINS: string[] = ['Artrepubliq', 'vinaybhaskar', 'Sarvodaya'];
   // private _headers = new HttpHeaders();
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
     private httpClient: HttpClient, private loginAuthService: LoginAuthService,
     public location: Location) {
-    // this.setOriginURL(this.originURL);
+      const originAppURL = window.location.href;
+      if (originAppURL.includes('app')) {
+        this.isOriginExist = true;
+        this.originURL = originAppURL;
+        this.originClientName = originAppURL;
+        this.getLogoDetails();
+      } else if (originAppURL.includes('https://flujo-enterprise-dev.herokuapp.com')) {
+        this.isOriginExist = false;
+      } else {
+        window.open('', '_self', ''); window.close();
+      }
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
       'email': ['', Validators.compose([Validators.required, Validators.pattern(this.EMAIL_REGEXP)])],

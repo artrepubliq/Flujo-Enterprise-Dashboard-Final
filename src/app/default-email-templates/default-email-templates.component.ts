@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { AppConstants } from '../app.constants';
 import { EmailTemplatePreviewDialog } from '../dialogs/email-template-dialogs/email-template-preview.dialog';
+import { Router } from '@angular/router';
+import { BASE_ROUTER_CONFIG } from "../app.router-contstants";
 
 @Component({
   selector: 'app-default-email-templates',
@@ -18,6 +20,7 @@ export class DefaultEmailTemplatesComponent implements OnInit {
   editEmailTemplateData: ICommonInterface;
 
   constructor(private httpClient: HttpClient,
+    private router: Router,
     public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -25,6 +28,13 @@ export class DefaultEmailTemplatesComponent implements OnInit {
   }
   public onTabChange(event: MatTabChangeEvent): void {
     this.currentTab = event.index;
+  }
+
+  // GOTO EMAIL BUILDER
+  gotoEmailBulder = () => {
+    this.router.navigate(['admin/' + BASE_ROUTER_CONFIG.F_4_SF_4.token]);
+    localStorage.setItem('activeRouterToken', BASE_ROUTER_CONFIG.F_4_SF_4.token);
+    localStorage.setItem('activeRouterId', 'F_4_' + BASE_ROUTER_CONFIG.F_4_SF_4.id);
   }
   getEmailTemplateData = (emailTemplateId) => {
     this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_emailtemplates/' + emailTemplateId)
