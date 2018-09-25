@@ -50,8 +50,9 @@
             overflow: hidden;
             position: relative;
             img {
-                object-fit: cover;
+                object-fit: contain;
                 height: 88%;
+                max-width: 80%;
             }
         }
         .plus_icon {
@@ -146,4 +147,9 @@
     100%{
         transform: rotate(360deg);
     }
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background: transparent !important;
+    color: #ffffff !important;   
 }
