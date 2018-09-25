@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     private httpClient: HttpClient, private loginAuthService: LoginAuthService,
     public location: Location) {
       const originAppURL = window.location.href;
-      if (originAppURL.includes('app')) {
+      if (originAppURL.includes('https://app.')) {
         this.isOriginExist = true;
         this.originURL = originAppURL;
         this.originClientName = originAppURL;
