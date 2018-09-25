@@ -1,6 +1,6 @@
 <div *ngIf="!isEmailBuilder">
   <div>
-    <button class="choose_button" routerLink="../emailbuilder">Create Template </button>
+    <button class="choose_button" (click)="gotoEmailBulder()">Create Template </button>
   </div>
   <mat-tab-group #tabGroup [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
     <mat-tab label="Default Email Templates">
