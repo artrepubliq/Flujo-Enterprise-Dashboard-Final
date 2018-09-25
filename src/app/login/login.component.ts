@@ -49,10 +49,9 @@ export class LoginComponent implements OnInit {
         this.originURL = originAppURL;
         this.originClientName = originAppURL;
         this.getLogoDetails();
-      } else if (originAppURL.includes('https://flujo-enterprise-dev.herokuapp.com')) {
+      } else if (originAppURL.includes('https://flujo-enterprise-dev.herokuapp.com') &&
+                  originAppURL.includes('localhost')) {
         this.isOriginExist = false;
-      } else {
-        window.open('', '_self', ''); window.close();
       }
     this.loginForm = this.formBuilder.group({
       // 'user_name': ['', Validators.required],
