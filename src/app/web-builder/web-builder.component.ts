@@ -37,6 +37,9 @@ export class WebBuilderComponent implements OnInit {
       .smm_home_block .slick-arrow {
         background-repeat: no-repeat;
       }
+      .art__header ul li a {
+        text-decoration: none !important;
+      }
 .slick-arrow {
   background-repeat: no-repeat;
 }`;
