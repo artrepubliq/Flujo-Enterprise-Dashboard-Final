@@ -38,6 +38,9 @@ export class LoginComponent implements OnInit {
   originURL = '';
   isOriginExist: boolean;
   ORIGINS: string[] = ['Artrepubliq', 'vinaybhaskar', 'Sarvodaya'];
+  dummy: any;
+  dummy1: any;
+  domain: any;
   // private _headers = new HttpHeaders();
   constructor(private router: Router, private alertService: AlertService,
     private formBuilder: FormBuilder, private spinnerService: Ng4LoadingSpinnerService,
@@ -49,6 +52,7 @@ export class LoginComponent implements OnInit {
         const removeCom = removeApp[1].split('.');
         this.isOriginExist = true;
         this.originURL = originAppURL;
+        console.log(this.originURL);
         this.originClientName = removeCom[0];
         this.getLogoDetails();
       } else if (originAppURL.includes('https://flujo-enterprise-dev.herokuapp.com') &&
@@ -74,12 +78,18 @@ export class LoginComponent implements OnInit {
   }
   // When this component is loaded, we'll call the dealService and get our public deals.
   ngOnInit() {
+    const test = 'https://app.artrepubliq.com/';
+    this.dummy = test.split('https://app.');
+    this.dummy1 = this.dummy[1].split('/');
+    this.domain = this.dummy1[0];
     this.hideLogin = false;
     localStorage.setItem('isLoginPageLoads', 'true');
     // this.getLogoDetails();
     // this.loginData['logo_name'] = '';
   }
-
+  changeRoute = () => {
+    this.router.navigate(['signup']);
+  }
   setOriginURL = (origin) => {
     this.originClientName = origin;
     if (origin === 'Artrepubliq') {
