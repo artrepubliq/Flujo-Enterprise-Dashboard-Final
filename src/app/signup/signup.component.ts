@@ -37,8 +37,8 @@ export class SignupComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.test = 'https://app.artrepubliq.com/';
-    // this.test = window.location.href;
+    // this.test = 'https://app.artrepubliq.com/';
+    this.test = window.location.href;
     this.dummy = this.test.split('https://app.');
     this.dummy1 = this.dummy[1].split('/');
     this.domain = this.dummy1[0];
