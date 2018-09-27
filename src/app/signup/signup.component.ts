@@ -32,7 +32,8 @@ export class SignupComponent implements OnInit {
     if (originAppURL.includes('https://app.')) {
       const removeApp = originAppURL.split('https://app.');
       const removeCom = removeApp[1].split('.');
-      this.originClientDomainName = removeApp[1];
+      const Clientname = removeApp[1].split('/');
+      this.originClientDomainName = Clientname[0];
       this.originClientName = removeCom[0];
       this.isOriginExist = true;
       this.originURL = originAppURL;
@@ -74,7 +75,6 @@ export class SignupComponent implements OnInit {
     } else {
       this.signUpForm.controls['email'].setValue(this.signUpForm.controls['email'].value + '@' + this.originClientDomainName);
       const formModel = this.signUpForm.value;
-      console.log(formModel, '73');
       localStorage.setItem('domain_name', this.originClientName);
       this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postdomaincreateuser' , formModel)
       .subscribe(
