@@ -90,6 +90,9 @@ export class SignupComponent implements OnInit {
           } else if (data.error && data.custom_status_code === 107) {
             this.signUpForm.reset();
             this.alertService.warning('Email Id is not Valid');
+          } else if (data.error && data.custom_status_code === 105) {
+            this.signUpForm.reset();
+            this.alertService.warning('Email Id Already Exists');
           } else {
             this.signUpForm.reset();
             this.alertService.warning('Something Went Wrong');
