@@ -5,7 +5,7 @@ import { AppConstants } from '../app.constants';
 import { IUserFeatures } from '../model/user-accesslevels.model';
 import { ICommonInterface } from '../model/commonInterface.model';
 import { Router } from '@angular/router';
-
+import { AlertService } from 'ngx-alerts';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -13,19 +13,33 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
   signUpForm: any;
-  dummy: string[];
-  dummy1: string[];
+  originURL: string;
   domain: string;
   test: string;
-  httpOptions: { headers: HttpHeaders; };
-  alertService: any;
   isSuccess: boolean;
-
+  hideLogin: boolean;
+  isOriginExist: boolean;
+  ORIGINS: string[] = ['Artrepubliq', 'vinaybhaskar', 'Sarvodaya'];
+  originClientName: string;
+  originClientDomainName: string;
   constructor(
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
+    const originAppURL = window.location.href;
+    if (originAppURL.includes('https://app.')) {
+      const removeApp = originAppURL.split('https://app.');
+      const removeCom = removeApp[1].split('.');
+      this.originClientDomainName = removeApp[1];
+      this.originClientName = removeCom[0];
+      this.isOriginExist = true;
+      this.originURL = originAppURL;
+    } else if (originAppURL.includes('https://flujo-enterprise-dev.herokuapp.com') &&
+                originAppURL.includes('localhost')) {
+      this.isOriginExist = false;
+    }
     this.signUpForm = formBuilder.group({
       'email': ['', Validators.required],
       'name': [],
@@ -37,48 +51,56 @@ export class SignupComponent implements OnInit {
    }
 
   ngOnInit() {
-    // this.test = 'https://app.artrepubliq.com/';
-    this.test = window.location.href;
-    this.dummy = this.test.split('https://app.');
-    this.dummy1 = this.dummy[1].split('/');
-    this.domain = this.dummy1[0];
-    const accept = this.domain.split('.');
-    console.log(accept[0], '39');
-    this.httpOptions = {
-      headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': accept[0]
-      })
-    };
+  }
+  setOriginURL = (origin) => {
+    this.originClientName = origin;
+    if (origin === 'Artrepubliq') {
+      this.originURL = 'https://app.artrepubliq.com';
+      this.originClientDomainName = 'artrepubliq.com';
+    } else if (origin === 'vinaybhaskar') {
+      this.originClientDomainName = 'vinaybhaskar.in';
+      this.originURL = 'https://app.vinaybhaskar.in';
+    } else if (origin === 'Sarvodaya') {
+      this.originClientDomainName = 'sarvodaya.ngo';
+      this.originURL = 'https://app.sarvodaya.ngo';
+    }
   }
   submitSignUpForm = () => {
     this.signUpForm.controls['access_levels'].setValue(this.createUserAccessLevelsObject());
-    this.signUpForm.controls['origin_url'].setValue(this.test);
-    this.signUpForm.controls['email'].setValue(this.signUpForm.controls['email'].value + '@' + this.domain);
-    const formModel = this.signUpForm.value;
-    this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postdomaincreateuser' , formModel, this.httpOptions)
-    .subscribe(
-      data => {
-        if (!data.error && data.custom_status_code === 100) {
+    this.signUpForm.controls['origin_url'].setValue(this.originURL);
+    if (this.signUpForm.controls['email'].value === '') {
+      this.signUpForm.reset();
+      this.alertService.warning('Please Enter Email Id');
+    } else {
+      this.signUpForm.controls['email'].setValue(this.signUpForm.controls['email'].value + '@' + this.originClientDomainName);
+      const formModel = this.signUpForm.value;
+      console.log(formModel, '73');
+      localStorage.setItem('domain_name', this.originClientName);
+      this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postdomaincreateuser' , formModel)
+      .subscribe(
+        data => {
+          localStorage.removeItem('domain_name');
+          if (!data.error && data.custom_status_code === 100) {
+            this.signUpForm.reset();
+            this.alertService.success('Password Sent to your Email');
+            this.router.navigate(['login']);
+          } else if (data.error && data.custom_status_code === 101) {
+            this.signUpForm.reset();
+            this.alertService.warning('Required Parameters are Missing');
+          } else if (data.error && data.custom_status_code === 107) {
+            this.signUpForm.reset();
+            this.alertService.warning('Email Id is not Valid');
+          } else {
+            this.signUpForm.reset();
+            this.alertService.warning('Something Went Wrong');
+          }
+        }, err => {
           this.signUpForm.reset();
-          this.alertService.success('Successfully Signed Up');
-          this.isSuccess = true;
-          this.router.navigate(['login']);
-        } else if (data.error && data.custom_status_code === 101) {
-          this.signUpForm.reset();
-          this.alertService.warning('Required Parameters are Missing');
-        } else if (data.error && data.custom_status_code === 107) {
-          this.signUpForm.reset();
-          this.alertService.warning('Email Id is not Valid');
-        } else {
-          this.signUpForm.reset();
-          this.alertService.warning('Something Went Wrong');
+          localStorage.removeItem('domain_name');
+          console.log(err);
         }
-      }, err => {
-        this.signUpForm.reset();
-        console.log(err);
-      }
-    );
+      );
+    }
   }
 
   createUserAccessLevelsObject = () => {

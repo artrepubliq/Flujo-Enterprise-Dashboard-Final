@@ -1,11 +1,16 @@
+<ngx-alerts maxMessages="3" timeout="5000"></ngx-alerts>
 <div class="container">
   <form action="" [formGroup]="signUpForm" >
     <div class="singup_form">
-      <input type="email" formControlName="email">@artrepubliq.com
+      <input type="email" formControlName="email">@{{originClientDomainName}}
     </div>
   </form>
   <button (click)="submitSignUpForm()">Create Account</button>
 </div>
-<div *ngIf="isSuccess">
-  <h2>Password Sent to your Email</h2>
-</div>
+<mat-form-field *ngIf="!isOriginExist">
+  <mat-select placeholder="Select your client" [(ngModel)]="originClientName" name="originClientName">
+    <mat-option *ngFor="let option of ORIGINS" [value]="option" (click)="setOriginURL(option)">
+      {{option}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
