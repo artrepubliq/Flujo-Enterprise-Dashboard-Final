@@ -161,6 +161,7 @@ import { EmailTemplateResolver } from './email-template/email-template.resolver'
 import { EmailTemplateService } from './email-template/email-template-service';
 import { SafeHtmlPipe } from './_pipes/safe-html-email.pipe';
 import { PagesContentEditor } from './directives/contentEditor/pages-content-editor';
+import { SignupComponent } from './signup/signup.component';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -262,7 +263,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailBuilderComponent,
     MailSetupComponent,
     DefaultEmailTemplatesComponent,
-    EmailTemplatePreviewDialog
+    EmailTemplatePreviewDialog,
+    SignupComponent
   ],
   imports: [
     CommonModule,

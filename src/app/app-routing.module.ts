@@ -52,6 +52,7 @@ import { MailSetupComponent } from './mail-setup/mail-setup.component';
 import { DefaultEmailTemplatesComponent } from './default-email-templates/default-email-templates.component';
 import { SendEmailsComponent } from './directives/email-config/send-emails/send-emails.component';
 import { PagesComponent } from './pages/pages.component';
+import { SignupComponent } from './signup/signup.component';
 const routes: Routes = [
   {
     path: '',
@@ -63,6 +64,11 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     data: { title: 'Login' }
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
+    data: { title: 'SignUp' }
   },
 
   {

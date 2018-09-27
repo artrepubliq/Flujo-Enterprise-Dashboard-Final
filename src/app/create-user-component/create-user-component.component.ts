@@ -61,12 +61,7 @@ export class CreateUserComponentComponent implements OnInit {
     this.spinnerService.show();
     // console.log(this.userDetails.id);
     this.CreateUserForm.controls['admin_id'].setValue(AppConstants.CLIENT_ID);
-    const accessLevelsArray = [];
-    const accessLevelsObject = <IUserFeatures>{};
-    accessLevelsObject.feature_id = '11';
-    accessLevelsObject.sub_feature_ids = ['SF_1', 'SF_2'];
-    accessLevelsArray.push(accessLevelsObject);
-    this.CreateUserForm.controls['access_levels'].setValue(accessLevelsArray);
+    this.CreateUserForm.controls['access_levels'].setValue(this.createUserAccessLevelsObject());
     const formModel = this.CreateUserForm.value;
     this.httpClient.post<ICommonInterface>(AppConstants.API_URL + 'flujo_client_postcreateuser', formModel)
       .subscribe(
@@ -90,6 +85,18 @@ export class CreateUserComponentComponent implements OnInit {
           this.spinnerService.hide();
           this.alertService.danger('User not added');
         });
+  }
+  createUserAccessLevelsObject = () => {
+    const accessLevelsArray = [];
+    const accessLevelsObject1 = <IUserFeatures>{};
+    accessLevelsObject1.feature_id = '11';
+    accessLevelsObject1.sub_feature_ids = ['SF_1', 'SF_2'];
+    accessLevelsArray.push(accessLevelsObject1);
+    const accessLevelsObject2 = <IUserFeatures>{};
+    accessLevelsObject2.feature_id = '10';
+    accessLevelsObject2.sub_feature_ids = [];
+    accessLevelsArray.push(accessLevelsObject2);
+    return accessLevelsArray;
   }
   onDelete = (body) => {
     // const formModel = this.form.value;
