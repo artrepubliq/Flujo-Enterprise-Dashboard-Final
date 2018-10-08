@@ -424,6 +424,11 @@
 #page-content-wrapper {
   padding: 30px;
   margin-left: 80px;
+  position: relative;
+  > div {
+    position: relative;
+    height: 100%;
+  }
 }
 
 /* ========== Side-Bar Toggled =========== */
@@ -875,5 +880,48 @@
         max-width: 17px;
       }
     }
+  }
+}
+
+
+
+/* Chat UI */
+.f_chat_ui {
+  border-radius: 10px !important;
+  background: #fff;
+  box-shadow: 0px 1.5px 18px 0 rgba(0, 0, 0, 0.15);
+  width: 345px;
+}
+
+
+/*Custom Chat ui styles*/ 
+
+.chatUser_list {
+  padding: 16px 0;
+  line-height: initial;
+  .team-member {
+      .chatUser-name {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          padding: 8px 20px;
+          margin-bottom: 5px;
+          border: none;
+          outline: none;
+          background: transparent;
+          font-size: 18px;
+          font-family: Roboto;
+          text-align: left;
+          .user_pic {
+              margin-right: 20px;
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              background: #f1f1f1;
+          }
+          &:hover {
+              background: #f1f1f1;
+          }
+      }
   }
 }

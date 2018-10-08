@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Inject, Injectable, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Inject, Injectable, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatTabChangeEvent } from '@angular/material';
 import { LoginAuthService } from '../auth/login.auth.service';
 import { HttpClient } from '@angular/common/http';
@@ -24,6 +24,13 @@ import { IUserFeatures, IUserAccessLevels } from '../model/user-accesslevels.mod
 import { UserAccesslevelsService } from '../service/user-accesslevels.service';
 import { BASE_ROUTER_CONFIG } from '../app.router-contstants';
 import { AccessLevelPopup } from '../dialogs/create-useraccesslevels-popup/create-useraccesslevels-popup';
+import { ChatDockUsersService } from '../chat-componenet/chat-dock-users.service';
+import { FormBuilder } from '@angular/forms';
+import { SocketService } from '../service/socketservice.service';
+import { ChatHttpApiService } from '../service/chat-http-api.service';
+import { SocketConnectionListenerService } from '../service/socket-connection-listener.service';
+import { IUserSocketResponseObject, IUser } from '../model/users';
+import { Subscription } from 'rxjs/Subscription';
 declare var jquery: any;
 declare var $window: any;
 declare var $: any;
@@ -80,12 +87,23 @@ export class AdminComponent implements OnInit {
   randombgcolor: string;
   doSearch: boolean;
   isChatStarted: boolean;
+  onClickActiveUsers: IUser[] = [];
+  isChatWindow: boolean;
+  isSocketConnected: boolean;
+  listOfUsers: IUser[];
+  loggedinUserObject: IUser;
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
     private titleService: Title,
     private router: Router, activatedRoute: ActivatedRoute, public dialog: MatDialog,
     private spinnerService: Ng4LoadingSpinnerService,
-    private userAccesslevelsService: UserAccesslevelsService) {
+    private userAccesslevelsService: UserAccesslevelsService,
+    private chatDockUsersService: ChatDockUsersService,
+    private socketService: SocketService,
+    private cd: ChangeDetectorRef,
+    private formBuilder: FormBuilder,
+    private chatHttpApiService: ChatHttpApiService,
+    private socketConnectionListenerService: SocketConnectionListenerService) {
     this.router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });
@@ -99,16 +117,34 @@ export class AdminComponent implements OnInit {
         this.CurrentPageName = title;
       }
     });
+    /*CHAT SOCKET CONNECTION*/
+    this.socketConnectionListenerService.SockedConnectionAnnounced$.subscribe(
+      connction => {
+        console.log(connction, 'socket connection listener');
+        if (this.isSocketConnected) {
+          this.isSocketConnected = false;
+          this.socketService.closeSockectForThisUser();
+          this.initializeSocket();
+          this.listenAllTheSocketServices();
+        }
+      }
+    );
   }
   ngOnInit(): void {
+    this.listOfUsers = [];
+    // this.initializeSocket();
     this.spinnerService.show();
     this.name = localStorage.getItem('name');
     this.user_id = localStorage.getItem('user_id');
+    this.loggedinUserObject = <IUser>{};
+    this.loggedinUserObject._id = localStorage.getItem('user_id');
+    this.loggedinUserObject.user_id = localStorage.getItem('user_id');
+    this.loggedinUserObject.user_name = localStorage.getItem('name');
     this.InitChatIO();
     // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     // this.getUserList();
-      this.getLoginUserinterval = setInterval(async () => {
+    this.getLoginUserinterval = setInterval(async () => {
       if (Date.now() > Number(localStorage.getItem('expires_at'))) {
         this.loginAuthService.logout(false);
         clearInterval(this.getLoginUserinterval);
@@ -224,7 +260,7 @@ export class AdminComponent implements OnInit {
     console.log(AppConstants.CLIENT_NAME.toLowerCase());
     this.clientName = AppConstants.CLIENT_NAME;
     const clientFeatureAccessLevel: any = await this.getClientFeatureAccessLevels();
-      let userAccessLevels: any;
+    let userAccessLevels: any;
     try {
       userAccessLevels = await this.getClientUserAccessLevels();
 
@@ -234,7 +270,16 @@ export class AdminComponent implements OnInit {
 
     try {
       const loggedInUsers: any = await this.getClientUsersList();
+      console.log(loggedInUsers);
       this.loggedinUsersList = loggedInUsers;
+      this.loggedinUsersList.forEach(item => {
+        const userItem = <IUser>{};
+        userItem._id = item.id;
+        userItem.user_id = item.id;
+        userItem.user_name = item.name;
+        this.listOfUsers = [...this.listOfUsers, userItem];
+      });
+      this.initializeSocket();
     } catch (usersListError) {
       console.log(usersListError);
     }
@@ -257,34 +302,6 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  // // GET HOST ORIGIN URL FROM BROWSER
-  // getHostOriginUrlFromBrowser = () => {
-  //   return new Promise((resolve, reject) => {
-  //     let clientName = '';
-  //     const hostName: string = window.location.href;
-  //     if (hostName.includes('http://')) {
-  //       const split = hostName.split('http://');
-  //       if (split && split[1].includes('.flujo.in')) {
-  //         const splitHostName = split[1].split('.flujo.in');
-  //         clientName = splitHostName[0];
-  //       } else {
-  //         clientName = 'Not Assigned';
-  //       }
-  //     } else if (hostName.includes('https://')) {
-  //       const split = hostName.split('https://');
-  //       if (split && split[1].includes('.flujo.in')) {
-  //         const splitHostName = split[1].split('.flujo.in');
-  //         clientName = splitHostName[0];
-  //       } else {
-  //         clientName = 'Not Assigned';
-  //       }
-
-  //     } else {
-  //       clientName = 'Not Assigned';
-  //     }
-  //     resolve(clientName);
-  //   });
-  // }
   // GET CLIENT FEATURE ACCESS LEVELS
   getClientFeatureAccessLevels = (): Promise<any> => {
     return new Promise((resolve, reject) => {
@@ -328,23 +345,23 @@ export class AdminComponent implements OnInit {
   getClientUsersList = () => {
     return new Promise((resolve, reject) => {
       this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
-      .subscribe(
-        data => {
-          this.activeUsers = data.result;
-          const loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
-            // tslint:disable-next-line:radix
-            return activeUserData.id !== parseInt(localStorage.getItem('user_id'));
-          });
-          if (loggedinUsersList) {
-            this.StoredLoggedinIds();
-            resolve(loggedinUsersList);
+        .subscribe(
+          data => {
+            this.activeUsers = data.result;
+            const loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
+              // tslint:disable-next-line:radix
+              return activeUserData.id !== parseInt(localStorage.getItem('user_id'));
+            });
+            if (loggedinUsersList) {
+              this.StoredLoggedinIds();
+              resolve(loggedinUsersList);
+            }
+          },
+          error => {
+            console.log(error);
+            reject('login users list is empty.');
           }
-        },
-        error => {
-          console.log(error);
-          reject('login users list is empty.');
-        }
-      );
+        );
     });
   }
   private navigationInterceptor(event: Event): void {
@@ -515,5 +532,78 @@ export class AdminComponent implements OnInit {
     const color = Math.floor(0x1000000 * Math.random()).toString(16);
     const randcolor = '#' + ('000000' + color).slice(-6);
     return randcolor;
+  }
+  /*Get clicked user id for custom chat*/
+  getUser = (item: IUser) => {
+    this.isChatWindow = true;
+    const checkUserLength = this.onClickActiveUsers.filter(chatUser => chatUser.user_id === item.user_id).length;
+    if (checkUserLength > 0) {
+      return;
+    } else {
+      this.onClickActiveUsers = [...this.onClickActiveUsers, item];
+      this.chatDockUsersService.addChatUsers(item);
+    }
+    console.log(this.onClickActiveUsers);
+  }
+  // INITIALIZE THE SOCKET HERE
+  initializeSocket = async () => {
+    try {
+      // const usersList = await this.getUsersFromTheServer();
+    } catch (error) {
+      console.log(error);
+    }
+    const socketConnection = await this.socketService.initSocket();
+    this.listenAllTheSocketServices();
+  }
+  // LISTEN ALL THE SERVICES
+  listenAllTheSocketServices = () => {
+    this.listenSocketConnectionError();
+    this.listenerToGetLoggedInUsersList();
+  }
+  // SOCKET LISTENER FOR SOCKET CONNECTION ERRORS
+  listenSocketConnectionError = () => {
+    const SocketConnectionError = this.socketService.listenSocketConnectionError().subscribe(
+      succResp => {
+        // this.socketService.initSocket();
+      }, errResp => {
+        // this.socketService.initSocket();
+      }
+    );
+  }
+  // SOCKET LISTENER FOR GETTING LOGGEDIN USERS LIST
+  listenerToGetLoggedInUsersList = () => {
+    if (this.loggedinUserObject && this.loggedinUserObject._id) {
+      this.socketService.loginSuccessEventEmit(this.loggedinUserObject);
+      const loginUsersSubscriber: Subscription = this.socketService.listenLoggedUsersListener().subscribe(
+        (succResp: IUserSocketResponseObject) => {
+          this.isSocketConnected = true;
+          console.log('listener', succResp);
+          this.listOfUsers.forEach((e1, e1_index) => {
+            let sockect_key = '';
+            const isUserLoggedin = succResp.logged_in_users.some((e2_item) => {
+              if (e2_item.user_id === String(e1.user_id)) {
+                sockect_key = e2_item.socket_key;
+              }
+              if (this.loggedinUserObject.user_id === e2_item.user_id) {
+                this.loggedinUserObject.socket_key = e2_item.socket_key;
+              }
+              return e2_item.user_id === String(e1.user_id);
+            });
+            if (isUserLoggedin) {
+              this.listOfUsers[e1_index].is_loggedin = true;
+              this.listOfUsers[e1_index].socket_key = sockect_key;
+            } else {
+              this.listOfUsers[e1_index].is_loggedin = false;
+              this.listOfUsers[e1_index].socket_key = '';
+            }
+          });
+        },
+        errResp => {
+          console.log(errResp);
+        }
+      );
+    } else {
+      console.log('No Users found');
+    }
   }
 }

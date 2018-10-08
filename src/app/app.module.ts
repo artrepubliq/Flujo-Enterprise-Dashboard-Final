@@ -162,6 +162,12 @@ import { EmailTemplateService } from './email-template/email-template-service';
 import { SafeHtmlPipe } from './_pipes/safe-html-email.pipe';
 import { PagesContentEditor } from './directives/contentEditor/pages-content-editor';
 import { SignupComponent } from './signup/signup.component';
+import { ChatComponenetComponent } from './chat-componenet/chat-componenet.component';
+import { ChatDockUsersService } from './chat-componenet/chat-dock-users.service';
+import { PickerModule } from 'ngx-odinvt-emoji-mart';
+import { SocketConnectionListenerService } from './service/socket-connection-listener.service';
+import { SocketService } from './service/socketservice.service';
+import { ChatHttpApiService } from './service/chat-http-api.service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -264,7 +270,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MailSetupComponent,
     DefaultEmailTemplatesComponent,
     EmailTemplatePreviewDialog,
-    SignupComponent
+    SignupComponent,
+    ChatComponenetComponent
   ],
   imports: [
     CommonModule,
@@ -322,6 +329,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatProgressSpinnerModule,
     PapaParseModule,
     ScrollDispatchModule,
+    PickerModule
   ],
   entryComponents: [EditGalleryItems, MediaDeletePopup, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
     AccessLevelPopup, DeletefolderDialog, ClientUserAccessDenied, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
@@ -338,6 +346,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     GalleryImagesService,
     FBService,
     ProblemTypeService,
+    SocketConnectionListenerService,
+    ChatHttpApiService,
+    SocketService,
     AreaService,
     { provide: DateAdapter, useClass: DateFormat },
     SmsTemplateSelectService,
@@ -372,6 +383,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailConfigService,
     DomainsService,
     GloblalSmsService,
+    ChatDockUsersService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
