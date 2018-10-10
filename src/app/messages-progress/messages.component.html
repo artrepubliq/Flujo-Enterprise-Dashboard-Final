@@ -1,0 +1,25 @@
+    <div *ngIf="messageService.messages.length" [hidden]='messageService.hideProgress'>
+         <!-- <button class="clear" (click)="messageService.clear()">X</button>
+        <br> -->
+        <mat-progress-bar mode="determinate" value="{{messageService.percentage}}"></mat-progress-bar>
+        <!-- <mat-progress-spinner
+          class="example-margin"
+          [color]="blue"
+          [mode]="determinate"
+          [value]="messageService.percentage">
+        </mat-progress-spinner> -->
+
+        <!-- {{messageService.percentage}} -->
+        <!-- <ol>
+          <li style='color:blue' *ngFor='let message of messageService.messages'><small>
+              <mat-progress-bar mode="determinate" value="{{message}}"></mat-progress-bar>
+          </small> </li>
+        </ol> -->
+      </div>
+      
+      
+      <!-- 
+      Copyright 2017-2018 Google Inc. All Rights Reserved.
+      Use of this source code is governed by an MIT-style license that
+      can be found in the LICENSE file at http://angular.io/license
+      -->

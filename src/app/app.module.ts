@@ -169,6 +169,7 @@ import { ChatHttpApiService } from './service/chat-http-api.service';
 import { ChatDockUsersService } from './service/chat-dock-users.service';
 import { UploaderService } from './service/uploader.service';
 import { MessageService } from './service/message.services';
+import { MessagesComponent } from './messages-progress/messages.component';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -215,6 +216,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     TncComponent,
     PnpComponent,
     HeaderurlsComponent,
+    MessagesComponent,
     // ProblemCategoryComponent,
     AreasComponent,
     DatabaseComponent,
