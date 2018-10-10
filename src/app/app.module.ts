@@ -162,6 +162,13 @@ import { EmailTemplateService } from './email-template/email-template-service';
 import { SafeHtmlPipe } from './_pipes/safe-html-email.pipe';
 import { PagesContentEditor } from './directives/contentEditor/pages-content-editor';
 import { SignupComponent } from './signup/signup.component';
+import { PickerModule } from 'ngx-odinvt-emoji-mart';
+import { SocketConnectionListenerService } from './service/socket-connection-listener.service';
+import { SocketService } from './service/socketservice.service';
+import { ChatHttpApiService } from './service/chat-http-api.service';
+import { ChatDockUsersService } from './service/chat-dock-users.service';
+import { UploaderService } from './service/uploader.service';
+import { MessageService } from './service/message.services';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -264,7 +271,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MailSetupComponent,
     DefaultEmailTemplatesComponent,
     EmailTemplatePreviewDialog,
-    SignupComponent
+    SignupComponent,
   ],
   imports: [
     CommonModule,
@@ -322,6 +329,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MatProgressSpinnerModule,
     PapaParseModule,
     ScrollDispatchModule,
+    PickerModule
   ],
   entryComponents: [EditGalleryItems, MediaDeletePopup, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
     AccessLevelPopup, DeletefolderDialog, ClientUserAccessDenied, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
@@ -330,6 +338,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailTemplateSelectionModal, EmailTemplatePreviewDialog,
     PostCommentCompose, PostCommentTwitterCompose],
   providers: [
+    ChatBoxComponent,
     UserAccesslevelsService,
     HttpService,
     ValidationService,
@@ -338,11 +347,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     GalleryImagesService,
     FBService,
     ProblemTypeService,
+    SocketConnectionListenerService,
+    ChatHttpApiService,
+    SocketService,
     AreaService,
     { provide: DateAdapter, useClass: DateFormat },
     SmsTemplateSelectService,
     SmsTemplateSelectService,
     WindowRef,
+    UploaderService,
+    MessageService,
 
     // AuthService,
     HttpService,
@@ -372,6 +386,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailConfigService,
     DomainsService,
     GloblalSmsService,
+    ChatDockUsersService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

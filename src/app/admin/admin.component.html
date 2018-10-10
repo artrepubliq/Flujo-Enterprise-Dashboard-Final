@@ -13,7 +13,7 @@
             <span>{{clientName}}</span>
             <span class="active-indication">
               <span class="nickname">{{name}}</span>
-            <span class="active-info">
+              <span class="active-info">
                 <sup>.</sup>
               </span>
             </span>
@@ -77,7 +77,7 @@
         <span class="page-title">{{CurrentPageName}}</span>
       </p>
     </div>
-     <!-- <li class="navbarItem dropdown admin-profile">
+    <!-- <li class="navbarItem dropdown admin-profile">
         <a class="nav-link" data-toggle="dropdown">
           <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat">
         </a>
@@ -279,31 +279,31 @@
       </li>
     </ul> -->
     <ul class="nav top-nav">
-        <li class="dropdown chat-dropdown-wind navbarItem">
-          <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="assets/icons/chat-icon-normal@2x.png" class="img-fluid" alt="chat">
-            <div class="dropdown-menu">
-              <div *ngIf="!doSearch" class="dr-menu-inner" fxLayout="row">
-                <div class="d-inline" fxFlex>
-                  <mat-tab-group (selectedTabChange)="onLinkClick($event)" (click)="$event.stopPropagation();">
-                    <mat-tab label="Teams" (click)="$event.stopPropagation();">
-                      <div class="overflow_box">
-                        <ul>
-                          <li *ngFor="let chatItem of loggedinUsersList">
-                            <div fxLayout="row" fxLayoutGap="1.5rem" fxLayoutAlign="start center">
-                              <div fxLayoutAlign="start center" class="user-avatar-chat">
-                                <img class="user-avatar-chat-img img-fluid" src="../assets/profile_user.jpg">
-                                <div [ngClass]="{'active': chatItem.is_logged_in==1}" class="user-avatar-chat-img-status"></div>
-                              </div>
-                              <div fxLayoutAlign="start center" (click)="OnetoOne(chatItem)">{{chatItem.name}}</div>
+      <li class="dropdown chat-dropdown-wind navbarItem">
+        <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="assets/icons/chat-icon-normal@2x.png" class="img-fluid" alt="chat">
+          <div class="dropdown-menu">
+            <div *ngIf="!doSearch" class="dr-menu-inner" fxLayout="row">
+              <div class="d-inline" fxFlex>
+                <mat-tab-group (selectedTabChange)="onLinkClick($event)" (click)="$event.stopPropagation();">
+                  <mat-tab label="Teams" (click)="$event.stopPropagation();">
+                    <div class="overflow_box">
+                      <ul>
+                        <li *ngFor="let chatItem of loggedinUsersList">
+                          <div fxLayout="row" fxLayoutGap="1.5rem" fxLayoutAlign="start center">
+                            <div fxLayoutAlign="start center" class="user-avatar-chat">
+                              <img class="user-avatar-chat-img img-fluid" src="../assets/profile_user.jpg">
+                              <div [ngClass]="{'active': chatItem.is_logged_in==1}" class="user-avatar-chat-img-status"></div>
                             </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </mat-tab>
-                    <mat-tab label="Groups" (click)="$event.stopPropagation();">
-                      <ul [perfectScrollbar]="config">
-                        <!-- <li *ngFor="let hero of heroes">
+                            <div fxLayoutAlign="start center" (click)="OnetoOne(chatItem)">{{chatItem.name}}</div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </mat-tab>
+                  <mat-tab label="Groups" (click)="$event.stopPropagation();">
+                    <ul [perfectScrollbar]="config">
+                      <!-- <li *ngFor="let hero of heroes">
                           <div>
                             <div fxLayout="row" fxLayoutGap="1.5rem" fxLayoutAlign="start center">
                               <div fxLayoutAlign="start center" class="user-avatar-chat-group">
@@ -325,49 +325,49 @@
                             </div>
                           </div>
                         </li> -->
-                        <li (click)="ChatIO()">
-                          <div fxFlex fxLayout="row" fxLayoutGap="1.5rem" fxLayoutAlign="start center">
-                            <div fxLayoutAlign="start center" class="user-avatar-chat-group">
-                              <span [ngStyle]="{'background-color': randombgcolor}" class="avatar-chat-group-img">
-                                <span class="avatar-text" fxLayoutAlign="center center">
-                                  {{clientName}}
-                                </span>
+                      <li (click)="ChatIO()">
+                        <div fxFlex fxLayout="row" fxLayoutGap="1.5rem" fxLayoutAlign="start center">
+                          <div fxLayoutAlign="start center" class="user-avatar-chat-group">
+                            <span [ngStyle]="{'background-color': randombgcolor}" class="avatar-chat-group-img">
+                              <span class="avatar-text" fxLayoutAlign="center center">
+                                {{clientName}}
                               </span>
-                            </div>
-                            <div fxLayoutAlign="start center">{{clientName}}</div>
-                            <div fxLayout="row" fxLayoutGap="-10px" fxLayoutAlign="center end" class="ml-auto user-avatar-chat-group">
-  
-                              <img *ngIf="loggedinIds && loggedinIds[0]" class="user-avatar-chat-group-img img-fluid" src="../assets/profile_user.jpg">
-                              <img *ngIf="loggedinIds && loggedinIds[1]" class="user-avatar-chat-group-img img-fluid" src="../assets/profile_user.jpg">
-                              <img *ngIf="loggedinIds && loggedinIds[2]" class="user-avatar-chat-group-img img-fluid" src="../assets/profile_user.jpg">
-                              <span class="user-avatar-chat-group-more">
-                                <span class="more-text" fxLayoutAlign="center center">{{loggedinIds?.length}}</span>
-                              </span>
-                            </div>
+                            </span>
                           </div>
-                        </li>
-                      </ul>
-                    </mat-tab>
-                  </mat-tab-group>
-                </div>
-                <div class="d-inline pull-right ml-auto chat-option-etc" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
-                  <!-- <span>
+                          <div fxLayoutAlign="start center">{{clientName}}</div>
+                          <div fxLayout="row" fxLayoutGap="-10px" fxLayoutAlign="center end" class="ml-auto user-avatar-chat-group">
+
+                            <img *ngIf="loggedinIds && loggedinIds[0]" class="user-avatar-chat-group-img img-fluid" src="../assets/profile_user.jpg">
+                            <img *ngIf="loggedinIds && loggedinIds[1]" class="user-avatar-chat-group-img img-fluid" src="../assets/profile_user.jpg">
+                            <img *ngIf="loggedinIds && loggedinIds[2]" class="user-avatar-chat-group-img img-fluid" src="../assets/profile_user.jpg">
+                            <span class="user-avatar-chat-group-more">
+                              <span class="more-text" fxLayoutAlign="center center">{{loggedinIds?.length}}</span>
+                            </span>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </mat-tab>
+                </mat-tab-group>
+              </div>
+              <div class="d-inline pull-right ml-auto chat-option-etc" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
+                <!-- <span>
                     <img (click)="searchChatData($event)" src="assets/team/chat-search-icon@3x.png" class="img-fluid" alt="search">
                   </span> -->
-                  <span>
-                    <span *ngIf="!label">
-                      <img src="assets/team/chat-add-user-icon@3x.png" class="img-fluid btn-add-icons" alt="add" (click)="$event.stopPropagation();">
-                    </span>
-                    <span *ngIf="label">
-                      <img src="assets/team/chat-add-group-icon@3x.png" class="img-fluid btn-add-icons" alt="add" (click)="$event.stopPropagation();">
-                    </span>
+                <span>
+                  <span *ngIf="!label">
+                    <img src="assets/team/chat-add-user-icon@3x.png" class="img-fluid btn-add-icons" alt="add" (click)="$event.stopPropagation();">
                   </span>
-                  <!-- <span>
+                  <span *ngIf="label">
+                    <img src="assets/team/chat-add-group-icon@3x.png" class="img-fluid btn-add-icons" alt="add" (click)="$event.stopPropagation();">
+                  </span>
+                </span>
+                <!-- <span>
                     <img src="assets/team/chat-settings-icon@3x.png" class="img-fluid" alt="settins" (click)="$event.stopPropagation();">
                   </span> -->
-                </div>
               </div>
-              <!-- <div *ngIf="doSearch" class="dr-menu-inner" fxLayout="column">
+            </div>
+            <!-- <div *ngIf="doSearch" class="dr-menu-inner" fxLayout="column">
                 <div class="search-bar-head" fxLayout="row" fxLayoutAlign="space-between center">
                   <span fxFlex="15">
                     <img (click)="gobacktoChatUsers($event)" src="assets/team/chat-back-icon@3x.png" alt="back arrow">
@@ -418,10 +418,10 @@
                   </ul>
                 </div>
               </div> -->
-            </div>
-          </a>
-        </li>
-        <!-- <li class="navbarItem">
+          </div>
+        </a>
+      </li>
+      <!-- <li class="navbarItem">
           <a href="#notifications" class="nav-link">
             <img src="assets/icons/help-icon-normal@2x.png" class="img-fluid" alt="chat">
           </a>
@@ -431,7 +431,7 @@
             <img src="assets/icons/info-icon-normal@2x.png" class="img-fluid" alt="chat">
           </a>
         </li> -->
-       <li class="navbarItem dropdown admin-profile">
+      <li class="navbarItem dropdown admin-profile">
         <a class="nav-link" data-toggle="dropdown">
           <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat">
         </a>
@@ -443,8 +443,8 @@
           <div *ngFor="let item of PreparedSubfeaturesObject">
             <li>
               <a class="activity" (click)="navigateSubFeature(item)" *ngIf="item.view == 'R'">
-                  {{item.subfeature_name}}
-                </a>
+                {{item.subfeature_name}}
+              </a>
             </li>
           </div>
 
@@ -455,7 +455,34 @@
 
         </ul>
       </li>
-      </ul>
+      <!-- Custom Chat Html -->
+      <li class="navbarItem dropdown chat-dropdown-wind admin-profile">
+        <a class="nav-link" data-toggle="dropdown">
+          <!-- <img src="assets/icons/more-icon-normal@2x.png" class="img-fluid" alt="chat"> -->
+          <i class="fas fa-comments"></i>
+          <div class="dropdown-menu f_chat_ui">
+            <div>
+              <!-- <app-chat-componenet *ngIf="loggedinUsersList" [loggedinUsersList]="loggedinUsersList"></app-chat-componenet> -->
+              <mat-tab-group (click)="$event.stopPropagation()">
+                <mat-tab (click)="$event.stopPropagation();" label="Team">
+                  <div class="chatUser_list">
+                    <div *ngFor="let item of listOfUsers" class="team-member">
+                      <button (click)="onChatUserClick(item)" class="chatUser-name">
+                        <span class="user_pic"></span>
+                        {{item.user_name}}
+                        <label style="color:'red'" *ngIf="item.is_loggedin">*</label>
+                      </button>
+                    </div>
+                  </div>
+                </mat-tab>
+                <mat-tab (click)="$event.stopPropagation();" label="Groups"> Groups Data </mat-tab>
+              </mat-tab-group>
+            </div>
+          </div>
+        </a>
+      </li>
+      <app-chat-box *ngIf="listOfUsers"></app-chat-box>
+    </ul>
   </div>
 </nav>
 <!-- // Top Nav -->
@@ -477,14 +504,14 @@
           <div>
             <div>
               <li class="nav-item" *ngFor="let featureName of userFeatureObjects[feature]" (click)="navigatePage(featureName)">
-                <div  *ngIf="featureName.view == 'L'">
-                <a class="nav-link flow_link">
-                  <span class="link_img">
-                    <!-- <img src="" class="normal_img" alt="buffer icon"> -->
-                    <!-- <img src="" class="active_img" alt="buffer icon"> -->
-                  </span>
-                  <span class="link_title">{{featureName.feature_name}}</span>
-                </a>
+                <div *ngIf="featureName.view == 'L'">
+                  <a class="nav-link flow_link">
+                    <span class="link_img">
+                      <!-- <img src="" class="normal_img" alt="buffer icon"> -->
+                      <!-- <img src="" class="active_img" alt="buffer icon"> -->
+                    </span>
+                    <span class="link_title">{{featureName.feature_name}}</span>
+                  </a>
                 </div>
               </li>
             </div>
@@ -518,9 +545,9 @@
 
   <!-- Content Body -->
   <div fxFlex id="page-content-wrapper" [perfectScrollbar]="config">
-
-    <router-outlet></router-outlet>
-
+    <div>
+      <router-outlet></router-outlet>
+    </div>
   </div>
   <!-- // Content Body -->
 

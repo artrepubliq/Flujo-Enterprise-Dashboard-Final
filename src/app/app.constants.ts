@@ -23,4 +23,9 @@ export class AppConstants {
     // public static get EXPRESS_URL_MAILGUN(): string { return 'https://bulk-email-enterprise-pro.herokuapp.com/'; }
     public static get TWITTER_API_URL(): string { return 'https://api.twitter.com'; }
 
+
+    // SOCKET SERVER URLS
+    // public static get SOCEKT_API_URL(): string { return 'http://10.0.1.9:3000'; }
+    // public static get SOCEKT_API_URL(): string { return 'http://localhost:3000'; }
+    public static get SOCEKT_API_URL(): string { return 'https://chat-server-dev.herokuapp.com'; }
 }
