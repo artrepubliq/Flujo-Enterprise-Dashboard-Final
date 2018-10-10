@@ -1,7 +1,7 @@
-<!-- <div class="chat-windows" style="display: none;" #chatWindow>
+<div class="chat-windows" style="display: none;" #chat_box>
   <div class="scrollBlock">
     <div>
-      <div #smallWindow class="flujoChat-box smallWindow" *ngFor="let item of test">
+      <div #smallWindow class="flujoChat-box smallWindow" *ngFor="let selecteduseritem of selectedUsers,let i=index">
         <div class="chat-header" fxLayout="row">
           <div fxFlex class="user-name">
             <div class="dropdown d-inline-block">
@@ -9,7 +9,8 @@
                 <span class="user-logo">
                   <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
                 </span>
-                {{item.name}}
+                {{selecteduseritem.receiver_name}}
+                <!-- <p style="color:darkgreen; font-size: 10px" *ngIf="selecteduseritem.isTyping">Typing</p> -->
               </a>
             </div>
           </div>
@@ -28,7 +29,7 @@
                 <a href="#chat" class="fa fa-info-circle"></a>
               </li>
               <li>
-                <a href="#chat" class="fa fa-times-circle-o"></a>
+                <a class="fa fa-times-circle-o" (click)="closeChatWindow(selecteduseritem, i)"></a>
               </li>
               <li (click)="minimizeWindow()">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -58,7 +59,7 @@
                   </g>
                 </svg>
               </button>
-              <button>
+              <button (click)="closeChatWindow(selecteduseritem, i)">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                   x="0px" y="0px" viewBox="0 0 31.112 31.112" style="enable-background:new 0 0 31.112 31.112;"
                   xml:space="preserve">
@@ -70,20 +71,38 @@
           </div>
         </div>
 
-        <div class="chat-body">
-          <div>
+        <div #chatBody class="chat-body">
+          <div #windowchathistory class="chatTexts_items" (scroll)="onScroll($event)">
             <div class="message-block msg-in">
-              <div>
-                <span class="user-logo">
-                  <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="user logo">
-                </span>
-              </div>
-              <div class="message-data">
-                Hi Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              <div class="chat_scrollChat">
+                <div #listHeight *ngFor="let chatItem of selecteduseritem.chat_history" class="chat_text" [ngClass]="{'rightSideText':chatItem?.sender_id === loggedinUserObject.user_id}">
+                  <!-- <span class="user-logo">
+                    <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="user logo">
+                  </span> -->
+                  <div>
+                    <div class="message-data" *ngIf="chatItem.message_type == 'text'">
+                      {{chatItem.message}}
+                    </div>
+                    <div *ngIf="chatItem.message_type =='image/png' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/gif'">
+                      <img width="200" height='100' src='{{chatItem.message}}'>
+                    </div>
+                    <div class="message-status" *ngIf="chatItem?.sender_id === loggedinUserObject.user_id">
+                      {{chatItem.created_time | date:'medium'}}
+                      <label class="send-msg" *ngIf="chatItem?.status === -1"><span></span></label>
+                      <label class="deliver-msg" *ngIf="chatItem?.status === 0"><span></span></label>
+                      <label class="read_msg" *ngIf="chatItem?.status === 1">
+                        <span></span>
+                      </label>
+                    </div>
+                    <label class="message-time" *ngIf="chatItem?.sender_id !== loggedinUserObject.user_id">{{chatItem?.received_time
+                      |
+                      date:'medium'}}</label>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="message-block msg-out">
+            <!-- <div class="message-block msg-out">
               <div class="message-data">
                 Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
                 took
@@ -96,86 +115,36 @@
                   <img src="assets/team/kk.jpeg" class="img-fluid" alt="user logo">
                 </span>
               </div>
-            </div>
+            </div> -->
 
+          </div>
+          <div class="message-typing" *ngIf="selecteduseritem.isTyping">
+            <p>{{selecteduseritem.receiver_name}}</p>
+            <div class="loading_button">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
         </div>
         <div class="chat-input">
           <form>
-            <div class="inputMsg">
-              <input type="text" class="input-message" placeholder="Write Your Message..!">
+            <div class="inputMsg" [formGroup]="messageInputForm">
+              <input type="text" class="input-message" placeholder="Write Your Message..!" formControlName="message"
+                (input)="onMessageInputListener($event.target.value, selecteduseritem)" (keyup.enter)="sendMessageToSelectedReceiver(selecteduseritem, i)">
             </div>
             <div class="chat_controls">
-              <a (click)="addEmoji($event)">
+              <a (click)="addEmojiForSelectedWindow(i)">
                 <i class="fa fa-smile-o"></i>
               </a>
-              <a href="#file">
-                <i class="fa fa-paperclip"></i>
-              </a>
-              <button class="send-button" type="submit">Send</button>
+              <input style="display:none" type="file" id="picked" #picked multiple="multiple" (change)="onFileUpload($event, selecteduseritem, i)">
+              <i class="fa fa-paperclip" (click)="triggerUpload()"></i>
+              <button class="send-button" type="submit" [disabled]="message?.length == 0" (click)="sendMessageToSelectedReceiver(selecteduseritem, i)">Send</button>
             </div>
           </form>
         </div>
-        <div class="emojies_block" *ngIf="isEmoji">
+        <div class="emojies_block" *ngIf="selecteduseritem.isEmojiWindowOpened">
           <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div> -->
-<div #chat_box style="display: none" class="chatBoxes">
-  <div>
-    <div class="chat_item" *ngFor="let selecteduseritem of selectedUsers,let i=index">
-      <div class="chat_box">
-        <div class="chat_header">
-          <p>{{selecteduseritem.receiver_name}}</p>
-          <p style="color:darkgreen; font-size: 10px" *ngIf="selecteduseritem.isTyping">Typing</p>
-          <div class="chat_controls">
-            <div (click)="chatToggle($event, i)" class="minimize_icon control_icon">
-              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129 129" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 129 129">
-                <path d="m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z"
-                />
-              </svg>
-            </div>
-            <div class="control_icon" (click)="maximizeWindow($event)">
-              <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                width="459px" viewBox="0 0 459 459" style="enable-background:new 0 0 459 459;" xml:space="preserve">
-                <path d="M408,51v357H51V51H408 M408,0H51C22.95,0,0,22.95,0,51v357c0,28.05,22.95,51,51,51h357c28.05,0,51-22.95,51-51V51
-        C459,22.95,436.05,0,408,0L408,0z" />
-              </svg>
-            </div>
-            <div (click)="closeChatWindow(selecteduseritem, i)">X</div>
-          </div>
-        </div>
-        <div #chatBody class="chat_body">
-          <div #windowchathistory  class="chatTexts_items" (scroll)="onScroll($event)">
-            <div class="chat_scrollChat">
-              <div #listHeight *ngFor="let chatItem of selecteduseritem.chat_history" class="chat_text" [ngClass]="{'rightSideText':chatItem?.sender_id === loggedinUserObject.user_id}">
-                <div  class="text_item">
-                  <div>
-                      <!-- {{chatItem.message}} -->
-                      <div *ngIf="chatItem.message_type == 'text'">{{chatItem.message}}</div>
-                      <div *ngIf="chatItem.message_type =='image/png' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/gif'">
-                        <img width="200" height='100' src='{{chatItem.message}}'>
-                      </div>
-                    <div *ngIf="chatItem?.sender_id === loggedinUserObject.user_id">{{chatItem.created_time | date:'medium'}}
-                      <label *ngIf="chatItem.status === -1">Sent</label>
-                      <label *ngIf="chatItem.status === 0">Delivered</label>
-                      <label *ngIf="chatItem.status === 1">Read</label>
-                    </div>
-                    <label *ngIf="chatItem?.sender_id !== loggedinUserObject.user_id">{{chatItem.received_time | date:'medium'}}</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="send_input">
-              <div [formGroup]="messageInputForm"><input formControlName="message" (input)="onMessageInputListener($event.target.value, selecteduseritem)" (keyup.enter)="sendMessageToSelectedReceiver(selecteduseritem, i)"></div>
-              <input  type="file" id="picked" #picked multiple="multiple" (change)="onFileUpload($event, selecteduseritem, i)" style="display:none"/>
-              <img (click)="triggerUpload()" class='m-2' id='file-upload-icon' src="assets/attachment.png" width="24" height="24"/>
-            <button type="submit" [disabled]="message?.length == 0" (click)="sendMessageToSelectedReceiver(selecteduseritem, i)">Send</button>
-          </div>
         </div>
       </div>
     </div>

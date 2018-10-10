@@ -26,12 +26,13 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('scroll', ['$event'])
   @Input() onClickActiveUsers: any[];
   // @ViewChild('chatWindow') chatWindow: ElementRef;
-  // @ViewChild('smallWindow') smallWindow: ElementRef;
+  @ViewChild('smallWindow') smallWindow: ElementRef;
   private unSubscribe = new Subject<any>();
   // config: any;
   selectedUsers: ISelectedUsersChatWindow[];
   loggedinUserObject: IUser;
   listOfUsers: IUser[];
+  selectedEmoji = [];
   // isEmoji: boolean;
   constructor(private chatDockUsersService: ChatDockUsersService,
     private socketService: SocketService,
@@ -86,24 +87,20 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.unSubscribe.complete();
   }
-  // maximizeWindow = () => {
-  //   this.smallWindow.nativeElement.classList.remove('smallWindow');
-  //   this.smallWindow.nativeElement.classList.add('maximize_window');
-  // }
-  // minimizeWindow = () => {
-  //   this.smallWindow.nativeElement.classList.add('smallWindow');
-  //   this.smallWindow.nativeElement.classList.remove('maximize_window');
-  // }
-  // // hideChatWindow = () => {
-  // //   if (this.smallWindow.nativeElement.classList[3] !== 'hide_chat') {
-  // //     this.smallWindow.nativeElement.classList.add('hide_chat');
-  // //   } else {
-  // //     this.smallWindow.nativeElement.classList.remove('hide_chat');
-  // //   }
-  // // }
-  // addEmoji = (event) => {
-  //   this.isEmoji = !this.isEmoji;
-  //   console.log(event);
+  maximizeWindow = () => {
+    this.smallWindow.nativeElement.classList.remove('smallWindow');
+    this.smallWindow.nativeElement.classList.add('maximize_window');
+  }
+  minimizeWindow = () => {
+    this.smallWindow.nativeElement.classList.add('smallWindow');
+    this.smallWindow.nativeElement.classList.remove('maximize_window');
+  }
+  // hideChatWindow = () => {
+  //   if (this.smallWindow.nativeElement.classList[3] !== 'hide_chat') {
+  //     this.smallWindow.nativeElement.classList.add('hide_chat');
+  //   } else {
+  //     this.smallWindow.nativeElement.classList.remove('hide_chat');
+  //   }
   // }
 
   // LISTEN ALL THE SERVICES
@@ -456,40 +453,14 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log('else');
     }
   }
-  chatToggle = (event, index) => {
-    this.selectedUsers[index].isWindowOpened = !this.selectedUsers[index].isWindowOpened;
-    let updateMessageIds = [];
-    this.selectedUsers[index].chat_history.map(item => {
-      if (item.status < 1) {
-        updateMessageIds = [...updateMessageIds, item._id];
-        item.status = 1;
-      }
-    });
-    if (updateMessageIds.length > 0) {
-      const emitObject = {
-        user_id: this.selectedUsers[index].sender_id,
-        socket_key: this.selectedUsers[index].socket_key,
-        received_time: new Date().toISOString(),
-        _id: updateMessageIds,
-        status: 1
-      };
-      this.socketService.emitNewMessageReadConfirmation(emitObject);
-    }
 
-    const pElement = event.target.parentNode.parentNode.parentNode.parentNode;
-
-    if (pElement.classList[1] === 'chatClosed') {
-      pElement.classList.remove('chatClosed');
-    } else {
-      pElement.classList.add('chatClosed');
-    }
+  // ADD EMOJI WINDOW FOR SELECTED USERS
+  addEmojiForSelectedWindow = (index) => {
+    this.selectedUsers[index].isEmojiWindowOpened = !this.selectedUsers[index].isEmojiWindowOpened;
   }
-  maximizeWindow = (event) => {
-    const pElement = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
-    if (pElement.classList[1] === 'expansion') {
-      pElement.classList.remove('expansion');
-    } else {
-      pElement.classList.add('expansion');
-    }
+  addEmoji = (event) => {
+    this.selectedEmoji.push(event.emoji.native);
+    console.log(this.selectedEmoji);
+    // this.messageInputForm.controls['message'].setValue(event.emoji.native);
   }
 }

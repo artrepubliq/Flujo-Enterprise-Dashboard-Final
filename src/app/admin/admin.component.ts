@@ -129,6 +129,14 @@ export class AdminComponent implements OnInit {
         }
       }
     );
+    this.chatDockUsersService.listencloseChatWindow().subscribe(
+      eventData => {
+      const index = this.chatActiveUser.findIndex(item => item.user_id === eventData);
+      if (index >= 0) {
+      this.chatActiveUser.splice(index, 1);
+      }
+      }
+      );
   }
   ngOnInit(): void {
     this.listOfUsers = [];

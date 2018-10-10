@@ -30,6 +30,7 @@ export interface ISelectedUsersChatWindow {
     isWindowOpened: boolean;
     isTyping: boolean;
     letest_stream_date: string;
+    isEmojiWindowOpened: boolean;
 }
 
 export interface ISendMessageObject {
