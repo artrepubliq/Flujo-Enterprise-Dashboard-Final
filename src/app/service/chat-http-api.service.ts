@@ -22,18 +22,4 @@ export class ChatHttpApiService {
             );
         });
     }
-
-    addAWSFile(formData: File): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.httpClient.post('http://localhost:3000/uploadfile', formData).subscribe(
-                succRes => {
-                    console.log(succRes);
-                    resolve(succRes);
-                },
-                errResp => {
-                    reject(errResp);
-                }
-            );
-        });
-    }
 }

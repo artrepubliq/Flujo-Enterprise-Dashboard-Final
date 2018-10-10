@@ -162,12 +162,13 @@ import { EmailTemplateService } from './email-template/email-template-service';
 import { SafeHtmlPipe } from './_pipes/safe-html-email.pipe';
 import { PagesContentEditor } from './directives/contentEditor/pages-content-editor';
 import { SignupComponent } from './signup/signup.component';
-import { ChatComponenetComponent } from './chat-componenet/chat-componenet.component';
-import { ChatDockUsersService } from './chat-componenet/chat-dock-users.service';
 import { PickerModule } from 'ngx-odinvt-emoji-mart';
 import { SocketConnectionListenerService } from './service/socket-connection-listener.service';
 import { SocketService } from './service/socketservice.service';
 import { ChatHttpApiService } from './service/chat-http-api.service';
+import { ChatDockUsersService } from './service/chat-dock-users.service';
+import { UploaderService } from './service/uploader.service';
+import { MessageService } from './service/message.services';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -271,7 +272,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DefaultEmailTemplatesComponent,
     EmailTemplatePreviewDialog,
     SignupComponent,
-    ChatComponenetComponent
   ],
   imports: [
     CommonModule,
@@ -338,6 +338,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailTemplateSelectionModal, EmailTemplatePreviewDialog,
     PostCommentCompose, PostCommentTwitterCompose],
   providers: [
+    ChatBoxComponent,
     UserAccesslevelsService,
     HttpService,
     ValidationService,
@@ -354,6 +355,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SmsTemplateSelectService,
     SmsTemplateSelectService,
     WindowRef,
+    UploaderService,
+    MessageService,
 
     // AuthService,
     HttpService,

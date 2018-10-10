@@ -8,7 +8,6 @@ export interface IUser {
     _id: string;
     user_id: string;
     user_name: string;
-    password: string;
     socket_key?: string;
     is_loggedin: boolean;
 }

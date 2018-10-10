@@ -1,11 +1,13 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
-import { ChatDockUsersService } from '../chat-componenet/chat-dock-users.service';
+import { Component, OnInit, Input, OnDestroy, ViewChild, ElementRef, HostListener, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ISelectedUsersChatWindow, IUser, ISendMessageObject } from '../model/users';
 import { SocketService } from '../service/socketservice.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
+import * as $ from 'jquery';
 import { ChatHttpApiService } from '../service/chat-http-api.service';
+import { ChatDockUsersService } from '../service/chat-dock-users.service';
+import { UploaderService } from '../service/uploader.service';
 @Component({
   selector: 'app-chat-box',
   templateUrl: './chat-box.component.html',
@@ -22,9 +24,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('chat_box') chat_box: ElementRef;
   @ViewChild('listHeight') listHeight: ElementRef;
   @HostListener('scroll', ['$event'])
-
-
-
   @Input() onClickActiveUsers: any[];
   // @ViewChild('chatWindow') chatWindow: ElementRef;
   // @ViewChild('smallWindow') smallWindow: ElementRef;
@@ -32,29 +31,43 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   // config: any;
   selectedUsers: ISelectedUsersChatWindow[];
   loggedinUserObject: IUser;
-  cd: any;
   listOfUsers: IUser[];
   // isEmoji: boolean;
   constructor(private chatDockUsersService: ChatDockUsersService,
     private socketService: SocketService,
     private chatHttpApiService: ChatHttpApiService,
+    private uploaderService: UploaderService,
+    private cd: ChangeDetectorRef,
     private formBuilder: FormBuilder) {
-    let isListenersRunning = false;
     this.listOfUsers = [];
-    this.chatDockUsersService.getChatUsers().takeUntil(this.unSubscribe).subscribe(
-      (chatusers: any) => {
-        this.handleChatWindowForSelectedUsers(chatusers, null);
-        this.listOfUsers = [...this.listOfUsers, chatusers];
-        if (!isListenersRunning) {
-          this.listenAllTheSocketServices();
-          isListenersRunning = true;
-        }
+    this.chatDockUsersService.getChatUser().takeUntil(this.unSubscribe).subscribe(
+      (chatObject: any) => {
+        // this.selectedUsers = [...this.selectedUsers, chatObject];
+        this.handleChatWindowForSelectedUsers(chatObject, null);
         // if (this.test) {
         //   this.chatWindow.nativeElement.style.display = 'block';
         // }
       },
       error => {
         console.log(error);
+      }
+    );
+    this.chatDockUsersService.getLoggedinUser().subscribe(
+      loggedinUser => {
+        console.log('loggedin users');
+        this.loggedinUserObject = loggedinUser;
+        this.listenAllTheSocketServices();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+    this.chatDockUsersService.getListOfUsers().subscribe(
+      listOfUsers => {
+        this.listOfUsers = listOfUsers;
+      },
+      err => {
+        console.log(err);
       }
     );
   }
@@ -66,11 +79,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
 
     });
     this.selectedUsers = [];
-    // this.listenAllTheSocketServices();
-    this.loggedinUserObject = <IUser>{};
-    this.loggedinUserObject._id = localStorage.getItem('user_id');
-    this.loggedinUserObject.user_id = localStorage.getItem('user_id');
-    this.loggedinUserObject.user_name = localStorage.getItem('name');
   }
 
   ngAfterViewInit() {
@@ -102,7 +110,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   listenAllTheSocketServices = () => {
     this.socketListenerForNewMessages();
     this.listenerForMessageReachedConfirmation();
-    this.socketService.listenerForIsNewMessageStoredInDB();
     this.socketService.listenerForIsNewMessageStoredInDB();
     // this.socketService.listenNewMessageReadConfirmation();
     this.listenForNewMessageReadConfirm();
@@ -156,26 +163,26 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   listenForInputTypingIndicator = () => {
     this.socketService.listenerUserMessageTypingIndication()
       .subscribe(
-        (lisnSucResp: any) => {
-          console.log(lisnSucResp);
-          if (this.selectedUsers.length > 0) {
-            const userIndex = this.selectedUsers.findIndex(indexItem => indexItem.receiver_id === lisnSucResp.user_id);
-            if (userIndex >= 0 && this.selectedUsers[userIndex].isWindowOpened) {
-              let interval: any;
+      (lisnSucResp: any) => {
+        console.log(lisnSucResp);
+        if (this.selectedUsers.length > 0) {
+          const userIndex = this.selectedUsers.findIndex(indexItem => indexItem.receiver_id === lisnSucResp.user_id);
+          if (userIndex >= 0 && this.selectedUsers[userIndex].isWindowOpened) {
+            let interval: any;
+            clearTimeout(interval);
+            interval = setTimeout(() => {
+              this.selectedUsers[userIndex].isTyping = false;
               clearTimeout(interval);
-              interval = setTimeout(() => {
-                this.selectedUsers[userIndex].isTyping = false;
-                clearTimeout(interval);
-              }, 2000);
-              this.selectedUsers[userIndex].isTyping = this.selectedUsers[userIndex].isWindowOpened ? true : false;
+            }, 2000);
+            this.selectedUsers[userIndex].isTyping = this.selectedUsers[userIndex].isWindowOpened ? true : false;
 
-            }
-            console.log(this.selectedUsers[userIndex]);
           }
-        },
-        listErrResp => {
-          console.log(listErrResp);
+          console.log(this.selectedUsers[userIndex]);
         }
+      },
+      listErrResp => {
+        console.log(listErrResp);
+      }
       );
   }
   // THIS WILL USE FOR ADD NEW USER TO SELECTEDUSERS ARRAY, WHWN THE LOGIN USER COULD'T SELECT THE USER.
@@ -222,17 +229,17 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.socketService.disconnectPrivateChatUserSocket(this.loggedinUserObject.socket_key);
     this.socketService.closeSockectForThisUser();
   }
-  onFileChange(event, selecteduseritem: ISelectedUsersChatWindow, i) {
+  onFileUpload(event, selecteduseritem, i) {
 
     const reader = new FileReader();
-    if (event.target.files && event.target.files.length) {
+    if (event.target.files && event.target.files.length && reader) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.messageInputForm.patchValue({
           file: reader.result
         });
-        console.log(file);
+        // console.log(file);
         const formData = new FormData();
         formData.append('file', file);
         const uploadFile = this.addAWSFileChat(formData, selecteduseritem, i, file);
@@ -242,20 +249,26 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       };
     }
   }
+
   triggerUpload() {
-    $('#file-upload-input').click();
+    $('#picked').click();
   }
   addAWSFileChat = async (formData, selecteduseritem, i, file) => {
-    try {
-      const fileUpload = await this.chatHttpApiService.addAWSFile(formData);
-      if (!fileUpload.error) {
-        this.sendMessageToSelectedReceiver(selecteduseritem, i, fileUpload[0]);
-        return fileUpload;
-      }
-    } catch (errResp) {
-      console.log(errResp);
-    }
-  }
+    console.log('Entered aws file chat method');
+    // console.log(formData);
+    this.uploaderService.upload(formData).subscribe(
+      awsFileUrl => {
+        console.log('got the response');
+        console.log(awsFileUrl);
+        this.sendMessageToSelectedReceiver(selecteduseritem, i, awsFileUrl);
+        //   },
+        //   response => {
+        //     console.log("PUT call in error", response);
+        // },
+        // () => {
+        //     console.log("The PUT observable is now completed.");
+      });
+  }/*  */
 
   // send messages with username
   sendMessageToSelectedReceiver = (selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any) => {
@@ -345,11 +358,14 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       messageObject.chat_history = [];
     }
+    if (chatMessage) {
+      messageObject.chat_history = [...messageObject.chat_history, chatMessage];
+    }
     if (!this.selectedUsers.some((selecteUserItem) => {
       return selecteUserItem.receiver_id === userItem.user_id;
     })) {
       messageObject.receiver_name = userItem.user_name;
-      messageObject.receiver_id = userItem.user_id;
+      messageObject.receiver_id = String(userItem.user_id);
       messageObject.sender_id = this.loggedinUserObject.user_id;
       messageObject.socket_key = userItem.socket_key;
       messageObject.isWindowOpened = true;
@@ -423,6 +439,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   //
   closeChatWindow = (selecteduseritem: ISelectedUsersChatWindow, index) => {
     this.selectedUsers.splice(index, 1);
+    this.chatDockUsersService.emitcloseChatWindow(selecteduseritem.receiver_id);
   }
 
   // LISTENER THE MESSAGE TYPING EVENTS TO HANDLE THE TYPE INDICATORE FOR TOHER SIDE

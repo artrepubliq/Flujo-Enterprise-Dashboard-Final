@@ -24,13 +24,13 @@ import { IUserFeatures, IUserAccessLevels } from '../model/user-accesslevels.mod
 import { UserAccesslevelsService } from '../service/user-accesslevels.service';
 import { BASE_ROUTER_CONFIG } from '../app.router-contstants';
 import { AccessLevelPopup } from '../dialogs/create-useraccesslevels-popup/create-useraccesslevels-popup';
-import { ChatDockUsersService } from '../chat-componenet/chat-dock-users.service';
 import { FormBuilder } from '@angular/forms';
 import { SocketService } from '../service/socketservice.service';
 import { ChatHttpApiService } from '../service/chat-http-api.service';
 import { SocketConnectionListenerService } from '../service/socket-connection-listener.service';
-import { IUserSocketResponseObject, IUser } from '../model/users';
+import { IUserSocketResponseObject, IUser, ISendMessageObject } from '../model/users';
 import { Subscription } from 'rxjs/Subscription';
+import { ChatDockUsersService } from '../service/chat-dock-users.service';
 declare var jquery: any;
 declare var $window: any;
 declare var $: any;
@@ -87,8 +87,7 @@ export class AdminComponent implements OnInit {
   randombgcolor: string;
   doSearch: boolean;
   isChatStarted: boolean;
-  onClickActiveUsers: IUser[] = [];
-  isChatWindow: boolean;
+  chatActiveUser: IUser[] = [];
   isSocketConnected: boolean;
   listOfUsers: IUser[];
   loggedinUserObject: IUser;
@@ -122,17 +121,17 @@ export class AdminComponent implements OnInit {
       connction => {
         console.log(connction, 'socket connection listener');
         if (this.isSocketConnected) {
+          console.log('closed');
           this.isSocketConnected = false;
           this.socketService.closeSockectForThisUser();
           this.initializeSocket();
-          this.listenAllTheSocketServices();
+          // this.listenAllTheSocketServices();
         }
       }
     );
   }
   ngOnInit(): void {
     this.listOfUsers = [];
-    // this.initializeSocket();
     this.spinnerService.show();
     this.name = localStorage.getItem('name');
     this.user_id = localStorage.getItem('user_id');
@@ -158,38 +157,6 @@ export class AdminComponent implements OnInit {
         // this.ChatIO();
       }
     }, 3000);
-    // this.name = localStorage.getItem('name');
-    // this.user_id = localStorage.getItem('user_id');
-
-    // // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
-    // this.isUserActive = false;
-    // // this.getUserList();
-    // // const interval = setInterval(() => {
-    // //   if (Date.now() > Number(localStorage.getItem('expires_at'))) {
-    // //     this.loginAuthService.logout(false);
-    // //     clearInterval(interval);
-    // //   }
-    // //   this.getClientUsersList();
-
-    // // }, 5000);
-    // this.getLoginUserinterval = setInterval(async () => {
-    //   if (Date.now() > Number(localStorage.getItem('expires_at'))) {
-    //     this.loginAuthService.logout(false);
-    //     clearInterval(this.getLoginUserinterval);
-    //   }
-    //   const usersList = await this.getClientUsersList();
-
-    // }, 5000);
-    // const interval2 = setInterval(() => {
-    //   if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
-    //     this.isChatStarted = true;
-    //     // console.log('enter the dragan');
-    //     // this.loadScript('/widget-example/static/js/main.428ae54a.js');
-    //     // this.window.cc = window.cc || {};
-    //     // this.window.ChatCampUI = window.ChatCampUI || {};
-    //     // console.log(window);
-    //   }
-    // }, 3000);
   }
   // LOGOUT THE USER
   onSubmitlogout = (status) => {
@@ -254,10 +221,6 @@ export class AdminComponent implements OnInit {
   }
   // GET FEATIRE ACCESS AND USER ACCESS AND LOGGED IN USER LIST
   getFeatureAndUserAccessLevels = async () => {
-    // const clientName: any = await this.getHostOriginUrlFromBrowser();
-    console.log(AppConstants.CLIENT_NAME);
-    console.log(localStorage.getItem('client_name'));
-    console.log(AppConstants.CLIENT_NAME.toLowerCase());
     this.clientName = AppConstants.CLIENT_NAME;
     const clientFeatureAccessLevel: any = await this.getClientFeatureAccessLevels();
     let userAccessLevels: any;
@@ -274,12 +237,14 @@ export class AdminComponent implements OnInit {
       this.loggedinUsersList = loggedInUsers;
       this.loggedinUsersList.forEach(item => {
         const userItem = <IUser>{};
-        userItem._id = item.id;
-        userItem.user_id = item.id;
+        userItem._id = String(item.id);
+        userItem.user_id = String(item.id);
         userItem.user_name = item.name;
         this.listOfUsers = [...this.listOfUsers, userItem];
       });
+      this.chatDockUsersService.addListOfUsers(this.listOfUsers);
       this.initializeSocket();
+      // this.chatDockUsersService.addChatUsers(this.listOfUsers);
     } catch (usersListError) {
       console.log(usersListError);
     }
@@ -325,15 +290,6 @@ export class AdminComponent implements OnInit {
       this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getuseraccessbyuserid/' + localStorage.getItem('user_id')).subscribe(
         succResp => {
           resolve(succResp);
-          // if (this.userAccessLevelObject) {
-          //   this.userAccessLevelData = this.userAccessLevelObject;
-          //   console.log(this.userAccessLevelData);
-          //   // this.accessDataModel.setUserAccessLevels(this.userAccessLevelData, this.feature_id, 'admin');
-          //   resolve(true);
-          // } else {
-          //   resolve(true);
-          //   this.openClientUserAccessDeniedPopUp();
-          // }
         }, errResp => {
           resolve(errResp);
         }
@@ -388,20 +344,6 @@ export class AdminComponent implements OnInit {
     }
     return data;
   }
-  // ngAfterViewInit(): void {
-  //   const interval2 = setInterval(() => {
-  //     if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
-  //       this.isChatStarted = true;
-  //       console.log('enter the dragan');
-  //       // this.loadScript('/widget-example/static/js/main.428ae54a.js');
-  //       // this.windowRef.cc = window.cc || {};
-  //       // window.ChatCampUI = window.ChatCampUI || {};
-  //       // console.log(window);
-  //       this.ChatIO();
-  //     }
-  //   }, 3000);
-
-  //   }
 
   // page navigations
   navigatePage = (router) => {
@@ -436,18 +378,7 @@ export class AdminComponent implements OnInit {
       this.router.navigate(['admin/']);
     }
   }
-  // ChatIO = () => {
-  //   // console.log(this.window);
 
-  //   /* tslint:disable */
-  //   window.cc.GroupChannel.create('Team', this.loggedinIds, true, function (error, groupChannel) {
-  //     if (error == null) {
-  //       // console.log('New Group Channel has been created', groupChannel);
-  //       window.ChatCampUI.startChat(groupChannel.id);
-  //     }
-  //   });
-  //   /* tslint:enable */
-  // }
   viewPages() {
     localStorage.setItem('page_item', 'viewpages');
   }
@@ -465,20 +396,6 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // OnetoOne = (chatItem) => {
-
-  //   // console.log(this.window);
-  //   const OnetoOne = [this.user_id];
-  //   OnetoOne.push(String(chatItem.id));
-  //   /* tslint:disable */
-  //   window.cc.GroupChannel.create('Team', OnetoOne, true, (error, groupChannel) => {
-  //     if (error == null) {
-  //       // console.log('New one to one Channel has been created', groupChannel);
-  //       window.ChatCampUI.startChat(groupChannel.id);
-  //     }
-  //   });
-  //   /* tslint:enable */
-  // }
   openClientUserAccessDeniedPopUp(): void {
     const dialogRef = this.dialog.open(ClientUserAccessDenied, {
       width: '40vw',
@@ -534,24 +451,17 @@ export class AdminComponent implements OnInit {
     return randcolor;
   }
   /*Get clicked user id for custom chat*/
-  getUser = (item: IUser) => {
-    this.isChatWindow = true;
-    const checkUserLength = this.onClickActiveUsers.filter(chatUser => chatUser.user_id === item.user_id).length;
-    if (checkUserLength > 0) {
+  onChatUserClick = (item: IUser) => {
+    const checkUserLength = this.chatActiveUser.some(chatUser => chatUser.user_id === item.user_id);
+    if (checkUserLength) {
       return;
     } else {
-      this.onClickActiveUsers = [...this.onClickActiveUsers, item];
-      this.chatDockUsersService.addChatUsers(item);
+      this.chatActiveUser = [...this.chatActiveUser, item];
+      this.chatDockUsersService.addChatUser(item);
     }
-    console.log(this.onClickActiveUsers);
   }
   // INITIALIZE THE SOCKET HERE
   initializeSocket = async () => {
-    try {
-      // const usersList = await this.getUsersFromTheServer();
-    } catch (error) {
-      console.log(error);
-    }
     const socketConnection = await this.socketService.initSocket();
     this.listenAllTheSocketServices();
   }
@@ -577,6 +487,7 @@ export class AdminComponent implements OnInit {
       const loginUsersSubscriber: Subscription = this.socketService.listenLoggedUsersListener().subscribe(
         (succResp: IUserSocketResponseObject) => {
           this.isSocketConnected = true;
+          this.chatDockUsersService.addLoggedinUser(this.loggedinUserObject);
           console.log('listener', succResp);
           this.listOfUsers.forEach((e1, e1_index) => {
             let sockect_key = '';

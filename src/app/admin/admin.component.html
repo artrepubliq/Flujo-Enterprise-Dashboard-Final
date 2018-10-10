@@ -467,7 +467,7 @@
                 <mat-tab (click)="$event.stopPropagation();" label="Team">
                   <div class="chatUser_list">
                     <div *ngFor="let item of listOfUsers" class="team-member">
-                      <button (click)="getUser(item)" class="chatUser-name">
+                      <button (click)="onChatUserClick(item)" class="chatUser-name">
                         <span class="user_pic"></span>
                         {{item.user_name}}
                         <label style="color:'red'" *ngIf="item.is_loggedin">*</label>
@@ -481,7 +481,7 @@
           </div>
         </a>
       </li>
-      <app-chat-box *ngIf="onClickActiveUsers"></app-chat-box>
+      <app-chat-box *ngIf="listOfUsers"></app-chat-box>
     </ul>
   </div>
 </nav>
