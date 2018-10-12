@@ -37,6 +37,7 @@ export class SocketService {
   // }
   // LOGIN SUCCESS EMITER TO SERVER
   loginSuccessEventEmit = (userData) => {
+    console.log(userData);
     this.privateChatSocket.emit('user_login', userData);
   }
   // LISTENER CALL FOR LOGGED USERS
@@ -52,7 +53,6 @@ export class SocketService {
 
   public onMessage(): Observable<ISocketInfo> {
     socketIo(AppConstants.SOCEKT_API_URL);
-    // console.log(this.privateChatSocket);
     return new Observable<ISocketInfo>(observer => {
       this.privateChatSocket.on('connection', (data: any) => {
         console.log(data);
@@ -61,19 +61,9 @@ export class SocketService {
     });
   }
 
-  // public onEvent(event): Observable<any> {
-  //   socketIo(SERVER_URL);
-  //   return new Observable<Event>(observer => {
-  //     this.privateChatSocket.emit(event, (data) => {
-  //       // console.log(event);
-  //       // console.log(data);
-  //       observer.next(data);
-  //     });
-  //   });
-  // }
   public onEvent(event): void {
-    this.privateChatSocket.emit(event, 'hii harishh');
-    this.privateChatSocket.emit(event, 'hii harishh');
+    this.privateChatSocket.emit(event, 'test');
+    this.privateChatSocket.emit(event, 'test');
   }
 
   public joinRoom(usernameRoom, socket_id) {
@@ -166,7 +156,31 @@ export class SocketService {
       });
     });
   }
+  // SOCKET EMIT TO UPDATE THE EXISTING MESSAGE BY MESSAGE ID
+  emitUpdatedMessage = (updatedMessage) => {
+    this.privateChatSocket.emit('update_sender_old_message_emit', updatedMessage);
+  }
+  // SOCKET EMIT TO UPDATE THE EXISTING MESSAGE BY MESSAGE ID
+  listenerForUpdatedOldMessage = () => {
+    return new Observable((observer) => {
+      this.privateChatSocket.on('update_sender_old_message_listen', updateEvent => {
+        observer.next(updateEvent);
+      });
+    });
+  }
 
+  // SOCKET EMIT TO DELETE THE MESSAGE FROM THE CONVERSATIONS
+  emitMessageObjectToDeleteMessage = (messageObject) => {
+    this.privateChatSocket.emit('delete_old_message', messageObject);
+  }
+  // SOCKET LISTENER FOR DELETE OLD MESSAGES SUCCESS LISTENER
+  deleteOldMessageSuccessListener = () => {
+    return new Observable(observer => {
+      this.privateChatSocket.on('delete_old_message_succes_listener', succEvent => {
+        observer.next(succEvent);
+      });
+    });
+  }
 
 
 
@@ -205,6 +219,7 @@ export class SocketService {
 
   closeSockectForThisUser = () => {
     this.privateChatSocket.disconnect();
+    this.privateChatSocket.close();
   }
 }
 

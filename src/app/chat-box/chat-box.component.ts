@@ -93,17 +93,14 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   listenAllTheSocketServices = () => {
     this.socketListenerForNewMessages();
     this.listenerForMessageReachedConfirmation();
-    this.socketService.listenerForIsNewMessageStoredInDB();
-    // this.socketService.listenNewMessageReadConfirmation();
     this.listenForNewMessageReadConfirm();
-    // this.socketService.listenerUserMessageTypingIndication();
     this.listenForInputTypingIndicator();
+    this.deleteOldMessageSuccessListener();
   }
   // SOCKET LISTENER FOR INCOMING NEW MESSAGES
   socketListenerForNewMessages = () => {
     this.socketService.listenNewMessages().subscribe(
       newMsg => {
-        console.log(newMsg, 116);
         const receiverIndex = this.selectedUsers.findIndex(receiverItem => receiverItem.receiver_id === newMsg.sender_id);
         if (receiverIndex >= 0) {
           const receiveEmitObjet = {
@@ -146,26 +143,24 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   listenForInputTypingIndicator = () => {
     this.socketService.listenerUserMessageTypingIndication()
       .subscribe(
-        (lisnSucResp: any) => {
-          console.log(lisnSucResp);
-          if (this.selectedUsers.length > 0) {
-            const userIndex = this.selectedUsers.findIndex(indexItem => indexItem.receiver_id === lisnSucResp.user_id);
-            if (userIndex >= 0 && this.selectedUsers[userIndex].isWindowOpened) {
-              let interval: any;
+      (lisnSucResp: any) => {
+        if (this.selectedUsers.length > 0) {
+          const userIndex = this.selectedUsers.findIndex(indexItem => indexItem.receiver_id === lisnSucResp.user_id);
+          if (userIndex >= 0 && this.selectedUsers[userIndex].isWindowOpened) {
+            let interval: any;
+            clearTimeout(interval);
+            interval = setTimeout(() => {
+              this.selectedUsers[userIndex].isTyping = false;
               clearTimeout(interval);
-              interval = setTimeout(() => {
-                this.selectedUsers[userIndex].isTyping = false;
-                clearTimeout(interval);
-              }, 2000);
-              this.selectedUsers[userIndex].isTyping = this.selectedUsers[userIndex].isWindowOpened ? true : false;
+            }, 2000);
+            this.selectedUsers[userIndex].isTyping = this.selectedUsers[userIndex].isWindowOpened ? true : false;
 
-            }
-            console.log(this.selectedUsers[userIndex]);
           }
-        },
-        listErrResp => {
-          console.log(listErrResp);
         }
+      },
+      listErrResp => {
+        console.log(listErrResp);
+      }
       );
   }
   // THIS WILL USE FOR ADD NEW USER TO SELECTEDUSERS ARRAY, WHWN THE LOGIN USER COULD'T SELECT THE USER.
@@ -182,7 +177,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       return (item.user_id === newMsg.sender_id);
     });
     const receiveEmitObjet = {
-      socket_key: ReceiverData[0].socket_key,
+      socket_key: ReceiverData[0]['socket_key'],
       received_time: new Date().toISOString(),
       _id: [newMsg._id],
       user_id: this.loggedinUserObject.user_id
@@ -208,7 +203,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   // LOGOUT THE USER
   logoutUser = () => {
-    console.log(this.loggedinUserObject);
     this.socketService.disconnectPrivateChatUserSocket(this.loggedinUserObject.socket_key);
     this.socketService.closeSockectForThisUser();
   }
@@ -222,11 +216,9 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
         this.messageInputForm.patchValue({
           file: reader.result
         });
-        // console.log(file);
         const formData = new FormData();
         formData.append('file', file);
         const uploadFile = this.addAWSFileChat(formData, selecteduseritem, i, file);
-        //  this.sendMessageToSelectedReceiver(selecteduseritem,  i, file);
         // need to run CD since file load runs outside of zone
         this.cd.markForCheck();
       };
@@ -237,23 +229,13 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     $('#picked').click();
   }
   addAWSFileChat = async (formData, selecteduseritem, i, file) => {
-    console.log('Entered aws file chat method');
-    // console.log(formData);
     this.uploaderService.upload(formData).subscribe(
       awsFileUrl => {
-        console.log('got the response');
-        console.log(awsFileUrl);
         this.sendMessageToSelectedReceiver(selecteduseritem, i, awsFileUrl);
-        //   },
-        //   response => {
-        //     console.log("PUT call in error", response);
-        // },
-        // () => {
-        //     console.log("The PUT observable is now completed.");
       });
-  }/*  */
+  }
 
-  // send messages with username
+  // SEND MESSAGE WITH USER NAME
   sendMessageToSelectedReceiver = (selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any) => {
     if (selecteduseritem) {
       const receiverMessageObject = <ISendMessageObject>{};
@@ -287,7 +269,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   listenerForMessageReachedConfirmation = () => {
     this.socketService.listenNewMessageReceivedConfirmation().subscribe(
       (listenerSuccResp: any) => {
-        console.log(listenerSuccResp, 362);
         this.selectedUsers.map((useritem) => {
           if (useritem.receiver_id === listenerSuccResp.user_id) {
             useritem.chat_history.map((messageItem, index) => {
@@ -297,7 +278,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
             });
           }
         });
-        console.log(this.selectedUsers);
       },
       errorResp => {
         console.log(errorResp);
@@ -306,7 +286,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   listenForNewMessageReadConfirm = () => {
     this.socketService.listenNewMessageReadConfirmation().subscribe(
       (succResp: any) => {
-        console.log(succResp, 381);
         const index = this.selectedUsers.findIndex(item => item.receiver_id === succResp.user_id);
         succResp._id.map(id => {
           this.selectedUsers[index].chat_history.map(item => {
@@ -432,7 +411,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dissableAllActivatedInputs();
     this.selectedUsers[userIndex].isInputActivated = true;
     if (!this.isInputListenInterval) {
-      console.log('if');
       this.socketService.emitUserMessageTypingIndication(selecteduseritem.socket_key, this.loggedinUserObject.user_id);
       this.isInputListenInterval = true;
       const interval = setTimeout(() => {
@@ -465,8 +443,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedUsers[index].isEmojiWindowOpened = !this.selectedUsers[index].isEmojiWindowOpened;
   }
   addEmoji = (event) => {
-    // this.selectedEmoji.push(event.emoji.native);
-    // console.log(this.selectedEmoji);
     this.messageInputForm.controls['message'].setValue(`${this.messageInputForm.value['message']}${event.emoji.native}`);
   }
   maximizeWindow = () => {
@@ -480,4 +456,102 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   hideChatWindow = (selecteduseritem: ISelectedUsersChatWindow, index) => {
     selecteduseritem.isChatWindowMinimized = !selecteduseritem.isChatWindowMinimized;
   }
+
+  // DELETET THE MESSAGE
+  deleteMessage = (selectedUserindex, chatHistoryIndex) => {
+    // tslint:disable-next-line:max-line-length
+    this.selectedUsers[selectedUserindex].chat_history[chatHistoryIndex].showMessageOptions = !this.selectedUsers[selectedUserindex].chat_history[chatHistoryIndex].showMessageOptions;
+  }
+  deleteMessageConfirm = (chatItem: ISendMessageObject, status, userIndex) => {
+    const deleteObject = {
+      _id: chatItem._id,
+      deleted_from: chatItem.sender_id === this.loggedinUserObject.user_id ? chatItem.sender_id : chatItem.receiver_id,
+      deleted_to: chatItem.receiver_id === this.loggedinUserObject.user_id ? chatItem.sender_id : chatItem.receiver_id,
+      status: status,
+      sender_socket_key: this.loggedinUserObject.socket_key,
+      receiver_socket_key: status === 'true' ? this.selectedUsers[userIndex].socket_key : null
+    };
+    this.socketService.emitMessageObjectToDeleteMessage(deleteObject);
+  }
+
+  // DELETE OLD MESSAGE SUCCESS EVENT LISTENER
+  deleteOldMessageSuccessListener = () => {
+    this.socketService.deleteOldMessageSuccessListener().subscribe(
+      (succResp: any) => {
+        this.selectedUsers.map(item => {
+          if (item.receiver_id === succResp.deleted_to) {
+            const messageIndex = item.chat_history.findIndex(msgItem => msgItem._id === succResp._id);
+            if (messageIndex >= 0) {
+              item.chat_history.splice(messageIndex, 1);
+            }
+          } else if (item.sender_id === succResp.deleted_to) {
+            const messageIndex = item.chat_history.findIndex(msgItem => msgItem._id === succResp._id);
+            if (messageIndex >= 0) {
+              item.chat_history.splice(messageIndex, 1);
+            }
+          }
+        });
+      },
+      errResp => {
+        console.log(errResp);
+      });
+  }
+
+  updateMessage(chatItem: ISendMessageObject, userIndex) {
+    this.selectedUsers[userIndex].messageUpdateObject = chatItem;
+    const inputInterval = setInterval(() => {
+      const input = <HTMLInputElement>document.getElementById(chatItem.sender_id);
+      if (input) {
+        input.value = chatItem.message;
+        clearInterval(inputInterval);
+      }
+    }, 1);
+  }
+
+  // UPDATE MESSAGE CONFIRM
+  updateMessageConfirm = (userIndex, status: boolean) => {
+    const messageObject = this.selectedUsers[userIndex].messageUpdateObject;
+    const input = <HTMLInputElement>document.getElementById(messageObject.sender_id);
+    if (status) {
+      const updatedObject = {
+        _id: messageObject._id,
+        sender_id: messageObject.sender_id,
+        receiver_id: messageObject.receiver_id,
+        sender_socket_key: this.loggedinUserObject.socket_key,
+        receiver_socket_key: this.selectedUsers[userIndex].socket_key,
+        message: input.value,
+        created_time: new Date().toISOString()
+      };
+      this.socketService.emitUpdatedMessage(updatedObject);
+    }
+    input.value = '';
+    this.selectedUsers[userIndex].messageUpdateObject = null;
+  }
+
+  // LISTENER FOR OLD MESSAGE UPDATIONS
+  listenerOldMessageUpdations = () => {
+    this.socketService.listenerForUpdatedOldMessage().subscribe(
+      (success: any) => {
+        if (success.updated) {
+          this.selectedUsers.map(item => {
+            if (item.sender_id === success.sender_id) {
+              const chatIndex = item.chat_history.findIndex(chatItem => chatItem._id === success._id);
+              if (chatIndex >= 0) {
+                item.chat_history[chatIndex].message = success.message;
+              }
+            } else if (item.sender_id === success.receiver_id) {
+              const chatIndex = item.chat_history.findIndex(chatItem => chatItem._id === success._id);
+              if (chatIndex >= 0) {
+                item.chat_history[chatIndex].message = success.message;
+              }
+            }
+          });
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
 }

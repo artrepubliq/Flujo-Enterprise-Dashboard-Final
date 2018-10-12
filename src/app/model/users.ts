@@ -25,7 +25,7 @@ export interface ISelectedUsersChatWindow {
     sender_id: string;
     receiver_name: string;
     receiver_id: string;
-    // conversation_id: string;
+    messageUpdateObject: ISendMessageObject;
     chat_history: ISendMessageObject[];
     isWindowOpened: boolean;
     isTyping: boolean;
@@ -46,4 +46,5 @@ export interface ISendMessageObject {
     status: number;
     visibility: boolean;
     message_type: string;
+    showMessageOptions: boolean;
 }

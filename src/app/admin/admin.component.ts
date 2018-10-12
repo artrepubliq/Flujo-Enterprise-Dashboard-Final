@@ -131,12 +131,12 @@ export class AdminComponent implements OnInit {
     );
     this.chatDockUsersService.listencloseChatWindow().subscribe(
       eventData => {
-      const index = this.chatActiveUser.findIndex(item => item.user_id === eventData);
-      if (index >= 0) {
-      this.chatActiveUser.splice(index, 1);
+        const index = this.chatActiveUser.findIndex(item => item.user_id === eventData);
+        if (index >= 0) {
+          this.chatActiveUser.splice(index, 1);
+        }
       }
-      }
-      );
+    );
   }
   ngOnInit(): void {
     this.listOfUsers = [];
@@ -310,21 +310,21 @@ export class AdminComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.httpClient.get<ICommonInterface>(AppConstants.API_URL + 'flujo_client_getlogin/' + AppConstants.CLIENT_ID)
         .subscribe(
-          data => {
-            this.activeUsers = data.result;
-            const loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
-              // tslint:disable-next-line:radix
-              return activeUserData.id !== parseInt(localStorage.getItem('user_id'));
-            });
-            if (loggedinUsersList) {
-              this.StoredLoggedinIds();
-              resolve(loggedinUsersList);
-            }
-          },
-          error => {
-            console.log(error);
-            reject('login users list is empty.');
+        data => {
+          this.activeUsers = data.result;
+          const loggedinUsersList = _.filter(this.activeUsers, (activeUserData: IActiveUsers) => {
+            // tslint:disable-next-line:radix
+            return activeUserData.id !== parseInt(localStorage.getItem('user_id'));
+          });
+          if (loggedinUsersList) {
+            this.StoredLoggedinIds();
+            resolve(loggedinUsersList);
           }
+        },
+        error => {
+          console.log(error);
+          reject('login users list is empty.');
+        }
         );
     });
   }

@@ -84,7 +84,7 @@
           <div #windowchathistory class="chatTexts_items" (scroll)="onScroll($event)">
             <div class="message-block msg-in">
               <div class="chat_scrollChat">
-                <div #listHeight *ngFor="let chatItem of selecteduseritem.chat_history" class="chat_text" [ngClass]="{'rightSideText':chatItem?.sender_id === loggedinUserObject.user_id}">
+                <div #listHeight *ngFor="let chatItem of selecteduseritem.chat_history; let j = index" class="chat_text" [ngClass]="{'rightSideText':chatItem?.sender_id === loggedinUserObject.user_id}">
                   <!-- <span class="user-logo">
                     <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="user logo">
                   </span> -->
@@ -107,6 +107,17 @@
                       |
                       date:'medium'}}</label>
                   </div>
+                  <div (click)="deleteMessage(i, j)">X</div>
+                  <div *ngIf="chatItem.showMessageOptions">
+                    <span (click)="deleteMessageConfirm(chatItem, 'flase', i)">Delete For Me</span> OR
+                    <span (click)="deleteMessageConfirm(chatItem, 'true', i)">Delete For Every One</span>
+                  </div>
+                  <div (click)="updateMessage(chatItem, i)">U</div>
+                </div>
+                <div *ngIf="selecteduseritem.messageUpdateObject">
+                  <input type="text" id={{selecteduseritem.sender_id}}>
+                  <button (click)="updateMessageConfirm(i, true)">OK</button>
+                  <button (click)="updateMessageConfirm(i, false)">CANCEL</button>
                 </div>
               </div>
             </div>
