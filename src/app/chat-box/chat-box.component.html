@@ -92,7 +92,7 @@
                     <div class="message-data" *ngIf="chatItem.message_type == 'text'">
                       {{chatItem.message}}
                     </div>
-                    <div *ngIf="chatItem.message_type =='image/png' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/gif'">
+                    <div *ngIf="chatItem.message_type =='image/png' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/jpeg' || chatItem.message_type =='image/gif'">
                       <img width="200" height='100' src='{{chatItem.message}}'>
                     </div>
                     <div class="message-status" *ngIf="chatItem?.sender_id === loggedinUserObject.user_id">
