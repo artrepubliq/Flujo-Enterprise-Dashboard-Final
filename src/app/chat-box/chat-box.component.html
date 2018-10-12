@@ -1,7 +1,9 @@
 <div class="chat-windows" style="display: none;" #chat_box>
   <div class="scrollBlock">
     <div>
-      <div #smallWindow class="flujoChat-box smallWindow" *ngFor="let selecteduseritem of selectedUsers,let i=index">
+      <div #smallWindow class="flujoChat-box smallWindow" *ngFor="let selecteduseritem of selectedUsers,let i=index"
+        (click)="activateSelectedWindow(i)" [ngClass]="{'hide_chat':selecteduseritem?.isChatWindowMinimized}">
+        <!-- <div #smallWindow *ngFor="let selecteduseritem of selectedUsers,let i=index" (click)="activateSelectedWindow(i)" [class]="'flujoChat-box smallWindow '+ selecteduseritem.receiver_name "> -->
         <div class="chat-header" fxLayout="row">
           <div fxFlex class="user-name">
             <div class="dropdown d-inline-block">
@@ -45,9 +47,16 @@
 
           <div class="smallWindow_actions">
             <div>
-              <button><svg class="cc-icons" viewBox="0 0 22 24" preserveAspectRatio="none" width="19px" height="24px">
+              <button (click)="hideChatWindow(selecteduseritem, i)">
+                <svg *ngIf="selecteduseritem?.isChatWindowMinimized" viewBox="0 0 64 64" width="19px" height="24px">
+                  <g>
+                    <path fill="#1D1D1B" d="M3.352,48.296l28.56-28.328l28.58,28.347c0.397,0.394,0.917,0.59,1.436,0.59c0.52,0,1.04-0.196,1.436-0.59   c0.793-0.787,0.793-2.062,0-2.849l-29.98-29.735c-0.2-0.2-0.494-0.375-0.757-0.475c-0.75-0.282-1.597-0.107-2.166,0.456   L0.479,45.447c-0.793,0.787-0.793,2.062,0,2.849C1.273,49.082,2.558,49.082,3.352,48.296z" />
+                  </g>
+                </svg>
+                <svg *ngIf="!selecteduseritem?.isChatWindowMinimized" class="cc-icons" viewBox="0 0 22 24" preserveAspectRatio="none" width="19px" height="24px">
                   <path d="M 5 11 L 5 13 L 19 13 L 19 11 Z "></path>
-                </svg></button>
+                </svg>
+              </button>
               <button (click)="maximizeWindow()"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
                   xml:space="preserve">
@@ -128,10 +137,11 @@
           </div>
         </div>
         <div class="chat-input">
-          <form>
-            <div class="inputMsg" [formGroup]="messageInputForm">
-              <input type="text" class="input-message" placeholder="Write Your Message..!" formControlName="message"
-                (input)="onMessageInputListener($event.target.value, selecteduseritem)" (keyup.enter)="sendMessageToSelectedReceiver(selecteduseritem, i)">
+          <form [formGroup]="messageInputForm">
+            <div class="inputMsg">
+              <input *ngIf="selecteduseritem.isInputActivated" type="text" class="input-message" placeholder="Write Your Message..!"
+                formControlName="message" (input)="onMessageInputListener($event.target.value, selecteduseritem, i)"
+                (keyup.enter)="sendMessageToSelectedReceiver(selecteduseritem, i)">
             </div>
             <div class="chat_controls">
               <a (click)="addEmojiForSelectedWindow(i)">
@@ -141,10 +151,10 @@
               <i class="fa fa-paperclip" (click)="triggerUpload()"></i>
               <button class="send-button" type="submit" [disabled]="message?.length == 0" (click)="sendMessageToSelectedReceiver(selecteduseritem, i)">Send</button>
             </div>
+            <div class="emojies_block" *ngIf="selecteduseritem.isEmojiWindowOpened">
+              <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
+            </div>
           </form>
-        </div>
-        <div class="emojies_block" *ngIf="selecteduseritem.isEmojiWindowOpened">
-          <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
         </div>
       </div>
     </div>

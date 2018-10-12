@@ -8,6 +8,7 @@ import * as $ from 'jquery';
 import { ChatHttpApiService } from '../service/chat-http-api.service';
 import { ChatDockUsersService } from '../service/chat-dock-users.service';
 import { UploaderService } from '../service/uploader.service';
+import * as _ from 'underscore';
 @Component({
   selector: 'app-chat-box',
   templateUrl: './chat-box.component.html',
@@ -87,21 +88,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.unSubscribe.complete();
   }
-  maximizeWindow = () => {
-    this.smallWindow.nativeElement.classList.remove('smallWindow');
-    this.smallWindow.nativeElement.classList.add('maximize_window');
-  }
-  minimizeWindow = () => {
-    this.smallWindow.nativeElement.classList.add('smallWindow');
-    this.smallWindow.nativeElement.classList.remove('maximize_window');
-  }
-  // hideChatWindow = () => {
-  //   if (this.smallWindow.nativeElement.classList[3] !== 'hide_chat') {
-  //     this.smallWindow.nativeElement.classList.add('hide_chat');
-  //   } else {
-  //     this.smallWindow.nativeElement.classList.remove('hide_chat');
-  //   }
-  // }
 
   // LISTEN ALL THE SERVICES
   listenAllTheSocketServices = () => {
@@ -160,26 +146,26 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   listenForInputTypingIndicator = () => {
     this.socketService.listenerUserMessageTypingIndication()
       .subscribe(
-      (lisnSucResp: any) => {
-        console.log(lisnSucResp);
-        if (this.selectedUsers.length > 0) {
-          const userIndex = this.selectedUsers.findIndex(indexItem => indexItem.receiver_id === lisnSucResp.user_id);
-          if (userIndex >= 0 && this.selectedUsers[userIndex].isWindowOpened) {
-            let interval: any;
-            clearTimeout(interval);
-            interval = setTimeout(() => {
-              this.selectedUsers[userIndex].isTyping = false;
+        (lisnSucResp: any) => {
+          console.log(lisnSucResp);
+          if (this.selectedUsers.length > 0) {
+            const userIndex = this.selectedUsers.findIndex(indexItem => indexItem.receiver_id === lisnSucResp.user_id);
+            if (userIndex >= 0 && this.selectedUsers[userIndex].isWindowOpened) {
+              let interval: any;
               clearTimeout(interval);
-            }, 2000);
-            this.selectedUsers[userIndex].isTyping = this.selectedUsers[userIndex].isWindowOpened ? true : false;
+              interval = setTimeout(() => {
+                this.selectedUsers[userIndex].isTyping = false;
+                clearTimeout(interval);
+              }, 2000);
+              this.selectedUsers[userIndex].isTyping = this.selectedUsers[userIndex].isWindowOpened ? true : false;
 
+            }
+            console.log(this.selectedUsers[userIndex]);
           }
-          console.log(this.selectedUsers[userIndex]);
+        },
+        listErrResp => {
+          console.log(listErrResp);
         }
-      },
-      listErrResp => {
-        console.log(listErrResp);
-      }
       );
   }
   // THIS WILL USE FOR ADD NEW USER TO SELECTEDUSERS ARRAY, WHWN THE LOGIN USER COULD'T SELECT THE USER.
@@ -342,6 +328,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     return moment(((new Date(received_time).valueOf()) + (timeZoneOffset * 60))).format();
   }
   handleChatWindowForSelectedUsers = async (userItem: IUser, chatMessage) => {
+    // this.dissableAllActivatedInputs();
     this.chat_box.nativeElement.style.display = 'block';
     const dateTime = new Date();
     const date = moment(dateTime).format('YYYY-MM-DD');
@@ -366,6 +353,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       messageObject.sender_id = this.loggedinUserObject.user_id;
       messageObject.socket_key = userItem.socket_key;
       messageObject.isWindowOpened = true;
+      messageObject.isInputActivated = true;
       this.selectedUsers.push(messageObject);
       this.handleWindowScroll(messageObject.chat_history.length);
     }
@@ -440,7 +428,9 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // LISTENER THE MESSAGE TYPING EVENTS TO HANDLE THE TYPE INDICATORE FOR TOHER SIDE
-  onMessageInputListener = (input, selecteduseritem: ISelectedUsersChatWindow) => {
+  onMessageInputListener = (input, selecteduseritem: ISelectedUsersChatWindow, userIndex) => {
+    this.dissableAllActivatedInputs();
+    this.selectedUsers[userIndex].isInputActivated = true;
     if (!this.isInputListenInterval) {
       console.log('if');
       this.socketService.emitUserMessageTypingIndication(selecteduseritem.socket_key, this.loggedinUserObject.user_id);
@@ -454,13 +444,40 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  dissableAllActivatedInputs = () => {
+    this.selectedUsers.map(item => {
+      if (item.isInputActivated) {
+        item.bufferMessage = this.messageInputForm.value['message'];
+      }
+      item.isInputActivated = false;
+      // item.isEmojiWindowOpened = false;
+    });
+  }
+  activateSelectedWindow = (windowIndex) => {
+    this.dissableAllActivatedInputs();
+    this.selectedUsers[windowIndex].isInputActivated = true;
+    this.messageInputForm.controls['message'].setValue(this.selectedUsers[windowIndex].bufferMessage);
+  }
+
   // ADD EMOJI WINDOW FOR SELECTED USERS
   addEmojiForSelectedWindow = (index) => {
+    this.selectedUsers[index].bufferMessage = this.messageInputForm.value['message'];
     this.selectedUsers[index].isEmojiWindowOpened = !this.selectedUsers[index].isEmojiWindowOpened;
   }
   addEmoji = (event) => {
-    this.selectedEmoji.push(event.emoji.native);
-    console.log(this.selectedEmoji);
-    // this.messageInputForm.controls['message'].setValue(event.emoji.native);
+    // this.selectedEmoji.push(event.emoji.native);
+    // console.log(this.selectedEmoji);
+    this.messageInputForm.controls['message'].setValue(`${this.messageInputForm.value['message']}${event.emoji.native}`);
+  }
+  maximizeWindow = () => {
+    this.smallWindow.nativeElement.classList.remove('smallWindow');
+    this.smallWindow.nativeElement.classList.add('maximize_window');
+  }
+  minimizeWindow = () => {
+    this.smallWindow.nativeElement.classList.add('smallWindow');
+    this.smallWindow.nativeElement.classList.remove('maximize_window');
+  }
+  hideChatWindow = (selecteduseritem: ISelectedUsersChatWindow, index) => {
+    selecteduseritem.isChatWindowMinimized = !selecteduseritem.isChatWindowMinimized;
   }
 }

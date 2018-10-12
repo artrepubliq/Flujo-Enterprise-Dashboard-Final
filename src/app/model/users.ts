@@ -29,8 +29,10 @@ export interface ISelectedUsersChatWindow {
     chat_history: ISendMessageObject[];
     isWindowOpened: boolean;
     isTyping: boolean;
-    letest_stream_date: string;
+    isInputActivated: boolean;
+    bufferMessage: string;
     isEmojiWindowOpened: boolean;
+    isChatWindowMinimized: boolean;
 }
 
 export interface ISendMessageObject {

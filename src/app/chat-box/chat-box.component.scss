@@ -207,12 +207,11 @@
                 }
             }
         }
+        &.hide_chat {
+            transform: translateY(calc(100% - 80px)) !important;
+        }
     }
 }
-
-// .hide_chat {
-//     transform: translateY(calc(100% - 80px)) !important;
-// }
 .emojies_block {
     position: absolute;
     right: 100%;
