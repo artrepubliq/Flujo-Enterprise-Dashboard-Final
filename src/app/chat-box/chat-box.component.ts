@@ -206,34 +206,47 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.socketService.disconnectPrivateChatUserSocket(this.loggedinUserObject.socket_key);
     this.socketService.closeSockectForThisUser();
   }
-  onFileUpload(event, selecteduseritem, i) {
-
-    const reader = new FileReader();
-    if (event.target.files && event.target.files.length && reader) {
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-      reader.onload = () => {
+  processUploadingFiles = (event, selecteduseritem, i)=>{
+    const files = [];
+    _.each(event.target.files, (file)=>{
+      const reader = new FileReader();
+       reader.readAsDataURL(file);
+       reader.onload= ()=>{
         this.messageInputForm.patchValue({
           file: reader.result
         });
         const formData = new FormData();
-        formData.append('file', file);
-        const uploadFile = this.addAWSFileChat(formData, selecteduseritem, i, file);
-        // need to run CD since file load runs outside of zone
-        this.cd.markForCheck();
-      };
+        formData.append(file, file);
+        this.addAWSFileChat(formData, selecteduseritem, i);
+    }
+  })
+}
+
+  onFileUpload(event, selecteduseritem, i){
+    if (event.target.files && event.target.files.length) {
+        const files = this.processUploadingFiles(event, selecteduseritem, i);
     }
   }
+
 
   triggerUpload() {
     $('#picked').click();
   }
-  addAWSFileChat = async (formData, selecteduseritem, i, file) => {
+
+  addAWSFileChat = async (formData, selecteduseritem, i) => {
+    console.log("Entered aws file chat method"+formData);
+    const awsFiles = [];
     this.uploaderService.upload(formData).subscribe(
       awsFileUrl => {
-        this.sendMessageToSelectedReceiver(selecteduseritem, i, awsFileUrl);
-      });
+        console.log(awsFileUrl);
+          this.sendMessageToSelectedReceiver(selecteduseritem,  i, awsFileUrl);
+      },
+      error => {
+        console.log(error);
+    });
+
   }
+
 
   // SEND MESSAGE WITH USER NAME
   sendMessageToSelectedReceiver = (selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any) => {
