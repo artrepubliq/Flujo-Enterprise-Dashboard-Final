@@ -25,11 +25,14 @@ export interface ISelectedUsersChatWindow {
     sender_id: string;
     receiver_name: string;
     receiver_id: string;
-    // conversation_id: string;
+    messageUpdateObject: ISendMessageObject;
     chat_history: ISendMessageObject[];
     isWindowOpened: boolean;
     isTyping: boolean;
-    letest_stream_date: string;
+    isInputActivated: boolean;
+    bufferMessage: string;
+    isEmojiWindowOpened: boolean;
+    isChatWindowMinimized: boolean;
 }
 
 export interface ISendMessageObject {
@@ -43,4 +46,5 @@ export interface ISendMessageObject {
     status: number;
     visibility: boolean;
     message_type: string;
+    showMessageOptions: boolean;
 }
