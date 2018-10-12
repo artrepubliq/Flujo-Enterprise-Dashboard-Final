@@ -95,6 +95,29 @@
                     <div *ngIf="chatItem.message_type =='image/png' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/gif'">
                       <img width="200" height='100' src='{{chatItem.message}}'>
                     </div>
+                    <div *ngIf="chatItem.message_type =='image/svg+xml'">
+                      <a href="{{chatItem.message}}"><img width="auto" height='100' src="assets/file-upload-icons/svg.png"></a>
+                    </div>
+                    <div *ngIf="chatItem.message_type =='application/zip'">
+                      <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/zip.png"></a>
+                    </div>
+                    <div *ngIf="chatItem.message_type =='text/csv'">
+                      <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/csv-file-format-extension.png"></a>
+                    </div>
+                    <div *ngIf="chatItem.message_type =='application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
+                      <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/word.png"></a>
+                    </div>
+                    <div *ngIf="chatItem.message_type =='application/pdf' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/gif'">
+                      <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/pdf.png"></a>
+                    </div>
+                    <div *ngIf="chatItem.message_type =='text/plain'">
+                      <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/txt.png"></a>
+                    </div>
+                    <div *ngIf="chatItem.message_type =='video/mp4' || chatItem.message_type =='video/ogg' || chatItem.message_type =='video/webm' || chatItem.message_type =='video/quicktime'">
+                      <!-- <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/txt.png"></a> -->
+                      <video src='{{chatItem.message}}' width="250" height="240" autoplay controls></video>
+                    </div>
+
                     <div class="message-status" *ngIf="chatItem?.sender_id === loggedinUserObject.user_id">
                       {{chatItem.created_time | date:'medium'}}
                       <label class="send-msg" *ngIf="chatItem?.status === -1"><span></span></label>
