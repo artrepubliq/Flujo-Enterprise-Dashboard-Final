@@ -470,7 +470,7 @@ export class AdminComponent implements OnInit {
   }
   // INITIALIZE THE SOCKET HERE
   initializeSocket = async () => {
-    const socketConnection = await this.socketService.initSocket();
+    const socketConnection = await this.socketService.initSocket(AppConstants.CLIENT_ID);
     this.listenAllTheSocketServices();
   }
   // LISTEN ALL THE SERVICES
