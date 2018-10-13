@@ -78,7 +78,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.messageInputForm = this.formBuilder.group({
       'message': ['', Validators.required],
       'message_type': ['']
-
     });
     this.selectedUsers = [];
   }
