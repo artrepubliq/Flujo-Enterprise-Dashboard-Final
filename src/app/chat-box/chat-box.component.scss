@@ -134,11 +134,13 @@
             background-color: #f1f1f1;
             border-radius: 20px;
             padding: 6px 15px;
+            padding-right: 26px;
             font-size: 12px;
             font-weight: 500;
             text-align: left;
             color: #666666;
             transition: 0.5s ease-in;
+            border-bottom-right-radius: 0;
         }
         .user-logo {
             display: block;
@@ -212,6 +214,7 @@
         }
     }
 }
+
 .emojies_block {
     position: absolute;
     right: 100%;
@@ -372,33 +375,41 @@
 
 .message-status {
     font-size: 10px;
+    text-align: right;
     position: absolute;
-    top: 100%;
     right: 0;
     label {
         display: flex;
+        position: absolute;
+        bottom: 100%;
+        right: 7px;
+        margin-bottom: 7px;
+        svg {
+            max-height: 10px;
+        }
         span {
             display: block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #919191;
+            width: 7px;
+            height: 4px;
+            border-bottom: 1px solid currentColor;
+            border-left: 1px solid currentColor;
+            transform: rotate(-45deg);
             margin-left: 3px;
         }
         &.read_msg {
-            span {
-                background: #00ff00;
-            }
-        }
-        &.deliver-msg {
-            span {
-                background: #b1ce0b
+            svg {
+                color: #00ff00;
+                fill: #00ff00;
             }
         }
         &.send-msg {
-            span {
-                background: #dd4408
+            svg {
+                width: 12px;
+                fill: #c1c1c1;
             }
+        }
+        &.deliver-msg {
+            display: none;
         }
     }
 }
@@ -441,6 +452,7 @@
         }
     }
 }
+
 .message-typing {
     display: flex;
     align-items: center;

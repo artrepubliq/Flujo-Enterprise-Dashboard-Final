@@ -16,9 +16,9 @@ export class SocketService {
 
   }
   private privateChatSocket;
-  public initSocket() {
+  public initSocket(clientId) {
     return new Promise((resolve, reject) => {
-      this.privateChatSocket = socketIo(`${AppConstants.SOCEKT_API_URL}/privatechat?client_id=1233`);
+      this.privateChatSocket = socketIo(`${AppConstants.SOCEKT_API_URL}/privatechat?client_id=${clientId}`);
       this.privateChatSocket.on('connection', (data: any) => {
         console.log(data);
         this.socketConnectionListenerService.announceMission('true');
