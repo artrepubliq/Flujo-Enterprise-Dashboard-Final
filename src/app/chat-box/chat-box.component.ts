@@ -9,6 +9,7 @@ import { ChatHttpApiService } from '../service/chat-http-api.service';
 import { ChatDockUsersService } from '../service/chat-dock-users.service';
 import { UploaderService } from '../service/uploader.service';
 import * as _ from 'underscore';
+import { AppConstants } from '../app.constants';
 @Component({
   selector: 'app-chat-box',
   templateUrl: './chat-box.component.html',
@@ -78,7 +79,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.messageInputForm = this.formBuilder.group({
       'message': ['', Validators.required],
       'message_type': ['']
-
     });
     this.selectedUsers = [];
   }
@@ -165,14 +165,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   // THIS WILL USE FOR ADD NEW USER TO SELECTEDUSERS ARRAY, WHWN THE LOGIN USER COULD'T SELECT THE USER.
   prepeareNewUserToStartConvesation = (newMsg: ISendMessageObject) => {
-    // const dateTime = new Date();
-    // const convObject = {
-    //   client_id: '1233',
-    //   date: moment(dateTime).format('YYYY-MM-DD'),
-    //   // conversation_id: newMsg.conversation_id
-    // };
-    // let username = '';
-    // let userSocketKey = '';
     const ReceiverData = this.listOfUsers.filter(item => {
       return (item.user_id === newMsg.sender_id);
     });
@@ -185,61 +177,67 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.socketService.emitNewMessageReadConfirmation(receiveEmitObjet);
     newMsg.received_time = this.getNewTimeForSendReceivemessage();
     this.handleChatWindowForSelectedUsers(ReceiverData[0], newMsg);
-    // this.listOfUsers.filter(item => {
-    //   if (item.user_id === newMsg.sender_id) {
-    //     username = item.user_name;
-    //     userSocketKey = item.socket_key;
-    //   }
-    // });
-    // const selectedUser = <ISelectedUsersChatWindow>{};
-    // selectedUser.chat_history = [newMsg];
-    // // selectedUser.conversation_id = this.createConversationId(this.loggedinUserObject.user_id, newMsg.sender_id);
-    // selectedUser.receiver_id = newMsg.sender_id;
-    // selectedUser.receiver_name = username;
-    // selectedUser.sender_id = this.loggedinUserObject.user_id;
-    // selectedUser.socket_key = userSocketKey;
-    // this.selectedUsers = [...this.selectedUsers, selectedUser];
-    // this.chat_box.nativeElement.style.display = 'block';
   }
   // LOGOUT THE USER
   logoutUser = () => {
     this.socketService.disconnectPrivateChatUserSocket(this.loggedinUserObject.socket_key);
     this.socketService.closeSockectForThisUser();
   }
-  onFileUpload(event, selecteduseritem, i) {
-
-    const reader = new FileReader();
-    if (event.target.files && event.target.files.length && reader) {
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-      reader.onload = () => {
+  processUploadingFiles = (event, selecteduseritem, i)=>{
+    const files = [];
+    _.each(event.target.files, (file)=>{
+      const reader = new FileReader();
+       reader.readAsDataURL(file);
+       reader.onload= ()=>{
         this.messageInputForm.patchValue({
           file: reader.result
         });
         const formData = new FormData();
-        formData.append('file', file);
-        const uploadFile = this.addAWSFileChat(formData, selecteduseritem, i, file);
-        // need to run CD since file load runs outside of zone
-        this.cd.markForCheck();
-      };
+        formData.append(file, file);
+        this.addAWSFileChat(formData, selecteduseritem, i);
+    }
+  })
+}
+
+  onFileUpload(event, selecteduseritem, i){
+    if (event.target.files && event.target.files.length) {
+        const files = this.processUploadingFiles(event, selecteduseritem, i);
     }
   }
+
 
   triggerUpload() {
     $('#picked').click();
   }
-  addAWSFileChat = async (formData, selecteduseritem, i, file) => {
+
+  addAWSFileChat = async (formData, selecteduseritem, i) => {
+    console.log("Entered aws file chat method"+formData);
+    const awsFiles = [];
     this.uploaderService.upload(formData).subscribe(
       awsFileUrl => {
-        this.sendMessageToSelectedReceiver(selecteduseritem, i, awsFileUrl);
-      });
+        console.log(awsFileUrl);
+          this.sendMessageToSelectedReceiver(selecteduseritem,  i, awsFileUrl);
+      },
+      error => {
+        console.log(error);
+    });
+
   }
 
+
   // SEND MESSAGE WITH USER NAME
-  sendMessageToSelectedReceiver = (selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any) => {
+  sendMessageToSelectedReceiver = ($event, selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any) => {
+    // $event.preventDefault();
+    // console.log($event);
     if (selecteduseritem) {
+          console.log('hi');
+
       const receiverMessageObject = <ISendMessageObject>{};
       receiverMessageObject.message = file ? file.location : this.messageInputForm.value.message;
+      receiverMessageObject.fileName = file ? file.originalname : '';
+      receiverMessageObject.fileSize = file ? this.uploaderService.bytesToSize(file.size) : null;
+      selecteduseritem.fileName = file ? file.originalname : '';
+      selecteduseritem.fileSize = file ? this.uploaderService.bytesToSize(file.size) : null;
       this.messageInputForm.reset();
       receiverMessageObject.receiver_id = selecteduseritem.receiver_id;
       receiverMessageObject.sender_id = selecteduseritem.sender_id;
@@ -249,13 +247,10 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       const dateTime = new Date();
       receiverMessageObject.created_time = dateTime.toISOString();
       this.socketService.sendMessageService(receiverMessageObject);
-      const inte = setTimeout(() => {
-        this.chathistoryContainer.nativeElement.scrollTop += this.chatWindowClientHeight;
-        clearTimeout(inte);
-      }, 50);
-
       this.socketService.listenerForIsNewMessageStoredInDB()
-        .then(succ => {
+        .then((succ: ISendMessageObject) => {
+          succ.fileName = file ? file.originalname : '';
+          succ.fileSize = file ? this.uploaderService.bytesToSize(file.size) : null;
           this.selectedUsers[index].chat_history = [...this.selectedUsers[index].chat_history, succ];
         })
         .catch(err => {
@@ -352,7 +347,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getChatHistoryByConversationId = async (date, senderId, receiverId, socketKey) => {
     const convObject = {
-      client_id: '1233',
+      client_id: AppConstants.CLIENT_ID,
       sender_id: senderId,
       created_time: date,
       receiver_id: receiverId
