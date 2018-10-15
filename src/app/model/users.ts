@@ -33,6 +33,8 @@ export interface ISelectedUsersChatWindow {
     bufferMessage: string;
     isEmojiWindowOpened: boolean;
     isChatWindowMinimized: boolean;
+    fileName?: string;
+    fileSize?: string;
 }
 
 export interface ISendMessageObject {
@@ -47,4 +49,6 @@ export interface ISendMessageObject {
     visibility: boolean;
     message_type: string;
     showMessageOptions: boolean;
+    fileSize?: string;
+    fileName?: string;
 }
