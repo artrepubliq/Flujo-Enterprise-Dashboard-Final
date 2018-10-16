@@ -2,19 +2,24 @@ import { Injectable } from '@angular/core';
 import * as _ from 'underscore';
 
 @Injectable()
+
 export class MessageService {
+
   messages: string[] = [];
   percentage: number;
   hideProgress: boolean;
+  fileEvent: number;
   add(message: string) {
+    console.log(message);
     this.messages.push(message);
     _.each(this.messages, (messageItem) => {
-      this.percentage = +parseInt(messageItem, null);
+      if(parseInt(messageItem)>0){
+       this.percentage = +parseInt(messageItem, null);
+      }
+      else{
+        this.fileEvent = messageItem;
+      }
     });
-    if (this.percentage === 100) {
-      this.percentage = 0;
-      console.log(this.percentage);
-    }
   }
 
   clear() {
