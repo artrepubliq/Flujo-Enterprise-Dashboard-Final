@@ -10,6 +10,10 @@ import { ChatDockUsersService } from '../service/chat-dock-users.service';
 import { UploaderService } from '../service/uploader.service';
 import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
+import { NG_ASYNC_VALIDATORS, Validator, FormControl, ValidationErrors } from '@angular/forms';
+import { FileValidator } from '../service/file-input.validator';
+import { isObject } from 'util';
+
 @Component({
   selector: 'app-chat-box',
   templateUrl: './chat-box.component.html',
@@ -45,11 +49,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.listOfUsers = [];
     this.chatDockUsersService.getChatUser().takeUntil(this.unSubscribe).subscribe(
       (chatObject: any) => {
-        // this.selectedUsers = [...this.selectedUsers, chatObject];
         this.handleChatWindowForSelectedUsers(chatObject, null);
-        // if (this.test) {
-        //   this.chatWindow.nativeElement.style.display = 'block';
-        // }
       },
       error => {
         console.log(error);
@@ -78,6 +78,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.messageInputForm = this.formBuilder.group({
       'message': ['', Validators.required],
+      fileupload: new FormControl('', [FileValidator.validate]),
       'message_type': ['']
     });
     this.selectedUsers = [];
@@ -125,11 +126,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
             clearTimeout(interval);
           }, 10);
         } else {
-          // const receivedUser = this.listOfUsers.filter((receiverItem) => {
-          //   return receiverItem.user_id === newMsg.sender_id;
-          // });
-
-          // this.handleChatWindowForSelectedUsers(receivedUser[0], newMsg);
           // THIS WILL USE FOR ADD NEW USER TO SELECTEDUSERS ARRAY, WHWN THE LOGIN USER COULD'T SELECT THE USER.
           this.prepeareNewUserToStartConvesation(newMsg);
         }
@@ -195,11 +191,13 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
         const formData = new FormData();
         formData.append(file, file);
         this.addAWSFileChat(formData, selecteduseritem, i);
+        // event.input('#file')
       };
     });
   }
 
   onFileUpload(event, selecteduseritem, i) {
+    // document.getElementById("myFile").accept = "audio/*";
     if (event.target.files && event.target.files.length) {
       const files = this.processUploadingFiles(event, selecteduseritem, i);
     }
@@ -211,7 +209,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addAWSFileChat = async (formData, selecteduseritem, i) => {
-    console.log('Entered aws file chat method' + formData);
     const awsFiles = [];
     this.uploaderService.upload(formData).subscribe(
       awsFileUrl => {
@@ -221,17 +218,16 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       error => {
         console.log(error);
       });
-
   }
 
+  triggerEnter() {
+    $('#send-button').click();
+  }
 
   // SEND MESSAGE WITH USER NAME
-  sendMessageToSelectedReceiver = ($event, selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any) => {
-    // $event.preventDefault();
-    // console.log($event);
-    if (selecteduseritem) {
-      console.log('hi');
+  sendMessageToSelectedReceiver = (selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any) => {
 
+    if (selecteduseritem) {
       const receiverMessageObject = <ISendMessageObject>{};
       receiverMessageObject.message = file ? file.location : this.messageInputForm.value.message;
       receiverMessageObject.fileName = file ? file.originalname : '';
@@ -249,12 +245,16 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       this.socketService.sendMessageService(receiverMessageObject);
       this.socketService.listenerForIsNewMessageStoredInDB()
         .then((succ: ISendMessageObject) => {
-          succ.fileName = file ? file.originalname : '';
-          succ.fileSize = file ? this.uploaderService.bytesToSize(file.size) : null;
+          if (isObject(file) && file) {
+            succ.fileName = file.originalname;
+            succ.fileSize = this.uploaderService.bytesToSize(file.size);
+          }
+          //  var i = index;
+          // console.log(this.selectedUsers);
           this.selectedUsers[index].chat_history = [...this.selectedUsers[index].chat_history, succ];
         })
         .catch(err => {
-          alert('message not sent');
+          console.log(err);
         });
     }
   }
@@ -279,16 +279,24 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
   listenForNewMessageReadConfirm = () => {
-    this.socketService.listenNewMessageReadConfirmation().subscribe(
+
+
+    const res = this.socketService.listenNewMessageReadConfirmation().subscribe(
       (succResp: any) => {
-        const index = this.selectedUsers.findIndex(item => item.receiver_id === succResp.user_id);
-        succResp._id.map(id => {
-          this.selectedUsers[index].chat_history.map(item => {
-            if (item._id === id) {
-              item.status = 1;
+        console.log(succResp);
+        if (!succResp) {
+          const index = this.selectedUsers.findIndex(item => item.receiver_id === succResp.user_id);
+
+          succResp._id.map(id => {
+            if (index > 0) {
+              this.selectedUsers[index].chat_history.map(item => {
+                if (item._id === id) {
+                  item.status = 1;
+                }
+              });
             }
           });
-        });
+        }
       },
       errResp => {
         console.log(errResp);

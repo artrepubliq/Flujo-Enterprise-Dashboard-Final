@@ -6,14 +6,17 @@ import { SocketConnectionListenerService } from './socket-connection-listener.se
 import { AppConstants } from '../app.constants';
 import { ISendMessageObject } from '../model/users';
 import { IMessage } from '../model/IMesage';
-
+import { HttpErrorHandler, HandleError } from '../http-error-handler.services';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class SocketService {
-  constructor(
-    private socketConnectionListenerService: SocketConnectionListenerService
-  ) {
+  private handleError: HandleError;
 
+  constructor(
+    private socketConnectionListenerService: SocketConnectionListenerService, httpErrorHandler: HttpErrorHandler
+  ) {
+    this.handleError = httpErrorHandler.createHandleError('SocketService');
   }
   private privateChatSocket;
   public initSocket(clientId) {
@@ -24,8 +27,15 @@ export class SocketService {
         this.socketConnectionListenerService.announceMission('true');
         resolve(data);
       });
+      this.privateChatSocket.on('reconnect_attempt', () => {
+        console.log("Reconnecting.....");
+      });
     });
+   
   }
+
+  
+  
   // connectSocket = () => {
   //   return new Promise((resolve) => {
   //     this.privateChatSocket.on('connection', (data: any) => {
@@ -48,9 +58,6 @@ export class SocketService {
       });
     });
   }
-
-
-
   public onMessage(): Observable<ISocketInfo> {
     socketIo(AppConstants.SOCEKT_API_URL);
     return new Observable<ISocketInfo>(observer => {
@@ -102,7 +109,7 @@ export class SocketService {
   listenNewMessages(): Observable<ISendMessageObject> {
     return new Observable<ISendMessageObject>(observer => {
       this.privateChatSocket.on('receive_new_message', (data) => {
-        observer.next(data);
+         observer.next(data);
       });
     });
   }

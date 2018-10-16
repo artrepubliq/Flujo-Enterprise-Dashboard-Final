@@ -170,6 +170,11 @@ import { ChatDockUsersService } from './service/chat-dock-users.service';
 import { UploaderService } from './service/uploader.service';
 import { MessageService } from './service/message.services';
 import { MessagesComponent } from './messages-progress/messages.component';
+import { HttpErrorHandler } from './http-error-handler.services';
+// import {TemplateDrivenFormComponent} from './template-driven-form.component'
+
+import {FileValueAccessor} from './service/file-control-value-accessor'
+import {FileValidator} from './service/file-input.validator'
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -178,31 +183,18 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AppComponent,
     LoginComponent,
     CallbackComponent,
-    // LogoComponent,
     ProfileComponent,
     AdminDashboardComponent,
     AdminComponent,
     PagesComponent,
     PagesContentEditor,
-    // SocialLinksComponent,
     ControlMessagesComponent,
-    // SMTPConfigurationComponent,
-    // EmailserviceComponent,
     ChatBoxComponent,
-    // MediaComponent,
-    // SmsuiComponent,
-    // CreateUserComponentComponent,
-    // ThemeConfigComponent,
     ViewGalleryComponent,
     SocialManagementComponent,
-    // FilerepositoryComponent,
-    // ManageReportsComponent,
-    // directives
     EditGalleryItems,
     GalleryDirective,
     LogoutPopUpDialog,
-    // ChangepasswordComponent,
-    // BiographyComponent,
     FileSelectPopup,
     MediaDeletePopup,
     AccessLevelPopup,
@@ -274,6 +266,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DefaultEmailTemplatesComponent,
     EmailTemplatePreviewDialog,
     SignupComponent,
+    FileValueAccessor,
+    FileValidator,
+    MessagesComponent    
   ],
   imports: [
     CommonModule,
@@ -332,7 +327,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     PapaParseModule,
     ScrollDispatchModule,
     PickerModule
-  ],
+    ],
   entryComponents: [EditGalleryItems, MediaDeletePopup, LogoutPopUpDialog, FileSelectPopup, FileRepositoryPopup, FileViewerPopUp,
     AccessLevelPopup, DeletefolderDialog, ClientUserAccessDenied, MediaLocalImagePopupDialog, WhatsAppTemplatePopup,
     EmailTemplateSelectionPopup, SmsTemplateSelectionDialog, MessageArchivedComponent, AreaEditPopup, ProblemCategoryEditPopup,
@@ -359,7 +354,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     WindowRef,
     UploaderService,
     MessageService,
-
+    HttpErrorHandler,
     // AuthService,
     HttpService,
     ValidationService,
