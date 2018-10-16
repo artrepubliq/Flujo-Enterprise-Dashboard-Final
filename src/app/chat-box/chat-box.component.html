@@ -3,7 +3,6 @@
     <div>
       <div #smallWindow class="flujoChat-box smallWindow" *ngFor="let selecteduseritem of selectedUsers,let i=index"
         (click)="activateSelectedWindow(i)" [ngClass]="{'hide_chat':selecteduseritem?.isChatWindowMinimized}">
-        <!-- <div #smallWindow *ngFor="let selecteduseritem of selectedUsers,let i=index" (click)="activateSelectedWindow(i)" [class]="'flujoChat-box smallWindow '+ selecteduseritem.receiver_name "> -->
         <div class="chat-header" fxLayout="row">
           <div fxFlex class="user-name">
             <div class="dropdown d-inline-block">
@@ -12,7 +11,6 @@
                   <img src="assets/file-upload-icons/profile.png" class="img-fluid" alt="user logo">
                 </span>
                 {{selecteduseritem.receiver_name}}
-                <!-- <p style="color:darkgreen; font-size: 10px" *ngIf="selecteduseritem.isTyping">Typing</p> -->
               </a>
             </div>
           </div>
@@ -131,6 +129,7 @@
                             x="0px" y="0px" viewBox="0 0 56.452 56.452" style="enable-background:new 0 0 56.452 56.452;"
                             xml:space="preserve">
                             <path d="M55.608,3.227c-0.902-0.64-2.15-0.424-2.788,0.476L21.158,48.402L3.415,30.656c-0.781-0.781-2.047-0.781-2.829,0
+
                              c-0.781,0.78-0.781,2.047,0,2.828l18.972,18.975c0.142,0.295,0.35,0.562,0.636,0.765c0.351,0.249,0.755,0.368,1.154,0.368
                              c0.627,0,1.244-0.294,1.634-0.844L56.084,6.016C56.722,5.114,56.509,3.866,55.608,3.227z" />
                           </svg>
@@ -154,6 +153,7 @@
                             <path d="M381.403,94.381L381.403,94.381L381.403,94.381z" />
                             <path d="M273.347,94.381L273.347,94.381C274.538,95.56,275.717,96.727,273.347,94.381z" />
                             <path d="M273.347,94.381L273.347,94.381c-4.752-4.704-12.439-4.704-17.191,0L84.278,265.127l-63.544-62.473
+
 			c-4.74-4.704-12.439-4.704-17.179,0s-4.74,12.319,0,17.011l72.17,70.967c4.692,4.644,12.499,4.644,17.191,0l180.43-179.239
 			C278.099,106.7,278.086,99.085,273.347,94.381z" />
                             <path d="M273.347,94.381L273.347,94.381C270.977,92.035,272.156,93.202,273.347,94.381z" />
@@ -203,8 +203,8 @@
                 </div>
               </div>
             </div>
-
           </div>
+          <app-messages></app-messages>
           <div class="message-typing" *ngIf="selecteduseritem.isTyping">
             <p>{{selecteduseritem.receiver_name}}</p>
             <div class="loading_button">
@@ -219,15 +219,15 @@
             <div class="inputMsg">
               <input *ngIf="selecteduseritem.isInputActivated" type="text" class="input-message" placeholder="Write Your Message..!"
                 formControlName="message" (input)="onMessageInputListener($event.target.value, selecteduseritem, i)"
-                (keyup.enter)="sendMessageToSelectedReceiver($event, selecteduseritem, i); $event.preventDefault()">
+                (keyup.enter)="triggerEnter();  $event.preventDefault();">
             </div>
             <div class="chat_controls">
               <a (click)="addEmojiForSelectedWindow(i)">
                 <i class="fa fa-smile-o"></i>
               </a>
-              <input style="display:none" type="file" id="picked" #picked multiple="multiple" (change)="onFileUpload($event, selecteduseritem, i)">
+              <input style="display:none" formControlName="fileupload"  type="file" id="picked" #picked multiple="multiple" (change)="onFileUpload($event, selecteduseritem, i)">
               <i class="fa fa-paperclip" (click)="triggerUpload()"></i>
-              <button class="send-button" type="submit" [disabled]="message?.length == 0" (click)="sendMessageToSelectedReceiver(selecteduseritem, i)">Send</button>
+              <button class="send-button" id="send-button" type="submit" [disabled]="message?.length == 0" (click)="sendMessageToSelectedReceiver($event, selecteduseritem, i); $event.preventDefault();">Send</button>
             </div>
             <div class="emojies_block" *ngIf="selecteduseritem.isEmojiWindowOpened">
               <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
