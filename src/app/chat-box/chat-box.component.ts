@@ -12,6 +12,7 @@ import * as _ from 'underscore';
 import { AppConstants } from '../app.constants';
 import { NG_ASYNC_VALIDATORS, Validator, FormControl, ValidationErrors } from '@angular/forms';
 import { FileValidator } from '../service/file-input.validator';
+import { isObject } from 'util';
 
 @Component({
   selector: 'app-chat-box',
@@ -197,7 +198,6 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onFileUpload(event, selecteduseritem, i){
     // document.getElementById("myFile").accept = "audio/*";
-
     if (event.target.files && event.target.files.length) {
         const files = this.processUploadingFiles(event, selecteduseritem, i);
     }
@@ -209,7 +209,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addAWSFileChat = async (formData, selecteduseritem, i) => {
-    console.log("Entered aws file chat method"+formData);
+    // console.log("Entered aws file chat method"+formData);
     const awsFiles = [];
     this.uploaderService.upload(formData).subscribe(
       awsFileUrl => {
@@ -227,8 +227,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // SEND MESSAGE WITH USER NAME
   sendMessageToSelectedReceiver = (selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any) => {
-  // $event.preventDefault();
-  // console.log($event);
+
     if (selecteduseritem) {
       const receiverMessageObject = <ISendMessageObject>{};
       receiverMessageObject.message = file ? file.location : this.messageInputForm.value.message;
@@ -247,12 +246,16 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       this.socketService.sendMessageService(receiverMessageObject);
       this.socketService.listenerForIsNewMessageStoredInDB()
         .then((succ: ISendMessageObject) => {
-          succ.fileName = file ? file.originalname : '';
-          succ.fileSize = file ? this.uploaderService.bytesToSize(file.size) : null;
+          if(isObject(file) && file){
+          succ.fileName = file.originalname;
+          succ.fileSize = this.uploaderService.bytesToSize(file.size);
+         }
+        //  var i = index;
+        console.log(this.selectedUsers);
           this.selectedUsers[index].chat_history = [...this.selectedUsers[index].chat_history, succ];
         })
         .catch(err => {
-          alert('message not sent');
+            console.log(err);
         });
     }
   }
