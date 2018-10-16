@@ -26,6 +26,6 @@ export class AppConstants {
 
     // SOCKET SERVER URLS
     // public static get SOCEKT_API_URL(): string { return 'http://10.0.1.4:3000'; }
-    public static get SOCEKT_API_URL(): string { return 'http://localhost:3000'; }
-    // public static get SOCEKT_API_URL(): string { return 'https://chat-server-dev.herokuapp.com'; }
+//     public static get SOCEKT_API_URL(): string { return 'http://localhost:3000'; }
+    public static get SOCEKT_API_URL(): string { return 'https://chatapi.flujo.in'; }
 }
