@@ -139,24 +139,24 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   listenForInputTypingIndicator = () => {
     this.socketService.listenerUserMessageTypingIndication()
       .subscribe(
-      (lisnSucResp: any) => {
-        if (this.selectedUsers.length > 0) {
-          const userIndex = this.selectedUsers.findIndex(indexItem => indexItem.receiver_id === lisnSucResp.user_id);
-          if (userIndex >= 0 && this.selectedUsers[userIndex].isWindowOpened) {
-            let interval: any;
-            clearTimeout(interval);
-            interval = setTimeout(() => {
-              this.selectedUsers[userIndex].isTyping = false;
+        (lisnSucResp: any) => {
+          if (this.selectedUsers.length > 0) {
+            const userIndex = this.selectedUsers.findIndex(indexItem => indexItem.receiver_id === lisnSucResp.user_id);
+            if (userIndex >= 0 && this.selectedUsers[userIndex].isWindowOpened) {
+              let interval: any;
               clearTimeout(interval);
-            }, 2000);
-            this.selectedUsers[userIndex].isTyping = this.selectedUsers[userIndex].isWindowOpened ? true : false;
+              interval = setTimeout(() => {
+                this.selectedUsers[userIndex].isTyping = false;
+                clearTimeout(interval);
+              }, 2000);
+              this.selectedUsers[userIndex].isTyping = this.selectedUsers[userIndex].isWindowOpened ? true : false;
 
+            }
           }
+        },
+        listErrResp => {
+          console.log(listErrResp);
         }
-      },
-      listErrResp => {
-        console.log(listErrResp);
-      }
       );
   }
   // THIS WILL USE FOR ADD NEW USER TO SELECTEDUSERS ARRAY, WHWN THE LOGIN USER COULD'T SELECT THE USER.
@@ -179,12 +179,12 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.socketService.disconnectPrivateChatUserSocket(this.loggedinUserObject.socket_key);
     this.socketService.closeSockectForThisUser();
   }
-  processUploadingFiles = (event, selecteduseritem, i)=>{
+  processUploadingFiles = (event, selecteduseritem, i) => {
     const files = [];
-    _.each(event.target.files, (file)=>{
+    _.each(event.target.files, (file) => {
       const reader = new FileReader();
-       reader.readAsDataURL(file);
-       reader.onload= ()=>{
+      reader.readAsDataURL(file);
+      reader.onload = () => {
         this.messageInputForm.patchValue({
           file: reader.result
         });
@@ -199,7 +199,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   onFileUpload(event, selecteduseritem, i){
     // document.getElementById("myFile").accept = "audio/*";
     if (event.target.files && event.target.files.length) {
-        const files = this.processUploadingFiles(event, selecteduseritem, i);
+      const files = this.processUploadingFiles(event, selecteduseritem, i);
     }
   }
 
@@ -209,18 +209,17 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addAWSFileChat = async (formData, selecteduseritem, i) => {
-    // console.log("Entered aws file chat method"+formData);
     const awsFiles = [];
     this.uploaderService.upload(formData).subscribe(
       awsFileUrl => {
         console.log(awsFileUrl);
-          this.sendMessageToSelectedReceiver(selecteduseritem,  i, awsFileUrl);
+        this.sendMessageToSelectedReceiver(selecteduseritem, i, awsFileUrl);
       },
       error => {
         console.log(error);
-    });
-
+      })
   }
+
   triggerEnter(){
     $('#send-button').click();
   }
@@ -251,7 +250,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
           succ.fileSize = this.uploaderService.bytesToSize(file.size);
          }
         //  var i = index;
-        console.log(this.selectedUsers);
+        // console.log(this.selectedUsers);
           this.selectedUsers[index].chat_history = [...this.selectedUsers[index].chat_history, succ];
         })
         .catch(err => {
