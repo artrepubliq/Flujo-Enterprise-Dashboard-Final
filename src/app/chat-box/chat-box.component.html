@@ -85,94 +85,116 @@
           <div #windowchathistory class="chatTexts_items" (scroll)="onScroll($event)">
             <div class="message-block msg-in">
               <div class="chat_scrollChat">
-                <div #listHeight *ngFor="let chatItem of selecteduseritem.chat_history; let j = index" class="chat_text" [ngClass]="{'rightSideText':chatItem?.sender_id === loggedinUserObject.user_id}">
+                <div #listHeight *ngFor="let chatItem of selecteduseritem.chat_history; let j = index" class="chat_text"
+                  [ngClass]="{'rightSideText':chatItem?.sender_id === loggedinUserObject.user_id}">
                   <!-- <span class="user-logo">
                     <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="user logo">
                   </span> -->
-                  <div>
-                    <div class="message-data" *ngIf="chatItem.message_type == 'text'">
-                      {{chatItem.message}}
-                    </div>
-                    
-                    <div *ngIf="chatItem.message_type =='image/png' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/jpeg' || chatItem.message_type =='image/gif'">
-                      <img width="200" height='100' src='{{chatItem.message}}'>
-                    </div>
-                    <div *ngIf="chatItem.message_type =='image/svg+xml'">
-                      <a href="{{chatItem.message}}"><img width="auto" height='100' src="assets/file-upload-icons/svg.png"></a>
-                    </div>
-                    <div *ngIf="chatItem.message_type =='application/zip'">
-                      <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/zip.png"></a>
-                    </div>
-                    <div *ngIf="chatItem.message_type =='text/csv'">
-                      <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/csv-file-format-extension.png"></a>
-                    </div>
-                    <div *ngIf="chatItem.message_type =='application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
-                      <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/word.png"></a>
-                    </div>
-                    <div *ngIf="chatItem.message_type =='application/pdf' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/gif'">
-                      <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/pdf.png"></a>
-                    </div>
-                    <div *ngIf="chatItem.message_type =='text/plain'">
-                      <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/txt.png"></a>
-                    </div>
-                    <div *ngIf="chatItem.message_type =='video/mp4' || chatItem.message_type =='video/ogg' || chatItem.message_type =='video/webm' || chatItem.message_type =='video/quicktime'">
-                      <!-- <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/txt.png"></a> -->
-                      <video src='{{chatItem.message}}' width="320" height="240" autoplay controls></video>
-                    </div>
-                    <div class="file-size" *ngIf="chatItem?.fileName">
+                  <div class="message-content">
+                    <div>
+                      <div class="message-data" *ngIf="chatItem.message_type == 'text'">
+                        {{chatItem.message}}
+                      </div>
+
+                      <div *ngIf="chatItem.message_type =='image/png' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/jpeg' || chatItem.message_type =='image/gif'">
+                        <img width="200" height='100' src='{{chatItem.message}}'>
+                      </div>
+                      <div *ngIf="chatItem.message_type =='image/svg+xml'">
+                        <a href="{{chatItem.message}}"><img width="auto" height='100' src="assets/file-upload-icons/svg.png"></a>
+                      </div>
+                      <div *ngIf="chatItem.message_type =='application/zip'">
+                        <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/zip.png"></a>
+                      </div>
+                      <div *ngIf="chatItem.message_type =='text/csv'">
+                        <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/csv-file-format-extension.png"></a>
+                      </div>
+                      <div *ngIf="chatItem.message_type =='application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
+                        <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/word.png"></a>
+                      </div>
+                      <div *ngIf="chatItem.message_type =='application/pdf' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/gif'">
+                        <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/pdf.png"></a>
+                      </div>
+                      <div *ngIf="chatItem.message_type =='text/plain'">
+                        <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/txt.png"></a>
+                      </div>
+                      <div *ngIf="chatItem.message_type =='video/mp4' || chatItem.message_type =='video/ogg' || chatItem.message_type =='video/webm' || chatItem.message_type =='video/quicktime'">
+                        <!-- <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/txt.png"></a> -->
+                        <video src='{{chatItem.message}}' width="320" height="240" autoplay controls></video>
+                      </div>
+                      <div class="file-size" *ngIf="chatItem?.fileName">
                         <small>{{chatItem.fileName}} has been uploaded of {{chatItem.fileSize}} successfully</small>
                       </div>
-                    <div class="message-status" *ngIf="chatItem?.sender_id === loggedinUserObject.user_id">
-                      {{chatItem.created_time | date:'medium'}}
-                      <label class="send-msg" *ngIf="chatItem?.status === -1">
-                        <svg width="18px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                          x="0px" y="0px" viewBox="0 0 56.452 56.452" style="enable-background:new 0 0 56.452 56.452;"
-                          xml:space="preserve">
-                          <path d="M55.608,3.227c-0.902-0.64-2.15-0.424-2.788,0.476L21.158,48.402L3.415,30.656c-0.781-0.781-2.047-0.781-2.829,0
+                      <div class="message-status" *ngIf="chatItem?.sender_id === loggedinUserObject.user_id">
+                        {{chatItem.created_time | date:'medium'}}
+                        <label class="send-msg" *ngIf="chatItem?.status === -1">
+                          <svg width="18px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            x="0px" y="0px" viewBox="0 0 56.452 56.452" style="enable-background:new 0 0 56.452 56.452;"
+                            xml:space="preserve">
+                            <path d="M55.608,3.227c-0.902-0.64-2.15-0.424-2.788,0.476L21.158,48.402L3.415,30.656c-0.781-0.781-2.047-0.781-2.829,0
                              c-0.781,0.78-0.781,2.047,0,2.828l18.972,18.975c0.142,0.295,0.35,0.562,0.636,0.765c0.351,0.249,0.755,0.368,1.154,0.368
                              c0.627,0,1.244-0.294,1.634-0.844L56.084,6.016C56.722,5.114,56.509,3.866,55.608,3.227z" />
-                        </svg>
-                      </label>
-                      <label class="deliver-msg" *ngIf="chatItem?.status === 0">
-                        <svg width="18px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                          x="0px" y="0px" viewBox="0 0 56.452 56.452" style="enable-background:new 0 0 56.452 56.452;"
-                          xml:space="preserve">
-                          <path d="M55.608,3.227c-0.902-0.64-2.15-0.424-2.788,0.476L21.158,48.402L3.415,30.656c-0.781-0.781-2.047-0.781-2.829,0
+                          </svg>
+                        </label>
+                        <label class="deliver-msg" *ngIf="chatItem?.status === 0">
+                          <svg width="18px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            x="0px" y="0px" viewBox="0 0 56.452 56.452" style="enable-background:new 0 0 56.452 56.452;"
+                            xml:space="preserve">
+                            <path d="M55.608,3.227c-0.902-0.64-2.15-0.424-2.788,0.476L21.158,48.402L3.415,30.656c-0.781-0.781-2.047-0.781-2.829,0
                                  c-0.781,0.78-0.781,2.047,0,2.828l18.972,18.975c0.142,0.295,0.35,0.562,0.636,0.765c0.351,0.249,0.755,0.368,1.154,0.368
                                  c0.627,0,1.244-0.294,1.634-0.844L56.084,6.016C56.722,5.114,56.509,3.866,55.608,3.227z" />
-                        </svg>
-                      </label>
-                      <label class="read_msg" *ngIf="chatItem?.status === 1">
-                        <!-- <span></span>
+                          </svg>
+                        </label>
+                        <label class="read_msg" *ngIf="chatItem?.status === 1">
+                          <!-- <span></span>
                         <span></span> -->
-                        <svg width="18px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                          x="0px" y="0px" viewBox="0 0 384.967 384.967" style="enable-background:new 0 0 384.967 384.967;"
-                          xml:space="preserve">
-                          <path d="M273.347,94.381L273.347,94.381L273.347,94.381z" />
-                          <path d="M381.403,94.381L381.403,94.381L381.403,94.381z" />
-                          <path d="M273.347,94.381L273.347,94.381C274.538,95.56,275.717,96.727,273.347,94.381z" />
-                          <path d="M273.347,94.381L273.347,94.381c-4.752-4.704-12.439-4.704-17.191,0L84.278,265.127l-63.544-62.473
+                          <svg width="18px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            x="0px" y="0px" viewBox="0 0 384.967 384.967" style="enable-background:new 0 0 384.967 384.967;"
+                            xml:space="preserve">
+                            <path d="M273.347,94.381L273.347,94.381L273.347,94.381z" />
+                            <path d="M381.403,94.381L381.403,94.381L381.403,94.381z" />
+                            <path d="M273.347,94.381L273.347,94.381C274.538,95.56,275.717,96.727,273.347,94.381z" />
+                            <path d="M273.347,94.381L273.347,94.381c-4.752-4.704-12.439-4.704-17.191,0L84.278,265.127l-63.544-62.473
 			c-4.74-4.704-12.439-4.704-17.179,0s-4.74,12.319,0,17.011l72.17,70.967c4.692,4.644,12.499,4.644,17.191,0l180.43-179.239
 			C278.099,106.7,278.086,99.085,273.347,94.381z" />
-                          <path d="M273.347,94.381L273.347,94.381C270.977,92.035,272.156,93.202,273.347,94.381z" />
-                          <path d="M381.403,94.381L381.403,94.381C379.033,92.035,380.224,93.202,381.403,94.381z" />
-                          <path d="M381.403,94.381L381.403,94.381C382.594,95.56,383.773,96.727,381.403,94.381z" />
-                          <path d="M381.403,94.381L381.403,94.381c-4.752-4.704-12.439-4.704-17.191,0L192.334,265.127l-15.423-14.352
+                            <path d="M273.347,94.381L273.347,94.381C270.977,92.035,272.156,93.202,273.347,94.381z" />
+                            <path d="M381.403,94.381L381.403,94.381C379.033,92.035,380.224,93.202,381.403,94.381z" />
+                            <path d="M381.403,94.381L381.403,94.381C382.594,95.56,383.773,96.727,381.403,94.381z" />
+                            <path d="M381.403,94.381L381.403,94.381c-4.752-4.704-12.439-4.704-17.191,0L192.334,265.127l-15.423-14.352
 			c-4.74-4.704-12.439-4.704-17.179,0s-4.74,12.319,0,17.011l24.049,22.846c4.692,4.644,12.499,4.644,17.191,0l180.43-179.239
 			C386.155,106.7,386.155,99.085,381.403,94.381z" />
-                        </svg>
-                      </label>
+                          </svg>
+                        </label>
+                      </div>
+                      <label class="message-time" *ngIf="chatItem?.sender_id !== loggedinUserObject.user_id">{{chatItem?.received_time
+                        |
+                        date:'medium'}}</label>
                     </div>
-                    <label class="message-time" *ngIf="chatItem?.sender_id !== loggedinUserObject.user_id">{{chatItem?.received_time
-                      |
-                      date:'medium'}}</label>
+                    <div class="dropdown action_block">
+                      <button (click)="deleteMessage(i, j)" class="msg-action" id="dropdownMenuOffset123" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                          x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                          <path d="M256,192c-35.292,0-64,28.708-64,64s28.708,64,64,64s64-28.708,64-64S291.292,192,256,192z M256,298.667
+                               c-23.521,0-42.667-19.135-42.667-42.667s19.146-42.667,42.667-42.667s42.667,19.135,42.667,42.667S279.521,298.667,256,298.667z" />
+                          <path d="M256,384c-35.292,0-64,28.708-64,64c0,35.292,28.708,64,64,64s64-28.708,64-64C320,412.708,291.292,384,256,384z
+                                M256,490.667c-23.521,0-42.667-19.135-42.667-42.667s19.146-42.667,42.667-42.667s42.667,19.135,42.667,42.667
+                               S279.521,490.667,256,490.667z" />
+                          <path d="M256,128c35.292,0,64-28.708,64-64S291.292,0,256,0s-64,28.708-64,64S220.708,128,256,128z M256,21.333
+                               c23.521,0,42.667,19.135,42.667,42.667S279.521,106.667,256,106.667S213.333,87.531,213.333,64S232.479,21.333,256,21.333z" />
+                        </svg>
+                      </button>
+                      <div class="action_options" aria-labelledby="dropdownMenuOffset123">
+                        <span (click)="deleteMessageConfirm(chatItem, 'flase', i)">Delete For Me</span>
+                        <span (click)="deleteMessageConfirm(chatItem, 'true', i)">Delete For Every One</span>
+                        <span (click)="updateMessage(chatItem, i)">Update message</span>
+                      </div>
+                    </div>
                   </div>
-                  <div (click)="deleteMessage(i, j)">X</div>
-                  <div *ngIf="chatItem.showMessageOptions">
+                  <!-- <div (click)="deleteMessage(i, j)">X</div> -->
+                  <!-- <div *ngIf="chatItem.showMessageOptions">
                     <span (click)="deleteMessageConfirm(chatItem, 'flase', i)">Delete For Me</span> OR
                     <span (click)="deleteMessageConfirm(chatItem, 'true', i)">Delete For Every One</span>
-                  </div>
-                  <div (click)="updateMessage(chatItem, i)">U</div>
+                  </div> -->
+                  <!-- <div (click)="updateMessage(chatItem, i)">U</div> -->
                 </div>
                 <div *ngIf="selecteduseritem.messageUpdateObject">
                   <input type="text" id={{selecteduseritem.sender_id}}>
