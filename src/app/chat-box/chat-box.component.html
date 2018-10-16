@@ -227,7 +227,7 @@
                 </a>
                 <input style="display:none" formControlName="fileupload"  type="file" id="picked" #picked multiple="multiple" (change)="onFileUpload($event, selecteduseritem, i)">
                 <i class="fa fa-paperclip" (click)="triggerUpload()"></i>
-                <button class="send-button" id="send-button" type="submit" [disabled]="message?.length == 0" (click)="sendMessageToSelectedReceiver($event, selecteduseritem, i); $event.preventDefault();">Send</button>
+                <button class="send-button" id="send-button" type="submit" [disabled]="message?.length == 0" (click)="sendMessageToSelectedReceiver(selecteduseritem, i); $event.preventDefault();">Send</button>
               </div>
               <div class="emojies_block" *ngIf="selecteduseritem.isEmojiWindowOpened">
                 <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
