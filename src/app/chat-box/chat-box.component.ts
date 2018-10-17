@@ -225,8 +225,8 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // SEND MESSAGE WITH USER NAME
-  sendMessageToSelectedReceiver = (selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any) => {
-
+  sendMessageToSelectedReceiver = (selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any, $event?: any) => {
+console.log($event);
     if (selecteduseritem) {
       const receiverMessageObject = <ISendMessageObject>{};
       receiverMessageObject.message = file ? file.location : this.messageInputForm.value.message;
