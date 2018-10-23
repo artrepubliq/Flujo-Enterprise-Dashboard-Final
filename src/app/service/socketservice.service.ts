@@ -43,9 +43,6 @@ export class SocketService {
     });
 
   }
-
-
-
   // connectSocket = () => {
   //   return new Promise((resolve) => {
   //     this.privateChatSocket.on('connection', (data: any) => {
@@ -215,12 +212,7 @@ export class SocketService {
       });
     });
   }
-
-
-
-
-
-
+  
   // R&D IMPLEMENTATION
   // this is to add user to a socket
   public addUsers(username: { username: string }) {

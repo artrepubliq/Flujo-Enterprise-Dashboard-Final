@@ -79,22 +79,19 @@
               </div>
             </div>
           </div>
-  
+
           <div #chatBody class="chat-body">
             <div #windowchathistory class="chatTexts_items" (scroll)="onScroll($event)">
               <div class="message-block msg-in">
                 <div class="chat_scrollChat">
                   <div #listHeight *ngFor="let chatItem of selecteduseritem.chat_history; let j = index" class="chat_text"
                     [ngClass]="{'rightSideText':chatItem?.sender_id === loggedinUserObject.user_id}">
-                    <!-- <span class="user-logo">
-                      <img src="assets/team/yogesh.jpeg" class="img-fluid" alt="user logo">
-                    </span> -->
+
                     <div class="message-content">
                       <div>
                         <div class="message-data" *ngIf="chatItem.message_type == 'text'">
                           {{chatItem.message}}
                         </div>
-  
                         <div *ngIf="chatItem.message_type =='image/png' || chatItem.message_type =='image/jpg' || chatItem.message_type =='image/jpeg' || chatItem.message_type =='image/gif'">
                           <img width="200" height='100' src='{{chatItem.message}}'>
                         </div>
@@ -117,11 +114,11 @@
                           <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/txt.png"></a>
                         </div>
                         <div *ngIf="chatItem.message_type =='video/mp4' || chatItem.message_type =='video/ogg' || chatItem.message_type =='video/webm' || chatItem.message_type =='video/quicktime'">
-                          <!-- <a href="{{chatItem.message}}" target="_blank"><img width="auto" height='100' src="assets/file-upload-icons/txt.png"></a> -->
                           <video src='{{chatItem.message}}' width="320" height="240" autoplay controls></video>
                         </div>
-                        <div class="file-size" *ngIf="chatItem?.fileName">
-                          <small>{{chatItem.fileName}} has been uploaded of {{chatItem.fileSize}} successfully</small>
+                        <div class="file-size" *ngIf="chatItem?.fileName" class="alert alert-success">
+                            <a href='#' class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <small>{{chatItem.fileName}} has been uploaded of {{chatItem.fileSize}} successfully</small>                          
                         </div>
                         <div class="message-status" *ngIf="chatItem?.sender_id === loggedinUserObject.user_id">
                           {{chatItem.created_time | date:'medium'}}
@@ -145,8 +142,6 @@
                             </svg>
                           </label>
                           <label class="read_msg" *ngIf="chatItem?.status === 1">
-                            <!-- <span></span>
-                          <span></span> -->
                             <svg width="18px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                               x="0px" y="0px" viewBox="0 0 384.967 384.967" style="enable-background:new 0 0 384.967 384.967;"
                               xml:space="preserve">
@@ -190,12 +185,7 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <div (click)="deleteMessage(i, j)">X</div> -->
-                    <!-- <div *ngIf="chatItem.showMessageOptions">
-                      <span (click)="deleteMessageConfirm(chatItem, 'flase', i)">Delete For Me</span> OR
-                      <span (click)="deleteMessageConfirm(chatItem, 'true', i)">Delete For Every One</span>
-                    </div> -->
-                    <!-- <div (click)="updateMessage(chatItem, i)">U</div> -->
+
                   </div>
                   <div *ngIf="selecteduseritem.messageUpdateObject">
                     <input type="text" id={{selecteduseritem.sender_id}}>
@@ -219,7 +209,7 @@
             <form [formGroup]="messageInputForm">
               <div class="inputMsg">
                 <input *ngIf="selecteduseritem.isInputActivated" type="text" class="input-message" placeholder="Write Your Message..!"
-                  formControlName="message" (input)="onMessageInputListener($event.target.value, selecteduseritem, i)"
+                  formControlName="message" (input)="onMessageInputListener($event.target.value, selecteduseritem, i, $event)"
                   (keyup.enter)="triggerEnter();  $event.preventDefault();">
               </div>
               <div class="chat_controls">
