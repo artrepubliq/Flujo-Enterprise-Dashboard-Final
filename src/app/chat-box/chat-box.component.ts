@@ -13,6 +13,7 @@ import { AppConstants } from '../app.constants';
 import { NG_ASYNC_VALIDATORS, Validator, FormControl, ValidationErrors } from '@angular/forms';
 import { FileValidator } from '../service/file-input.validator';
 import { isObject } from 'util';
+import { PushNotificationService } from '../push-notification.service';
 
 @Component({
   selector: 'app-chat-box',
@@ -45,11 +46,13 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     private chatHttpApiService: ChatHttpApiService,
     private uploaderService: UploaderService,
     private cd: ChangeDetectorRef,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private _notificationService: PushNotificationService
+  ) {
     this.listOfUsers = [];
     this.chatDockUsersService.getChatUser().takeUntil(this.unSubscribe).subscribe(
       (chatObject: any) => {
-        this.handleChatWindowForSelectedUsers(chatObject, null);
+        this.handleChatWindowForSelectedUsers(chatObject);
       },
       error => {
         console.log(error);
@@ -78,7 +81,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.messageInputForm = this.formBuilder.group({
       'message': ['', Validators.required],
-      fileupload: new FormControl("", [FileValidator.validate]),
+      fileupload: new FormControl('', [FileValidator.validate]),
       'message_type': ['']
     });
     this.selectedUsers = [];
@@ -92,11 +95,15 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // LISTEN ALL THE SERVICES
   listenAllTheSocketServices = () => {
+    console.log('listening all the services.....');
+    this.listenerForMessageStoredInDB();
     this.socketListenerForNewMessages();
     this.listenerForMessageReachedConfirmation();
     this.listenForNewMessageReadConfirm();
     this.listenForInputTypingIndicator();
     this.deleteOldMessageSuccessListener();
+    this.listenerOldMessageUpdations();
+    this.listenerForLoggedinUsersStatus();
   }
   // SOCKET LISTENER FOR INCOMING NEW MESSAGES
   socketListenerForNewMessages = () => {
@@ -116,6 +123,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
             this.selectedUsers[receiverIndex].chat_history = [...this.selectedUsers[receiverIndex].chat_history, newMsg];
             this.selectedUsers[receiverIndex].isWindowOpened = true;
           } else {
+            this.notify(`New Message from ${this.selectedUsers[receiverIndex].receiver_name}`, newMsg.message);
             this.socketService.emitNewMessageReceivedConfirmation(receiveEmitObjet);
             this.selectedUsers[receiverIndex].isWindowOpened = false;
             newMsg.received_time = this.getNewTimeForSendReceivemessage();
@@ -139,24 +147,24 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   listenForInputTypingIndicator = () => {
     this.socketService.listenerUserMessageTypingIndication()
       .subscribe(
-        (lisnSucResp: any) => {
-          if (this.selectedUsers.length > 0) {
-            const userIndex = this.selectedUsers.findIndex(indexItem => indexItem.receiver_id === lisnSucResp.user_id);
-            if (userIndex >= 0 && this.selectedUsers[userIndex].isWindowOpened) {
-              let interval: any;
+      (lisnSucResp: any) => {
+        if (this.selectedUsers.length > 0) {
+          const userIndex = this.selectedUsers.findIndex(indexItem => indexItem.receiver_id === lisnSucResp.user_id);
+          if (userIndex >= 0 && this.selectedUsers[userIndex].isWindowOpened) {
+            let interval: any;
+            clearTimeout(interval);
+            interval = setTimeout(() => {
+              this.selectedUsers[userIndex].isTyping = false;
               clearTimeout(interval);
-              interval = setTimeout(() => {
-                this.selectedUsers[userIndex].isTyping = false;
-                clearTimeout(interval);
-              }, 2000);
-              this.selectedUsers[userIndex].isTyping = this.selectedUsers[userIndex].isWindowOpened ? true : false;
+            }, 2000);
+            this.selectedUsers[userIndex].isTyping = this.selectedUsers[userIndex].isWindowOpened ? true : false;
 
-            }
           }
-        },
-        listErrResp => {
-          console.log(listErrResp);
         }
+      },
+      listErrResp => {
+        console.log(listErrResp);
+      }
       );
   }
   // THIS WILL USE FOR ADD NEW USER TO SELECTEDUSERS ARRAY, WHWN THE LOGIN USER COULD'T SELECT THE USER.
@@ -172,7 +180,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.socketService.emitNewMessageReadConfirmation(receiveEmitObjet);
     newMsg.received_time = this.getNewTimeForSendReceivemessage();
-    this.handleChatWindowForSelectedUsers(ReceiverData[0], newMsg);
+    this.handleChatWindowForSelectedUsers(ReceiverData[0]);
   }
   // LOGOUT THE USER
   logoutUser = () => {
@@ -192,11 +200,11 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
         formData.append(file, file);
         this.addAWSFileChat(formData, selecteduseritem, i);
         // event.input('#file')
-    }
-  })
-}
+      };
+    });
+  }
 
-  onFileUpload(event, selecteduseritem, i){
+  onFileUpload(event, selecteduseritem, i) {
     // document.getElementById("myFile").accept = "audio/*";
     if (event.target.files && event.target.files.length) {
       const files = this.processUploadingFiles(event, selecteduseritem, i);
@@ -217,17 +225,16 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       error => {
         console.log(error);
-      })
+      });
   }
 
-  triggerEnter(){
+  triggerEnter() {
     $('#send-button').click();
   }
 
   // SEND MESSAGE WITH USER NAME
-  sendMessageToSelectedReceiver = (selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any) => {
-
-    if (selecteduseritem) {
+  sendMessageToSelectedReceiver = (selecteduseritem: ISelectedUsersChatWindow, index?: number, file?: any, $event?: any) => {
+    if (selecteduseritem && $event.isTrusted) {
       const receiverMessageObject = <ISendMessageObject>{};
       receiverMessageObject.message = file ? file.location : this.messageInputForm.value.message;
       receiverMessageObject.fileName = file ? file.originalname : '';
@@ -243,23 +250,37 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       const dateTime = new Date();
       receiverMessageObject.created_time = dateTime.toISOString();
       this.socketService.sendMessageService(receiverMessageObject);
-      this.socketService.listenerForIsNewMessageStoredInDB()
-        .then((succ: ISendMessageObject) => {
-          if(isObject(file) && file){
-          succ.fileName = file.originalname;
-          succ.fileSize = this.uploaderService.bytesToSize(file.size);
-         }
-        //  var i = index;
-        // console.log(this.selectedUsers);
-          this.selectedUsers[index].chat_history = [...this.selectedUsers[index].chat_history, succ];
-        })
-        .catch(err => {
-            console.log(err);
-        });
+      // this.socketService.listenerForIsNewMessageStoredInDB()
+      //   .then((succ: ISendMessageObject) => {
+      //     if (isObject(file) && file) {
+      //     succ.fileName = file.originalname;
+      //     succ.fileSize = this.uploaderService.bytesToSize(file.size);
+      //    }
+      //   //  var i = index;
+      //   // console.log(this.selectedUsers);
+      //     this.selectedUsers[index].chat_history = [...this.selectedUsers[index].chat_history, succ];
+      //   })
+      //   .catch(err => {
+      //       console.log(err);
+      //   });
     }
   }
 
-
+  listenerForMessageStoredInDB = () => {
+    this.socketService.listenerForIsNewMessageStoredInDB().subscribe(
+      (succ: ISendMessageObject) => {
+        console.log(succ);
+        this.selectedUsers.map(userItem => {
+          if (userItem.sender_id === this.loggedinUserObject.user_id) {
+            userItem.chat_history = [...userItem.chat_history, succ];
+          }
+        });
+      },
+      (err => {
+        console.log(err);
+      })
+    );
+  }
   // SOCKET LISTENER TO GET THE MESSAGE REACHED CONFIRMATION FROM THE RECEIVER
   listenerForMessageReachedConfirmation = () => {
     this.socketService.listenNewMessageReceivedConfirmation().subscribe(
@@ -279,24 +300,22 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
   listenForNewMessageReadConfirm = () => {
-
-
-   const res = this.socketService.listenNewMessageReadConfirmation().subscribe(
+    const res = this.socketService.listenNewMessageReadConfirmation().subscribe(
       (succResp: any) => {
         console.log(succResp);
-        if(!succResp){
-        const index = this.selectedUsers.findIndex(item => item.receiver_id === succResp.user_id);
+        if (succResp) {
+          const index = this.selectedUsers.findIndex(item => item.receiver_id === succResp.user_id);
 
-        succResp._id.map(id => {
-          if(index>0){
-            this.selectedUsers[index].chat_history.map(item => {
-              if (item._id === id) {
-                item.status = 1;
-              }
-            });
-          }
-        });
-      }
+          succResp._id.map(id => {
+            if (index >= 0) {
+              this.selectedUsers[index].chat_history.map(item => {
+                if (item._id === id) {
+                  item.status = 1;
+                }
+              });
+            }
+          });
+        }
       },
       errResp => {
         console.log(errResp);
@@ -309,24 +328,13 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     const received_time = dateTime.toISOString();
     return moment(((new Date(received_time).valueOf()) + (timeZoneOffset * 60))).format();
   }
-  handleChatWindowForSelectedUsers = async (userItem: IUser, chatMessage) => {
+  handleChatWindowForSelectedUsers = async (userItem: IUser) => {
     // this.dissableAllActivatedInputs();
     this.chat_box.nativeElement.style.display = 'block';
-    const dateTime = new Date();
-    const date = moment(dateTime).format('YYYY-MM-DD');
-    // tslint:disable-next-line:max-line-length
-    const chatHistory = await this.getChatHistoryByConversationId(date, this.loggedinUserObject.user_id, userItem.user_id, userItem.socket_key);
-
     const messageObject = <ISelectedUsersChatWindow>{};
-    if (chatHistory) {
-      messageObject.chat_history = [];
-      messageObject.chat_history = [...messageObject.chat_history, ...chatHistory];
-    } else {
-      messageObject.chat_history = [];
-    }
-    if (chatMessage) {
-      messageObject.chat_history = [...messageObject.chat_history, chatMessage];
-    }
+    // if (chatMessage) {
+    //   messageObject.chat_history = [...messageObject.chat_history, chatMessage];
+    // }
     if (!this.selectedUsers.some((selecteUserItem) => {
       return selecteUserItem.receiver_id === userItem.user_id;
     })) {
@@ -336,21 +344,26 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       messageObject.socket_key = userItem.socket_key;
       messageObject.isWindowOpened = true;
       messageObject.isInputActivated = true;
+      messageObject.user_status = userItem.user_status ? userItem.user_status : 'online';
       this.selectedUsers.push(messageObject);
-      this.handleWindowScroll(messageObject.chat_history.length);
     }
+    const dateTime = new Date();
+    const date = moment(dateTime).format('YYYY-MM-DD');
+    // tslint:disable-next-line:max-line-length
+    const chatHistory = await this.getChatHistoryByConversationId(date, this.loggedinUserObject.user_id, userItem.user_id, userItem.socket_key);
+    if (chatHistory) {
+      messageObject.chat_history = [];
+      messageObject.chat_history = [...messageObject.chat_history, ...chatHistory];
+    } else {
+      messageObject.chat_history = [];
+    }
+    this.chathistoryContainer.nativeElement.scrollTop += this.chatWindowClientHeight;
   }
   onScroll(event: any) {
     this.chatWindowClientHeight = event.target.scrollHeight;
     if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight) {
       console.log('end');
     }
-  }
-  handleWindowScroll = (length) => {
-    const interval = setTimeout(() => {
-      this.chathistoryContainer.nativeElement.scrollTop += this.chatWindowClientHeight;
-      clearTimeout(interval);
-    }, 1000);
   }
 
   getChatHistoryByConversationId = async (date, senderId, receiverId, socketKey) => {
@@ -448,15 +461,18 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   addEmoji = (event) => {
     this.messageInputForm.controls['message'].setValue(`${this.messageInputForm.value['message']}${event.emoji.native}`);
   }
-  maximizeWindow = () => {
+  maximizeWindow = (userIndex) => {
+    this.selectedUsers[userIndex].isWindowOpened = true;
     this.smallWindow.nativeElement.classList.remove('smallWindow');
     this.smallWindow.nativeElement.classList.add('maximize_window');
   }
-  minimizeWindow = () => {
+  minimizeWindow = (userIndex) => {
+    this.selectedUsers[userIndex].isWindowOpened = true;
     this.smallWindow.nativeElement.classList.add('smallWindow');
     this.smallWindow.nativeElement.classList.remove('maximize_window');
   }
   hideChatWindow = (selecteduseritem: ISelectedUsersChatWindow, index) => {
+    selecteduseritem.isWindowOpened = !selecteduseritem.isWindowOpened;
     selecteduseritem.isChatWindowMinimized = !selecteduseritem.isChatWindowMinimized;
   }
 
@@ -533,6 +549,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // LISTENER FOR OLD MESSAGE UPDATIONS
   listenerOldMessageUpdations = () => {
+    console.log('listening.....');
     this.socketService.listenerForUpdatedOldMessage().subscribe(
       (success: any) => {
         if (success.updated) {
@@ -555,6 +572,37 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(err);
       }
     );
+  }
+  // LISTENER FOR LOGGEDIN USERS STATUS CHANGE
+  listenerForLoggedinUsersStatus = () => {
+    this.socketService.listenerForChangeLoggedinUserStatus().subscribe(
+      userData => {
+        console.log(userData);
+        this.listOfUsers.map(item => {
+          if (item.user_id === userData.user_id) {
+            item.user_status = userData.user_status;
+            console.log(item.user_status, 578);
+          }
+        });
+        this.selectedUsers.map(selectedUserItem => {
+          if (selectedUserItem.receiver_id === userData.user_id) {
+            selectedUserItem.user_status = userData.user_status;
+            console.log(selectedUserItem.user_status, 584);
+          }
+        });
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+  // CREATE THE PUSH NOTIFICATIONS
+  notify(title, alertContent) {
+    const data = {
+      'title': title,
+      'alertContent': alertContent
+    };
+    this._notificationService.generateNotification(data);
   }
 
 }

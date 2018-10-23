@@ -50,7 +50,7 @@ window.ChatCampUi.cc = window.ChatCampUi.cc || {};
 
 })
 export class AdminComponent implements OnInit {
-  getLoginUserinterval: NodeJS.Timer;
+  // getLoginUserinterval: NodeJS.Timer;
   PreparedfeatureObject: IUserAccessLevels;
   PreparedSubfeaturesObject: any;
   userFeatureObjects: any;
@@ -88,9 +88,9 @@ export class AdminComponent implements OnInit {
   doSearch: boolean;
   isChatStarted: boolean;
   chatActiveUser: IUser[] = [];
-  isSocketConnected: boolean;
   listOfUsers: IUser[];
   loggedinUserObject: IUser;
+  userStauses = ['online', 'away', 'busy', 'invisible'];
   constructor(public loginAuthService: LoginAuthService,
     public httpClient: HttpClient,
     private titleService: Title,
@@ -120,13 +120,11 @@ export class AdminComponent implements OnInit {
     this.socketConnectionListenerService.SockedConnectionAnnounced$.subscribe(
       connction => {
         console.log(connction, 'socket connection listener');
-        if (this.isSocketConnected) {
-          console.log('closed');
-          this.isSocketConnected = false;
-          this.socketService.closeSockectForThisUser();
-          this.initializeSocket();
+          // this.socketService.loginSuccessEventEmit(this.loggedinUserObject);
+          // // this.socketService.closeSockectForThisUser();
+          // // this.initializeSocket();
+          this.socketService.loginSuccessEventEmit(this.loggedinUserObject);
           // this.listenAllTheSocketServices();
-        }
       }
     );
     this.chatDockUsersService.listencloseChatWindow().subscribe(
@@ -147,18 +145,19 @@ export class AdminComponent implements OnInit {
     this.loggedinUserObject._id = localStorage.getItem('user_id');
     this.loggedinUserObject.user_id = localStorage.getItem('user_id');
     this.loggedinUserObject.user_name = localStorage.getItem('name');
+    this.loggedinUserObject.user_status = 'online';
     this.InitChatIO();
     // this.mScrollbarService.initScrollbar('#sidebar-wrapper', { axis: 'y', theme: 'minimal' });
     this.isUserActive = false;
     // this.getUserList();
-    this.getLoginUserinterval = setInterval(async () => {
-      if (Date.now() > Number(localStorage.getItem('expires_at'))) {
-        this.loginAuthService.logout(false);
-        clearInterval(this.getLoginUserinterval);
-      }
-      const usersList = await this.getClientUsersList();
+    // this.getLoginUserinterval = setInterval(async () => {
+    //   if (Date.now() > Number(localStorage.getItem('expires_at'))) {
+    //     this.loginAuthService.logout(false);
+    //     clearInterval(this.getLoginUserinterval);
+    //   }
+    //   const usersList = await this.getClientUsersList();
 
-    }, 5000);
+    // }, 5000);
     const interval2 = setInterval(() => {
       if ((this.loggedinIds && !this.isChatStarted) || !window.ChatCampUI) {
         this.isChatStarted = true;
@@ -168,7 +167,7 @@ export class AdminComponent implements OnInit {
   }
   // LOGOUT THE USER
   onSubmitlogout = (status) => {
-    clearInterval(this.getLoginUserinterval);
+    // clearInterval(this.getLoginUserinterval);
     this.loginAuthService.logout(status);
     this.loginAuthService = null;
   }
@@ -217,6 +216,24 @@ export class AdminComponent implements OnInit {
     });
     /* tslint:enable */
   }
+  // CHANGE LOGGED IN USER STATUS
+  changeLoggedinUserStatus = (status) => {
+    this.loggedinUserObject.user_status = status;
+    let activeUserSocketKeys = [];
+    this.listOfUsers.forEach(item => {
+      if (item.is_loggedin) {
+        activeUserSocketKeys = [...activeUserSocketKeys, item.socket_key];
+      }
+    });
+    if (activeUserSocketKeys.length > 0) {
+      const object = {
+        user_id: this.loggedinUserObject.user_id,
+        user_status: this.loggedinUserObject.user_status,
+        receivers_socket_keys: activeUserSocketKeys
+      };
+      this.socketService.emitToChangeLoggedinUserStatus(object);
+    }
+  }
   openAccessDialog(userItem): void {
     const dialogRef = this.dialog.open(AccessLevelPopup, {
       width: '45vw',
@@ -241,7 +258,6 @@ export class AdminComponent implements OnInit {
 
     try {
       const loggedInUsers: any = await this.getClientUsersList();
-      console.log(loggedInUsers);
       this.loggedinUsersList = loggedInUsers;
       this.loggedinUsersList.forEach(item => {
         const userItem = <IUser>{};
@@ -323,7 +339,7 @@ export class AdminComponent implements OnInit {
         },
         error => {
           console.log(error);
-          reject('login users list is empty.');
+          // reject('login users list is empty.');
         }
         );
     });
@@ -471,12 +487,18 @@ export class AdminComponent implements OnInit {
   // INITIALIZE THE SOCKET HERE
   initializeSocket = async () => {
     const socketConnection = await this.socketService.initSocket(AppConstants.CLIENT_ID);
-    this.listenAllTheSocketServices();
+    // this.listenAllTheSocketServices();
+    if (socketConnection) {
+      console.log('socket connection');
+      this.socketService.loginSuccessEventEmit(this.loggedinUserObject);
+      this.listenAllTheSocketServices();
+    }
   }
   // LISTEN ALL THE SERVICES
   listenAllTheSocketServices = () => {
     this.listenSocketConnectionError();
     this.listenerToGetLoggedInUsersList();
+    this.chatDockUsersService.addLoggedinUser(this.loggedinUserObject);
   }
   // SOCKET LISTENER FOR SOCKET CONNECTION ERRORS
   listenSocketConnectionError = () => {
@@ -491,11 +513,10 @@ export class AdminComponent implements OnInit {
   // SOCKET LISTENER FOR GETTING LOGGEDIN USERS LIST
   listenerToGetLoggedInUsersList = () => {
     if (this.loggedinUserObject && this.loggedinUserObject._id) {
-      this.socketService.loginSuccessEventEmit(this.loggedinUserObject);
+      // this.socketService.loginSuccessEventEmit(this.loggedinUserObject);
       const loginUsersSubscriber: Subscription = this.socketService.listenLoggedUsersListener().subscribe(
         (succResp: IUserSocketResponseObject) => {
-          this.isSocketConnected = true;
-          this.chatDockUsersService.addLoggedinUser(this.loggedinUserObject);
+          // this.chatDockUsersService.addLoggedinUser(this.loggedinUserObject);
           console.log('listener', succResp);
           this.listOfUsers.forEach((e1, e1_index) => {
             let sockect_key = '';

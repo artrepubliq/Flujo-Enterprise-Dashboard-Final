@@ -11,6 +11,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class SocketService {
+  prevSocket: any;
+  prevUserSocketKey: any;
   private handleError: HandleError;
 
   constructor(
@@ -24,18 +26,26 @@ export class SocketService {
       this.privateChatSocket = socketIo(`${AppConstants.SOCEKT_API_URL}/privatechat?client_id=${clientId}`);
       this.privateChatSocket.on('connection', (data: any) => {
         console.log(data);
+        console.log(this.privateChatSocket);
+        console.log(this.prevSocket);
+        if (this.prevSocket) {
+          console.log(this.prevSocket);
+          // this.prevSocket.disconnect();
+          // this.prevSocket.close();
+          // this.prevSocket = null;
+        }
         this.socketConnectionListenerService.announceMission('true');
-        resolve(data);
+        resolve(this.privateChatSocket);
       });
       this.privateChatSocket.on('reconnect_attempt', () => {
-        console.log("Reconnecting.....");
+        console.log('Reconnecting.....');
       });
     });
-   
+
   }
 
-  
-  
+
+
   // connectSocket = () => {
   //   return new Promise((resolve) => {
   //     this.privateChatSocket.on('connection', (data: any) => {
@@ -47,11 +57,25 @@ export class SocketService {
   // }
   // LOGIN SUCCESS EMITER TO SERVER
   loginSuccessEventEmit = (userData) => {
-    console.log(userData);
+    this.prevSocket = this.privateChatSocket;
     this.privateChatSocket.emit('user_login', userData);
+  }
+
+  // EMIT TO CHANGE LOGGEDIN USERS STATUS
+  emitToChangeLoggedinUserStatus = (userObject) => {
+    this.privateChatSocket.emit('emit_change_loggedin_user_status', userObject);
+  }
+  // LISTENER TO CHANGE LOGGEDIN USERS STATUS
+  listenerForChangeLoggedinUserStatus = () => {
+    return new Observable<any>( observer => {
+      this.privateChatSocket.on('listener_change_loggedin_user_status', userData => {
+        observer.next(userData);
+      });
+    });
   }
   // LISTENER CALL FOR LOGGED USERS
   listenLoggedUsersListener = () => {
+    console.log('listen socket ');
     return new Observable<any>(observer => {
       this.privateChatSocket.on('new_users', (loggedUsers: any) => {
         observer.next(loggedUsers);
@@ -94,13 +118,14 @@ export class SocketService {
   }
 
   sendMessageService(messageObject) {
+    console.log(messageObject);
     this.privateChatSocket.emit('send_new_message', messageObject);
   }
   // SOCKET LISTENER TO GET CONFIRMATION FOR MESSAGE STORED IN DATABASE OR NOT
-  listenerForIsNewMessageStoredInDB = (): Promise<any> => {
-    return new Promise((resolve) => {
+  listenerForIsNewMessageStoredInDB = (): Observable<any> => {
+    return new Observable((observer) => {
       this.privateChatSocket.on('new_message_stored_in_db_confirm', (resp: any) => {
-        resolve(resp);
+        observer.next(resp);
       });
     });
   }
@@ -151,6 +176,7 @@ export class SocketService {
   }
   // SOCKET EMIT FOR READ MESSAGE CONFIRMATION
   emitNewMessageReadConfirmation = (emitObject) => {
+    console.log('read confirm');
     this.privateChatSocket.emit('message_read_confirm_from_receiver', emitObject);
   }
 
@@ -171,6 +197,7 @@ export class SocketService {
   listenerForUpdatedOldMessage = () => {
     return new Observable((observer) => {
       this.privateChatSocket.on('update_sender_old_message_listen', updateEvent => {
+        console.log(updateEvent, 174);
         observer.next(updateEvent);
       });
     });

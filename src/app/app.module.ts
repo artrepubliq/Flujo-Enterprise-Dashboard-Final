@@ -173,8 +173,9 @@ import { MessagesComponent } from './messages-progress/messages.component';
 import { HttpErrorHandler } from './http-error-handler.services';
 // import {TemplateDrivenFormComponent} from './template-driven-form.component'
 
-import {FileValueAccessor} from './service/file-control-value-accessor'
-import {FileValidator} from './service/file-input.validator'
+import {FileValueAccessor} from './service/file-control-value-accessor';
+import {FileValidator} from './service/file-input.validator';
+import { PushNotificationService } from './push-notification.service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -268,7 +269,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SignupComponent,
     FileValueAccessor,
     FileValidator,
-    MessagesComponent    
+    MessagesComponent
   ],
   imports: [
     CommonModule,
@@ -335,6 +336,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailTemplateSelectionModal, EmailTemplatePreviewDialog,
     PostCommentCompose, PostCommentTwitterCompose],
   providers: [
+    PushNotificationService,
     ChatBoxComponent,
     UserAccesslevelsService,
     HttpService,

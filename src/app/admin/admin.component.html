@@ -24,14 +24,8 @@
                 <span>Status</span>
               </a>
               <ul class="second-Level dropdown-menu">
-                <li class="dropdown-item">
-                  <a>Away</a>
-                </li>
-                <li class="dropdown-item">
-                  <a>Idle</a>
-                </li>
-                <li class="dropdown-item">
-                  <a>Busy</a>
+                <li class="dropdown-item" *ngFor="let status of userStauses" (click)="changeLoggedinUserStatus(status)">
+                  <a>{{status}}</a>
                 </li>
               </ul>
             </li>
@@ -470,7 +464,7 @@
                       <button (click)="onChatUserClick(item)" class="chatUser-name">
                         <span class="user_pic"></span>
                         {{item.user_name}}
-                        <label style="color:'red'" *ngIf="item.is_loggedin">*</label>
+                        <label style="color:'red'" *ngIf="item.is_loggedin && item.user_status !== 'invisible'">*</label>
                       </button>
                     </div>
                   </div>
