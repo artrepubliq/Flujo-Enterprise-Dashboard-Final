@@ -121,7 +121,7 @@
                             <small>{{chatItem.fileName}} has been uploaded of {{chatItem.fileSize}} successfully</small>                          
                         </div>
                         <div class="message-status" *ngIf="chatItem?.sender_id === loggedinUserObject.user_id">
-                          {{chatItem.created_time | date:'medium'}}--{{chatItem?.status}}
+                          {{chatItem.created_time | date:'medium'}}
                           <label class="send-msg" *ngIf="chatItem?.status === -1">
                             <svg width="18px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                               x="0px" y="0px" viewBox="0 0 56.452 56.452" style="enable-background:new 0 0 56.452 56.452;"
