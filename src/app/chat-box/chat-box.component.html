@@ -183,11 +183,17 @@
                                  c23.521,0,42.667,19.135,42.667,42.667S279.521,106.667,256,106.667S213.333,87.531,213.333,64S232.479,21.333,256,21.333z" />
                           </svg>
                         </button>
-                        <div class="action_options" aria-labelledby="dropdownMenuOffset123">
+                        <div *ngIf="chatItem.sender_id == loggedinUserObject.user_id;else receiver_item" class="action_options" aria-labelledby="dropdownMenuOffset123">
                           <span (click)="deleteMessageConfirm(chatItem, 'flase', i)">Delete For Me</span>
                           <span (click)="deleteMessageConfirm(chatItem, 'true', i)">Delete For Every One</span>
                           <span (click)="updateMessage(chatItem, i)">Update message</span>
                         </div>
+                        <ng-template #receiver_item>
+                          <div class="action_options">
+                            <span (click)="deleteMessageConfirm(chatItem, 'flase', i)">Delete For Me</span>
+                          </div>
+                        </ng-template>
+                        
                       </div>
                     </div>
                     <!-- <div (click)="deleteMessage(i, j)">X</div> -->
