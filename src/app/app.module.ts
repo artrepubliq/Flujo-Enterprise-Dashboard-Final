@@ -175,7 +175,7 @@ import { HttpErrorHandler } from './http-error-handler.services';
 
 import {FileValueAccessor} from './service/file-control-value-accessor';
 import {FileValidator} from './service/file-input.validator';
-import { PushNotificationService } from './push-notification.service';
+import { PushNotificationService } from './service/push-notification.service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }

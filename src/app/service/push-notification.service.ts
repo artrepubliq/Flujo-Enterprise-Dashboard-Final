@@ -5,7 +5,6 @@ export class PushNotificationService {
   public permission: Permission;
   constructor() {
     this.permission = this.isSupported() ? 'default' : 'denied';
-    console.log(this.permission, 12);
   }
   public isSupported(): boolean {
     return 'Notification' in window;
@@ -14,7 +13,6 @@ export class PushNotificationService {
     const self = this;
     if ('Notification' in window) {
       Notification.requestPermission(function (status) {
-        console.log(status, 21);
         return self.permission = status;
       });
     }
@@ -31,16 +29,18 @@ export class PushNotificationService {
         obs.complete();
       }
       const _notify = new Notification(title, options);
-      _notify.onshow = function (e) {
-        return obs.next({
-          notification: _notify,
-          event: e
-        });
-      };
+      // _notify.onshow = function (e) {
+      //   console.log('show');
+      //   return obs.next({
+      //     notification: _notify,
+      //     event: e,
+      //   });
+      // };
       _notify.onclick = function (e) {
         return obs.next({
           notification: _notify,
-          event: e
+          event: e,
+          showMessage: true
         });
       };
       _notify.onerror = function (e) {
@@ -54,15 +54,24 @@ export class PushNotificationService {
       };
     });
   }
-  generateNotification(source: any): void {
-    const self = this;
-    // source.forEach((item) => {
-      const options = {
-        body: source.alertContent,
-        icon: '../assets/flujo-favicon.png'
-      };
-      const notify = self.create(source.title, options).subscribe();
-    // });
+  generateNotification(source: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const self = this;
+      // source.forEach((item) => {
+        const options = {
+          body: source.alertContent,
+          icon: '../assets/flujo-favicon.png'
+        };
+        const notify = self.create(source.title, options).subscribe(
+          resp => {
+            resolve(resp);
+          },
+          err => {
+            reject(err);
+          }
+        );
+      // });
+    });
   }
 }
 export declare type Permission = 'denied' | 'granted' | 'default';

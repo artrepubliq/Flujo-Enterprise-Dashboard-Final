@@ -13,7 +13,7 @@ import { AppConstants } from '../app.constants';
 import { NG_ASYNC_VALIDATORS, Validator, FormControl, ValidationErrors } from '@angular/forms';
 import { FileValidator } from '../service/file-input.validator';
 import { isObject } from 'util';
-import { PushNotificationService } from '../push-notification.service';
+import { PushNotificationService } from '../service/push-notification.service';
 
 @Component({
   selector: 'app-chat-box',
@@ -117,13 +117,22 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
             _id: [newMsg._id],
             user_id: this.loggedinUserObject.user_id
           };
+          if (document.hidden) {
+            this.handleNotificationWhenUserInActive(this.selectedUsers[receiverIndex].receiver_name, receiverIndex, newMsg);
+          }
           if (this.selectedUsers[receiverIndex].isWindowOpened) {
-            this.socketService.emitNewMessageReadConfirmation(receiveEmitObjet);
+            if (document.hidden) {
+              this.socketService.emitNewMessageReceivedConfirmation(receiveEmitObjet);
+            } else {
+              this.socketService.emitNewMessageReadConfirmation(receiveEmitObjet);
+            }
             newMsg.received_time = this.getNewTimeForSendReceivemessage();
             this.selectedUsers[receiverIndex].chat_history = [...this.selectedUsers[receiverIndex].chat_history, newMsg];
             this.selectedUsers[receiverIndex].isWindowOpened = true;
           } else {
-            this.notify(`New Message from ${this.selectedUsers[receiverIndex].receiver_name}`, newMsg.message);
+            if (!document.hidden) {
+              this.notify(`New Message from ${this.selectedUsers[receiverIndex].receiver_name}`, newMsg.message);
+            }
             this.socketService.emitNewMessageReceivedConfirmation(receiveEmitObjet);
             this.selectedUsers[receiverIndex].isWindowOpened = false;
             newMsg.received_time = this.getNewTimeForSendReceivemessage();
@@ -142,6 +151,26 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(err);
       }
     );
+  }
+
+  // HANDLE THE NOTIFICATION WHEN THE USER IS INACTIVE IN THE WINDOW
+  handleNotificationWhenUserInActive = (receiver_name, receiverIndex, newMsg) => {
+    const windowTitle = document.title;
+    let swapTitle = false;
+    this.notify(`New Message from ${receiver_name}`, newMsg.message);
+    document.title = `New Message from ${receiver_name}`;
+    const windowInterval = setInterval(() => {
+      swapTitle = !swapTitle;
+      document.title = swapTitle ? `New Message from ${receiver_name}` : windowTitle;
+      if (!document.hidden) {
+        this.selectedUsers[receiverIndex].isWindowOpened = true;
+        this.selectedUsers[receiverIndex].isChatWindowMinimized = !this.selectedUsers[receiverIndex].isChatWindowMinimized;
+        const unReadMessageIds = this.getUnReadMessageFromUserChatList(receiverIndex);
+        this.socketEmitForUnReadAndReceivedMessagesUpdation(this.selectedUsers[receiverIndex].socket_key, unReadMessageIds);
+        clearInterval(windowInterval);
+        document.title = windowTitle;
+      }
+    }, 2000);
   }
   // LISTENER FOR INPUT TYPING INDICATORS
   listenForInputTypingIndicator = () => {
@@ -346,6 +375,10 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
       messageObject.isInputActivated = true;
       messageObject.user_status = userItem.user_status ? userItem.user_status : 'online';
       this.selectedUsers.push(messageObject);
+      if (document.hidden) {
+        this.handleNotificationWhenUserInActive(userItem.user_name, null, '');
+        this.notify(`New Message from ${userItem.user_name}`, 'null');
+      }
     }
     const dateTime = new Date();
     const date = moment(dateTime).format('YYYY-MM-DD');
@@ -354,10 +387,35 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     if (chatHistory) {
       messageObject.chat_history = [];
       messageObject.chat_history = [...messageObject.chat_history, ...chatHistory];
+      let unReadMessageIds = [];
+      chatHistory.map(msgItem => {
+        if (msgItem.sender_id !== this.loggedinUserObject.user_id && msgItem.status !== 1) {
+          unReadMessageIds = [...unReadMessageIds, msgItem._id];
+        }
+      });
+      if (unReadMessageIds.length > 0) {
+        this.socketEmitForUnReadAndReceivedMessagesUpdation(userItem.socket_key, unReadMessageIds);
+      } else {
+
+      }
     } else {
       messageObject.chat_history = [];
     }
     this.chathistoryContainer.nativeElement.scrollTop += this.chatWindowClientHeight;
+  }
+  // SOCKET EMIT FOR UN-READ MESSAGE UPDATIONS
+  socketEmitForUnReadAndReceivedMessagesUpdation = (socket_key, unReadMessageIds) => {
+    const receiveEmitObjet = {
+      socket_key: socket_key,
+      received_time: new Date().toISOString(),
+      _id: unReadMessageIds,
+      user_id: this.loggedinUserObject.user_id
+    };
+    if (document.hidden) {
+      this.socketService.emitNewMessageReceivedConfirmation(receiveEmitObjet);
+    } else {
+      this.socketService.emitNewMessageReadConfirmation(receiveEmitObjet);
+    }
   }
   onScroll(event: any) {
     this.chatWindowClientHeight = event.target.scrollHeight;
@@ -472,10 +530,25 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.smallWindow.nativeElement.classList.remove('maximize_window');
   }
   hideChatWindow = (selecteduseritem: ISelectedUsersChatWindow, index) => {
+    if (selecteduseritem.isChatWindowMinimized) {
+      const unReadMessageIds = this.getUnReadMessageFromUserChatList(index);
+      if (unReadMessageIds.length > 0) {
+        this.socketEmitForUnReadAndReceivedMessagesUpdation(this.selectedUsers[index].socket_key, unReadMessageIds);
+      }
+    }
     selecteduseritem.isWindowOpened = !selecteduseritem.isWindowOpened;
     selecteduseritem.isChatWindowMinimized = !selecteduseritem.isChatWindowMinimized;
   }
-
+  // GET UNREAD MESSAGE FROM THE USER CHAT LIST
+  getUnReadMessageFromUserChatList = (index) => {
+    let unReadMessageIds = [];
+    this.selectedUsers[index].chat_history.map(msgItem => {
+      if (msgItem.sender_id !== this.loggedinUserObject.user_id && msgItem.status !== 1) {
+        unReadMessageIds = [...unReadMessageIds, msgItem._id];
+      }
+    });
+    return unReadMessageIds;
+  }
   // DELETET THE MESSAGE
   deleteMessage = (selectedUserindex, chatHistoryIndex) => {
     // tslint:disable-next-line:max-line-length
