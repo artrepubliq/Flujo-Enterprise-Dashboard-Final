@@ -13,12 +13,12 @@ export class UploaderService {
   constructor(
     private http: HttpClient,
     private messenger: MessageService, public messageService: MessageService) {}
- 
+
   public upload(files: FileList) {
 
     if (!files) { return; }
 
-        const req = new HttpRequest('POST', AppConstants.SOCEKT_API_URL+ '/uploadfile', files, {
+        const req = new HttpRequest('POST', AppConstants.SOCEKT_API_URL + '/uploadfile', files, {
             reportProgress: true,
       });
     return this.http.request(req).pipe(
@@ -26,7 +26,7 @@ export class UploaderService {
       tap(message => this.showProgress(message)),
       last(), // return last (completed) message to caller
       catchError(this.handleError(files))
-    )
+    );
   }
 
   /** Return distinct message for sent, upload progress, & response events */
@@ -37,7 +37,6 @@ export class UploaderService {
       case HttpEventType.UploadProgress:
         const percentDone = Math.round(100 * event.loaded / event.total);
         return `${percentDone}`;
-        
         // case HttpEventType.Sent:
         // return `Uploading file "${files}" of size ${files}.`;
 
@@ -51,12 +50,12 @@ export class UploaderService {
 
   public bytesToSize(bytes: number) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes == 0) return "";
+    if (bytes === 0) { return ''; }
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    const bytescount = bytes / Math.pow(1024, i)
+    const bytescount = bytes / Math.pow(1024, i);
     return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
- };
- 
+ }
+
   /**
    * Returns a function that handles Http upload failures.
    * @param file - File object for file being uploaded

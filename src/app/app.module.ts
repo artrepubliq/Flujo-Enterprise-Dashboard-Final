@@ -163,7 +163,6 @@ import { SafeHtmlPipe } from './_pipes/safe-html-email.pipe';
 import { PagesContentEditor } from './directives/contentEditor/pages-content-editor';
 import { SignupComponent } from './signup/signup.component';
 import { PickerModule } from 'ngx-odinvt-emoji-mart';
-import { SocketConnectionListenerService } from './service/socket-connection-listener.service';
 import { SocketService } from './service/socketservice.service';
 import { ChatHttpApiService } from './service/chat-http-api.service';
 import { ChatDockUsersService } from './service/chat-dock-users.service';
@@ -346,7 +345,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     GalleryImagesService,
     FBService,
     ProblemTypeService,
-    SocketConnectionListenerService,
     ChatHttpApiService,
     SocketService,
     AreaService,

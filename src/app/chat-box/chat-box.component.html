@@ -6,6 +6,7 @@
           <div class="chat-header" fxLayout="row">
             <div fxFlex class="user-name">
               <div class="dropdown d-inline-block">
+                <label *ngIf="isSocketReconnecting">Chat Re-Connecting</label>
                 <a class="dropdown-toggle user-dropdown d-inline-block" data-toggle="dropdown">
                   <span class="user-logo">
                     <img src="assets/file-upload-icons/profile.png" class="img-fluid" alt="user logo">

@@ -27,7 +27,6 @@ import { AccessLevelPopup } from '../dialogs/create-useraccesslevels-popup/creat
 import { FormBuilder } from '@angular/forms';
 import { SocketService } from '../service/socketservice.service';
 import { ChatHttpApiService } from '../service/chat-http-api.service';
-import { SocketConnectionListenerService } from '../service/socket-connection-listener.service';
 import { IUserSocketResponseObject, IUser, ISendMessageObject } from '../model/users';
 import { Subscription } from 'rxjs/Subscription';
 import { ChatDockUsersService } from '../service/chat-dock-users.service';
@@ -101,8 +100,7 @@ export class AdminComponent implements OnInit {
     private socketService: SocketService,
     private cd: ChangeDetectorRef,
     private formBuilder: FormBuilder,
-    private chatHttpApiService: ChatHttpApiService,
-    private socketConnectionListenerService: SocketConnectionListenerService) {
+    private chatHttpApiService: ChatHttpApiService) {
     this.router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });
@@ -117,12 +115,13 @@ export class AdminComponent implements OnInit {
       }
     });
     /*CHAT SOCKET CONNECTION*/
-    this.socketConnectionListenerService.SockedConnectionAnnounced$.subscribe(
+    this.chatDockUsersService.SockedConnectionAnnounced$.subscribe(
       connction => {
         console.log(connction, 'socket connection listener');
           // this.socketService.loginSuccessEventEmit(this.loggedinUserObject);
           // // this.socketService.closeSockectForThisUser();
           // // this.initializeSocket();
+          this.chatDockUsersService.setSocketReconnection(false);
           this.socketService.loginSuccessEventEmit(this.loggedinUserObject);
           // this.listenAllTheSocketServices();
       }
