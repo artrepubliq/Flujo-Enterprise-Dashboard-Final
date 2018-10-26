@@ -21,6 +21,7 @@ import { PushNotificationService } from '../service/push-notification.service';
   styleUrls: ['./chat-box.component.scss']
 })
 export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
+  isSocketReconnecting: boolean;
   formGroup: any;
   isInputListenInterval = false;
   chatWindowClientHeight = 1000;
@@ -71,6 +72,16 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.chatDockUsersService.getListOfUsers().subscribe(
       listOfUsers => {
         this.listOfUsers = listOfUsers;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
+    this.chatDockUsersService.getSocketReconnection().subscribe(
+      resp => {
+        console.log(resp);
+        this.isSocketReconnecting = resp;
       },
       err => {
         console.log(err);

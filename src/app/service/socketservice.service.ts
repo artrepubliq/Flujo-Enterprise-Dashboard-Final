@@ -2,21 +2,20 @@ import { Injectable } from '@angular/core';
 // tslint:disable-next-line:import-blacklist
 import { Observable, Observer, Subject } from 'rxjs';
 import * as socketIo from 'socket.io-client';
-import { SocketConnectionListenerService } from './socket-connection-listener.service';
 import { AppConstants } from '../app.constants';
 import { ISendMessageObject } from '../model/users';
 import { IMessage } from '../model/IMesage';
 import { HttpErrorHandler, HandleError } from '../http-error-handler.services';
 import { catchError } from 'rxjs/operators';
+import { ChatDockUsersService } from './chat-dock-users.service';
 
 @Injectable()
 export class SocketService {
-  prevSocket: any;
-  prevUserSocketKey: any;
   private handleError: HandleError;
 
   constructor(
-    private socketConnectionListenerService: SocketConnectionListenerService, httpErrorHandler: HttpErrorHandler
+    httpErrorHandler: HttpErrorHandler,
+    private chatDockUsersService: ChatDockUsersService
   ) {
     this.handleError = httpErrorHandler.createHandleError('SocketService');
   }
@@ -26,19 +25,12 @@ export class SocketService {
       this.privateChatSocket = socketIo(`${AppConstants.SOCEKT_API_URL}/privatechat?client_id=${clientId}`);
       this.privateChatSocket.on('connection', (data: any) => {
         console.log(data);
-        console.log(this.privateChatSocket);
-        console.log(this.prevSocket);
-        if (this.prevSocket) {
-          console.log(this.prevSocket);
-          // this.prevSocket.disconnect();
-          // this.prevSocket.close();
-          // this.prevSocket = null;
-        }
-        this.socketConnectionListenerService.announceMission('true');
+        this.chatDockUsersService.announceMission('true');
         resolve(this.privateChatSocket);
       });
       this.privateChatSocket.on('reconnect_attempt', () => {
         console.log('Reconnecting.....');
+        this.chatDockUsersService.setSocketReconnection(true);
       });
     });
 
@@ -54,7 +46,6 @@ export class SocketService {
   // }
   // LOGIN SUCCESS EMITER TO SERVER
   loginSuccessEventEmit = (userData) => {
-    this.prevSocket = this.privateChatSocket;
     this.privateChatSocket.emit('user_login', userData);
   }
 
@@ -212,7 +203,7 @@ export class SocketService {
       });
     });
   }
-  
+
   // R&D IMPLEMENTATION
   // this is to add user to a socket
   public addUsers(username: { username: string }) {

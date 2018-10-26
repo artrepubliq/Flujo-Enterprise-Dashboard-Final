@@ -6,13 +6,22 @@ import { IUser, ISendMessageObject } from '../model/users';
 
 @Injectable()
 export class ChatDockUsersService {
+  private socketConnectionAnnounce = new Subject<string>();
   private chatDockUserSubject = new Subject<any>();
   private loggedinUserSubject = new Subject<any>();
   private listOfUserSubject = new Subject<IUser[]>();
   private closeChatWindow = new Subject<string>();
+  private SocketReconnection = new Subject<boolean>();
   onClickActiveUsers: IUser[] = [];
   constructor() { }
 
+
+  // Observable string streamså
+  SockedConnectionAnnounced$ = this.socketConnectionAnnounce.asObservable();
+  // Service message commands
+  announceMission(connection: string) {
+    this.socketConnectionAnnounce.next(connection);
+  }
   public addChatUser(chatUser: IUser): void {
     this.chatDockUserSubject.next(chatUser);
   }
@@ -43,5 +52,14 @@ export class ChatDockUsersService {
 
   public listencloseChatWindow(): Observable<string> {
     return this.closeChatWindow.asObservable();
+  }
+
+  // SOCKET RE-CONNECTION EVENT
+  public setSocketReconnection(connStatus): void {
+    this.SocketReconnection.next(connStatus);
+  }
+
+  public getSocketReconnection(): Observable<boolean> {
+    return this.SocketReconnection.asObservable();
   }
 }
