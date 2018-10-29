@@ -27,6 +27,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   chatWindowClientHeight = 1000;
   @ViewChild('windowchathistory', { read: ElementRef }) public chathistoryContainer: ElementRef;
   messageInputForm: FormGroup;
+  sizeExceeded = new Array();
   fileInputForm: FormGroup;
   @ViewChild('chatBody') chatBody: ElementRef;
   @ViewChild('chat_box') chat_box: ElementRef;
@@ -92,7 +93,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.messageInputForm = this.formBuilder.group({
       'message': ['', Validators.required],
-      fileupload: new FormControl('', [FileValidator.validate]),
+      fileupload: new FormControl(''),
       'message_type': ['']
     });
     this.selectedUsers = [];
@@ -228,48 +229,94 @@ export class ChatBoxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.socketService.closeSockectForThisUser();
   }
   processUploadingFiles = (event, selecteduseritem, i) => {
-    const files = [];
+  
+    let files = new Array();
     _.each(event.target.files, (file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.messageInputForm.patchValue({
-          file: reader.result
-        });
-        const formData = new FormData();
-        formData.append(file, file);
-        this.addAWSFileChat(formData, selecteduseritem, i);
-        // event.input('#file')
-      };
-    });
+        const fileType = {
+          name: '',
+          isSize: false,
+          isFormat: false,
+          sizeMessage:'',
+          formatMessage:''
+        }
+        let isFileFormat = this.validateFileFormat(file); 
+        let isFileSize   = this.validateFileSize(file);
+       
+        if(isFileFormat && isFileSize){
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            this.messageInputForm.patchValue({
+              file: reader.result
+            });
+            const formData = new FormData();
+            formData.append(file, file);
+            this.addAWSFileChat(event, formData, selecteduseritem, i);
+        }
+      }
+      else {
+        fileType.name = file.name;
+        fileType.isFormat = isFileFormat;
+        fileType.isSize = isFileSize;
+        fileType.formatMessage = !isFileFormat ? "Invalid Format" : '';
+        fileType.sizeMessage = !isFileSize ? "File size should be less than 2 MB" : '';
+        files.push(fileType);
+        console.log("Invalid file format or size");
+      }
+  })
+  this.sizeExceeded = files;
+  console.log(this.sizeExceeded);          
+}
+//Validating file formats
+validateFileFormat(file){
+  const applicationTypes = new Array('html','css','js','aac','pdf','zip','7z','rar','ogg','mp3','png','jpg','jpeg','gif','mp4','mp3','mov','quicktime','avi','doc','docx','xls','xlsx');
+  var i = file.name.lastIndexOf('.');  
+  if(i>=0){
+      let extn = file.name.slice(i);
+      let fileExtension = extn.replace('.','');
+      var extExist = applicationTypes.find((x) => x == fileExtension); 
+      return !extExist || extExist=='undefined' ? false  : true;      
   }
+}
 
-  onFileUpload(event, selecteduseritem, i) {
-    // document.getElementById("myFile").accept = "audio/*";
-    if (event.target.files && event.target.files.length) {
+//Validating file sizes
+validateFileSize(file){
+  let filesize = this.uploaderService.bytesToSize(file.size);
+  let fileIn = filesize.indexOf('MB')>0 ? 'MB' : ''
+  fileIn = filesize.indexOf('KB')>0 ? 'KB' : fileIn;
+  fileIn = filesize.indexOf('Bytes')>0 ? 'Bytes' : fileIn;
+  let filesizeInt;
+  switch (fileIn) {
+      case "MB":
+      filesizeInt = filesize.replace('MB','').trim();
+      if(filesizeInt>2){
+        return false;
+      }
+      case "KB":
+        return true;
+      case "Bytes":    
+        return true;
+      }
+}
+  onFileUpload(event, selecteduseritem, i){
+    if (this.messageInputForm.controls.fileupload.errors==null && event.target.files && event.target.files.length) {
       const files = this.processUploadingFiles(event, selecteduseritem, i);
     }
   }
-
 
   triggerUpload() {
     $('#picked').click();
   }
 
-  addAWSFileChat = async (formData, selecteduseritem, i) => {
+  addAWSFileChat = async (event, formData, selecteduseritem, i) => {
     const awsFiles = [];
     this.uploaderService.upload(formData).subscribe(
       awsFileUrl => {
-        console.log(awsFileUrl);
-        this.sendMessageToSelectedReceiver(selecteduseritem, i, awsFileUrl);
+        this.sendMessageToSelectedReceiver(selecteduseritem, i, awsFileUrl, event);
       },
       error => {
         console.log(error);
-      });
-  }
-
-  triggerEnter() {
-    $('#send-button').click();
+      })
   }
 
   // SEND MESSAGE WITH USER NAME

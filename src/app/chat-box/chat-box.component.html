@@ -208,6 +208,29 @@
               </div>
             </div>
             <app-messages></app-messages>
+                        <!-- Start File upload validations messages-->
+                        <div *ngIf="sizeExceeded && sizeExceeded.length>0">
+                            <div class="alert alert-danger" *ngFor="let sizeExceed of sizeExceeded,let i=index">
+                                <span *ngIf="!sizeExceed.isSize || !sizeExceed.isFormat">
+                                  <a href='#' class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    {{sizeExceed.name}} 
+                                    {{sizeExceed.formatMessage}} 
+                                    {{sizeExceed.sizeMessage}}
+                                    <!-- <span *ngIf='!sizeExceed.isSize && sizeExceed.isFormat'>
+                                        please upload less than 2 MB file
+                                    </span>
+                                    <span *ngIf='!sizeExceed.isFormat && sizeExceed.isSize'>
+                                        please upload valid format
+                                    </span>
+            
+                                    <span *ngIf='!sizeExceed.isFormat && !sizeExceed.isSize'>
+                                        please upload valid format and size less than 2 MB
+                                    </span> -->
+            
+                                </span>
+                            </div>
+                        </div>
+                        <!-- End File upload validations  messages-->
             <div class="message-typing" *ngIf="selecteduseritem.isTyping">
               <p>{{selecteduseritem.receiver_name}}</p>
               <div class="loading_button">
