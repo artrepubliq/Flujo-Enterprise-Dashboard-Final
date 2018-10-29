@@ -163,7 +163,6 @@ import { SafeHtmlPipe } from './_pipes/safe-html-email.pipe';
 import { PagesContentEditor } from './directives/contentEditor/pages-content-editor';
 import { SignupComponent } from './signup/signup.component';
 import { PickerModule } from 'ngx-odinvt-emoji-mart';
-import { SocketConnectionListenerService } from './service/socket-connection-listener.service';
 import { SocketService } from './service/socketservice.service';
 import { ChatHttpApiService } from './service/chat-http-api.service';
 import { ChatDockUsersService } from './service/chat-dock-users.service';
@@ -173,8 +172,9 @@ import { MessagesComponent } from './messages-progress/messages.component';
 import { HttpErrorHandler } from './http-error-handler.services';
 // import {TemplateDrivenFormComponent} from './template-driven-form.component'
 
-import {FileValueAccessor} from './service/file-control-value-accessor'
-import {FileValidator} from './service/file-input.validator'
+import {FileValueAccessor} from './service/file-control-value-accessor';
+import {FileValidator} from './service/file-input.validator';
+import { PushNotificationService } from './service/push-notification.service';
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }
@@ -268,7 +268,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SignupComponent,
     FileValueAccessor,
     FileValidator,
-    MessagesComponent    
+    MessagesComponent
   ],
   imports: [
     CommonModule,
@@ -335,6 +335,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EmailTemplateSelectionModal, EmailTemplatePreviewDialog,
     PostCommentCompose, PostCommentTwitterCompose],
   providers: [
+    PushNotificationService,
     ChatBoxComponent,
     UserAccesslevelsService,
     HttpService,
@@ -344,7 +345,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     GalleryImagesService,
     FBService,
     ProblemTypeService,
-    SocketConnectionListenerService,
     ChatHttpApiService,
     SocketService,
     AreaService,

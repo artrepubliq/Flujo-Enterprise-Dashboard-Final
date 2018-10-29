@@ -421,7 +421,9 @@
             }
         }
         &.deliver-msg {
-            display: none;
+            svg {
+                width: 6px;
+            }
         }
     }
 }

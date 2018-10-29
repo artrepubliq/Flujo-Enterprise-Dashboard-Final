@@ -6,12 +6,14 @@
           <div class="chat-header" fxLayout="row">
             <div fxFlex class="user-name">
               <div class="dropdown d-inline-block">
+                <label *ngIf="isSocketReconnecting">Chat Re-Connecting</label>
                 <a class="dropdown-toggle user-dropdown d-inline-block" data-toggle="dropdown">
                   <span class="user-logo">
                     <img src="assets/file-upload-icons/profile.png" class="img-fluid" alt="user logo">
                   </span>
                   {{selecteduseritem.receiver_name}}
                 </a>
+                <span *ngIf="selecteduseritem.user_status !== 'invisible'">{{selecteduseritem.user_status}}</span>
               </div>
             </div>
             <div fxFlex="40" class="action-icons">
@@ -31,7 +33,7 @@
                 <li>
                   <a class="fa fa-times-circle-o" (click)="closeChatWindow(selecteduseritem, i)"></a>
                 </li>
-                <li (click)="minimizeWindow()">
+                <li (click)="minimizeWindow(i)">
                   <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     x="0px" y="0px" viewBox="0 0 485.6 485.6" style="width: 20px; margin-top: 8px; cursor: pointer;"
                     xml:space="preserve">
@@ -56,7 +58,7 @@
                     <path d="M 5 11 L 5 13 L 19 13 L 19 11 Z "></path>
                   </svg>
                 </button>
-                <button (click)="maximizeWindow()"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                <button (click)="maximizeWindow(i)"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
                     xml:space="preserve">
                     <g>
@@ -139,6 +141,11 @@
                                    c-0.781,0.78-0.781,2.047,0,2.828l18.972,18.975c0.142,0.295,0.35,0.562,0.636,0.765c0.351,0.249,0.755,0.368,1.154,0.368
                                    c0.627,0,1.244-0.294,1.634-0.844L56.084,6.016C56.722,5.114,56.509,3.866,55.608,3.227z" />
                             </svg>
+                            <svg xml:space="preserve" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1" style="enable-background:new 0 0 56.452 56.452;" version="1.1" viewBox="0 0 56.452 56.452" width="18px" x="0px" xmlns="http://www.w3.org/2000/svg" y="0px">
+                              <path d="M55.608,3.227c-0.902-0.64-2.15-0.424-2.788,0.476L21.158,48.402L3.415,30.656c-0.781-0.781-2.047-0.781-2.829,0
+                                   c-0.781,0.78-0.781,2.047,0,2.828l18.972,18.975c0.142,0.295,0.35,0.562,0.636,0.765c0.351,0.249,0.755,0.368,1.154,0.368
+                                   c0.627,0,1.244-0.294,1.634-0.844L56.084,6.016C56.722,5.114,56.509,3.866,55.608,3.227z"></path>
+                            </svg>
                           </label>
                           <label class="read_msg" *ngIf="chatItem?.status === 1">
                             <svg width="18px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -177,11 +184,17 @@
                                  c23.521,0,42.667,19.135,42.667,42.667S279.521,106.667,256,106.667S213.333,87.531,213.333,64S232.479,21.333,256,21.333z" />
                           </svg>
                         </button>
-                        <div class="action_options" aria-labelledby="dropdownMenuOffset123">
+                        <div *ngIf="chatItem.sender_id == loggedinUserObject.user_id;else receiver_item" class="action_options" aria-labelledby="dropdownMenuOffset123">
                           <span (click)="deleteMessageConfirm(chatItem, 'flase', i)">Delete For Me</span>
                           <span (click)="deleteMessageConfirm(chatItem, 'true', i)">Delete For Every One</span>
                           <span (click)="updateMessage(chatItem, i)">Update message</span>
                         </div>
+                        <ng-template #receiver_item>
+                          <div class="action_options">
+                            <span (click)="deleteMessageConfirm(chatItem, 'flase', i)">Delete For Me</span>
+                          </div>
+                        </ng-template>
+                        
                       </div>
                     </div>
 
@@ -195,6 +208,29 @@
               </div>
             </div>
             <app-messages></app-messages>
+                        <!-- Start File upload validations messages-->
+                        <div *ngIf="sizeExceeded && sizeExceeded.length>0">
+                            <div class="alert alert-danger" *ngFor="let sizeExceed of sizeExceeded,let i=index">
+                                <span *ngIf="!sizeExceed.isSize || !sizeExceed.isFormat">
+                                  <a href='#' class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    {{sizeExceed.name}} 
+                                    {{sizeExceed.formatMessage}} 
+                                    {{sizeExceed.sizeMessage}}
+                                    <!-- <span *ngIf='!sizeExceed.isSize && sizeExceed.isFormat'>
+                                        please upload less than 2 MB file
+                                    </span>
+                                    <span *ngIf='!sizeExceed.isFormat && sizeExceed.isSize'>
+                                        please upload valid format
+                                    </span>
+            
+                                    <span *ngIf='!sizeExceed.isFormat && !sizeExceed.isSize'>
+                                        please upload valid format and size less than 2 MB
+                                    </span> -->
+            
+                                </span>
+                            </div>
+                        </div>
+                        <!-- End File upload validations  messages-->
             <div class="message-typing" *ngIf="selecteduseritem.isTyping">
               <p>{{selecteduseritem.receiver_name}}</p>
               <div class="loading_button">
@@ -217,7 +253,7 @@
                 </a>
                 <input style="display:none" formControlName="fileupload"  type="file" id="picked" #picked multiple="multiple" (change)="onFileUpload($event, selecteduseritem, i)">
                 <i class="fa fa-paperclip" (click)="triggerUpload()"></i>
-                <button class="send-button" id="send-button" type="button" [disabled]="message?.length == 0" (click)="sendMessageToSelectedReceiver(selecteduseritem, i); $event.preventDefault();">Send</button>
+                <button class="send-button" id="send-button" type="submit" [disabled]="message?.length == 0" (click)="sendMessageToSelectedReceiver(selecteduseritem, i, '', $event); $event.preventDefault();">Send</button>
               </div>
               <div class="emojies_block" *ngIf="selecteduseritem.isEmojiWindowOpened">
                 <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>

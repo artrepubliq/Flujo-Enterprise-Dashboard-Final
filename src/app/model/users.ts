@@ -10,6 +10,7 @@ export interface IUser {
     user_name: string;
     socket_key?: string;
     is_loggedin: boolean;
+    user_status: string;
 }
 
 export interface IUserSocketResponseObject {
@@ -25,6 +26,7 @@ export interface ISelectedUsersChatWindow {
     sender_id: string;
     receiver_name: string;
     receiver_id: string;
+    user_status: string;
     messageUpdateObject: ISendMessageObject;
     chat_history: ISendMessageObject[];
     isWindowOpened: boolean;

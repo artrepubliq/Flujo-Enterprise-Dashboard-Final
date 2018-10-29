@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, EventEmitter } from '@angular/core';
+import { Component, Inject, OnInit, EventEmitter, HostListener } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { LoginAuthService } from './auth/login.auth.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
@@ -8,6 +8,7 @@ import { ICommonInterface } from './model/commonInterface.model';
 import { AppConstants } from './app.constants';
 import { HttpClient } from '@angular/common/http';
 import { UserAccesslevelsService } from './service/user-accesslevels.service';
+import { PushNotificationService } from './service/push-notification.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,7 +20,10 @@ export class AppComponent implements OnInit {
   constructor(public dialog: MatDialog, private router: Router,
     public httpClient: HttpClient,
     private loginAuthService: LoginAuthService,
-    private userAccesslevelsService: UserAccesslevelsService) {
+    private userAccesslevelsService: UserAccesslevelsService,
+    private _notificationService: PushNotificationService
+  ) {
+      this._notificationService.requestPermission();
     if (this.loginAuthService.getCustomLoginStatus()) {
       this.router.navigate(['admin']);
     }

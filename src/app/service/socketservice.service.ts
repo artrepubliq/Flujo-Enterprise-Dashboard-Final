@@ -2,19 +2,20 @@ import { Injectable } from '@angular/core';
 // tslint:disable-next-line:import-blacklist
 import { Observable, Observer, Subject } from 'rxjs';
 import * as socketIo from 'socket.io-client';
-import { SocketConnectionListenerService } from './socket-connection-listener.service';
 import { AppConstants } from '../app.constants';
 import { ISendMessageObject } from '../model/users';
 import { IMessage } from '../model/IMesage';
 import { HttpErrorHandler, HandleError } from '../http-error-handler.services';
 import { catchError } from 'rxjs/operators';
+import { ChatDockUsersService } from './chat-dock-users.service';
 
 @Injectable()
 export class SocketService {
   private handleError: HandleError;
 
   constructor(
-    private socketConnectionListenerService: SocketConnectionListenerService, httpErrorHandler: HttpErrorHandler
+    httpErrorHandler: HttpErrorHandler,
+    private chatDockUsersService: ChatDockUsersService
   ) {
     this.handleError = httpErrorHandler.createHandleError('SocketService');
   }
@@ -24,23 +25,45 @@ export class SocketService {
       this.privateChatSocket = socketIo(`${AppConstants.SOCEKT_API_URL}/privatechat?client_id=${clientId}`);
       this.privateChatSocket.on('connection', (data: any) => {
         console.log(data);
-        this.socketConnectionListenerService.announceMission('true');
-        resolve(data);
+        this.chatDockUsersService.announceMission('true');
+        resolve(this.privateChatSocket);
       });
       this.privateChatSocket.on('reconnect_attempt', () => {
-        console.log("Reconnecting.....");
+        console.log('Reconnecting.....');
+        this.chatDockUsersService.setSocketReconnection(true);
       });
     });
-   
-  }
 
+  }
+  // connectSocket = () => {
+  //   return new Promise((resolve) => {
+  //     this.privateChatSocket.on('connection', (data: any) => {
+  //       console.log(data);
+  //       this.socketConnectionListenerService.announceMission('true');
+  //       resolve(data.status);
+  //     });
+  //   });
+  // }
   // LOGIN SUCCESS EMITER TO SERVER
   loginSuccessEventEmit = (userData) => {
-    console.log(userData);
     this.privateChatSocket.emit('user_login', userData);
+  }
+
+  // EMIT TO CHANGE LOGGEDIN USERS STATUS
+  emitToChangeLoggedinUserStatus = (userObject) => {
+    this.privateChatSocket.emit('emit_change_loggedin_user_status', userObject);
+  }
+  // LISTENER TO CHANGE LOGGEDIN USERS STATUS
+  listenerForChangeLoggedinUserStatus = () => {
+    return new Observable<any>( observer => {
+      this.privateChatSocket.on('listener_change_loggedin_user_status', userData => {
+        observer.next(userData);
+      });
+    });
   }
   // LISTENER CALL FOR LOGGED USERS
   listenLoggedUsersListener = () => {
+    console.log('listen socket ');
     return new Observable<any>(observer => {
       this.privateChatSocket.on('new_users', (loggedUsers: any) => {
         observer.next(loggedUsers);
@@ -83,13 +106,14 @@ export class SocketService {
   }
 
   sendMessageService(messageObject) {
+    console.log(messageObject);
     this.privateChatSocket.emit('send_new_message', messageObject);
   }
   // SOCKET LISTENER TO GET CONFIRMATION FOR MESSAGE STORED IN DATABASE OR NOT
-  listenerForIsNewMessageStoredInDB = (): Promise<any> => {
-    return new Promise((resolve) => {
+  listenerForIsNewMessageStoredInDB = (): Observable<any> => {
+    return new Observable((observer) => {
       this.privateChatSocket.on('new_message_stored_in_db_confirm', (resp: any) => {
-        resolve(resp);
+        observer.next(resp);
       });
     });
   }
@@ -140,6 +164,7 @@ export class SocketService {
   }
   // SOCKET EMIT FOR READ MESSAGE CONFIRMATION
   emitNewMessageReadConfirmation = (emitObject) => {
+    console.log('read confirm');
     this.privateChatSocket.emit('message_read_confirm_from_receiver', emitObject);
   }
 
@@ -160,6 +185,7 @@ export class SocketService {
   listenerForUpdatedOldMessage = () => {
     return new Observable((observer) => {
       this.privateChatSocket.on('update_sender_old_message_listen', updateEvent => {
+        console.log(updateEvent, 174);
         observer.next(updateEvent);
       });
     });
@@ -177,7 +203,7 @@ export class SocketService {
       });
     });
   }
-  
+
   // R&D IMPLEMENTATION
   // this is to add user to a socket
   public addUsers(username: { username: string }) {
